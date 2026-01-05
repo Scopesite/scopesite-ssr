@@ -120,7 +120,7 @@
   }
 
   /* Link defaults - scoped to avoid affecting navigation */
-  main a:not(.btn):not(.btn-primary):not(.btn-secondary) {
+  main a:not(.btn):not(.btn-primary):not(.btn-secondary):not(.link-navy) {
     @apply text-brand-gold transition-colors hover:text-brand-orange;
   }
 

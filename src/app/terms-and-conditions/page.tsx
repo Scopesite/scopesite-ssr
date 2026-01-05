@@ -94,7 +94,7 @@ export default function TermsPage() {
             {/* Back Navigation */}
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-brand-navy hover:opacity-70 transition-opacity mb-6 text-sm"
+              className="link-navy inline-flex items-center gap-2 text-brand-navy hover:opacity-70 transition-opacity mb-6 text-sm"
             >
               <ArrowLeft className="w-4 h-4" />
               Back to Home
