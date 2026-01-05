@@ -72,18 +72,21 @@ export default function Home() {
                 description: 'Beautiful, responsive websites built with SSR for maximum visibility.',
                 icon: Globe,
                 href: '/web-design',
+                cta: 'Explore Web Design',
               },
               {
                 title: 'V.O.I.C.E™',
                 description: 'AI visibility optimization so ChatGPT and Claude recommend you.',
                 icon: Sparkles,
                 href: '/voice',
+                cta: 'Discover V.O.I.C.E™',
               },
               {
                 title: 'Custom Web Apps',
                 description: 'Bespoke tools and applications built to automate your business workflows.',
                 icon: Code,
                 href: '/web-apps',
+                cta: 'Explore Web Apps',
               },
             ].map((service) => (
               <div
@@ -128,7 +131,7 @@ export default function Home() {
                     boxShadow: '0 4px 12px rgba(10,27,54,0.3), inset 0 1px 1px rgba(255,255,255,0.1)'
                   }}
                 >
-                  Learn more
+                  {service.cta}
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
