@@ -1,83 +1,60 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { usePathname } from 'next/navigation';
-import Script from 'next/script';
+import { useEffect, useState } from 'react';
 
 /**
  * Fillout Scheduling Embed Component
  * 
  * Embeds the Fillout scheduling form for booking strategy calls.
- * Uses the official Fillout embed script for proper rendering.
+ * Uses a direct iframe approach to guarantee fresh loads on navigation.
  * 
  * Calendar URL: https://scopesite.fillout.com/strategy
- * 
- * Note: Uses pathname + timestamp keying to force complete remount
- * on every page visit (fixes client-side navigation caching).
  */
 
 const FILLOUT_FORM_ID = 'e8ypoPbzjWus';
+const FILLOUT_EMBED_URL = `https://forms.fillout.com/t/${FILLOUT_FORM_ID}?embed=true`;
 
 export function FilloutEmbed() {
-  const pathname = usePathname();
-  const [embedKey, setEmbedKey] = useState(0);
-  const hasInitialized = useRef(false);
+  // Generate unique key on mount to force iframe reload on navigation
+  const [iframeKey, setIframeKey] = useState<number | null>(null);
 
-  // Force remount on every navigation to this page
   useEffect(() => {
-    // Generate new key to force complete DOM remount
-    setEmbedKey(Date.now());
-    hasInitialized.current = false;
-  }, [pathname]);
+    // Set key on client-side mount to force fresh iframe
+    setIframeKey(Date.now());
+  }, []);
 
-  // Initialize Fillout after the embed mounts
-  useEffect(() => {
-    if (hasInitialized.current) return;
-    
-    const initFillout = () => {
-      const win = window as unknown as { Fillout?: { initialize?: () => void } };
-      if (win.Fillout?.initialize) {
-        win.Fillout.initialize();
-        hasInitialized.current = true;
-      }
-    };
-
-    // Try immediately, then retry with delay
-    initFillout();
-    const timer = setTimeout(initFillout, 500);
-    const timer2 = setTimeout(initFillout, 1000);
-
-    return () => {
-      clearTimeout(timer);
-      clearTimeout(timer2);
-    };
-  }, [embedKey]);
+  // Don't render until client-side to avoid hydration mismatch
+  if (iframeKey === null) {
+    return (
+      <div 
+        className="w-full rounded-2xl overflow-hidden bg-white/5"
+        style={{ height: '900px', borderRadius: '20px' }}
+      >
+        <div className="h-full flex items-center justify-center text-white/60">
+          Loading booking calendar...
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <>
-      <Script 
-        src="https://server.fillout.com/embed/v1/" 
-        strategy="afterInteractive"
-        onLoad={() => {
-          const win = window as unknown as { Fillout?: { initialize?: () => void } };
-          if (win.Fillout?.initialize) {
-            win.Fillout.initialize();
-            hasInitialized.current = true;
-          }
+    <div 
+      className="w-full rounded-2xl overflow-hidden"
+      style={{ borderRadius: '20px' }}
+    >
+      <iframe
+        key={iframeKey}
+        src={FILLOUT_EMBED_URL}
+        title="Book a Strategy Call"
+        width="100%"
+        height="900"
+        style={{ 
+          border: 'none', 
+          borderRadius: '20px',
+          background: 'transparent'
         }}
+        allow="camera; microphone; autoplay; encrypted-media"
       />
-      <div 
-        key={embedKey}
-        className="w-full rounded-2xl overflow-hidden"
-        style={{ borderRadius: '20px' }}
-      >
-        <div 
-          data-fillout-id={FILLOUT_FORM_ID}
-          data-fillout-embed-type="standard"
-          data-fillout-inherit-parameters
-          style={{ width: '100%', height: '900px', borderRadius: '20px' }}
-        />
-      </div>
-    </>
+    </div>
   );
 }
