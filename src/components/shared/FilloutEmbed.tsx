@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import Script from 'next/script';
 
 /**
@@ -10,18 +10,32 @@ import Script from 'next/script';
  * Uses the official Fillout embed script for proper rendering.
  * 
  * Calendar URL: https://scopesite.fillout.com/strategy
+ * 
+ * Note: Uses a key-based remount strategy to ensure the embed
+ * reinitializes on every page visit (fixes client-side nav caching).
  */
 
 const FILLOUT_FORM_ID = 'e8ypoPbzjWus';
 
 export function FilloutEmbed() {
-  const containerRef = useRef<HTMLDivElement>(null);
+  // Generate unique key on each mount to force embed reinitialization
+  const [mountKey, setMountKey] = useState(() => Date.now());
 
   useEffect(() => {
-    // Trigger Fillout to initialize after script loads
-    if (typeof window !== 'undefined' && (window as unknown as { Fillout?: { initialize?: () => void } }).Fillout?.initialize) {
-      (window as unknown as { Fillout: { initialize: () => void } }).Fillout.initialize();
-    }
+    // Reset key on mount to force fresh embed
+    setMountKey(Date.now());
+    
+    // Small delay to let the DOM update, then initialize Fillout
+    const timer = setTimeout(() => {
+      if (typeof window !== 'undefined') {
+        const win = window as unknown as { Fillout?: { initialize?: () => void } };
+        if (win.Fillout?.initialize) {
+          win.Fillout.initialize();
+        }
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -29,9 +43,16 @@ export function FilloutEmbed() {
       <Script 
         src="https://server.fillout.com/embed/v1/" 
         strategy="lazyOnload"
+        onLoad={() => {
+          // Initialize when script loads
+          const win = window as unknown as { Fillout?: { initialize?: () => void } };
+          if (win.Fillout?.initialize) {
+            win.Fillout.initialize();
+          }
+        }}
       />
       <div 
-        ref={containerRef}
+        key={mountKey}
         className="w-full rounded-2xl overflow-hidden"
         style={{ 
           borderRadius: '20px',
@@ -47,5 +68,3 @@ export function FilloutEmbed() {
     </>
   );
 }
-
-
