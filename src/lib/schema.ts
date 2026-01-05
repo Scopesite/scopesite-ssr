@@ -58,6 +58,7 @@ export function generateOrganizationSchema() {
     email: 'support@scopesite.co.uk',
     address: {
       '@type': 'PostalAddress',
+      streetAddress: '4 Horse Close',
       addressLocality: 'Frome',
       addressRegion: 'Somerset',
       postalCode: 'BA11',
