@@ -3,8 +3,21 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, Clock, Calendar } from 'lucide-react';
-import { getPostBySlug, getAllPostSlugs, formatPostDate, getPosts } from '@/lib/ghost';
+import {
+  getPostBySlug,
+  getAllPostSlugs,
+  formatPostDate,
+  getPosts,
+} from '@/lib/ghost';
 import { BlogCard } from '@/components/blog';
+import { JsonLd } from '@/components/JsonLd';
+import {
+  generateBreadcrumbSchema,
+  generateBlogPostingSchema,
+  generateSpeakableSchema,
+} from '@/lib/schema';
+
+const BASE_URL = 'https://scopesite.co.uk';
 
 interface BlogPostPageProps {
   params: Promise<{
@@ -19,38 +32,49 @@ export async function generateStaticParams() {
 }
 
 // Generate metadata for SEO
-export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
-  
+
   if (!post) {
     return {
       title: 'Post Not Found',
     };
   }
 
+  const pageUrl = `${BASE_URL}/blog/${slug}`;
+
   return {
     title: post.title,
-    description: post.excerpt || post.custom_excerpt || `Read ${post.title} on the ScopeSite blog.`,
+    description:
+      post.excerpt || post.custom_excerpt || `Read ${post.title} on the ScopeSite blog.`,
     openGraph: {
       title: `${post.title} | ScopeSite Blog`,
       description: post.excerpt || post.custom_excerpt,
       type: 'article',
+      url: pageUrl,
       publishedTime: post.published_at,
       modifiedTime: post.updated_at,
       authors: post.primary_author?.name ? [post.primary_author.name] : undefined,
-      images: post.feature_image ? [
-        {
-          url: post.feature_image,
-          alt: post.feature_image_alt || post.title,
-        },
-      ] : undefined,
+      images: post.feature_image
+        ? [
+            {
+              url: post.feature_image,
+              alt: post.feature_image_alt || post.title,
+            },
+          ]
+        : undefined,
     },
     twitter: {
       card: 'summary_large_image',
       title: post.title,
       description: post.excerpt || post.custom_excerpt,
       images: post.feature_image ? [post.feature_image] : undefined,
+    },
+    alternates: {
+      canonical: pageUrl,
     },
   };
 }
@@ -63,41 +87,61 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
+  const pageUrl = `${BASE_URL}/blog/${slug}`;
+
   // Get related posts (same tag, excluding current post)
   const { posts: allPosts } = await getPosts({ limit: 4 });
-  const relatedPosts = allPosts
-    .filter(p => p.id !== post.id)
-    .slice(0, 3);
+  const relatedPosts = allPosts.filter((p) => p.id !== post.id).slice(0, 3);
+
+  // Generate schemas
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: BASE_URL },
+    { name: 'Blog', url: `${BASE_URL}/blog` },
+    { name: post.title, url: pageUrl },
+  ]);
+
+  const blogPostingSchema = generateBlogPostingSchema(post, pageUrl);
+
+  // Speakable schema - mark the article content as speakable for voice search
+  const speakableSchema = generateSpeakableSchema(pageUrl, [
+    '.prose-scopesite h1',
+    '.prose-scopesite h2',
+    '.prose-scopesite p:first-of-type',
+    '.prose-scopesite p:nth-of-type(2)',
+  ]);
 
   return (
     <>
+      {/* Page-specific structured data */}
+      <JsonLd schema={[breadcrumbSchema, blogPostingSchema, speakableSchema]} />
+
       {/* Hero Section */}
       <section className="bg-brand-navy text-white py-section">
         <div className="container-content">
           <div className="max-w-4xl mx-auto">
             {/* Back Link */}
             <div className="mb-6">
-              <Link 
-                href="/blog" 
+              <Link
+                href="/blog"
                 className="inline-flex items-center gap-2 text-white/60 hover:text-brand-gold transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />
                 Back to Blog
               </Link>
             </div>
-            
+
             {/* Category Tag */}
             {post.primary_tag && (
               <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-brand-gold text-brand-navy mb-6">
                 {post.primary_tag.name}
               </span>
             )}
-            
+
             {/* Title */}
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-headline text-white mb-6 leading-tight">
               {post.title}
             </h1>
-            
+
             {/* Meta */}
             <div className="flex flex-wrap items-center gap-6 text-white/60">
               {post.primary_author && (
@@ -153,7 +197,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="container-content">
           <article className="max-w-3xl mx-auto">
             {post.html ? (
-              <div 
+              <div
                 className="prose-scopesite"
                 dangerouslySetInnerHTML={{ __html: post.html }}
               />
@@ -173,8 +217,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <div className="max-w-3xl mx-auto">
               <div className="flex flex-wrap gap-2">
                 <span className="text-brand-navy/60 text-sm">Tags:</span>
-                {post.tags.map(tag => (
-                  <span 
+                {post.tags.map((tag) => (
+                  <span
                     key={tag.id}
                     className="px-3 py-1 rounded-full text-sm bg-brand-navy/10 text-brand-navy/70"
                   >
@@ -193,7 +237,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <div className="container-content">
             <h2 className="text-brand-navy text-center mb-8">More Articles</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {relatedPosts.map(relatedPost => (
+              {relatedPosts.map((relatedPost) => (
                 <BlogCard
                   key={relatedPost.id}
                   slug={relatedPost.slug}
@@ -216,7 +260,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="container-content text-center">
           <h2 className="text-white mb-4">Want to Work With Us?</h2>
           <p className="text-white/70 mb-8 max-w-xl mx-auto">
-            If you found this helpful, imagine what we could do for your business.
+            If you found this helpful, imagine what we could do for your
+            business.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link href="/pricing" className="btn-primary">
@@ -231,4 +276,3 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     </>
   );
 }
-

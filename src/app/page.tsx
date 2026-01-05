@@ -1,10 +1,22 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Globe, Sparkles, Code, ArrowRight } from 'lucide-react';
+import { JsonLd } from '@/components/JsonLd';
+import { generateBreadcrumbSchema } from '@/lib/schema';
+
+const BASE_URL = 'https://scopesite.co.uk';
 
 export default function Home() {
+  // Homepage breadcrumb
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: BASE_URL },
+  ]);
+
   return (
     <>
+      {/* Page-specific structured data */}
+      <JsonLd schema={breadcrumbSchema} />
+
       {/* Hero Section */}
       <section className="bg-brand-navy text-white min-h-[80vh] overflow-hidden">
         <div className="container-content relative min-h-[80vh]">

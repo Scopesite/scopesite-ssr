@@ -1,20 +1,50 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { 
-  MessageSquare, 
-  Receipt, 
-  Target, 
+import {
+  MessageSquare,
+  Receipt,
+  Target,
   Shield,
-  X
+  X,
 } from 'lucide-react';
 import type { Metadata } from 'next';
+import { JsonLd } from '@/components/JsonLd';
+import {
+  generateBreadcrumbSchema,
+  generateAboutPageSchema,
+  generatePersonSchema,
+} from '@/lib/schema';
+
+const BASE_URL = 'https://scopesite.co.uk';
+const PAGE_URL = `${BASE_URL}/about`;
 
 export const metadata: Metadata = {
-  title: 'About Us | Veteran-Owned Web Design Agency',
-  description: 'ScopeSite is a veteran-owned web design agency based in Somerset, UK. We build websites that work - for humans and AI. No bullshit, just results.',
+  title: 'About ScopeSite | Veteran-Owned Web Design Agency',
+  description:
+    'Founded by British Army veteran Dan Cartwright. We build websites with military precision and zero bullshit. Somerset-based, UK-wide service.',
   openGraph: {
-    title: 'About Us | Veteran-Owned Web Design Agency | ScopeSite',
-    description: 'ScopeSite is a veteran-owned web design agency based in Somerset, UK. We build websites that work - for humans and AI. No bullshit, just results.',
+    title: 'About ScopeSite | Veteran-Owned Web Design Agency',
+    description:
+      'Founded by British Army veteran Dan Cartwright. We build websites with military precision and zero bullshit. Somerset-based, UK-wide service.',
+    url: PAGE_URL,
+    images: [
+      {
+        url: `${BASE_URL}/images/dan-headshot.webp`,
+        width: 400,
+        height: 400,
+        alt: 'Dan Cartwright - Founder of ScopeSite',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary',
+    title: 'About ScopeSite | Veteran-Owned Web Design',
+    description:
+      'Founded by British Army veteran Dan Cartwright. Somerset-based, UK-wide service.',
+    images: [`${BASE_URL}/images/dan-headshot.webp`],
+  },
+  alternates: {
+    canonical: PAGE_URL,
   },
 };
 
@@ -22,22 +52,26 @@ export const metadata: Metadata = {
 const values = [
   {
     title: 'STRAIGHT TALKING',
-    description: 'We explain things in plain English. No jargon to make us sound clever. No hiding behind technical terms. If we can\'t explain it simply, we don\'t understand it well enough.',
+    description:
+      "We explain things in plain English. No jargon to make us sound clever. No hiding behind technical terms. If we can't explain it simply, we don't understand it well enough.",
     icon: MessageSquare,
   },
   {
     title: 'TRANSPARENT PRICING',
-    description: 'You\'ll know exactly what things cost before we start. No \'it depends\' without actual numbers. No surprise invoices. No scope creep charges without discussion first.',
+    description:
+      "You'll know exactly what things cost before we start. No 'it depends' without actual numbers. No surprise invoices. No scope creep charges without discussion first.",
     icon: Receipt,
   },
   {
     title: 'RESULTS OVER AESTHETICS',
-    description: 'Pretty websites don\'t pay your bills. We build sites that load fast, rank well, convert visitors, and show up when AI assistants are asked for recommendations.',
+    description:
+      "Pretty websites don't pay your bills. We build sites that load fast, rank well, convert visitors, and show up when AI assistants are asked for recommendations.",
     icon: Target,
   },
   {
     title: 'MILITARY PRECISION',
-    description: 'Deadlines are deadlines. Communication is proactive. Problems get solved, not ignored. We run projects like operations - planned, executed, delivered.',
+    description:
+      'Deadlines are deadlines. Communication is proactive. Problems get solved, not ignored. We run projects like operations - planned, executed, delivered.',
     icon: Shield,
   },
 ];
@@ -53,46 +87,68 @@ const stats = [
 
 // What We're Not Data
 const notList = [
-  'We\'re not a huge agency with account managers who\'ve never built a website',
-  'We\'re not going to upsell you services you don\'t need',
-  'We\'re not going to disappear after launch and leave you stuck',
-  'We\'re not interested in clients who want \'cheap and fast\' over \'right\'',
-  'We\'re not for everyone - and that\'s fine',
+  "We're not a huge agency with account managers who've never built a website",
+  "We're not going to upsell you services you don't need",
+  "We're not going to disappear after launch and leave you stuck",
+  "We're not interested in clients who want 'cheap and fast' over 'right'",
+  "We're not for everyone - and that's fine",
 ];
 
 // Why We Exist Cards
 const whyCards = [
   {
     title: 'THE PROBLEM',
-    text: 'Most agencies sell pretty websites that don\'t perform. They hide behind jargon, lock you into contracts, and disappear when things go wrong. They charge premium prices for template solutions and treat small businesses like an afterthought.',
+    text: "Most agencies sell pretty websites that don't perform. They hide behind jargon, lock you into contracts, and disappear when things go wrong. They charge premium prices for template solutions and treat small businesses like an afterthought.",
   },
   {
     title: 'THE OPPORTUNITY',
-    text: 'AI is changing how people find businesses. ChatGPT, Siri, voice search - they don\'t care how pretty your website looks. They care about structure, speed, and trust signals. Most agencies haven\'t caught up. We have.',
+    text: "AI is changing how people find businesses. ChatGPT, Siri, voice search - they don't care how pretty your website looks. They care about structure, speed, and trust signals. Most agencies haven't caught up. We have.",
   },
   {
     title: 'OUR RESPONSE',
-    text: 'We built ScopeSite to be the agency we wished existed. Transparent pricing. Plain English explanations. Websites that actually work - for humans AND AI. No retainers designed to bleed you dry. Just honest work at fair prices.',
+    text: "We built ScopeSite to be the agency we wished existed. Transparent pricing. Plain English explanations. Websites that actually work - for humans AND AI. No retainers designed to bleed you dry. Just honest work at fair prices.",
   },
 ];
 
 export default function AboutPage() {
+  // Generate schemas
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: BASE_URL },
+    { name: 'About', url: PAGE_URL },
+  ]);
+
+  const aboutPageSchema = generateAboutPageSchema(PAGE_URL);
+
+  const founderSchema = generatePersonSchema(
+    'Dan Cartwright',
+    'Founder & Director',
+    'British Army veteran and web design specialist with 6 years CAMHS experience. Founded ScopeSite to bring military precision and genuine care to web design.',
+    `${BASE_URL}/images/dan-headshot.webp`
+  );
+
   return (
     <>
+      {/* Page-specific structured data */}
+      <JsonLd schema={[breadcrumbSchema, aboutPageSchema, founderSchema]} />
+
       {/* Hero Section */}
       <section className="bg-brand-navy text-white py-section min-h-[60vh] flex items-center">
         <div className="container-content">
           <div className="max-w-4xl mx-auto text-center">
-            <span className="badge-gold-lg mb-6 inline-flex items-center justify-center">Veteran Owned</span>
+            <span className="badge-gold-lg mb-6 inline-flex items-center justify-center">
+              Veteran Owned
+            </span>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-headline text-white mb-4">
-              BUILT <span className="text-brand-gold">DIFFERENT.</span> ON PURPOSE.
+              BUILT <span className="text-brand-gold">DIFFERENT.</span> ON
+              PURPOSE.
             </h1>
             <p className="text-xl md:text-2xl text-white/90 font-medium mb-8">
               A web design agency that actually gives a shit
             </p>
             <p className="text-body-lg text-white/70 max-w-3xl mx-auto">
-              ScopeSite isn&apos;t another faceless agency churning out template websites and empty promises. 
-              We&apos;re a veteran-owned, Somerset-based studio that believes businesses deserve better than 
+              ScopeSite isn&apos;t another faceless agency churning out template
+              websites and empty promises. We&apos;re a veteran-owned,
+              Somerset-based studio that believes businesses deserve better than
               the bullshit most agencies sell.
             </p>
           </div>
@@ -105,13 +161,15 @@ export default function AboutPage() {
           <div className="text-center mb-12">
             <h2 className="text-brand-navy mb-4">Meet the Founder</h2>
           </div>
-          
+
           <div className="grid md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
             {/* Photo */}
             <div className="flex justify-center md:justify-end">
               <div className="relative">
-                <div className="w-72 h-72 md:w-80 md:h-80 rounded-2xl overflow-hidden border-4 border-brand-gold/30"
-                  style={{ boxShadow: '0 0 40px rgba(236,182,21,0.15)' }}>
+                <div
+                  className="w-72 h-72 md:w-80 md:h-80 rounded-2xl overflow-hidden border-4 border-brand-gold/30"
+                  style={{ boxShadow: '0 0 40px rgba(236,182,21,0.15)' }}
+                >
                   <Image
                     src="/images/dan-headshot.webp"
                     alt="Dan Cartwright - Founder and Director of ScopeSite"
@@ -122,34 +180,45 @@ export default function AboutPage() {
                 </div>
               </div>
             </div>
-            
+
             {/* Bio */}
             <div className="text-center md:text-left">
-              <h3 className="text-brand-navy text-2xl font-bold mb-1">Dan Cartwright</h3>
-              <p className="text-brand-gold font-medium mb-6">Founder & Director</p>
-              
+              <h3 className="text-brand-navy text-2xl font-bold mb-1">
+                Dan Cartwright
+              </h3>
+              <p className="text-brand-gold font-medium mb-6">
+                Founder & Director
+              </p>
+
               <div className="space-y-4 text-brand-navy/70">
                 <p>
-                  I spent years watching businesses get burned by web agencies. Overpriced. Underdelivered. 
-                  Full of jargon designed to confuse rather than help.
+                  I spent years watching businesses get burned by web agencies.
+                  Overpriced. Underdelivered. Full of jargon designed to confuse
+                  rather than help.
                 </p>
                 <p>
-                  Before ScopeSite, I served in the British Army - where you learn pretty quickly that 
-                  bullshit gets people hurt and results are all that matter. That mindset stuck.
+                  Before ScopeSite, I served in the British Army - where you
+                  learn pretty quickly that bullshit gets people hurt and
+                  results are all that matter. That mindset stuck.
                 </p>
                 <p>
-                  I also spent six years working in CAMHS (Child and Adolescent Mental Health Services), 
-                  which taught me something equally important: how to actually listen to people, understand 
-                  their real problems, and communicate complex things in plain English.
+                  I also spent six years working in CAMHS (Child and Adolescent
+                  Mental Health Services), which taught me something equally
+                  important: how to actually listen to people, understand their
+                  real problems, and communicate complex things in plain
+                  English.
                 </p>
                 <p>
-                  ScopeSite combines both. Military precision in how we plan and deliver. Genuine care for 
-                  the businesses we work with. And absolutely zero tolerance for the smoke-and-mirrors 
-                  nonsense that plagues this industry.
+                  ScopeSite combines both. Military precision in how we plan and
+                  deliver. Genuine care for the businesses we work with. And
+                  absolutely zero tolerance for the smoke-and-mirrors nonsense
+                  that plagues this industry.
                 </p>
               </div>
-              
-              <p className="text-brand-navy/50 text-sm mt-6">Based in Frome, Somerset</p>
+
+              <p className="text-brand-navy/50 text-sm mt-6">
+                Based in Frome, Somerset
+              </p>
             </div>
           </div>
         </div>
@@ -164,14 +233,16 @@ export default function AboutPage() {
               Because the web design industry has a honesty problem
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {whyCards.map((card) => (
-              <div 
+              <div
                 key={card.title}
                 className="p-8 rounded-2xl bg-brand-graphite/50 border border-white/10"
               >
-                <h3 className="text-brand-gold font-bold text-lg mb-4">{card.title}</h3>
+                <h3 className="text-brand-gold font-bold text-lg mb-4">
+                  {card.title}
+                </h3>
                 <p className="text-white/70">{card.text}</p>
               </div>
             ))}
@@ -181,15 +252,15 @@ export default function AboutPage() {
 
       {/* Our Values Section */}
       <section className="section-white relative overflow-hidden">
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
             backgroundImage: `linear-gradient(rgba(10,27,54,0.1) 1px, transparent 1px),
                               linear-gradient(90deg, rgba(10,27,54,0.1) 1px, transparent 1px)`,
-            backgroundSize: '50px 50px'
+            backgroundSize: '50px 50px',
           }}
         />
-        
+
         <div className="container-content relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-brand-navy mb-4">How We Work</h2>
@@ -197,7 +268,7 @@ export default function AboutPage() {
               The principles behind everything we do
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {values.map((value) => (
               <div
@@ -207,11 +278,13 @@ export default function AboutPage() {
                   hover:shadow-[0_0_40px_rgba(236,182,21,0.15)]
                   hover:border-brand-gold/30"
                 style={{
-                  boxShadow: '0 4px 24px rgba(10,27,54,0.08)'
+                  boxShadow: '0 4px 24px rgba(10,27,54,0.08)',
                 }}
               >
-                <div className="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-xl 
-                  bg-brand-navy/5 group-hover:bg-brand-gold/10 transition-all duration-400">
+                <div
+                  className="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-xl 
+                  bg-brand-navy/5 group-hover:bg-brand-gold/10 transition-all duration-400"
+                >
                   <value.icon className="w-6 h-6 text-brand-navy group-hover:text-brand-gold transition-colors duration-400" />
                 </div>
                 <h3 className="text-brand-navy font-bold mb-3">{value.title}</h3>
@@ -228,7 +301,7 @@ export default function AboutPage() {
           <div className="text-center mb-12">
             <h2 className="text-white mb-4">ScopeSite by Numbers</h2>
           </div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-5 gap-6 max-w-5xl mx-auto">
             {stats.map((stat) => (
               <div key={stat.label} className="text-center p-4">
@@ -251,10 +324,10 @@ export default function AboutPage() {
               Just so we&apos;re clear
             </p>
           </div>
-          
+
           <div className="max-w-2xl mx-auto space-y-4">
             {notList.map((item) => (
-              <div 
+              <div
                 key={item}
                 className="flex items-start gap-4 p-4 rounded-xl bg-red-50 border border-red-200"
               >
@@ -272,8 +345,10 @@ export default function AboutPage() {
       <section className="bg-brand-navy py-section">
         <div className="container-content">
           <div className="max-w-3xl mx-auto">
-            <div className="bg-brand-graphite/50 border border-white/10 rounded-2xl p-10 text-center"
-              style={{ boxShadow: '0 0 60px rgba(236,182,21,0.1)' }}>
+            <div
+              className="bg-brand-graphite/50 border border-white/10 rounded-2xl p-10 text-center"
+              style={{ boxShadow: '0 0 60px rgba(236,182,21,0.1)' }}
+            >
               <h2 className="text-white mb-4">Want to Work With Us?</h2>
               <p className="text-white/70 mb-8 max-w-xl mx-auto">
                 Book a call or get an instant quote - no pressure either way
@@ -296,4 +371,3 @@ export default function AboutPage() {
     </>
   );
 }
-

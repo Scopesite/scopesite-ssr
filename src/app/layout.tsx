@@ -1,42 +1,56 @@
-import type { Metadata } from 'next';
-import { Inter, Paytone_One } from 'next/font/google';
+import type { Metadata, Viewport } from 'next';
+import { Paytone_One, Inter } from 'next/font/google';
+import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import './globals.css';
+import { JsonLd } from '@/components/JsonLd';
+import { generateOrganizationSchema, generateWebsiteSchema } from '@/lib/schema';
 
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-});
-
+// Fonts
 const paytoneOne = Paytone_One({
   weight: '400',
   subsets: ['latin'],
-  variable: '--font-paytone',
+  variable: '--font-headline',
   display: 'swap',
 });
 
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-body',
+  display: 'swap',
+});
+
+// Base URL for canonical URLs and OG images
+const BASE_URL = 'https://scopesite.co.uk';
+
+// Viewport configuration
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#0A1B36',
+};
+
+// Site-wide metadata defaults
 export const metadata: Metadata = {
-  metadataBase: new URL('https://scopesite.co.uk'),
+  metadataBase: new URL(BASE_URL),
   title: {
-    default: 'ScopeSite Digital Studios | AI-Optimized Web Design UK',
+    default: 'AI-First Web Design Agency | ScopeSite Digital Studios',
     template: '%s | ScopeSite Digital Studios',
   },
   description:
-    'Veteran-owned UK web design agency specializing in AI visibility, AEO, and GEO optimization. Get websites that rank in both traditional search and AI assistants.',
+    'Veteran-owned UK web design agency specializing in AI visibility. Get your business recommended by ChatGPT using our V.O.I.C.E™ methodology. Free AI visibility audit.',
   keywords: [
-    'web design UK',
+    'AI web design',
+    'ChatGPT SEO',
     'AI visibility',
-    'AEO',
-    'GEO optimization',
-    'SEO',
-    'website design Frome',
-    'web development Somerset',
-    'V.O.I.C.E',
+    'web design UK',
+    'Somerset web design',
+    'voice search optimization',
+    'V.O.I.C.E methodology',
     'AI search optimization',
+    'veteran owned business',
   ],
-  authors: [{ name: 'Dan Cartwright', url: 'https://scopesite.co.uk' }],
+  authors: [{ name: 'Dan Cartwright', url: `${BASE_URL}/about` }],
   creator: 'ScopeSite Digital Studios',
   publisher: 'ScopeSite Digital Studios',
   formatDetection: {
@@ -47,26 +61,26 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_GB',
-    url: 'https://scopesite.co.uk',
+    url: BASE_URL,
     siteName: 'ScopeSite Digital Studios',
-    title: 'ScopeSite Digital Studios | AI-Optimized Web Design UK',
+    title: 'AI-First Web Design Agency | ScopeSite Digital Studios',
     description:
-      'Veteran-owned UK web design agency specializing in AI visibility, AEO, and GEO optimization.',
+      'Veteran-owned UK web design agency specializing in AI visibility. Get your business recommended by ChatGPT using our V.O.I.C.E™ methodology.',
     images: [
       {
-        url: '/images/og-image.jpg',
+        url: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
         width: 1200,
         height: 630,
-        alt: 'ScopeSite Digital Studios',
+        alt: 'ScopeSite Digital Studios - AI-First Web Design',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'ScopeSite Digital Studios | AI-Optimized Web Design UK',
+    title: 'AI-First Web Design Agency | ScopeSite Digital Studios',
     description:
-      'Veteran-owned UK web design agency specializing in AI visibility, AEO, and GEO optimization.',
-    images: ['/images/og-image.jpg'],
+      'Veteran-owned UK web design agency specializing in AI visibility. Get your business recommended by ChatGPT.',
+    images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
   },
   robots: {
     index: true,
@@ -81,13 +95,18 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon.ico' },
+      { url: '/favicon.ico', sizes: 'any' },
       { url: '/favicon.svg', type: 'image/svg+xml' },
       { url: '/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
     ],
     apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
   },
   manifest: '/site.webmanifest',
+  alternates: {
+    canonical: BASE_URL,
+  },
+  category: 'technology',
+  classification: 'Web Design Agency',
 };
 
 export default function RootLayout({
@@ -95,9 +114,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Generate base schemas for every page
+  const organizationSchema = generateOrganizationSchema();
+  const websiteSchema = generateWebsiteSchema();
+
   return (
-    <html lang="en-GB" className={`${inter.variable} ${paytoneOne.variable}`}>
-      <body className="font-body antialiased">
+    <html lang="en-GB">
+      <head>
+        {/* Base structured data for entire site */}
+        <JsonLd schema={[organizationSchema, websiteSchema]} />
+      </head>
+      <body
+        className={`${paytoneOne.variable} ${inter.variable} font-body antialiased bg-white text-brand-navy`}
+      >
         <Header />
         <main className="pt-32">{children}</main>
         <Footer />

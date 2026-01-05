@@ -2,29 +2,76 @@ import { Metadata } from 'next';
 import { getPosts } from '@/lib/ghost';
 import { BlogCard } from '@/components/blog';
 import { BlogLoadMore } from './BlogLoadMore';
+import { JsonLd } from '@/components/JsonLd';
+import {
+  generateBreadcrumbSchema,
+  generateBlogSchema,
+  generateCollectionPageSchema,
+} from '@/lib/schema';
+
+const BASE_URL = 'https://scopesite.co.uk';
+const PAGE_URL = `${BASE_URL}/blog`;
 
 export const metadata: Metadata = {
-  title: 'Blog | Web Design & AI Visibility Insights',
-  description: 'Insights on web design, AI visibility, SEO, and digital marketing for UK businesses. Practical tips and strategies from the ScopeSite team.',
+  title: 'AI Visibility Blog',
+  description:
+    'AI visibility insights, web design tips, and zero bullshit advice for UK businesses.',
   openGraph: {
-    title: 'Blog | Web Design & AI Visibility Insights | ScopeSite',
-    description: 'Insights on web design, AI visibility, SEO, and digital marketing for UK businesses.',
+    title: 'AI Visibility Blog | ScopeSite Digital Studios',
+    description:
+      'AI visibility insights, web design tips, and zero bullshit advice for UK businesses.',
+    url: PAGE_URL,
+    images: [
+      {
+        url: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
+        width: 1200,
+        height: 630,
+        alt: 'ScopeSite Blog - AI Visibility Insights',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AI Visibility Blog | ScopeSite',
+    description: 'AI visibility insights, web design tips, and practical advice.',
+    images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
+  },
+  alternates: {
+    canonical: PAGE_URL,
   },
 };
 
 export default async function BlogPage() {
   const { posts, meta } = await getPosts({ page: 1, limit: 9 });
-  
+
   // Separate featured post from the rest
-  const featuredPost = posts.find(post => post.featured);
-  const regularPosts = posts.filter(post => !post.featured);
+  const featuredPost = posts.find((post) => post.featured);
+  const regularPosts = posts.filter((post) => !post.featured);
+
+  // Generate schemas
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: BASE_URL },
+    { name: 'Blog', url: PAGE_URL },
+  ]);
+
+  const blogSchema = generateBlogSchema(PAGE_URL);
+
+  const collectionPageSchema = generateCollectionPageSchema(
+    PAGE_URL,
+    'ScopeSite Blog - AI Visibility & Web Design Insights'
+  );
 
   return (
     <>
+      {/* Page-specific structured data */}
+      <JsonLd schema={[breadcrumbSchema, blogSchema, collectionPageSchema]} />
+
       {/* Hero Section */}
       <section className="bg-brand-navy text-white py-section">
         <div className="container-content text-center">
-          <span className="badge-gold-lg mb-6 inline-flex items-center justify-center">Insights & Resources</span>
+          <span className="badge-gold-lg mb-6 inline-flex items-center justify-center">
+            Insights & Resources
+          </span>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-headline text-white mb-4">
             THE <span className="text-brand-gold">BLOG</span>
           </h1>
@@ -53,7 +100,7 @@ export default async function BlogPage() {
               />
             </div>
           )}
-          
+
           {/* Posts Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {regularPosts.map((post) => (
@@ -70,12 +117,12 @@ export default async function BlogPage() {
               />
             ))}
           </div>
-          
+
           {/* Load More */}
           {meta.pagination.pages > 1 && (
-            <BlogLoadMore 
-              initialPage={1} 
-              totalPages={meta.pagination.pages} 
+            <BlogLoadMore
+              initialPage={1}
+              totalPages={meta.pagination.pages}
             />
           )}
 
@@ -92,4 +139,3 @@ export default async function BlogPage() {
     </>
   );
 }
-
