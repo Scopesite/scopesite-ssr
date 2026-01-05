@@ -167,8 +167,7 @@ export default function AboutPage() {
             <div className="flex justify-center md:justify-end">
               <div className="relative">
                 <div
-                  className="w-72 h-72 md:w-80 md:h-80 rounded-2xl overflow-hidden border-4 border-brand-gold/30"
-                  style={{ boxShadow: '0 0 40px rgba(236,182,21,0.15)' }}
+                  className="w-72 h-72 md:w-80 md:h-80 rounded-[30px] overflow-hidden border-4 border-brand-navy"
                 >
                   <Image
                     src="/images/dan-headshot.webp"

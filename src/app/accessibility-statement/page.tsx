@@ -5,7 +5,7 @@ import { JsonLd } from '@/components/JsonLd';
 import { generateBreadcrumbSchema } from '@/lib/schema';
 
 const BASE_URL = 'https://scopesite.co.uk';
-const PAGE_URL = `${BASE_URL}/accessibility`;
+const PAGE_URL = `${BASE_URL}/accessibility-statement`;
 
 export const metadata: Metadata = {
   title: 'Accessibility Statement | ScopeSite Digital Studios',
@@ -109,7 +109,7 @@ const knownLimitations = [
 export default function AccessibilityPage() {
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: BASE_URL },
-    { name: 'Accessibility', url: PAGE_URL },
+    { name: 'Accessibility Statement', url: PAGE_URL },
   ]);
 
   return (
