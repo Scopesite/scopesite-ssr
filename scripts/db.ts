@@ -8,6 +8,10 @@
  * Usage: npx tsx scripts/db.ts [command]
  */
 
+// Load environment variables from .env.local
+import * as dotenv from 'dotenv';
+dotenv.config({ path: '.env.local' });
+
 import { sql, checkConnection, initializeDatabase } from '../src/lib/db';
 
 async function main() {
