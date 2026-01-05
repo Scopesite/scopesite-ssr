@@ -153,7 +153,8 @@ export default function AccessibilityPage() {
               <p className="text-brand-navy/80 leading-relaxed">
                 ScopeSite Digital Studios is committed to ensuring digital accessibility for people
                 with disabilities. We are continually improving the user experience for everyone
-                and applying the relevant accessibility standards.
+                and applying the relevant accessibility standards. This includes compliance with
+                the European Accessibility Act (EAA) which came into effect in June 2025.
               </p>
             </div>
 
