@@ -54,12 +54,15 @@ export function FormField({
     .join(' ') || undefined;
 
   // Clone child element with accessibility props
-  const enhancedChild = React.cloneElement(children, {
-    id,
-    'aria-invalid': error ? true : undefined,
-    'aria-describedby': describedBy,
-    'aria-required': required ? true : undefined,
-  });
+  const enhancedChild = React.cloneElement(
+    children as React.ReactElement<React.HTMLAttributes<HTMLElement>>,
+    {
+      id,
+      'aria-invalid': error ? true : undefined,
+      'aria-describedby': describedBy,
+      'aria-required': required ? true : undefined,
+    }
+  );
 
   return (
     <div className={cn('space-y-2', className)}>
@@ -98,4 +101,3 @@ export function FormField({
 }
 
 export default FormField;
-

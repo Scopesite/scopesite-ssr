@@ -90,9 +90,9 @@ export async function insertBrief(brief: NewBrief): Promise<Brief> {
       ${brief.referral_source || null}
     )
     RETURNING *
-  `;
+  ` as Brief[];
   
-  return result[0] as Brief;
+  return result[0];
 }
 
 /**
@@ -118,9 +118,9 @@ export async function updateBriefStatus(id: number, status: string): Promise<Bri
     SET status = ${status}
     WHERE id = ${id}
     RETURNING *
-  `;
+  ` as Brief[];
   
-  return result[0] as Brief || null;
+  return result[0] || null;
 }
 
 /**
