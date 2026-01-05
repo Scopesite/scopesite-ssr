@@ -446,9 +446,9 @@ export function BriefForm() {
             rows={6}
             className={cn(
               'mt-1 w-full px-3 py-2 border rounded-lg resize-none',
-              'text-brand-navy placeholder:text-brand-graphite/50',
+              'bg-brand-navy text-brand-gold placeholder:text-brand-gold/50',
               'focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-brand-gold',
-              errors.description ? 'border-red-500' : 'border-brand-graphite/20'
+              errors.description ? 'border-red-500' : 'border-brand-graphite'
             )}
             aria-required="true"
             aria-invalid={!!errors.description}
