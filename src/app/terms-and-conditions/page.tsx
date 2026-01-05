@@ -88,25 +88,25 @@ export default function TermsPage() {
       <JsonLd schema={breadcrumbSchema} />
 
       {/* Hero Section */}
-      <section className="bg-brand-navy text-white py-12 md:py-16">
+      <section className="bg-white py-12 md:py-16">
         <div className="container-content">
           <div className="max-w-4xl mx-auto">
             {/* Back Navigation */}
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-white/70 hover:text-brand-gold transition-colors mb-6 text-sm"
+              className="inline-flex items-center gap-2 text-brand-navy/70 hover:text-brand-gold transition-colors mb-6 text-sm"
             >
               <ArrowLeft className="w-4 h-4" />
               Back to Home
             </Link>
 
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-headline text-white mb-4">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-headline text-brand-navy mb-4">
               TERMS AND <span className="text-brand-gold">CONDITIONS</span>
             </h1>
-            <p className="text-white/70 text-lg">
+            <p className="text-brand-navy/70 text-lg">
               ScopeSite LTD (trading as ScopeSite Digital Studios)
             </p>
-            <p className="text-white/50 text-sm mt-2">
+            <p className="text-brand-navy/50 text-sm mt-2">
               Company Registration Number: 16130355 • Effective Date: 28th April 2025
             </p>
           </div>
