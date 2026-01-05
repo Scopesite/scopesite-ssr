@@ -232,7 +232,7 @@ export function BriefForm() {
 
         <Link
           href="/"
-          className="text-brand-gold hover:text-brand-orange transition-colors inline-flex items-center gap-2"
+          className="bg-brand-navy text-white hover:bg-brand-graphite transition-colors inline-flex items-center gap-2 px-6 py-2 rounded-full"
         >
           Back to Home
           <ArrowRight className="w-4 h-4" />
