@@ -231,7 +231,7 @@ export default function WebAppsPage() {
       <section className="bg-brand-navy text-white py-section min-h-[70vh] flex items-center">
         <div className="container-content">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-headline text-white mb-4">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-headline text-white mb-4">
               <span className="text-brand-gold">CUSTOM WEB APPS</span> THAT ACTUALLY DO SOMETHING
             </h1>
             <p className="text-xl md:text-2xl text-white/90 font-medium mb-8">
@@ -272,8 +272,8 @@ export default function WebAppsPage() {
         />
         
         <div className="container-content relative z-10">
-          <div className="text-center mb-12">
-            <h2 className="text-brand-navy mb-4">Tools That Solve Real Problems</h2>
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">Tools That Solve Real Problems</h2>
             <p className="text-brand-navy/70 max-w-2xl mx-auto">
               Not features for the sake of features - solutions that save time and make money
             </p>
@@ -313,8 +313,8 @@ export default function WebAppsPage() {
       {/* How It Works Section */}
       <section className="bg-brand-navy py-section">
         <div className="container-content">
-          <div className="text-center mb-16">
-            <h2 className="text-white mb-4">From Problem to Solution</h2>
+          <div className="text-center mb-8 md:mb-16">
+            <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">From Problem to Solution</h2>
             <p className="text-white/70 max-w-2xl mx-auto">
               We don&apos;t just code - we solve
             </p>
@@ -360,8 +360,8 @@ export default function WebAppsPage() {
       {/* Why Custom vs Off-the-Shelf Section */}
       <section className="section-white">
         <div className="container-content">
-          <div className="text-center mb-12">
-            <h2 className="text-brand-navy mb-4">Why Build Custom?</h2>
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">Why Build Custom?</h2>
             <p className="text-brand-navy/70 max-w-2xl mx-auto">
               When plugins and SaaS tools aren&apos;t cutting it
             </p>
@@ -429,8 +429,8 @@ export default function WebAppsPage() {
       {/* Technologies Section */}
       <section className="bg-brand-navy py-section">
         <div className="container-content">
-          <div className="text-center mb-12">
-            <h2 className="text-white mb-4">Built on Solid Foundations</h2>
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">Built on Solid Foundations</h2>
             <p className="text-white/70 max-w-2xl mx-auto">
               Modern tech stack, future-proof solutions
             </p>
@@ -458,8 +458,8 @@ export default function WebAppsPage() {
       {/* Use Cases Section */}
       <section className="section-white">
         <div className="container-content">
-          <div className="text-center mb-12">
-            <h2 className="text-brand-navy mb-4">What Could You Build?</h2>
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">What Could You Build?</h2>
             <p className="text-brand-navy/70 max-w-2xl mx-auto">
               Real problems we&apos;ve solved for businesses like yours
             </p>
@@ -498,8 +498,8 @@ export default function WebAppsPage() {
       {/* FAQ Section */}
       <section className="bg-brand-navy py-section">
         <div className="container-content">
-          <div className="text-center mb-12">
-            <h2 className="text-white mb-4">Frequently Asked Questions</h2>
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">Frequently Asked Questions</h2>
             <p className="text-white/70 max-w-2xl mx-auto">
               Straight answers about custom development
             </p>
@@ -527,7 +527,7 @@ export default function WebAppsPage() {
               style={{
                 boxShadow: '0 0 60px rgba(236,182,21,0.15)'
               }}>
-              <h2 className="text-white mb-4">Got a Process That Needs Fixing?</h2>
+              <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">Got a Process That Needs Fixing?</h2>
               <p className="text-white/70 mb-8 max-w-xl mx-auto">
                 Tell us what&apos;s broken. We&apos;ll tell you if we can fix it - and what it would cost.
               </p>

@@ -61,7 +61,7 @@ export default function Home() {
           <div className="relative z-10 flex items-center min-h-[80vh] py-section">
             <div className="text-center md:text-left w-full md:max-w-[55%] lg:max-w-[50%]">
               <div className="badge-gold-lg mb-6 mx-auto md:mx-0">Veteran Owned &amp; Operated</div>
-              <h1 className="text-[5.5rem] md:text-display text-white mb-6 leading-[0.95]">
+              <h1 className="text-[2.5rem] xs:text-[3rem] sm:text-[4rem] md:text-[5rem] lg:text-display text-white mb-6 leading-[0.95]">
                 <span className="text-brand-gold block">WEBSITES</span>
                 <span className="block">THAT GET</span>
                 <span className="block">FOUND</span>
@@ -108,7 +108,7 @@ export default function Home() {
         />
         
         <div className="container-content text-center relative z-10">
-          <h2 className="text-brand-navy mb-4">OUR SERVICES</h2>
+          <h2 className="text-brand-navy mb-4 text-2xl sm:text-3xl md:text-h2">OUR SERVICES</h2>
           <p className="text-brand-navy/70 mb-12 max-w-2xl mx-auto">
             From stunning web design to AI visibility optimization, we&apos;ve got 
             everything you need to dominate online.
@@ -196,16 +196,16 @@ export default function Home() {
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-brand-gold/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
         
         <div className="container-content relative z-10">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 bg-brand-gold/10 border border-brand-gold/30 rounded-full px-4 py-2 mb-6">
+          <div className="text-center mb-8 md:mb-12">
+            <div className="inline-flex flex-col sm:flex-row items-center gap-2 bg-brand-gold/10 border border-brand-gold/30 rounded-full px-4 py-2 mb-6">
               <div className="flex">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 text-brand-gold fill-brand-gold" />
+                  <Star key={i} className="w-4 h-4 sm:w-5 sm:h-5 text-brand-gold fill-brand-gold" />
                 ))}
               </div>
-              <span className="text-white font-medium">6 Five-Star Reviews on Google</span>
+              <span className="text-white font-medium text-sm sm:text-base">6 Five-Star Reviews on Google</span>
             </div>
-            <h2 className="text-white mb-4">WHAT OUR CLIENTS SAY</h2>
+            <h2 className="text-white mb-4 text-2xl sm:text-3xl md:text-h2">WHAT OUR CLIENTS SAY</h2>
             <p className="text-white/70 max-w-2xl mx-auto">
               Don&apos;t just take our word for it. Here&apos;s what real businesses say about working with ScopeSite.
             </p>
@@ -269,7 +269,7 @@ export default function Home() {
       {/* CTA Section */}
       <section className="section-navy">
         <div className="container-content text-center">
-          <h2 className="text-white mb-4">READY TO GET STARTED?</h2>
+          <h2 className="text-white mb-4 text-2xl sm:text-3xl md:text-h2">READY TO GET STARTED?</h2>
           <p className="text-white/80 mb-8 max-w-xl mx-auto">
             Get an instant quote for your project or book a free strategy call 
             to discuss your needs.

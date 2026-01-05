@@ -61,7 +61,7 @@ export default function BookPage() {
       <section className="bg-brand-navy pt-12 pb-8">
         <div className="container-content text-center">
           <span className="badge-gold mb-4">Zero Pressure</span>
-          <h1 className="text-display text-white mb-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-display text-white mb-4">
             BOOK A <span className="text-brand-gold">STRATEGY CALL</span>
           </h1>
           <p className="text-body-lg text-white/80 max-w-2xl mx-auto">

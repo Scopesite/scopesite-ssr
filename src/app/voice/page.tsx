@@ -223,8 +223,8 @@ export default function VoicePage() {
         />
         
         <div className="container-content relative z-10">
-          <div className="text-center mb-12">
-            <h2 className="text-brand-navy mb-4">What is V.O.I.C.E™?</h2>
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">What is V.O.I.C.E™?</h2>
             <p className="text-brand-navy/70 max-w-2xl mx-auto">
               Our AI-first visibility system broken down
             </p>
@@ -273,7 +273,7 @@ export default function VoicePage() {
         
         <div className="container-content relative z-10">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-white mb-4">Check Your AI Visibility Score</h2>
+            <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">Check Your AI Visibility Score</h2>
             <p className="text-white/70 mb-10">
               The first pro scan is on us - no strings attached
             </p>
@@ -310,8 +310,8 @@ export default function VoicePage() {
       {/* What You Get Section */}
       <section className="section-white">
         <div className="container-content">
-          <div className="text-center mb-12">
-            <h2 className="text-brand-navy mb-4">What&apos;s Included in Your Free Scan?</h2>
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">What&apos;s Included in Your Free Scan?</h2>
             <p className="text-brand-navy/70 max-w-2xl mx-auto">
               No fluff, no sales pitch - just actionable insights
             </p>
@@ -351,8 +351,8 @@ export default function VoicePage() {
       {/* FAQ Section */}
       <section className="bg-brand-navy py-section">
         <div className="container-content">
-          <div className="text-center mb-12">
-            <h2 className="text-white mb-4">Frequently Asked Questions</h2>
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">Frequently Asked Questions</h2>
             <p className="text-white/70 max-w-2xl mx-auto">
               Everything you need to know about V.O.I.C.E™ and AI visibility
             </p>
@@ -375,7 +375,7 @@ export default function VoicePage() {
       {/* Final CTA Section */}
       <section className="section-white">
         <div className="container-content text-center">
-          <h2 className="text-brand-navy mb-4">Ready to See How AI Sees You?</h2>
+          <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">Ready to See How AI Sees You?</h2>
           <p className="text-brand-navy/70 mb-8 max-w-xl mx-auto">
             Get your free visibility score or book a call to discuss your results
           </p>

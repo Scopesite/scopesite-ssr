@@ -72,7 +72,7 @@ export default async function BlogPage() {
           <span className="badge-gold-lg mb-6 inline-flex items-center justify-center">
             Insights & Resources
           </span>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-headline text-white mb-4">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-headline text-white mb-4">
             THE <span className="text-brand-gold">BLOG</span>
           </h1>
           <p className="text-body-lg text-white/70 max-w-2xl mx-auto">

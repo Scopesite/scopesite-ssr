@@ -138,7 +138,7 @@ export default function AboutPage() {
             <span className="badge-gold-lg mb-6 inline-flex items-center justify-center">
               Veteran Owned
             </span>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-headline text-white mb-4">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-headline text-white mb-4">
               BUILT <span className="text-brand-gold">DIFFERENT.</span> ON
               PURPOSE.
             </h1>
@@ -158,8 +158,8 @@ export default function AboutPage() {
       {/* The Founder Section */}
       <section className="section-white">
         <div className="container-content">
-          <div className="text-center mb-12">
-            <h2 className="text-brand-navy mb-4">Meet the Founder</h2>
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">Meet the Founder</h2>
           </div>
 
           <div className="grid md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
@@ -227,8 +227,8 @@ export default function AboutPage() {
       {/* Why We Exist Section */}
       <section className="bg-brand-navy py-section">
         <div className="container-content">
-          <div className="text-center mb-12">
-            <h2 className="text-white mb-4">Why ScopeSite Exists</h2>
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">Why ScopeSite Exists</h2>
             <p className="text-white/70 max-w-2xl mx-auto">
               Because the web design industry has a honesty problem
             </p>
@@ -262,8 +262,8 @@ export default function AboutPage() {
         />
 
         <div className="container-content relative z-10">
-          <div className="text-center mb-12">
-            <h2 className="text-brand-navy mb-4">How We Work</h2>
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">How We Work</h2>
             <p className="text-brand-navy/70 max-w-2xl mx-auto">
               The principles behind everything we do
             </p>
@@ -298,8 +298,8 @@ export default function AboutPage() {
       {/* The Numbers Section */}
       <section className="bg-brand-navy py-section">
         <div className="container-content">
-          <div className="text-center mb-12">
-            <h2 className="text-white mb-4">ScopeSite by Numbers</h2>
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">ScopeSite by Numbers</h2>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-5 gap-6 max-w-5xl mx-auto">
@@ -318,8 +318,8 @@ export default function AboutPage() {
       {/* What We're Not Section */}
       <section className="section-white">
         <div className="container-content">
-          <div className="text-center mb-12">
-            <h2 className="text-brand-navy mb-4">What We&apos;re Not</h2>
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">What We&apos;re Not</h2>
             <p className="text-brand-navy/70 max-w-2xl mx-auto">
               Just so we&apos;re clear
             </p>
@@ -349,7 +349,7 @@ export default function AboutPage() {
               className="bg-brand-graphite/50 border border-white/10 rounded-2xl p-10 text-center"
               style={{ boxShadow: '0 0 60px rgba(236,182,21,0.1)' }}
             >
-              <h2 className="text-white mb-4">Want to Work With Us?</h2>
+              <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">Want to Work With Us?</h2>
               <p className="text-white/70 mb-8 max-w-xl mx-auto">
                 Book a call or get an instant quote - no pressure either way
               </p>

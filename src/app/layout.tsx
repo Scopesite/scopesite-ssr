@@ -10,13 +10,13 @@ import { generateOrganizationSchema, generateWebsiteSchema } from '@/lib/schema'
 const paytoneOne = Paytone_One({
   weight: '400',
   subsets: ['latin'],
-  variable: '--font-headline',
+  variable: '--font-paytone',
   display: 'swap',
 });
 
 const inter = Inter({
   subsets: ['latin'],
-  variable: '--font-body',
+  variable: '--font-inter',
   display: 'swap',
 });
 
@@ -125,7 +125,7 @@ export default function RootLayout({
         <JsonLd schema={[organizationSchema, websiteSchema]} />
       </head>
       <body
-        className={`${paytoneOne.variable} ${inter.variable} font-body antialiased bg-white text-brand-navy`}
+        className={`${paytoneOne.variable} ${inter.variable} font-body antialiased`}
       >
         <Header />
         <main className="pt-32">{children}</main>

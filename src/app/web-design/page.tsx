@@ -220,7 +220,7 @@ export default function WebDesignPage() {
       <section className="bg-brand-navy text-white py-section min-h-[70vh] flex items-center">
         <div className="container-content">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-headline text-white mb-4">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-headline text-white mb-4">
               <span className="text-brand-gold">WEBSITES</span> THAT ACTUALLY WORK
             </h1>
             <p className="text-xl md:text-2xl text-white/90 font-medium mb-8">
@@ -261,8 +261,8 @@ export default function WebDesignPage() {
         />
         
         <div className="container-content relative z-10">
-          <div className="text-center mb-12">
-            <h2 className="text-brand-navy mb-4">Web Design Without the Bull$#!t</h2>
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">Web Design Without the Bull$#!t</h2>
             <p className="text-brand-navy/70 max-w-2xl mx-auto">
               What you actually get when you work with us
             </p>
@@ -301,8 +301,8 @@ export default function WebDesignPage() {
       {/* Our Process Section */}
       <section id="process" className="bg-brand-navy py-section scroll-mt-32">
         <div className="container-content">
-          <div className="text-center mb-16">
-            <h2 className="text-white mb-4">How We Build Your Website</h2>
+          <div className="text-center mb-8 md:mb-16">
+            <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">How We Build Your Website</h2>
             <p className="text-white/70 max-w-2xl mx-auto">
               From first call to launch - no surprises
             </p>
@@ -361,8 +361,8 @@ export default function WebDesignPage() {
         
         <div className="container-content relative z-10">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-10">
-              <h2 className="text-brand-navy mb-4">Pay Monthly, Spread the Cost</h2>
+            <div className="text-center mb-8 md:mb-10">
+              <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">Pay Monthly, Spread the Cost</h2>
               <p className="text-brand-navy/70">
                 Premium web design without the upfront hit
               </p>
@@ -417,8 +417,8 @@ export default function WebDesignPage() {
       {/* Who We Work With Section */}
       <section className="bg-brand-navy py-section">
         <div className="container-content">
-          <div className="text-center mb-12">
-            <h2 className="text-white mb-4">Built for Businesses Like Yours</h2>
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">Built for Businesses Like Yours</h2>
             <p className="text-white/70 max-w-2xl mx-auto">
               We specialise in UK service businesses that need results, not excuses
             </p>
@@ -455,8 +455,8 @@ export default function WebDesignPage() {
       {/* FAQ Section */}
       <section className="section-white">
         <div className="container-content">
-          <div className="text-center mb-12">
-            <h2 className="text-brand-navy mb-4">Frequently Asked Questions</h2>
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">Frequently Asked Questions</h2>
             <p className="text-brand-navy/70 max-w-2xl mx-auto">
               Straight answers, no waffle
             </p>
@@ -482,7 +482,7 @@ export default function WebDesignPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-gold/10 rounded-full blur-[100px]" />
         
         <div className="container-content relative z-10 text-center">
-          <h2 className="text-white mb-4">Ready to Get a Website That Actually Works?</h2>
+          <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">Ready to Get a Website That Actually Works?</h2>
           <p className="text-white/70 mb-10 max-w-2xl mx-auto">
             Get your instant quote in under 2 minutes. See exactly what it costs, 
             including monthly payment options.
