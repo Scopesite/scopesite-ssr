@@ -94,19 +94,19 @@ export default function TermsPage() {
             {/* Back Navigation */}
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-brand-navy/70 hover:text-brand-gold transition-colors mb-6 text-sm"
+              className="inline-flex items-center gap-2 text-brand-navy hover:text-brand-gold transition-colors mb-6 text-sm"
             >
               <ArrowLeft className="w-4 h-4" />
               Back to Home
             </Link>
 
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-headline text-brand-navy mb-4">
-              TERMS AND <span className="text-brand-gold">CONDITIONS</span>
+              TERMS AND CONDITIONS
             </h1>
-            <p className="text-brand-navy/70 text-lg">
+            <p className="text-brand-navy text-lg">
               ScopeSite LTD (trading as ScopeSite Digital Studios)
             </p>
-            <p className="text-brand-navy/50 text-sm mt-2">
+            <p className="text-brand-navy text-sm mt-2">
               Company Registration Number: 16130355 • Effective Date: 28th April 2025
             </p>
           </div>
