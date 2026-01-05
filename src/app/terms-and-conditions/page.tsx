@@ -13,20 +13,21 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/terms-and-conditions`;
 
 export const metadata: Metadata = {
-  title: 'Terms and Conditions | ScopeSite Digital Studios',
+  title: 'Terms & Conditions | ScopeSite Digital Studios',
   description:
-    'Terms and Conditions for ScopeSite LTD (trading as ScopeSite Digital Studios). Read our full terms of service, payment terms, and policies.',
+    'Read the full terms and conditions for ScopeSite Digital Studios. Covers pricing, deliverables, IP rights, data protection, and change request procedures.',
   openGraph: {
-    title: 'Terms and Conditions | ScopeSite Digital Studios',
+    title: 'Terms & Conditions | ScopeSite Digital Studios',
     description:
-      'Terms and Conditions for ScopeSite LTD (trading as ScopeSite Digital Studios). Read our full terms of service, payment terms, and policies.',
+      'Read the full terms and conditions for ScopeSite Digital Studios. Covers pricing, deliverables, IP rights, data protection, and change request procedures.',
     url: PAGE_URL,
     type: 'website',
   },
   twitter: {
     card: 'summary',
-    title: 'Terms and Conditions | ScopeSite',
-    description: 'Terms and Conditions for ScopeSite Digital Studios.',
+    title: 'Terms & Conditions | ScopeSite Digital Studios',
+    description:
+      'Read the full terms and conditions for ScopeSite Digital Studios. Covers pricing, deliverables, IP rights, data protection, and change request procedures.',
   },
   alternates: {
     canonical: PAGE_URL,
