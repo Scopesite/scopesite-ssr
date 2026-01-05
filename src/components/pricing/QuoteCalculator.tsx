@@ -598,9 +598,14 @@ export function QuoteCalculator() {
         <div className="px-6 pb-6 md:px-8 md:pb-8">
           <Separator className="mb-6" />
           
-          {/* Live Price Display */}
+          {/* Live Price Display - WCAG 4.1.3 Status Messages */}
           {breakdown.oneOffSubtotal > 0 && currentStep > 1 && currentStep < 6 && (
-            <div className="bg-brand-navy rounded-lg p-5 mb-6">
+            <div 
+              className="bg-brand-navy rounded-lg p-5 mb-6"
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+            >
               <div className="flex justify-between items-center">
                 <span className="text-white font-medium text-body-lg">Current Estimate:</span>
                 <span className="text-h2 text-brand-gold font-headline">
@@ -670,20 +675,25 @@ interface StepGetStartedProps {
 }
 
 function StepGetStarted({ email, onChange }: StepGetStartedProps) {
+  const isValidEmail = email.trim() !== '' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const showError = email.trim() !== '' && !isValidEmail;
+
   return (
     <div className="space-y-6 max-w-md mx-auto py-8">
       <div className="text-center mb-8">
         <h3 className="text-h3 text-brand-navy font-headline mb-2">
           Build Your Instant Quote
         </h3>
-        <p className="text-brand-graphite">
+        <p className="text-brand-graphite" id="email-step-description">
           Enter your email to get started. We&apos;ll save your quote so you can return to it anytime.
         </p>
       </div>
       
       <div>
-        <Label htmlFor="email" className="text-brand-navy font-bold">
-          Email Address <span className="text-red-500">*</span>
+        <Label htmlFor="email" className="text-brand-navy font-bold flex items-center gap-1">
+          Email Address
+          <span className="text-red-500" aria-hidden="true">*</span>
+          <span className="sr-only">(required)</span>
         </Label>
         <Input
           id="email"
@@ -693,10 +703,18 @@ function StepGetStarted({ email, onChange }: StepGetStartedProps) {
           placeholder="john@company.co.uk"
           className="mt-2 text-lg py-6"
           autoFocus
+          aria-required="true"
+          aria-invalid={showError ? true : undefined}
+          aria-describedby="email-hint email-error"
         />
-        <p className="text-body-sm text-brand-graphite mt-2">
+        <p id="email-hint" className="text-body-sm text-brand-graphite mt-2">
           We&apos;ll send your quote to this address. No spam, ever.
         </p>
+        {showError && (
+          <p id="email-error" role="alert" className="text-body-sm text-red-500 mt-1">
+            Please enter a valid email address.
+          </p>
+        )}
       </div>
 
       <div className="bg-brand-gold/10 rounded-lg p-4 border border-brand-gold/20">
@@ -1327,53 +1345,58 @@ function StepSummary({ request, breakdown, contact, onContactChange }: StepSumma
 
       {/* Contact Form */}
       <div>
-        <h3 className="text-h4 text-brand-navy mb-4">Your Details</h3>
+        <h3 id="contact-form-heading" className="text-h4 text-brand-navy mb-4">Your Details</h3>
         <div className="bg-brand-gold/10 rounded-lg p-3 mb-4 border border-brand-gold/20">
           <span className="text-body-sm text-brand-navy">
             Sending quote to: <strong>{contact.email}</strong>
           </span>
         </div>
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-4" role="group" aria-labelledby="contact-form-heading">
           <div>
-            <Label htmlFor="name" className="text-brand-navy">
-              Name <span className="text-red-500">*</span>
+            <Label htmlFor="contact-name" className="text-brand-navy flex items-center gap-1">
+              Name
+              <span className="text-red-500" aria-hidden="true">*</span>
+              <span className="sr-only">(required)</span>
             </Label>
             <Input
-              id="name"
+              id="contact-name"
               value={contact.name}
               onChange={(e) => onContactChange({ ...contact, name: e.target.value })}
               placeholder="John Smith"
               className="mt-1"
-              required
+              aria-required="true"
+              autoComplete="name"
             />
           </div>
           <div>
-            <Label htmlFor="phone" className="text-brand-navy">Phone (optional)</Label>
+            <Label htmlFor="contact-phone" className="text-brand-navy">Phone (optional)</Label>
             <Input
-              id="phone"
+              id="contact-phone"
               type="tel"
               value={contact.phone}
               onChange={(e) => onContactChange({ ...contact, phone: e.target.value })}
               placeholder="07123 456789"
               className="mt-1"
+              autoComplete="tel"
             />
           </div>
           <div>
-            <Label htmlFor="company" className="text-brand-navy">Company (optional)</Label>
+            <Label htmlFor="contact-company" className="text-brand-navy">Company (optional)</Label>
             <Input
-              id="company"
+              id="contact-company"
               value={contact.company}
               onChange={(e) => onContactChange({ ...contact, company: e.target.value })}
               placeholder="Your Company Ltd"
               className="mt-1"
+              autoComplete="organization"
             />
           </div>
           <div className="md:col-span-2">
-            <Label htmlFor="message" className="text-brand-navy">
+            <Label htmlFor="contact-message" className="text-brand-navy">
               Anything else we should know? (optional)
             </Label>
             <textarea
-              id="message"
+              id="contact-message"
               value={contact.message}
               onChange={(e) => onContactChange({ ...contact, message: e.target.value })}
               placeholder="Tell us about your project, timeline, or any specific requirements..."

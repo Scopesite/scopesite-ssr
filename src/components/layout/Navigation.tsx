@@ -36,8 +36,11 @@ export function Navigation({
   // Include Home link only for mobile navigation
   const links = variant === 'mobile' ? [HOME_LINK, ...NAV_LINKS] : NAV_LINKS;
 
+  // Determine aria-label based on variant
+  const navLabel = variant === 'mobile' ? 'Mobile navigation' : 'Main navigation';
+
   return (
-    <nav className={className}>
+    <nav className={className} aria-label={navLabel}>
       {links.map((link) => {
         const isActive = pathname === link.href;
         
@@ -46,6 +49,7 @@ export function Navigation({
             key={link.href}
             href={link.href}
             onClick={onLinkClick}
+            aria-current={isActive ? 'page' : undefined}
             className={cn(
               'transition-colors duration-200',
               variant === 'header' && [

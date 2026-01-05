@@ -96,10 +96,11 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section className="section-white relative overflow-hidden">
+      <section className="section-white relative overflow-hidden" aria-labelledby="services-heading">
         {/* Subtle background grid pattern */}
         <div 
           className="absolute inset-0 opacity-[0.03]"
+          aria-hidden="true"
           style={{
             backgroundImage: `linear-gradient(rgba(10,27,54,0.1) 1px, transparent 1px),
                               linear-gradient(90deg, rgba(10,27,54,0.1) 1px, transparent 1px)`,
@@ -108,7 +109,7 @@ export default function Home() {
         />
         
         <div className="container-content text-center relative z-10">
-          <h2 className="text-brand-navy mb-4 text-2xl sm:text-3xl md:text-h2">OUR SERVICES</h2>
+          <h2 id="services-heading" className="text-brand-navy mb-4 text-2xl sm:text-3xl md:text-h2">OUR SERVICES</h2>
           <p className="text-brand-navy/70 mb-12 max-w-2xl mx-auto">
             From stunning web design to AI visibility optimization, we&apos;ve got 
             everything you need to dominate online.
@@ -190,22 +191,22 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 bg-gradient-to-b from-brand-navy to-brand-navy/95 relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-b from-brand-navy to-brand-navy/95 relative overflow-hidden" aria-labelledby="testimonials-heading">
         {/* Decorative elements */}
-        <div className="absolute top-0 left-0 w-96 h-96 bg-brand-gold/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-brand-gold/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+        <div className="absolute top-0 left-0 w-96 h-96 bg-brand-gold/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" aria-hidden="true" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-brand-gold/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" aria-hidden="true" />
         
         <div className="container-content relative z-10">
           <div className="text-center mb-8 md:mb-12">
             <div className="inline-flex flex-col sm:flex-row items-center gap-2 bg-brand-gold/10 border border-brand-gold/30 rounded-full px-4 py-2 mb-6">
-              <div className="flex">
+              <div className="flex" aria-hidden="true">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="w-4 h-4 sm:w-5 sm:h-5 text-brand-gold fill-brand-gold" />
                 ))}
               </div>
               <span className="text-white font-medium text-sm sm:text-base">6 Five-Star Reviews on Google</span>
             </div>
-            <h2 className="text-white mb-4 text-2xl sm:text-3xl md:text-h2">WHAT OUR CLIENTS SAY</h2>
+            <h2 id="testimonials-heading" className="text-white mb-4 text-2xl sm:text-3xl md:text-h2">WHAT OUR CLIENTS SAY</h2>
             <p className="text-white/70 max-w-2xl mx-auto">
               Don&apos;t just take our word for it. Here&apos;s what real businesses say about working with ScopeSite.
             </p>
@@ -213,15 +214,15 @@ export default function Home() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {googleReviews.map((review, index) => (
-              <div 
+              <article 
                 key={index}
                 className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 
                   hover:bg-white/10 hover:border-brand-gold/30 transition-all duration-300"
               >
                 {/* Stars */}
-                <div className="flex gap-1 mb-4">
+                <div className="flex gap-1 mb-4" aria-label="5 star rating">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 text-brand-gold fill-brand-gold" />
+                    <Star key={i} className="w-4 h-4 text-brand-gold fill-brand-gold" aria-hidden="true" />
                   ))}
                 </div>
                 
@@ -242,7 +243,7 @@ export default function Home() {
                     <p className="text-white/50 text-xs">Google Review</p>
                   </div>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
           
@@ -267,9 +268,9 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="section-navy">
+      <section className="section-navy" aria-labelledby="cta-heading">
         <div className="container-content text-center">
-          <h2 className="text-white mb-4 text-2xl sm:text-3xl md:text-h2">READY TO GET STARTED?</h2>
+          <h2 id="cta-heading" className="text-white mb-4 text-2xl sm:text-3xl md:text-h2">READY TO GET STARTED?</h2>
           <p className="text-white/80 mb-8 max-w-xl mx-auto">
             Get an instant quote for your project or book a free strategy call 
             to discuss your needs.

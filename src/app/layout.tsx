@@ -4,6 +4,7 @@ import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { JsonLd } from '@/components/JsonLd';
+import { SkipLink, RouteAnnouncer } from '@/components/a11y';
 import { generateOrganizationSchema, generateWebsiteSchema } from '@/lib/schema';
 import { Analytics } from '@vercel/analytics/next';
 
@@ -127,9 +128,13 @@ export default function RootLayout({
       <body
         className={`${paytoneOne.variable} ${inter.variable} font-body antialiased`}
       >
+        <SkipLink />
         <Header />
-        <main className="pt-32">{children}</main>
+        <main id="main-content" className="pt-32" tabIndex={-1}>
+          {children}
+        </main>
         <Footer />
+        <RouteAnnouncer />
         <Analytics />
       </body>
     </html>

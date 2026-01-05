@@ -18,6 +18,7 @@ const FOOTER_LINKS = {
     { label: 'Privacy Policy', href: '/privacy-policy' },
     { label: 'Terms & Conditions', href: '/terms-and-conditions' },
     { label: 'Cookie Policy', href: '/privacy-policy#8-cookies-and-tracking' },
+    { label: 'Accessibility', href: '/accessibility' },
   ],
 };
 
@@ -55,7 +56,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-navy-gradient text-white">
+    <footer className="bg-navy-gradient text-white" aria-label="Site footer">
       {/* Main Footer Content */}
       <div className="container-content py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
@@ -103,8 +104,8 @@ export function Footer() {
           </div>
 
           {/* Services Links */}
-          <div>
-            <h3 className="font-body font-bold text-white text-body-lg mb-4">
+          <nav aria-labelledby="footer-services-heading">
+            <h3 id="footer-services-heading" className="font-body font-bold text-white text-body-lg mb-4">
               Services
             </h3>
             <ul className="space-y-3">
@@ -119,11 +120,11 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
 
           {/* Company Links */}
-          <div>
-            <h3 className="font-body font-bold text-white text-body-lg mb-4">
+          <nav aria-labelledby="footer-company-heading">
+            <h3 id="footer-company-heading" className="font-body font-bold text-white text-body-lg mb-4">
               Company
             </h3>
             <ul className="space-y-3">
@@ -138,30 +139,32 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
 
           {/* Legal Links */}
           <div>
-            <h3 className="font-body font-bold text-white text-body-lg mb-4">
-              Legal
-            </h3>
-            <ul className="space-y-3">
-              {FOOTER_LINKS.legal.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-white/70 text-body-sm hover:text-brand-gold transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <nav aria-labelledby="footer-legal-heading">
+              <h3 id="footer-legal-heading" className="font-body font-bold text-white text-body-lg mb-4">
+                Legal
+              </h3>
+              <ul className="space-y-3">
+                {FOOTER_LINKS.legal.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="text-white/70 text-body-sm hover:text-brand-gold transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
 
             {/* Veteran Badge */}
             <div className="mt-6 pt-6 border-t border-brand-graphite">
               <div className="inline-flex items-center gap-2 px-3 py-2 bg-brand-graphite/50 rounded-lg">
-                <span className="text-brand-gold text-lg">&#9733;</span>
+                <span className="text-brand-gold text-lg" aria-hidden="true">&#9733;</span>
                 <span className="text-white/90 text-caption font-medium">
                   Veteran Owned
                 </span>

@@ -248,9 +248,9 @@ export default function PrivacyPolicyPage() {
                   li: ({ children }) => <li className="leading-relaxed">{children}</li>,
                   // Horizontal rule
                   hr: () => <hr className="my-8 border-brand-navy/10" />,
-                  // Tables - important for legal basis, retention, cookies sections
+                  // Tables - important for legal basis, retention, cookies sections - WCAG 1.3.1
                   table: ({ children }) => (
-                    <div className="overflow-x-auto my-6 rounded-lg border border-brand-navy/10">
+                    <div className="overflow-x-auto my-6 rounded-lg border border-brand-navy/10" role="region" aria-label="Data table" tabIndex={0}>
                       <table className="w-full text-sm">{children}</table>
                     </div>
                   ),
@@ -264,7 +264,7 @@ export default function PrivacyPolicyPage() {
                     <tr className="hover:bg-brand-gold/5 transition-colors">{children}</tr>
                   ),
                   th: ({ children }) => (
-                    <th className="px-4 py-3 text-left font-bold text-sm">{children}</th>
+                    <th scope="col" className="px-4 py-3 text-left font-bold text-sm">{children}</th>
                   ),
                   td: ({ children }) => (
                     <td className="px-4 py-3 text-brand-navy/80">{children}</td>

@@ -124,9 +124,21 @@
     @apply text-brand-gold transition-colors hover:text-brand-orange;
   }
 
-  /* Focus states for accessibility */
+  /* Focus states for accessibility - WCAG 2.4.7 */
   *:focus-visible {
     @apply outline-none ring-2 ring-brand-gold ring-offset-2 ring-offset-white;
+  }
+
+  /* Enhanced focus for dark backgrounds */
+  .bg-brand-navy *:focus-visible,
+  .bg-navy-gradient *:focus-visible,
+  .section-navy *:focus-visible {
+    @apply ring-brand-gold ring-offset-brand-navy;
+  }
+
+  /* Remove focus outline from main content (receives programmatic focus) */
+  main:focus {
+    outline: none;
   }
 
   /* Selection styling */
@@ -409,5 +421,54 @@
   .text-display {
     font-size: 4.5rem !important;
     line-height: 1.1 !important;
+  }
+}
+
+/* 
+ * ACCESSIBILITY ENHANCEMENTS
+ * WCAG 2.1 AA Compliance
+ */
+
+/* Visually hidden utility - accessible to screen readers */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Reduced Motion Support - WCAG 2.3.3 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (forced-colors: active) {
+  .btn-primary,
+  .btn-secondary,
+  .btn-secondary-light {
+    border: 2px solid currentColor;
+  }
+
+  *:focus-visible {
+    outline: 3px solid CanvasText !important;
+    outline-offset: 2px;
+  }
+
+  /* Ensure icons are visible */
+  svg {
+    forced-color-adjust: auto;
   }
 }
