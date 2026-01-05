@@ -1,14 +1,20 @@
 /**
  * Email Utility
  * 
- * Handles email notifications using Resend.
+ * Handles email notifications using Brevo (formerly Sendinblue).
  */
 
-import { Resend } from 'resend';
+import * as brevo from '@getbrevo/brevo';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Initialize Brevo API
+const apiInstance = new brevo.TransactionalEmailsApi();
+apiInstance.setApiKey(
+  brevo.TransactionalEmailsApiApiKeys.apiKey,
+  process.env.BREVO_API_KEY || ''
+);
 
-const FROM_EMAIL = 'ScopeSite Digital Studios <noreply@scopesite.co.uk>';
+const FROM_EMAIL = 'noreply@scopesite.co.uk';
+const FROM_NAME = 'ScopeSite Digital Studios';
 const ADMIN_EMAIL = 'dan@scopesite.co.uk';
 
 export interface BriefEmailData {
@@ -36,7 +42,7 @@ export async function sendAdminNotification(brief: BriefEmailData): Promise<bool
         .join('')
     : '<li style="color: #666;">No files attached</li>';
 
-  const html = `
+  const htmlContent = `
     <!DOCTYPE html>
     <html>
     <head>
@@ -111,13 +117,14 @@ export async function sendAdminNotification(brief: BriefEmailData): Promise<bool
   `;
 
   try {
-    await resend.emails.send({
-      from: FROM_EMAIL,
-      to: ADMIN_EMAIL,
-      subject,
-      html,
-      replyTo: brief.email,
-    });
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+    sendSmtpEmail.subject = subject;
+    sendSmtpEmail.htmlContent = htmlContent;
+    sendSmtpEmail.sender = { name: FROM_NAME, email: FROM_EMAIL };
+    sendSmtpEmail.to = [{ email: ADMIN_EMAIL, name: 'Dan Cartwright' }];
+    sendSmtpEmail.replyTo = { email: brief.email, name: brief.name };
+
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
     return true;
   } catch (error) {
     console.error('Failed to send admin notification:', error);
@@ -131,7 +138,7 @@ export async function sendAdminNotification(brief: BriefEmailData): Promise<bool
 export async function sendClientConfirmation(brief: BriefEmailData): Promise<boolean> {
   const subject = "We've received your brief - ScopeSite Digital Studios";
 
-  const html = `
+  const htmlContent = `
     <!DOCTYPE html>
     <html>
     <head>
@@ -213,16 +220,16 @@ export async function sendClientConfirmation(brief: BriefEmailData): Promise<boo
   `;
 
   try {
-    await resend.emails.send({
-      from: FROM_EMAIL,
-      to: brief.email,
-      subject,
-      html,
-    });
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+    sendSmtpEmail.subject = subject;
+    sendSmtpEmail.htmlContent = htmlContent;
+    sendSmtpEmail.sender = { name: FROM_NAME, email: FROM_EMAIL };
+    sendSmtpEmail.to = [{ email: brief.email, name: brief.name }];
+
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
     return true;
   } catch (error) {
     console.error('Failed to send client confirmation:', error);
     return false;
   }
 }
-
