@@ -10,7 +10,6 @@ import {
   Cpu,
   Rocket,
   ExternalLink,
-  CheckCircle2,
   ChevronDown,
   ArrowRight,
   BarChart3,
