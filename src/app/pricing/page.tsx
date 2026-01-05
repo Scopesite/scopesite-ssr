@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 import { QuoteCalculator } from '@/components/pricing';
+import { Loader2 } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Get Instant Quote',
@@ -11,6 +13,15 @@ export const metadata: Metadata = {
       'Get an instant, transparent quote for your web design project. No hidden fees, no sales calls.',
   },
 };
+
+function QuoteCalculatorFallback() {
+  return (
+    <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-card p-12 text-center">
+      <Loader2 className="w-12 h-12 text-brand-gold animate-spin mx-auto mb-4" />
+      <p className="text-brand-navy">Loading quote calculator...</p>
+    </div>
+  );
+}
 
 export default function PricingPage() {
   return (
@@ -32,7 +43,9 @@ export default function PricingPage() {
       {/* Calculator Section */}
       <section className="section-white -mt-4">
         <div className="container-content">
-          <QuoteCalculator />
+          <Suspense fallback={<QuoteCalculatorFallback />}>
+            <QuoteCalculator />
+          </Suspense>
         </div>
       </section>
 
