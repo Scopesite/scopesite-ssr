@@ -24,7 +24,7 @@ By using our website or services, you acknowledge that you have read and underst
 
 **Company Registration Number:** 16130355
 
-**Registered Address:** 71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ
+**Registered Address:** 4 Horse Close, Beckington, Somerset, BA11 6SU
 
 **Business Address:** Based in Frome, Somerset
 
@@ -302,7 +302,7 @@ If you have any questions about this Privacy Policy or our data practices, pleas
 
 **Telephone:** 01373 311 339
 
-**Address:** 71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ
+**Address:** 4 Horse Close, Beckington, Somerset, BA11 6SU
 
 ---
 
