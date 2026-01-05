@@ -221,7 +221,7 @@ export function BriefForm() {
 
         <div className="bg-brand-navy/5 rounded-xl p-6 mb-8">
           <p className="text-brand-navy font-medium mb-4">Want to speed things up?</p>
-          <Button asChild className="bg-brand-gold text-brand-navy hover:bg-brand-navy hover:text-white">
+          <Button asChild className="bg-brand-gold !text-brand-navy hover:bg-brand-navy hover:!text-white">
             <Link href="/book">
               <Calendar className="w-4 h-4 mr-2" />
               Book a Call Now
