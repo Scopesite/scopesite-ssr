@@ -449,38 +449,40 @@ export function stripHtmlToText(html: string): string {
 // ============================================
 
 // Known tools/platforms with their schema types
-const KNOWN_TOOLS: Record<string, { type: string; category: string }> = {
-  'ChatGPT': { type: 'SoftwareApplication', category: 'AI Assistant' },
-  'GPT-4': { type: 'SoftwareApplication', category: 'AI Model' },
-  'GPT-4o': { type: 'SoftwareApplication', category: 'AI Model' },
-  'GPTBot': { type: 'SoftwareApplication', category: 'Web Crawler' },
-  'Claude': { type: 'SoftwareApplication', category: 'AI Assistant' },
-  'ClaudeBot': { type: 'SoftwareApplication', category: 'Web Crawler' },
-  'Perplexity': { type: 'SoftwareApplication', category: 'AI Search Engine' },
-  'PerplexityBot': { type: 'SoftwareApplication', category: 'Web Crawler' },
-  'Gemini': { type: 'SoftwareApplication', category: 'AI Assistant' },
-  'Google': { type: 'Organization', category: 'Technology' },
-  'Bing': { type: 'SoftwareApplication', category: 'Search Engine' },
-  'Siri': { type: 'SoftwareApplication', category: 'AI Assistant' },
-  'Alexa': { type: 'SoftwareApplication', category: 'AI Assistant' },
-  'WordPress': { type: 'SoftwareApplication', category: 'CMS' },
-  'Wix': { type: 'SoftwareApplication', category: 'Website Builder' },
-  'Squarespace': { type: 'SoftwareApplication', category: 'Website Builder' },
-  'Shopify': { type: 'SoftwareApplication', category: 'E-commerce Platform' },
-  'Webflow': { type: 'SoftwareApplication', category: 'Website Builder' },
-  'Next.js': { type: 'SoftwareApplication', category: 'Web Framework' },
-  'React': { type: 'SoftwareApplication', category: 'JavaScript Library' },
-  'Ghost': { type: 'SoftwareApplication', category: 'CMS' },
-  'Vercel': { type: 'SoftwareApplication', category: 'Hosting Platform' },
-  'Netlify': { type: 'SoftwareApplication', category: 'Hosting Platform' },
-  'Schema.org': { type: 'WebSite', category: 'Specification' },
-  'JSON-LD': { type: 'SoftwareApplication', category: 'Data Format' },
-  'GTmetrix': { type: 'SoftwareApplication', category: 'Performance Tool' },
-  'PageSpeed Insights': { type: 'SoftwareApplication', category: 'Performance Tool' },
-  'Lighthouse': { type: 'SoftwareApplication', category: 'Performance Tool' },
-  'Ahrefs': { type: 'SoftwareApplication', category: 'SEO Tool' },
-  'Semrush': { type: 'SoftwareApplication', category: 'SEO Tool' },
-  'MOZ': { type: 'SoftwareApplication', category: 'SEO Tool' },
+// Using 'Thing' type instead of 'SoftwareApplication' to avoid Google Rich Results
+// validation errors (SoftwareApplication requires offers/aggregateRating)
+const KNOWN_TOOLS: Record<string, { type: string; description: string }> = {
+  'ChatGPT': { type: 'Thing', description: 'AI Assistant by OpenAI' },
+  'GPT-4': { type: 'Thing', description: 'AI language model by OpenAI' },
+  'GPT-4o': { type: 'Thing', description: 'AI language model by OpenAI' },
+  'GPTBot': { type: 'Thing', description: 'Web crawler for ChatGPT' },
+  'Claude': { type: 'Thing', description: 'AI Assistant by Anthropic' },
+  'ClaudeBot': { type: 'Thing', description: 'Web crawler for Claude' },
+  'Perplexity': { type: 'Thing', description: 'AI-powered search engine' },
+  'PerplexityBot': { type: 'Thing', description: 'Web crawler for Perplexity' },
+  'Gemini': { type: 'Thing', description: 'AI Assistant by Google' },
+  'Google': { type: 'Organization', description: 'Technology company' },
+  'Bing': { type: 'Thing', description: 'Search engine by Microsoft' },
+  'Siri': { type: 'Thing', description: 'AI Assistant by Apple' },
+  'Alexa': { type: 'Thing', description: 'AI Assistant by Amazon' },
+  'WordPress': { type: 'Thing', description: 'Content management system' },
+  'Wix': { type: 'Thing', description: 'Website builder platform' },
+  'Squarespace': { type: 'Thing', description: 'Website builder platform' },
+  'Shopify': { type: 'Thing', description: 'E-commerce platform' },
+  'Webflow': { type: 'Thing', description: 'Website builder platform' },
+  'Next.js': { type: 'Thing', description: 'React web framework' },
+  'React': { type: 'Thing', description: 'JavaScript UI library' },
+  'Ghost': { type: 'Thing', description: 'Publishing platform' },
+  'Vercel': { type: 'Thing', description: 'Web hosting platform' },
+  'Netlify': { type: 'Thing', description: 'Web hosting platform' },
+  'Schema.org': { type: 'WebSite', description: 'Structured data vocabulary' },
+  'JSON-LD': { type: 'Thing', description: 'Linked data format' },
+  'GTmetrix': { type: 'Thing', description: 'Website performance tool' },
+  'PageSpeed Insights': { type: 'Thing', description: 'Google performance tool' },
+  'Lighthouse': { type: 'Thing', description: 'Web auditing tool' },
+  'Ahrefs': { type: 'Thing', description: 'SEO analysis tool' },
+  'Semrush': { type: 'Thing', description: 'SEO and marketing tool' },
+  'MOZ': { type: 'Thing', description: 'SEO software' },
 };
 
 /**
@@ -490,11 +492,11 @@ const KNOWN_TOOLS: Record<string, { type: string; category: string }> = {
 export function extractMentionsFromContent(html: string): Array<{
   name: string;
   type: string;
-  category: string;
+  description: string;
 }> {
   if (!html) return [];
   
-  const mentions: Array<{ name: string; type: string; category: string }> = [];
+  const mentions: Array<{ name: string; type: string; description: string }> = [];
   const contentLower = html.toLowerCase();
   
   for (const [name, info] of Object.entries(KNOWN_TOOLS)) {
@@ -604,11 +606,12 @@ export function generateBlogPostingSchema(post: GhostPost, url: string) {
   }
 
   // Add mentions of tools/platforms (only if non-empty)
+  // Using Thing type with description to avoid Google Rich Results validation errors
   if (mentions.length > 0) {
     schema.mentions = mentions.map(m => ({
       '@type': m.type,
       name: m.name,
-      ...(m.type === 'SoftwareApplication' ? { applicationCategory: m.category } : {}),
+      description: m.description,
     }));
   }
 
