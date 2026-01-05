@@ -1,0 +1,343 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * SCOPESITE GLOBAL STYLES
+ * Brand Guidelines v2.0 Implementation
+ * 
+ * Colour Ratio: 60% Navy, 30% White, 10% Gold
+ * Base Unit: 8px
+ * Grid: 12 columns, 24px gutters
+ */
+
+@layer base {
+  :root {
+    /* Brand Colours as CSS Variables */
+    --brand-gold: #ECB615;
+    --brand-navy: #0A1B36;
+    --brand-white: #FFFFFF;
+    --brand-orange: #F68B1E;
+    --brand-graphite: #1E2D50;
+    
+    /* shadcn/ui Semantic Variables - Using Brand Colors */
+    /* Gold as primary */
+    --background: 0 0% 100%;
+    --foreground: 213 70% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 213 70% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 213 70% 12%;
+    --primary: 46 85% 50%;
+    --primary-foreground: 213 70% 12%;
+    --secondary: 213 70% 12%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 217 44% 22%;
+    --muted-foreground: 0 0% 100%;
+    --accent: 31 92% 54%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 217 44% 22%;
+    --input: 217 44% 22%;
+    --ring: 46 85% 50%;
+    --chart-1: 46 85% 50%;
+    --chart-2: 31 92% 54%;
+    --chart-3: 213 70% 12%;
+    --chart-4: 217 44% 22%;
+    --chart-5: 0 0% 100%;
+    
+    /* Layout */
+    --radius: 1rem;
+    --max-width: 1200px;
+  }
+
+  /* Dark mode / Navy sections */
+  .dark,
+  .dark-section {
+    --background: 213 70% 12%;
+    --foreground: 0 0% 100%;
+    --card: 217 44% 22%;
+    --card-foreground: 0 0% 100%;
+    --popover: 217 44% 22%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 46 85% 50%;
+    --primary-foreground: 213 70% 12%;
+    --secondary: 0 0% 100%;
+    --secondary-foreground: 213 70% 12%;
+    --muted: 217 44% 22%;
+    --muted-foreground: 0 0% 70%;
+    --accent: 31 92% 54%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 217 44% 30%;
+    --input: 217 44% 30%;
+    --ring: 46 85% 50%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  /* Base HTML styling */
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-brand-white text-brand-navy font-body text-body;
+    min-height: 100vh;
+  }
+
+  /* Typography defaults */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-headline;
+    text-wrap: balance;
+  }
+
+  h1 {
+    @apply text-h1 uppercase tracking-tight;
+  }
+
+  h2 {
+    @apply text-h2 uppercase tracking-tight;
+  }
+
+  h3 {
+    @apply text-h3 font-body font-black;
+  }
+
+  h4 {
+    @apply text-h4 font-body font-black;
+  }
+
+  p {
+    @apply text-body leading-relaxed;
+    text-wrap: pretty;
+  }
+
+  /* Link defaults - scoped to avoid affecting navigation */
+  main a:not(.btn):not(.btn-primary):not(.btn-secondary) {
+    @apply text-brand-gold transition-colors hover:text-brand-orange;
+  }
+
+  /* Focus states for accessibility */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-brand-gold ring-offset-2 ring-offset-white;
+  }
+
+  /* Selection styling */
+  ::selection {
+    @apply bg-brand-gold text-brand-navy;
+  }
+}
+
+@layer components {
+  /* 
+   * BUTTON VARIANTS
+   * Following brand guidelines exactly
+   */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2;
+    @apply font-body font-black text-base;
+    @apply px-8 py-4 rounded-lg;
+    @apply transition-all duration-200;
+    @apply disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-primary {
+    @apply btn;
+    @apply bg-brand-gold text-brand-navy;
+    @apply shadow-button;
+    @apply hover:bg-brand-navy hover:text-white hover:shadow-button-hover;
+  }
+
+  .btn-secondary {
+    @apply btn;
+    @apply bg-transparent text-brand-gold;
+    @apply border-2 border-brand-gold;
+    @apply hover:bg-brand-gold hover:text-brand-navy;
+  }
+
+  .btn-secondary-light {
+    @apply btn;
+    @apply bg-transparent text-white;
+    @apply border-2 border-white;
+    @apply hover:bg-white hover:text-brand-navy;
+  }
+
+  /* 
+   * CARD VARIANTS
+   */
+  .card-brand {
+    @apply bg-white rounded-lg p-8;
+    @apply shadow-card;
+    @apply transition-all duration-200;
+    @apply hover:shadow-card-hover hover:-translate-y-1;
+  }
+
+  .card-navy {
+    @apply bg-brand-navy text-white rounded-lg p-8;
+    @apply shadow-card;
+  }
+
+  /*
+   * SECTION LAYOUTS
+   */
+  .section {
+    @apply py-section px-m;
+  }
+
+  .section-navy {
+    @apply section bg-brand-navy text-white;
+  }
+
+  .section-white {
+    @apply section bg-white text-brand-navy;
+  }
+
+  .container-content {
+    @apply max-w-content mx-auto px-m;
+  }
+
+  .container-narrow {
+    @apply max-w-narrow mx-auto px-m;
+  }
+
+  /*
+   * FORM INPUTS
+   */
+  .input-brand {
+    @apply w-full px-4 py-3;
+    @apply bg-white text-brand-navy;
+    @apply border border-brand-graphite rounded-sm;
+    @apply font-body text-body;
+    @apply transition-all duration-200;
+    @apply placeholder:text-brand-graphite/60;
+    @apply focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20;
+  }
+
+  .input-dark {
+    @apply input-brand;
+    @apply bg-brand-navy text-white border-brand-graphite;
+    @apply placeholder:text-white/60;
+  }
+
+  /*
+   * BADGES & TAGS
+   */
+  .badge-brand {
+    @apply inline-flex items-center;
+    @apply px-3 py-1 rounded-pill;
+    @apply text-body-sm font-medium;
+  }
+
+  .badge-gold {
+    @apply badge-brand bg-brand-gold text-brand-navy;
+  }
+
+  .badge-gold-lg {
+    @apply badge-gold;
+    @apply text-center text-[15px] h-[50px] w-[220px] inline-flex items-center justify-center;
+  }
+
+  .badge-navy {
+    @apply badge-brand bg-brand-navy text-white;
+  }
+
+  /*
+   * DIVIDERS
+   */
+  .divider {
+    @apply w-full h-px bg-brand-graphite/20;
+  }
+
+  .divider-gold {
+    @apply w-24 h-1 bg-brand-gold;
+  }
+}
+
+@layer utilities {
+  /* Text gradient for special headlines */
+  .text-gradient {
+    @apply bg-gradient-to-r from-brand-gold to-brand-orange;
+    @apply bg-clip-text text-transparent;
+  }
+
+  /* Navy background with gold gradient accent */
+  .bg-navy-gradient {
+    @apply bg-gradient-to-br from-brand-navy to-brand-graphite;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Prose styling for blog content */
+  .prose-scopesite {
+    @apply prose prose-lg max-w-none;
+    @apply prose-headings:font-headline prose-headings:text-brand-navy;
+    @apply prose-h1:text-h1 prose-h1:uppercase;
+    @apply prose-h2:text-h2 prose-h2:uppercase;
+    @apply prose-p:text-brand-navy/90;
+    @apply prose-a:text-brand-gold prose-a:no-underline hover:prose-a:underline;
+    @apply prose-strong:text-brand-navy prose-strong:font-bold;
+    @apply prose-blockquote:border-brand-gold prose-blockquote:text-brand-graphite;
+    @apply prose-code:text-brand-gold prose-code:bg-brand-navy/5 prose-code:px-1 prose-code:rounded;
+  }
+}
+
+/* 
+ * ANIMATIONS
+ */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes scale-in {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s ease-out forwards;
+}
+
+/* 
+ * RESPONSIVE ADJUSTMENTS
+ */
+@media (max-width: 768px) {
+  .section {
+    @apply py-section-mobile;
+  }
+
+  h1 {
+    @apply text-h2;
+  }
+
+  h2 {
+    @apply text-h3;
+  }
+}
