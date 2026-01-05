@@ -15,7 +15,7 @@ const FOOTER_LINKS = {
     { label: 'Book a Call', href: '/book' },
   ],
   legal: [
-    { label: 'Privacy Policy', href: '/privacy' },
+    { label: 'Privacy Policy', href: '/privacy-policy' },
     { label: 'Terms & Conditions', href: '/terms-and-conditions' },
     { label: 'Cookie Policy', href: '/cookies' },
   ],
