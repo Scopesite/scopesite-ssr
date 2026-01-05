@@ -58,8 +58,7 @@ export function generateOrganizationSchema() {
     email: 'support@scopesite.co.uk',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Frome',
-      addressLocality: 'Somerset',
+      addressLocality: 'Frome',
       addressRegion: 'Somerset',
       postalCode: 'BA11',
       addressCountry: 'GB',
@@ -87,7 +86,7 @@ export function generateOrganizationSchema() {
       description:
         'British Army veteran and web design specialist with 6 years CAMHS experience',
     },
-    foundingDate: '2023',
+    foundingDate: '2024-12',
     priceRange: '££',
     currenciesAccepted: 'GBP',
     paymentAccepted: 'Credit Card, Bank Transfer, Payment Plans',
