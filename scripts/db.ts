@@ -45,13 +45,13 @@ async function main() {
               SELECT FROM information_schema.tables 
               WHERE table_name = 'briefs'
             ) as exists
-          `;
+          ` as { exists: boolean }[];
           
           if (tableCheck[0]?.exists) {
             console.log('✅ Briefs table exists');
             
             // Count existing briefs
-            const countResult = await sql`SELECT COUNT(*) as count FROM briefs`;
+            const countResult = await sql`SELECT COUNT(*) as count FROM briefs` as { count: number }[];
             console.log(`   - Total briefs: ${countResult[0]?.count || 0}`);
           } else {
             console.log('⚠️  Briefs table does not exist. Run: npm run db:init');
@@ -101,4 +101,3 @@ Usage:
 }
 
 main();
-
