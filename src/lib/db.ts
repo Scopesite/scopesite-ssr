@@ -10,15 +10,24 @@ import { neon, neonConfig } from '@neondatabase/serverless';
 // Configure for serverless environment
 neonConfig.fetchConnectionCache = true;
 
-// Get database URL from environment (supports both POSTGRES_URL and DATABASE_URL)
-const DATABASE_URL = process.env.POSTGRES_URL || process.env.DATABASE_URL;
+// Lazy-loaded SQL connection
+let _sql: ReturnType<typeof neon> | null = null;
 
-if (!DATABASE_URL) {
-  throw new Error('POSTGRES_URL or DATABASE_URL environment variable is not set');
+/**
+ * Get the SQL query function (lazy initialization)
+ */
+export function getDb() {
+  if (!_sql) {
+    const DATABASE_URL = process.env.POSTGRES_URL || process.env.DATABASE_URL;
+    
+    if (!DATABASE_URL) {
+      throw new Error('POSTGRES_URL or DATABASE_URL environment variable is not set');
+    }
+    
+    _sql = neon(DATABASE_URL);
+  }
+  return _sql;
 }
-
-// Create SQL query function
-export const sql = neon(DATABASE_URL);
 
 // Type for brief submissions
 export interface Brief {
@@ -55,6 +64,7 @@ export interface NewBrief {
  * Insert a new brief into the database
  */
 export async function insertBrief(brief: NewBrief): Promise<Brief> {
+  const sql = getDb();
   const result = await sql`
     INSERT INTO briefs (
       name,
@@ -89,6 +99,7 @@ export async function insertBrief(brief: NewBrief): Promise<Brief> {
  * Get all briefs (for admin use)
  */
 export async function getAllBriefs(): Promise<Brief[]> {
+  const sql = getDb();
   const result = await sql`
     SELECT * FROM briefs
     ORDER BY created_at DESC
@@ -101,6 +112,7 @@ export async function getAllBriefs(): Promise<Brief[]> {
  * Update brief status
  */
 export async function updateBriefStatus(id: number, status: string): Promise<Brief | null> {
+  const sql = getDb();
   const result = await sql`
     UPDATE briefs
     SET status = ${status}
@@ -116,6 +128,7 @@ export async function updateBriefStatus(id: number, status: string): Promise<Bri
  */
 export async function checkConnection(): Promise<boolean> {
   try {
+    const sql = getDb();
     await sql`SELECT 1`;
     return true;
   } catch (error) {
@@ -128,6 +141,8 @@ export async function checkConnection(): Promise<boolean> {
  * Initialize the briefs table
  */
 export async function initializeDatabase(): Promise<void> {
+  const sql = getDb();
+  
   await sql`
     CREATE TABLE IF NOT EXISTS briefs (
       id SERIAL PRIMARY KEY,
@@ -161,4 +176,3 @@ export async function initializeDatabase(): Promise<void> {
     CREATE INDEX IF NOT EXISTS idx_briefs_created_at ON briefs(created_at DESC)
   `;
 }
-

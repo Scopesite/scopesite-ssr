@@ -12,7 +12,7 @@
 import * as dotenv from 'dotenv';
 dotenv.config({ path: '.env.local' });
 
-import { sql, checkConnection, initializeDatabase } from '../src/lib/db';
+import { getDb, checkConnection, initializeDatabase } from '../src/lib/db';
 
 async function main() {
   const command = process.argv[2];
@@ -39,6 +39,7 @@ async function main() {
           console.log('✅ Database connection successful!');
           
           // Check if briefs table exists
+          const sql = getDb();
           const tableCheck = await sql`
             SELECT EXISTS (
               SELECT FROM information_schema.tables 
@@ -68,6 +69,7 @@ async function main() {
     case 'reset':
       console.log('⚠️  Resetting database (dropping and recreating briefs table)...');
       try {
+        const sql = getDb();
         await sql`DROP TABLE IF EXISTS briefs`;
         console.log('   - Dropped existing briefs table');
         await initializeDatabase();
