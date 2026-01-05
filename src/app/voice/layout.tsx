@@ -136,7 +136,10 @@ export default function VoiceLayout({
 
   return (
     <>
-      <JsonLd schema={[breadcrumbSchema, serviceSchema, faqSchema, howToSchema]} />
+      {/* Main schemas in graph */}
+      <JsonLd schema={[breadcrumbSchema, serviceSchema, howToSchema]} />
+      {/* FAQPage schema as separate output for better Google recognition */}
+      <JsonLd schema={faqSchema} />
       {children}
     </>
   );

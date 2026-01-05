@@ -7,10 +7,39 @@ import {
   generateBreadcrumbSchema,
   generateServiceSchema,
   generateOfferSchema,
+  generateFAQSchema,
 } from '@/lib/schema';
 
 const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/pricing`;
+
+// Pricing FAQ data
+const pricingFAQs = [
+  {
+    question: 'How much does a website cost with ScopeSite?',
+    answer: 'Our websites start from £1,500 for a professional 1-5 page site. Use our instant quote calculator to get an exact price based on your specific requirements - page count, e-commerce, custom features, and more.',
+  },
+  {
+    question: 'Do you offer payment plans?',
+    answer: 'Yes! We offer flexible 12-month and 24-month payment plans with no credit checks and no interest. This lets you spread the cost while getting your website built immediately.',
+  },
+  {
+    question: 'What\'s included in the price?',
+    answer: 'All our packages include responsive design, basic SEO setup, mobile optimization, SSL certificate, and 30 days of post-launch support. Hosting and ongoing maintenance are quoted separately.',
+  },
+  {
+    question: 'Are there any hidden fees?',
+    answer: 'Absolutely not. We pride ourselves on transparent pricing. The quote you receive is the price you pay. Any additional work outside the agreed scope is discussed and quoted before we proceed.',
+  },
+  {
+    question: 'How does your pricing compare to other UK agencies?',
+    answer: 'We researched 348 UK web design agencies to benchmark our pricing. On average, we\'re 25% below market rate for comparable quality work, without compromising on features or support.',
+  },
+  {
+    question: 'Can I upgrade my package later?',
+    answer: 'Yes, you can add features or pages at any time. We\'ll provide a quote for the additional work and can often integrate it into your existing payment plan if applicable.',
+  },
+];
 
 export const metadata: Metadata = {
   title: 'Transparent Web Design Pricing',
@@ -81,6 +110,8 @@ export default function PricingPage() {
     '8000+'
   );
 
+  const faqSchema = generateFAQSchema(pricingFAQs);
+
   return (
     <>
       {/* Page-specific structured data */}
@@ -93,6 +124,8 @@ export default function PricingPage() {
           enterpriseOffer,
         ]}
       />
+      {/* FAQPage schema as separate output for better Google recognition */}
+      <JsonLd schema={faqSchema} />
 
       {/* Hero Section */}
       <section className="bg-brand-navy pt-12 pb-8">
