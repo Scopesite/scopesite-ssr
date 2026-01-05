@@ -14,7 +14,8 @@ import { JsonLd } from '@/components/JsonLd';
 import {
   generateBreadcrumbSchema,
   generateBlogPostingSchema,
-  generateSpeakableSchema,
+  generateBlogFAQSchema,
+  generateBlogHowToSchema,
 } from '@/lib/schema';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -102,18 +103,21 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   const blogPostingSchema = generateBlogPostingSchema(post, pageUrl);
 
-  // Speakable schema - mark the article content as speakable for voice search
-  const speakableSchema = generateSpeakableSchema(pageUrl, [
-    '.prose-scopesite h1',
-    '.prose-scopesite h2',
-    '.prose-scopesite p:first-of-type',
-    '.prose-scopesite p:nth-of-type(2)',
-  ]);
+  // Conditionally generate FAQ schema if post has FAQ content/tag
+  const faqSchema = generateBlogFAQSchema(post);
+
+  // Conditionally generate HowTo schema if post is a tutorial
+  const howToSchema = generateBlogHowToSchema(post, pageUrl);
+
+  // Build schema array - only include non-null schemas
+  const schemas: Record<string, unknown>[] = [breadcrumbSchema, blogPostingSchema];
+  if (faqSchema) schemas.push(faqSchema);
+  if (howToSchema) schemas.push(howToSchema);
 
   return (
     <>
-      {/* Page-specific structured data */}
-      <JsonLd schema={[breadcrumbSchema, blogPostingSchema, speakableSchema]} />
+      {/* Page-specific structured data - NO Organization/WebSite (already in layout.tsx) */}
+      <JsonLd schema={schemas} />
 
       {/* Hero Section */}
       <section className="bg-brand-navy text-white py-section">
