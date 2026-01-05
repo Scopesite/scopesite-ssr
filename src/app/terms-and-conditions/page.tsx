@@ -5,6 +5,7 @@ import fs from 'fs';
 import path from 'path';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import rehypeSlug from 'rehype-slug';
 import { JsonLd } from '@/components/JsonLd';
 import { generateBreadcrumbSchema } from '@/lib/schema';
 
@@ -36,26 +37,26 @@ export const metadata: Metadata = {
   },
 };
 
-// Table of Contents data
+// Table of Contents data - matches actual section numbers in document
 const tableOfContents = [
   { num: 1, label: 'Introduction and Definitions', href: '#1-introduction-and-definitions' },
   { num: 2, label: 'Company Information', href: '#2-company-information' },
   { num: 3, label: 'Services and Deliverables', href: '#3-services-and-deliverables' },
   { num: 4, label: 'Payment Terms', href: '#4-payment-terms' },
-  { num: 5, label: 'Intellectual Property Rights', href: '#7-intellectual-property-rights' },
-  { num: 6, label: 'Revisions and Change Requests', href: '#8-revisions-and-change-requests' },
-  { num: 7, label: 'Cancellation and Refunds', href: '#9-cancellation-and-refunds' },
-  { num: 8, label: 'Data Protection and Privacy', href: '#10-data-protection-and-privacy' },
-  { num: 9, label: 'Liability and Indemnity', href: '#11-liability-and-indemnity' },
-  { num: 10, label: 'Subcontracting and Third-Party Services', href: '#12-subcontracting-and-third-party-services' },
-  { num: 11, label: 'Platform Risk Disclaimer', href: '#13-platform-risk-disclaimer' },
-  { num: 12, label: 'Confidentiality', href: '#14-confidentiality' },
-  { num: 13, label: 'Service Level Disclaimer', href: '#15-service-level-disclaimer' },
-  { num: 14, label: 'Client Authority', href: '#16-client-authority' },
-  { num: 15, label: 'Updates to Terms', href: '#17-updates-to-terms' },
-  { num: 16, label: 'Termination', href: '#18-termination' },
-  { num: 17, label: 'Dispute Resolution', href: '#19-dispute-resolution' },
-  { num: 18, label: 'General Provisions', href: '#20-general-provisions' },
+  { num: 7, label: 'Intellectual Property Rights', href: '#7-intellectual-property-rights' },
+  { num: 8, label: 'Revisions and Change Requests', href: '#8-revisions-and-change-requests' },
+  { num: 9, label: 'Cancellation and Refunds', href: '#9-cancellation-and-refunds' },
+  { num: 10, label: 'Data Protection and Privacy', href: '#10-data-protection-and-privacy' },
+  { num: 11, label: 'Liability and Indemnity', href: '#11-liability-and-indemnity' },
+  { num: 12, label: 'Subcontracting and Third-Party Services', href: '#12-subcontracting-and-third-party-services' },
+  { num: 13, label: 'Platform Risk Disclaimer', href: '#13-platform-risk-disclaimer' },
+  { num: 14, label: 'Confidentiality', href: '#14-confidentiality' },
+  { num: 15, label: 'Service Level Disclaimer', href: '#15-service-level-disclaimer' },
+  { num: 16, label: 'Client Authority', href: '#16-client-authority' },
+  { num: 17, label: 'Updates to Terms', href: '#17-updates-to-terms' },
+  { num: 18, label: 'Termination', href: '#18-termination' },
+  { num: 19, label: 'Dispute Resolution', href: '#19-dispute-resolution' },
+  { num: 20, label: 'General Provisions', href: '#20-general-provisions' },
 ];
 
 // Read the markdown file at build time and remove the TOC section
@@ -156,25 +157,26 @@ export default function TermsPage() {
             <article className="terms-content">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeSlug]}
                 components={{
-                  // Custom heading rendering to match site styles
-                  h1: ({ children }) => (
-                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-headline text-brand-navy mt-12 mb-6 uppercase tracking-tight">
+                  // Custom heading rendering to match site styles - pass through id for anchor links
+                  h1: ({ children, id }) => (
+                    <h1 id={id} className="text-2xl sm:text-3xl md:text-4xl font-headline text-brand-navy mt-12 mb-6 uppercase tracking-tight scroll-mt-40">
                       {children}
                     </h1>
                   ),
-                  h2: ({ children }) => (
-                    <h2 className="text-xl sm:text-2xl md:text-3xl font-headline text-brand-navy mt-12 mb-4 uppercase tracking-tight pt-6 border-t border-brand-navy/10">
+                  h2: ({ children, id }) => (
+                    <h2 id={id} className="text-xl sm:text-2xl md:text-3xl font-headline text-brand-navy mt-12 mb-4 uppercase tracking-tight pt-6 border-t border-brand-navy/10 scroll-mt-40">
                       {children}
                     </h2>
                   ),
-                  h3: ({ children }) => (
-                    <h3 className="text-lg sm:text-xl font-body font-black text-brand-navy mt-8 mb-3">
+                  h3: ({ children, id }) => (
+                    <h3 id={id} className="text-lg sm:text-xl font-body font-black text-brand-navy mt-8 mb-3 scroll-mt-40">
                       {children}
                     </h3>
                   ),
-                  h4: ({ children }) => (
-                    <h4 className="text-base sm:text-lg font-body font-bold text-brand-navy mt-6 mb-2">
+                  h4: ({ children, id }) => (
+                    <h4 id={id} className="text-base sm:text-lg font-body font-bold text-brand-navy mt-6 mb-2 scroll-mt-40">
                       {children}
                     </h4>
                   ),
