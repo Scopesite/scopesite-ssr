@@ -8,6 +8,7 @@ const FOOTER_LINKS = {
     { label: 'V.O.I.C.E™ AI Visibility', href: '/voice' },
     { label: 'Custom Web Apps', href: '/web-apps' },
     { label: 'Pricing', href: '/pricing' },
+    { label: 'Send Us a Brief', href: '/brief' },
   ],
   company: [
     { label: 'About Us', href: '/about' },
