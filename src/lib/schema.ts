@@ -665,7 +665,7 @@ const QUESTION_WORDS = [
 ];
 
 /**
- * Check if text starts with a question word or ends with ?
+ * Check if text starts with a question word, ends with ?, or starts with Q:
  */
 function isQuestion(text: string): boolean {
   const trimmed = text.trim().toLowerCase();
@@ -673,16 +673,26 @@ function isQuestion(text: string): boolean {
   // Ends with question mark
   if (trimmed.endsWith('?')) return true;
   
+  // Starts with Q: or Q.
+  if (/^q[:.]\s*/i.test(trimmed)) return true;
+  
   // Starts with a question word
   const firstWord = trimmed.split(/\s+/)[0];
   return QUESTION_WORDS.includes(firstWord);
 }
 
 /**
+ * Remove Q: prefix from question text
+ */
+function cleanQuestionText(text: string): string {
+  return text.replace(/^Q[:.]\s*/i, '').trim();
+}
+
+/**
  * Smart FAQ extraction from HTML content
  * Detects multiple patterns:
  * - H2/H3 headings that are questions (start with question word or end with ?)
- * - <strong>Q:</strong> / <strong>A:</strong> patterns
+ * - Q: Question? / A: Answer patterns (bold or headings)
  * - <h2>FAQ</h2> or <h2>Frequently Asked Questions</h2> sections
  * - Definition lists <dt> and <dd>
  */
@@ -694,8 +704,13 @@ export function extractFAQsFromContent(html: string): FAQItem[] {
   
   // Helper to add FAQ without duplicates
   const addFAQ = (question: string, answer: string) => {
-    const cleanQuestion = stripHtmlToText(question);
-    const cleanAnswer = stripHtmlToText(answer);
+    // Clean the question (remove Q: prefix if present)
+    let cleanQuestion = stripHtmlToText(question);
+    cleanQuestion = cleanQuestionText(cleanQuestion);
+    
+    // Clean the answer (remove A: prefix if present)
+    let cleanAnswer = stripHtmlToText(answer);
+    cleanAnswer = cleanAnswer.replace(/^A[:.]\s*/i, '').trim();
     
     if (
       cleanQuestion && 
@@ -711,28 +726,40 @@ export function extractFAQsFromContent(html: string): FAQItem[] {
   
   // Pattern 1: H2/H3 that are questions followed by content until next heading
   // Matches: <h2>What is AI?</h2><p>AI is...</p>
-  const headingQuestionPattern = /<h([23])[^>]*>([^<]+)<\/h\1>([\s\S]*?)(?=<h[123]|$)/gi;
+  // Also matches: <h3>Q: What is AI?</h3><p>A: AI is...</p>
+  const headingQuestionPattern = /<h([23])[^>]*>([\s\S]*?)<\/h\1>([\s\S]*?)(?=<h[123]|$)/gi;
   let match;
   
   while ((match = headingQuestionPattern.exec(html)) !== null) {
-    const headingText = match[2].trim();
+    const headingText = stripHtmlToText(match[2]).trim();
     const contentAfter = match[3];
     
     if (isQuestion(headingText)) {
       // Get content until next heading (first paragraph or all paragraphs)
       const answerMatch = contentAfter.match(/<p[^>]*>([\s\S]*?)<\/p>/i);
       if (answerMatch) {
-        // Get all paragraphs as the answer
+        // Get all paragraphs as the answer (max 3)
         const allParagraphs = contentAfter.match(/<p[^>]*>[\s\S]*?<\/p>/gi);
         const answer = allParagraphs 
-          ? allParagraphs.slice(0, 3).join(' ') // Max 3 paragraphs
+          ? allParagraphs.slice(0, 3).join(' ')
           : answerMatch[1];
         addFAQ(headingText, answer);
       }
     }
   }
   
-  // Pattern 2: Explicit Q:/A: format
+  // Pattern 2: Bold Q:/A: in paragraphs
+  // Matches: <p><strong>Q: Question?</strong></p><p><strong>A:</strong> Answer</p>
+  // Also matches: <p><strong>Q:</strong> Question?</p><p><strong>A:</strong> Answer</p>
+  const boldQAPattern = /<p[^>]*>\s*<(?:strong|b)>\s*Q[:.]\s*([^<]*(?:<\/(?:strong|b)>[^<]*)?)<\/(?:strong|b)>([^<]*)<\/p>\s*<p[^>]*>\s*(?:<(?:strong|b)>\s*)?A[:.]\s*(?:<\/(?:strong|b)>\s*)?([\s\S]*?)<\/p>/gi;
+  
+  while ((match = boldQAPattern.exec(html)) !== null) {
+    const question = (match[1] + match[2]).trim();
+    const answer = match[3].trim();
+    addFAQ(question, answer);
+  }
+  
+  // Pattern 3: Explicit Q:/A: format (inline)
   // Matches: <strong>Q:</strong> Question? <strong>A:</strong> Answer
   const qaExplicitPattern = /<(?:strong|b)>\s*Q[:.]\s*<\/(?:strong|b)>\s*([^<]+(?:<(?!strong|b)[^>]+>[^<]*)*?)(?:<(?:strong|b)>\s*A[:.]\s*<\/(?:strong|b)>|<br\s*\/?>)\s*([\s\S]*?)(?=<(?:strong|b)>\s*Q[:.]\s*<\/(?:strong|b)>|<h[123]|$)/gi;
   
@@ -740,7 +767,7 @@ export function extractFAQsFromContent(html: string): FAQItem[] {
     addFAQ(match[1], match[2]);
   }
   
-  // Pattern 3: Definition lists
+  // Pattern 4: Definition lists
   // Matches: <dt>Question?</dt><dd>Answer</dd>
   const dtPattern = /<dt[^>]*>([\s\S]*?)<\/dt>\s*<dd[^>]*>([\s\S]*?)<\/dd>/gi;
   
@@ -752,15 +779,22 @@ export function extractFAQsFromContent(html: string): FAQItem[] {
     }
   }
   
-  // Pattern 4: FAQ section - find FAQ heading and extract all Q&A within that section
+  // Pattern 5: FAQ section - find FAQ heading and extract all Q&A within
   const faqSectionPattern = /<h[23][^>]*>(?:[^<]*(?:FAQ|Frequently Asked Questions?)[^<]*)<\/h[23]>([\s\S]*?)(?=<h[12]|$)/gi;
   
   while ((match = faqSectionPattern.exec(html)) !== null) {
     const sectionContent = match[1];
     
-    // Extract questions from this section (H3/H4 headings)
-    const sectionHeadingPattern = /<h([34])[^>]*>([^<]+)<\/h\1>\s*<p[^>]*>([\s\S]*?)<\/p>/gi;
+    // Extract Q: questions from this section (bold paragraphs or H3/H4)
+    const sectionQPattern = /<(?:h[34][^>]*|p[^>]*>\s*<(?:strong|b))>Q[:.]\s*([\s\S]*?)(?:<\/h[34]|<\/(?:strong|b)>\s*<\/p)>[\s\S]*?<p[^>]*>(?:\s*<(?:strong|b)>)?\s*A[:.]\s*(?:<\/(?:strong|b)>\s*)?([\s\S]*?)<\/p>/gi;
     let sectionMatch;
+    
+    while ((sectionMatch = sectionQPattern.exec(sectionContent)) !== null) {
+      addFAQ(sectionMatch[1], sectionMatch[2]);
+    }
+    
+    // Also try regular headings in the section
+    const sectionHeadingPattern = /<h([34])[^>]*>([^<]+)<\/h\1>\s*<p[^>]*>([\s\S]*?)<\/p>/gi;
     
     while ((sectionMatch = sectionHeadingPattern.exec(sectionContent)) !== null) {
       addFAQ(sectionMatch[2], sectionMatch[3]);
