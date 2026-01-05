@@ -83,6 +83,7 @@ export function generateOrganizationSchema() {
       '@type': 'Person',
       '@id': `${BASE_URL}/#founder`,
       name: 'Dan Cartwright',
+      url: `${BASE_URL}/about`,
       jobTitle: 'Founder & Director',
       description:
         'British Army veteran and web design specialist with 6 years CAMHS experience',
