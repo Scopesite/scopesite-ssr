@@ -36,10 +36,40 @@ export const metadata: Metadata = {
   },
 };
 
-// Read the markdown file at build time
+// Table of Contents data
+const tableOfContents = [
+  { num: 1, label: 'Introduction and Definitions', href: '#1-introduction-and-definitions' },
+  { num: 2, label: 'Company Information', href: '#2-company-information' },
+  { num: 3, label: 'Services and Deliverables', href: '#3-services-and-deliverables' },
+  { num: 4, label: 'Payment Terms', href: '#4-payment-terms' },
+  { num: 5, label: 'Intellectual Property Rights', href: '#7-intellectual-property-rights' },
+  { num: 6, label: 'Revisions and Change Requests', href: '#8-revisions-and-change-requests' },
+  { num: 7, label: 'Cancellation and Refunds', href: '#9-cancellation-and-refunds' },
+  { num: 8, label: 'Data Protection and Privacy', href: '#10-data-protection-and-privacy' },
+  { num: 9, label: 'Liability and Indemnity', href: '#11-liability-and-indemnity' },
+  { num: 10, label: 'Subcontracting and Third-Party Services', href: '#12-subcontracting-and-third-party-services' },
+  { num: 11, label: 'Platform Risk Disclaimer', href: '#13-platform-risk-disclaimer' },
+  { num: 12, label: 'Confidentiality', href: '#14-confidentiality' },
+  { num: 13, label: 'Service Level Disclaimer', href: '#15-service-level-disclaimer' },
+  { num: 14, label: 'Client Authority', href: '#16-client-authority' },
+  { num: 15, label: 'Updates to Terms', href: '#17-updates-to-terms' },
+  { num: 16, label: 'Termination', href: '#18-termination' },
+  { num: 17, label: 'Dispute Resolution', href: '#19-dispute-resolution' },
+  { num: 18, label: 'General Provisions', href: '#20-general-provisions' },
+];
+
+// Read the markdown file at build time and remove the TOC section
 function getTermsContent(): string {
   const filePath = path.join(process.cwd(), 'public', 'ScopeSite_Terms_and_Conditions_2026.md');
-  const content = fs.readFileSync(filePath, 'utf8');
+  let content = fs.readFileSync(filePath, 'utf8');
+  
+  // Remove the original TOC section from markdown (we render it separately)
+  // Remove from "## TABLE OF CONTENTS" to the next "---"
+  content = content.replace(/## TABLE OF CONTENTS[\s\S]*?(?=---\n\n##)/m, '');
+  
+  // Also remove the first H1 title since we have it in the hero
+  content = content.replace(/^# TERMS AND CONDITIONS\n\n/, '');
+  
   return content;
 }
 
@@ -83,15 +113,38 @@ export default function TermsPage() {
         </div>
       </section>
 
+      {/* Table of Contents Section - Navy Background */}
+      <section className="bg-brand-navy py-12 md:py-16">
+        <div className="container-content">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-headline text-white mb-8 uppercase tracking-tight">
+              TABLE OF CONTENTS
+            </h2>
+            <ol className="space-y-3">
+              {tableOfContents.map((item) => (
+                <li key={item.num} className="flex items-baseline gap-2">
+                  <span className="text-white font-medium">{item.num}.</span>
+                  <a
+                    href={item.href}
+                    className="text-brand-gold hover:text-brand-orange transition-colors"
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </section>
+
       {/* Terms Content */}
       <section className="section-white">
         <div className="container-content">
           <div className="max-w-4xl mx-auto">
-            {/* Table of Contents Quick Nav */}
+            {/* Quick Info Box */}
             <div className="bg-brand-navy/5 border border-brand-navy/10 rounded-xl p-6 mb-12">
-              <p className="text-brand-navy/70 text-sm mb-3 font-medium">Quick Navigation</p>
               <p className="text-brand-navy/60 text-sm">
-                Use the table of contents below to jump to specific sections. For any questions about these terms,{' '}
+                For any questions about these terms,{' '}
                 <Link href="/book" className="text-brand-gold hover:text-brand-orange transition-colors">
                   contact us
                 </Link>
