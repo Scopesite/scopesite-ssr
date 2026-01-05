@@ -536,7 +536,7 @@ export default function WebAppsPage() {
                   Book a Discovery Call
                   <ArrowRight className="w-5 h-5" />
                 </Link>
-                <Link href="/book" className="btn-secondary-light">
+                <Link href="/brief" className="btn-secondary-light">
                   Send Us a Brief
                 </Link>
               </div>
