@@ -416,7 +416,7 @@ export function QuoteCalculator() {
           <div className="w-20 h-20 bg-brand-gold rounded-full flex items-center justify-center mx-auto mb-6">
             <Calendar className="w-10 h-10 text-brand-navy" />
           </div>
-          <h2 className="text-h2 text-white mb-4">STRUGGLING TO FIND WHAT YOU&apos;RE LOOKING FOR?</h2>
+          <h2 className="text-xl sm:text-2xl md:text-h2 text-white mb-4">STRUGGLING TO FIND WHAT YOU&apos;RE LOOKING FOR?</h2>
           <p className="text-white/80 text-body-lg mb-6 max-w-lg mx-auto">
             Book a free 1:1 Google Meet with <strong className="text-brand-gold">Dan Cartwright</strong>, 
             the director of ScopeSite, where he will be able to best determine the demands of your project.
@@ -450,7 +450,7 @@ export function QuoteCalculator() {
           <div className="w-20 h-20 bg-brand-gold rounded-full flex items-center justify-center mx-auto mb-6">
             <Check className="w-10 h-10 text-brand-navy" />
           </div>
-          <h2 className="text-h2 text-white mb-4">QUOTE SUBMITTED!</h2>
+          <h2 className="text-xl sm:text-2xl md:text-h2 text-white mb-4">QUOTE SUBMITTED!</h2>
           <p className="text-white/80 text-body-lg mb-6">
             Your quote reference is:
           </p>
@@ -500,7 +500,7 @@ export function QuoteCalculator() {
                 {/* Navy circle background for completed/active steps */}
                 {step.id <= currentStep && (
                   <div 
-                    className="absolute inset-0 w-10 h-10 -m-1 rounded-full bg-brand-navy animate-scale-in"
+                    className="absolute inset-0 w-7 h-7 sm:w-10 sm:h-10 -m-0.5 sm:-m-1 rounded-full bg-brand-navy animate-scale-in"
                     style={{ 
                       animation: step.id === currentStep ? 'pulse 2s ease-in-out infinite' : 'none'
                     }}
@@ -508,13 +508,13 @@ export function QuoteCalculator() {
                 )}
                 <div
                   className={cn(
-                    'relative w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold mb-1 transition-all duration-300',
+                    'relative w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold mb-1 transition-all duration-300',
                     step.id === currentStep && 'bg-brand-gold text-brand-navy scale-110 shadow-button',
                     step.id < currentStep && 'bg-brand-gold text-brand-navy',
                     step.id > currentStep && 'bg-brand-graphite/30 text-brand-graphite'
                   )}
                 >
-                  {step.id < currentStep ? <Check className="w-4 h-4" /> : step.id}
+                  {step.id < currentStep ? <Check className="w-3 h-3 sm:w-4 sm:h-4" /> : step.id}
                 </div>
               </div>
               <span className={cn(

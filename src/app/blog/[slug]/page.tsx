@@ -235,7 +235,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       {relatedPosts.length > 0 && (
         <section className="section-white border-t border-brand-navy/10">
           <div className="container-content">
-            <h2 className="text-brand-navy text-center mb-8">More Articles</h2>
+            <h2 className="text-brand-navy text-center mb-8 text-xl sm:text-2xl md:text-h2">More Articles</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {relatedPosts.map((relatedPost) => (
                 <BlogCard
@@ -258,7 +258,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       {/* CTA Section */}
       <section className="bg-brand-navy py-section">
         <div className="container-content text-center">
-          <h2 className="text-white mb-4">Want to Work With Us?</h2>
+          <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">Want to Work With Us?</h2>
           <p className="text-white/70 mb-8 max-w-xl mx-auto">
             If you found this helpful, imagine what we could do for your
             business.
