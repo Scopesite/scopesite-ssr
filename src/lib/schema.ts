@@ -143,6 +143,14 @@ export function generateOrganizationSchema() {
       'SEO',
     ],
     slogan: 'Making UK Businesses Visible to AI',
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '5',
+      bestRating: '5',
+      worstRating: '1',
+      ratingCount: '6',
+      reviewCount: '6',
+    },
   };
 }
 
@@ -520,6 +528,42 @@ export function generateOfferSchema(
       '@id': `${BASE_URL}/#organization`,
     },
   };
+}
+
+// ============================================
+// REVIEW SCHEMA
+// ============================================
+
+export interface ReviewData {
+  author: string;
+  reviewBody: string;
+  datePublished?: string;
+  ratingValue?: number;
+}
+
+export function generateReviewSchema(review: ReviewData) {
+  return {
+    '@type': 'Review',
+    author: {
+      '@type': 'Person',
+      name: review.author,
+    },
+    reviewBody: review.reviewBody,
+    datePublished: review.datePublished,
+    reviewRating: {
+      '@type': 'Rating',
+      ratingValue: review.ratingValue || 5,
+      bestRating: 5,
+      worstRating: 1,
+    },
+    itemReviewed: {
+      '@id': `${BASE_URL}/#organization`,
+    },
+  };
+}
+
+export function generateReviewsSchema(reviews: ReviewData[]) {
+  return reviews.map((review) => generateReviewSchema(review));
 }
 
 // ============================================
