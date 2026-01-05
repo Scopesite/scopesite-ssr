@@ -5,6 +5,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { JsonLd } from '@/components/JsonLd';
 import { generateOrganizationSchema, generateWebsiteSchema } from '@/lib/schema';
+import { Analytics } from '@vercel/analytics/react';
 
 // Fonts
 const paytoneOne = Paytone_One({
@@ -130,6 +131,7 @@ export default function RootLayout({
         <Header />
         <main className="pt-32">{children}</main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
