@@ -301,7 +301,7 @@ export default function VoicePage() {
             </div>
             
             <p className="text-white/50 text-sm mt-6">
-              Opens in new tab • Takes 2 minutes • No sign-up required
+              Opens in new tab • Takes 2 minutes • No card details required • 1 Free Pro Scan
             </p>
           </div>
         </div>
