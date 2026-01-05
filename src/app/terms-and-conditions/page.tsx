@@ -145,7 +145,7 @@ export default function TermsPage() {
             <div className="bg-brand-navy/5 border border-brand-navy/10 rounded-xl p-6 mb-12">
               <p className="text-brand-navy/60 text-sm">
                 For any questions about these terms,{' '}
-                <Link href="/book" className="text-brand-gold hover:text-brand-orange transition-colors">
+                <Link href="/book" className="link-navy text-brand-navy font-semibold underline hover:opacity-70 transition-opacity">
                   contact us
                 </Link>
                 .
@@ -195,7 +195,7 @@ export default function TermsPage() {
                       return (
                         <a
                           href={href}
-                          className="text-brand-gold hover:text-brand-orange transition-colors"
+                          className="link-navy text-brand-navy font-semibold underline hover:opacity-70 transition-opacity"
                         >
                           {children}
                         </a>
@@ -204,7 +204,7 @@ export default function TermsPage() {
                     return (
                       <Link
                         href={href || '#'}
-                        className="text-brand-gold hover:text-brand-orange transition-colors"
+                        className="link-navy text-brand-navy font-semibold underline hover:opacity-70 transition-opacity"
                       >
                         {children}
                       </Link>
@@ -289,7 +289,7 @@ export default function TermsPage() {
                     Email:{' '}
                     <a
                       href="mailto:support@scopesite.co.uk"
-                      className="text-brand-gold hover:text-brand-orange transition-colors"
+                      className="link-navy text-brand-navy font-semibold underline hover:opacity-70 transition-opacity"
                     >
                       support@scopesite.co.uk
                     </a>
@@ -298,7 +298,7 @@ export default function TermsPage() {
                     Phone:{' '}
                     <a
                       href="tel:+441373311339"
-                      className="text-brand-gold hover:text-brand-orange transition-colors"
+                      className="link-navy text-brand-navy font-semibold underline hover:opacity-70 transition-opacity"
                     >
                       01373 311 339
                     </a>
@@ -310,7 +310,7 @@ export default function TermsPage() {
               <div className="mt-8 text-center">
                 <Link
                   href="/"
-                  className="inline-flex items-center gap-2 text-brand-navy/60 hover:text-brand-gold transition-colors text-sm"
+                  className="link-navy inline-flex items-center gap-2 text-brand-navy hover:opacity-70 transition-opacity text-sm"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   Back to Home
