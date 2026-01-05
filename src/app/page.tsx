@@ -249,7 +249,7 @@ export default function Home() {
           {/* Google badge */}
           <div className="mt-10 text-center">
             <a 
-              href="https://g.page/r/scopesite/review" 
+              href="https://g.page/r/CRrwXXb-9sE3EAE" 
               target="_blank" 
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-white/60 hover:text-brand-gold transition-colors text-sm"
