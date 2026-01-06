@@ -10,28 +10,39 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/web-design`;
 
 export const metadata: Metadata = {
-  title: 'AI-Optimized Web Design Services',
+  title: 'SSR Web Design UK | AI-Optimised Server-Side Rendered Websites',
   description:
-    "Websites built for humans AND AI. Lightning-fast, mobile-first designs with AI search optimization built in. Flexible payment plans available.",
+    "Server-side rendered websites that AI crawlers can actually see. 100/100 Lighthouse scores, auto-generated schema, built on Next.js. SSR web design from ScopeSite.",
+  keywords: [
+    'SSR web design UK',
+    'server-side rendered websites',
+    'AI-optimised web design',
+    'Next.js web design',
+    'headless CMS websites',
+    'GEO optimised websites',
+    'websites visible to ChatGPT',
+    'AI crawler compatible websites',
+    'server-side rendering for SEO',
+  ],
   openGraph: {
-    title: 'AI-Optimized Web Design Services | ScopeSite Digital Studios',
+    title: 'SSR Web Design UK | AI-Optimised Server-Side Rendered Websites | ScopeSite',
     description:
-      "Websites built for humans AND AI. Lightning-fast, mobile-first designs with AI search optimization built in. Flexible payment plans available.",
+      "Server-side rendered websites that AI crawlers can actually see. 100/100 Lighthouse scores, auto-generated schema, built on Next.js.",
     url: PAGE_URL,
     images: [
       {
         url: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
         width: 1200,
         height: 630,
-        alt: 'AI-Optimized Web Design by ScopeSite',
+        alt: 'SSR Web Design - AI-Optimised Websites by ScopeSite',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AI-Optimized Web Design Services | ScopeSite',
+    title: 'SSR Web Design UK | AI-Optimised Websites | ScopeSite',
     description:
-      'Websites built for humans AND AI. Lightning-fast, mobile-first designs.',
+      'Server-side rendered websites that AI crawlers can actually see. 100/100 Lighthouse scores.',
     images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
   },
   alternates: {
@@ -39,12 +50,22 @@ export const metadata: Metadata = {
   },
 };
 
-// FAQ data for schema
+// Updated FAQ data for schema - SSR focused
 const faqItems = [
+  {
+    question: 'What technology do you use?',
+    answer:
+      "We build with Next.js and deploy on Vercel's edge network. This isn't a preference - it's a technical decision based on what actually works for AI visibility. Our sites are Server-Side Rendered, meaning the full page is delivered as HTML, ready for humans AND AI crawlers instantly. For content management, we use Ghost CMS as a headless backend.",
+  },
+  {
+    question: 'What is Server-Side Rendering (SSR)?',
+    answer:
+      "SSR means your website's content is generated on the server before it reaches the browser. When someone (or an AI crawler) requests a page, they get the complete HTML immediately - no waiting for JavaScript to load and render. AI crawlers can't execute JavaScript, so with SSR they see your complete content instantly.",
+  },
   {
     question: 'How long does it take to build a website?',
     answer:
-      "Most projects take 4-8 weeks from kickoff to launch. Simple brochure sites are faster, complex e-commerce takes longer. We'll give you an accurate timeline in your quote based on exactly what you need.",
+      "Most projects take 4-8 weeks from kickoff to launch. Simple brochure sites are faster, complex builds with custom functionality take longer. We'll give you an accurate timeline in your quote based on exactly what you need.",
   },
   {
     question: 'Do I need to provide all the content?',
@@ -57,29 +78,19 @@ const faqItems = [
       "Absolutely - we design mobile-first. Over 60% of web traffic is now on phones, so we build for mobile screens first and scale up to desktop. Your site will look great on everything from an iPhone to a widescreen monitor.",
   },
   {
-    question: 'What platform do you build on?',
+    question: 'What about hosting and domains?',
     answer:
-      "It depends on your needs. We work with WordPress, Wix, Shopify, and custom-coded solutions. We'll recommend the best fit based on your requirements, technical ability, and growth plans - not what's easiest for us.",
-  },
-  {
-    question: 'Do you help with hosting and domains?',
-    answer:
-      "Yes. We can set up hosting, register domains, configure emails - all the technical bits. It's included in our ongoing support, so you don't need to become an IT expert overnight.",
+      "Your site is deployed to Vercel's global edge network - the same infrastructure used by companies like Stripe, Notion, and McDonald's. We handle domain configuration, SSL certificates, and ongoing maintenance. It's all included.",
   },
   {
     question: 'What happens after my website launches?',
     answer:
-      "We don't disappear. All our packages include ongoing maintenance and support. We handle updates, security, backups, and are on hand when you need changes. You focus on running your business.",
+      "We don't disappear. All our packages include ongoing maintenance and support. We handle updates, security patches, performance monitoring, and are on hand when you need changes. You focus on running your business.",
   },
   {
-    question: 'Can you help with SEO after the site is built?',
+    question: 'Can you help with SEO and AI visibility?',
     answer:
-      "Your site will have solid technical SEO built in from the start. For ongoing SEO work - content, link building, monthly optimisation - we offer separate packages or can recommend trusted partners.",
-  },
-  {
-    question: "What's V.O.I.C.E™ and do I need it?",
-    answer:
-      "V.O.I.C.E™ is our AI visibility system that makes your site findable by ChatGPT, Siri, and other AI assistants - not just Google. It's increasingly important as more people use AI for recommendations. We can add it to any package.",
+      "Your site will have bulletproof technical SEO built in from day one - proper meta tags, structured data, XML sitemaps, optimised images, and fast load times. For ongoing content strategy and AI visibility optimization, check out our V.O.I.C.E™ service.",
   },
   {
     question: "What if I'm not happy with the design?",
@@ -88,23 +99,23 @@ const faqItems = [
   },
 ];
 
-// Service offerings
+// Service offerings - updated for SSR focus
 const serviceOfferings = [
   {
-    name: 'Brochure Websites',
-    description: 'Professional 5-10 page websites perfect for small businesses and professionals.',
+    name: 'SSR Brochure Websites',
+    description: 'Server-side rendered 5-10 page websites perfect for small businesses and professionals. AI-visible from day one.',
   },
   {
-    name: 'E-commerce Websites',
-    description: 'Online stores with product management, payment processing, and inventory tracking.',
+    name: 'SSR E-commerce Websites',
+    description: 'Fast, AI-optimised online stores with product management, payment processing, and blazing-fast page loads.',
   },
   {
-    name: 'Website Redesign',
-    description: 'Modernize your existing website with improved design, performance, and AI visibility.',
+    name: 'Website Redesign & Migration',
+    description: 'Migrate from WordPress, Wix, or Squarespace to a modern SSR architecture with improved AI visibility.',
   },
   {
-    name: 'Landing Pages',
-    description: 'High-converting single pages for campaigns, products, or lead generation.',
+    name: 'SSR Landing Pages',
+    description: 'High-converting single pages built with Next.js for campaigns, products, or lead generation.',
   },
 ];
 
@@ -116,12 +127,12 @@ export default function WebDesignLayout({
   // Generate schemas
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: BASE_URL },
-    { name: 'Web Design', url: PAGE_URL },
+    { name: 'SSR Web Design', url: PAGE_URL },
   ]);
 
   const serviceSchema = generateProfessionalServiceSchema(
-    'AI-Optimized Web Design',
-    'Professional web design services optimized for both traditional search engines and AI assistants. Mobile-first, lightning-fast websites that convert visitors into customers.',
+    'SSR Web Design - Server-Side Rendered Websites',
+    'Professional SSR web design services using Next.js and Vercel. Server-side rendered websites optimized for both traditional search engines and AI assistants like ChatGPT, Claude, and Perplexity. 100/100 Lighthouse scores, auto-generated schema, mobile-first design.',
     PAGE_URL,
     serviceOfferings
   );

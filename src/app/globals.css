@@ -337,6 +337,92 @@
   animation: scale-in 0.3s ease-out forwards;
 }
 
+/* Grid background animation */
+@keyframes grid-flow {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 50px 50px;
+  }
+}
+
+.animate-grid-flow {
+  animation: grid-flow 20s linear infinite;
+}
+
+/* Glow pulse animation */
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+/* Draw line animation for timeline */
+@keyframes draw-line {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 100%;
+  }
+}
+
+.animate-draw-line {
+  animation: draw-line 2s ease-out forwards;
+}
+
+/* Counter glow */
+@keyframes counter-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(236, 182, 21, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(236, 182, 21, 0.6);
+  }
+}
+
+.animate-counter-glow {
+  animation: counter-glow 2s ease-in-out infinite;
+}
+
+/* Float animation for icons */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Typing cursor blink */
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
 /* 
  * RESPONSIVE ADJUSTMENTS
  */
