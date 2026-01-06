@@ -167,7 +167,7 @@ export function HomeBelowFold({ reviews }: HomeBelowFoldProps) {
               <h2 id="testimonials-heading" className="text-white mb-4 text-2xl sm:text-3xl md:text-h2">WHAT OUR CLIENTS SAY</h2>
             </FadeInOnScroll>
             <FadeInOnScroll delay={0.2}>
-              <p className="text-white/70 max-w-2xl mx-auto">
+              <p className="text-white max-w-2xl mx-auto">
                 Don&apos;t just take our word for it. Here&apos;s what real businesses say about working with ScopeSite.
               </p>
             </FadeInOnScroll>
@@ -200,7 +200,7 @@ export function HomeBelowFold({ reviews }: HomeBelowFoldProps) {
                 href="https://g.page/r/CRrwXXb-9sE3EAE" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-white/70 hover:text-brand-gold transition-colors text-sm"
+                className="inline-flex items-center gap-2 text-white hover:text-brand-gold transition-colors text-sm"
                 aria-label="View all reviews on Google (opens in new tab)"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -223,7 +223,7 @@ export function HomeBelowFold({ reviews }: HomeBelowFoldProps) {
             <h2 id="cta-heading" className="text-white mb-4 text-2xl sm:text-3xl md:text-h2">READY TO GET STARTED?</h2>
           </FadeInOnScroll>
           <FadeInOnScroll delay={0.1}>
-            <p className="text-white/80 mb-8 max-w-xl mx-auto">
+            <p className="text-white mb-8 max-w-xl mx-auto">
               Get an instant quote for your project or book a free strategy call 
               to discuss your needs.
             </p>
@@ -303,12 +303,11 @@ function ServiceCardContent({ service, isAnimated }: ServiceCardContentProps) {
       <Link 
         href={service.href}
         className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg
-          bg-brand-navy/90 backdrop-blur-sm
-          border border-white/10
+          bg-brand-navy border border-brand-navy
           text-white text-sm font-medium
-          transition-all duration-200 hover:bg-brand-navy"
+          transition-all duration-200 hover:bg-brand-gold hover:text-brand-navy hover:border-brand-gold"
         style={{
-          boxShadow: '0 4px 12px rgba(10,27,54,0.3), inset 0 1px 1px rgba(255,255,255,0.1)'
+          boxShadow: '0 4px 12px rgba(10,27,54,0.3)'
         }}
       >
         {service.cta}
@@ -350,7 +349,7 @@ function TestimonialCard({ review }: TestimonialCardProps) {
         </div>
         <div>
           <p className="text-white font-medium text-sm">{review.author}</p>
-          <p className="text-white/50 text-xs">Google Review</p>
+          <p className="text-white/80 text-xs">Google Review</p>
         </div>
       </div>
     </article>
