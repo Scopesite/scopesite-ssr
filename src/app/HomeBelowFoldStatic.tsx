@@ -93,7 +93,7 @@ export function HomeBelowFoldStatic({ reviews }: HomeBelowFoldStaticProps) {
                   </div>
                   
                   <h3 className="text-brand-navy text-xl font-bold mb-3">{service.title}</h3>
-                  <p className="text-brand-navy/60 mb-6">{service.description}</p>
+                  <p className="text-brand-navy/70 mb-6">{service.description}</p>
                   
                   <Link 
                     href={service.href}
@@ -170,7 +170,7 @@ export function HomeBelowFoldStatic({ reviews }: HomeBelowFoldStaticProps) {
               href="https://g.page/r/CRrwXXb-9sE3EAE" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-white/60 hover:text-brand-gold transition-colors text-sm"
+              className="inline-flex items-center gap-2 text-white/70 hover:text-brand-gold transition-colors text-sm"
               aria-label="View all reviews on Google (opens in new tab)"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
