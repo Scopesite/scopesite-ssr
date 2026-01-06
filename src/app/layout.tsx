@@ -122,6 +122,13 @@ export default function RootLayout({
   return (
     <html lang="en-GB">
       <head>
+        {/* Preload critical hero image for LCP optimization */}
+        <link
+          rel="preload"
+          href="/images/scopesite-websites-found-hero-ai.webp"
+          as="image"
+          type="image/webp"
+        />
         {/* Base structured data for entire site */}
         <JsonLd schema={[organizationSchema, websiteSchema]} />
       </head>

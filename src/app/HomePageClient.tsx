@@ -66,66 +66,7 @@ const services = [
   },
 ];
 
-// Animation variants
-const heroTextVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.1,
-    },
-  },
-};
-
-const heroLineVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: [0.25, 0.1, 0.25, 1],
-    },
-  },
-};
-
-const buttonContainerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.5,
-    },
-  },
-};
-
-const buttonVariants: Variants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.4,
-      ease: [0.25, 0.1, 0.25, 1],
-    },
-  },
-};
-
-const heroImageVariants: Variants = {
-  hidden: { opacity: 0, x: 40 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.6,
-      delay: 0.3,
-      ease: [0.25, 0.1, 0.25, 1],
-    },
-  },
-};
-
+// Animation variants for below-fold content only
 const cardHoverVariants: Variants = {
   rest: { 
     y: 0,
@@ -167,13 +108,6 @@ const testimonialVariants: Variants = {
 export function HomePageClient() {
   const prefersReducedMotion = useReducedMotion();
 
-  // Simple wrapper for reduced motion - returns children without animation
-  const MotionWrapper = prefersReducedMotion 
-    ? ({ children, className }: { children: React.ReactNode; className?: string }) => (
-        <div className={className}>{children}</div>
-      )
-    : motion.div;
-
   return (
     <>
       {/* Hero Section */}
@@ -182,114 +116,53 @@ export function HomePageClient() {
           {/* Text Content - Left Side */}
           <div className="relative z-10 flex items-center min-h-[80vh] py-section">
             <div className="text-center md:text-left w-full md:max-w-[55%] lg:max-w-[50%]">
-              {/* Badge */}
-              <FadeInOnScroll delay={0} duration={0.4}>
-                <div className="badge-gold-lg mb-6 mx-auto md:mx-0">Veteran Owned &amp; Operated</div>
-              </FadeInOnScroll>
+              {/* Badge - No animation to avoid LCP delay */}
+              <div className="badge-gold-lg mb-6 mx-auto md:mx-0">Veteran Owned &amp; Operated</div>
 
-              {/* Headline with staggered lines */}
-              {prefersReducedMotion ? (
-                <h1 className="text-[2.5rem] xs:text-[3rem] sm:text-[4rem] md:text-[5rem] lg:text-display text-white mb-6 leading-[0.95]">
-                  <span className="text-brand-gold block">WEBSITES</span>
-                  <span className="block">THAT GET</span>
-                  <span className="block">FOUND</span>
-                </h1>
-              ) : (
-                <motion.h1 
-                  className="text-[2.5rem] xs:text-[3rem] sm:text-[4rem] md:text-[5rem] lg:text-display text-white mb-6 leading-[0.95]"
-                  variants={heroTextVariants}
-                  initial="hidden"
-                  animate="visible"
-                >
-                  <motion.span className="text-brand-gold block" variants={heroLineVariants}>
-                    WEBSITES
-                  </motion.span>
-                  <motion.span className="block" variants={heroLineVariants}>
-                    THAT GET
-                  </motion.span>
-                  <motion.span className="block" variants={heroLineVariants}>
-                    FOUND
-                  </motion.span>
-                </motion.h1>
-              )}
+              {/* Headline - visible immediately, only transform animation */}
+              <h1 className="text-[2.5rem] xs:text-[3rem] sm:text-[4rem] md:text-[5rem] lg:text-display text-white mb-6 leading-[0.95]">
+                <span className="text-brand-gold block">WEBSITES</span>
+                <span className="block">THAT GET</span>
+                <span className="block">FOUND</span>
+              </h1>
 
-              {/* Subtext */}
-              <FadeInOnScroll delay={0.4} duration={0.5}>
-                <p className="text-body-lg text-white/80 mb-8 max-w-md lg:max-w-lg mx-auto md:mx-0">
-                  We build AI-optimized websites that rank in both traditional search 
-                  and AI assistants like ChatGPT and Claude. No bullshit. Just results.
-                </p>
-              </FadeInOnScroll>
+              {/* Subtext - No animation to avoid LCP delay */}
+              <p className="text-body-lg text-white/80 mb-8 max-w-md lg:max-w-lg mx-auto md:mx-0">
+                We build AI-optimized websites that rank in both traditional search 
+                and AI assistants like ChatGPT and Claude. No bullshit. Just results.
+              </p>
 
               {/* CTA Buttons */}
-              {prefersReducedMotion ? (
-                <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                  <Link href="/pricing" className="btn-primary">
-                    Get Instant Quote
-                  </Link>
-                  <Link href="/book" className="btn-secondary">
-                    Book Strategy Call
-                  </Link>
-                </div>
-              ) : (
-                <motion.div 
-                  className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
-                  variants={buttonContainerVariants}
-                  initial="hidden"
-                  animate="visible"
+              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                <Link 
+                  href="/pricing" 
+                  className="btn-primary inline-flex transition-transform duration-200 hover:scale-[1.03]"
                 >
-                  <motion.div variants={buttonVariants}>
-                    <Link 
-                      href="/pricing" 
-                      className="btn-primary inline-flex transition-transform duration-200 hover:scale-[1.03]"
-                    >
-                      Get Instant Quote
-                    </Link>
-                  </motion.div>
-                  <motion.div variants={buttonVariants}>
-                    <Link 
-                      href="/book" 
-                      className="btn-secondary inline-flex transition-transform duration-200 hover:scale-[1.03]"
-                    >
-                      Book Strategy Call
-                    </Link>
-                  </motion.div>
-                </motion.div>
-              )}
+                  Get Instant Quote
+                </Link>
+                <Link 
+                  href="/book" 
+                  className="btn-secondary inline-flex transition-transform duration-200 hover:scale-[1.03]"
+                >
+                  Book Strategy Call
+                </Link>
+              </div>
             </div>
           </div>
           
-          {/* Hero Image - Positioned Right, Anchored Bottom */}
-          {prefersReducedMotion ? (
-            <div className="hidden md:block absolute bottom-0 right-[-8%] lg:right-[-5%] w-[55%] lg:w-[52%] h-[75%] lg:h-[80%]">
-              <Image
-                src="/images/scopesite-websites-found-hero-ai.webp"
-                alt="AI-optimized websites that get found in search and AI assistants"
-                width={800}
-                height={800}
-                sizes="(max-width: 768px) 0vw, (max-width: 1200px) 55vw, 52vw"
-                className="absolute bottom-0 right-0 w-full h-full object-contain object-right-bottom"
-                priority
-              />
-            </div>
-          ) : (
-            <motion.div 
-              className="hidden md:block absolute bottom-0 right-[-8%] lg:right-[-5%] w-[55%] lg:w-[52%] h-[75%] lg:h-[80%]"
-              variants={heroImageVariants}
-              initial="hidden"
-              animate="visible"
-            >
-              <Image
-                src="/images/scopesite-websites-found-hero-ai.webp"
-                alt="AI-optimized websites that get found in search and AI assistants"
-                width={800}
-                height={800}
-                sizes="(max-width: 768px) 0vw, (max-width: 1200px) 55vw, 52vw"
-                className="absolute bottom-0 right-0 w-full h-full object-contain object-right-bottom"
-                priority
-              />
-            </motion.div>
-          )}
+          {/* Hero Image - No animation to avoid LCP delay */}
+          <div className="hidden md:block absolute bottom-0 right-[-8%] lg:right-[-5%] w-[55%] lg:w-[52%] h-[75%] lg:h-[80%]">
+            <Image
+              src="/images/scopesite-websites-found-hero-ai.webp"
+              alt="AI-optimized websites that get found in search and AI assistants"
+              width={800}
+              height={800}
+              sizes="(max-width: 768px) 0vw, (max-width: 1200px) 55vw, 52vw"
+              className="absolute bottom-0 right-0 w-full h-full object-contain object-right-bottom"
+              priority
+              fetchPriority="high"
+            />
+          </div>
         </div>
       </section>
 
@@ -365,7 +238,7 @@ export function HomePageClient() {
               <div className="inline-flex flex-col sm:flex-row items-center gap-2 bg-brand-gold/10 border border-brand-gold/30 rounded-full px-4 py-2 mb-6">
                 <div className="flex" aria-hidden="true">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 sm:w-5 sm:h-5 text-brand-gold fill-brand-gold" />
+                    <Star key={i} className="w-4 h-4 sm:w-5 sm:h-5 text-brand-gold fill-brand-gold" aria-hidden="true" />
                   ))}
                 </div>
                 <span className="text-white font-medium text-sm sm:text-base">6 Five-Star Reviews on Google</span>
