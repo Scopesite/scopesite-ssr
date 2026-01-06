@@ -123,12 +123,12 @@
 
   /* Link defaults - scoped to avoid affecting navigation */
   /* Uses accessible gold for proper contrast on white backgrounds */
-  main a:not(.btn):not(.btn-primary):not(.btn-secondary):not(.link-navy) {
+main a:not(.btn):not(.btn-primary):not(.btn-secondary):not(.btn-secondary-light):not(.link-navy) {
     color: var(--brand-gold-accessible);
     @apply transition-colors underline underline-offset-2;
   }
-  
-  main a:not(.btn):not(.btn-primary):not(.btn-secondary):not(.link-navy):hover {
+
+  main a:not(.btn):not(.btn-primary):not(.btn-secondary):not(.btn-secondary-light):not(.link-navy):hover {
     color: var(--brand-orange-accessible);
   }
 
