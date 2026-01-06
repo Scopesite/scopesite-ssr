@@ -184,9 +184,9 @@
 
   .btn-secondary-light {
     @apply btn;
-    @apply bg-transparent text-white;
-    @apply border-2 border-white;
-    @apply hover:bg-white hover:text-brand-navy;
+    @apply bg-transparent text-brand-gold;
+    @apply border-2 border-brand-gold;
+    @apply hover:bg-brand-gold hover:text-brand-navy;
   }
 
   /* 
