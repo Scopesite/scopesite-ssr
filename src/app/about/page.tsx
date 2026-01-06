@@ -284,7 +284,7 @@ export default function AboutPage() {
                   className="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-xl 
                   bg-brand-navy/5 group-hover:bg-brand-gold/10 transition-all duration-400"
                 >
-                  <value.icon className="w-6 h-6 text-brand-navy group-hover:text-brand-gold transition-colors duration-400" />
+                  <value.icon className="w-6 h-6 text-brand-navy group-hover:text-brand-orange transition-colors duration-400" />
                 </div>
                 <h3 className="text-brand-navy font-bold mb-3">{value.title}</h3>
                 <p className="text-brand-navy/60">{value.description}</p>

@@ -170,7 +170,7 @@ export function HomeBelowFoldStatic({ reviews }: HomeBelowFoldStaticProps) {
               href="https://g.page/r/CRrwXXb-9sE3EAE" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-white hover:text-brand-gold transition-colors text-sm"
+              className="inline-flex items-center gap-2 text-brand-gold hover:text-brand-orange transition-colors text-sm"
               aria-label="View all reviews on Google (opens in new tab)"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
