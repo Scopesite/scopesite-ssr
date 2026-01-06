@@ -98,9 +98,9 @@ export function HomeBelowFoldStatic({ reviews }: HomeBelowFoldStaticProps) {
                   <Link 
                     href={service.href}
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg
-                      bg-brand-navy border border-brand-navy
-                      text-white text-sm font-medium transition-all duration-200 hover:bg-brand-gold hover:text-brand-navy hover:border-brand-gold"
-                    style={{ boxShadow: '0 4px 12px rgba(10,27,54,0.3)' }}
+                      bg-brand-gold border border-brand-gold
+                      text-brand-navy text-base font-semibold transition-all duration-200 hover:bg-brand-orange hover:border-brand-orange"
+                    style={{ boxShadow: '0 4px 12px rgba(236,182,21,0.3)' }}
                   >
                     {service.cta}
                     <ArrowRight className="w-4 h-4" aria-hidden="true" />
