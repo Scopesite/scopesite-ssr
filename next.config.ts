@@ -4,6 +4,12 @@ const nextConfig: NextConfig = {
   // Enable static generation where possible
   output: 'standalone',
 
+  // Experimental optimizations
+  experimental: {
+    // Inline critical CSS to reduce render-blocking
+    optimizeCss: true,
+  },
+
   // Headers for AI crawlers and SEO
   async headers() {
     return [
