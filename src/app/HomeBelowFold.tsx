@@ -1,45 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { Globe, Sparkles, Code, ArrowRight, Star } from 'lucide-react';
 import { motion, Variants } from 'motion/react';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { FadeInOnScroll, StaggerContainer, StaggerItem } from '@/components/animations';
-
-// Google Reviews data
-const googleReviews = [
-  {
-    author: 'Michelle Mitchell',
-    reviewBody: 'Great service from Scopesite, being completely naive with what building a website entailed and not having a clue about it, Dan made everything so easy and stress free. Best website design company in Somerset!',
-    datePublished: '2025-05-15',
-  },
-  {
-    author: 'Colin Ferbrache',
-    reviewBody: 'Dan has helped our business from the very beginning, and has been proactive in helping drive our business. The value he has provided has been more than worth the cost.',
-    datePublished: '2025-05-15',
-  },
-  {
-    author: 'Koalla Da 13',
-    reviewBody: 'We had Dan from Scopesite build us a website for our flying school in Bristol. Talk about above and beyond! Professional, responsive, and delivered exactly what we needed.',
-    datePublished: '2025-05-15',
-  },
-  {
-    author: 'Louis Dunn',
-    reviewBody: 'Dan demonstrated exceptional performance and proficiency in his work. His pricing remains competitive and reasonable. Highly recommended for any web design needs.',
-    datePublished: '2025-04-10',
-  },
-  {
-    author: 'Dean James',
-    reviewBody: 'Excellent service, will use again!',
-    datePublished: '2024-12-23',
-  },
-  {
-    author: 'Rebecca Archer',
-    reviewBody: 'Excellent communication and finished website. He took care of all the jargon bits such as search engine optimisation so I didn\'t have to worry about a thing.',
-    datePublished: '2024-12-09',
-  },
-];
 
 // Service card data
 const services = [
@@ -66,7 +31,7 @@ const services = [
   },
 ];
 
-// Animation variants for below-fold content only
+// Animation variants
 const cardHoverVariants: Variants = {
   rest: { 
     y: 0,
@@ -105,67 +70,21 @@ const testimonialVariants: Variants = {
   },
 };
 
-export function HomePageClient() {
+interface Review {
+  author: string;
+  reviewBody: string;
+  datePublished: string;
+}
+
+interface HomeBelowFoldProps {
+  reviews: Review[];
+}
+
+export function HomeBelowFold({ reviews }: HomeBelowFoldProps) {
   const prefersReducedMotion = useReducedMotion();
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="bg-brand-navy text-white min-h-[80vh] overflow-hidden">
-        <div className="container-content relative min-h-[80vh]">
-          {/* Text Content - Left Side */}
-          <div className="relative z-10 flex items-center min-h-[80vh] py-section">
-            <div className="text-center md:text-left w-full md:max-w-[55%] lg:max-w-[50%]">
-              {/* Badge - No animation to avoid LCP delay */}
-              <div className="badge-gold-lg mb-6 mx-auto md:mx-0">Veteran Owned &amp; Operated</div>
-
-              {/* Headline - visible immediately, only transform animation */}
-              <h1 className="text-[2.5rem] xs:text-[3rem] sm:text-[4rem] md:text-[5rem] lg:text-display text-white mb-6 leading-[0.95]">
-                <span className="text-brand-gold block">WEBSITES</span>
-                <span className="block">THAT GET</span>
-                <span className="block">FOUND</span>
-              </h1>
-
-              {/* Subtext - No animation to avoid LCP delay */}
-              <p className="text-body-lg text-white/80 mb-8 max-w-md lg:max-w-lg mx-auto md:mx-0">
-                We build AI-optimized websites that rank in both traditional search 
-                and AI assistants like ChatGPT and Claude. No bullshit. Just results.
-              </p>
-
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <Link 
-                  href="/pricing" 
-                  className="btn-primary inline-flex transition-transform duration-200 hover:scale-[1.03]"
-                >
-                  Get Instant Quote
-                </Link>
-                <Link 
-                  href="/book" 
-                  className="btn-secondary inline-flex transition-transform duration-200 hover:scale-[1.03]"
-                >
-                  Book Strategy Call
-                </Link>
-              </div>
-            </div>
-          </div>
-          
-          {/* Hero Image - No animation to avoid LCP delay */}
-          <div className="hidden md:block absolute bottom-0 right-[-8%] lg:right-[-5%] w-[55%] lg:w-[52%] h-[75%] lg:h-[80%]">
-            <Image
-              src="/images/scopesite-websites-found-hero-ai.webp"
-              alt="AI-optimized websites that get found in search and AI assistants"
-              width={800}
-              height={800}
-              sizes="(max-width: 768px) 0vw, (max-width: 1200px) 55vw, 52vw"
-              className="absolute bottom-0 right-0 w-full h-full object-contain object-right-bottom"
-              priority
-              fetchPriority="high"
-            />
-          </div>
-        </div>
-      </section>
-
       {/* Services Section */}
       <section className="section-white relative overflow-hidden" aria-labelledby="services-heading">
         {/* Subtle background grid pattern */}
@@ -236,7 +155,7 @@ export function HomePageClient() {
           <div className="text-center mb-8 md:mb-12">
             <FadeInOnScroll>
               <div className="inline-flex flex-col sm:flex-row items-center gap-2 bg-brand-gold/10 border border-brand-gold/30 rounded-full px-4 py-2 mb-6">
-                <div className="flex" aria-hidden="true">
+                <div className="flex" role="img" aria-label="5 star rating">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-4 h-4 sm:w-5 sm:h-5 text-brand-gold fill-brand-gold" aria-hidden="true" />
                   ))}
@@ -255,7 +174,7 @@ export function HomePageClient() {
           </div>
           
           <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" staggerDelay={0.1}>
-            {googleReviews.map((review, index) => (
+            {reviews.map((review, index) => (
               <StaggerItem key={index}>
                 {prefersReducedMotion ? (
                   <TestimonialCard review={review} />
@@ -313,13 +232,13 @@ export function HomePageClient() {
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link 
                 href="/pricing" 
-                className="btn-primary transition-transform duration-200 hover:scale-[1.03]"
+                className="btn-primary"
               >
                 Get Instant Quote
               </Link>
               <Link 
                 href="/voice" 
-                className="btn-secondary-light transition-transform duration-200 hover:scale-[1.03]"
+                className="btn-secondary-light"
               >
                 Learn About V.O.I.C.E™
               </Link>
@@ -380,7 +299,7 @@ function ServiceCardContent({ service, isAnimated }: ServiceCardContentProps) {
       <h3 className="text-brand-navy text-xl font-bold mb-3">{service.title}</h3>
       <p className="text-brand-navy/60 mb-6">{service.description}</p>
       
-      {/* CTA Button - Navy glass style */}
+      {/* CTA Button */}
       <Link 
         href={service.href}
         className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg
@@ -401,7 +320,7 @@ function ServiceCardContent({ service, isAnimated }: ServiceCardContentProps) {
 
 // Testimonial card component
 interface TestimonialCardProps {
-  review: typeof googleReviews[0];
+  review: Review;
 }
 
 function TestimonialCard({ review }: TestimonialCardProps) {
@@ -411,7 +330,7 @@ function TestimonialCard({ review }: TestimonialCardProps) {
         hover:bg-white/10 hover:border-brand-gold/30 transition-all duration-300 h-full"
     >
       {/* Stars */}
-      <div className="flex gap-1 mb-4" aria-label="5 star rating">
+      <div className="flex gap-1 mb-4" role="img" aria-label="5 star rating">
         {[...Array(5)].map((_, i) => (
           <Star key={i} className="w-4 h-4 text-brand-gold fill-brand-gold" aria-hidden="true" />
         ))}
@@ -438,5 +357,5 @@ function TestimonialCard({ review }: TestimonialCardProps) {
   );
 }
 
-export default HomePageClient;
+export default HomeBelowFold;
 

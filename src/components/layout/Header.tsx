@@ -44,7 +44,7 @@ export function Header() {
       <div className="container-content">
         <div className="flex items-center justify-between h-32">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-4 group shrink-0">
+          <Link href="/" className="flex items-center gap-4 group shrink-0" aria-label="ScopeSite - Go to homepage">
             <Image
               src="/images/logo-icon.svg"
               alt=""
