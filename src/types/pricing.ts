@@ -4,6 +4,8 @@
  * 
  * NOTE: Actual pricing values are in /src/lib/pricing-config.ts
  * This file defines the shape of the data only
+ * 
+ * Updated: January 2026 - Split website into Client-Managed (Wix) and SSR (Next.js)
  */
 
 // ============================================
@@ -11,21 +13,36 @@
 // ============================================
 
 export interface PricingConfig {
-  /** Base website packages */
+  /** Client-Managed (Wix Studio) base packages */
   baseWebsite: {
     starter: number;      // 5 pages
     professional: number; // 10 pages  
     enterprise: number;   // Unlimited pages
   };
   
-  /** Cost per additional page beyond package */
+  /** SSR (Next.js) pricing tiers */
+  ssrWebsite: {
+    base: number;           // Up to 5 pages
+    perPage6to10: number;   // Pages 6-10
+    perPage11to20: number;  // Pages 11-20
+    perPage21plus: number;  // Pages 21+
+  };
+  
+  /** Cost per additional page beyond package (Client-Managed only) */
   perPageRate: number;
   
-  /** E-commerce pricing tiers */
+  /** E-commerce pricing tiers (Client-Managed) */
   ecommerce: {
     small: number;        // Up to 50 products
     medium: number;       // 51-200 products
     large: number;        // 200+ products
+  };
+  
+  /** Headless E-commerce pricing (SSR only) */
+  headlessEcommerce: {
+    shopify: number;
+    snipcart: number;
+    custom: number;
   };
   
   /** Custom web app pricing tiers */
@@ -35,7 +52,13 @@ export interface PricingConfig {
     complex: number;      // Multi-user apps, API integrations, custom workflows
   };
   
-  /** Add-on services */
+  /** SSR web app pricing tiers */
+  ssrWebApps: {
+    simple: number;       // Dashboard, forms
+    complex: number;      // Portal, integrations
+  };
+  
+  /** Add-on services (both website types) */
   addOns: {
     voice: number;              // V.O.I.C.E™ AI Visibility (monthly)
     branding: number;           // Full branding package (one-off)
@@ -46,6 +69,32 @@ export interface PricingConfig {
     complexForms: number;       // Advanced logic forms (one-off)
     automationSetup: number;    // Outreach + cart setup (one-off)
     automationMonthly: number;  // Automation maintenance (monthly)
+  };
+  
+  /** SSR-specific add-ons */
+  ssrAddOns: {
+    animations: number;         // Premium Animations Package (Framer Motion)
+    customerPortal: number;     // Client Customer Portal
+    database: number;           // PostgreSQL Database
+    authentication: number;     // User Authentication System
+    apiIntegration: number;     // Per API integration
+    multilanguage: number;      // Multi-language / i18n
+    realtime: number;           // Real-time Features
+    analytics: number;          // Custom Analytics Dashboard
+    scalability: number;        // Enterprise Scalability
+  };
+  
+  /** UK market averages for SSR add-ons */
+  ssrAddOnsMarket: {
+    animations: number;
+    customerPortal: number;
+    database: number;
+    authentication: number;
+    apiIntegration: number;
+    multilanguage: number;
+    realtime: number;
+    analytics: number;
+    scalability: number;
   };
   
   /** Contract payment structures */
@@ -68,10 +117,13 @@ export interface PricingConfig {
 // QUOTE REQUEST TYPES (User Input)
 // ============================================
 
-export type ProjectType = 'new' | 'upgrade' | 'visibility' | 'webapp';
+export type ProjectType = 'clientManaged' | 'ssr' | 'upgrade' | 'visibility' | 'webapp';
+export type WebsiteType = 'clientManaged' | 'ssr';
 export type PaymentPreference = 'oneOff' | 'twelve' | 'twentyFour';
 export type EcommerceSize = 'none' | 'small' | 'medium' | 'large';
+export type HeadlessEcommerceType = 'none' | 'shopify' | 'snipcart' | 'custom';
 export type WebAppSize = 'none' | 'simple' | 'standard' | 'complex';
+export type SSRWebAppSize = 'none' | 'simple' | 'complex';
 
 export interface QuoteRequest {
   /** Step 1: Project Type */
@@ -79,10 +131,13 @@ export interface QuoteRequest {
   
   /** Step 2: Scope */
   scope: {
+    websiteType?: WebsiteType;
     pageCount: number;
     ecommerce: EcommerceSize;
+    headlessEcommerce: HeadlessEcommerceType;
     productCount?: number;
     webApp: WebAppSize;
+    ssrWebApp: SSRWebAppSize;
     hasBlog: boolean;
     hasComplexForms: boolean;
     hasAutomation: boolean;
@@ -90,12 +145,23 @@ export interface QuoteRequest {
   
   /** Step 3: Add-Ons */
   addOns: {
+    // Common add-ons
     voice: boolean;
     branding: boolean;
     research: boolean;
     videoLong: number;        // Quantity (0-10)
     videoShortBundle: boolean;
     imageLibrary: boolean;
+    // SSR-specific add-ons
+    ssrAnimations: boolean;
+    ssrCustomerPortal: boolean;
+    ssrDatabase: boolean;
+    ssrAuthentication: boolean;
+    ssrApiIntegrations: number;  // Quantity (0-5+)
+    ssrMultilanguage: boolean;
+    ssrRealtime: boolean;
+    ssrAnalytics: boolean;
+    ssrScalability: boolean;
   };
   
   /** Step 4: Payment */
@@ -126,6 +192,7 @@ export interface QuoteLineItem {
   total: number;
   isMonthly: boolean;
   isRequired: boolean;
+  isIncluded?: boolean;  // For SSR included features
 }
 
 export interface QuoteBreakdown {
@@ -136,6 +203,9 @@ export interface QuoteBreakdown {
   /** Monthly costs */
   monthlyItems: QuoteLineItem[];
   monthlySubtotal: number;
+  
+  /** Included items (SSR) */
+  includedItems?: QuoteLineItem[];
   
   /** Totals by payment type */
   totals: {

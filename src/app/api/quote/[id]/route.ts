@@ -82,6 +82,17 @@ export async function PATCH(
         );
       }
 
+      // Determine website type from projectType
+      const projectType = quote.selections.projectType;
+      const websiteType = projectType === 'ssr' ? 'ssr' 
+        : projectType === 'clientManaged' ? 'clientManaged' 
+        : undefined;
+      const websiteTypeLabel = projectType === 'ssr' 
+        ? 'SSR AI-First Website' 
+        : projectType === 'clientManaged' 
+          ? 'Client-Managed Website' 
+          : quote.selections.projectType || 'Unknown';
+
       // Build Brevo contact attributes
       const brevoAttributes: Record<string, string | number | null> = {
         FULL_NAME: quote.contact.name || contact?.name || '',
@@ -92,6 +103,7 @@ export async function PATCH(
         QUOTE_TOTAL: pricing?.selectedTotal ?? 0,
         QUOTE_MONTHLY: pricing?.monthlyPayment ?? null,
         QUOTE_PACKAGE: pricing?.packageType || 'Starter',
+        QUOTE_PROJECT_TYPE: websiteTypeLabel,
         QUOTE_PAYMENT_TYPE: pricing?.paymentType || 'One-off',
         QUOTE_DATE: new Date().toISOString().split('T')[0],
         QUOTE_NOTES: quote.contact.message || contact?.message || null,
@@ -115,18 +127,33 @@ export async function PATCH(
         company: quote.contact.company || '',
         message: quote.contact.message || '',
         projectType: quote.selections.projectType || '',
+        websiteType: quote.selections.scope?.websiteType,
         pages: quote.selections.scope?.pageCount || 0,
         ecommerce: quote.selections.scope?.ecommerce || 'none',
+        headlessEcommerce: quote.selections.scope?.headlessEcommerce,
         webApp: quote.selections.scope?.webApp || 'none',
+        ssrWebApp: quote.selections.scope?.ssrWebApp,
         hasBlog: quote.selections.scope?.hasBlog || false,
         hasComplexForms: quote.selections.scope?.hasComplexForms || false,
         hasAutomation: quote.selections.scope?.hasAutomation || false,
+        // Standard add-ons
         voice: quote.selections.addOns?.voice || false,
         branding: quote.selections.addOns?.branding || false,
         research: quote.selections.addOns?.research || false,
         videoLong: quote.selections.addOns?.videoLong || 0,
         videoShortBundle: quote.selections.addOns?.videoShortBundle || false,
         imageLibrary: quote.selections.addOns?.imageLibrary || false,
+        // SSR-specific add-ons
+        ssrAnimations: quote.selections.addOns?.ssrAnimations,
+        ssrCustomerPortal: quote.selections.addOns?.ssrCustomerPortal,
+        ssrDatabase: quote.selections.addOns?.ssrDatabase,
+        ssrAuthentication: quote.selections.addOns?.ssrAuthentication,
+        ssrApiIntegrations: quote.selections.addOns?.ssrApiIntegrations,
+        ssrMultilanguage: quote.selections.addOns?.ssrMultilanguage,
+        ssrRealtime: quote.selections.addOns?.ssrRealtime,
+        ssrAnalytics: quote.selections.addOns?.ssrAnalytics,
+        ssrScalability: quote.selections.addOns?.ssrScalability,
+        // Payment
         paymentType: quote.selections.paymentPreference || 'twelve',
         total: pricing?.selectedTotal ?? 0,
         monthly: pricing?.monthlyPayment ?? null,

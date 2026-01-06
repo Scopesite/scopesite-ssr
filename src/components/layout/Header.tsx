@@ -47,10 +47,11 @@ export function Header() {
           <Link href="/" className="flex items-center gap-4 group shrink-0">
             <Image
               src="/images/logo-icon.svg"
-              alt="ScopeSite"
+              alt=""
               width={100}
               height={100}
               className="transition-transform group-hover:scale-105"
+              priority
             />
             <span className={cn(
               "font-headline text-[50px] leading-none tracking-tight hidden sm:block whitespace-nowrap transition-colors",
@@ -104,7 +105,7 @@ export function Header() {
                 <div className="flex items-center justify-center gap-4 pt-4 pb-10 border-b border-brand-graphite">
                   <Image
                     src="/images/logo-icon.svg"
-                    alt="ScopeSite"
+                    alt=""
                     width={60}
                     height={60}
                   />

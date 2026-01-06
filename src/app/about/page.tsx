@@ -185,7 +185,7 @@ export default function AboutPage() {
               <h3 className="text-brand-navy text-2xl font-bold mb-1">
                 Dan Cartwright
               </h3>
-              <p className="text-brand-gold font-medium mb-6">
+              <p className="text-brand-gold-accessible font-medium mb-6">
                 Founder & Director
               </p>
 
@@ -239,7 +239,7 @@ export default function AboutPage() {
                 key={card.title}
                 className="p-8 rounded-2xl bg-brand-graphite/50 border border-white/10"
               >
-                <h3 className="text-brand-gold font-bold text-lg mb-4">
+                <h3 className="text-brand-gold font-bold text-lg mb-4 text-center">
                   {card.title}
                 </h3>
                 <p className="text-white/70">{card.text}</p>

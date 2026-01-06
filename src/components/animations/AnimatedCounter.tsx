@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView, useMotionValue, useSpring } from 'motion/react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 interface AnimatedCounterProps {
   value: number;
@@ -25,6 +26,7 @@ export function AnimatedCounter({
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const [displayValue, setDisplayValue] = useState(0);
+  const prefersReducedMotion = useReducedMotion();
   
   const motionValue = useMotionValue(0);
   const springValue = useSpring(motionValue, {
@@ -33,26 +35,26 @@ export function AnimatedCounter({
   });
 
   useEffect(() => {
-    if (isInView) {
+    if (isInView && !prefersReducedMotion) {
       const timeout = setTimeout(() => {
         motionValue.set(value);
       }, delay * 1000);
       return () => clearTimeout(timeout);
+    } else if (isInView && prefersReducedMotion) {
+      setDisplayValue(value);
     }
-  }, [isInView, value, motionValue, delay]);
+  }, [isInView, value, motionValue, delay, prefersReducedMotion]);
 
   useEffect(() => {
+    if (prefersReducedMotion) return;
+    
     const unsubscribe = springValue.on('change', (latest) => {
       setDisplayValue(parseFloat(latest.toFixed(decimals)));
     });
     return unsubscribe;
-  }, [springValue, decimals]);
+  }, [springValue, decimals, prefersReducedMotion]);
 
-  // Respect reduced motion preference
-  const prefersReducedMotion = typeof window !== 'undefined' 
-    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
-    : false;
-
+  // Respect reduced motion preference - show final value immediately
   if (prefersReducedMotion) {
     return (
       <span ref={ref} className={className}>
@@ -73,4 +75,3 @@ export function AnimatedCounter({
     </motion.span>
   );
 }
-

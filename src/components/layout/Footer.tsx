@@ -66,10 +66,11 @@ export function Footer() {
             <Link href="/" className="flex items-center gap-3 mb-6 group">
               <Image
                 src="/images/logo-icon.svg"
-                alt="ScopeSite"
+                alt=""
                 width={48}
                 height={48}
                 className="transition-transform group-hover:scale-105"
+                loading="lazy"
               />
               <span className="font-headline text-white text-2xl tracking-tight">
                 SCOPESITE

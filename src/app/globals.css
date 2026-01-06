@@ -15,9 +15,11 @@
   :root {
     /* Brand Colours as CSS Variables */
     --brand-gold: #ECB615;
+    --brand-gold-accessible: #996D00; /* WCAG AA compliant on white (4.5:1+) */
     --brand-navy: #0A1B36;
     --brand-white: #FFFFFF;
     --brand-orange: #F68B1E;
+    --brand-orange-accessible: #B35E00; /* WCAG AA compliant on white */
     --brand-graphite: #1E2D50;
     
     /* shadcn/ui Semantic Variables - Using Brand Colors */
@@ -120,8 +122,14 @@
   }
 
   /* Link defaults - scoped to avoid affecting navigation */
+  /* Uses accessible gold for proper contrast on white backgrounds */
   main a:not(.btn):not(.btn-primary):not(.btn-secondary):not(.link-navy) {
-    @apply text-brand-gold transition-colors hover:text-brand-orange;
+    color: var(--brand-gold-accessible);
+    @apply transition-colors underline underline-offset-2;
+  }
+  
+  main a:not(.btn):not(.btn-primary):not(.btn-secondary):not(.link-navy):hover {
+    color: var(--brand-orange-accessible);
   }
 
   /* Focus states for accessibility - WCAG 2.4.7 */
@@ -301,10 +309,24 @@
     @apply prose-h1:text-h1 prose-h1:uppercase;
     @apply prose-h2:text-h2 prose-h2:uppercase;
     @apply prose-p:text-brand-navy/90;
-    @apply prose-a:text-brand-gold prose-a:no-underline hover:prose-a:underline;
     @apply prose-strong:text-brand-navy prose-strong:font-bold;
     @apply prose-blockquote:border-brand-gold prose-blockquote:text-brand-graphite;
-    @apply prose-code:text-brand-gold prose-code:bg-brand-navy/5 prose-code:px-1 prose-code:rounded;
+  }
+  
+  /* Accessible link colors in prose - meets WCAG AA */
+  .prose-scopesite a {
+    color: var(--brand-gold-accessible);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  
+  .prose-scopesite a:hover {
+    color: var(--brand-orange-accessible);
+  }
+  
+  .prose-scopesite code {
+    color: var(--brand-gold-accessible);
+    @apply bg-brand-navy/5 px-1 rounded;
   }
 }
 

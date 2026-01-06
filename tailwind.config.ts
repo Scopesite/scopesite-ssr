@@ -20,9 +20,11 @@ const config: Config = {
   		colors: {
   			brand: {
   				gold: '#ECB615',
+  				'gold-accessible': '#996D00', // WCAG AA on white
   				navy: '#0A1B36',
   				white: '#FFFFFF',
   				orange: '#F68B1E',
+  				'orange-accessible': '#B35E00', // WCAG AA on white
   				graphite: '#1E2D50'
   			},
   			primary: {

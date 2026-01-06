@@ -5,24 +5,13 @@
  * 
  * Sources: 348 UK data points (Manus) + 60 UK sources (Perplexity)
  * Research Date: January 2026
- * Positioning: 25% below UK market average (Competitive tier)
  * 
- * Last Updated: 2026-01-03
+ * TWO WEBSITE TIERS:
+ * 1. Client-Managed (Wix Studio) - Budget-friendly, 25% below market
+ * 2. SSR AI-First (Next.js) - Premium, market-rate pricing
+ * 
+ * Last Updated: 2026-01-06
  * Research Status: COMPLETE ✅
- * 
- * UK MARKET AVERAGES (from Manus research):
- * - Basic Website (5 pages): £2,500
- * - Professional Website (10 pages): £5,500  
- * - E-commerce (50 products): £8,500
- * - Complex Forms + Automation: £3,500
- * - AEO/GEO Monthly: £750/mo
- * - Full Branding Package: £6,500
- * - Market Research + Persona: £4,500
- * - Video (Long-form): £3,500
- * - Video (Short-form bundle): £1,500
- * 
- * Our positioning: 25% below UK market average
- * This maintains healthy margins while being genuinely competitive
  */
 
 import type { PricingConfig } from '@/types/pricing';
@@ -32,34 +21,55 @@ import type { PricingConfig } from '@/types/pricing';
 // ============================================
 
 export const UK_MARKET_AVERAGES = {
+  // Client-Managed (Wix) websites
   basicWebsite: 2500,
   professionalWebsite: 5500,
   ecommerce50: 8500,
-  ecommerce200: 12000,      // Estimated from range
-  ecommerce200Plus: 18000,  // Enterprise tier
+  ecommerce200: 12000,
+  ecommerce200Plus: 18000,
+  
+  // SSR websites (premium tier)
+  ssrBase: 10000,         // Market rate for custom Next.js sites
+  ssrPerPage: 600,        // Market rate per additional page
+  
+  // Common services
   complexForms: 3500,
   aeoGeoMonthly: 750,
   branding: 6500,
   marketResearch: 4500,
   videoLong: 3500,
   videoShortBundle: 1500,
-  imageLibrary: 1200,       // Estimated from Perplexity AI images
-  automationSetup: 2500,    // From AutomateNow research
-  automationMonthly: 250,   // Estimated maintenance
-  ongoingMaintenance: 200,  // Industry standard £150-300
-  // Custom Web Apps - UK market rates for bespoke development
-  webAppSimple: 3500,       // Quote calculators, booking widgets, contact qualifiers
-  webAppStandard: 7500,     // Client portals, dashboards, inventory trackers
-  webAppComplex: 12500,     // Multi-user apps, API integrations, custom workflows
+  imageLibrary: 1200,
+  automationSetup: 2500,
+  automationMonthly: 250,
+  ongoingMaintenance: 200,
+  
+  // Custom Web Apps
+  webAppSimple: 3500,
+  webAppStandard: 7500,
+  webAppComplex: 12500,
+  
+  // SSR-specific add-ons market rates
+  ssrAnimations: 3500,
+  ssrCustomerPortal: 8000,
+  ssrDatabase: 5500,
+  ssrAuthentication: 4000,
+  ssrApiIntegration: 3000,
+  ssrMultilanguage: 4500,
+  ssrHeadlessEcommerce: 12000,
+  ssrRealtime: 6500,
+  ssrAnalytics: 3500,
+  ssrScalability: 5000,
 };
 
 // ============================================
-// SCOPESITE PRICING (25% Below Market)
+// SCOPESITE PRICING
 // ============================================
 
 export const PRICING_CONFIG: PricingConfig = {
   /**
-   * BASE WEBSITE PACKAGES
+   * CLIENT-MANAGED WEBSITE (Wix Studio)
+   * 25% below UK market average
    * 
    * UK Market: £2,500 (basic), £5,500 (pro), £10,000+ (enterprise)
    * Our Price: 25% cheaper = £1,875, £4,125, £7,500
@@ -71,14 +81,30 @@ export const PRICING_CONFIG: PricingConfig = {
   },
   
   /**
-   * PER PAGE RATE
+   * SSR AI-FIRST WEBSITE (Next.js)
+   * Premium pricing - competitive market rates
+   * 
+   * Base: £8,000 for up to 5 pages
+   * Pages 6-10: +£500 per page
+   * Pages 11-20: +£400 per page
+   * Pages 21+: +£350 per page
+   */
+  ssrWebsite: {
+    base: 8000,           // Up to 5 pages
+    perPage6to10: 500,    // Pages 6-10
+    perPage11to20: 400,   // Pages 11-20
+    perPage21plus: 350,   // Pages 21+
+  },
+  
+  /**
+   * PER PAGE RATE (Client-Managed only)
    * Market rate: £200-400 per page
    * Our rate: £150 (competitive)
    */
   perPageRate: 150,
   
   /**
-   * E-COMMERCE ADD-ON
+   * E-COMMERCE (Client-Managed - Wix)
    * 
    * UK Market: £8,500 (50 products), £12,000 (200), £18,000+ (200+)
    * Our Price: 25% cheaper
@@ -90,111 +116,98 @@ export const PRICING_CONFIG: PricingConfig = {
   },
   
   /**
-   * CUSTOM WEB APPS
-   * 
-   * UK Market: £3,500 (simple), £7,500 (standard), £12,500+ (complex)
-   * Our Price: 25% cheaper
-   * 
-   * Built with: Cursor, Fillout, Zite, Next.js depending on requirements
+   * HEADLESS E-COMMERCE (SSR only)
+   * Premium headless solutions
    */
-  webApps: {
-    simple: 2625,     // Quote calculators, booking widgets, contact qualifiers - UK avg £3,500
-    standard: 5625,   // Client portals, dashboards, inventory trackers - UK avg £7,500
-    complex: 9375,    // Multi-user apps, API integrations, custom workflows - UK avg £12,500
+  headlessEcommerce: {
+    shopify: 7500,   // Shopify headless integration
+    snipcart: 5500,  // Snipcart integration
+    custom: 12000,   // Custom e-commerce solution
   },
   
   /**
-   * ADD-ON SERVICES
+   * CUSTOM WEB APPS (Client-Managed)
+   * 
+   * UK Market: £3,500 (simple), £7,500 (standard), £12,500+ (complex)
+   * Our Price: 25% cheaper
+   */
+  webApps: {
+    simple: 2625,     // Quote calculators, booking widgets - UK avg £3,500
+    standard: 5625,   // Client portals, dashboards - UK avg £7,500
+    complex: 9375,    // Multi-user apps, API integrations - UK avg £12,500
+  },
+  
+  /**
+   * SSR WEB APPS (Premium)
+   */
+  ssrWebApps: {
+    simple: 5000,     // Dashboard, forms
+    complex: 12000,   // Portal, integrations
+  },
+  
+  /**
+   * ADD-ON SERVICES (Both website types)
    * All priced at 25% below UK market average
    */
   addOns: {
     /**
      * V.O.I.C.E™ AI Visibility (Monthly)
-     * 
      * UK SEO/AEO average: £750/mo
      * Our V.O.I.C.E™: £562/mo (25% less)
-     * 
-     * Includes: GEO + AEO + Traditional SEO + Schema markup
-     * This is our flagship differentiator
      */
     voice: 562,
     
     /**
      * Full Branding Package
-     * 
      * UK Market Average: £6,500
      * Our Price: £4,875 (25% less)
-     * 
-     * Includes: Logo, brand guidelines, colour palette, 
-     * typography, business cards, social templates
      */
     branding: 4875,
     
     /**
      * Market Research + Customer Persona
-     * 
      * UK Market Average: £4,500
      * Our Price: £3,375 (25% less)
-     * 
-     * Using Manus 1.6 + Perplexity Enterprise
-     * Competitor analysis, market mapping, persona development
      */
     research: 3375,
     
     /**
      * Video - Long Form
-     * 
      * UK Market Average: £3,500
      * Our Price: £2,625 (25% less)
-     * 
-     * 2-5 minute explainer/corporate video
-     * Using HeyGen + ElevenLabs for AI-assisted production
      */
     videoLong: 2625,
     
     /**
      * Video - Short Form Bundle (Monthly)
-     * 
      * UK Market Average: £1,500 (one-off bundle)
      * Our Price: £395/mo for ongoing content
-     * 
-     * 5-10 short videos per month for social media
-     * Tips, tricks, promotional content
      */
     videoShortBundle: 395,
     
     /**
      * Custom Image Library
-     * 
-     * UK Market Average: £1,200 (AI images from Perplexity)
-     * Our Price: £800 (33% less - high margin service)
-     * 
-     * 20-30 custom branded images
+     * UK Market Average: £1,200
+     * Our Price: £800 (33% less)
      */
     imageLibrary: 800,
     
     /**
      * Complex Logic Forms
-     * 
-     * UK Market Average: £3,500 (full automation suite)
-     * Our Price: £2,625 (25% less) for forms only
-     * 
-     * Multi-step qualification forms with conditional logic
-     * CRM integration included
+     * UK Market Average: £3,500
+     * Our Price: £2,625 (25% less)
      */
     complexForms: 2625,
     
     /**
-     * Automation Setup (Customer Outreach + Abandoned Cart)
-     * 
-     * UK Market Average: £2,500 setup
+     * Automation Setup
+     * UK Market Average: £2,500
      * Our Price: £1,875 (25% less)
      */
     automationSetup: 1875,
     
     /**
      * Automation Maintenance (Monthly)
-     * 
      * UK Market Average: £250/mo
      * Our Price: £185/mo (26% less)
      */
@@ -202,17 +215,39 @@ export const PRICING_CONFIG: PricingConfig = {
   },
   
   /**
+   * SSR-SPECIFIC ADD-ONS
+   * Premium features for Next.js builds
+   */
+  ssrAddOns: {
+    animations: 2250,        // Premium Animations Package (Framer Motion)
+    customerPortal: 5500,    // Client Customer Portal
+    database: 3500,          // PostgreSQL Database
+    authentication: 2750,    // User Authentication System
+    apiIntegration: 1875,    // Per API integration
+    multilanguage: 3375,     // Multi-language / i18n
+    realtime: 4500,          // Real-time Features
+    analytics: 2250,         // Custom Analytics Dashboard
+    scalability: 3000,       // Enterprise Scalability
+  },
+  
+  /**
+   * UK MARKET AVERAGES FOR SSR ADD-ONS
+   * For displaying savings
+   */
+  ssrAddOnsMarket: {
+    animations: 3500,
+    customerPortal: 8000,
+    database: 5500,
+    authentication: 4000,
+    apiIntegration: 3000,
+    multilanguage: 4500,
+    realtime: 6500,
+    analytics: 3500,
+    scalability: 5000,
+  },
+  
+  /**
    * CONTRACT STRUCTURES
-   * 
-   * Industry standard (from Manus research):
-   * - 12 months: 15-20% markup over one-off
-   * - 24 months: 25-35% markup over one-off
-   * - Ongoing maintenance: £150-300/mo
-   * 
-   * Our approach: LOWER markup than industry (competitive advantage)
-   * - 12 months: 6% markup (vs industry 15-20%)
-   * - 24 months: 12% markup (vs industry 25-35%)
-   * - Maintenance: £95-145/mo (vs industry £150-300)
    */
   contracts: {
     oneOff: {
@@ -220,11 +255,11 @@ export const PRICING_CONFIG: PricingConfig = {
     },
     twelve: {
       markup: 1.06,              // Only 6% markup (industry is 15-20%)
-      ongoingMonthly: 95,        // £95/mo after contract (industry £150-300)
+      ongoingMonthly: 95,        // £95/mo after contract
     },
     twentyFour: {
       markup: 1.12,              // Only 12% markup (industry is 25-35%)
-      ongoingMonthly: 75,        // £75/mo after contract (lower for commitment)
+      ongoingMonthly: 75,        // £75/mo after contract
     },
   },
 };
@@ -235,9 +270,22 @@ export const PRICING_CONFIG: PricingConfig = {
  */
 export const PRICING_LABELS = {
   projectTypes: {
-    new: 'New Website',
+    clientManaged: 'Client-Managed Website',
+    ssr: 'SSR AI-First Website',
     upgrade: 'Website Upgrade',
     visibility: 'AI Visibility Only (V.O.I.C.E™)',
+    webapp: 'Custom Web App',
+  },
+  projectDescriptions: {
+    clientManaged: 'Built on Wix Studio. Easy to edit yourself. Great performance.',
+    ssr: 'Server-Side Rendered on Next.js. Maximum AI visibility.',
+    upgrade: 'Modernize your existing site with new features and design (40% discount)',
+    visibility: 'Get found by ChatGPT, Claude, and other AI assistants',
+    webapp: 'Bespoke tools and applications to automate your business',
+  },
+  projectBadges: {
+    clientManaged: '60+ Lighthouse Mobile',
+    ssr: '99+ Lighthouse Mobile',
   },
   packages: {
     starter: 'Starter (5 Pages)',
@@ -250,11 +298,22 @@ export const PRICING_LABELS = {
     medium: 'Medium Shop (51-200 products)',
     large: 'Large Shop (200+ products)',
   },
+  headlessEcommerce: {
+    none: 'No E-commerce',
+    shopify: 'Headless E-commerce (Shopify)',
+    snipcart: 'Headless E-commerce (Snipcart)',
+    custom: 'Custom E-commerce Solution',
+  },
   webApps: {
     none: 'No Web App',
     simple: 'Simple (Calculator, Widget, Qualifier)',
     standard: 'Standard (Portal, Dashboard, Tracker)',
     complex: 'Complex (Multi-user, API, Custom Workflows)',
+  },
+  ssrWebApps: {
+    none: 'No Web App',
+    simple: 'Simple App (dashboard, forms)',
+    complex: 'Complex App (portal, integrations)',
   },
   addOns: {
     voice: 'V.O.I.C.E™ AI Visibility',
@@ -267,6 +326,28 @@ export const PRICING_LABELS = {
     automationSetup: 'Automation Setup',
     automationMonthly: 'Automation Maintenance',
   },
+  ssrAddOns: {
+    animations: 'Premium Animations Package',
+    customerPortal: 'Client Customer Portal',
+    database: 'PostgreSQL Database',
+    authentication: 'User Authentication System',
+    apiIntegration: 'API Integrations',
+    multilanguage: 'Multi-language / i18n',
+    realtime: 'Real-time Features',
+    analytics: 'Custom Analytics Dashboard',
+    scalability: 'Enterprise Scalability',
+  },
+  ssrAddOnDescriptions: {
+    animations: 'Page transitions, scroll-triggered animations, micro-interactions, hover effects. Makes your site feel alive.',
+    customerPortal: 'Secure login area for your customers. Dashboard, account management, order history, document access.',
+    database: 'Persistent data storage for user data, custom records, application state. Scales infinitely.',
+    authentication: 'Secure user login, OAuth (Google/Apple/Microsoft), password reset, session management.',
+    apiIntegration: 'Connect to CRMs, payment gateways, booking systems, or any third-party service.',
+    multilanguage: 'Internationalized routing, language switcher, content translation ready. Reach global audiences.',
+    realtime: 'WebSocket connections, live updates, notifications, chat functionality.',
+    analytics: 'Beyond Google Analytics. Conversion tracking, funnel visualization, custom events, heatmaps integration.',
+    scalability: 'Load balancing configuration, advanced CDN setup, auto-scaling, performance monitoring.',
+  },
   payments: {
     oneOff: 'One-Off Payment (5% discount)',
     twelve: '12-Month Contract',
@@ -275,8 +356,23 @@ export const PRICING_LABELS = {
 };
 
 /**
- * PACKAGE FEATURES
- * For display in the calculator
+ * SSR INCLUDED FEATURES
+ * What's included in the SSR base price
+ */
+export const SSR_INCLUDED_FEATURES = [
+  'Server-Side Rendering (Next.js 16)',
+  'Ghost CMS Integration (headless blog)',
+  'Auto-generated JSON-LD Schema',
+  'Vercel Edge Deployment',
+  '100/100 Lighthouse Optimisation',
+  'Mobile-first Responsive Design',
+  'Basic SEO Setup (meta tags, sitemaps, robots.txt)',
+  'SSL Certificate',
+  '30 days post-launch support',
+];
+
+/**
+ * CLIENT-MANAGED PACKAGE FEATURES
  */
 export const PACKAGE_FEATURES = {
   starter: [
@@ -315,7 +411,6 @@ export const PACKAGE_FEATURES = {
 
 /**
  * V.O.I.C.E™ FEATURES
- * What's included in the AI visibility service
  */
 export const VOICE_FEATURES = [
   'Answer Engine Optimization (AEO)',
@@ -329,8 +424,7 @@ export const VOICE_FEATURES = [
 ];
 
 /**
- * CUSTOM WEB APP FEATURES
- * What's included at each tier
+ * WEB APP FEATURES
  */
 export const WEB_APP_FEATURES = {
   simple: [
@@ -368,7 +462,6 @@ export const WEB_APP_FEATURES = {
 
 /**
  * MARKET COMPARISON MESSAGING
- * For showing value vs. market average
  */
 export const MARKET_COMPARISON = {
   discount: 25,
@@ -382,13 +475,46 @@ export const MARKET_COMPARISON = {
  */
 export const LIMITS = {
   minPages: 1,
+  minPagesSSR: 5,
   maxPages: 100,
   maxProducts: 10000,
   maxVideos: 10,
+  maxApiIntegrations: 10,
 };
 
 /**
- * CALCULATE PACKAGE FROM PAGE COUNT
+ * CALCULATE SSR PRICE FOR PAGE COUNT
+ */
+export function calculateSSRPrice(pages: number): number {
+  const { base, perPage6to10, perPage11to20, perPage21plus } = PRICING_CONFIG.ssrWebsite;
+  
+  if (pages <= 5) return base;
+  
+  let total = base;
+  
+  // Pages 6-10
+  if (pages > 5) {
+    const pagesIn6to10 = Math.min(pages - 5, 5);
+    total += pagesIn6to10 * perPage6to10;
+  }
+  
+  // Pages 11-20
+  if (pages > 10) {
+    const pagesIn11to20 = Math.min(pages - 10, 10);
+    total += pagesIn11to20 * perPage11to20;
+  }
+  
+  // Pages 21+
+  if (pages > 20) {
+    const pagesOver20 = pages - 20;
+    total += pagesOver20 * perPage21plus;
+  }
+  
+  return total;
+}
+
+/**
+ * CALCULATE PACKAGE FROM PAGE COUNT (Client-Managed)
  */
 export function getPackageForPageCount(pages: number): 'starter' | 'professional' | 'enterprise' {
   if (pages <= 5) return 'starter';
@@ -397,7 +523,7 @@ export function getPackageForPageCount(pages: number): 'starter' | 'professional
 }
 
 /**
- * GET ADDITIONAL PAGES BEYOND PACKAGE
+ * GET ADDITIONAL PAGES BEYOND PACKAGE (Client-Managed)
  */
 export function getAdditionalPages(pages: number): number {
   if (pages <= 5) return 0;
@@ -407,7 +533,6 @@ export function getAdditionalPages(pages: number): number {
 
 /**
  * GET MARKET COMPARISON DATA
- * Shows how much cheaper we are than market average
  */
 export function getMarketComparison(service: keyof typeof UK_MARKET_AVERAGES, ourPrice: number): {
   marketAverage: number;

@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Check, ChevronLeft, ChevronRight, Loader2, Calendar } from 'lucide-react';
+import { Check, ChevronLeft, ChevronRight, Loader2, Calendar, Rocket, Globe, Zap, Star, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -21,12 +21,14 @@ import {
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 import { calculateQuote, createQuoteResult, formatCurrency, getMarketAverage } from '@/lib/calculate-quote';
-import { PRICING_LABELS, PRICING_CONFIG } from '@/lib/pricing-config';
+import { PRICING_LABELS, PRICING_CONFIG, SSR_INCLUDED_FEATURES, calculateSSRPrice } from '@/lib/pricing-config';
 import type {
   ProjectType,
   PaymentPreference,
   EcommerceSize,
+  HeadlessEcommerceType,
   WebAppSize,
+  SSRWebAppSize,
   QuoteRequest,
   ContactInfo,
   QuoteBreakdown,
@@ -54,7 +56,9 @@ const initialRequest: Partial<QuoteRequest> = {
   scope: {
     pageCount: 5,
     ecommerce: 'none',
+    headlessEcommerce: 'none',
     webApp: 'none',
+    ssrWebApp: 'none',
     hasBlog: false,
     hasComplexForms: false,
     hasAutomation: false,
@@ -66,6 +70,15 @@ const initialRequest: Partial<QuoteRequest> = {
     videoLong: 0,
     videoShortBundle: false,
     imageLibrary: false,
+    ssrAnimations: false,
+    ssrCustomerPortal: false,
+    ssrDatabase: false,
+    ssrAuthentication: false,
+    ssrApiIntegrations: 0,
+    ssrMultilanguage: false,
+    ssrRealtime: false,
+    ssrAnalytics: false,
+    ssrScalability: false,
   },
   paymentPreference: 'twelve',
 };
@@ -97,6 +110,9 @@ export function QuoteCalculator() {
   // Calculate breakdown in real-time
   const breakdown = useMemo(() => calculateQuote(request), [request]);
 
+  // Check if SSR project
+  const isSSR = request.projectType === 'ssr';
+
   // Load saved quote from URL token on mount
   useEffect(() => {
     const token = searchParams.get('q');
@@ -127,14 +143,12 @@ export function QuoteCalculator() {
           }));
         }
         
-        // Resume from saved step (minimum step 2 since email is captured)
         if (data.quote.currentStep > 1) {
           setCurrentStep(data.quote.currentStep);
         } else {
-          setCurrentStep(2); // Skip email step since we have it
+          setCurrentStep(2);
         }
       } else if (data.isSubmitted) {
-        // Quote already submitted, show message
         setIsSubmitted(true);
         setQuoteId(token);
       }
@@ -145,14 +159,12 @@ export function QuoteCalculator() {
     }
   };
 
-  // Update URL with quote token
   const updateUrlWithToken = (token: string) => {
     const url = new URL(window.location.href);
     url.searchParams.set('q', token);
     router.replace(url.pathname + url.search, { scroll: false });
   };
 
-  // Save progress to API
   const saveProgress = async (step: number, updatedRequest?: Partial<QuoteRequest>, updatedContact?: Partial<ContactInfo>) => {
     if (!quoteToken) return;
 
@@ -181,15 +193,12 @@ export function QuoteCalculator() {
     }
   };
 
-  // Progress percentage
   const progress = (currentStep / STEPS.length) * 100;
 
-  // Update request helper
   const updateRequest = useCallback((updates: Partial<QuoteRequest>) => {
     setRequest(prev => ({ ...prev, ...updates }));
   }, []);
 
-  // Update scope helper
   const updateScope = useCallback((updates: Partial<QuoteRequest['scope']>) => {
     setRequest(prev => ({
       ...prev,
@@ -197,7 +206,6 @@ export function QuoteCalculator() {
     }));
   }, []);
 
-  // Update add-ons helper
   const updateAddOns = useCallback((updates: Partial<QuoteRequest['addOns']>) => {
     setRequest(prev => ({
       ...prev,
@@ -205,12 +213,10 @@ export function QuoteCalculator() {
     }));
   }, []);
 
-  // Email validation helper
   const isValidEmail = (email: string) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  // Navigation
   const canGoNext = useCallback(() => {
     switch (currentStep) {
       case 1:
@@ -218,9 +224,9 @@ export function QuoteCalculator() {
       case 2:
         return !!request.projectType;
       case 3:
-        return true; // Scope always has defaults
+        return true;
       case 4:
-        return true; // Add-ons are optional
+        return true;
       case 5:
         return !!request.paymentPreference;
       case 6:
@@ -234,7 +240,6 @@ export function QuoteCalculator() {
     if (currentStep < STEPS.length && canGoNext()) {
       const nextStep = currentStep + 1;
 
-      // Step 1 -> 2: Create quote and get token
       if (currentStep === 1 && !quoteToken) {
         try {
           const response = await fetch('/api/quote/start', {
@@ -248,20 +253,17 @@ export function QuoteCalculator() {
             setQuoteToken(data.quoteId);
             updateUrlWithToken(data.quoteId);
 
-            // If returning user, restore their progress
             if (data.isExisting && data.selections) {
               setRequest(prev => ({ ...prev, ...data.selections }));
               if (data.contact) {
                 setContact(prev => ({ ...prev, ...data.contact }));
               }
-              // Go to their last step if they had progress
               if (data.currentStep > 2) {
                 setCurrentStep(data.currentStep);
                 return;
               }
             }
           } else if (data.limitExceeded) {
-            // User has already submitted 2 quotes - show booking option
             setQuoteLimitExceeded(true);
             return;
           }
@@ -269,7 +271,6 @@ export function QuoteCalculator() {
           console.error('Failed to start quote:', error);
         }
       } else if (quoteToken) {
-        // Save progress for other steps
         saveProgress(nextStep);
       }
 
@@ -280,7 +281,6 @@ export function QuoteCalculator() {
   const goBack = () => {
     if (currentStep > 1) {
       const prevStep = currentStep - 1;
-      // Don't go back to step 1 (email) if we have a token
       if (prevStep === 1 && quoteToken) {
         return;
       }
@@ -291,7 +291,6 @@ export function QuoteCalculator() {
     }
   };
 
-  // Submit handler
   const handleSubmit = async () => {
     if (!canGoNext()) return;
 
@@ -308,15 +307,15 @@ export function QuoteCalculator() {
     const result = createQuoteResult(fullRequest, request.paymentPreference!);
 
     try {
-      // Mark quote as submitted in our tracking DB
       if (quoteToken) {
-        // Determine package type based on page count
         const pageCount = request.scope?.pageCount || 5;
-        let packageType = 'Starter';
-        if (pageCount > 10) packageType = 'Enterprise';
-        else if (pageCount > 5) packageType = 'Professional';
+        let packageType = request.projectType === 'ssr' ? 'SSR AI-First' : 'Client-Managed';
+        if (request.projectType === 'clientManaged') {
+          if (pageCount > 10) packageType = 'Enterprise';
+          else if (pageCount > 5) packageType = 'Professional';
+          else packageType = 'Starter';
+        }
 
-        // Get pricing based on payment preference
         const paymentPref = request.paymentPreference || 'twelve';
         const paymentTypeLabels: Record<string, string> = {
           oneOff: 'One-off',
@@ -355,7 +354,6 @@ export function QuoteCalculator() {
               message: contact.message,
             },
             submit: true,
-            // Pricing data for Brevo
             pricing: {
               packageType,
               paymentType: paymentTypeLabels[paymentPref],
@@ -366,7 +364,6 @@ export function QuoteCalculator() {
         });
       }
 
-      // Submit full quote details
       const response = await fetch('/api/quote', {
         method: 'POST',
         headers: {
@@ -375,7 +372,7 @@ export function QuoteCalculator() {
         body: JSON.stringify({
           request: fullRequest,
           result,
-          quoteToken, // Include token for reference
+          quoteToken,
         }),
       });
 
@@ -388,7 +385,6 @@ export function QuoteCalculator() {
       setIsSubmitted(true);
     } catch (error) {
       console.error('Submit error:', error);
-      // Still show success with token or local ID if API fails
       setQuoteId(quoteToken || result.id);
       setIsSubmitted(true);
     } finally {
@@ -468,7 +464,6 @@ export function QuoteCalculator() {
               setCurrentStep(1);
               setRequest(initialRequest);
               setContact({ name: '', email: '', phone: '', company: '', message: '' });
-              // Clear URL token
               router.replace('/pricing', { scroll: false });
             }}
             className="bg-brand-gold text-brand-navy hover:bg-white"
@@ -497,7 +492,6 @@ export function QuoteCalculator() {
               )}
             >
               <div className="relative">
-                {/* Navy circle background for completed/active steps */}
                 {step.id <= currentStep && (
                   <div 
                     className="absolute inset-0 w-7 h-7 sm:w-10 sm:h-10 -m-0.5 sm:-m-1 rounded-full bg-brand-navy animate-scale-in"
@@ -529,8 +523,26 @@ export function QuoteCalculator() {
         </div>
       </div>
 
+      {/* Project Type Badge */}
+      {request.projectType && currentStep > 2 && (
+        <div className="mb-4 flex justify-center">
+          <span className={cn(
+            "inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium",
+            isSSR 
+              ? "bg-brand-gold/20 text-brand-gold border border-brand-gold/40"
+              : "bg-brand-navy/10 text-brand-navy border border-brand-navy/20"
+          )}>
+            {isSSR ? <Rocket className="w-4 h-4" /> : <Globe className="w-4 h-4" />}
+            {PRICING_LABELS.projectTypes[request.projectType]}
+          </span>
+        </div>
+      )}
+
       {/* Main Card */}
-      <Card className="bg-white shadow-card">
+      <Card className={cn(
+        "bg-white shadow-card",
+        isSSR && currentStep > 2 && "ring-2 ring-brand-gold/30"
+      )}>
         <CardHeader className="bg-brand-navy text-white rounded-t-lg">
           <CardTitle className="text-h3 font-headline">
             {STEPS[currentStep - 1].title}
@@ -540,7 +552,6 @@ export function QuoteCalculator() {
           </CardDescription>
         </CardHeader>
         <CardContent className="p-6 md:p-8">
-          {/* Step 1: Get Started (Email) */}
           {currentStep === 1 && (
             <StepGetStarted
               email={contact.email}
@@ -548,15 +559,19 @@ export function QuoteCalculator() {
             />
           )}
 
-          {/* Step 2: Project Type */}
           {currentStep === 2 && (
             <StepProjectType
               value={request.projectType}
-              onChange={(value) => updateRequest({ projectType: value })}
+              onChange={(value) => {
+                updateRequest({ projectType: value });
+                // Reset scope when changing project type
+                if (value === 'ssr') {
+                  updateScope({ pageCount: 5, hasBlog: true }); // Blog included with SSR
+                }
+              }}
             />
           )}
 
-          {/* Step 3: Scope */}
           {currentStep === 3 && (
             <StepScope
               projectType={request.projectType!}
@@ -565,7 +580,6 @@ export function QuoteCalculator() {
             />
           )}
 
-          {/* Step 4: Add-ons */}
           {currentStep === 4 && (
             <StepAddOns
               projectType={request.projectType!}
@@ -574,16 +588,15 @@ export function QuoteCalculator() {
             />
           )}
 
-          {/* Step 5: Payment */}
           {currentStep === 5 && (
             <StepPayment
               value={request.paymentPreference!}
               onChange={(value) => updateRequest({ paymentPreference: value })}
               breakdown={breakdown}
+              isSSR={isSSR}
             />
           )}
 
-          {/* Step 6: Summary */}
           {currentStep === 6 && (
             <StepSummary
               request={request}
@@ -598,16 +611,26 @@ export function QuoteCalculator() {
         <div className="px-6 pb-6 md:px-8 md:pb-8">
           <Separator className="mb-6" />
           
-          {/* Live Price Display - WCAG 4.1.3 Status Messages */}
+          {/* Live Price Display */}
           {breakdown.oneOffSubtotal > 0 && currentStep > 1 && currentStep < 6 && (
             <div 
-              className="bg-brand-navy rounded-lg p-5 mb-6"
+              className={cn(
+                "rounded-lg p-5 mb-6",
+                isSSR ? "bg-gradient-to-r from-brand-navy to-brand-graphite" : "bg-brand-navy"
+              )}
               role="status"
               aria-live="polite"
               aria-atomic="true"
             >
               <div className="flex justify-between items-center">
-                <span className="text-white font-medium text-body-lg">Current Estimate:</span>
+                <div>
+                  <span className="text-white font-medium text-body-lg">Current Estimate:</span>
+                  {isSSR && (
+                    <span className="ml-2 text-xs bg-brand-gold/20 text-brand-gold px-2 py-0.5 rounded">
+                      SSR Premium
+                    </span>
+                  )}
+                </div>
                 <span className="text-h2 text-brand-gold font-headline">
                   {formatCurrency(breakdown.totals.oneOff.final)}
                 </span>
@@ -731,7 +754,7 @@ function StepGetStarted({ email, onChange }: StepGetStartedProps) {
 }
 
 // ============================================
-// STEP 2: PROJECT TYPE
+// STEP 2: PROJECT TYPE (UPDATED)
 // ============================================
 
 interface StepProjectTypeProps {
@@ -740,12 +763,35 @@ interface StepProjectTypeProps {
 }
 
 function StepProjectType({ value, onChange }: StepProjectTypeProps) {
-  const options: { value: ProjectType; label: string; description: string }[] = [
+  const websiteOptions: { 
+    value: ProjectType; 
+    label: string; 
+    tagline: string;
+    description: string;
+    badge?: string;
+    recommended?: boolean;
+    icon: typeof Globe;
+  }[] = [
     {
-      value: 'new',
-      label: 'New Website',
-      description: 'Start fresh with a brand new website built from the ground up',
+      value: 'clientManaged',
+      label: 'Client-Managed Website',
+      tagline: 'Easy to edit yourself',
+      description: 'Built on Wix Studio. Update content yourself without touching code. Great performance, GEO-ready structure.',
+      badge: '60+ Lighthouse Mobile',
+      icon: Globe,
     },
+    {
+      value: 'ssr',
+      label: 'SSR AI-First Website',
+      tagline: 'Maximum AI visibility',
+      description: 'Server-Side Rendered on Next.js. Auto-generated schema on every page. 100/100 Lighthouse scores. AI crawlers see your full content instantly.',
+      badge: '99+ Lighthouse Mobile',
+      recommended: true,
+      icon: Rocket,
+    },
+  ];
+
+  const otherOptions: { value: ProjectType; label: string; description: string }[] = [
     {
       value: 'upgrade',
       label: 'Website Upgrade',
@@ -764,32 +810,98 @@ function StepProjectType({ value, onChange }: StepProjectTypeProps) {
   ];
 
   return (
-    <RadioGroup value={value} onValueChange={(v) => onChange(v as ProjectType)}>
-      <div className="grid gap-4">
-        {options.map((option) => (
-          <label
-            key={option.value}
-            className={cn(
-              'flex items-start gap-4 p-4 rounded-lg border-2 cursor-pointer transition-all',
-              value === option.value
-                ? 'border-brand-gold bg-brand-gold/5'
-                : 'border-brand-graphite/20 hover:border-brand-gold/50'
-            )}
-          >
-            <RadioGroupItem value={option.value} className="mt-1" />
-            <div>
-              <div className="font-bold text-brand-navy">{option.label}</div>
-              <div className="text-body-sm text-brand-graphite">{option.description}</div>
-            </div>
-          </label>
-        ))}
+    <div className="space-y-6">
+      {/* Website Options Group */}
+      <div>
+        <Label className="text-body-sm font-bold text-brand-graphite uppercase mb-3 block">
+          New Website
+        </Label>
+        <RadioGroup value={value} onValueChange={(v) => onChange(v as ProjectType)}>
+          <div className="grid md:grid-cols-2 gap-4">
+            {websiteOptions.map((option) => (
+              <label
+                key={option.value}
+                className={cn(
+                  'relative flex flex-col p-5 rounded-xl border-2 cursor-pointer transition-all',
+                  value === option.value
+                    ? option.recommended 
+                      ? 'border-brand-gold bg-brand-gold/10 shadow-[0_0_20px_rgba(236,182,21,0.2)]'
+                      : 'border-brand-gold bg-brand-gold/5'
+                    : option.recommended
+                      ? 'border-brand-gold/30 hover:border-brand-gold/60 bg-brand-gold/[0.02]'
+                      : 'border-brand-graphite/20 hover:border-brand-gold/50'
+                )}
+              >
+                {/* Recommended Badge */}
+                {option.recommended && (
+                  <span className="absolute -top-3 right-4 bg-brand-gold text-brand-navy text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+                    <Star className="w-3 h-3" /> RECOMMENDED
+                  </span>
+                )}
+                
+                <div className="flex items-start gap-3">
+                  <RadioGroupItem value={option.value} className="mt-1" />
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <option.icon className={cn(
+                        "w-5 h-5",
+                        option.recommended ? "text-brand-gold" : "text-brand-navy"
+                      )} />
+                      <span className="font-bold text-brand-navy">{option.label}</span>
+                    </div>
+                    <p className="text-sm text-brand-gold font-medium mb-2">{option.tagline}</p>
+                    <p className="text-body-sm text-brand-graphite">{option.description}</p>
+                    {option.badge && (
+                      <span className={cn(
+                        "inline-block mt-3 text-xs font-medium px-2 py-1 rounded",
+                        option.recommended 
+                          ? "bg-green-100 text-green-700"
+                          : "bg-brand-navy/10 text-brand-navy"
+                      )}>
+                        {option.badge}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </label>
+            ))}
+          </div>
+        </RadioGroup>
       </div>
-    </RadioGroup>
+
+      {/* Other Options */}
+      <div>
+        <Label className="text-body-sm font-bold text-brand-graphite uppercase mb-3 block">
+          Other Services
+        </Label>
+        <RadioGroup value={value} onValueChange={(v) => onChange(v as ProjectType)}>
+          <div className="grid gap-3">
+            {otherOptions.map((option) => (
+              <label
+                key={option.value}
+                className={cn(
+                  'flex items-start gap-4 p-4 rounded-lg border-2 cursor-pointer transition-all',
+                  value === option.value
+                    ? 'border-brand-gold bg-brand-gold/5'
+                    : 'border-brand-graphite/20 hover:border-brand-gold/50'
+                )}
+              >
+                <RadioGroupItem value={option.value} className="mt-1" />
+                <div>
+                  <div className="font-bold text-brand-navy">{option.label}</div>
+                  <div className="text-body-sm text-brand-graphite">{option.description}</div>
+                </div>
+              </label>
+            ))}
+          </div>
+        </RadioGroup>
+      </div>
+    </div>
   );
 }
 
 // ============================================
-// STEP 2: SCOPE
+// STEP 3: SCOPE (UPDATED FOR SSR)
 // ============================================
 
 interface StepScopeProps {
@@ -799,12 +911,37 @@ interface StepScopeProps {
 }
 
 function StepScope({ projectType, scope, onChange }: StepScopeProps) {
-  const showPageCount = projectType === 'new' || projectType === 'upgrade';
-  const showEcommerce = projectType === 'new' || projectType === 'upgrade';
-  const showWebApp = projectType !== 'visibility';
+  const isSSR = projectType === 'ssr';
+  const isClientManaged = projectType === 'clientManaged';
+  const showPageCount = projectType === 'clientManaged' || projectType === 'upgrade' || projectType === 'ssr';
+  const showEcommerce = projectType === 'clientManaged' || projectType === 'upgrade';
+  const showHeadlessEcommerce = projectType === 'ssr';
+  const showWebApp = projectType !== 'visibility' && projectType !== 'ssr';
+  const showSSRWebApp = projectType === 'ssr';
+
+  // Calculate SSR price for display
+  const ssrPrice = isSSR ? calculateSSRPrice(scope.pageCount) : 0;
 
   return (
     <div className="space-y-8">
+      {/* SSR Included Features */}
+      {isSSR && (
+        <div className="bg-brand-gold/10 rounded-xl p-5 border border-brand-gold/30">
+          <div className="flex items-center gap-2 mb-4">
+            <Sparkles className="w-5 h-5 text-brand-gold" />
+            <span className="font-bold text-brand-navy">Included in SSR Base Price</span>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-2">
+            {SSR_INCLUDED_FEATURES.slice(0, 6).map((feature) => (
+              <div key={feature} className="flex items-center gap-2 text-sm text-brand-navy/80">
+                <Check className="w-4 h-4 text-green-600 shrink-0" />
+                <span>{feature}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Page Count Slider */}
       {showPageCount && (
         <div>
@@ -814,8 +951,8 @@ function StepScope({ projectType, scope, onChange }: StepScopeProps) {
           <div className="flex items-center gap-4 mb-2">
             <Slider
               value={[scope.pageCount]}
-              onValueChange={([value]) => onChange({ pageCount: value })}
-              min={1}
+              onValueChange={([value]) => onChange({ pageCount: isSSR ? Math.max(5, value) : value })}
+              min={isSSR ? 5 : 1}
               max={50}
               step={1}
               className="flex-1"
@@ -825,13 +962,18 @@ function StepScope({ projectType, scope, onChange }: StepScopeProps) {
             </div>
           </div>
           <div className="flex justify-between text-caption text-brand-graphite">
-            <span>1 page</span>
+            <span>{isSSR ? '5 pages (min)' : '1 page'}</span>
             <span>50+ pages</span>
           </div>
+          {isSSR && (
+            <div className="mt-3 text-sm text-brand-navy/70">
+              SSR Base Price ({scope.pageCount} pages): <strong className="text-brand-gold">{formatCurrency(ssrPrice)}</strong>
+            </div>
+          )}
         </div>
       )}
 
-      {/* E-commerce Dropdown */}
+      {/* E-commerce Dropdown (Client-Managed) */}
       {showEcommerce && (
         <div>
           <Label className="text-body font-bold text-brand-navy mb-2 block">
@@ -860,7 +1002,39 @@ function StepScope({ projectType, scope, onChange }: StepScopeProps) {
         </div>
       )}
 
-      {/* Web App Dropdown */}
+      {/* Headless E-commerce Dropdown (SSR) */}
+      {showHeadlessEcommerce && (
+        <div>
+          <Label className="text-body font-bold text-brand-navy mb-2 block">
+            Do you need e-commerce?
+          </Label>
+          <Select
+            value={scope.headlessEcommerce}
+            onValueChange={(value) => onChange({ headlessEcommerce: value as HeadlessEcommerceType })}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select e-commerce option" />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.entries(PRICING_LABELS.headlessEcommerce).map(([key, label]) => (
+                <SelectItem key={key} value={key}>
+                  {label}
+                  {key !== 'none' && (
+                    <span className="text-brand-graphite ml-2">
+                      (+{formatCurrency(PRICING_CONFIG.headlessEcommerce[key as keyof typeof PRICING_CONFIG.headlessEcommerce])})
+                    </span>
+                  )}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {scope.headlessEcommerce === 'shopify' && (
+            <p className="text-xs text-brand-graphite mt-2">* Excludes Shopify subscription fees</p>
+          )}
+        </div>
+      )}
+
+      {/* Web App Dropdown (Client-Managed) */}
       {showWebApp && (
         <div>
           <Label className="text-body font-bold text-brand-navy mb-2 block">
@@ -889,40 +1063,105 @@ function StepScope({ projectType, scope, onChange }: StepScopeProps) {
         </div>
       )}
 
+      {/* SSR Web App Dropdown */}
+      {showSSRWebApp && (
+        <div>
+          <Label className="text-body font-bold text-brand-navy mb-2 block">
+            Need a custom web app?
+          </Label>
+          <Select
+            value={scope.ssrWebApp}
+            onValueChange={(value) => onChange({ ssrWebApp: value as SSRWebAppSize })}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select web app tier" />
+            </SelectTrigger>
+            <SelectContent>
+              {Object.entries(PRICING_LABELS.ssrWebApps).map(([key, label]) => (
+                <SelectItem key={key} value={key}>
+                  {label}
+                  {key !== 'none' && (
+                    <span className="text-brand-graphite ml-2">
+                      (+{formatCurrency(PRICING_CONFIG.ssrWebApps[key as keyof typeof PRICING_CONFIG.ssrWebApps])})
+                    </span>
+                  )}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
+
       {/* Feature Checkboxes */}
       <div>
         <Label className="text-body font-bold text-brand-navy mb-4 block">
           Additional features
         </Label>
         <div className="space-y-3">
-          <label className="flex items-center gap-3 cursor-pointer">
+          {/* Blog - Included for SSR */}
+          <label className={cn(
+            "flex items-center gap-3",
+            isSSR ? "opacity-60 cursor-not-allowed" : "cursor-pointer"
+          )}>
             <Checkbox
-              checked={scope.hasBlog}
-              onCheckedChange={(checked) => onChange({ hasBlog: checked as boolean })}
+              checked={isSSR ? true : scope.hasBlog}
+              onCheckedChange={isSSR ? undefined : (checked) => onChange({ hasBlog: checked as boolean })}
+              disabled={isSSR}
             />
             <span className="text-brand-navy">Blog / CMS functionality</span>
-            <span className="text-body-sm text-brand-graphite">(Included in package)</span>
-          </label>
-          <label className="flex items-center gap-3 cursor-pointer">
-            <Checkbox
-              checked={scope.hasComplexForms}
-              onCheckedChange={(checked) => onChange({ hasComplexForms: checked as boolean })}
-            />
-            <span className="text-brand-navy">Advanced logic forms</span>
-            <span className="text-body-sm bg-brand-navy text-white px-2 py-0.5 rounded">
-              +{formatCurrency(PRICING_CONFIG.addOns.complexForms)}
+            <span className={cn(
+              "text-body-sm px-2 py-0.5 rounded",
+              isSSR ? "bg-green-100 text-green-700" : "text-brand-graphite"
+            )}>
+              {isSSR ? '✓ Included with SSR' : '(Included in package)'}
             </span>
           </label>
-          <label className="flex items-center gap-3 cursor-pointer">
-            <Checkbox
-              checked={scope.hasAutomation}
-              onCheckedChange={(checked) => onChange({ hasAutomation: checked as boolean })}
-            />
-            <span className="text-brand-navy">Email automation (outreach + abandoned cart)</span>
-            <span className="text-body-sm bg-brand-navy text-white px-2 py-0.5 rounded">
-              +{formatCurrency(PRICING_CONFIG.addOns.automationSetup)} + {formatCurrency(PRICING_CONFIG.addOns.automationMonthly)}/mo
-            </span>
-          </label>
+
+          {/* Client-Managed specific features */}
+          {isClientManaged && (
+            <>
+              <label className="flex items-center gap-3 cursor-pointer">
+                <Checkbox
+                  checked={scope.hasComplexForms}
+                  onCheckedChange={(checked) => onChange({ hasComplexForms: checked as boolean })}
+                />
+                <span className="text-brand-navy">Advanced logic forms</span>
+                <span className="text-body-sm bg-brand-navy text-white px-2 py-0.5 rounded">
+                  +{formatCurrency(PRICING_CONFIG.addOns.complexForms)}
+                </span>
+              </label>
+              <label className="flex items-center gap-3 cursor-pointer">
+                <Checkbox
+                  checked={scope.hasAutomation}
+                  onCheckedChange={(checked) => onChange({ hasAutomation: checked as boolean })}
+                />
+                <span className="text-brand-navy">Email automation (outreach + abandoned cart)</span>
+                <span className="text-body-sm bg-brand-navy text-white px-2 py-0.5 rounded">
+                  +{formatCurrency(PRICING_CONFIG.addOns.automationSetup)} + {formatCurrency(PRICING_CONFIG.addOns.automationMonthly)}/mo
+                </span>
+              </label>
+            </>
+          )}
+
+          {/* SSR included features (greyed out) */}
+          {isSSR && (
+            <>
+              <label className="flex items-center gap-3 opacity-60 cursor-not-allowed">
+                <Checkbox checked disabled />
+                <span className="text-brand-navy">Auto Schema Generation</span>
+                <span className="text-body-sm bg-green-100 text-green-700 px-2 py-0.5 rounded">
+                  ✓ Included with SSR
+                </span>
+              </label>
+              <label className="flex items-center gap-3 opacity-60 cursor-not-allowed">
+                <Checkbox checked disabled />
+                <span className="text-brand-navy">Edge Deployment (Vercel)</span>
+                <span className="text-body-sm bg-green-100 text-green-700 px-2 py-0.5 rounded">
+                  ✓ Included with SSR
+                </span>
+              </label>
+            </>
+          )}
         </div>
       </div>
     </div>
@@ -930,7 +1169,7 @@ function StepScope({ projectType, scope, onChange }: StepScopeProps) {
 }
 
 // ============================================
-// STEP 3: ADD-ONS
+// STEP 4: ADD-ONS (UPDATED FOR SSR)
 // ============================================
 
 interface StepAddOnsProps {
@@ -940,136 +1179,318 @@ interface StepAddOnsProps {
 }
 
 function StepAddOns({ projectType, addOns, onChange }: StepAddOnsProps) {
+  const isSSR = projectType === 'ssr';
+
   return (
-    <div className="space-y-6">
-      {/* V.O.I.C.E™ - Always shown, pre-selected for visibility projects */}
-      <div
-        className={cn(
-          'p-4 rounded-lg border-2 transition-all',
-          addOns.voice || projectType === 'visibility'
-            ? 'border-brand-gold bg-brand-gold/5'
-            : 'border-brand-graphite/20'
-        )}
-      >
-        <label className="flex items-start gap-3 cursor-pointer">
-          <Checkbox
-            checked={addOns.voice || projectType === 'visibility'}
-            onCheckedChange={(checked) => onChange({ voice: checked as boolean })}
-            disabled={projectType === 'visibility'}
-          />
-          <div className="flex-1">
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-brand-navy">V.O.I.C.E™ AI Visibility</span>
-              <span className="badge-gold text-xs">Popular</span>
-            </div>
-            <p className="text-body-sm text-brand-graphite mt-1">
-              Get found by ChatGPT, Claude, Perplexity + traditional SEO
-            </p>
-            <div className="flex items-center gap-4 mt-2">
-              <span className="text-brand-gold font-bold">
-                {formatCurrency(PRICING_CONFIG.addOns.voice)}/mo
-              </span>
-              <span className="text-body-sm text-brand-graphite line-through">
-                UK avg: {formatCurrency(750)}/mo
-              </span>
-            </div>
+    <div className="space-y-8">
+      {/* SSR-Specific Add-ons */}
+      {isSSR && (
+        <div>
+          <div className="flex items-center gap-2 mb-4">
+            <Rocket className="w-5 h-5 text-brand-gold" />
+            <Label className="text-body font-bold text-brand-navy">SSR Enhancements</Label>
           </div>
-        </label>
-      </div>
+          <div className="space-y-4">
+            <SSRAddOnCheckbox
+              label="Premium Animations Package"
+              description={PRICING_LABELS.ssrAddOnDescriptions.animations}
+              price={PRICING_CONFIG.ssrAddOns.animations}
+              marketAverage={PRICING_CONFIG.ssrAddOnsMarket.animations}
+              checked={addOns.ssrAnimations}
+              onChange={(checked) => onChange({ ssrAnimations: checked })}
+            />
+            <SSRAddOnCheckbox
+              label="Client Customer Portal"
+              description={PRICING_LABELS.ssrAddOnDescriptions.customerPortal}
+              price={PRICING_CONFIG.ssrAddOns.customerPortal}
+              marketAverage={PRICING_CONFIG.ssrAddOnsMarket.customerPortal}
+              checked={addOns.ssrCustomerPortal}
+              onChange={(checked) => onChange({ ssrCustomerPortal: checked })}
+            />
+            <SSRAddOnCheckbox
+              label="PostgreSQL Database"
+              description={PRICING_LABELS.ssrAddOnDescriptions.database}
+              price={PRICING_CONFIG.ssrAddOns.database}
+              marketAverage={PRICING_CONFIG.ssrAddOnsMarket.database}
+              checked={addOns.ssrDatabase}
+              onChange={(checked) => onChange({ ssrDatabase: checked })}
+            />
+            <SSRAddOnCheckbox
+              label="User Authentication System"
+              description={PRICING_LABELS.ssrAddOnDescriptions.authentication}
+              price={PRICING_CONFIG.ssrAddOns.authentication}
+              marketAverage={PRICING_CONFIG.ssrAddOnsMarket.authentication}
+              checked={addOns.ssrAuthentication}
+              onChange={(checked) => onChange({ ssrAuthentication: checked })}
+            />
 
-      {/* Branding */}
-      <AddOnCheckbox
-        label="Full Branding Package"
-        description="Logo, brand guidelines, colours, typography, social templates"
-        price={PRICING_CONFIG.addOns.branding}
-        marketAverage={6500}
-        checked={addOns.branding}
-        onChange={(checked) => onChange({ branding: checked })}
-      />
-
-      {/* Research */}
-      <AddOnCheckbox
-        label="Market Research + Persona"
-        description="Competitor analysis, market mapping, customer persona development"
-        price={PRICING_CONFIG.addOns.research}
-        marketAverage={4500}
-        checked={addOns.research}
-        onChange={(checked) => onChange({ research: checked })}
-      />
-
-      {/* Video Long-form */}
-      <div
-        className={cn(
-          'p-4 rounded-lg border-2 transition-all',
-          addOns.videoLong > 0
-            ? 'border-brand-gold bg-brand-gold/5'
-            : 'border-brand-graphite/20'
-        )}
-      >
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex-1">
-            <div className="font-bold text-brand-navy">Long-form Video Production</div>
-            <p className="text-body-sm text-brand-graphite mt-1">
-              2-5 minute explainer or corporate videos
-            </p>
-            <div className="flex items-center gap-4 mt-2">
-              <span className="text-brand-gold font-bold">
-                {formatCurrency(PRICING_CONFIG.addOns.videoLong)} each
-              </span>
-              <span className="text-body-sm text-brand-graphite line-through">
-                UK avg: {formatCurrency(3500)}
-              </span>
+            {/* API Integrations - Quantity selector */}
+            <div
+              className={cn(
+                'p-4 rounded-lg border-2 transition-all',
+                (addOns.ssrApiIntegrations || 0) > 0
+                  ? 'border-brand-gold bg-brand-gold/5'
+                  : 'border-brand-graphite/20'
+              )}
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1">
+                  <div className="font-bold text-brand-navy">API Integrations</div>
+                  <p className="text-body-sm text-brand-graphite mt-1">
+                    {PRICING_LABELS.ssrAddOnDescriptions.apiIntegration}
+                  </p>
+                  <div className="flex items-center gap-4 mt-2">
+                    <span className="text-brand-gold font-bold">
+                      {formatCurrency(PRICING_CONFIG.ssrAddOns.apiIntegration)} each
+                    </span>
+                    <span className="text-body-sm text-brand-graphite line-through">
+                      UK avg: {formatCurrency(PRICING_CONFIG.ssrAddOnsMarket.apiIntegration)}
+                    </span>
+                    <span className="text-body-sm text-green-600">
+                      Save {formatCurrency(PRICING_CONFIG.ssrAddOnsMarket.apiIntegration - PRICING_CONFIG.ssrAddOns.apiIntegration)} each
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => onChange({ ssrApiIntegrations: Math.max(0, (addOns.ssrApiIntegrations || 0) - 1) })}
+                    disabled={(addOns.ssrApiIntegrations || 0) === 0}
+                    className="h-8 w-8 p-0"
+                  >
+                    -
+                  </Button>
+                  <span className="w-8 text-center font-bold">{addOns.ssrApiIntegrations || 0}</span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => onChange({ ssrApiIntegrations: Math.min(10, (addOns.ssrApiIntegrations || 0) + 1) })}
+                    disabled={(addOns.ssrApiIntegrations || 0) === 10}
+                    className="h-8 w-8 p-0"
+                  >
+                    +
+                  </Button>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => onChange({ videoLong: Math.max(0, addOns.videoLong - 1) })}
-              disabled={addOns.videoLong === 0}
-              className="h-8 w-8 p-0"
-            >
-              -
-            </Button>
-            <span className="w-8 text-center font-bold">{addOns.videoLong}</span>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => onChange({ videoLong: Math.min(10, addOns.videoLong + 1) })}
-              disabled={addOns.videoLong === 10}
-              className="h-8 w-8 p-0"
-            >
-              +
-            </Button>
+
+            <SSRAddOnCheckbox
+              label="Multi-language / i18n"
+              description={PRICING_LABELS.ssrAddOnDescriptions.multilanguage}
+              price={PRICING_CONFIG.ssrAddOns.multilanguage}
+              marketAverage={PRICING_CONFIG.ssrAddOnsMarket.multilanguage}
+              checked={addOns.ssrMultilanguage}
+              onChange={(checked) => onChange({ ssrMultilanguage: checked })}
+            />
+            <SSRAddOnCheckbox
+              label="Real-time Features"
+              description={PRICING_LABELS.ssrAddOnDescriptions.realtime}
+              price={PRICING_CONFIG.ssrAddOns.realtime}
+              marketAverage={PRICING_CONFIG.ssrAddOnsMarket.realtime}
+              checked={addOns.ssrRealtime}
+              onChange={(checked) => onChange({ ssrRealtime: checked })}
+            />
+            <SSRAddOnCheckbox
+              label="Custom Analytics Dashboard"
+              description={PRICING_LABELS.ssrAddOnDescriptions.analytics}
+              price={PRICING_CONFIG.ssrAddOns.analytics}
+              marketAverage={PRICING_CONFIG.ssrAddOnsMarket.analytics}
+              checked={addOns.ssrAnalytics}
+              onChange={(checked) => onChange({ ssrAnalytics: checked })}
+            />
+            <SSRAddOnCheckbox
+              label="Enterprise Scalability"
+              description={PRICING_LABELS.ssrAddOnDescriptions.scalability}
+              price={PRICING_CONFIG.ssrAddOns.scalability}
+              marketAverage={PRICING_CONFIG.ssrAddOnsMarket.scalability}
+              checked={addOns.ssrScalability}
+              onChange={(checked) => onChange({ ssrScalability: checked })}
+            />
           </div>
         </div>
+      )}
+
+      {/* Common Add-ons for all types */}
+      <div>
+        {isSSR && <Separator className="my-6" />}
+        <Label className="text-body font-bold text-brand-navy mb-4 block">
+          {isSSR ? 'Additional Services' : 'Enhance Your Project'}
+        </Label>
+        <div className="space-y-4">
+          {/* V.O.I.C.E™ */}
+          <div
+            className={cn(
+              'p-4 rounded-lg border-2 transition-all',
+              addOns.voice || projectType === 'visibility'
+                ? 'border-brand-gold bg-brand-gold/5'
+                : 'border-brand-graphite/20'
+            )}
+          >
+            <label className="flex items-start gap-3 cursor-pointer">
+              <Checkbox
+                checked={addOns.voice || projectType === 'visibility'}
+                onCheckedChange={(checked) => onChange({ voice: checked as boolean })}
+                disabled={projectType === 'visibility'}
+              />
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <span className="font-bold text-brand-navy">V.O.I.C.E™ AI Visibility</span>
+                  <span className="badge-gold text-xs">Popular</span>
+                </div>
+                <p className="text-body-sm text-brand-graphite mt-1">
+                  Get found by ChatGPT, Claude, Perplexity + traditional SEO
+                </p>
+                <div className="flex items-center gap-4 mt-2">
+                  <span className="text-brand-gold font-bold">
+                    {formatCurrency(PRICING_CONFIG.addOns.voice)}/mo
+                  </span>
+                  <span className="text-body-sm text-brand-graphite line-through">
+                    UK avg: {formatCurrency(750)}/mo
+                  </span>
+                </div>
+              </div>
+            </label>
+          </div>
+
+          <AddOnCheckbox
+            label="Full Branding Package"
+            description="Logo, brand guidelines, colours, typography, social templates"
+            price={PRICING_CONFIG.addOns.branding}
+            marketAverage={6500}
+            checked={addOns.branding}
+            onChange={(checked) => onChange({ branding: checked })}
+          />
+
+          <AddOnCheckbox
+            label="Market Research + Persona"
+            description="Competitor analysis, market mapping, customer persona development"
+            price={PRICING_CONFIG.addOns.research}
+            marketAverage={4500}
+            checked={addOns.research}
+            onChange={(checked) => onChange({ research: checked })}
+          />
+
+          {/* Video Long-form */}
+          <div
+            className={cn(
+              'p-4 rounded-lg border-2 transition-all',
+              (addOns.videoLong || 0) > 0
+                ? 'border-brand-gold bg-brand-gold/5'
+                : 'border-brand-graphite/20'
+            )}
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex-1">
+                <div className="font-bold text-brand-navy">Long-form Video Production</div>
+                <p className="text-body-sm text-brand-graphite mt-1">
+                  2-5 minute explainer or corporate videos
+                </p>
+                <div className="flex items-center gap-4 mt-2">
+                  <span className="text-brand-gold font-bold">
+                    {formatCurrency(PRICING_CONFIG.addOns.videoLong)} each
+                  </span>
+                  <span className="text-body-sm text-brand-graphite line-through">
+                    UK avg: {formatCurrency(3500)}
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => onChange({ videoLong: Math.max(0, (addOns.videoLong || 0) - 1) })}
+                  disabled={(addOns.videoLong || 0) === 0}
+                  className="h-8 w-8 p-0"
+                >
+                  -
+                </Button>
+                <span className="w-8 text-center font-bold">{addOns.videoLong || 0}</span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => onChange({ videoLong: Math.min(10, (addOns.videoLong || 0) + 1) })}
+                  disabled={(addOns.videoLong || 0) === 10}
+                  className="h-8 w-8 p-0"
+                >
+                  +
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          <AddOnCheckbox
+            label="Short-form Video Bundle"
+            description="5-10 social media videos per month for ongoing content"
+            price={PRICING_CONFIG.addOns.videoShortBundle}
+            marketAverage={1500}
+            isMonthly
+            checked={addOns.videoShortBundle}
+            onChange={(checked) => onChange({ videoShortBundle: checked })}
+          />
+
+          <AddOnCheckbox
+            label="Custom Image Library"
+            description="20-30 branded AI-generated images for your website"
+            price={PRICING_CONFIG.addOns.imageLibrary}
+            marketAverage={1200}
+            checked={addOns.imageLibrary}
+            onChange={(checked) => onChange({ imageLibrary: checked })}
+          />
+        </div>
       </div>
-
-      {/* Video Short-form Bundle */}
-      <AddOnCheckbox
-        label="Short-form Video Bundle"
-        description="5-10 social media videos per month for ongoing content"
-        price={PRICING_CONFIG.addOns.videoShortBundle}
-        marketAverage={1500}
-        isMonthly
-        checked={addOns.videoShortBundle}
-        onChange={(checked) => onChange({ videoShortBundle: checked })}
-      />
-
-      {/* Image Library */}
-      <AddOnCheckbox
-        label="Custom Image Library"
-        description="20-30 branded AI-generated images for your website"
-        price={PRICING_CONFIG.addOns.imageLibrary}
-        marketAverage={1200}
-        checked={addOns.imageLibrary}
-        onChange={(checked) => onChange({ imageLibrary: checked })}
-      />
     </div>
   );
 }
 
-// Add-on checkbox helper component
+// SSR Add-on checkbox helper
+interface SSRAddOnCheckboxProps {
+  label: string;
+  description: string;
+  price: number;
+  marketAverage: number;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+}
+
+function SSRAddOnCheckbox({
+  label,
+  description,
+  price,
+  marketAverage,
+  checked,
+  onChange,
+}: SSRAddOnCheckboxProps) {
+  return (
+    <div
+      className={cn(
+        'p-4 rounded-lg border-2 transition-all',
+        checked ? 'border-brand-gold bg-brand-gold/5' : 'border-brand-graphite/20'
+      )}
+    >
+      <label className="flex items-start gap-3 cursor-pointer">
+        <Checkbox checked={checked} onCheckedChange={(c) => onChange(c as boolean)} />
+        <div className="flex-1">
+          <div className="font-bold text-brand-navy">{label}</div>
+          <p className="text-body-sm text-brand-graphite mt-1">{description}</p>
+          <div className="flex flex-wrap items-center gap-4 mt-2">
+            <span className="text-brand-gold font-bold">
+              {formatCurrency(price)}
+            </span>
+            <span className="text-body-sm text-brand-graphite line-through">
+              UK avg: {formatCurrency(marketAverage)}
+            </span>
+            <span className="text-body-sm text-green-600">
+              Save {formatCurrency(marketAverage - price)}
+            </span>
+          </div>
+        </div>
+      </label>
+    </div>
+  );
+}
+
+// Standard Add-on checkbox helper
 interface AddOnCheckboxProps {
   label: string;
   description: string;
@@ -1119,16 +1540,17 @@ function AddOnCheckbox({
 }
 
 // ============================================
-// STEP 4: PAYMENT
+// STEP 5: PAYMENT (UPDATED)
 // ============================================
 
 interface StepPaymentProps {
   value: PaymentPreference;
   onChange: (value: PaymentPreference) => void;
   breakdown: QuoteBreakdown;
+  isSSR: boolean;
 }
 
-function StepPayment({ value, onChange, breakdown }: StepPaymentProps) {
+function StepPayment({ value, onChange, breakdown, isSSR }: StepPaymentProps) {
   const options: { value: PaymentPreference; label: string; badge?: string }[] = [
     { value: 'oneOff', label: 'One-Off Payment', badge: '5% OFF' },
     { value: 'twelve', label: '12-Month Contract' },
@@ -1140,6 +1562,14 @@ function StepPayment({ value, onChange, breakdown }: StepPaymentProps) {
       <p className="text-brand-graphite">
         Choose how you&apos;d like to pay. Monthly contracts spread the cost and include ongoing support.
       </p>
+
+      {isSSR && (
+        <div className="bg-brand-gold/10 rounded-lg p-4 border border-brand-gold/20">
+          <p className="text-sm text-brand-navy">
+            <strong>SSR Project Minimums:</strong> 12-month min £750/mo • 24-month min £400/mo
+          </p>
+        </div>
+      )}
 
       <div className="grid md:grid-cols-3 gap-4">
         {options.map((option) => {
@@ -1221,7 +1651,7 @@ function StepPayment({ value, onChange, breakdown }: StepPaymentProps) {
 }
 
 // ============================================
-// STEP 5: SUMMARY
+// STEP 6: SUMMARY (UPDATED)
 // ============================================
 
 interface StepSummaryProps {
@@ -1236,9 +1666,45 @@ function StepSummary({ request, breakdown, contact, onContactChange }: StepSumma
   const oneOffTotals = breakdown.totals.oneOff;
   const twelveTotals = breakdown.totals.twelve;
   const twentyFourTotals = breakdown.totals.twentyFour;
+  const isSSR = request.projectType === 'ssr';
 
   return (
     <div className="space-y-8">
+      {/* Project Type Header */}
+      <div className={cn(
+        "rounded-lg p-4 flex items-center gap-3",
+        isSSR ? "bg-brand-gold/10 border border-brand-gold/30" : "bg-brand-navy/5"
+      )}>
+        {isSSR ? <Rocket className="w-5 h-5 text-brand-gold" /> : <Globe className="w-5 h-5 text-brand-navy" />}
+        <div>
+          <span className="font-bold text-brand-navy">
+            {PRICING_LABELS.projectTypes[request.projectType!]}
+          </span>
+          {isSSR && <span className="ml-2 text-xs text-brand-gold">(Next.js)</span>}
+          {request.projectType === 'clientManaged' && <span className="ml-2 text-xs text-brand-graphite">(Wix Studio)</span>}
+        </div>
+      </div>
+
+      {/* SSR Included Features */}
+      {isSSR && breakdown.includedItems && breakdown.includedItems.length > 0 && (
+        <div>
+          <h4 className="text-body-sm font-bold text-brand-graphite uppercase mb-3 flex items-center gap-2">
+            <Check className="w-4 h-4 text-green-600" />
+            Included with SSR
+          </h4>
+          <div className="bg-green-50 rounded-lg p-4 border border-green-200">
+            <div className="grid sm:grid-cols-2 gap-2">
+              {SSR_INCLUDED_FEATURES.map((feature) => (
+                <div key={feature} className="flex items-center gap-2 text-sm text-green-800">
+                  <Check className="w-4 h-4 text-green-600 shrink-0" />
+                  <span>{feature}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Quote Breakdown */}
       <div>
         <h3 className="text-h4 text-brand-navy mb-4">Your Quote Breakdown</h3>
@@ -1247,7 +1713,7 @@ function StepSummary({ request, breakdown, contact, onContactChange }: StepSumma
         {breakdown.oneOffItems.length > 0 && (
           <div className="mb-6">
             <h4 className="text-body-sm font-bold text-brand-graphite uppercase mb-2">
-              One-off Costs
+              {isSSR ? 'Project Costs' : 'One-off Costs'}
             </h4>
             <div className="space-y-2">
               {breakdown.oneOffItems.map((item) => {
@@ -1260,6 +1726,9 @@ function StepSummary({ request, breakdown, contact, onContactChange }: StepSumma
                         <span className="text-brand-graphite text-body-sm ml-2">
                           x{item.quantity}
                         </span>
+                      )}
+                      {item.description && (
+                        <div className="text-body-sm text-brand-graphite">{item.description}</div>
                       )}
                       {marketAvg && (
                         <div className="text-body-sm">
@@ -1310,7 +1779,10 @@ function StepSummary({ request, breakdown, contact, onContactChange }: StepSumma
         )}
 
         {/* Total */}
-        <div className="bg-brand-navy rounded-lg p-6">
+        <div className={cn(
+          "rounded-lg p-6",
+          isSSR ? "bg-gradient-to-r from-brand-navy to-brand-graphite" : "bg-brand-navy"
+        )}>
           <div className="flex justify-between items-center mb-2">
             <span className="text-white/80">Your {PRICING_LABELS.payments[paymentOption]}:</span>
             <span className="text-h2 text-brand-gold font-headline">
@@ -1400,7 +1872,7 @@ function StepSummary({ request, breakdown, contact, onContactChange }: StepSumma
               value={contact.message}
               onChange={(e) => onContactChange({ ...contact, message: e.target.value })}
               placeholder="Tell us about your project, timeline, or any specific requirements..."
-              className="mt-1 w-full px-3 py-2 border border-brand-graphite/20 rounded-lg resize-none h-24 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 bg-brand-navy text-brand-gold placeholder:text-brand-gold/50"
+              className="mt-1 w-full px-3 py-2 border border-brand-graphite/20 rounded-lg resize-none h-24 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20 bg-white text-brand-navy placeholder:text-brand-graphite/60"
             />
           </div>
         </div>
@@ -1408,4 +1880,3 @@ function StepSummary({ request, breakdown, contact, onContactChange }: StepSumma
     </div>
   );
 }
-

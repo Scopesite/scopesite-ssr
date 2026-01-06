@@ -163,9 +163,12 @@ export function createQuote(email: string): CreateQuoteResult {
     currentStep: 1,
     selections: {
       scope: {
+        websiteType: undefined, // Set when project type selected
         pageCount: 5,
         ecommerce: 'none',
+        headlessEcommerce: 'none',
         webApp: 'none',
+        ssrWebApp: 'none',
         hasBlog: false,
         hasComplexForms: false,
         hasAutomation: false,
@@ -177,6 +180,15 @@ export function createQuote(email: string): CreateQuoteResult {
         videoLong: 0,
         videoShortBundle: false,
         imageLibrary: false,
+        ssrAnimations: false,
+        ssrCustomerPortal: false,
+        ssrDatabase: false,
+        ssrAuthentication: false,
+        ssrApiIntegrations: 0,
+        ssrMultilanguage: false,
+        ssrRealtime: false,
+        ssrAnalytics: false,
+        ssrScalability: false,
       },
       paymentPreference: 'twelve',
     },

@@ -3,6 +3,8 @@
  * 
  * Calculates pricing based on user selections
  * Uses pricing data from pricing-config.ts
+ * 
+ * Updated: January 2026 - Added SSR pricing calculations
  */
 
 import {
@@ -10,6 +12,7 @@ import {
   UK_MARKET_AVERAGES,
   getPackageForPageCount,
   getAdditionalPages,
+  calculateSSRPrice,
 } from './pricing-config';
 import type {
   QuoteRequest,
@@ -34,14 +37,181 @@ function generateQuoteId(): string {
 export function calculateQuote(request: Partial<QuoteRequest>): QuoteBreakdown {
   const oneOffItems: QuoteLineItem[] = [];
   const monthlyItems: QuoteLineItem[] = [];
+  const includedItems: QuoteLineItem[] = [];
 
   // Only calculate if we have project type
   if (!request.projectType) {
     return createEmptyBreakdown();
   }
 
-  // === BASE WEBSITE PACKAGE ===
-  if (request.projectType === 'new' || request.projectType === 'upgrade') {
+  // === SSR AI-FIRST WEBSITE ===
+  if (request.projectType === 'ssr') {
+    const pageCount = Math.max(request.scope?.pageCount || 5, 5); // Minimum 5 pages
+    const basePrice = calculateSSRPrice(pageCount);
+
+    oneOffItems.push({
+      id: 'ssr-website',
+      label: `SSR AI-First Website (${pageCount} pages)`,
+      description: 'Next.js 16, Vercel Edge, Ghost CMS',
+      quantity: 1,
+      unitPrice: basePrice,
+      total: basePrice,
+      isMonthly: false,
+      isRequired: true,
+    });
+
+    // Add included features (for display)
+    includedItems.push(
+      { id: 'ssr-ghost', label: 'Ghost CMS Blog', quantity: 1, unitPrice: 0, total: 0, isMonthly: false, isRequired: true, isIncluded: true },
+      { id: 'ssr-schema', label: 'Auto JSON-LD Schema', quantity: 1, unitPrice: 0, total: 0, isMonthly: false, isRequired: true, isIncluded: true },
+      { id: 'ssr-vercel', label: 'Vercel Edge Deployment', quantity: 1, unitPrice: 0, total: 0, isMonthly: false, isRequired: true, isIncluded: true },
+    );
+
+    // Headless E-commerce (SSR only)
+    if (request.scope?.headlessEcommerce && request.scope.headlessEcommerce !== 'none') {
+      const ecomType = request.scope.headlessEcommerce;
+      const ecomPrice = PRICING_CONFIG.headlessEcommerce[ecomType];
+      oneOffItems.push({
+        id: 'headless-ecommerce',
+        label: `Headless E-commerce (${ecomType.charAt(0).toUpperCase() + ecomType.slice(1)})`,
+        description: ecomType === 'shopify' ? 'Excludes Shopify subscription fees' : undefined,
+        quantity: 1,
+        unitPrice: ecomPrice,
+        total: ecomPrice,
+        isMonthly: false,
+        isRequired: false,
+      });
+    }
+
+    // SSR Web App
+    if (request.scope?.ssrWebApp && request.scope.ssrWebApp !== 'none') {
+      const appSize = request.scope.ssrWebApp;
+      const appPrice = PRICING_CONFIG.ssrWebApps[appSize];
+      oneOffItems.push({
+        id: 'ssr-web-app',
+        label: `Web App (${appSize === 'simple' ? 'Dashboard, Forms' : 'Portal, Integrations'})`,
+        quantity: 1,
+        unitPrice: appPrice,
+        total: appPrice,
+        isMonthly: false,
+        isRequired: false,
+      });
+    }
+
+    // SSR-specific add-ons
+    if (request.addOns?.ssrAnimations) {
+      oneOffItems.push({
+        id: 'ssr-animations',
+        label: 'Premium Animations Package',
+        description: 'Framer Motion transitions, scroll animations',
+        quantity: 1,
+        unitPrice: PRICING_CONFIG.ssrAddOns.animations,
+        total: PRICING_CONFIG.ssrAddOns.animations,
+        isMonthly: false,
+        isRequired: false,
+      });
+    }
+
+    if (request.addOns?.ssrCustomerPortal) {
+      oneOffItems.push({
+        id: 'ssr-customer-portal',
+        label: 'Client Customer Portal',
+        quantity: 1,
+        unitPrice: PRICING_CONFIG.ssrAddOns.customerPortal,
+        total: PRICING_CONFIG.ssrAddOns.customerPortal,
+        isMonthly: false,
+        isRequired: false,
+      });
+    }
+
+    if (request.addOns?.ssrDatabase) {
+      oneOffItems.push({
+        id: 'ssr-database',
+        label: 'PostgreSQL Database',
+        quantity: 1,
+        unitPrice: PRICING_CONFIG.ssrAddOns.database,
+        total: PRICING_CONFIG.ssrAddOns.database,
+        isMonthly: false,
+        isRequired: false,
+      });
+    }
+
+    if (request.addOns?.ssrAuthentication) {
+      oneOffItems.push({
+        id: 'ssr-authentication',
+        label: 'User Authentication System',
+        quantity: 1,
+        unitPrice: PRICING_CONFIG.ssrAddOns.authentication,
+        total: PRICING_CONFIG.ssrAddOns.authentication,
+        isMonthly: false,
+        isRequired: false,
+      });
+    }
+
+    if (request.addOns?.ssrApiIntegrations && request.addOns.ssrApiIntegrations > 0) {
+      oneOffItems.push({
+        id: 'ssr-api-integrations',
+        label: 'API Integrations',
+        description: 'e.g., Stripe, HubSpot, Calendly',
+        quantity: request.addOns.ssrApiIntegrations,
+        unitPrice: PRICING_CONFIG.ssrAddOns.apiIntegration,
+        total: PRICING_CONFIG.ssrAddOns.apiIntegration * request.addOns.ssrApiIntegrations,
+        isMonthly: false,
+        isRequired: false,
+      });
+    }
+
+    if (request.addOns?.ssrMultilanguage) {
+      oneOffItems.push({
+        id: 'ssr-multilanguage',
+        label: 'Multi-language / i18n',
+        quantity: 1,
+        unitPrice: PRICING_CONFIG.ssrAddOns.multilanguage,
+        total: PRICING_CONFIG.ssrAddOns.multilanguage,
+        isMonthly: false,
+        isRequired: false,
+      });
+    }
+
+    if (request.addOns?.ssrRealtime) {
+      oneOffItems.push({
+        id: 'ssr-realtime',
+        label: 'Real-time Features',
+        quantity: 1,
+        unitPrice: PRICING_CONFIG.ssrAddOns.realtime,
+        total: PRICING_CONFIG.ssrAddOns.realtime,
+        isMonthly: false,
+        isRequired: false,
+      });
+    }
+
+    if (request.addOns?.ssrAnalytics) {
+      oneOffItems.push({
+        id: 'ssr-analytics',
+        label: 'Custom Analytics Dashboard',
+        quantity: 1,
+        unitPrice: PRICING_CONFIG.ssrAddOns.analytics,
+        total: PRICING_CONFIG.ssrAddOns.analytics,
+        isMonthly: false,
+        isRequired: false,
+      });
+    }
+
+    if (request.addOns?.ssrScalability) {
+      oneOffItems.push({
+        id: 'ssr-scalability',
+        label: 'Enterprise Scalability',
+        quantity: 1,
+        unitPrice: PRICING_CONFIG.ssrAddOns.scalability,
+        total: PRICING_CONFIG.ssrAddOns.scalability,
+        isMonthly: false,
+        isRequired: false,
+      });
+    }
+  }
+
+  // === CLIENT-MANAGED WEBSITE (Wix Studio) ===
+  if (request.projectType === 'clientManaged' || request.projectType === 'upgrade') {
     const pageCount = request.scope?.pageCount || 5;
     const packageType = getPackageForPageCount(pageCount);
     const basePrice = PRICING_CONFIG.baseWebsite[packageType];
@@ -54,7 +224,7 @@ export function calculateQuote(request: Partial<QuoteRequest>): QuoteBreakdown {
     oneOffItems.push({
       id: 'base-website',
       label: `${packageType.charAt(0).toUpperCase() + packageType.slice(1)} Website Package`,
-      description: request.projectType === 'upgrade' ? '40% discount for upgrade' : undefined,
+      description: request.projectType === 'upgrade' ? '40% discount for upgrade' : 'Built on Wix Studio',
       quantity: 1,
       unitPrice: Math.round(basePrice * upgradeMultiplier),
       total: Math.round(basePrice * upgradeMultiplier),
@@ -74,15 +244,75 @@ export function calculateQuote(request: Partial<QuoteRequest>): QuoteBreakdown {
         isRequired: true,
       });
     }
+
+    // E-commerce (Client-Managed)
+    if (request.scope?.ecommerce && request.scope.ecommerce !== 'none') {
+      const ecomPrice = PRICING_CONFIG.ecommerce[request.scope.ecommerce];
+      oneOffItems.push({
+        id: 'ecommerce',
+        label: `E-commerce (${request.scope.ecommerce})`,
+        quantity: 1,
+        unitPrice: ecomPrice,
+        total: ecomPrice,
+        isMonthly: false,
+        isRequired: false,
+      });
+    }
+
+    // Web App (Client-Managed)
+    if (request.scope?.webApp && request.scope.webApp !== 'none') {
+      const webAppPrice = PRICING_CONFIG.webApps[request.scope.webApp as keyof typeof PRICING_CONFIG.webApps];
+      oneOffItems.push({
+        id: 'web-app',
+        label: `Custom Web App (${request.scope.webApp.charAt(0).toUpperCase() + request.scope.webApp.slice(1)})`,
+        quantity: 1,
+        unitPrice: webAppPrice,
+        total: webAppPrice,
+        isMonthly: false,
+        isRequired: false,
+      });
+    }
+
+    // Complex Forms
+    if (request.scope?.hasComplexForms) {
+      oneOffItems.push({
+        id: 'complex-forms',
+        label: 'Advanced Logic Forms',
+        quantity: 1,
+        unitPrice: PRICING_CONFIG.addOns.complexForms,
+        total: PRICING_CONFIG.addOns.complexForms,
+        isMonthly: false,
+        isRequired: false,
+      });
+    }
+
+    // Automation
+    if (request.scope?.hasAutomation) {
+      oneOffItems.push({
+        id: 'automation-setup',
+        label: 'Automation Setup',
+        quantity: 1,
+        unitPrice: PRICING_CONFIG.addOns.automationSetup,
+        total: PRICING_CONFIG.addOns.automationSetup,
+        isMonthly: false,
+        isRequired: false,
+      });
+      monthlyItems.push({
+        id: 'automation-monthly',
+        label: 'Automation Maintenance',
+        quantity: 1,
+        unitPrice: PRICING_CONFIG.addOns.automationMonthly,
+        total: PRICING_CONFIG.addOns.automationMonthly,
+        isMonthly: true,
+        isRequired: false,
+      });
+    }
   }
 
-  // === WEB APP (standalone or add-on) ===
-  if (request.projectType === 'webapp' || (request.scope?.webApp && request.scope.webApp !== 'none')) {
-    const webAppSize = request.projectType === 'webapp' 
-      ? (request.scope?.webApp || 'simple')
-      : request.scope?.webApp;
-    
-    if (webAppSize && webAppSize !== 'none') {
+  // === WEB APP (standalone) ===
+  if (request.projectType === 'webapp') {
+    const webAppSize = request.scope?.webApp || 'simple';
+    if (webAppSize !== 'none') {
       const webAppPrice = PRICING_CONFIG.webApps[webAppSize as keyof typeof PRICING_CONFIG.webApps];
       oneOffItems.push({
         id: 'web-app',
@@ -91,63 +321,14 @@ export function calculateQuote(request: Partial<QuoteRequest>): QuoteBreakdown {
         unitPrice: webAppPrice,
         total: webAppPrice,
         isMonthly: false,
-        isRequired: request.projectType === 'webapp',
+        isRequired: true,
       });
     }
   }
 
-  // === E-COMMERCE ===
-  if (request.scope?.ecommerce && request.scope.ecommerce !== 'none') {
-    const ecomPrice = PRICING_CONFIG.ecommerce[request.scope.ecommerce];
-    oneOffItems.push({
-      id: 'ecommerce',
-      label: `E-commerce (${request.scope.ecommerce})`,
-      quantity: 1,
-      unitPrice: ecomPrice,
-      total: ecomPrice,
-      isMonthly: false,
-      isRequired: false,
-    });
-  }
-
-  // === COMPLEX FORMS ===
-  if (request.scope?.hasComplexForms) {
-    oneOffItems.push({
-      id: 'complex-forms',
-      label: 'Advanced Logic Forms',
-      quantity: 1,
-      unitPrice: PRICING_CONFIG.addOns.complexForms,
-      total: PRICING_CONFIG.addOns.complexForms,
-      isMonthly: false,
-      isRequired: false,
-    });
-  }
-
-  // === AUTOMATION ===
-  if (request.scope?.hasAutomation) {
-    oneOffItems.push({
-      id: 'automation-setup',
-      label: 'Automation Setup',
-      quantity: 1,
-      unitPrice: PRICING_CONFIG.addOns.automationSetup,
-      total: PRICING_CONFIG.addOns.automationSetup,
-      isMonthly: false,
-      isRequired: false,
-    });
-    monthlyItems.push({
-      id: 'automation-monthly',
-      label: 'Automation Maintenance',
-      quantity: 1,
-      unitPrice: PRICING_CONFIG.addOns.automationMonthly,
-      total: PRICING_CONFIG.addOns.automationMonthly,
-      isMonthly: true,
-      isRequired: false,
-    });
-  }
-
-  // === ADD-ONS ===
+  // === COMMON ADD-ONS (All project types) ===
   
-  // V.O.I.C.E™ AI Visibility (always available)
+  // V.O.I.C.E™ AI Visibility
   if (request.addOns?.voice || request.projectType === 'visibility') {
     monthlyItems.push({
       id: 'voice',
@@ -243,11 +424,17 @@ export function calculateQuote(request: Partial<QuoteRequest>): QuoteBreakdown {
   const twentyFourMonthly = Math.round((twentyFourTotal / 24) + monthlySubtotal);
   const twentyFourOngoing = PRICING_CONFIG.contracts.twentyFour.ongoingMonthly + monthlySubtotal;
 
+  // Apply SSR minimum monthly payments
+  const isSSR = request.projectType === 'ssr';
+  const ssrTwelveMin = 750;
+  const ssrTwentyFourMin = 400;
+
   return {
     oneOffItems,
     oneOffSubtotal,
     monthlyItems,
     monthlySubtotal,
+    includedItems: includedItems.length > 0 ? includedItems : undefined,
     totals: {
       oneOff: {
         upfront: oneOffSubtotal,
@@ -255,12 +442,12 @@ export function calculateQuote(request: Partial<QuoteRequest>): QuoteBreakdown {
         final: Math.round(oneOffFinal),
       },
       twelve: {
-        monthly: twelveMonthly,
+        monthly: isSSR ? Math.max(twelveMonthly, ssrTwelveMin) : twelveMonthly,
         totalOverTerm: Math.round(twelveTotal + (monthlySubtotal * 12)),
         ongoingAfter: twelveOngoing,
       },
       twentyFour: {
-        monthly: twentyFourMonthly,
+        monthly: isSSR ? Math.max(twentyFourMonthly, ssrTwentyFourMin) : twentyFourMonthly,
         totalOverTerm: Math.round(twentyFourTotal + (monthlySubtotal * 24)),
         ongoingAfter: twentyFourOngoing,
       },
@@ -335,8 +522,11 @@ export function createQuoteResult(
 export function getMarketAverage(itemId: string, quantity: number = 1): number | null {
   const mapping: Record<string, keyof typeof UK_MARKET_AVERAGES> = {
     'base-website': 'professionalWebsite',
+    'ssr-website': 'ssrBase',
     'ecommerce': 'ecommerce50',
+    'headless-ecommerce': 'ssrHeadlessEcommerce',
     'web-app': 'webAppStandard',
+    'ssr-web-app': 'webAppStandard',
     'complex-forms': 'complexForms',
     'automation-setup': 'automationSetup',
     'automation-monthly': 'automationMonthly',
@@ -346,6 +536,15 @@ export function getMarketAverage(itemId: string, quantity: number = 1): number |
     'video-long': 'videoLong',
     'video-short': 'videoShortBundle',
     'image-library': 'imageLibrary',
+    'ssr-animations': 'ssrAnimations',
+    'ssr-customer-portal': 'ssrCustomerPortal',
+    'ssr-database': 'ssrDatabase',
+    'ssr-authentication': 'ssrAuthentication',
+    'ssr-api-integrations': 'ssrApiIntegration',
+    'ssr-multilanguage': 'ssrMultilanguage',
+    'ssr-realtime': 'ssrRealtime',
+    'ssr-analytics': 'ssrAnalytics',
+    'ssr-scalability': 'ssrScalability',
   };
 
   const key = mapping[itemId];
@@ -365,6 +564,3 @@ export function formatCurrency(amount: number): string {
     maximumFractionDigits: 0,
   }).format(amount);
 }
-
-
-

@@ -2,6 +2,7 @@
 
 import { useRef, ReactNode } from 'react';
 import { motion, useInView, Variants } from 'motion/react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 interface FadeInOnScrollProps {
   children: ReactNode;
@@ -19,14 +20,15 @@ export function FadeInOnScroll({
   delay = 0,
   duration = 0.5,
   direction = 'up',
-  distance = 30,
+  distance = 20,
   once = true,
 }: FadeInOnScrollProps) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { 
     once, 
-    margin: `-100px` as const
+    margin: '-100px'
   });
+  const prefersReducedMotion = useReducedMotion();
 
   const getInitialPosition = () => {
     switch (direction) {
@@ -55,11 +57,7 @@ export function FadeInOnScroll({
     },
   };
 
-  // Check for reduced motion preference
-  const prefersReducedMotion = typeof window !== 'undefined'
-    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    : false;
-
+  // For reduced motion: show content immediately with no animation
   if (prefersReducedMotion) {
     return <div className={className}>{children}</div>;
   }
@@ -93,9 +91,10 @@ export function StaggerContainer({
 }: StaggerContainerProps) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-50px' });
+  const prefersReducedMotion = useReducedMotion();
 
   const containerVariants: Variants = {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 1 },
     visible: {
       opacity: 1,
       transition: {
@@ -104,10 +103,6 @@ export function StaggerContainer({
       },
     },
   };
-
-  const prefersReducedMotion = typeof window !== 'undefined'
-    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    : false;
 
   if (prefersReducedMotion) {
     return <div className={className}>{children}</div>;
@@ -130,13 +125,31 @@ export function StaggerContainer({
 interface StaggerItemProps {
   children: ReactNode;
   className?: string;
+  direction?: 'up' | 'down' | 'left' | 'right';
 }
 
-export function StaggerItem({ children, className = '' }: StaggerItemProps) {
+export function StaggerItem({ 
+  children, 
+  className = '',
+  direction = 'up'
+}: StaggerItemProps) {
+  const getTransform = () => {
+    switch (direction) {
+      case 'up': return { y: 20 };
+      case 'down': return { y: -20 };
+      case 'left': return { x: 20 };
+      case 'right': return { x: -20 };
+    }
+  };
+
   const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { 
+      opacity: 0, 
+      ...getTransform()
+    },
     visible: {
       opacity: 1,
+      x: 0,
       y: 0,
       transition: {
         duration: 0.5,
@@ -151,4 +164,3 @@ export function StaggerItem({ children, className = '' }: StaggerItemProps) {
     </motion.div>
   );
 }
-

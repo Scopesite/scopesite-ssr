@@ -36,18 +36,33 @@ export interface QuoteSheetData {
   company: string;
   message: string;
   projectType: string;
+  websiteType?: 'clientManaged' | 'ssr'; // NEW: Which website tier
   pages: number;
   ecommerce: string;
+  headlessEcommerce?: string; // NEW: For SSR projects
   webApp: string;
+  ssrWebApp?: string; // NEW: For SSR projects
   hasBlog: boolean;
   hasComplexForms: boolean;
   hasAutomation: boolean;
+  // Standard add-ons
   voice: boolean;
   branding: boolean;
   research: boolean;
   videoLong: number;
   videoShortBundle: boolean;
   imageLibrary: boolean;
+  // SSR-specific add-ons
+  ssrAnimations?: boolean;
+  ssrCustomerPortal?: boolean;
+  ssrDatabase?: boolean;
+  ssrAuthentication?: boolean;
+  ssrApiIntegrations?: number;
+  ssrMultilanguage?: boolean;
+  ssrRealtime?: boolean;
+  ssrAnalytics?: boolean;
+  ssrScalability?: boolean;
+  // Payment
   paymentType: string;
   total: number;
   monthly: number | null;
