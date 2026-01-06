@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { JsonLd } from '@/components/JsonLd';
 import { generateBreadcrumbSchema, generateReviewsSchema } from '@/lib/schema';
-import { HomeBelowFold } from './HomeBelowFold';
+import { HomeBelowFoldWrapper } from './HomeBelowFoldWrapper';
 
 const BASE_URL = 'https://scopesite.co.uk';
 
@@ -109,8 +109,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Below-fold content with animations (client component) */}
-      <HomeBelowFold reviews={googleReviews} />
+      {/* Below-fold content - static on mobile, animated on desktop */}
+      <HomeBelowFoldWrapper reviews={googleReviews} />
     </>
   );
 }
