@@ -15,11 +15,11 @@ const PAGE_URL = `${BASE_URL}/terms-and-conditions`;
 export const metadata: Metadata = {
   title: 'Terms & Conditions',
   description:
-    'Read the full terms and conditions for ScopeSite Digital Studios. Covers pricing, deliverables, IP rights, data protection, and change request procedures.',
+    'Full terms and conditions for ScopeSite Digital Studios. Covers pricing, deliverables, IP rights, data protection and change request procedures.',
   openGraph: {
     title: 'Terms & Conditions | ScopeSite Digital Studios',
     description:
-      'Read the full terms and conditions for ScopeSite Digital Studios. Covers pricing, deliverables, IP rights, data protection, and change request procedures.',
+      'Full terms and conditions for ScopeSite Digital Studios. Covers pricing, deliverables, IP rights, data protection and change request procedures.',
     url: PAGE_URL,
     type: 'website',
   },
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     card: 'summary',
     title: 'Terms & Conditions | ScopeSite Digital Studios',
     description:
-      'Read the full terms and conditions for ScopeSite Digital Studios. Covers pricing, deliverables, IP rights, data protection, and change request procedures.',
+      'Full terms and conditions for ScopeSite Digital Studios. Covers pricing, deliverables, IP rights, data protection.',
   },
   alternates: {
     canonical: PAGE_URL,

@@ -42,27 +42,27 @@ const pricingFAQs = [
 ];
 
 export const metadata: Metadata = {
-  title: 'Transparent Web Design Pricing',
+  title: 'Web Design Pricing UK | Transparent Costs',
   description:
-    'No hidden costs, no surprises. Get an instant quote for your web design project. Flexible 6, 12, or 24-month payment plans available.',
+    'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Flexible 6, 12 or 24-month payment plans. Somerset-based, UK-wide service.',
   openGraph: {
-    title: 'Transparent Web Design Pricing | ScopeSite Digital Studios',
+    title: 'Web Design Pricing UK | Transparent Costs | ScopeSite Digital Studios',
     description:
-      'No hidden costs, no surprises. Get an instant quote for your web design project. Flexible payment plans available.',
+      'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Flexible 6, 12 or 24-month payment plans. Somerset-based, UK-wide service.',
     url: PAGE_URL,
     images: [
       {
         url: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
         width: 1200,
         height: 630,
-        alt: 'Transparent Web Design Pricing - ScopeSite',
+        alt: 'Web Design Pricing UK - Transparent Costs - ScopeSite',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Transparent Web Design Pricing | ScopeSite',
-    description: 'Get an instant quote for your web design project.',
+    title: 'Web Design Pricing UK | Transparent Costs | ScopeSite',
+    description: 'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Flexible payment plans available.',
     images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
   },
   alternates: {

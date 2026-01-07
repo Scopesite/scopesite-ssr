@@ -10,28 +10,28 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/web-apps`;
 
 export const metadata: Metadata = {
-  title: 'Custom Web Applications UK',
+  title: 'Custom Web Apps UK | Bespoke Business Applications',
   description:
-    'Bespoke web applications that solve real business problems. Quote builders, client portals, booking systems, and AI-powered tools.',
+    'Bespoke web applications built in Somerset for UK businesses. Quote calculators, client portals, booking systems & AI-powered tools. Solve real problems.',
   openGraph: {
-    title: 'Custom Web Applications UK | ScopeSite Digital Studios',
+    title: 'Custom Web Apps UK | Bespoke Business Applications | ScopeSite Digital Studios',
     description:
-      'Bespoke web applications that solve real business problems. Quote builders, client portals, booking systems, and AI-powered tools.',
+      'Bespoke web applications built in Somerset for UK businesses. Quote calculators, client portals, booking systems & AI-powered tools. Solve real problems.',
     url: PAGE_URL,
     images: [
       {
         url: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
         width: 1200,
         height: 630,
-        alt: 'Custom Web Applications by ScopeSite',
+        alt: 'Custom Web Apps UK - Bespoke Business Applications by ScopeSite',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Custom Web Applications UK | ScopeSite',
+    title: 'Custom Web Apps UK | Bespoke Business Applications | ScopeSite',
     description:
-      'Bespoke web applications that solve real business problems.',
+      'Bespoke web applications built in Somerset for UK businesses. Quote calculators, client portals, booking systems & AI-powered tools.',
     images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
   },
   alternates: {

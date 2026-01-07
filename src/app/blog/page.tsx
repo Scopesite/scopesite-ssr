@@ -13,27 +13,27 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/blog`;
 
 export const metadata: Metadata = {
-  title: 'AI Visibility Blog',
+  title: 'AI Visibility & Web Design Blog | Expert Insights',
   description:
-    'AI visibility insights, web design tips, and zero bullshit advice for UK businesses.',
+    "AI visibility strategies, GEO optimisation tips & web design insights for UK businesses. No-bullshit advice from Somerset's AI-first web design experts.",
   openGraph: {
-    title: 'AI Visibility Blog | ScopeSite Digital Studios',
+    title: 'AI Visibility & Web Design Blog | Expert Insights | ScopeSite Digital Studios',
     description:
-      'AI visibility insights, web design tips, and zero bullshit advice for UK businesses.',
+      "AI visibility strategies, GEO optimisation tips & web design insights for UK businesses. No-bullshit advice from Somerset's AI-first web design experts.",
     url: PAGE_URL,
     images: [
       {
         url: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
         width: 1200,
         height: 630,
-        alt: 'ScopeSite Blog - AI Visibility Insights',
+        alt: 'ScopeSite Blog - AI Visibility & Web Design Insights',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AI Visibility Blog | ScopeSite',
-    description: 'AI visibility insights, web design tips, and practical advice.',
+    title: 'AI Visibility & Web Design Blog | ScopeSite',
+    description: "AI visibility strategies, GEO optimisation tips & web design insights for UK businesses. No-bullshit advice.",
     images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
   },
   alternates: {

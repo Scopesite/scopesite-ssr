@@ -36,21 +36,21 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: 'AI-First Web Design Agency | ScopeSite Digital Studios',
+    default: 'Website Designer Somerset | AI Visibility Experts | ScopeSite Digital Studios',
     template: '%s | ScopeSite Digital Studios',
   },
   description:
-    'Veteran-owned UK web design agency specializing in AI visibility. Get your business recommended by ChatGPT using our V.O.I.C.E™ methodology. Free AI visibility audit.',
+    'Veteran-owned website designers in Somerset. We make your business visible to ChatGPT & AI search. V.O.I.C.E™ methodology. Free AI visibility audit.',
   keywords: [
-    'AI web design',
-    'ChatGPT SEO',
+    'website designer Somerset',
     'AI visibility',
-    'web design UK',
-    'Somerset web design',
-    'voice search optimization',
-    'V.O.I.C.E methodology',
+    'web design Somerset',
+    'ChatGPT SEO',
     'AI search optimization',
-    'veteran owned business',
+    'V.O.I.C.E methodology',
+    'Somerset web design',
+    'veteran owned business UK',
+    'GEO optimization',
   ],
   authors: [{ name: 'Dan Cartwright', url: `${BASE_URL}/about` }],
   creator: 'ScopeSite Digital Studios',
@@ -65,23 +65,23 @@ export const metadata: Metadata = {
     locale: 'en_GB',
     url: BASE_URL,
     siteName: 'ScopeSite Digital Studios',
-    title: 'AI-First Web Design Agency | ScopeSite Digital Studios',
+    title: 'Website Designer Somerset | AI Visibility Experts | ScopeSite Digital Studios',
     description:
-      'Veteran-owned UK web design agency specializing in AI visibility. Get your business recommended by ChatGPT using our V.O.I.C.E™ methodology.',
+      'Veteran-owned website designers in Somerset. We make your business visible to ChatGPT & AI search. V.O.I.C.E™ methodology. Free AI visibility audit.',
     images: [
       {
         url: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
         width: 1200,
         height: 630,
-        alt: 'ScopeSite Digital Studios - AI-First Web Design',
+        alt: 'ScopeSite Digital Studios - Website Designer Somerset, AI Visibility Experts',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AI-First Web Design Agency | ScopeSite Digital Studios',
+    title: 'Website Designer Somerset | AI Visibility Experts | ScopeSite Digital Studios',
     description:
-      'Veteran-owned UK web design agency specializing in AI visibility. Get your business recommended by ChatGPT.',
+      'Veteran-owned website designers in Somerset. We make your business visible to ChatGPT & AI search. V.O.I.C.E™ methodology.',
     images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
   },
   robots: {

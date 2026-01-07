@@ -12,27 +12,27 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/book`;
 
 export const metadata: Metadata = {
-  title: 'Book a Strategy Call',
+  title: 'Book a Free Strategy Call | Web Design Consultation',
   description:
-    'Book a free 30-minute strategy call with Dan Cartwright, director of ScopeSite. Discuss your project requirements with no obligation.',
+    'Book a free 30-minute strategy call with Dan Cartwright. Discuss your web design or AI visibility project. No obligation, no hard sell. Somerset-based.',
   openGraph: {
-    title: 'Book a Strategy Call | ScopeSite Digital Studios',
+    title: 'Book a Free Strategy Call | Web Design Consultation | ScopeSite Digital Studios',
     description:
-      'Book a free 30-minute strategy call with Dan Cartwright to discuss your web project.',
+      'Book a free 30-minute strategy call with Dan Cartwright. Discuss your web design or AI visibility project. No obligation, no hard sell. Somerset-based.',
     url: PAGE_URL,
     images: [
       {
         url: `${BASE_URL}/images/dan-headshot.webp`,
         width: 400,
         height: 400,
-        alt: 'Dan Cartwright - Director of ScopeSite',
+        alt: 'Dan Cartwright - Director of ScopeSite Digital Studios',
       },
     ],
   },
   twitter: {
     card: 'summary',
-    title: 'Book a Strategy Call | ScopeSite',
-    description: 'Book a free 30-minute strategy call with Dan Cartwright.',
+    title: 'Book a Free Strategy Call | ScopeSite',
+    description: 'Book a free 30-minute strategy call with Dan Cartwright. Discuss your web design or AI visibility project.',
     images: [`${BASE_URL}/images/dan-headshot.webp`],
   },
   alternates: {

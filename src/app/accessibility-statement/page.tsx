@@ -10,11 +10,11 @@ const PAGE_URL = `${BASE_URL}/accessibility-statement`;
 export const metadata: Metadata = {
   title: 'Accessibility Statement',
   description:
-    'Our commitment to digital accessibility. Learn about the accessibility features on the ScopeSite website and how to report accessibility issues.',
+    'Our commitment to digital accessibility at ScopeSite. Learn about accessibility features on our website and how to report any issues you encounter.',
   openGraph: {
     title: 'Accessibility Statement | ScopeSite Digital Studios',
     description:
-      'Our commitment to digital accessibility. Learn about the accessibility features on the ScopeSite website.',
+      'Our commitment to digital accessibility at ScopeSite. Learn about accessibility features on our website and how to report any issues you encounter.',
     url: PAGE_URL,
     type: 'website',
   },
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     card: 'summary',
     title: 'Accessibility Statement | ScopeSite Digital Studios',
     description:
-      'Our commitment to digital accessibility. Learn about the accessibility features on the ScopeSite website.',
+      'Our commitment to digital accessibility at ScopeSite. Learn about accessibility features and how to report issues.',
   },
   alternates: {
     canonical: PAGE_URL,

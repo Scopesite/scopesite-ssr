@@ -9,21 +9,21 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/brief`;
 
 export const metadata: Metadata = {
-  title: 'Send Us a Brief',
+  title: 'Send Us Your Project Brief',
   description:
-    'Submit your project brief to ScopeSite Digital Studios. Tell us about your website, web app, or branding project and we\'ll get back to you within 2 business days.',
+    'Submit your web design or AI visibility project brief. Tell us what you need and we\'ll respond within 2 business days. No obligation, honest advice.',
   openGraph: {
-    title: 'Send Us a Brief | ScopeSite Digital Studios',
+    title: 'Send Us Your Project Brief | ScopeSite Digital Studios',
     description:
-      'Submit your project brief and get a tailored response within 2 business days.',
+      'Submit your web design or AI visibility project brief. Tell us what you need and we\'ll respond within 2 business days. No obligation, honest advice.',
     url: PAGE_URL,
     type: 'website',
   },
   twitter: {
     card: 'summary',
-    title: 'Send Us a Brief | ScopeSite Digital Studios',
+    title: 'Send Us Your Project Brief | ScopeSite Digital Studios',
     description:
-      'Submit your project brief and get a tailored response within 2 business days.',
+      'Submit your web design or AI visibility project brief. We\'ll respond within 2 business days. No obligation.',
   },
   alternates: {
     canonical: PAGE_URL,

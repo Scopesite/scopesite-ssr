@@ -19,28 +19,28 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/about`;
 
 export const metadata: Metadata = {
-  title: 'About ScopeSite | Veteran-Owned Web Design Agency',
+  title: 'About Us | Veteran-Owned Website Designers',
   description:
-    'Founded by British Army veteran Dan Cartwright. We build websites with military precision and zero bullshit. Somerset-based, UK-wide service.',
+    'Founded by British Army veteran Dan Cartwright. Website designers with military precision, based in Somerset, serving UK-wide. No corporate bullshit, just results.',
   openGraph: {
-    title: 'About ScopeSite | Veteran-Owned Web Design Agency',
+    title: 'About Us | Veteran-Owned Website Designers | ScopeSite Digital Studios',
     description:
-      'Founded by British Army veteran Dan Cartwright. We build websites with military precision and zero bullshit. Somerset-based, UK-wide service.',
+      'Founded by British Army veteran Dan Cartwright. Website designers with military precision, based in Somerset, serving UK-wide. No corporate bullshit, just results.',
     url: PAGE_URL,
     images: [
       {
         url: `${BASE_URL}/images/dan-headshot.webp`,
         width: 400,
         height: 400,
-        alt: 'Dan Cartwright - Founder of ScopeSite',
+        alt: 'Dan Cartwright - Founder of ScopeSite Digital Studios',
       },
     ],
   },
   twitter: {
     card: 'summary',
-    title: 'About ScopeSite | Veteran-Owned Web Design',
+    title: 'About Us | Veteran-Owned Website Designers | ScopeSite',
     description:
-      'Founded by British Army veteran Dan Cartwright. Somerset-based, UK-wide service.',
+      'Founded by British Army veteran Dan Cartwright. Website designers with military precision, based in Somerset, serving UK-wide.',
     images: [`${BASE_URL}/images/dan-headshot.webp`],
   },
   alternates: {

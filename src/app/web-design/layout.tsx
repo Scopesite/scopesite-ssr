@@ -10,39 +10,39 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/web-design`;
 
 export const metadata: Metadata = {
-  title: 'SSR Web Design UK | AI-Optimised Server-Side Rendered Websites',
+  title: 'Web Design Somerset | AI-Optimised SSR Websites',
   description:
-    "Server-side rendered websites that AI crawlers can actually see. 100/100 Lighthouse scores, auto-generated schema, built on Next.js. SSR web design from ScopeSite.",
+    'Professional web design in Somerset. Server-side rendered sites AI crawlers can see. 100/100 Lighthouse scores, auto-generated schema. Next.js experts.',
   keywords: [
+    'web design Somerset',
     'SSR web design UK',
-    'server-side rendered websites',
     'AI-optimised web design',
     'Next.js web design',
-    'headless CMS websites',
+    'server-side rendered websites',
     'GEO optimised websites',
     'websites visible to ChatGPT',
+    'website designer Somerset',
     'AI crawler compatible websites',
-    'server-side rendering for SEO',
   ],
   openGraph: {
-    title: 'SSR Web Design UK | AI-Optimised Server-Side Rendered Websites | ScopeSite',
+    title: 'Web Design Somerset | AI-Optimised SSR Websites | ScopeSite Digital Studios',
     description:
-      "Server-side rendered websites that AI crawlers can actually see. 100/100 Lighthouse scores, auto-generated schema, built on Next.js.",
+      'Professional web design in Somerset. Server-side rendered sites AI crawlers can see. 100/100 Lighthouse scores, auto-generated schema. Next.js experts.',
     url: PAGE_URL,
     images: [
       {
         url: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
         width: 1200,
         height: 630,
-        alt: 'SSR Web Design - AI-Optimised Websites by ScopeSite',
+        alt: 'Web Design Somerset - AI-Optimised SSR Websites by ScopeSite',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'SSR Web Design UK | AI-Optimised Websites | ScopeSite',
+    title: 'Web Design Somerset | AI-Optimised SSR Websites | ScopeSite',
     description:
-      'Server-side rendered websites that AI crawlers can actually see. 100/100 Lighthouse scores.',
+      'Professional web design in Somerset. Server-side rendered sites AI crawlers can see. 100/100 Lighthouse scores.',
     images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
   },
   alternates: {

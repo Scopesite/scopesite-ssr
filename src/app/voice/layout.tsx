@@ -11,28 +11,28 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/voice`;
 
 export const metadata: Metadata = {
-  title: 'V.O.I.C.E™ AI Visibility Optimization',
+  title: 'AI Visibility Optimisation | V.O.I.C.E™ Methodology',
   description:
-    'Our proprietary V.O.I.C.E™ methodology makes your business visible to ChatGPT, Claude, and AI search platforms. Get your free AI visibility score.',
+    'Get your business recommended by ChatGPT, Claude & Perplexity. Our V.O.I.C.E™ methodology makes you visible to AI search. Free AI visibility score.',
   openGraph: {
-    title: 'V.O.I.C.E™ AI Visibility Optimization | ScopeSite Digital Studios',
+    title: 'AI Visibility Optimisation | V.O.I.C.E™ Methodology | ScopeSite Digital Studios',
     description:
-      'Our proprietary V.O.I.C.E™ methodology makes your business visible to ChatGPT, Claude, and AI search platforms. Get your free AI visibility score.',
+      'Get your business recommended by ChatGPT, Claude & Perplexity. Our V.O.I.C.E™ methodology makes you visible to AI search. Free AI visibility score.',
     url: PAGE_URL,
     images: [
       {
         url: `${BASE_URL}/images/voice-ai-aeo-geo-uk-scopesite-top-logo.webp`,
         width: 1200,
         height: 630,
-        alt: 'V.O.I.C.E™ - AI Visibility Optimization by ScopeSite',
+        alt: 'V.O.I.C.E™ - AI Visibility Optimisation by ScopeSite',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'V.O.I.C.E™ AI Visibility Optimization | ScopeSite',
+    title: 'AI Visibility Optimisation | V.O.I.C.E™ | ScopeSite',
     description:
-      'Make your business visible to ChatGPT, Claude, and AI search platforms.',
+      'Get your business recommended by ChatGPT, Claude & Perplexity. Our V.O.I.C.E™ methodology makes you visible to AI search.',
     images: [`${BASE_URL}/images/voice-ai-aeo-geo-uk-scopesite-top-logo.webp`],
   },
   alternates: {

@@ -15,11 +15,11 @@ const PAGE_URL = `${BASE_URL}/privacy-policy`;
 export const metadata: Metadata = {
   title: 'Privacy Policy',
   description:
-    'How ScopeSite Digital Studios collects, uses, and protects your personal data. UK GDPR compliant. Your rights explained.',
+    'How ScopeSite Digital Studios collects, uses and protects your personal data. UK GDPR compliant. Your data rights explained clearly. Last updated 2026.',
   openGraph: {
     title: 'Privacy Policy | ScopeSite Digital Studios',
     description:
-      'How ScopeSite Digital Studios collects, uses, and protects your personal data. UK GDPR compliant. Your rights explained.',
+      'How ScopeSite Digital Studios collects, uses and protects your personal data. UK GDPR compliant. Your data rights explained clearly.',
     url: PAGE_URL,
     type: 'website',
   },
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     card: 'summary',
     title: 'Privacy Policy | ScopeSite Digital Studios',
     description:
-      'How ScopeSite Digital Studios collects, uses, and protects your personal data. UK GDPR compliant. Your rights explained.',
+      'How ScopeSite Digital Studios collects, uses and protects your personal data. UK GDPR compliant.',
   },
   alternates: {
     canonical: PAGE_URL,
