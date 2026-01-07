@@ -7,6 +7,7 @@ import { JsonLd } from '@/components/JsonLd';
 import { SkipLink, RouteAnnouncer } from '@/components/a11y';
 import { generateOrganizationSchema, generateWebsiteSchema } from '@/lib/schema';
 import { Analytics } from '@vercel/analytics/next';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 // Fonts
 const paytoneOne = Paytone_One({
@@ -137,6 +138,7 @@ export default function RootLayout({
         <RouteAnnouncer />
         <Analytics />
       </body>
+      <GoogleAnalytics gaId="G-DGMRS1RD05" />
     </html>
   );
 }

@@ -316,7 +316,7 @@ export default function WebDesignPage() {
             <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-headline text-white mb-4">
               <span className="text-brand-gold block mb-2">
                 <TypeWriter 
-                  text="SSR WEBSITES" 
+                  text="FAST WEBSITES" 
                   speed={80} 
                   delay={200}
                 />
@@ -326,7 +326,7 @@ export default function WebDesignPage() {
             
             <FadeInOnScroll delay={0.8}>
               <p className="text-xl md:text-2xl text-white/90 font-medium mb-6">
-                Server-Side Rendered. AI-Optimised. Blazing Fast.
+                Server-Side Rendered (SSR). AI-Optimised. Blazing Fast.
               </p>
             </FadeInOnScroll>
             
