@@ -13,7 +13,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/privacy-policy`;
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | ScopeSite Digital Studios',
+  title: 'Privacy Policy',
   description:
     'How ScopeSite Digital Studios collects, uses, and protects your personal data. UK GDPR compliant. Your rights explained.',
   openGraph: {

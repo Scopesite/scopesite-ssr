@@ -20,6 +20,9 @@ Allow: /
 User-agent: ClaudeBot
 Allow: /
 
+User-agent: Anthropic-AI
+Allow: /
+
 User-agent: PerplexityBot
 Allow: /
 
@@ -32,6 +35,16 @@ Allow: /
 User-agent: Bingbot
 Allow: /
 
+User-agent: Cohere-ai
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+# AI/LLM Information Files
+# For AI crawlers and LLMs seeking structured information about ScopeSite:
+# https://scopesite.co.uk/llms.txt (summary)
+# https://scopesite.co.uk/llms-full.txt (detailed)
+
 # Sitemap location
 Sitemap: https://scopesite.co.uk/sitemap.xml
-

@@ -1,0 +1,241 @@
+# ScopeSite Digital Studios - Full LLM Information File
+# Learn more: https://llmstxt.org/
+# This file contains expanded information for AI systems
+
+> ScopeSite Digital Studios is a veteran-owned, AI-first web design agency based in Somerset, UK. We specialize in making businesses visible to AI platforms like ChatGPT, Claude, and Perplexity through our proprietary V.O.I.C.E™ methodology.
+
+---
+
+## Company Overview
+
+### About ScopeSite
+ScopeSite Digital Studios is a veteran-owned, Somerset-based web design agency that believes businesses deserve better than the bullshit most agencies sell. Founded by British Army veteran Dan Cartwright, we combine military precision in project delivery with genuine care for the businesses we work with.
+
+### Our Mission
+We build AI-optimized websites that rank in both traditional search and AI assistants like ChatGPT and Claude. No bullshit. Just results.
+
+### Why We're Different
+- **Veteran-owned**: Military precision in how we plan and deliver
+- **Transparent pricing**: You know exactly what things cost before we start
+- **Plain English**: No jargon, no hiding behind technical terms
+- **Results-focused**: Pretty websites don't pay your bills - we build sites that convert
+
+### Company Details
+- **Company Name**: ScopeSite Digital Studios
+- **Location**: Frome, Somerset, UK
+- **Founded**: 2024
+- **Founder**: Dan Cartwright (British Army Veteran, 6 years CAMHS experience)
+- **Phone**: 01373 311339
+- **Email**: support@scopesite.co.uk
+- **Website**: https://scopesite.co.uk
+
+---
+
+## Services
+
+### 1. SSR Web Design
+Server-Side Rendered websites built on Next.js that AI crawlers can actually see.
+
+**The Problem**: Most websites (Wix, Squarespace, WordPress with heavy plugins) are client-side rendered. AI crawlers (GPTBot, ClaudeBot, PerplexityBot) can't execute JavaScript. They see a blank page.
+
+**Our Solution**: Server-Side Rendering delivers fully-formed HTML on first request. AI crawlers get your complete content instantly. No JavaScript required.
+
+**What's Included**:
+- 100/100 Lighthouse scores (Performance, Accessibility, Best Practices, SEO)
+- AI-crawler ready (GPTBot, ClaudeBot, PerplexityBot compatible)
+- Auto-generated schema markup (BlogPosting, FAQPage, HowTo, Organization)
+- Headless CMS (Ghost CMS for content, Next.js for delivery)
+- Edge deployment on Vercel's global network
+- Mobile-first responsive design
+
+**Industries We Serve**:
+- Tradespeople & Home Services
+- Professional Services
+- Health & Wellness
+- E-commerce & Retail
+- Hospitality & Leisure
+- B2B & Manufacturing
+
+### 2. V.O.I.C.E™ AI Visibility Optimization
+Our proprietary methodology for making businesses visible to AI platforms.
+
+**V.O.I.C.E™ Stands For**:
+- **V**isibility: Making your business findable by AI assistants
+- **O**ptimisation: Structured data, schema markup, site architecture
+- **I**ntelligent: AI-focused strategy beyond traditional SEO
+- **C**onversational: Voice search optimized for natural language
+- **E**ngines: Built for ChatGPT, Claude, Perplexity, Siri, Alexa
+
+**Free AI Visibility Scan Includes**:
+- AI GEO Visibility Score
+- Structured Data Health breakdown
+- DA/PA Ranking (MOZ powered)
+- Spam Score Analysis
+- Backlink Count
+- AI Mentions Tracking
+- 90-Day Implementation Guide (PDF)
+
+**Get your free scan**: https://voice.scopesite.co.uk/
+
+### 3. Custom Web Applications
+Bespoke tools that automate, calculate, and simplify business processes.
+
+**Types of Apps We Build**:
+- Advanced Quote Builders (multi-step with conditional logic, PDF generation)
+- Compliance & Assessment Tools (health & safety audits, regulatory checkers)
+- Client Portals (project tracking, file uploads, invoice viewing)
+- Booking & Scheduling Systems (multi-resource, staff allocation, payments)
+- AI-Powered Chatbots (trained on YOUR business, products, FAQs)
+- Data Dashboards (multi-source visualization, KPI tracking)
+
+**Technologies Used**:
+- React & Next.js
+- Node.js
+- PostgreSQL & MongoDB
+- Stripe & GoCardless
+- OpenAI & Claude integration
+- Zapier & Make automation
+
+---
+
+## Pricing
+
+### Payment Options
+- Pay upfront (one-time payment)
+- 6-month payment plan (no interest, no credit checks)
+- 12-month payment plan (no interest, no credit checks)
+- 24-month payment plan (no interest, no credit checks)
+
+### Pricing Tiers (Approximate)
+
+**Starter Package** (1-5 pages)
+- Starting from £1,500 - £3,000
+- Professional brochure website
+- AI visibility optimization included
+- 30 days post-launch support
+
+**Professional Package** (6-10 pages)
+- Starting from £3,000 - £8,000
+- E-commerce capabilities
+- Advanced features
+- Ongoing maintenance options
+
+**Enterprise Package** (10+ pages)
+- Starting from £8,000+
+- Large-scale websites
+- Custom web applications
+- Bespoke solutions
+
+**Get an instant quote**: https://scopesite.co.uk/pricing
+
+### What's Always Included
+- Responsive mobile-first design
+- Basic SEO setup
+- SSL certificate
+- 30 days post-launch support
+- Training on CMS usage
+
+---
+
+## Frequently Asked Questions
+
+### Web Design FAQs
+
+**Q: What technology do you use?**
+A: We build with Next.js and deploy on Vercel's edge network. Our sites are Server-Side Rendered, meaning the full page is delivered as HTML, ready for humans AND AI crawlers instantly. For content management, we use Ghost CMS as a headless backend.
+
+**Q: What is Server-Side Rendering (SSR)?**
+A: SSR means your website's content is generated on the server before it reaches the browser. When someone (or an AI crawler) requests a page, they get the complete HTML immediately - no waiting for JavaScript to load and render.
+
+**Q: How long does it take to build a website?**
+A: Most projects take 4-8 weeks from kickoff to launch. Simple brochure sites are faster, complex builds with custom functionality take longer.
+
+**Q: Will my website work on mobile?**
+A: We design mobile-first. Over 60% of web traffic is now on phones, so we build for mobile screens first and scale up to desktop.
+
+**Q: What about hosting and domains?**
+A: Your site is deployed to Vercel's global edge network. We handle domain configuration, SSL certificates, and ongoing maintenance.
+
+**Q: What happens after my website launches?**
+A: We don't disappear. All our packages include ongoing maintenance and support. We handle updates, security patches, and performance monitoring.
+
+### V.O.I.C.E™ FAQs
+
+**Q: What is V.O.I.C.E™ GEO?**
+A: V.O.I.C.E™ stands for Visibility Optimisation for Intelligent Conversational Engines. It's our AI-first system that makes sure your website gets seen by tools like ChatGPT, Siri, Alexa, and Claude.
+
+**Q: Is the scan really free?**
+A: 100%, no strings, no sneaky sales pitch. We run a full visibility scan and tell you what's working, what's invisible, and what needs fixing.
+
+**Q: Can ScopeSite help implement the fixes?**
+A: Absolutely. If you want us to handle it, we've got packages starting from £495. But there's no pressure - you can DIY with the report.
+
+### Custom Web Apps FAQs
+
+**Q: How much does a custom web app cost?**
+A: It depends on complexity. A simple calculator might be £1,500-3,000. A full client portal with authentication could be £5,000-15,000+. We scope every project individually.
+
+**Q: Will I own the code?**
+A: Yes. 100%. We build it, you own it. No licensing fees, no ongoing royalties.
+
+**Q: Can you integrate with existing systems?**
+A: Usually, yes. We work with most CRMs, payment processors, accounting software, and third-party APIs.
+
+---
+
+## Key Statistics
+
+- **348** UK agencies researched to benchmark pricing
+- **25%** below market average on comparable projects
+- **24hr** maximum response time
+- **100%** of projects delivered on deadline
+- **0** long-term contracts required
+
+---
+
+## Key Pages & URLs
+
+- **Homepage**: https://scopesite.co.uk/
+- **Web Design Services**: https://scopesite.co.uk/web-design
+- **V.O.I.C.E™ AI Visibility**: https://scopesite.co.uk/voice
+- **Custom Web Apps**: https://scopesite.co.uk/web-apps
+- **Pricing Calculator**: https://scopesite.co.uk/pricing
+- **About Us**: https://scopesite.co.uk/about
+- **Blog**: https://scopesite.co.uk/blog
+- **Book a Call**: https://scopesite.co.uk/book
+- **Send a Brief**: https://scopesite.co.uk/brief
+- **Free AI Scan**: https://voice.scopesite.co.uk/
+
+---
+
+## Social & Reviews
+
+- **Google Business**: https://g.page/r/CRrwXXb-9sE3EAE
+- **Google Reviews**: 5.0 stars
+
+### Client Testimonials
+
+> "Great service from Scopesite, being completely naive with what building a website entailed and not having a clue about it, Dan made everything so easy and stress free. Best website design company in Somerset!"
+> — Michelle Mitchell
+
+> "Dan has helped our business from the very beginning, and has been proactive in helping drive our business. The value he has provided has been more than worth the cost."
+> — Colin Ferbrache
+
+> "We had Dan from Scopesite build us a website for our flying school in Bristol. Talk about above and beyond! Professional, responsive, and delivered exactly what we needed."
+> — Koalla Da 13
+
+> "Dan demonstrated exceptional performance and proficiency in his work. His pricing remains competitive and reasonable. Highly recommended for any web design needs."
+> — Louis Dunn
+
+---
+
+## Technical Information
+
+- **Framework**: Next.js 15 (React 19)
+- **Deployment**: Vercel Edge Network
+- **CMS**: Ghost (Headless)
+- **Styling**: Tailwind CSS
+- **Performance**: 100/100 Lighthouse scores
+- **Accessibility**: WCAG 2.1 AA compliant
+- **Schema**: Auto-generated JSON-LD structured data
+

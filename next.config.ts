@@ -1,6 +1,9 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  // Consistent URL handling - no trailing slashes
+  trailingSlash: false,
+
   // Enable static generation where possible
   output: 'standalone',
 

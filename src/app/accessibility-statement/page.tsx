@@ -8,7 +8,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/accessibility-statement`;
 
 export const metadata: Metadata = {
-  title: 'Accessibility Statement | ScopeSite Digital Studios',
+  title: 'Accessibility Statement',
   description:
     'Our commitment to digital accessibility. Learn about the accessibility features on the ScopeSite website and how to report accessibility issues.',
   openGraph: {
