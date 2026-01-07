@@ -29,6 +29,17 @@ const nextConfig: NextConfig = {
     ];
   },
 
+  // 301 redirects for old/changed URLs
+  async redirects() {
+    return [
+      {
+        source: '/affordable-web-design-uk',
+        destination: '/web-design',
+        permanent: true,
+      },
+    ];
+  },
+
   // Image optimization
   images: {
     remotePatterns: [
