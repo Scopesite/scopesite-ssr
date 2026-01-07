@@ -29,12 +29,37 @@ const nextConfig: NextConfig = {
     ];
   },
 
-  // 301 redirects for old/changed URLs
+  // 301 redirects for old/changed URLs (legacy Wix site)
   async redirects() {
     return [
       {
         source: '/affordable-web-design-uk',
         destination: '/web-design',
+        permanent: true,
+      },
+      {
+        source: '/faq',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/strategy-meeting-uk-web-design',
+        destination: '/book',
+        permanent: true,
+      },
+      {
+        source: '/cookie-policy',
+        destination: '/privacy-policy#8-cookies-and-tracking',
+        permanent: true,
+      },
+      {
+        source: '/how-to-get-listed-brave-search',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/reviews',
+        destination: '/about',
         permanent: true,
       },
     ];
