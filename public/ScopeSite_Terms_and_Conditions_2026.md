@@ -448,89 +448,202 @@ Any disputes regarding invoices must be raised in writing within 7 days of the i
 
 All Intellectual Property Rights in materials created by ScopeSite LTD prior to or independently of this Agreement shall remain the property of ScopeSite LTD. All Intellectual Property Rights in Client Content shall remain the property of the Client.
 
-### 7.2 Ownership of Deliverables - One-Off Projects
+### 7.2 Ownership Model
 
-#### 7.2.1 Transfer of Ownership
+#### 7.2.1 Fundamental Principle
 
-Upon receipt of full and final payment for One-Off Large Website Builds/Projects, Brand Creation, and other one-off services, ScopeSite LTD assigns to the Client all Intellectual Property Rights in the final, approved Deliverables created specifically for the Client under the Service Agreement. This transfer excludes any pre-existing ScopeSite IP, third-party materials, or open-source components incorporated into the Deliverables.
+Payment for Services constitutes payment for ScopeSite LTD's time, expertise, and labour in creating Deliverables. Payment for Services does not automatically transfer Intellectual Property Rights in the Deliverables to the Client unless explicitly stated in the Service Agreement.
 
-#### 7.2.2 Exclusions
+#### 7.2.2 Default Position - License to Use
 
-For the avoidance of doubt, ScopeSite LTD retains ownership of all preliminary concepts, drafts, working files, methodologies, know-how, and tools used in the creation of the Deliverables.
+Unless the Service Agreement explicitly includes "IP Rights Transfer" or "Intellectual Property Assignment" as a line item, the Client is granted a perpetual, non-exclusive, non-transferable license to use the Deliverables for their intended business purpose. Under this license:
 
-### 7.3 Ownership of Deliverables - Pay Monthly Websites
+(a) The Client may use, display, and operate the Deliverables for their own business operations;
 
-#### 7.3.1 Transfer of Ownership
+(b) The Client may not sell, sublicense, transfer, or assign the Deliverables to any third party;
 
-Upon completion of the minimum contract period of 3 months and receipt of all payments due for the Pay Monthly Website service, ScopeSite LTD assigns to the Client all Intellectual Property Rights in the website design and content created specifically for the Client under the Service Agreement. This transfer excludes the underlying content management system, ScopeSite proprietary code, third-party plugins, and hosting infrastructure.
+(c) The Client may not claim ownership of, or register any Intellectual Property Rights in, the Deliverables;
 
-#### 7.3.2 Early Termination
+(d) The Client may not modify the underlying code, design, or architecture without ScopeSite LTD's written consent;
 
-If the service is terminated before the completion of the 3-month minimum period, no Intellectual Property Rights in the website design or content shall transfer to the Client.
+(e) ScopeSite LTD retains full ownership of all Intellectual Property Rights in the Deliverables.
 
-### 7.4 Intellectual Property Rights - Social Media Management
+#### 7.2.3 License Continuation
 
-#### 7.4.1 Content Ownership
+The license granted under clause 7.2.2 remains valid for as long as:
 
-Content created by ScopeSite LTD specifically for the Client as part of Social Media Management services shall be owned by the Client upon creation, provided all payments are up to date.
+(a) All invoices related to the original project have been paid in full; and
 
-#### 7.4.2 Reuse Rights
+(b) Any ongoing retainer, maintenance, or hosting agreements remain in good standing; or
 
-ScopeSite LTD grants the Client a perpetual, royalty-free license to reuse any content created during the Social Media Management service after the service has been active for a minimum of 3 months and all payments are settled.
+(c) The Client has paid a License Buyout Fee as agreed with ScopeSite LTD to continue using the Deliverables independently.
 
-#### 7.4.3 Platform Content
+#### 7.2.4 License Revocation
 
-The Client acknowledges that content posted on third-party social media platforms is also subject to the terms and conditions of those platforms.
+ScopeSite LTD reserves the right to revoke the license granted under clause 7.2.2 if:
 
-### 7.5 ScopeSite Proprietary Platforms and Tools
+(a) The Client fails to pay any invoices within 30 days of the due date;
 
-#### 7.5.1 Ownership
+(b) The Client terminates a maintenance or hosting agreement without purchasing a License Buyout or IP Transfer;
+
+(c) The Client breaches any terms of this Agreement.
+
+Upon revocation, the Client must cease all use of the Deliverables and remove them from any live environments within 14 days.
+
+### 7.3 Intellectual Property Transfer
+
+#### 7.3.1 Availability
+
+Full transfer of Intellectual Property Rights is available as a separate purchase. This must be explicitly included in the Service Agreement as a line item with an associated fee.
+
+#### 7.3.2 IP Transfer Fee
+
+The fee for Intellectual Property Transfer will be quoted separately and is typically calculated as a percentage of the project build cost, or as a fixed fee, depending on the nature and complexity of the Deliverables. This fee is in addition to the fees charged for Services.
+
+#### 7.3.3 What IP Transfer Includes
+
+Upon receipt of full payment for both the Services and the IP Transfer Fee, ScopeSite LTD assigns to the Client:
+
+(a) All Intellectual Property Rights in the final, approved Deliverables created specifically for the Client;
+
+(b) The right to modify, adapt, and build upon the Deliverables;
+
+(c) The right to transfer or assign the Deliverables to third parties;
+
+(d) Full source code and working files (where applicable).
+
+#### 7.3.4 What IP Transfer Excludes
+
+Even where IP Transfer is purchased, ScopeSite LTD retains ownership of:
+
+(a) Pre-existing ScopeSite IP, frameworks, libraries, and code components that existed prior to the project;
+
+(b) Reusable methodologies, processes, and know-how developed during the project;
+
+(c) Third-party components, plugins, or assets incorporated into the Deliverables (which remain subject to their respective licenses);
+
+(d) Any ScopeSite proprietary platforms or tools (as defined in clause 7.6).
+
+#### 7.3.5 Timing of Transfer
+
+Intellectual Property Rights transfer only upon receipt of both:
+
+(a) Full and final payment for all Services; and
+
+(b) Full payment of the IP Transfer Fee.
+
+No Intellectual Property Rights shall transfer until both conditions are satisfied.
+
+### 7.4 Specific Provisions for Service Types
+
+#### 7.4.1 One-Off Website Projects
+
+Unless IP Transfer is purchased:
+
+- Client receives a perpetual license to use the website for their business
+- ScopeSite LTD retains ownership of all code, design, and architecture
+- Client may not migrate the website to another developer or agency without purchasing IP Transfer or a License Buyout
+
+#### 7.4.2 Web Applications and Custom Software
+
+Unless IP Transfer is purchased:
+
+- Client receives a license to use the application for their business operations
+- ScopeSite LTD retains ownership of all source code, databases, and architecture
+- Client is entitled to their own data but not the system that processes it
+- Continued use is subject to an active maintenance agreement or License Buyout
+
+#### 7.4.3 Pay Monthly Websites
+
+- No Intellectual Property Rights transfer during the pay monthly period
+- Upon completion of 12 months of continuous service and all payments being up to date, the Client may request IP Transfer at a reduced fee (to be quoted upon request)
+- Early termination results in no IP rights and no license continuation unless a Buyout Fee is paid
+
+#### 7.4.4 Brand Creation and Graphic Design
+
+- Logos and core brand identity assets: IP automatically transfers upon full payment for the brand creation service (exception to default position)
+- Marketing materials and collateral: Licensed for use, IP retained by ScopeSite LTD unless IP Transfer purchased
+- Client may use brand assets freely for their business but may not resell or license them to third parties
+
+### 7.5 License Buyout
+
+#### 7.5.1 Definition
+
+A License Buyout is a one-time fee that allows the Client to continue using the Deliverables independently, without an ongoing maintenance or hosting agreement with ScopeSite LTD. A License Buyout does not transfer Intellectual Property Rights.
+
+#### 7.5.2 What License Buyout Includes
+
+(a) Perpetual, irrevocable license to use the Deliverables;
+
+(b) Right to host the Deliverables with any provider;
+
+(c) Right to engage third parties to maintain or modify the Deliverables;
+
+(d) Handover of relevant files required for continued operation.
+
+#### 7.5.3 What License Buyout Excludes
+
+(a) Ownership of Intellectual Property Rights (ScopeSite LTD retains these);
+
+(b) Right to resell, sublicense, or commercially distribute the Deliverables;
+
+(c) Source code or working files beyond what is necessary for operation;
+
+(d) Any ongoing support, updates, or warranty from ScopeSite LTD.
+
+#### 7.5.4 License Buyout Fee
+
+The License Buyout Fee will be quoted on request and is typically less than the full IP Transfer Fee.
+
+### 7.6 ScopeSite Proprietary Platforms and Tools
+
+#### 7.6.1 Ownership
 
 ScopeSite LTD retains full ownership and all Intellectual Property Rights in its proprietary SaaS Platform (Ready Set Social), AI Tools (ScopeBot), Freelancer CRM, and any other software, tools, or platforms developed by ScopeSite LTD.
 
-#### 7.5.2 License Grant
+#### 7.6.2 License Grant
 
 ScopeSite LTD grants the Client a non-exclusive, non-transferable, revocable license to access and use these platforms and tools during the term of the relevant Service Agreement, solely for the Client's internal business purposes and subject to these Terms and any specific usage limitations outlined in the Service Agreement.
 
-#### 7.5.3 Restrictions
+#### 7.6.3 Restrictions
 
 The Client shall not copy, modify, distribute, sell, lease, sublicense, reverse engineer, or attempt to extract the source code of ScopeSite LTD's proprietary platforms or tools.
 
-### 7.6 Client Content
+### 7.7 Client Content
 
-#### 7.6.1 License to ScopeSite
+#### 7.7.1 License to ScopeSite
 
 The Client grants ScopeSite LTD a non-exclusive, worldwide, royalty-free license to use, reproduce, modify, and display the Client Content solely for the purpose of providing the Services under this Agreement.
 
-#### 7.6.2 Client Warranties
+#### 7.7.2 Client Warranties
 
 The Client warrants that they own or have obtained all necessary rights, licenses, and permissions to provide the Client Content to ScopeSite LTD and for ScopeSite LTD to use it in accordance with this Agreement. The Client agrees to indemnify ScopeSite LTD against any claims arising from the use of Client Content.
 
-### 7.7 Third-Party Assets and Licenses
+### 7.8 Third-Party Assets and Licenses
 
-#### 7.7.1 Responsibility
+#### 7.8.1 Responsibility
 
 Unless otherwise specified in the Service Agreement, the Client is responsible for obtaining and paying for all necessary licenses for third-party assets, including but not limited to stock images, fonts, software plugins, or other materials incorporated into the Deliverables at the Client's request.
 
-#### 7.7.2 ScopeSite Provided Assets
+#### 7.8.2 ScopeSite Provided Assets
 
 Where ScopeSite LTD provides third-party assets (e.g., stock images licensed by ScopeSite), the usage rights granted to the Client will be limited by the terms of ScopeSite LTD's license with the third-party provider. ScopeSite LTD will inform the Client of any such limitations.
 
-#### 7.7.3 Open Source Software
+#### 7.8.3 Open Source Software
 
 Deliverables may incorporate open-source software components. The use of such components is subject to the terms of the applicable open-source licenses.
 
-### 7.8 Portfolio Rights
+### 7.9 Portfolio Rights
 
-#### 7.8.1 ScopeSite Portfolio
+#### 7.9.1 ScopeSite Portfolio
 
 Unless the Client explicitly requests otherwise in writing prior to project commencement, ScopeSite LTD reserves the right to display and showcase the Deliverables (including screenshots, descriptions, and links) in its portfolio, website, marketing materials, and social media channels for promotional purposes after the project is completed or launched.
 
-#### 7.8.2 Client Trademarks
+#### 7.9.2 Client Trademarks
 
 ScopeSite LTD may use the Client's name and logo in its marketing materials to identify the Client as a customer, unless the Client requests otherwise in writing.
 
-### 7.9 Pre-Existing Intellectual Property
+### 7.10 Pre-Existing Intellectual Property
 
 Each party retains ownership of its pre-existing Intellectual Property Rights. Nothing in this Agreement shall be construed as transferring ownership of any pre-existing Intellectual Property Rights.
 
