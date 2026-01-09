@@ -536,34 +536,107 @@ No Intellectual Property Rights shall transfer until both conditions are satisfi
 
 ### 7.4 Specific Provisions for Service Types
 
-#### 7.4.1 One-Off Website Projects
+#### 7.4.1 Standard Websites (Brochure, Business, Portfolio)
 
-Unless IP Transfer is purchased:
+For standard website projects (informational sites, business websites, portfolios, and similar):
 
-- Client receives a perpetual license to use the website for their business
-- ScopeSite LTD retains ownership of all code, design, and architecture
-- Client may not migrate the website to another developer or agency without purchasing IP Transfer or a License Buyout
+- IP transfers automatically upon receipt of full and final payment for the project
+- Client owns the design, content structure, and custom code created specifically for them
+- ScopeSite LTD retains ownership of pre-existing frameworks, reusable components, and third-party integrations
+- Client may migrate to another developer or host without restriction once IP has transferred
 
-#### 7.4.2 Web Applications and Custom Software
+This reflects the industry standard expectation that clients own their website once paid for.
 
-Unless IP Transfer is purchased:
+#### 7.4.2 Web Applications, Custom Software, and Complex Systems
 
-- Client receives a license to use the application for their business operations
-- ScopeSite LTD retains ownership of all source code, databases, and architecture
-- Client is entitled to their own data but not the system that processes it
-- Continued use is subject to an active maintenance agreement or License Buyout
+For web applications, custom software, automation systems, complex forms with business logic, dashboards, portals, booking systems, calculators, and any deliverable that:
 
-#### 7.4.3 Pay Monthly Websites
+(a) Contains significant conditional logic or business rules;
+
+(b) Processes, calculates, or transforms data beyond simple form submission;
+
+(c) Could feasibly be repurposed, resold, or licensed as a standalone product;
+
+(d) Took more than 10 hours of development time; or
+
+(e) Is described in the Service Agreement as an "application", "system", "tool", or "platform"
+
+The following terms apply:
+
+- Client receives a non-exclusive, non-transferable license to use the Deliverables solely for their own internal business operations
+- ScopeSite LTD retains full Intellectual Property Rights in the source code, architecture, logic, and configuration
+- Client may not resell, sublicense, white-label, or commercially distribute the Deliverables
+- Client may not claim to have created, developed, or own the Deliverables
+- Client may not share, disclose, or demonstrate the underlying logic or configuration to third parties for the purpose of replication
+- Client is entitled to their own business data processed by the system, but not the system itself
+- Continued use beyond the original project requires either an active maintenance/retainer agreement or purchase of a License Buyout
+
+IP Transfer is available as a separate purchase if the Client wishes to own the application outright (see clause 7.3).
+
+#### 7.4.3 Scope Evolution - Simple to Complex
+
+Where a project begins as a simple deliverable (e.g., a basic form, landing page, or minor automation) but evolves during development into a more complex system due to:
+
+(a) Client-requested additions or changes;
+
+(b) Discovery of requirements not apparent at project outset; or
+
+(c) Scope creep beyond the original Service Agreement
+
+The Intellectual Property provisions shall be determined by what the Deliverable has become, not what it started as.
+
+If a simple form becomes a complex application with conditional logic, integrations, and significant development time, it shall be treated under clause 7.4.2 (Web Applications and Custom Software), regardless of how it was originally scoped or quoted.
+
+ScopeSite LTD will notify the Client in writing if a project has evolved to the point where IP treatment has changed. The Client may at that point:
+
+(a) Continue under the revised IP terms (licensed use, ScopeSite retains ownership);
+
+(b) Purchase IP Transfer at the quoted fee; or
+
+(c) Descope the project back to its original simple specification.
+
+#### 7.4.4 Pay Monthly Websites
 
 - No Intellectual Property Rights transfer during the pay monthly period
+- Client receives a license to use the website for their business while payments are current
 - Upon completion of 12 months of continuous service and all payments being up to date, the Client may request IP Transfer at a reduced fee (to be quoted upon request)
 - Early termination results in no IP rights and no license continuation unless a Buyout Fee is paid
+- Client data and content remains theirs; the website design and code does not
 
-#### 7.4.4 Brand Creation and Graphic Design
+#### 7.4.5 Brand Creation and Graphic Design
 
-- Logos and core brand identity assets: IP automatically transfers upon full payment for the brand creation service (exception to default position)
-- Marketing materials and collateral: Licensed for use, IP retained by ScopeSite LTD unless IP Transfer purchased
-- Client may use brand assets freely for their business but may not resell or license them to third parties
+**Logos and Core Brand Identity:**
+
+- IP automatically transfers upon full payment for the brand creation service
+- Client owns their logo, wordmark, brand guidelines, and core identity assets outright
+- This is an exception to the default position - clients rightly expect to own their brand
+
+**Marketing Materials and Collateral:**
+
+- Licensed for use in the Client's business
+- IP retained by ScopeSite LTD unless IP Transfer purchased
+- Client may use materials freely for their own marketing but may not resell, sublicense, or claim to have created them
+
+#### 7.4.6 Projects Intended for Client Commercialisation
+
+Where the explicit purpose of a project is to create a product, platform, or application that the Client intends to:
+
+(a) Sell to end users;
+
+(b) License to third parties;
+
+(c) Offer as a SaaS or subscription product; or
+
+(d) Otherwise commercially exploit beyond their own internal use
+
+IP Transfer must be agreed and included in the Service Agreement from the outset. The project fee will reflect the commercial nature of the engagement, and may include:
+
+- Higher build fees to reflect the value being created
+- Revenue share or royalty arrangements
+- Equity or profit-sharing agreements
+- Milestone-based IP transfer tied to commercial success
+
+ScopeSite LTD will not undertake projects intended for Client commercialisation under standard service terms. Any attempt to commercialise Deliverables created under standard terms (without explicit IP Transfer) constitutes a material breach of this Agreement.
 
 ### 7.5 License Buyout
 
