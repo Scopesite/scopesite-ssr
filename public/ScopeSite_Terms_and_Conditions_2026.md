@@ -595,6 +595,8 @@ ScopeSite LTD will notify the Client in writing if a project has evolved to the 
 
 (c) Descope the project back to its original simple specification.
 
+For the avoidance of doubt: Selecting option (c) does not waive, reduce, or refund any fees for work already completed. The Client remains liable for all hours worked and costs incurred up to the point of descoping, charged at the applicable hourly rate. Descoping determines only what the Client receives as the final Deliverable and under what IP terms - it is not a mechanism to avoid payment for work performed. Any complex work completed prior to descoping remains the property of ScopeSite LTD and will not be delivered to the Client.
+
 #### 7.4.4 Pay Monthly Websites
 
 - No Intellectual Property Rights transfer during the pay monthly period
