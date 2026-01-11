@@ -233,3 +233,257 @@ export async function sendClientConfirmation(brief: BriefEmailData): Promise<boo
     return false;
   }
 }
+
+// ============================================
+// QUOTE EMAIL FUNCTIONS
+// ============================================
+
+export interface QuoteEmailData {
+  quoteId: string;
+  email: string;
+  name: string;
+  phone?: string;
+  company?: string;
+  message?: string;
+  projectType: string;
+  packageType: string;
+  paymentType: string;
+  selectedTotal: number;
+  monthlyPayment?: number | null;
+  quoteUrl: string;
+}
+
+function formatCurrency(amount: number): string {
+  return new Intl.NumberFormat('en-GB', {
+    style: 'currency',
+    currency: 'GBP',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(amount);
+}
+
+/**
+ * Send notification email to admin when quote is submitted
+ */
+export async function sendQuoteAdminNotification(quote: QuoteEmailData): Promise<boolean> {
+  const subject = `New Quote: ${quote.company || quote.name} - ${quote.packageType} (${formatCurrency(quote.selectedTotal)})`;
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f5f5f5; margin: 0; padding: 20px;">
+      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        
+        <!-- Header -->
+        <div style="background-color: #0A1B36; padding: 24px; text-align: center;">
+          <h1 style="color: #ECB615; margin: 0; font-size: 24px; font-weight: bold;">NEW QUOTE SUBMITTED</h1>
+          <p style="color: #ffffff; margin: 8px 0 0 0; font-size: 14px;">Quote ID: ${quote.quoteId}</p>
+        </div>
+        
+        <!-- Content -->
+        <div style="padding: 24px;">
+          
+          <!-- Pricing Summary (highlighted) -->
+          <div style="margin-bottom: 24px; padding: 20px; background-color: #ECB615; border-radius: 8px; text-align: center;">
+            <p style="margin: 0 0 8px 0; color: #0A1B36; font-size: 14px; font-weight: bold;">TOTAL VALUE</p>
+            <p style="margin: 0; color: #0A1B36; font-size: 32px; font-weight: bold;">${formatCurrency(quote.selectedTotal)}</p>
+            ${quote.monthlyPayment ? `<p style="margin: 8px 0 0 0; color: #0A1B36; font-size: 14px;">${formatCurrency(quote.monthlyPayment)}/month (${quote.paymentType})</p>` : `<p style="margin: 8px 0 0 0; color: #0A1B36; font-size: 14px;">${quote.paymentType}</p>`}
+          </div>
+          
+          <!-- Contact Info -->
+          <div style="margin-bottom: 24px; padding: 16px; background-color: #f8f9fa; border-radius: 8px;">
+            <h2 style="color: #0A1B36; margin: 0 0 12px 0; font-size: 18px;">Contact Information</h2>
+            <p style="margin: 4px 0; color: #333;"><strong>Name:</strong> ${quote.name}</p>
+            <p style="margin: 4px 0; color: #333;"><strong>Email:</strong> <a href="mailto:${quote.email}" style="color: #ECB615;">${quote.email}</a></p>
+            ${quote.company ? `<p style="margin: 4px 0; color: #333;"><strong>Company:</strong> ${quote.company}</p>` : ''}
+            ${quote.phone ? `<p style="margin: 4px 0; color: #333;"><strong>Phone:</strong> <a href="tel:${quote.phone}" style="color: #ECB615;">${quote.phone}</a></p>` : ''}
+          </div>
+          
+          <!-- Project Details -->
+          <div style="margin-bottom: 24px; padding: 16px; background-color: #f8f9fa; border-radius: 8px;">
+            <h2 style="color: #0A1B36; margin: 0 0 12px 0; font-size: 18px;">Project Details</h2>
+            <p style="margin: 4px 0; color: #333;"><strong>Project Type:</strong> ${quote.projectType}</p>
+            <p style="margin: 4px 0; color: #333;"><strong>Package:</strong> ${quote.packageType}</p>
+            <p style="margin: 4px 0; color: #333;"><strong>Payment Plan:</strong> ${quote.paymentType}</p>
+          </div>
+          
+          ${quote.message ? `
+          <!-- Message -->
+          <div style="margin-bottom: 24px;">
+            <h2 style="color: #0A1B36; margin: 0 0 12px 0; font-size: 18px;">Additional Notes</h2>
+            <div style="padding: 16px; background-color: #0A1B36; border-radius: 8px; color: #ffffff; line-height: 1.6;">
+              ${quote.message.replace(/\n/g, '<br>')}
+            </div>
+          </div>
+          ` : ''}
+          
+          <!-- Action Buttons -->
+          <div style="text-align: center; margin-top: 24px;">
+            <a href="${quote.quoteUrl}" 
+               style="display: inline-block; padding: 12px 24px; background-color: #0A1B36; color: #ffffff; text-decoration: none; border-radius: 8px; font-weight: bold; margin-right: 12px;">
+              View Full Quote
+            </a>
+            <a href="mailto:${quote.email}?subject=Re: Your ScopeSite Quote (${quote.quoteId})" 
+               style="display: inline-block; padding: 12px 24px; background-color: #ECB615; color: #0A1B36; text-decoration: none; border-radius: 8px; font-weight: bold;">
+              Reply to ${quote.name.split(' ')[0]}
+            </a>
+          </div>
+          
+        </div>
+        
+        <!-- Footer -->
+        <div style="background-color: #0A1B36; padding: 16px; text-align: center;">
+          <p style="margin: 0; color: #ffffff; font-size: 12px;">
+            Submitted via scopesite.co.uk/pricing
+          </p>
+        </div>
+        
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+    sendSmtpEmail.subject = subject;
+    sendSmtpEmail.htmlContent = htmlContent;
+    sendSmtpEmail.sender = { name: FROM_NAME, email: FROM_EMAIL };
+    sendSmtpEmail.to = [{ email: ADMIN_EMAIL, name: 'Dan Cartwright' }];
+    sendSmtpEmail.replyTo = { email: quote.email, name: quote.name };
+
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    console.log(`[Email] Admin notification sent for quote ${quote.quoteId}`);
+    return true;
+  } catch (error) {
+    console.error('Failed to send quote admin notification:', error);
+    return false;
+  }
+}
+
+/**
+ * Send confirmation email to client when quote is submitted
+ */
+export async function sendQuoteClientConfirmation(quote: QuoteEmailData): Promise<boolean> {
+  const subject = `Your ScopeSite Quote (${quote.quoteId}) - ${formatCurrency(quote.selectedTotal)}`;
+  const firstName = quote.name.split(' ')[0] || 'there';
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f5f5f5; margin: 0; padding: 20px;">
+      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        
+        <!-- Header -->
+        <div style="background-color: #0A1B36; padding: 32px; text-align: center;">
+          <h1 style="color: #ECB615; margin: 0; font-size: 28px; font-weight: bold;">YOUR QUOTE IS READY!</h1>
+          <p style="color: #ffffff; margin: 8px 0 0 0; font-size: 14px;">Reference: ${quote.quoteId}</p>
+        </div>
+        
+        <!-- Content -->
+        <div style="padding: 32px;">
+          
+          <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">
+            Hi ${firstName},
+          </p>
+          
+          <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 24px 0;">
+            Thank you for using our instant quote tool! Here's a summary of your quote:
+          </p>
+          
+          <!-- Quote Summary Box -->
+          <div style="margin: 24px 0; padding: 24px; background-color: #0A1B36; border-radius: 8px; text-align: center;">
+            <p style="margin: 0 0 4px 0; color: #ffffff; font-size: 14px;">Your ${quote.packageType}</p>
+            <p style="margin: 0 0 12px 0; color: #ECB615; font-size: 36px; font-weight: bold;">${formatCurrency(quote.selectedTotal)}</p>
+            ${quote.monthlyPayment ? `
+            <p style="margin: 0; color: #ffffff; font-size: 16px;">
+              ${formatCurrency(quote.monthlyPayment)}/month over ${quote.paymentType}
+            </p>
+            ` : `
+            <p style="margin: 0; color: #ffffff; font-size: 16px;">${quote.paymentType}</p>
+            `}
+          </div>
+          
+          <!-- Project Details -->
+          <div style="margin: 24px 0; padding: 20px; background-color: #f8f9fa; border-radius: 8px; border-left: 4px solid #ECB615;">
+            <h2 style="color: #0A1B36; margin: 0 0 12px 0; font-size: 16px;">Quote Details</h2>
+            <p style="margin: 4px 0; color: #666;"><strong>Project Type:</strong> ${quote.projectType}</p>
+            <p style="margin: 4px 0; color: #666;"><strong>Package:</strong> ${quote.packageType}</p>
+            <p style="margin: 4px 0; color: #666;"><strong>Payment Plan:</strong> ${quote.paymentType}</p>
+          </div>
+          
+          <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">
+            <strong>What happens next?</strong>
+          </p>
+          
+          <ul style="color: #333; font-size: 16px; line-height: 1.8; margin: 0 0 24px 0; padding-left: 20px;">
+            <li>Dan Cartwright will personally review your requirements</li>
+            <li>You'll receive a follow-up within <strong>24 hours</strong></li>
+            <li>We'll discuss your project in detail and answer any questions</li>
+          </ul>
+          
+          <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 24px 0;">
+            Want to speed things up? Book a call and we can discuss your project right away.
+          </p>
+          
+          <!-- CTA Buttons -->
+          <div style="text-align: center; margin: 32px 0;">
+            <a href="https://scopesite.co.uk/book?email=${encodeURIComponent(quote.email)}" 
+               style="display: inline-block; padding: 14px 32px; background-color: #ECB615; color: #0A1B36; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; margin-bottom: 12px;">
+              Book a Free Strategy Call
+            </a>
+            <p style="color: #666; font-size: 14px; margin: 8px 0 0 0;">
+              30 minutes • No obligation • Chat with Dan directly
+            </p>
+          </div>
+          
+          <div style="text-align: center; margin: 24px 0;">
+            <a href="${quote.quoteUrl}" 
+               style="color: #ECB615; font-size: 14px; text-decoration: underline;">
+              View your quote online
+            </a>
+          </div>
+          
+        </div>
+        
+        <!-- Footer -->
+        <div style="background-color: #0A1B36; padding: 24px; text-align: center;">
+          <p style="margin: 0 0 8px 0; color: #ffffff; font-size: 14px; font-weight: bold;">
+            ScopeSite Digital Studios
+          </p>
+          <p style="margin: 0 0 8px 0; color: #ffffff; font-size: 12px;">
+            Veteran-owned • Somerset, UK
+          </p>
+          <p style="margin: 0; color: #666; font-size: 12px;">
+            <a href="https://scopesite.co.uk" style="color: #ECB615;">scopesite.co.uk</a> • 
+            <a href="tel:+441373311339" style="color: #ECB615;">01373 311 339</a>
+          </p>
+        </div>
+        
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+    sendSmtpEmail.subject = subject;
+    sendSmtpEmail.htmlContent = htmlContent;
+    sendSmtpEmail.sender = { name: FROM_NAME, email: FROM_EMAIL };
+    sendSmtpEmail.to = [{ email: quote.email, name: quote.name }];
+
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    console.log(`[Email] Client confirmation sent for quote ${quote.quoteId} to ${quote.email}`);
+    return true;
+  } catch (error) {
+    console.error('Failed to send quote client confirmation:', error);
+    return false;
+  }
+}

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getQuote, updateQuoteProgress, submitQuote } from '@/lib/quote-storage';
 import { addContactToList, removeContactFromList, updateContactAttributes, BREVO_LISTS } from '@/lib/brevo';
 import { updateQuoteInSheet } from '@/lib/google-sheets';
+import { sendQuoteAdminNotification, sendQuoteClientConfirmation } from '@/lib/email';
 
 /**
  * GET /api/quote/[id]
@@ -158,6 +159,32 @@ export async function PATCH(
         total: pricing?.selectedTotal ?? 0,
         monthly: pricing?.monthlyPayment ?? null,
         quoteUrl: `https://scopesite.co.uk/pricing?q=${quote.id}`,
+      });
+
+      // Send confirmation emails (non-blocking)
+      const emailData = {
+        quoteId: quote.id,
+        email: quote.email,
+        name: quote.contact.name || contact?.name || 'Customer',
+        phone: quote.contact.phone || contact?.phone,
+        company: quote.contact.company || contact?.company,
+        message: quote.contact.message || contact?.message,
+        projectType: websiteTypeLabel,
+        packageType: pricing?.packageType || 'Starter',
+        paymentType: pricing?.paymentType || 'One-off',
+        selectedTotal: pricing?.selectedTotal ?? 0,
+        monthlyPayment: pricing?.monthlyPayment,
+        quoteUrl: `https://scopesite.co.uk/pricing?q=${quote.id}`,
+      };
+
+      // Send both emails in parallel (non-blocking to not delay response)
+      Promise.all([
+        sendQuoteAdminNotification(emailData),
+        sendQuoteClientConfirmation(emailData),
+      ]).then(([adminResult, clientResult]) => {
+        console.log(`[Quote ${quote.id}] Email results - Admin: ${adminResult}, Client: ${clientResult}`);
+      }).catch((err) => {
+        console.error(`[Quote ${quote.id}] Failed to send emails:`, err);
       });
 
       return NextResponse.json({
