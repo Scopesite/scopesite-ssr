@@ -37,8 +37,8 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: 'Website Designer Somerset | AI Visibility Experts | ScopeSite Digital Studios',
-    template: '%s | ScopeSite Digital Studios',
+    default: 'Website Designer Somerset | ScopeSite',
+    template: '%s | ScopeSite',
   },
   description:
     'Veteran-owned website designers in Somerset. We make your business visible to ChatGPT & AI search. V.O.I.C.E™ methodology. Free AI visibility audit.',

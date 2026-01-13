@@ -11,7 +11,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/voice`;
 
 export const metadata: Metadata = {
-  title: 'AI Visibility Optimisation | V.O.I.C.E™ Methodology',
+  title: 'AI Visibility | V.O.I.C.E™',
   description:
     'Get your business recommended by ChatGPT, Claude & Perplexity. Our V.O.I.C.E™ methodology makes you visible to AI search. Free AI visibility score.',
   openGraph: {

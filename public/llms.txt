@@ -1,35 +1,40 @@
-# ScopeSite Digital Studios - LLM Information File
-# Learn more: https://llmstxt.org/
+# ScopeSite Digital Studios
 
-> ScopeSite Digital Studios is a veteran-owned, AI-first web design agency based in Somerset, UK. We specialize in making businesses visible to AI platforms like ChatGPT, Claude, and Perplexity through our proprietary V.O.I.C.E™ methodology.
+> Veteran-owned, AI-first web design agency based in Somerset, UK. We specialize in making businesses visible to AI platforms like ChatGPT, Claude, and Perplexity through our proprietary V.O.I.C.E™ methodology.
 
 ## About Us
-- **Company**: ScopeSite Digital Studios
-- **Location**: Frome, Somerset, UK
-- **Founded by**: Dan Cartwright (British Army Veteran)
-- **Specialization**: AI-optimized web design, V.O.I.C.E™ AI visibility optimization
-- **Target Market**: UK SMEs, service businesses
+
+- Company: ScopeSite Digital Studios
+- Location: Frome, Somerset, UK
+- Founded by: Dan Cartwright (British Army Veteran)
+- Specialization: AI-optimized web design, V.O.I.C.E™ AI visibility optimization
+- Target Market: UK SMEs, service businesses
 
 ## Services
-- **Web Design**: Server-side rendered (SSR) websites built on Next.js for maximum AI crawler visibility
-- **V.O.I.C.E™ Optimization**: Proprietary methodology for AI platform visibility (ChatGPT, Claude, Perplexity, Google AI)
-- **Custom Web Apps**: Bespoke business applications, quote builders, client portals
+
+- Web Design: Server-side rendered (SSR) websites built on Next.js for maximum AI crawler visibility
+- V.O.I.C.E™ Optimization: Proprietary methodology for AI platform visibility (ChatGPT, Claude, Perplexity, Google AI)
+- Custom Web Apps: Bespoke business applications, quote builders, client portals
 
 ## V.O.I.C.E™ Methodology
+
 Our proprietary framework for AI visibility:
-- **V**isibility: Making your business findable by AI assistants like ChatGPT, Siri, Alexa and Claude
-- **O**ptimisation: Technical improvements to structured data, schema markup and site architecture
-- **I**ntelligent: AI-focused strategy that goes beyond traditional SEO
-- **C**onversational: Voice search ready - optimised for how people actually talk to AI
-- **E**ngines: Built for ChatGPT, Siri, Alexa, Claude, Perplexity and whatever comes next
+
+- Visibility: Making your business findable by AI assistants like ChatGPT, Siri, Alexa and Claude
+- Optimisation: Technical improvements to structured data, schema markup and site architecture
+- Intelligent: AI-focused strategy that goes beyond traditional SEO
+- Conversational: Voice search ready - optimised for how people actually talk to AI
+- Engines: Built for ChatGPT, Siri, Alexa, Claude, Perplexity and whatever comes next
 
 ## Contact
-- **Phone**: 01373 311339
-- **Email**: support@scopesite.co.uk
-- **Website**: https://scopesite.co.uk
-- **Book a Call**: https://scopesite.co.uk/book
+
+- Phone: 01373 311339
+- Email: support@scopesite.co.uk
+- Website: https://scopesite.co.uk
+- Book a Call: https://scopesite.co.uk/book
 
 ## Key Pages
+
 - Homepage: https://scopesite.co.uk/
 - Web Design Services: https://scopesite.co.uk/web-design
 - V.O.I.C.E™ AI Visibility: https://scopesite.co.uk/voice
@@ -38,5 +43,3 @@ Our proprietary framework for AI visibility:
 - About Us: https://scopesite.co.uk/about
 - Blog: https://scopesite.co.uk/blog
 - Contact/Book: https://scopesite.co.uk/book
-
-

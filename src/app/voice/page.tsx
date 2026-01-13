@@ -174,13 +174,15 @@ export default function VoicePage() {
       <section className="bg-brand-navy text-white py-section min-h-[70vh] flex items-center">
         <div className="container-content">
           <div className="max-w-4xl mx-auto text-center">
+            <h1 className="sr-only">V.O.I.C.E™ AI Visibility Optimisation for UK Businesses</h1>
             <Image
               src="/images/voice-ai-aeo-geo-uk-scopesite-top-logo.webp"
-              alt="V.O.I.C.E™ - Visibility Optimisation for Intelligent Conversational Engines: ScopeSite's AI-first system for making UK businesses findable by ChatGPT, Siri, Alexa, Claude and other AI assistants through structured data, schema markup and conversational search optimisation"
+              alt="V.O.I.C.E™ - Visibility Optimisation for Intelligent Conversational Engines"
               width={600}
               height={120}
               className="mx-auto mb-4"
               priority
+              aria-hidden="true"
             />
             <p className="text-xl md:text-2xl text-white/90 font-medium mb-8">
               Visibility Optimisation for Intelligent Conversational Engines

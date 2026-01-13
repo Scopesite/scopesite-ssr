@@ -13,7 +13,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/blog`;
 
 export const metadata: Metadata = {
-  title: 'AI Visibility & Web Design Blog | Expert Insights',
+  title: 'AI Visibility & Web Design Blog',
   description:
     "AI visibility strategies, GEO optimisation tips & web design insights for UK businesses. No-bullshit advice from Somerset's AI-first web design experts.",
   openGraph: {

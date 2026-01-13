@@ -10,7 +10,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/web-apps`;
 
 export const metadata: Metadata = {
-  title: 'Custom Web Apps UK | Bespoke Business Applications',
+  title: 'Custom Web Apps UK',
   description:
     'Bespoke web applications built in Somerset for UK businesses. Quote calculators, client portals, booking systems & AI-powered tools. Solve real problems.',
   openGraph: {

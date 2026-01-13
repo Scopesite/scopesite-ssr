@@ -12,7 +12,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/book`;
 
 export const metadata: Metadata = {
-  title: 'Book a Free Strategy Call | Web Design Consultation',
+  title: 'Book a Free Strategy Call',
   description:
     'Book a free 30-minute strategy call with Dan Cartwright. Discuss your web design or AI visibility project. No obligation, no hard sell. Somerset-based.',
   openGraph: {

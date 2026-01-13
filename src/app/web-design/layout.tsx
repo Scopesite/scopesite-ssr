@@ -10,7 +10,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/web-design`;
 
 export const metadata: Metadata = {
-  title: 'Web Design Somerset | AI-Optimised SSR Websites',
+  title: 'Web Design Somerset | SSR Websites',
   description:
     'Professional web design in Somerset. Server-side rendered sites AI crawlers can see. 100/100 Lighthouse scores, auto-generated schema. Next.js experts.',
   keywords: [

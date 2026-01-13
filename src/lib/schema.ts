@@ -88,7 +88,7 @@ export function generateOrganizationSchema() {
       description:
         'British Army veteran and web design specialist with 6 years CAMHS experience',
     },
-    foundingDate: '2024-12',
+    foundingDate: '2024-12-01',
     priceRange: '££',
     currenciesAccepted: 'GBP',
     paymentAccepted: 'Credit Card, Bank Transfer, Payment Plans',

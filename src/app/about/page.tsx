@@ -19,7 +19,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/about`;
 
 export const metadata: Metadata = {
-  title: 'About Us | Veteran-Owned Website Designers',
+  title: 'About Us | Veteran-Owned',
   description:
     'Founded by British Army veteran Dan Cartwright. Website designers with military precision, based in Somerset, serving UK-wide. No corporate bullshit, just results.',
   openGraph: {
