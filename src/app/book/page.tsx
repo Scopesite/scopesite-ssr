@@ -74,6 +74,57 @@ export default function BookPage() {
         </div>
       </section>
 
+      {/* What to Expect Section */}
+      <section className="bg-brand-navy/95 py-12">
+        <div className="container-content">
+          <div className="max-w-3xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
+                <h2 className="text-white font-bold text-lg mb-4">What We&apos;ll Cover</h2>
+                <ul className="space-y-3 text-white/70">
+                  <li className="flex items-start gap-3">
+                    <span className="text-brand-gold mt-1">•</span>
+                    <span>Your current situation - what&apos;s working, what isn&apos;t</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-brand-gold mt-1">•</span>
+                    <span>What you actually need (which might be different from what you think)</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-brand-gold mt-1">•</span>
+                    <span>Realistic timelines and rough costs</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-brand-gold mt-1">•</span>
+                    <span>Whether we&apos;re actually the right fit for your project</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
+                <h2 className="text-white font-bold text-lg mb-4">Who You&apos;ll Speak To</h2>
+                <p className="text-white/70 mb-4">
+                  You&apos;ll be talking directly to Dan Cartwright - no account managers, 
+                  no junior staff, no handoffs. Dan&apos;s a British Army veteran who founded 
+                  ScopeSite after watching businesses get burned by agencies that overpromise 
+                  and underdeliver.
+                </p>
+                <p className="text-white/70">
+                  He&apos;ll give you straight advice, even if that means telling you we&apos;re 
+                  not the right choice for your project. No hard sell. Ever.
+                </p>
+              </div>
+            </div>
+            <div className="mt-8 bg-brand-gold/10 border border-brand-gold/30 rounded-xl p-6 text-center">
+              <p className="text-white/80">
+                <strong className="text-brand-gold">Not sure if you need a call?</strong>{' '}
+                Try our <a href="/pricing" className="text-brand-gold underline hover:text-white transition-colors">instant quote calculator</a> first - 
+                you might find exactly what you need without needing to talk to anyone.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Fillout Form Section */}
       <section className="bg-brand-navy py-8">
         <div className="container-content">

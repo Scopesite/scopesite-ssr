@@ -87,6 +87,44 @@ export default function BriefPage() {
         </div>
       </section>
 
+      {/* What Happens Next Section */}
+      <section className="bg-white py-12 border-b border-brand-navy/10">
+        <div className="container-content">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-xl font-bold text-brand-navy mb-6 text-center">What Happens After You Submit?</h2>
+            <div className="grid sm:grid-cols-3 gap-6">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-brand-gold text-brand-navy font-headline text-xl rounded-full flex items-center justify-center mx-auto mb-3">
+                  1
+                </div>
+                <h3 className="font-bold text-brand-navy mb-2">We Review</h3>
+                <p className="text-brand-navy/70 text-sm">
+                  Dan personally reads every brief. No junior staff, no automated responses.
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="w-12 h-12 bg-brand-gold text-brand-navy font-headline text-xl rounded-full flex items-center justify-center mx-auto mb-3">
+                  2
+                </div>
+                <h3 className="font-bold text-brand-navy mb-2">Honest Response</h3>
+                <p className="text-brand-navy/70 text-sm">
+                  Within 2 days, you&apos;ll get a proper response - not a template, actual thoughts on your project.
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="w-12 h-12 bg-brand-gold text-brand-navy font-headline text-xl rounded-full flex items-center justify-center mx-auto mb-3">
+                  3
+                </div>
+                <h3 className="font-bold text-brand-navy mb-2">Next Steps</h3>
+                <p className="text-brand-navy/70 text-sm">
+                  If we&apos;re a good fit, we&apos;ll suggest a call or send a quote. If not, we&apos;ll tell you that too.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Form Section */}
       <section className="section-white" aria-labelledby="brief-form-heading">
         <div className="container-content">
@@ -95,6 +133,45 @@ export default function BriefPage() {
               Project Brief Form
             </h2>
             <BriefForm />
+          </div>
+        </div>
+      </section>
+
+      {/* Tips Section */}
+      <section className="bg-brand-navy/5 py-12">
+        <div className="container-content">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-xl font-bold text-brand-navy mb-6">Tips for a Great Brief</h2>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="bg-white rounded-xl p-6">
+                <h3 className="font-bold text-brand-navy mb-2">Be Specific About Your Goals</h3>
+                <p className="text-brand-navy/70 text-sm">
+                  &quot;I want more leads&quot; is okay. &quot;I want 20 enquiries per month from local customers 
+                  searching for plumbers in Bristol&quot; is better. The more specific, the better advice we can give.
+                </p>
+              </div>
+              <div className="bg-white rounded-xl p-6">
+                <h3 className="font-bold text-brand-navy mb-2">Share What&apos;s Not Working</h3>
+                <p className="text-brand-navy/70 text-sm">
+                  If your current site is slow, ugly, or invisible on Google - tell us. Understanding 
+                  your pain points helps us focus on what actually matters to you.
+                </p>
+              </div>
+              <div className="bg-white rounded-xl p-6">
+                <h3 className="font-bold text-brand-navy mb-2">Include Examples</h3>
+                <p className="text-brand-navy/70 text-sm">
+                  Found a website you love? Or one you hate? Share links. Visual references help us 
+                  understand your taste better than any description.
+                </p>
+              </div>
+              <div className="bg-white rounded-xl p-6">
+                <h3 className="font-bold text-brand-navy mb-2">Be Honest About Budget</h3>
+                <p className="text-brand-navy/70 text-sm">
+                  If you&apos;ve got £2,000 to spend, say so. We&apos;d rather give you realistic options than 
+                  waste both our time proposing something you can&apos;t afford.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

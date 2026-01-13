@@ -75,9 +75,21 @@ export default async function BlogPage() {
           <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-headline text-white mb-4">
             THE <span className="text-brand-gold">BLOG</span>
           </h1>
-          <p className="text-body-lg text-white/70 max-w-2xl mx-auto">
+          <p className="text-body-lg text-white/70 max-w-2xl mx-auto mb-8">
             AI visibility insights, web design tips, and zero bullshit advice.
           </p>
+          <div className="max-w-3xl mx-auto text-left bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
+            <p className="text-white/80 mb-4">
+              <strong className="text-brand-gold">What you&apos;ll find here:</strong> Practical advice on making your business 
+              visible to AI assistants like ChatGPT and Claude. Technical breakdowns of what actually works 
+              (and what doesn&apos;t). No fluff, no filler content, no SEO-bait articles written by people who&apos;ve 
+              never built a website.
+            </p>
+            <p className="text-white/60 text-sm">
+              Everything&apos;s written by Dan Cartwright, founder of ScopeSite. If something&apos;s on this blog, 
+              it&apos;s because it&apos;s genuinely useful - not because we needed to hit a content quota.
+            </p>
+          </div>
         </div>
       </section>
 

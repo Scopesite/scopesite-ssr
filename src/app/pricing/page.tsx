@@ -190,6 +190,120 @@ export default function PricingPage() {
           </div>
         </div>
       </section>
+
+      {/* Why Our Pricing is Different */}
+      <section className="section-white">
+        <div className="container-content">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-xl sm:text-2xl md:text-h2 text-brand-navy text-center mb-8">
+              WHY OUR PRICING IS DIFFERENT
+            </h2>
+            <div className="grid md:grid-cols-2 gap-8 mb-12">
+              <div>
+                <h3 className="text-brand-navy font-bold text-lg mb-3">No Guesswork</h3>
+                <p className="text-brand-navy/70">
+                  Most agencies give you a &quot;starting from&quot; price, then hit you with extras 
+                  once you&apos;re committed. We show you the full picture upfront - pages, features, 
+                  add-ons - so you know exactly what you&apos;re paying for before you commit to anything.
+                </p>
+              </div>
+              <div>
+                <h3 className="text-brand-navy font-bold text-lg mb-3">Research-Backed</h3>
+                <p className="text-brand-navy/70">
+                  We didn&apos;t just make up our prices. We researched 348 UK web design agencies to 
+                  understand what the market actually charges. Our prices are set to be competitive 
+                  without cutting corners on quality.
+                </p>
+              </div>
+              <div>
+                <h3 className="text-brand-navy font-bold text-lg mb-3">Flexible Payment Plans</h3>
+                <p className="text-brand-navy/70">
+                  Not everyone has thousands to spend upfront. Our 12-month and 24-month payment plans 
+                  spread the cost into manageable monthly amounts - no credit checks, no finance companies, 
+                  no interest. Just straightforward monthly payments.
+                </p>
+              </div>
+              <div>
+                <h3 className="text-brand-navy font-bold text-lg mb-3">UK Market Comparison</h3>
+                <p className="text-brand-navy/70">
+                  Every quote shows you the UK market average for the same work. You&apos;ll see exactly 
+                  how much you&apos;re saving compared to what you&apos;d pay elsewhere. No more wondering 
+                  if you&apos;re getting ripped off.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-brand-navy rounded-xl p-8">
+              <h3 className="text-white font-bold text-lg mb-4 text-center">What&apos;s Included in Every Project</h3>
+              <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 text-white/80">
+                <div className="flex items-center gap-2">
+                  <span className="text-brand-gold">✓</span>
+                  <span>Mobile-first responsive design</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-brand-gold">✓</span>
+                  <span>Basic SEO setup</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-brand-gold">✓</span>
+                  <span>SSL certificate (HTTPS)</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-brand-gold">✓</span>
+                  <span>Schema markup for AI visibility</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-brand-gold">✓</span>
+                  <span>30 days post-launch support</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-brand-gold">✓</span>
+                  <span>Performance optimisation</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-brand-gold">✓</span>
+                  <span>Analytics setup</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-brand-gold">✓</span>
+                  <span>Contact form integration</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-brand-gold">✓</span>
+                  <span>Cookie consent (GDPR)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="bg-brand-navy/5 py-16">
+        <div className="container-content">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-xl sm:text-2xl md:text-h2 text-brand-navy text-center mb-8">
+              PRICING FAQs
+            </h2>
+            <div className="space-y-6">
+              {pricingFAQs.map((faq, index) => (
+                <div key={index} className="bg-white rounded-xl p-6 shadow-sm">
+                  <h3 className="text-brand-navy font-bold mb-2">{faq.question}</h3>
+                  <p className="text-brand-navy/70">{faq.answer}</p>
+                </div>
+              ))}
+            </div>
+            <div className="text-center mt-8">
+              <p className="text-brand-navy/60 mb-4">
+                Still have questions? We&apos;re happy to chat.
+              </p>
+              <a href="/book" className="btn-primary">
+                Book a Free Call
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 }
