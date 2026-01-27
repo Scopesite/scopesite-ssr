@@ -259,15 +259,20 @@ export function generateProfessionalServiceSchema(
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: `${name} Services`,
-      itemListElement: services.map((service) => ({
-        '@type': 'Offer',
-        itemOffered: {
+      itemListElement: services.map((service) => {
+        const offered: Record<string, unknown> = {
           '@type': 'Service',
           name: service.name,
           description: service.description,
-          url: service.url,
-        },
-      })),
+        };
+        if (service.url) {
+          offered.url = service.url;
+        }
+        return {
+          '@type': 'Offer',
+          itemOffered: offered,
+        };
+      }),
     },
   };
 }

@@ -212,8 +212,44 @@ export default function VoicePage() {
         </div>
       </section>
 
+      {/* Intro Context Section */}
+      <section className="bg-white py-12">
+        <div className="container-content">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-brand-navy text-2xl font-bold mb-6 text-center">The Problem With Traditional SEO</h2>
+            <div className="grid md:grid-cols-2 gap-8 mb-8">
+              <div>
+                <p className="text-brand-navy/80 mb-4">
+                  Your business might rank well on Google, but when someone asks ChatGPT or Claude 
+                  for recommendations in your industry, you're nowhere to be found. That's because 
+                  AI assistants don't crawl websites like Google does - they need structured data, 
+                  clear context, and trust signals that traditional SEO ignores.
+                </p>
+                <p className="text-brand-navy/80">
+                  Most UK businesses are completely invisible to AI search. When potential customers 
+                  ask AI assistants for local recommendations, your competitors show up while you don't. 
+                  Not because they're better - because their websites speak the language AI understands.
+                </p>
+              </div>
+              <div>
+                <p className="text-brand-navy/80 mb-4">
+                  V.O.I.C.E™ is our proprietary methodology for fixing this. We audit your website's 
+                  AI visibility, identify exactly where you're losing ground, and implement the technical 
+                  changes that make AI assistants recognise, understand, and recommend your business.
+                </p>
+                <p className="text-brand-navy/80">
+                  This isn't about gaming algorithms or chasing trends. It's about fundamentally restructuring 
+                  how your website communicates what you do, where you operate, and why you're trustworthy. 
+                  The same signals that help AI also improve your traditional SEO - it's not either/or.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* What is V.O.I.C.E™ Section */}
-      <section className="section-white relative overflow-hidden">
+      <section className="section-white relative overflow-hidden border-t border-brand-navy/10">
         <div 
           className="absolute inset-0 opacity-[0.03]"
           style={{

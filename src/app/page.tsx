@@ -109,6 +109,52 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Why ScopeSite Section */}
+      <section className="bg-white py-16 border-b border-brand-navy/10">
+        <div className="container-content">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-brand-navy text-2xl sm:text-3xl font-bold mb-8 text-center">
+              Why UK Businesses Choose ScopeSite
+            </h2>
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <h3 className="text-brand-navy font-bold text-lg mb-3">Built for AI Search</h3>
+                <p className="text-brand-navy/80 mb-6">
+                  Most websites are invisible to ChatGPT, Claude, and Perplexity because they use 
+                  client-side JavaScript that AI crawlers can't read. We build server-side rendered 
+                  sites that deliver complete HTML on every request - making your content instantly 
+                  visible to both humans and AI assistants. When potential customers ask AI for 
+                  recommendations, you actually show up.
+                </p>
+                <h3 className="text-brand-navy font-bold text-lg mb-3">Veteran-Owned, Veteran Values</h3>
+                <p className="text-brand-navy/80">
+                  Founded by Dan Cartwright, a British Army veteran, ScopeSite brings military 
+                  precision to web design. Deadlines are deadlines. Communication is proactive. 
+                  Problems get solved, not ignored. We don't disappear after launch - we stick around 
+                  because that's what integrity looks like.
+                </p>
+              </div>
+              <div>
+                <h3 className="text-brand-navy font-bold text-lg mb-3">Transparent Pricing, Always</h3>
+                <p className="text-brand-navy/80 mb-6">
+                  No "it depends" without actual numbers. No surprise invoices. We researched 348 UK 
+                  web agencies to benchmark our pricing - you'll see exactly what things cost before 
+                  we start, and our prices are typically 25% below market average for comparable work. 
+                  Use our instant quote calculator to see what your project costs in under 2 minutes.
+                </p>
+                <h3 className="text-brand-navy font-bold text-lg mb-3">Results Over Aesthetics</h3>
+                <p className="text-brand-navy/80">
+                  Pretty websites don't pay your bills. We build sites that load fast (100/100 Lighthouse 
+                  scores), rank well (proper schema markup and technical SEO), convert visitors (clear CTAs 
+                  and user flows), and show up when AI assistants are asked for recommendations. If it 
+                  doesn't work, it doesn't matter how good it looks.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Below-fold content - static on mobile, animated on desktop */}
       <HomeBelowFoldWrapper reviews={googleReviews} />
     </>
