@@ -256,24 +256,14 @@ export function generateProfessionalServiceSchema(
       '@type': 'Country',
       name: 'United Kingdom',
     },
-    hasOfferCatalog: {
-      '@type': 'OfferCatalog',
-      name: `${name} Services`,
-      itemListElement: services.map((service) => {
-        const offered: Record<string, unknown> = {
-          '@type': 'Service',
-          name: service.name,
-          description: service.description,
-        };
-        if (service.url) {
-          offered.url = service.url;
-        }
-        return {
-          '@type': 'Offer',
-          itemOffered: offered,
-        };
-      }),
-    },
+    // List service types as text (avoids Offer validation issues)
+    serviceType: services.map((service) => service.name),
+    // Additional service details in knowsAbout
+    knowsAbout: services.map((service) => ({
+      '@type': 'Thing',
+      name: service.name,
+      description: service.description,
+    })),
   };
 }
 
