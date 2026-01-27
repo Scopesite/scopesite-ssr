@@ -241,7 +241,8 @@ export function generateProfessionalServiceSchema(
   name: string,
   description: string,
   url: string,
-  services: ServiceItem[]
+  services: ServiceItem[],
+  image?: string
 ) {
   return {
     '@type': 'ProfessionalService',
@@ -249,6 +250,17 @@ export function generateProfessionalServiceSchema(
     name,
     description,
     url,
+    image: image || `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
+    telephone: '+441373311339',
+    priceRange: '££-£££',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Frome',
+      addressLocality: 'Frome',
+      addressRegion: 'Somerset',
+      postalCode: 'BA11',
+      addressCountry: 'GB',
+    },
     provider: {
       '@id': `${BASE_URL}/#organization`,
     },
