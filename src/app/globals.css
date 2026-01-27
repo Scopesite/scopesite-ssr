@@ -87,11 +87,19 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    color-scheme: light;
   }
 
   body {
-    @apply bg-brand-white text-brand-navy font-body text-body;
+    @apply bg-brand-white text-brand-navy font-body text-body antialiased;
     min-height: 100vh;
+  }
+
+  /* Force light mode regardless of system preference */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: light;
+    }
   }
 
   /* Typography defaults */

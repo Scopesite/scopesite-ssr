@@ -123,11 +123,13 @@ export default function RootLayout({
   return (
     <html lang="en-GB">
       <head>
+        <meta name="color-scheme" content="light" />
+        <meta name="supported-color-schemes" content="light" />
         {/* Base structured data for entire site */}
         <JsonLd schema={[organizationSchema, websiteSchema]} />
       </head>
       <body
-        className={`${paytoneOne.variable} ${inter.variable} font-body antialiased`}
+        className={`${paytoneOne.variable} ${inter.variable} font-body`}
       >
         <SkipLink />
         <Header />
