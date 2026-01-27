@@ -46,7 +46,7 @@ function FAQItem({ question, answer, isOpen, onClick }: {
           isOpen ? 'max-h-96 pb-6' : 'max-h-0'
         }`}
       >
-        <p className="text-white/70 leading-relaxed">{answer}</p>
+        <p className="text-white-muted leading-relaxed">{answer}</p>
       </div>
     </div>
   );
@@ -219,25 +219,25 @@ export default function VoicePage() {
             <h2 className="text-brand-navy text-2xl font-bold mb-6 text-center">The Problem With Traditional SEO</h2>
             <div className="grid md:grid-cols-2 gap-8 mb-8">
               <div>
-                <p className="text-brand-navy/80 mb-4">
+                <p className="text-muted mb-4">
                   Your business might rank well on Google, but when someone asks ChatGPT or Claude 
                   for recommendations in your industry, you're nowhere to be found. That's because 
                   AI assistants don't crawl websites like Google does - they need structured data, 
                   clear context, and trust signals that traditional SEO ignores.
                 </p>
-                <p className="text-brand-navy/80">
+                <p className="text-muted">
                   Most UK businesses are completely invisible to AI search. When potential customers 
                   ask AI assistants for local recommendations, your competitors show up while you don't. 
                   Not because they're better - because their websites speak the language AI understands.
                 </p>
               </div>
               <div>
-                <p className="text-brand-navy/80 mb-4">
+                <p className="text-muted mb-4">
                   V.O.I.C.E™ is our proprietary methodology for fixing this. We audit your website's 
                   AI visibility, identify exactly where you're losing ground, and implement the technical 
                   changes that make AI assistants recognise, understand, and recommend your business.
                 </p>
-                <p className="text-brand-navy/80">
+                <p className="text-muted">
                   This isn't about gaming algorithms or chasing trends. It's about fundamentally restructuring 
                   how your website communicates what you do, where you operate, and why you're trustworthy. 
                   The same signals that help AI also improve your traditional SEO - it's not either/or.
@@ -250,53 +250,25 @@ export default function VoicePage() {
 
       {/* What is V.O.I.C.E™ Section */}
       <section className="section-white relative overflow-hidden border-t border-brand-navy/10">
-        <div 
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `linear-gradient(rgba(10,27,54,0.1) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(10,27,54,0.1) 1px, transparent 1px)`,
-            backgroundSize: '50px 50px'
-          }}
-        />
+        <div className="absolute inset-0 opacity-[0.03] bg-grid" aria-hidden="true" />
         
         <div className="container-content relative z-10">
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">What is V.O.I.C.E™?</h2>
-            <p className="text-brand-navy/70 max-w-2xl mx-auto">
-              Our AI-first visibility system broken down
-            </p>
+            <p className="text-muted max-w-2xl mx-auto">Our AI-first visibility system broken down</p>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
             {acronymCards.map((card) => (
-              <div
-                key={card.letter}
-                className="group relative p-6 rounded-2xl transition-all duration-400 ease-out
-                  bg-white backdrop-blur-sm
-                  border border-brand-navy/10
-                  hover:translate-y-[-12px]
-                  hover:shadow-[0_0_40px_rgba(236,182,21,0.25)]
-                  hover:border-brand-gold/50 text-center"
-                style={{
-                  boxShadow: '0 4px 24px rgba(10,27,54,0.08)'
-                }}
-              >
-                {/* Letter Badge */}
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full 
-                  bg-brand-gold text-brand-navy font-headline text-2xl mb-4
-                  group-hover:scale-110 transition-transform duration-400">
+              <div key={card.letter} className="group card-hover card-hover-tall text-center">
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-brand-gold text-brand-navy font-headline text-2xl mb-4 group-hover:scale-110 transition-transform">
                   {card.letter}
                 </div>
-                
-                {/* Icon */}
-                <div className="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-xl 
-                  bg-brand-navy/5 group-hover:bg-brand-gold/10 transition-all duration-400">
-                  <card.icon className="w-6 h-6 text-brand-navy group-hover:text-brand-gold transition-colors duration-400" />
+                <div className="mb-4 icon-box-md mx-auto">
+                  <card.icon className="w-6 h-6 icon-brand" />
                 </div>
-                
-                {/* Content */}
                 <h3 className="text-brand-navy font-bold text-sm mb-2">{card.title}</h3>
-                <p className="text-brand-navy/60 text-sm">{card.description}</p>
+                <p className="text-light text-sm">{card.description}</p>
               </div>
             ))}
           </div>
@@ -349,23 +321,18 @@ export default function VoicePage() {
         <div className="container-content">
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">What&apos;s Included in Your Free Scan?</h2>
-            <p className="text-brand-navy/70 max-w-2xl mx-auto">
-              No fluff, no sales pitch - just actionable insights
-            </p>
+            <p className="text-muted max-w-2xl mx-auto">No fluff, no sales pitch - just actionable insights</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             {benefits.map((benefit) => (
-              <div
-                key={benefit.title}
-                className="flex items-start gap-4 p-6 rounded-xl bg-brand-navy/[0.02] border border-brand-navy/5"
-              >
-                <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-brand-gold/10 flex items-center justify-center">
+              <div key={benefit.title} className="card-subtle flex items-start gap-4">
+                <div className="flex-shrink-0 icon-box-sm bg-brand-gold/10">
                   <benefit.icon className="w-5 h-5 text-brand-gold" />
                 </div>
                 <div>
                   <h4 className="text-brand-navy font-bold mb-1">{benefit.title}</h4>
-                  <p className="text-brand-navy/60 text-sm">{benefit.description}</p>
+                  <p className="text-light text-sm">{benefit.description}</p>
                 </div>
               </div>
             ))}
@@ -390,9 +357,7 @@ export default function VoicePage() {
         <div className="container-content">
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">Frequently Asked Questions</h2>
-            <p className="text-white/70 max-w-2xl mx-auto">
-              Everything you need to know about V.O.I.C.E™ and AI visibility
-            </p>
+            <p className="text-white-muted max-w-2xl mx-auto">Everything you need to know about V.O.I.C.E™ and AI visibility</p>
           </div>
           
           <div className="max-w-3xl mx-auto">
@@ -413,9 +378,7 @@ export default function VoicePage() {
       <section className="section-white">
         <div className="container-content text-center">
           <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">Ready to See How AI Sees You?</h2>
-          <p className="text-brand-navy/70 mb-8 max-w-xl mx-auto">
-            Get your free visibility score or book a call to discuss your results
-          </p>
+            <p className="text-muted mb-8 max-w-xl mx-auto">Get your free visibility score or book a call to discuss your results</p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <a
               href="https://voice.scopesite.co.uk/"

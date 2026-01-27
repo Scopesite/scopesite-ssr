@@ -50,7 +50,7 @@ function FAQItem({ question, answer, isOpen, onClick }: {
           isOpen ? 'max-h-[500px] pb-6' : 'max-h-0'
         }`}
       >
-        <p className="text-white/70 leading-relaxed">{answer}</p>
+        <p className="text-white-muted leading-relaxed">{answer}</p>
       </div>
     </div>
   );
@@ -301,35 +301,17 @@ export default function WebAppsPage() {
         <div className="container-content relative z-10">
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">Tools That Solve Real Problems</h2>
-            <p className="text-brand-navy/70 max-w-2xl mx-auto">
-              Not features for the sake of features - solutions that save time and make money
-            </p>
+            <p className="text-muted max-w-2xl mx-auto">Not features for the sake of features - solutions that save time and make money</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {appTypes.map((app) => (
-              <div
-                key={app.title}
-                className="group relative p-8 rounded-2xl transition-all duration-400 ease-out
-                  bg-white backdrop-blur-sm
-                  border border-brand-navy/10
-                  hover:translate-y-[-12px]
-                  hover:shadow-[0_0_40px_rgba(236,182,21,0.25)]
-                  hover:border-brand-gold/50"
-                style={{
-                  boxShadow: '0 4px 24px rgba(10,27,54,0.08)'
-                }}
-              >
-                {/* Icon */}
-                <div className="mb-6 inline-flex items-center justify-center w-14 h-14 rounded-xl 
-                  bg-brand-navy/5 group-hover:bg-brand-gold/10 transition-all duration-400
-                  group-hover:scale-110">
-                  <app.icon className="w-7 h-7 text-brand-navy group-hover:text-brand-gold transition-colors duration-400" />
+              <div key={app.title} className="group card-hover card-hover-tall">
+                <div className="mb-6 icon-box w-14 h-14">
+                  <app.icon className="w-7 h-7 icon-brand" />
                 </div>
-                
-                {/* Content */}
                 <h3 className="text-brand-navy text-lg font-bold mb-3">{app.title}</h3>
-                <p className="text-brand-navy/60 mb-4">{app.description}</p>
+                <p className="text-light mb-4">{app.description}</p>
                 <p className="text-brand-navy/50 text-sm font-medium">{app.example}</p>
               </div>
             ))}
@@ -342,9 +324,7 @@ export default function WebAppsPage() {
         <div className="container-content">
           <div className="text-center mb-8 md:mb-16">
             <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">From Problem to Solution</h2>
-            <p className="text-white/70 max-w-2xl mx-auto">
-              We don&apos;t just code - we solve
-            </p>
+            <p className="text-white-muted max-w-2xl mx-auto">We don&apos;t just code - we solve</p>
           </div>
           
           {/* Steps Grid */}
@@ -369,7 +349,7 @@ export default function WebAppsPage() {
                   
                   {/* Content */}
                   <h3 className="text-white font-bold mb-3">{step.title}</h3>
-                  <p className="text-white/60 text-sm">{step.description}</p>
+                  <p className="text-white-light text-sm">{step.description}</p>
                 </div>
               </div>
             ))}
@@ -389,9 +369,7 @@ export default function WebAppsPage() {
         <div className="container-content">
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">Why Build Custom?</h2>
-            <p className="text-brand-navy/70 max-w-2xl mx-auto">
-              When plugins and SaaS tools aren&apos;t cutting it
-            </p>
+            <p className="text-muted max-w-2xl mx-auto">When plugins and SaaS tools aren&apos;t cutting it</p>
           </div>
           
           <div className="relative max-w-5xl mx-auto">
@@ -415,7 +393,7 @@ export default function WebAppsPage() {
                   {offShelfProblems.map((problem) => (
                     <li key={problem} className="flex items-start gap-3">
                       <X className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-brand-navy/70">{problem}</span>
+                      <span className="text-muted">{problem}</span>
                     </li>
                   ))}
                 </ul>
@@ -436,7 +414,7 @@ export default function WebAppsPage() {
                   {customBenefits.map((benefit) => (
                     <li key={benefit} className="flex items-start gap-3">
                       <Check className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-brand-navy/70">{benefit}</span>
+                      <span className="text-muted">{benefit}</span>
                     </li>
                   ))}
                 </ul>

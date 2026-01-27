@@ -66,7 +66,7 @@ function FAQItem({ question, answer, isOpen, onClick }: {
           isOpen ? 'max-h-[500px] pb-6' : 'max-h-0'
         }`}
       >
-        <p className="text-brand-navy/70 leading-relaxed whitespace-pre-line">{answer}</p>
+        <p className="text-muted leading-relaxed whitespace-pre-line">{answer}</p>
       </div>
     </div>
   );
@@ -433,42 +433,25 @@ export default function WebDesignPage() {
           <FadeInOnScroll>
             <div className="text-center mb-8 md:mb-12">
               <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">What You Actually Get</h2>
-              <p className="text-white/70 max-w-2xl mx-auto">
-                SSR-specific benefits that set your site apart
-              </p>
+              <p className="text-white-muted max-w-2xl mx-auto">SSR-specific benefits that set your site apart</p>
             </div>
           </FadeInOnScroll>
           
           <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" staggerDelay={0.1}>
             {features.map((feature) => (
               <StaggerItem key={feature.title}>
-                <div
-                  className="group relative p-8 rounded-2xl transition-all duration-400 ease-out
-                    bg-brand-graphite/50 backdrop-blur-sm
-                    border border-white/10
-                    hover:translate-y-[-8px]
-                    hover:shadow-[0_0_40px_rgba(236,182,21,0.2)]
-                    hover:border-brand-gold/40
-                    h-full"
-                >
-                  {/* Icon */}
-                  <div className="mb-6 inline-flex items-center justify-center w-14 h-14 rounded-xl 
-                    bg-brand-gold/10 group-hover:bg-brand-gold/20 transition-all duration-400
-                    group-hover:scale-110">
-                    <feature.icon className="w-7 h-7 text-brand-gold transition-all duration-400 group-hover:drop-shadow-[0_0_8px_rgba(236,182,21,0.6)]" />
+                <div className="group card-dark-hover h-full">
+                  <div className="mb-6 icon-box w-14 h-14 bg-brand-gold/10 group-hover:bg-brand-gold/20">
+                    <feature.icon className="w-7 h-7 text-brand-gold" />
                   </div>
-                  
-                  {/* Stat badge for performance card */}
                   {feature.stat && (
                     <div className="absolute top-6 right-6 flex items-center gap-1">
                       <span className="text-2xl font-bold text-brand-gold">{feature.stat}</span>
                       <span className="text-xs text-white/50">{feature.statLabel}</span>
                     </div>
                   )}
-                  
-                  {/* Content */}
                   <h3 className="text-white text-lg font-bold mb-3">{feature.title}</h3>
-                  <p className="text-white/60">{feature.description}</p>
+                  <p className="text-white-light">{feature.description}</p>
                 </div>
               </StaggerItem>
             ))}
@@ -484,9 +467,7 @@ export default function WebDesignPage() {
           <FadeInOnScroll>
             <div className="text-center mb-8 md:mb-12">
               <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">Technical Proof</h2>
-              <p className="text-brand-navy/70 max-w-2xl mx-auto">
-                Real metrics from our SSR sites - not just promises
-              </p>
+              <p className="text-muted max-w-2xl mx-auto">Real metrics from our SSR sites - not just promises</p>
             </div>
           </FadeInOnScroll>
           
