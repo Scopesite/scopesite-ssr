@@ -12,6 +12,7 @@ const FOOTER_LINKS = {
   ],
   company: [
     { label: 'About Us', href: '/about' },
+    { label: 'Case Studies', href: '/case-studies/h4tlt' },
     { label: 'Blog', href: '/blog' },
     { label: 'Book a Call', href: '/book' },
   ],

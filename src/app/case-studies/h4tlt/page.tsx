@@ -5,7 +5,7 @@ import {
   Eye, 
   Settings, 
   Brain, 
-  Quote, 
+  Cpu,
   Zap,
   ArrowRight,
   Check,
@@ -23,37 +23,37 @@ import {
 } from 'lucide-react';
 import { FadeInOnScroll, StaggerContainer, StaggerItem, AnimatedCounter } from '@/components/animations';
 
-// V.O.I.C.E. methodology data
+// V.O.I.C.E. methodology data - Visibility Optimisation for Intelligent Conversational Engines
 const voiceSteps = [
   {
     letter: 'V',
     title: 'VISIBILITY',
-    description: 'Structure content so AI crawlers can parse and understand it. Clear headings, direct answers, logical hierarchy.',
+    description: 'Make content visible to AI crawlers. Clear structure, logical hierarchy, and properly marked-up content that machines can parse and understand.',
     icon: Eye,
   },
   {
     letter: 'O',
     title: 'OPTIMISATION',
-    description: 'Build a 51-entry regulatory library with proper citations to authoritative sources (HSE, legislation.gov.uk, British Standards).',
+    description: 'Optimise for trust, not just keywords. We built a 51-entry regulatory library with citations to authoritative sources (HSE, legislation.gov.uk).',
     icon: Settings,
   },
   {
     letter: 'I',
-    title: 'INTENT',
-    description: 'Research actual buyer questions. We identified 37 high-intent questions that H&S managers ask – then built content that answers them directly.',
+    title: 'INTELLIGENT',
+    description: 'Target the intelligent systems replacing traditional search. ChatGPT, Perplexity, Claude, Gemini – where B2B buyers now start their research.',
     icon: Brain,
   },
   {
     letter: 'C',
-    title: 'CITATION',
-    description: 'Every claim links to a source. Service pages link to library entries. Library entries link to official documents. This creates an audit trail that AI engines trust.',
-    icon: Quote,
+    title: 'CONVERSATIONAL',
+    description: 'Answer questions the way buyers actually ask them. Natural language that matches real queries, not keyword-stuffed jargon.',
+    icon: MessageSquare,
   },
   {
     letter: 'E',
-    title: 'ENGAGEMENT',
-    description: 'Build conversion tools that help buyers take action. We created a compliance checker that lets visitors assess their needs and get an instant quote.',
-    icon: Zap,
+    title: 'ENGINES',
+    description: 'Focus on the new answer engines. AI-powered search is growing exponentially – businesses that optimise now will dominate their niches.',
+    icon: Cpu,
   },
 ];
 
@@ -239,6 +239,7 @@ export default function H4TLTCaseStudyPage() {
           <FadeInOnScroll>
             <div className="text-center mb-12">
               <h2 className="text-brand-navy text-2xl sm:text-3xl mb-4">The V.O.I.C.E.™ Solution</h2>
+              <p className="text-brand-navy font-medium mb-2">Visibility Optimisation for Intelligent Conversational Engines</p>
               <p className="text-muted max-w-2xl mx-auto">
                 Our methodology for Answer Engine Optimisation – building websites that AI assistants want to recommend
               </p>
