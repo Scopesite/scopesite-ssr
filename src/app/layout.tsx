@@ -7,7 +7,7 @@ import { JsonLd } from '@/components/JsonLd';
 import { SkipLink, RouteAnnouncer } from '@/components/a11y';
 import { generateOrganizationSchema, generateWebsiteSchema } from '@/lib/schema';
 import { Analytics } from '@vercel/analytics/next';
-import { GoogleAnalytics } from '@next/third-parties/google';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 // Fonts
 const paytoneOne = Paytone_One({
@@ -123,6 +123,9 @@ export default function RootLayout({
   return (
     <html lang="en-GB">
       <head>
+        {/* Preconnect hints for performance */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <meta name="color-scheme" content="light" />
         <meta name="supported-color-schemes" content="light" />
         {/* Base structured data for entire site */}
@@ -139,8 +142,8 @@ export default function RootLayout({
         <Footer />
         <RouteAnnouncer />
         <Analytics />
+        <SpeedInsights />
       </body>
-      <GoogleAnalytics gaId="G-DGMRS1RD05" />
     </html>
   );
 }

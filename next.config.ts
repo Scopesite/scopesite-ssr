@@ -32,6 +32,13 @@ const nextConfig: NextConfig = {
   // 301 redirects for old/changed URLs (legacy Wix site)
   async redirects() {
     return [
+      // www to non-www redirect (faster than Vercel-level redirect)
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.scopesite.co.uk' }],
+        destination: 'https://scopesite.co.uk/:path*',
+        permanent: true,
+      },
       {
         source: '/affordable-web-design-uk',
         destination: '/web-design',
@@ -67,6 +74,12 @@ const nextConfig: NextConfig = {
 
   // Image optimization
   images: {
+    // Prefer AVIF for better compression, fallback to WebP
+    formats: ['image/avif', 'image/webp'],
+    // Optimized device sizes for responsive images
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    // Cache images for 1 year (Vercel CDN handles invalidation)
+    minimumCacheTTL: 31536000,
     remotePatterns: [
       {
         protocol: 'https',
