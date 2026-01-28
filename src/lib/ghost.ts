@@ -224,6 +224,44 @@ const getGhostApiUrl = (endpoint: string, params: Record<string, string> = {}) =
   return url.toString();
 };
 
+// Fetch with timeout and retry logic
+async function fetchWithRetry(
+  url: string,
+  options: RequestInit & { next?: { revalidate?: number } } = {},
+  retries: number = 3,
+  timeout: number = 10000
+): Promise<Response> {
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+    
+    try {
+      const response = await fetch(url, {
+        ...options,
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+      return response;
+    } catch (error) {
+      clearTimeout(timeoutId);
+      
+      // Log the error for debugging
+      console.error(`Ghost API fetch attempt ${attempt}/${retries} failed:`, error);
+      
+      // If this was the last attempt, throw
+      if (attempt === retries) {
+        throw error;
+      }
+      
+      // Wait before retrying (exponential backoff)
+      await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 1000));
+    }
+  }
+  
+  // This should never be reached, but TypeScript needs it
+  throw new Error('Fetch failed after all retries');
+}
+
 /**
  * Get all posts with pagination
  */
@@ -266,15 +304,36 @@ export async function getPosts(options: {
     params.filter = filter;
   }
 
-  const response = await fetch(getGhostApiUrl('posts', params), {
-    next: { revalidate: 60 }, // Revalidate every 60 seconds
-  });
+  try {
+    const response = await fetchWithRetry(getGhostApiUrl('posts', params), {
+      next: { revalidate: 60 }, // Revalidate every 60 seconds
+    });
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch posts: ${response.statusText}`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch posts: ${response.statusText}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error('Ghost API error, falling back to mock data:', error);
+    // Fallback to mock data on error
+    const startIndex = (page - 1) * limit;
+    const paginatedPosts = MOCK_POSTS.slice(startIndex, startIndex + limit);
+    
+    return {
+      posts: paginatedPosts,
+      meta: {
+        pagination: {
+          page,
+          limit,
+          pages: Math.ceil(MOCK_POSTS.length / limit),
+          total: MOCK_POSTS.length,
+          next: startIndex + limit < MOCK_POSTS.length ? page + 1 : null,
+          prev: page > 1 ? page - 1 : null,
+        },
+      },
+    };
   }
-
-  return response.json();
 }
 
 /**
@@ -290,19 +349,25 @@ export async function getPostBySlug(slug: string): Promise<GhostPost | null> {
     include: 'tags,authors',
   };
 
-  const response = await fetch(getGhostApiUrl(`posts/slug/${slug}`, params), {
-    next: { revalidate: 60 },
-  });
+  try {
+    const response = await fetchWithRetry(getGhostApiUrl(`posts/slug/${slug}`, params), {
+      next: { revalidate: 60 },
+    });
 
-  if (!response.ok) {
-    if (response.status === 404) {
-      return null;
+    if (!response.ok) {
+      if (response.status === 404) {
+        return null;
+      }
+      throw new Error(`Failed to fetch post: ${response.statusText}`);
     }
-    throw new Error(`Failed to fetch post: ${response.statusText}`);
-  }
 
-  const data = await response.json();
-  return data.posts?.[0] || null;
+    const data = await response.json();
+    return data.posts?.[0] || null;
+  } catch (error) {
+    console.error('Ghost API error for slug, falling back to mock data:', error);
+    // Fallback to mock data on error
+    return MOCK_POSTS.find(post => post.slug === slug) || null;
+  }
 }
 
 /**
@@ -321,16 +386,22 @@ export async function getFeaturedPosts(limit: number = 3): Promise<GhostPost[]> 
     fields: 'id,uuid,slug,title,excerpt,custom_excerpt,feature_image,feature_image_alt,featured,published_at,updated_at,reading_time',
   };
 
-  const response = await fetch(getGhostApiUrl('posts', params), {
-    next: { revalidate: 60 },
-  });
+  try {
+    const response = await fetchWithRetry(getGhostApiUrl('posts', params), {
+      next: { revalidate: 60 },
+    });
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch featured posts: ${response.statusText}`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch featured posts: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data.posts || [];
+  } catch (error) {
+    console.error('Ghost API error for featured posts, falling back to mock data:', error);
+    // Fallback to mock data on error
+    return MOCK_POSTS.filter(post => post.featured).slice(0, limit);
   }
-
-  const data = await response.json();
-  return data.posts || [];
 }
 
 /**
@@ -347,16 +418,22 @@ export async function getAllPostSlugs(): Promise<string[]> {
     fields: 'slug',
   };
 
-  const response = await fetch(getGhostApiUrl('posts', params), {
-    next: { revalidate: 60 },
-  });
+  try {
+    const response = await fetchWithRetry(getGhostApiUrl('posts', params), {
+      next: { revalidate: 60 },
+    });
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch post slugs: ${response.statusText}`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch post slugs: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data.posts?.map((post: { slug: string }) => post.slug) || [];
+  } catch (error) {
+    console.error('Ghost API error for slugs, falling back to mock data:', error);
+    // Fallback to mock data on error
+    return MOCK_POSTS.map(post => post.slug);
   }
-
-  const data = await response.json();
-  return data.posts?.map((post: { slug: string }) => post.slug) || [];
 }
 
 /**
