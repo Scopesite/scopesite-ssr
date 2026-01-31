@@ -1369,24 +1369,24 @@ function StepAddOns({ projectType, upgradeTargetType, addOns, onChange }: StepAd
     addOns.ssrRealtime && PRICING_CONFIG.ssrAddOns.realtime,
     addOns.ssrAnalytics && PRICING_CONFIG.ssrAddOns.analytics,
     addOns.ssrScalability && PRICING_CONFIG.ssrAddOns.scalability,
-  ].filter(Boolean);
+  ].filter((v): v is number => typeof v === 'number' && v > 0);
   const technicalCount = technicalSelected.length - (addOns.ssrApiIntegrations ? 1 : 0) + (addOns.ssrApiIntegrations || 0);
-  const technicalTotal = technicalSelected.reduce((sum, val) => sum + (typeof val === 'number' ? val : 0), 0);
+  const technicalTotal = technicalSelected.reduce((sum, val) => sum + val, 0);
 
   const brandingSelected = [
     addOns.branding && PRICING_CONFIG.addOns.branding,
     addOns.research && PRICING_CONFIG.addOns.research,
-  ].filter(Boolean);
+  ].filter((v): v is number => typeof v === 'number' && v > 0);
   const brandingCount = brandingSelected.length;
-  const brandingTotal = brandingSelected.reduce((sum, val) => sum + (typeof val === 'number' ? val : 0), 0);
+  const brandingTotal = brandingSelected.reduce((sum, val) => sum + val, 0);
 
   const contentSelected = [
     (addOns.videoLong || 0) * PRICING_CONFIG.addOns.videoLong,
     addOns.videoShortBundle && PRICING_CONFIG.addOns.videoShortBundle,
     addOns.imageLibrary && PRICING_CONFIG.addOns.imageLibrary,
-  ].filter(Boolean);
+  ].filter((v): v is number => typeof v === 'number' && v > 0);
   const contentCount = (addOns.videoLong || 0) + (addOns.videoShortBundle ? 1 : 0) + (addOns.imageLibrary ? 1 : 0);
-  const contentTotal = contentSelected.reduce((sum, val) => sum + (typeof val === 'number' ? val : 0), 0);
+  const contentTotal = contentSelected.reduce((sum, val) => sum + val, 0);
 
   const ongoingCount = addOns.voice ? 1 : 0;
   const ongoingTotal = addOns.voice ? PRICING_CONFIG.addOns.voice : 0;

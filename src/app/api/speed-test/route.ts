@@ -171,13 +171,22 @@ export async function POST(request: NextRequest) {
     const finalUrl = await normalizeUrl(inputUrl);
     console.log(`[SpeedTest] Testing: ${finalUrl} (original: ${inputUrl})`);
 
-    // Run multiple tests in parallel for speed
-    const testPromises = Array(NUM_RUNS)
-      .fill(null)
-      .map(() => runPageSpeedTest(finalUrl, apiKey));
-
-    const testResults = await Promise.all(testPromises);
-    const validResults = testResults.filter((r): r is SingleRunResult => r !== null);
+    // Run tests sequentially to avoid interference
+    // Parallel execution causes all tests to compete for the same server resources,
+    // artificially degrading scores by 10-20 points
+    const validResults: SingleRunResult[] = [];
+    for (let i = 0; i < NUM_RUNS; i++) {
+      console.log(`[SpeedTest] Running test ${i + 1}/${NUM_RUNS} for ${finalUrl}`);
+      const result = await runPageSpeedTest(finalUrl, apiKey);
+      if (result) {
+        validResults.push(result);
+        console.log(`[SpeedTest] Test ${i + 1} complete: Score ${result.performanceScore}`);
+      }
+      // Small delay between runs to let things settle (skip after last run)
+      if (i < NUM_RUNS - 1) {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+      }
+    }
 
     if (validResults.length === 0) {
       return NextResponse.json(
