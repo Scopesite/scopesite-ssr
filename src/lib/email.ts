@@ -487,3 +487,137 @@ export async function sendQuoteClientConfirmation(quote: QuoteEmailData): Promis
     return false;
   }
 }
+
+// ============================================
+// SPEED TEST LEAD CAPTURE
+// ============================================
+
+export interface SpeedTestLeadData {
+  url: string;
+  performanceScore: number;
+  fcp: number;
+  lcp: number;
+  ttfb: number;
+  cls: number;
+}
+
+/**
+ * Send speed test lead notification to admin (silent capture)
+ */
+export async function sendSpeedTestLeadNotification(lead: SpeedTestLeadData): Promise<boolean> {
+  // Determine urgency based on score
+  const urgency = lead.performanceScore < 50 
+    ? '🔴 HOT LEAD' 
+    : lead.performanceScore < 70 
+      ? '🟠 WARM LEAD' 
+      : '🟢 LEAD';
+  
+  const subject = `${urgency}: Speed Test - ${lead.url} (Score: ${lead.performanceScore}/100)`;
+
+  // Extract domain for Apollo lookup hint
+  const domain = new URL(lead.url).hostname.replace('www.', '');
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f5f5f5; margin: 0; padding: 20px;">
+      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        
+        <!-- Header -->
+        <div style="background-color: #0A1B36; padding: 24px; text-align: center;">
+          <h1 style="color: #ECB615; margin: 0; font-size: 24px; font-weight: bold;">SPEED TEST LEAD</h1>
+          <p style="color: #ffffff; margin: 8px 0 0 0; font-size: 14px;">${new Date().toLocaleString('en-GB', { dateStyle: 'full', timeStyle: 'short' })}</p>
+        </div>
+        
+        <!-- Content -->
+        <div style="padding: 24px;">
+          
+          <!-- URL & Score -->
+          <div style="margin-bottom: 24px; padding: 20px; background-color: ${lead.performanceScore < 50 ? '#FEE2E2' : lead.performanceScore < 70 ? '#FEF3C7' : '#D1FAE5'}; border-radius: 8px; text-align: center;">
+            <p style="margin: 0 0 8px 0; color: #0A1B36; font-size: 14px; font-weight: bold;">WEBSITE TESTED</p>
+            <p style="margin: 0 0 12px 0; color: #0A1B36; font-size: 18px; font-weight: bold;">
+              <a href="${lead.url}" style="color: #0A1B36;">${lead.url}</a>
+            </p>
+            <p style="margin: 0; font-size: 48px; font-weight: bold; color: ${lead.performanceScore < 50 ? '#DC2626' : lead.performanceScore < 70 ? '#D97706' : '#059669'};">
+              ${lead.performanceScore}<span style="font-size: 24px;">/100</span>
+            </p>
+          </div>
+          
+          <!-- Metrics -->
+          <div style="margin-bottom: 24px; padding: 16px; background-color: #f8f9fa; border-radius: 8px;">
+            <h2 style="color: #0A1B36; margin: 0 0 16px 0; font-size: 18px;">Performance Metrics</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="padding: 8px 0; color: #666; border-bottom: 1px solid #eee;">First Contentful Paint</td>
+                <td style="padding: 8px 0; color: ${lead.fcp > 2 ? '#DC2626' : '#059669'}; font-weight: bold; text-align: right; border-bottom: 1px solid #eee;">${lead.fcp}s</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; color: #666; border-bottom: 1px solid #eee;">Largest Contentful Paint</td>
+                <td style="padding: 8px 0; color: ${lead.lcp > 2.5 ? '#DC2626' : '#059669'}; font-weight: bold; text-align: right; border-bottom: 1px solid #eee;">${lead.lcp}s</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; color: #666; border-bottom: 1px solid #eee;">Time to First Byte</td>
+                <td style="padding: 8px 0; color: ${lead.ttfb > 200 ? '#DC2626' : '#059669'}; font-weight: bold; text-align: right; border-bottom: 1px solid #eee;">${lead.ttfb}ms</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; color: #666;">Layout Shift</td>
+                <td style="padding: 8px 0; color: ${lead.cls > 0.1 ? '#DC2626' : '#059669'}; font-weight: bold; text-align: right;">${lead.cls}</td>
+              </tr>
+            </table>
+          </div>
+          
+          <!-- Apollo Hint -->
+          <div style="margin-bottom: 24px; padding: 16px; background-color: #EEF2FF; border-radius: 8px; border-left: 4px solid #6366F1;">
+            <p style="margin: 0 0 8px 0; color: #4338CA; font-size: 14px; font-weight: bold;">🔍 Find Contact in Apollo</p>
+            <p style="margin: 0; color: #666; font-size: 14px;">
+              Search for: <strong>${domain}</strong>
+            </p>
+          </div>
+          
+          <!-- Action Buttons -->
+          <div style="text-align: center; margin-top: 24px;">
+            <a href="https://app.apollo.io/#/companies?organizationDomains[]=${encodeURIComponent(domain)}" 
+               target="_blank"
+               style="display: inline-block; padding: 12px 24px; background-color: #6366F1; color: #ffffff; text-decoration: none; border-radius: 8px; font-weight: bold; margin-right: 12px;">
+              Find in Apollo
+            </a>
+            <a href="${lead.url}" 
+               target="_blank"
+               style="display: inline-block; padding: 12px 24px; background-color: #ECB615; color: #0A1B36; text-decoration: none; border-radius: 8px; font-weight: bold;">
+              Visit Site
+            </a>
+          </div>
+          
+        </div>
+        
+        <!-- Footer -->
+        <div style="background-color: #0A1B36; padding: 16px; text-align: center;">
+          <p style="margin: 0; color: #ffffff; font-size: 12px;">
+            Speed test from scopesite.co.uk/web-design
+          </p>
+        </div>
+        
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+    sendSmtpEmail.subject = subject;
+    sendSmtpEmail.htmlContent = htmlContent;
+    sendSmtpEmail.sender = { name: FROM_NAME, email: FROM_EMAIL };
+    sendSmtpEmail.to = [{ email: ADMIN_EMAIL, name: 'Dan Cartwright' }];
+
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    console.log(`[Email] Speed test lead notification sent for ${lead.url}`);
+    return true;
+  } catch (error) {
+    console.error('Failed to send speed test lead notification:', error);
+    return false;
+  }
+}

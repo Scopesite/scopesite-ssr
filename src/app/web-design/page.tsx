@@ -26,7 +26,9 @@ import {
   Check,
   ExternalLink,
   Server,
-  Activity
+  Activity,
+  HardHat,
+  Factory
 } from 'lucide-react';
 import { 
   AnimatedCounter, 
@@ -35,11 +37,11 @@ import {
   StaggerContainer, 
   StaggerItem,
   LighthouseGauge,
-  SSRComparison,
   CSRCodeBlock,
   SSRCodeBlock,
   SchemaVisualization
 } from '@/components/animations';
+import { SpeedTestComparison } from '@/components/SpeedTestComparison';
 
 // FAQ Accordion Component for light background
 function FAQItem({ question, answer, isOpen, onClick }: { 
@@ -72,38 +74,42 @@ function FAQItem({ question, answer, isOpen, onClick }: {
   );
 }
 
-// SSR-Specific Feature Cards Data
+// Feature Cards Data - Outcome-focused, not tech-focused
 const features = [
   {
-    title: '100/100 PERFORMANCE',
-    description: 'Lighthouse perfect scores. Sub-second load times. Core Web Vitals crushed. Not "optimised" - perfected.',
+    title: 'LOADS INSTANTLY',
+    description: 'Your site loads in under half a second - among the fastest business websites in the UK. Visitors see your content before they\'ve finished blinking. Most competitors\' sites take 4-8 seconds. That gap costs them customers.',
     icon: Zap,
-    stat: '100',
-    statLabel: 'Lighthouse',
+    stat: '0.5',
+    statLabel: 'seconds',
   },
   {
-    title: 'AI-CRAWLER READY',
-    description: 'GPTBot, ClaudeBot, PerplexityBot - they all see your content instantly. No JavaScript execution required. SSR means AI visibility from day one.',
+    title: 'VISIBLE TO AI ASSISTANTS',
+    description: 'AEO (Answer Engine Optimisation) built in from day one. When someone asks ChatGPT, Siri, or Perplexity for a recommendation in your industry, your site is readable and citable. Most of your competitors\' sites aren\'t.',
     icon: Brain,
+    stat: '4+',
+    statLabel: 'AI platforms',
   },
   {
-    title: 'AUTO-GENERATED SCHEMA',
-    description: 'Rich structured data on every page - BlogPosting, FAQPage, HowTo, Organization - all generated automatically. No manual injection, no errors.',
+    title: 'SEARCH ENGINES UNDERSTAND YOU',
+    description: 'AI SEO that actually works. Your business name, services, opening hours, reviews, location - all structured so Google and AI assistants get it right. No wrong phone numbers. No outdated info. Automatically.',
     icon: Code2,
   },
   {
-    title: 'HEADLESS CMS',
-    description: 'Ghost CMS for content, Next.js for delivery. Write in a clean editor, publish to a blazing-fast frontend. Best of both worlds.',
+    title: 'YOU CAN UPDATE IT YOURSELF',
+    description: 'Add blog posts, update services, change team bios - all from a clean editor that\'s actually pleasant to use. No WordPress plugin nightmares. No calling us for every small change.',
     icon: Server,
   },
   {
-    title: 'EDGE DEPLOYMENT',
-    description: "Vercel's global edge network. Your site loads fast whether your visitor is in London, New York, or Tokyo.",
+    title: 'FAST FROM ANYWHERE',
+    description: 'AEO-focused websites need speed. Your site loads at the same speed whether your customer is in Somerset, central London, or checking on their phone in a bad signal area. Same speed. Every time.',
     icon: Globe,
+    stat: '300+',
+    statLabel: 'edge locations',
   },
   {
-    title: 'FUTURE-PROOF',
-    description: 'While others scramble to retrofit AI compatibility, your site is already built for where search is going.',
+    title: 'BUILT FOR WHERE SEARCH IS GOING',
+    description: 'AI SEO isn\'t the future - it\'s now. AI assistants are answering more questions than ever. Your site won\'t need rebuilding when the next shift happens - it\'s already there.',
     icon: Shield,
   },
 ];
@@ -180,34 +186,34 @@ const iconAnimations = {
 // Industries Data
 const industries = [
   {
-    title: 'Tradespeople & Home Services',
-    description: 'Plumbers, electricians, builders - local businesses that need to be found when people search \'near me\'',
-    icon: Wrench,
-  },
-  {
-    title: 'Professional Services',
-    description: 'Accountants, solicitors, consultants - businesses where trust and credibility matter',
+    title: 'Legal & Financial',
+    description: 'Solicitors, accountants, wealth managers - where your website is the first thing clients check before calling',
     icon: Briefcase,
   },
   {
+    title: 'B2B Professional Services',
+    description: 'Marketing agencies, sales consultancies, B2B service providers - where a shit website costs you the client before you even speak to them',
+    icon: Building2,
+  },
+  {
     title: 'Health & Wellness',
-    description: 'Clinics, therapists, fitness professionals - GDPR compliant, booking-ready websites',
+    description: 'Clinics, therapists, private practices - GDPR compliant, booking-ready, built to convert browsers into patients',
     icon: Heart,
   },
   {
     title: 'E-commerce & Retail',
-    description: 'Online shops that need to convert browsers into buyers with blazing-fast page loads',
+    description: 'Online shops losing £thousands to slow load times - we fix that',
     icon: ShoppingCart,
   },
   {
     title: 'Hospitality & Leisure',
-    description: 'Restaurants, hotels, venues - reservation systems, menus, event booking',
+    description: 'Restaurants, hotels, venues - menus, bookings, events - all working seamlessly',
     icon: UtensilsCrossed,
   },
   {
-    title: 'B2B & Manufacturing',
-    description: 'Complex businesses with technical products - catalogues, specifications, quote requests',
-    icon: Building2,
+    title: 'Construction & Development',
+    description: 'Builders, developers, contractors - project portfolios, compliance docs, tenders - built to win you the big contracts',
+    icon: HardHat,
   },
 ];
 
@@ -267,12 +273,12 @@ const paymentFeatures = [
   'Start building now, pay as you grow',
 ];
 
-// Technical metrics
+// Technical metrics with comparisons
 const technicalMetrics = [
-  { label: 'First Contentful Paint', value: '0.3', unit: 's', description: 'Content appears almost instantly' },
-  { label: 'Largest Contentful Paint', value: '0.6', unit: 's', description: 'Main content fully loaded' },
-  { label: 'Time to First Byte', value: '<100', unit: 'ms', description: 'Server responds in milliseconds' },
-  { label: 'Cumulative Layout Shift', value: '0', unit: '', description: 'Zero layout jumping' },
+  { label: 'First Contentful Paint', value: '0.3', unit: 's', description: 'Your content appears in 0.3s - most sites take 2-4 seconds' },
+  { label: 'Largest Contentful Paint', value: '0.6', unit: 's', description: 'Main content loads in 0.6s - competitors average 4+ seconds' },
+  { label: 'Time to First Byte', value: '<100', unit: 'ms', description: 'Server responds in under 100ms - most sites take 500ms+' },
+  { label: 'Cumulative Layout Shift', value: '0', unit: '', description: 'Zero layout shift - no annoying content jumping' },
 ];
 
 export default function WebDesignPage() {
@@ -299,50 +305,38 @@ export default function WebDesignPage() {
         
         <div className="container-content relative z-10">
           <div className="max-w-5xl mx-auto text-center">
-            {/* Lighthouse Score Badge */}
+            {/* Performance Badge */}
             <FadeInOnScroll delay={0.2}>
               <div className="inline-flex items-center gap-3 bg-brand-gold/10 border border-brand-gold/30 rounded-full px-5 py-2 mb-8">
                 <div className="flex items-center gap-2">
-                  <Activity className="w-4 h-4 text-brand-gold" />
-                  <span className="text-white/80 text-sm">Lighthouse Score:</span>
+                  <Zap className="w-4 h-4 text-brand-gold" />
+                  <span className="text-brand-gold font-medium text-sm">Faster than 99% of UK business websites</span>
                 </div>
-                <span className="text-brand-gold font-bold text-lg">
-                  <AnimatedCounter value={100} duration={1.5} delay={0.5} />
-                  /100
-                </span>
               </div>
             </FadeInOnScroll>
             
             <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-headline text-white mb-4">
               <span className="text-brand-gold block mb-2">
                 <TypeWriter 
-                  text="FAST WEBSITES" 
-                  speed={80} 
+                  text="WEBSITES THAT GET FOUND" 
+                  speed={60} 
                   delay={200}
                 />
               </span>
-              <span className="block">THAT AI CAN ACTUALLY SEE</span>
+              <span className="block">BY GOOGLE AND BY AI</span>
             </h1>
             
             <FadeInOnScroll delay={0.8}>
               <p className="text-xl md:text-2xl text-white/90 font-medium mb-6">
-                Server-Side Rendered (SSR). AI-Optimised. Blazing Fast.
+                Built for how people actually search in 2026. Your customers are asking ChatGPT, Siri, and Perplexity for recommendations. Our sites show up.
               </p>
             </FadeInOnScroll>
             
             <FadeInOnScroll delay={1}>
-              <p className="text-body-lg text-white/70 mb-6 max-w-3xl mx-auto">
-                Most websites are invisible to ChatGPT, Claude, and Perplexity. They&apos;re built with 
-                client-side JavaScript that AI crawlers can&apos;t execute. Your beautiful content? 
-                The AI sees an empty page.
-              </p>
-            </FadeInOnScroll>
-            
-            <FadeInOnScroll delay={1.2}>
-              <p className="text-body text-white/60 mb-10 max-w-3xl mx-auto">
-                We build Server-Side Rendered websites on Next.js that deliver fully-formed HTML 
-                on every request. AI crawlers get your complete content instantly. 
-                No JavaScript required. No waiting. No invisibility.
+              <p className="text-body-lg text-white/70 mb-10 max-w-3xl mx-auto">
+                Most business websites were built for Google circa 2018. They still rank - sometimes. 
+                But when someone asks an AI assistant &apos;who&apos;s the best [your service] near me?&apos;, 
+                your site doesn&apos;t exist. We build websites that work for both.
               </p>
             </FadeInOnScroll>
             
@@ -361,7 +355,70 @@ export default function WebDesignPage() {
         </div>
       </section>
 
-      {/* Why SSR Section */}
+      {/* Speed Test - Make them feel the pain early */}
+      <section className="section-white border-b border-brand-navy/10">
+        <div className="container-content">
+          <FadeInOnScroll>
+            <div className="text-center mb-8">
+              <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">How Fast Is Your Website?</h2>
+              <p className="text-brand-navy/70 max-w-2xl mx-auto">
+                Test your current site against our standards. Takes about 30 seconds.
+              </p>
+            </div>
+          </FadeInOnScroll>
+          <FadeInOnScroll delay={0.2}>
+            <div className="max-w-3xl mx-auto">
+              <SpeedTestComparison />
+            </div>
+          </FadeInOnScroll>
+        </div>
+      </section>
+
+      {/* Built for Businesses Like Yours - Moved up for buyer recognition */}
+      <section className="section-white">
+        <div className="container-content">
+          <FadeInOnScroll>
+            <div className="text-center mb-8 md:mb-12">
+              <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">Built for Businesses Like Yours</h2>
+              <p className="text-brand-navy/70 max-w-2xl mx-auto">
+                Established UK businesses investing £8-15K in a website that actually works
+              </p>
+            </div>
+          </FadeInOnScroll>
+          
+          <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12" staggerDelay={0.1}>
+            {industries.map((industry) => (
+              <StaggerItem key={industry.title}>
+                <div
+                  className="p-8 rounded-2xl bg-white border-l-4 border-l-brand-gold border border-brand-navy/10
+                    shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-brand-gold/40 
+                    transition-all duration-300 h-full"
+                >
+                  <div className="mb-5 inline-flex items-center justify-center w-14 h-14 rounded-xl bg-brand-gold/10">
+                    <industry.icon className="w-7 h-7 text-brand-gold" />
+                  </div>
+                  <h3 className="text-brand-navy font-bold text-lg mb-3">{industry.title}</h3>
+                  <p className="text-brand-navy/70 leading-relaxed">{industry.description}</p>
+                </div>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+          
+          <FadeInOnScroll>
+            <div className="text-center">
+              <p className="text-brand-navy/60 mb-4">
+                Don&apos;t see your industry? We probably still work with it.
+              </p>
+              <Link href="/book" className="text-brand-gold hover:text-brand-gold/80 font-medium inline-flex items-center gap-2 transition-colors">
+                Get in touch
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </FadeInOnScroll>
+        </div>
+      </section>
+
+      {/* Two Front Doors Section */}
       <section id="why-ssr" className="section-white relative overflow-hidden scroll-mt-32">
         <div 
           className="absolute inset-0 opacity-[0.03]"
@@ -375,46 +432,84 @@ export default function WebDesignPage() {
         <div className="container-content relative z-10">
           <FadeInOnScroll>
             <div className="text-center mb-8 md:mb-12">
-              <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">Why Server-Side Rendering?</h2>
+              <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">Your Website Has Two Front Doors</h2>
               <p className="text-brand-navy/70 max-w-2xl mx-auto">
-                See the difference between traditional websites and SSR
+                Is one of them locked?
               </p>
             </div>
           </FadeInOnScroll>
           
-          {/* Problem statement */}
+          {/* Two Front Doors Analogy */}
           <FadeInOnScroll delay={0.2}>
-            <div className="max-w-3xl mx-auto mb-12 text-center">
-              <p className="text-brand-navy/80 text-lg mb-4">
-                <strong className="text-brand-navy">The Problem:</strong> Most websites (Wix, Squarespace, WordPress with heavy plugins) 
-                are client-side rendered. AI crawlers (GPTBot, ClaudeBot, PerplexityBot) can&apos;t execute JavaScript. 
-                They see a blank page or skeleton content.
-              </p>
-              <p className="text-brand-navy/80 text-lg">
-                <strong className="text-brand-navy">The Solution:</strong> Server-Side Rendering delivers fully-formed HTML 
-                on first request. No JavaScript required. AI crawlers get the complete page instantly. 
-                Your content is readable, indexable, and citable by AI assistants.
-              </p>
-            </div>
-          </FadeInOnScroll>
-          
-          {/* Interactive Comparison */}
-          <SSRComparison className="max-w-5xl mx-auto" />
-          
-          {/* Code Block Comparison */}
-          <FadeInOnScroll delay={0.4}>
-            <div className="mt-16 max-w-5xl mx-auto">
-              <h3 className="text-brand-navy font-bold text-xl text-center mb-8">See The Raw HTML Difference</h3>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <p className="text-sm text-brand-navy/60 mb-3 text-center">❌ Client-Side Rendered (Wix/WordPress)</p>
-                  <CSRCodeBlock className="h-full" />
+            <div className="max-w-4xl mx-auto mb-12">
+              <div className="grid md:grid-cols-2 gap-8">
+                {/* Door 1 - Google */}
+                <div className="bg-green-50 border-2 border-green-200 rounded-2xl p-8 text-center">
+                  <div className="text-6xl mb-4">🚪✨</div>
+                  <h3 className="text-brand-navy font-bold text-xl mb-3">The Google Door</h3>
+                  <p className="text-brand-navy/70">
+                    Lights on, door open, welcome mat out. Google&apos;s been visiting for years - most websites handle this fine.
+                  </p>
+                  <div className="mt-4 inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium">
+                    ✓ Usually Open
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm text-brand-navy/60 mb-3 text-center">✅ Server-Side Rendered (Next.js)</p>
-                  <SSRCodeBlock className="h-full" delay={500} />
+                
+                {/* Door 2 - AI */}
+                <div className="bg-red-50 border-2 border-red-200 rounded-2xl p-8 text-center">
+                  <div className="text-6xl mb-4">🚫🚪</div>
+                  <h3 className="text-brand-navy font-bold text-xl mb-3">The AI Door</h3>
+                  <p className="text-brand-navy/70">
+                    Shutters down, lights off. When ChatGPT or Perplexity knocks, they get a locked door and an empty room.
+                  </p>
+                  <div className="mt-4 inline-block bg-red-600 text-white px-4 py-2 rounded-full text-sm font-medium">
+                    ✗ Closed on Most Sites
+                  </div>
                 </div>
               </div>
+            </div>
+          </FadeInOnScroll>
+          
+          {/* The Point */}
+          <FadeInOnScroll delay={0.3}>
+            <div className="max-w-3xl mx-auto text-center mb-12">
+              <p className="text-brand-navy text-lg mb-4">
+                <strong>Google and AI assistants visit your site differently.</strong> Most websites only open the door for Google. 
+                When ChatGPT or Perplexity knocks, they get a locked door and an empty room.
+              </p>
+              <p className="text-brand-gold font-bold text-xl">
+                Our sites open both doors, every time.
+              </p>
+            </div>
+          </FadeInOnScroll>
+          
+          {/* Technical Details Collapsible */}
+          <FadeInOnScroll delay={0.4}>
+            <div className="max-w-4xl mx-auto">
+              <details className="group bg-brand-navy/[0.02] border border-brand-navy/10 rounded-2xl overflow-hidden">
+                <summary className="flex items-center justify-between p-6 cursor-pointer hover:bg-brand-navy/[0.04] transition-colors">
+                  <div className="flex items-center gap-3">
+                    <Code2 className="w-5 h-5 text-brand-gold" />
+                    <span className="text-brand-navy font-medium">For the technically curious - see why this works</span>
+                  </div>
+                  <ChevronDown className="w-5 h-5 text-brand-navy/50 transition-transform group-open:rotate-180" />
+                </summary>
+                <div className="p-6 pt-0 border-t border-brand-navy/10">
+                  <p className="text-brand-navy/70 mb-6 text-center">
+                    The technical difference: Server-Side Rendering vs Client-Side Rendering
+                  </p>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <p className="text-sm text-brand-navy/60 mb-3 text-center">❌ Client-Side Rendered (Wix/WordPress)</p>
+                      <CSRCodeBlock className="h-full" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-brand-navy/60 mb-3 text-center">✅ Server-Side Rendered (Next.js)</p>
+                      <SSRCodeBlock className="h-full" delay={500} />
+                    </div>
+                  </div>
+                </div>
+              </details>
             </div>
           </FadeInOnScroll>
         </div>
@@ -433,7 +528,7 @@ export default function WebDesignPage() {
           <FadeInOnScroll>
             <div className="text-center mb-8 md:mb-12">
               <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">What You Actually Get</h2>
-              <p className="text-white-muted max-w-2xl mx-auto">SSR-specific benefits that set your site apart</p>
+              <p className="text-white-muted max-w-2xl mx-auto">Every site we build includes these as standard</p>
             </div>
           </FadeInOnScroll>
           
@@ -467,14 +562,17 @@ export default function WebDesignPage() {
           <FadeInOnScroll>
             <div className="text-center mb-8 md:mb-12">
               <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">Technical Proof</h2>
-              <p className="text-muted max-w-2xl mx-auto">Real metrics from our SSR sites - not just promises</p>
+              <p className="text-muted max-w-2xl mx-auto">Real numbers. Exposed to scrutiny. Not just promises.</p>
             </div>
           </FadeInOnScroll>
           
           {/* Lighthouse Gauges */}
           <FadeInOnScroll delay={0.2}>
             <div className="bg-brand-navy rounded-2xl p-8 md:p-12 mb-12">
-              <h3 className="text-white text-center font-bold mb-8">Lighthouse Scores</h3>
+              <h3 className="text-white text-center font-bold mb-2">Lighthouse Scores</h3>
+              <p className="text-white/60 text-center text-sm mb-8">
+                Lighthouse is Google&apos;s own website quality test. 100 is the maximum score. Most UK business websites score between 30 and 60.
+              </p>
               <div className="flex flex-wrap justify-center gap-8 md:gap-12">
                 <LighthouseGauge score={100} label="Performance" delay={0} />
                 <LighthouseGauge score={100} label="Accessibility" delay={0.2} />
@@ -519,25 +617,11 @@ export default function WebDesignPage() {
           
           {/* Schema Visualization */}
           <FadeInOnScroll delay={0.3}>
-            <div className="bg-brand-navy rounded-2xl p-8 md:p-12 mb-12">
+            <div className="bg-brand-navy rounded-2xl p-8 md:p-12">
+              <p className="text-white/60 text-center text-sm mb-6">
+                This is how Google and AI assistants understand your business — every entity connected and validated.
+              </p>
               <SchemaVisualization />
-            </div>
-          </FadeInOnScroll>
-          
-          {/* Test Your Site CTA */}
-          <FadeInOnScroll delay={0.4}>
-            <div className="text-center">
-              <p className="text-brand-navy/70 mb-4">Want to see how your current site performs?</p>
-              <a 
-                href="https://pagespeed.web.dev/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="btn-primary inline-flex items-center gap-2 animate-counter-glow"
-              >
-                <Activity className="w-5 h-5" />
-                Test Your Site&apos;s Speed
-                <ExternalLink className="w-4 h-4" />
-              </a>
             </div>
           </FadeInOnScroll>
         </div>
@@ -818,49 +902,6 @@ export default function WebDesignPage() {
               </FadeInOnScroll>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Who We Work With Section */}
-      <section className="section-white">
-        <div className="container-content">
-          <FadeInOnScroll>
-            <div className="text-center mb-8 md:mb-12">
-              <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">Built for Businesses Like Yours</h2>
-              <p className="text-brand-navy/70 max-w-2xl mx-auto">
-                We specialise in UK service businesses that need results, not excuses
-              </p>
-            </div>
-          </FadeInOnScroll>
-          
-          <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12" staggerDelay={0.1}>
-            {industries.map((industry) => (
-              <StaggerItem key={industry.title}>
-                <div
-                  className="p-6 rounded-2xl bg-brand-navy/[0.02] border border-brand-navy/10
-                    hover:border-brand-gold/30 hover:bg-brand-gold/[0.02] transition-all duration-300"
-                >
-                  <div className="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brand-gold/10">
-                    <industry.icon className="w-6 h-6 text-brand-gold" />
-                  </div>
-                  <h3 className="text-brand-navy font-bold mb-2">{industry.title}</h3>
-                  <p className="text-brand-navy/60 text-sm">{industry.description}</p>
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
-          
-          <FadeInOnScroll>
-            <div className="text-center">
-              <p className="text-brand-navy/60 mb-4">
-                Don&apos;t see your industry? We probably still work with it.
-              </p>
-              <Link href="/book" className="text-brand-gold hover:text-brand-gold/80 font-medium inline-flex items-center gap-2 transition-colors">
-                Get in touch
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </FadeInOnScroll>
         </div>
       </section>
 
