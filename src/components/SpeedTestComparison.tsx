@@ -11,6 +11,7 @@ interface SpeedTestResult {
   ttfb: number;
   cls: number;
   url: string;
+  runsCompleted?: number;
 }
 
 // Our benchmark scores
@@ -87,11 +88,18 @@ export function SpeedTestComparison() {
     setResult(null);
 
     try {
+      // 2 minute timeout for the entire request (3 tests can take ~90 seconds)
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 120000);
+
       const response = await fetch('/api/speed-test', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url: url.trim() }),
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
 
       const data = await response.json();
 
@@ -101,7 +109,11 @@ export function SpeedTestComparison() {
 
       setResult(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong');
+      if (err instanceof Error && err.name === 'AbortError') {
+        setError('Test timed out. The website may be very slow or unreachable. Please try again.');
+      } else {
+        setError(err instanceof Error ? err.message : 'Something went wrong');
+      }
     } finally {
       setLoading(false);
     }
@@ -142,8 +154,8 @@ export function SpeedTestComparison() {
           
           {/* Context text */}
           <p className="text-brand-navy/50 text-sm text-center mb-6">
-            Tests run on mobile with simulated 4G throttling — the same conditions Google uses for rankings. 
-            Scores can vary ±10% between tests, so run 3-5 times and average for accuracy.
+            We run 3 tests and average your performance for accuracy (~90 seconds). Tests use mobile with 
+            simulated 4G throttling — the same conditions Google uses for rankings.
           </p>
           
           {/* Trust Badge */}
@@ -162,7 +174,7 @@ export function SpeedTestComparison() {
           <div className="mt-6 text-center">
             <div className="inline-flex items-center gap-3 bg-brand-navy/5 rounded-full px-6 py-3">
               <Loader2 className="w-5 h-5 animate-spin text-brand-gold" />
-              <span className="text-brand-navy/70">Running full PageSpeed analysis... This takes 15-30 seconds</span>
+              <span className="text-brand-navy/70">Running 3 tests & averaging results... This takes around 90 seconds</span>
             </div>
           </div>
         )}
@@ -252,6 +264,13 @@ export function SpeedTestComparison() {
                 unit=""
                 higherIsBetter={false}
               />
+
+              {/* Runs info */}
+              {result.runsCompleted && (
+                <p className="text-brand-navy/40 text-xs text-center mt-4">
+                  Results averaged from {result.runsCompleted} test runs (best of 3, worst discarded)
+                </p>
+              )}
 
               {/* CTA */}
               <div className="mt-8 text-center">

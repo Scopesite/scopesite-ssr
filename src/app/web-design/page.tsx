@@ -217,51 +217,43 @@ const industries = [
   },
 ];
 
-// Updated FAQ Data with SSR focus
+// FAQ Data - buyer anxiety first, tech questions last
 const faqItems = [
   {
-    question: 'What technology do you use?',
-    answer: `We build with Next.js and deploy on Vercel's edge network. This isn't a preference - it's a technical decision based on what actually works for AI visibility.
-
-Most agencies use WordPress with plugins or drag-and-drop builders like Wix. These are client-side rendered, meaning AI crawlers can't read the content properly. Our sites are Server-Side Rendered - the full page is delivered as HTML, ready for humans AND AI crawlers instantly.
-
-For content management, we use Ghost CMS as a headless backend. You get a clean, fast editor without the bloat of WordPress.`,
-  },
-  {
-    question: 'What is Server-Side Rendering (SSR)?',
-    answer: `SSR means your website's content is generated on the server before it reaches the browser. When someone (or an AI crawler) requests a page, they get the complete HTML immediately - no waiting for JavaScript to load and render.
-
-Traditional websites built on Wix, Squarespace, or WordPress with heavy plugins often use Client-Side Rendering. The browser receives a mostly empty page, then JavaScript downloads and builds the content. AI crawlers can't execute JavaScript, so they see... nothing.
-
-With SSR, GPTBot, ClaudeBot, and Perplexity see exactly what your human visitors see - instantly.`,
-  },
-  {
     question: 'How long does it take to build a website?',
-    answer: 'Most projects take 4-8 weeks from kickoff to launch. Simple brochure sites are faster, complex builds with custom functionality take longer. We\'ll give you an accurate timeline in your quote based on exactly what you need.',
+    answer: 'Most projects take 4-8 weeks from kickoff to launch. Simple brochure sites are faster; complex builds with custom features take longer. We\'ll give you an accurate timeline in your quote — and we stick to it.',
   },
   {
-    question: 'Do I need to provide all the content?',
-    answer: 'We can work with whatever you\'ve got. If you have content ready, great. If not, we offer copywriting services or can guide you through what\'s needed. Most clients land somewhere in the middle.',
-  },
-  {
-    question: 'Will my website work on mobile?',
-    answer: 'Absolutely - we design mobile-first. Over 60% of web traffic is now on phones, so we build for mobile screens first and scale up to desktop. Your site will look great on everything from an iPhone to a widescreen monitor.',
-  },
-  {
-    question: 'What about hosting and domains?',
-    answer: 'Your site is deployed to Vercel\'s global edge network - the same infrastructure used by companies like Stripe, Notion, and McDonald\'s. We handle domain configuration, SSL certificates, and ongoing maintenance. It\'s all included.',
-  },
-  {
-    question: 'What happens after my website launches?',
-    answer: 'We don\'t disappear. All our packages include ongoing maintenance and support. We handle updates, security patches, performance monitoring, and are on hand when you need changes. You focus on running your business.',
-  },
-  {
-    question: 'Can you help with SEO and AI visibility?',
-    answer: 'Your site will have bulletproof technical SEO built in from day one - proper meta tags, structured data, XML sitemaps, optimised images, and fast load times. For ongoing content strategy and AI visibility optimization, check out our V.O.I.C.E™ service.',
+    question: 'How much does a website cost?',
+    answer: 'Our websites start from £8,000 for established businesses. We also offer monthly payment plans with no credit checks and no interest — spreading the cost over 6, 12, or 24 months. You\'ll get an instant quote in under 2 minutes on our pricing page.',
   },
   {
     question: 'What if I\'m not happy with the design?',
-    answer: 'We build in stages with checkpoints for feedback, so you\'re never surprised by a finished product you hate. If something\'s not right, we fix it. We\'re not done until you\'re genuinely happy with the result.',
+    answer: 'We build in stages with feedback checkpoints, so you\'re never surprised by a finished product you hate. If something\'s not right, we fix it. We\'re not done until you\'re genuinely happy — that\'s not a slogan, it\'s how we work.',
+  },
+  {
+    question: 'What happens after my website launches?',
+    answer: 'We don\'t disappear. All packages include ongoing maintenance, security patches, performance monitoring, and support when you need changes. You focus on your business; we keep your site running perfectly.',
+  },
+  {
+    question: 'Do I need to provide all the content?',
+    answer: 'We work with whatever you\'ve got. Content ready? Great. Nothing prepared? We offer copywriting services or can guide you through exactly what\'s needed. Most clients land somewhere in the middle.',
+  },
+  {
+    question: 'Will my website work on mobile?',
+    answer: 'We design mobile-first — over 60% of traffic is on phones now. Your site will look and perform brilliantly on everything from an iPhone SE to a 4K monitor.',
+  },
+  {
+    question: 'What about hosting and domains?',
+    answer: 'Included. Your site runs on Vercel\'s global edge network — the same infrastructure behind Stripe, Notion, and Nike. We handle domains, SSL certificates, and ongoing maintenance. No hidden hosting fees.',
+  },
+  {
+    question: 'Can you help with SEO and AI visibility?',
+    answer: 'Every site has bulletproof technical SEO built in — proper meta tags, structured data, XML sitemaps, optimised images, fast load times. For ongoing content strategy and getting recommended by ChatGPT, Claude, and Perplexity, check out our V.O.I.C.E™ service.',
+  },
+  {
+    question: 'What technology do you use and why does it matter?',
+    answer: 'We build with Next.js and deploy on Vercel\'s edge network. Unlike WordPress or Wix sites, ours are Server-Side Rendered — meaning AI crawlers can actually read your content. This is why our clients show up when someone asks ChatGPT for recommendations. The tech matters, but only because of what it delivers: speed, visibility, and results.',
   },
 ];
 
@@ -912,7 +904,7 @@ export default function WebDesignPage() {
             <div className="text-center mb-8 md:mb-12">
               <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">Frequently Asked Questions</h2>
               <p className="text-white/70 max-w-2xl mx-auto">
-                Straight answers about SSR, our tech stack, and how we work
+                Straight answers about timelines, costs, and what you actually get.
               </p>
             </div>
           </FadeInOnScroll>
