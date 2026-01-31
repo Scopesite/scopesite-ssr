@@ -46,6 +46,19 @@ export interface Brief {
   status: string;
 }
 
+// Type for quote storage (database row)
+export interface QuoteRow {
+  id: string;              // Quote token (primary key)
+  email: string;
+  status: string;          // 'started' | 'in_progress' | 'submitted' | 'abandoned'
+  current_step: number;
+  selections: Record<string, unknown>;  // JSONB - projectType, scope, addOns, paymentPreference
+  contact: Record<string, unknown>;     // JSONB - name, phone, company, message
+  created_at: Date;
+  updated_at: Date;
+  submitted_at: Date | null;
+}
+
 // Type for new brief submission (without auto-generated fields)
 export interface NewBrief {
   name: string;
@@ -140,7 +153,7 @@ export async function checkConnection(): Promise<boolean> {
 /**
  * Initialize the briefs table
  */
-export async function initializeDatabase(): Promise<void> {
+export async function initializeBriefsTable(): Promise<void> {
   const sql = getDb();
   
   await sql`
@@ -175,4 +188,189 @@ export async function initializeDatabase(): Promise<void> {
   await sql`
     CREATE INDEX IF NOT EXISTS idx_briefs_created_at ON briefs(created_at DESC)
   `;
+}
+
+/**
+ * Initialize the quotes table
+ */
+export async function initializeQuotesTable(): Promise<void> {
+  const sql = getDb();
+  
+  await sql`
+    CREATE TABLE IF NOT EXISTS quotes (
+      id VARCHAR(16) PRIMARY KEY,
+      email VARCHAR(255) NOT NULL,
+      status VARCHAR(50) NOT NULL DEFAULT 'started',
+      current_step INTEGER NOT NULL DEFAULT 1,
+      selections JSONB NOT NULL DEFAULT '{}',
+      contact JSONB NOT NULL DEFAULT '{}',
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      submitted_at TIMESTAMP
+    )
+  `;
+  
+  // Create index on email for faster lookups
+  await sql`
+    CREATE INDEX IF NOT EXISTS idx_quotes_email ON quotes(email)
+  `;
+  
+  // Create index on status for filtering
+  await sql`
+    CREATE INDEX IF NOT EXISTS idx_quotes_status ON quotes(status)
+  `;
+  
+  // Create index on updated_at for abandoned quote queries
+  await sql`
+    CREATE INDEX IF NOT EXISTS idx_quotes_updated_at ON quotes(updated_at)
+  `;
+}
+
+/**
+ * Initialize all database tables
+ */
+export async function initializeDatabase(): Promise<void> {
+  await initializeBriefsTable();
+  await initializeQuotesTable();
+}
+
+// ============================================
+// QUOTE OPERATIONS
+// ============================================
+
+/**
+ * Create a new quote
+ */
+export async function createQuoteRow(
+  id: string,
+  email: string,
+  selections: Record<string, unknown>,
+  contact: Record<string, unknown>
+): Promise<QuoteRow> {
+  const sql = getDb();
+  const result = await sql`
+    INSERT INTO quotes (id, email, selections, contact)
+    VALUES (${id}, ${email}, ${JSON.stringify(selections)}, ${JSON.stringify(contact)})
+    RETURNING *
+  ` as QuoteRow[];
+  
+  return result[0];
+}
+
+/**
+ * Get a quote by ID (token)
+ */
+export async function getQuoteRow(id: string): Promise<QuoteRow | null> {
+  const sql = getDb();
+  const result = await sql`
+    SELECT * FROM quotes WHERE id = ${id}
+  ` as QuoteRow[];
+  
+  return result[0] || null;
+}
+
+/**
+ * Find an in-progress quote by email
+ */
+export async function findInProgressQuoteByEmail(email: string): Promise<QuoteRow | null> {
+  const sql = getDb();
+  const result = await sql`
+    SELECT * FROM quotes 
+    WHERE email = ${email} 
+    AND status IN ('started', 'in_progress')
+    ORDER BY created_at DESC
+    LIMIT 1
+  ` as QuoteRow[];
+  
+  return result[0] || null;
+}
+
+/**
+ * Count submitted quotes for an email
+ */
+export async function countSubmittedQuotes(email: string): Promise<number> {
+  const sql = getDb();
+  const result = await sql`
+    SELECT COUNT(*) as count FROM quotes 
+    WHERE email = ${email} AND status = 'submitted'
+  ` as { count: string }[];
+  
+  return parseInt(result[0]?.count || '0', 10);
+}
+
+/**
+ * Update a quote
+ */
+export async function updateQuoteRow(
+  id: string,
+  updates: {
+    status?: string;
+    current_step?: number;
+    selections?: Record<string, unknown>;
+    contact?: Record<string, unknown>;
+    submitted_at?: Date;
+  }
+): Promise<QuoteRow | null> {
+  const sql = getDb();
+  
+  // Build dynamic update
+  const setClauses: string[] = ['updated_at = CURRENT_TIMESTAMP'];
+  
+  if (updates.status !== undefined) {
+    setClauses.push(`status = '${updates.status}'`);
+  }
+  if (updates.current_step !== undefined) {
+    setClauses.push(`current_step = ${updates.current_step}`);
+  }
+  if (updates.selections !== undefined) {
+    setClauses.push(`selections = '${JSON.stringify(updates.selections)}'::jsonb`);
+  }
+  if (updates.contact !== undefined) {
+    setClauses.push(`contact = '${JSON.stringify(updates.contact)}'::jsonb`);
+  }
+  if (updates.submitted_at !== undefined) {
+    setClauses.push(`submitted_at = CURRENT_TIMESTAMP`);
+  }
+  
+  // Use a simpler approach with individual conditional updates
+  const result = await sql`
+    UPDATE quotes SET
+      updated_at = CURRENT_TIMESTAMP,
+      status = COALESCE(${updates.status ?? null}, status),
+      current_step = COALESCE(${updates.current_step ?? null}, current_step),
+      selections = COALESCE(${updates.selections ? JSON.stringify(updates.selections) : null}::jsonb, selections),
+      contact = COALESCE(${updates.contact ? JSON.stringify(updates.contact) : null}::jsonb, contact),
+      submitted_at = CASE WHEN ${updates.submitted_at !== undefined} THEN CURRENT_TIMESTAMP ELSE submitted_at END
+    WHERE id = ${id}
+    RETURNING *
+  ` as QuoteRow[];
+  
+  return result[0] || null;
+}
+
+/**
+ * Get all quotes (for admin/analytics)
+ */
+export async function getAllQuoteRows(): Promise<QuoteRow[]> {
+  const sql = getDb();
+  const result = await sql`
+    SELECT * FROM quotes ORDER BY created_at DESC
+  `;
+  
+  return result as QuoteRow[];
+}
+
+/**
+ * Get abandoned quotes (started/in_progress and not updated recently)
+ */
+export async function getAbandonedQuoteRows(olderThanMinutes: number = 30): Promise<QuoteRow[]> {
+  const sql = getDb();
+  const result = await sql`
+    SELECT * FROM quotes 
+    WHERE status IN ('started', 'in_progress')
+    AND updated_at < NOW() - (${olderThanMinutes} * INTERVAL '1 minute')
+    ORDER BY updated_at DESC
+  `;
+  
+  return result as QuoteRow[];
 }

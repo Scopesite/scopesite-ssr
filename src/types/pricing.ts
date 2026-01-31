@@ -102,14 +102,30 @@ export interface PricingConfig {
     oneOff: {
       discount: number;   // Multiplier (e.g., 0.95 = 5% discount)
     };
+    six: {
+      markup: number;     // Multiplier (e.g., 1.03 = 3% markup)
+      ongoingMonthly: number; // Post-contract maintenance
+    };
     twelve: {
-      markup: number;     // Multiplier (e.g., 1.05 = 5% markup)
+      markup: number;     // Multiplier (e.g., 1.06 = 6% markup)
       ongoingMonthly: number; // Post-contract maintenance
     };
     twentyFour: {
-      markup: number;     // Multiplier (e.g., 1.10 = 10% markup)
+      markup: number;     // Multiplier (e.g., 1.12 = 12% markup)
       ongoingMonthly: number; // Post-contract maintenance
     };
+    thirtySix: {
+      markup: number;     // Multiplier (e.g., 1.18 = 18% markup)
+      ongoingMonthly: number; // Post-contract maintenance
+    };
+  };
+  
+  /** SSR minimum monthly payments by contract length */
+  ssrMinimums: {
+    six: number;
+    twelve: number;
+    twentyFour: number;
+    thirtySix: number;
   };
 }
 
@@ -119,15 +135,20 @@ export interface PricingConfig {
 
 export type ProjectType = 'clientManaged' | 'ssr' | 'upgrade' | 'visibility' | 'webapp';
 export type WebsiteType = 'clientManaged' | 'ssr';
-export type PaymentPreference = 'oneOff' | 'twelve' | 'twentyFour';
+export type PaymentPreference = 'oneOff' | 'six' | 'twelve' | 'twentyFour' | 'thirtySix';
 export type EcommerceSize = 'none' | 'small' | 'medium' | 'large';
 export type HeadlessEcommerceType = 'none' | 'shopify' | 'snipcart' | 'custom';
 export type WebAppSize = 'none' | 'simple' | 'standard' | 'complex';
 export type SSRWebAppSize = 'none' | 'simple' | 'complex';
 
+export type UpgradeTargetType = 'clientManaged' | 'ssr';
+
 export interface QuoteRequest {
   /** Step 1: Project Type */
   projectType: ProjectType;
+  
+  /** For 'upgrade' projects: what type are they upgrading to? */
+  upgradeTargetType?: UpgradeTargetType;
   
   /** Step 2: Scope */
   scope: {
@@ -214,12 +235,22 @@ export interface QuoteBreakdown {
       discount: number;
       final: number;
     };
+    six: {
+      monthly: number;
+      totalOverTerm: number;
+      ongoingAfter: number;
+    };
     twelve: {
       monthly: number;
       totalOverTerm: number;
       ongoingAfter: number;
     };
     twentyFour: {
+      monthly: number;
+      totalOverTerm: number;
+      ongoingAfter: number;
+    };
+    thirtySix: {
       monthly: number;
       totalOverTerm: number;
       ongoingAfter: number;

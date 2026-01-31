@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Check, ChevronLeft, ChevronRight, Loader2, Calendar, Rocket, Globe, Zap, Star, Sparkles } from 'lucide-react';
+import { Check, ChevronLeft, ChevronRight, ChevronDown, Loader2, Calendar, Rocket, Globe, Zap, Star, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -29,6 +29,7 @@ import type {
   HeadlessEcommerceType,
   WebAppSize,
   SSRWebAppSize,
+  UpgradeTargetType,
   QuoteRequest,
   ContactInfo,
   QuoteBreakdown,
@@ -90,6 +91,7 @@ const initialRequest: Partial<QuoteRequest> = {
 export function QuoteCalculator() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const quoteRef = useRef<HTMLDivElement>(null);
   
   const [currentStep, setCurrentStep] = useState(1);
   const [request, setRequest] = useState<Partial<QuoteRequest>>(initialRequest);
@@ -222,6 +224,10 @@ export function QuoteCalculator() {
       case 1:
         return contact.email.trim() !== '' && isValidEmail(contact.email);
       case 2:
+        // For upgrade projects, also require upgradeTargetType
+        if (request.projectType === 'upgrade') {
+          return !!request.upgradeTargetType;
+        }
         return !!request.projectType;
       case 3:
         return true;
@@ -236,9 +242,21 @@ export function QuoteCalculator() {
     }
   }, [currentStep, request, contact]);
 
+  // Scroll to top of component when step changes
+  const scrollToTop = useCallback(() => {
+    setTimeout(() => {
+      quoteRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  }, []);
+
   const goNext = async () => {
     if (currentStep < STEPS.length && canGoNext()) {
-      const nextStep = currentStep + 1;
+      let nextStep = currentStep + 1;
+
+      // Skip add-ons step for visibility-only projects
+      if (currentStep === 3 && request.projectType === 'visibility') {
+        nextStep = 5; // Skip to payment step
+      }
 
       if (currentStep === 1 && !quoteToken) {
         try {
@@ -260,6 +278,7 @@ export function QuoteCalculator() {
               }
               if (data.currentStep > 2) {
                 setCurrentStep(data.currentStep);
+                scrollToTop();
                 return;
               }
             }
@@ -275,12 +294,19 @@ export function QuoteCalculator() {
       }
 
       setCurrentStep(nextStep);
+      scrollToTop();
     }
   };
 
   const goBack = () => {
     if (currentStep > 1) {
-      const prevStep = currentStep - 1;
+      let prevStep = currentStep - 1;
+      
+      // Skip add-ons step when going back for visibility-only projects
+      if (currentStep === 5 && request.projectType === 'visibility') {
+        prevStep = 3; // Skip back over add-ons to scope
+      }
+      
       if (prevStep === 1 && quoteToken) {
         return;
       }
@@ -288,6 +314,7 @@ export function QuoteCalculator() {
         saveProgress(prevStep);
       }
       setCurrentStep(prevStep);
+      scrollToTop();
     }
   };
 
@@ -476,7 +503,7 @@ export function QuoteCalculator() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div ref={quoteRef} className="max-w-4xl mx-auto scroll-mt-4">
       {/* Progress Header */}
       <div className="mb-8">
         <Progress value={progress} className="h-2 mb-6" />
@@ -568,6 +595,18 @@ export function QuoteCalculator() {
                 if (value === 'ssr') {
                   updateScope({ pageCount: 5, hasBlog: true }); // Blog included with SSR
                 }
+                // Clear upgradeTargetType if not an upgrade project
+                if (value !== 'upgrade') {
+                  updateRequest({ upgradeTargetType: undefined });
+                }
+              }}
+              upgradeTargetType={request.upgradeTargetType}
+              onUpgradeTargetChange={(value) => {
+                updateRequest({ upgradeTargetType: value });
+                // Apply SSR defaults if upgrading to SSR
+                if (value === 'ssr') {
+                  updateScope({ pageCount: 5, hasBlog: true });
+                }
               }}
             />
           )}
@@ -583,6 +622,7 @@ export function QuoteCalculator() {
           {currentStep === 4 && (
             <StepAddOns
               projectType={request.projectType!}
+              upgradeTargetType={request.upgradeTargetType}
               addOns={request.addOns!}
               onChange={updateAddOns}
             />
@@ -760,15 +800,18 @@ function StepGetStarted({ email, onChange }: StepGetStartedProps) {
 interface StepProjectTypeProps {
   value?: ProjectType;
   onChange: (value: ProjectType) => void;
+  upgradeTargetType?: UpgradeTargetType;
+  onUpgradeTargetChange: (value: UpgradeTargetType) => void;
 }
 
-function StepProjectType({ value, onChange }: StepProjectTypeProps) {
+function StepProjectType({ value, onChange, upgradeTargetType, onUpgradeTargetChange }: StepProjectTypeProps) {
   const websiteOptions: { 
     value: ProjectType; 
     label: string; 
     tagline: string;
     description: string;
     badge?: string;
+    includedBadge?: string;
     recommended?: boolean;
     icon: typeof Globe;
   }[] = [
@@ -786,6 +829,7 @@ function StepProjectType({ value, onChange }: StepProjectTypeProps) {
       tagline: 'Maximum AI visibility',
       description: 'Server-Side Rendered on Next.js. Auto-generated schema on every page. 100/100 Lighthouse scores. AI crawlers see your full content instantly.',
       badge: '99+ Lighthouse Mobile',
+      includedBadge: 'Includes V.O.I.C.E™ AI Visibility (worth £562/mo)',
       recommended: true,
       icon: Rocket,
     },
@@ -861,6 +905,11 @@ function StepProjectType({ value, onChange }: StepProjectTypeProps) {
                         {option.badge}
                       </span>
                     )}
+                    {option.includedBadge && (
+                      <span className="inline-block mt-2 ml-2 text-xs font-medium px-2 py-1 rounded bg-brand-gold/20 text-brand-gold">
+                        {option.includedBadge}
+                      </span>
+                    )}
                   </div>
                 </div>
               </label>
@@ -896,6 +945,63 @@ function StepProjectType({ value, onChange }: StepProjectTypeProps) {
           </div>
         </RadioGroup>
       </div>
+
+      {/* Sub-question for Upgrade projects */}
+      {value === 'upgrade' && (
+        <div className="mt-6 p-4 bg-brand-gold/5 border border-brand-gold/20 rounded-xl">
+          <Label className="text-body font-bold text-brand-navy mb-3 block">
+            What type of website are you upgrading to?
+          </Label>
+          <p className="text-body-sm text-brand-graphite mb-4">
+            This determines which features and add-ons will be available. The 40% discount applies to your chosen type.
+          </p>
+          <RadioGroup 
+            value={upgradeTargetType} 
+            onValueChange={(v) => onUpgradeTargetChange(v as UpgradeTargetType)}
+          >
+            <div className="grid md:grid-cols-2 gap-4">
+              <label
+                className={cn(
+                  'flex items-start gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all',
+                  upgradeTargetType === 'clientManaged'
+                    ? 'border-brand-gold bg-brand-gold/10'
+                    : 'border-brand-graphite/20 hover:border-brand-gold/50 bg-white'
+                )}
+              >
+                <RadioGroupItem value="clientManaged" className="mt-1" />
+                <div>
+                  <div className="flex items-center gap-2">
+                    <Globe className="w-4 h-4 text-brand-navy" />
+                    <span className="font-bold text-brand-navy">Client-Managed (Wix Studio)</span>
+                  </div>
+                  <p className="text-body-sm text-brand-graphite mt-1">
+                    Easy to edit yourself. Great performance.
+                  </p>
+                </div>
+              </label>
+              <label
+                className={cn(
+                  'flex items-start gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all',
+                  upgradeTargetType === 'ssr'
+                    ? 'border-brand-gold bg-brand-gold/10'
+                    : 'border-brand-graphite/20 hover:border-brand-gold/50 bg-white'
+                )}
+              >
+                <RadioGroupItem value="ssr" className="mt-1" />
+                <div>
+                  <div className="flex items-center gap-2">
+                    <Rocket className="w-4 h-4 text-brand-gold" />
+                    <span className="font-bold text-brand-navy">SSR AI-First (Next.js)</span>
+                  </div>
+                  <p className="text-body-sm text-brand-graphite mt-1">
+                    Maximum AI visibility. Includes V.O.I.C.E™.
+                  </p>
+                </div>
+              </label>
+            </div>
+          </RadioGroup>
+        </div>
+      )}
     </div>
   );
 }
@@ -1169,208 +1275,303 @@ function StepScope({ projectType, scope, onChange }: StepScopeProps) {
 }
 
 // ============================================
-// STEP 4: ADD-ONS (UPDATED FOR SSR)
+// STEP 4: ADD-ONS (REFACTORED WITH ACCORDIONS)
 // ============================================
 
 interface StepAddOnsProps {
   projectType: ProjectType;
+  upgradeTargetType?: UpgradeTargetType;
   addOns: QuoteRequest['addOns'];
   onChange: (updates: Partial<QuoteRequest['addOns']>) => void;
 }
 
-function StepAddOns({ projectType, addOns, onChange }: StepAddOnsProps) {
-  const isSSR = projectType === 'ssr';
+// Collapsible Section Component
+function AddOnSection({ 
+  title, 
+  isOpen, 
+  onToggle, 
+  children,
+  selectedCount,
+  selectedTotal,
+}: { 
+  title: string; 
+  isOpen: boolean; 
+  onToggle: () => void; 
+  children: React.ReactNode;
+  selectedCount: number;
+  selectedTotal: number;
+}) {
+  return (
+    <div className="border border-brand-graphite/20 rounded-xl overflow-hidden">
+      <button
+        type="button"
+        onClick={onToggle}
+        className="w-full flex items-center justify-between p-4 bg-brand-navy/5 hover:bg-brand-navy/10 transition-colors"
+      >
+        <span className="font-bold text-brand-navy">{title}</span>
+        <div className="flex items-center gap-3">
+          {selectedCount > 0 && (
+            <span className="text-sm text-brand-gold font-medium">
+              {selectedCount} selected — {formatCurrency(selectedTotal)} added
+            </span>
+          )}
+          <ChevronDown className={cn(
+            "w-5 h-5 text-brand-graphite transition-transform",
+            isOpen && "rotate-180"
+          )} />
+        </div>
+      </button>
+      {isOpen && (
+        <div className="p-4 space-y-4 bg-white">
+          {children}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function StepAddOns({ projectType, upgradeTargetType, addOns, onChange }: StepAddOnsProps) {
+  // For upgrade projects, use the target type to determine features
+  const effectiveType = projectType === 'upgrade' && upgradeTargetType ? upgradeTargetType : projectType;
+  
+  const isSSR = effectiveType === 'ssr';
+  const isWebApp = projectType === 'webapp';
+  const isClientManaged = effectiveType === 'clientManaged';
+  const isUpgrade = projectType === 'upgrade';
+  const isUpgradeToSSR = isUpgrade && upgradeTargetType === 'ssr';
+  
+  // Show technical add-ons for SSR, webapp, or upgrade-to-SSR
+  const showTechnical = isSSR || isWebApp;
+  // Show V.O.I.C.E as add-on for non-SSR (clientManaged, upgrade-to-clientManaged)
+  const showOngoingServices = isClientManaged && !isUpgradeToSSR;
+  const showContent = isClientManaged || isSSR || isUpgrade;
+
+  // Accordion state
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({
+    technical: false,
+    branding: true,
+    content: false,
+    ongoing: true,
+  });
+
+  const toggleSection = (section: string) => {
+    setOpenSections(prev => ({ ...prev, [section]: !prev[section] }));
+  };
+
+  // Calculate selected counts and totals for each section
+  const technicalSelected = [
+    addOns.ssrAnimations && PRICING_CONFIG.ssrAddOns.animations,
+    addOns.ssrCustomerPortal && PRICING_CONFIG.ssrAddOns.customerPortal,
+    addOns.ssrDatabase && PRICING_CONFIG.ssrAddOns.database,
+    addOns.ssrAuthentication && PRICING_CONFIG.ssrAddOns.authentication,
+    (addOns.ssrApiIntegrations || 0) * PRICING_CONFIG.ssrAddOns.apiIntegration,
+    addOns.ssrMultilanguage && PRICING_CONFIG.ssrAddOns.multilanguage,
+    addOns.ssrRealtime && PRICING_CONFIG.ssrAddOns.realtime,
+    addOns.ssrAnalytics && PRICING_CONFIG.ssrAddOns.analytics,
+    addOns.ssrScalability && PRICING_CONFIG.ssrAddOns.scalability,
+  ].filter(Boolean);
+  const technicalCount = technicalSelected.length - (addOns.ssrApiIntegrations ? 1 : 0) + (addOns.ssrApiIntegrations || 0);
+  const technicalTotal = technicalSelected.reduce((sum, val) => sum + (typeof val === 'number' ? val : 0), 0);
+
+  const brandingSelected = [
+    addOns.branding && PRICING_CONFIG.addOns.branding,
+    addOns.research && PRICING_CONFIG.addOns.research,
+  ].filter(Boolean);
+  const brandingCount = brandingSelected.length;
+  const brandingTotal = brandingSelected.reduce((sum, val) => sum + (typeof val === 'number' ? val : 0), 0);
+
+  const contentSelected = [
+    (addOns.videoLong || 0) * PRICING_CONFIG.addOns.videoLong,
+    addOns.videoShortBundle && PRICING_CONFIG.addOns.videoShortBundle,
+    addOns.imageLibrary && PRICING_CONFIG.addOns.imageLibrary,
+  ].filter(Boolean);
+  const contentCount = (addOns.videoLong || 0) + (addOns.videoShortBundle ? 1 : 0) + (addOns.imageLibrary ? 1 : 0);
+  const contentTotal = contentSelected.reduce((sum, val) => sum + (typeof val === 'number' ? val : 0), 0);
+
+  const ongoingCount = addOns.voice ? 1 : 0;
+  const ongoingTotal = addOns.voice ? PRICING_CONFIG.addOns.voice : 0;
 
   return (
-    <div className="space-y-8">
-      {/* SSR-Specific Add-ons */}
+    <div className="space-y-4">
+      {/* V.O.I.C.E Included Notice for SSR */}
       {isSSR && (
-        <div>
-          <div className="flex items-center gap-2 mb-4">
-            <Rocket className="w-5 h-5 text-brand-gold" />
-            <Label className="text-body font-bold text-brand-navy">SSR Enhancements</Label>
-          </div>
-          <div className="space-y-4">
-            <SSRAddOnCheckbox
-              label="Premium Animations Package"
-              description={PRICING_LABELS.ssrAddOnDescriptions.animations}
-              price={PRICING_CONFIG.ssrAddOns.animations}
-              marketAverage={PRICING_CONFIG.ssrAddOnsMarket.animations}
-              checked={addOns.ssrAnimations}
-              onChange={(checked) => onChange({ ssrAnimations: checked })}
-            />
-            <SSRAddOnCheckbox
-              label="Client Customer Portal"
-              description={PRICING_LABELS.ssrAddOnDescriptions.customerPortal}
-              price={PRICING_CONFIG.ssrAddOns.customerPortal}
-              marketAverage={PRICING_CONFIG.ssrAddOnsMarket.customerPortal}
-              checked={addOns.ssrCustomerPortal}
-              onChange={(checked) => onChange({ ssrCustomerPortal: checked })}
-            />
-            <SSRAddOnCheckbox
-              label="PostgreSQL Database"
-              description={PRICING_LABELS.ssrAddOnDescriptions.database}
-              price={PRICING_CONFIG.ssrAddOns.database}
-              marketAverage={PRICING_CONFIG.ssrAddOnsMarket.database}
-              checked={addOns.ssrDatabase}
-              onChange={(checked) => onChange({ ssrDatabase: checked })}
-            />
-            <SSRAddOnCheckbox
-              label="User Authentication System"
-              description={PRICING_LABELS.ssrAddOnDescriptions.authentication}
-              price={PRICING_CONFIG.ssrAddOns.authentication}
-              marketAverage={PRICING_CONFIG.ssrAddOnsMarket.authentication}
-              checked={addOns.ssrAuthentication}
-              onChange={(checked) => onChange({ ssrAuthentication: checked })}
-            />
-
-            {/* API Integrations - Quantity selector */}
-            <div
-              className={cn(
-                'p-4 rounded-lg border-2 transition-all',
-                (addOns.ssrApiIntegrations || 0) > 0
-                  ? 'border-brand-gold bg-brand-gold/5'
-                  : 'border-brand-graphite/20'
-              )}
-            >
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1">
-                  <div className="font-bold text-brand-navy">API Integrations</div>
-                  <p className="text-body-sm text-brand-graphite mt-1">
-                    {PRICING_LABELS.ssrAddOnDescriptions.apiIntegration}
-                  </p>
-                  <div className="flex items-center gap-4 mt-2">
-                    <span className="text-brand-gold font-bold">
-                      {formatCurrency(PRICING_CONFIG.ssrAddOns.apiIntegration)} each
-                    </span>
-                    <span className="text-body-sm text-brand-graphite line-through">
-                      UK avg: {formatCurrency(PRICING_CONFIG.ssrAddOnsMarket.apiIntegration)}
-                    </span>
-                    <span className="text-body-sm text-green-600">
-                      Save {formatCurrency(PRICING_CONFIG.ssrAddOnsMarket.apiIntegration - PRICING_CONFIG.ssrAddOns.apiIntegration)} each
-                    </span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => onChange({ ssrApiIntegrations: Math.max(0, (addOns.ssrApiIntegrations || 0) - 1) })}
-                    disabled={(addOns.ssrApiIntegrations || 0) === 0}
-                    className="h-8 w-8 p-0"
-                  >
-                    -
-                  </Button>
-                  <span className="w-8 text-center font-bold">{addOns.ssrApiIntegrations || 0}</span>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => onChange({ ssrApiIntegrations: Math.min(10, (addOns.ssrApiIntegrations || 0) + 1) })}
-                    disabled={(addOns.ssrApiIntegrations || 0) === 10}
-                    className="h-8 w-8 p-0"
-                  >
-                    +
-                  </Button>
-                </div>
-              </div>
+        <div className="bg-brand-gold/10 border border-brand-gold/30 rounded-xl p-4 mb-6">
+          <div className="flex items-center gap-3">
+            <Sparkles className="w-5 h-5 text-brand-gold" />
+            <div>
+              <span className="font-bold text-brand-navy">V.O.I.C.E™ AI Visibility</span>
+              <span className="text-brand-gold ml-2 text-sm font-medium">Included with your SSR website</span>
             </div>
-
-            <SSRAddOnCheckbox
-              label="Multi-language / i18n"
-              description={PRICING_LABELS.ssrAddOnDescriptions.multilanguage}
-              price={PRICING_CONFIG.ssrAddOns.multilanguage}
-              marketAverage={PRICING_CONFIG.ssrAddOnsMarket.multilanguage}
-              checked={addOns.ssrMultilanguage}
-              onChange={(checked) => onChange({ ssrMultilanguage: checked })}
-            />
-            <SSRAddOnCheckbox
-              label="Real-time Features"
-              description={PRICING_LABELS.ssrAddOnDescriptions.realtime}
-              price={PRICING_CONFIG.ssrAddOns.realtime}
-              marketAverage={PRICING_CONFIG.ssrAddOnsMarket.realtime}
-              checked={addOns.ssrRealtime}
-              onChange={(checked) => onChange({ ssrRealtime: checked })}
-            />
-            <SSRAddOnCheckbox
-              label="Custom Analytics Dashboard"
-              description={PRICING_LABELS.ssrAddOnDescriptions.analytics}
-              price={PRICING_CONFIG.ssrAddOns.analytics}
-              marketAverage={PRICING_CONFIG.ssrAddOnsMarket.analytics}
-              checked={addOns.ssrAnalytics}
-              onChange={(checked) => onChange({ ssrAnalytics: checked })}
-            />
-            <SSRAddOnCheckbox
-              label="Enterprise Scalability"
-              description={PRICING_LABELS.ssrAddOnDescriptions.scalability}
-              price={PRICING_CONFIG.ssrAddOns.scalability}
-              marketAverage={PRICING_CONFIG.ssrAddOnsMarket.scalability}
-              checked={addOns.ssrScalability}
-              onChange={(checked) => onChange({ ssrScalability: checked })}
-            />
           </div>
+          <p className="text-sm text-brand-navy/70 mt-2 ml-8">
+            Get found by ChatGPT, Claude, Perplexity + traditional SEO — worth £562/mo, included in your base price.
+          </p>
         </div>
       )}
 
-      {/* Common Add-ons for all types */}
-      <div>
-        {isSSR && <Separator className="my-6" />}
-        <Label className="text-body font-bold text-brand-navy mb-4 block">
-          {isSSR ? 'Additional Services' : 'Enhance Your Project'}
-        </Label>
-        <div className="space-y-4">
-          {/* V.O.I.C.E™ */}
+      {/* Technical Enhancements (SSR/WebApp only) */}
+      {showTechnical && (
+        <AddOnSection
+          title="Technical Enhancements"
+          isOpen={openSections.technical}
+          onToggle={() => toggleSection('technical')}
+          selectedCount={technicalCount}
+          selectedTotal={technicalTotal}
+        >
+          <SSRAddOnCheckbox
+            label={PRICING_LABELS.ssrAddOns.animations}
+            description={PRICING_LABELS.ssrAddOnDescriptions.animations}
+            price={PRICING_CONFIG.ssrAddOns.animations}
+            marketAverage={PRICING_CONFIG.ssrAddOnsMarket.animations}
+            checked={addOns.ssrAnimations}
+            onChange={(checked) => onChange({ ssrAnimations: checked })}
+          />
+          <SSRAddOnCheckbox
+            label={PRICING_LABELS.ssrAddOns.customerPortal}
+            description={PRICING_LABELS.ssrAddOnDescriptions.customerPortal}
+            price={PRICING_CONFIG.ssrAddOns.customerPortal}
+            marketAverage={PRICING_CONFIG.ssrAddOnsMarket.customerPortal}
+            checked={addOns.ssrCustomerPortal}
+            onChange={(checked) => onChange({ ssrCustomerPortal: checked })}
+          />
+          <SSRAddOnCheckbox
+            label={PRICING_LABELS.ssrAddOns.database}
+            description={PRICING_LABELS.ssrAddOnDescriptions.database}
+            price={PRICING_CONFIG.ssrAddOns.database}
+            marketAverage={PRICING_CONFIG.ssrAddOnsMarket.database}
+            checked={addOns.ssrDatabase}
+            onChange={(checked) => onChange({ ssrDatabase: checked })}
+          />
+          <SSRAddOnCheckbox
+            label={PRICING_LABELS.ssrAddOns.authentication}
+            description={PRICING_LABELS.ssrAddOnDescriptions.authentication}
+            price={PRICING_CONFIG.ssrAddOns.authentication}
+            marketAverage={PRICING_CONFIG.ssrAddOnsMarket.authentication}
+            checked={addOns.ssrAuthentication}
+            onChange={(checked) => onChange({ ssrAuthentication: checked })}
+          />
+          
+          {/* Connect Your Tools - Quantity selector */}
           <div
             className={cn(
               'p-4 rounded-lg border-2 transition-all',
-              addOns.voice || projectType === 'visibility'
+              (addOns.ssrApiIntegrations || 0) > 0
                 ? 'border-brand-gold bg-brand-gold/5'
                 : 'border-brand-graphite/20'
             )}
           >
-            <label className="flex items-start gap-3 cursor-pointer">
-              <Checkbox
-                checked={addOns.voice || projectType === 'visibility'}
-                onCheckedChange={(checked) => onChange({ voice: checked as boolean })}
-                disabled={projectType === 'visibility'}
-              />
+            <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
-                <div className="flex items-center gap-2">
-                  <span className="font-bold text-brand-navy">V.O.I.C.E™ AI Visibility</span>
-                  <span className="badge-gold text-xs">Popular</span>
-                </div>
+                <div className="font-bold text-brand-navy">{PRICING_LABELS.ssrAddOns.apiIntegration}</div>
                 <p className="text-body-sm text-brand-graphite mt-1">
-                  Get found by ChatGPT, Claude, Perplexity + traditional SEO
+                  {PRICING_LABELS.ssrAddOnDescriptions.apiIntegration}
                 </p>
-                <div className="flex items-center gap-4 mt-2">
+                <div className="flex flex-wrap items-center gap-4 mt-2">
                   <span className="text-brand-gold font-bold">
-                    {formatCurrency(PRICING_CONFIG.addOns.voice)}/mo
+                    {formatCurrency(PRICING_CONFIG.ssrAddOns.apiIntegration)} each
                   </span>
                   <span className="text-body-sm text-brand-graphite line-through">
-                    UK avg: {formatCurrency(750)}/mo
+                    UK avg: {formatCurrency(PRICING_CONFIG.ssrAddOnsMarket.apiIntegration)}
+                  </span>
+                  <span className="text-body-sm text-green-600">
+                    Save {formatCurrency(PRICING_CONFIG.ssrAddOnsMarket.apiIntegration - PRICING_CONFIG.ssrAddOns.apiIntegration)} each
                   </span>
                 </div>
               </div>
-            </label>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => onChange({ ssrApiIntegrations: Math.max(0, (addOns.ssrApiIntegrations || 0) - 1) })}
+                  disabled={(addOns.ssrApiIntegrations || 0) === 0}
+                  className="h-8 w-8 p-0"
+                >
+                  -
+                </Button>
+                <span className="w-8 text-center font-bold">{addOns.ssrApiIntegrations || 0}</span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => onChange({ ssrApiIntegrations: Math.min(10, (addOns.ssrApiIntegrations || 0) + 1) })}
+                  disabled={(addOns.ssrApiIntegrations || 0) === 10}
+                  className="h-8 w-8 p-0"
+                >
+                  +
+                </Button>
+              </div>
+            </div>
           </div>
 
-          <AddOnCheckbox
-            label="Full Branding Package"
-            description="Logo, brand guidelines, colours, typography, social templates"
-            price={PRICING_CONFIG.addOns.branding}
-            marketAverage={6500}
-            checked={addOns.branding}
-            onChange={(checked) => onChange({ branding: checked })}
+          <SSRAddOnCheckbox
+            label={PRICING_LABELS.ssrAddOns.multilanguage}
+            description={PRICING_LABELS.ssrAddOnDescriptions.multilanguage}
+            price={PRICING_CONFIG.ssrAddOns.multilanguage}
+            marketAverage={PRICING_CONFIG.ssrAddOnsMarket.multilanguage}
+            checked={addOns.ssrMultilanguage}
+            onChange={(checked) => onChange({ ssrMultilanguage: checked })}
           />
-
-          <AddOnCheckbox
-            label="Market Research + Persona"
-            description="Competitor analysis, market mapping, customer persona development"
-            price={PRICING_CONFIG.addOns.research}
-            marketAverage={4500}
-            checked={addOns.research}
-            onChange={(checked) => onChange({ research: checked })}
+          <SSRAddOnCheckbox
+            label={PRICING_LABELS.ssrAddOns.realtime}
+            description={PRICING_LABELS.ssrAddOnDescriptions.realtime}
+            price={PRICING_CONFIG.ssrAddOns.realtime}
+            marketAverage={PRICING_CONFIG.ssrAddOnsMarket.realtime}
+            checked={addOns.ssrRealtime}
+            onChange={(checked) => onChange({ ssrRealtime: checked })}
           />
+          <SSRAddOnCheckbox
+            label={PRICING_LABELS.ssrAddOns.analytics}
+            description={PRICING_LABELS.ssrAddOnDescriptions.analytics}
+            price={PRICING_CONFIG.ssrAddOns.analytics}
+            marketAverage={PRICING_CONFIG.ssrAddOnsMarket.analytics}
+            checked={addOns.ssrAnalytics}
+            onChange={(checked) => onChange({ ssrAnalytics: checked })}
+          />
+          <SSRAddOnCheckbox
+            label={PRICING_LABELS.ssrAddOns.scalability}
+            description={PRICING_LABELS.ssrAddOnDescriptions.scalability}
+            price={PRICING_CONFIG.ssrAddOns.scalability}
+            marketAverage={PRICING_CONFIG.ssrAddOnsMarket.scalability}
+            checked={addOns.ssrScalability}
+            onChange={(checked) => onChange({ ssrScalability: checked })}
+          />
+        </AddOnSection>
+      )}
 
+      {/* Branding & Strategy */}
+      <AddOnSection
+        title="Branding & Strategy"
+        isOpen={openSections.branding}
+        onToggle={() => toggleSection('branding')}
+        selectedCount={brandingCount}
+        selectedTotal={brandingTotal}
+      >
+        <AddOnCheckbox
+          label="Full Branding Package"
+          description="Logo, brand guidelines, colours, typography, social templates"
+          price={PRICING_CONFIG.addOns.branding}
+          marketAverage={6500}
+          checked={addOns.branding}
+          onChange={(checked) => onChange({ branding: checked })}
+        />
+        <AddOnCheckbox
+          label="Market Research + Persona"
+          description="Competitor analysis, market mapping, customer persona development"
+          price={PRICING_CONFIG.addOns.research}
+          marketAverage={4500}
+          checked={addOns.research}
+          onChange={(checked) => onChange({ research: checked })}
+        />
+      </AddOnSection>
+
+      {/* Content & Media */}
+      {showContent && (
+        <AddOnSection
+          title="Content & Media"
+          isOpen={openSections.content}
+          onToggle={() => toggleSection('content')}
+          selectedCount={contentCount}
+          selectedTotal={contentTotal}
+        >
           {/* Video Long-form */}
           <div
             className={cn(
@@ -1437,8 +1638,55 @@ function StepAddOns({ projectType, addOns, onChange }: StepAddOnsProps) {
             checked={addOns.imageLibrary}
             onChange={(checked) => onChange({ imageLibrary: checked })}
           />
-        </div>
-      </div>
+        </AddOnSection>
+      )}
+
+      {/* Ongoing Services (V.O.I.C.E for non-SSR) */}
+      {showOngoingServices && (
+        <AddOnSection
+          title="Ongoing Services"
+          isOpen={openSections.ongoing}
+          onToggle={() => toggleSection('ongoing')}
+          selectedCount={ongoingCount}
+          selectedTotal={ongoingTotal}
+        >
+          <div
+            className={cn(
+              'p-4 rounded-lg border-2 transition-all',
+              addOns.voice
+                ? 'border-brand-gold bg-brand-gold/5'
+                : 'border-brand-graphite/20'
+            )}
+          >
+            <label className="flex items-start gap-3 cursor-pointer">
+              <Checkbox
+                checked={addOns.voice}
+                onCheckedChange={(checked) => onChange({ voice: checked as boolean })}
+              />
+              <div className="flex-1">
+                <div className="flex items-center gap-2">
+                  <span className="font-bold text-brand-navy">V.O.I.C.E™ AI Visibility</span>
+                  <span className="bg-brand-gold text-brand-navy text-xs font-bold px-2 py-0.5 rounded">RECOMMENDED</span>
+                </div>
+                <p className="text-body-sm text-brand-graphite mt-1">
+                  Get found by ChatGPT, Claude, Perplexity + traditional SEO
+                </p>
+                <div className="flex items-center gap-4 mt-2">
+                  <span className="text-brand-gold font-bold">
+                    {formatCurrency(PRICING_CONFIG.addOns.voice)}/mo
+                  </span>
+                  <span className="text-body-sm text-brand-graphite line-through">
+                    UK avg: {formatCurrency(750)}/mo
+                  </span>
+                  <span className="text-body-sm text-green-600">
+                    Save {formatCurrency(750 - PRICING_CONFIG.addOns.voice)}/mo
+                  </span>
+                </div>
+              </div>
+            </label>
+          </div>
+        </AddOnSection>
+      )}
     </div>
   );
 }
@@ -1551,11 +1799,29 @@ interface StepPaymentProps {
 }
 
 function StepPayment({ value, onChange, breakdown, isSSR }: StepPaymentProps) {
-  const options: { value: PaymentPreference; label: string; badge?: string }[] = [
-    { value: 'oneOff', label: 'One-Off Payment', badge: '5% OFF' },
-    { value: 'twelve', label: '12-Month Contract' },
-    { value: 'twentyFour', label: '24-Month Contract', badge: 'Best Value' },
+  const options: { value: PaymentPreference; label: string; badge?: string; reassurance?: string }[] = [
+    { value: 'oneOff', label: 'Pay in Full', badge: '5% OFF' },
+    { value: 'six', label: '6-Month Contract' },
+    { value: 'twelve', label: '12-Month Contract', badge: 'MOST POPULAR' },
+    { value: 'twentyFour', label: '24-Month Contract' },
+    { value: 'thirtySix', label: '36-Month Contract', badge: 'Best Value', reassurance: 'Lock in today\'s prices — no increases during your term' },
   ];
+
+  // Get totals for each option
+  const getTotals = (optionValue: PaymentPreference) => {
+    switch (optionValue) {
+      case 'oneOff':
+        return breakdown.totals.oneOff;
+      case 'six':
+        return breakdown.totals.six;
+      case 'twelve':
+        return breakdown.totals.twelve;
+      case 'twentyFour':
+        return breakdown.totals.twentyFour;
+      case 'thirtySix':
+        return breakdown.totals.thirtySix;
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -1566,81 +1832,77 @@ function StepPayment({ value, onChange, breakdown, isSSR }: StepPaymentProps) {
       {isSSR && (
         <div className="bg-brand-gold/10 rounded-lg p-4 border border-brand-gold/20">
           <p className="text-sm text-brand-navy">
-            <strong>SSR Project Minimums:</strong> 12-month min £750/mo • 24-month min £400/mo
+            <strong>SSR Project Minimums:</strong> 6-month min £1,200/mo • 12-month min £750/mo • 24-month min £400/mo • 36-month min £300/mo
           </p>
         </div>
       )}
 
-      <div className="grid md:grid-cols-3 gap-4">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
         {options.map((option) => {
           const isSelected = value === option.value;
+          const totals = getTotals(option.value);
 
           return (
             <div
               key={option.value}
               onClick={() => onChange(option.value)}
               className={cn(
-                'relative p-6 rounded-lg border-2 cursor-pointer transition-all',
+                'relative p-4 rounded-lg border-2 cursor-pointer transition-all',
                 isSelected
-                  ? 'border-brand-gold bg-brand-gold/5'
+                  ? 'border-brand-gold bg-brand-gold/5 shadow-lg'
                   : 'border-brand-graphite/20 hover:border-brand-gold/50'
               )}
             >
               {option.badge && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 badge-gold text-xs">
+                <span className={cn(
+                  "absolute -top-3 left-1/2 -translate-x-1/2 text-xs font-bold px-2 py-1 rounded-full whitespace-nowrap",
+                  option.badge === 'MOST POPULAR' 
+                    ? "bg-brand-gold text-brand-navy"
+                    : "bg-brand-navy text-white"
+                )}>
                   {option.badge}
                 </span>
               )}
               <RadioGroup value={value} onValueChange={(v) => onChange(v as PaymentPreference)}>
-                <div className="flex items-center gap-2 mb-4">
+                <div className="flex items-center gap-2 mb-3">
                   <RadioGroupItem value={option.value} />
-                  <span className="font-bold text-brand-navy">{option.label}</span>
+                  <span className="font-bold text-brand-navy text-sm">{option.label}</span>
                 </div>
               </RadioGroup>
 
-              {option.value === 'oneOff' && (
-                <div className="space-y-2">
-                  <div className="text-h3 text-brand-gold font-headline">
+              {option.value === 'oneOff' ? (
+                <div className="space-y-1">
+                  <div className="text-xl text-brand-gold font-headline font-bold">
                     {formatCurrency(breakdown.totals.oneOff.final)}
                   </div>
-                  <div className="text-body-sm text-brand-graphite">
+                  <div className="text-xs text-brand-graphite">
                     <span className="line-through">{formatCurrency(breakdown.totals.oneOff.upfront)}</span>
-                    <span className="text-green-600 ml-2">
-                      Save {formatCurrency(breakdown.totals.oneOff.discount)}
-                    </span>
+                  </div>
+                  <div className="text-xs text-green-600">
+                    Save {formatCurrency(breakdown.totals.oneOff.discount)}
                   </div>
                   {breakdown.monthlySubtotal > 0 && (
-                    <div className="text-body-sm text-brand-graphite">
-                      + {formatCurrency(breakdown.monthlySubtotal)}/mo for services
+                    <div className="text-xs text-brand-graphite pt-1">
+                      + {formatCurrency(breakdown.monthlySubtotal)}/mo services
                     </div>
                   )}
                 </div>
-              )}
-              {option.value === 'twelve' && (
-                <div className="space-y-2">
-                  <div className="text-h3 text-brand-gold font-headline">
-                    {formatCurrency(breakdown.totals.twelve.monthly)}<span className="text-body">/mo</span>
+              ) : (
+                <div className="space-y-1">
+                  <div className="text-xl text-brand-gold font-headline font-bold">
+                    {formatCurrency((totals as { monthly: number }).monthly)}<span className="text-sm font-normal">/mo</span>
                   </div>
-                  <div className="text-body-sm text-brand-graphite">
-                    Total: {formatCurrency(breakdown.totals.twelve.totalOverTerm)}
+                  <div className="text-xs text-brand-graphite">
+                    Total: {formatCurrency((totals as { totalOverTerm: number }).totalOverTerm)}
                   </div>
-                  <div className="text-body-sm text-brand-graphite">
-                    Then {formatCurrency(breakdown.totals.twelve.ongoingAfter)}/mo after
-                  </div>
-                </div>
-              )}
-              {option.value === 'twentyFour' && (
-                <div className="space-y-2">
-                  <div className="text-h3 text-brand-gold font-headline">
-                    {formatCurrency(breakdown.totals.twentyFour.monthly)}<span className="text-body">/mo</span>
-                  </div>
-                  <div className="text-body-sm text-brand-graphite">
-                    Total: {formatCurrency(breakdown.totals.twentyFour.totalOverTerm)}
-                  </div>
-                  <div className="text-body-sm text-brand-graphite">
-                    Then {formatCurrency(breakdown.totals.twentyFour.ongoingAfter)}/mo after
+                  <div className="text-xs text-brand-graphite">
+                    Then {formatCurrency((totals as { ongoingAfter: number }).ongoingAfter)}/mo
                   </div>
                 </div>
+              )}
+              
+              {option.reassurance && isSelected && (
+                <p className="text-xs text-green-600 mt-2 leading-tight">{option.reassurance}</p>
               )}
             </div>
           );
@@ -1663,10 +1925,25 @@ interface StepSummaryProps {
 
 function StepSummary({ request, breakdown, contact, onContactChange }: StepSummaryProps) {
   const paymentOption = request.paymentPreference || 'twelve';
-  const oneOffTotals = breakdown.totals.oneOff;
-  const twelveTotals = breakdown.totals.twelve;
-  const twentyFourTotals = breakdown.totals.twentyFour;
   const isSSR = request.projectType === 'ssr';
+  
+  // Helper to get the selected totals based on payment option
+  const getSelectedTotals = () => {
+    switch (paymentOption) {
+      case 'oneOff':
+        return { type: 'oneOff' as const, ...breakdown.totals.oneOff };
+      case 'six':
+        return { type: 'contract' as const, ...breakdown.totals.six, months: 6 };
+      case 'twelve':
+        return { type: 'contract' as const, ...breakdown.totals.twelve, months: 12 };
+      case 'twentyFour':
+        return { type: 'contract' as const, ...breakdown.totals.twentyFour, months: 24 };
+      case 'thirtySix':
+        return { type: 'contract' as const, ...breakdown.totals.thirtySix, months: 36 };
+    }
+  };
+  
+  const selectedTotals = getSelectedTotals();
 
   return (
     <div className="space-y-8">
@@ -1786,28 +2063,20 @@ function StepSummary({ request, breakdown, contact, onContactChange }: StepSumma
           <div className="flex justify-between items-center mb-2">
             <span className="text-white/80">Your {PRICING_LABELS.payments[paymentOption]}:</span>
             <span className="text-h2 text-brand-gold font-headline">
-              {paymentOption === 'oneOff'
-                ? formatCurrency(oneOffTotals.final)
-                : paymentOption === 'twelve'
-                ? `${formatCurrency(twelveTotals.monthly)}/mo`
-                : `${formatCurrency(twentyFourTotals.monthly)}/mo`}
+              {selectedTotals.type === 'oneOff'
+                ? formatCurrency(selectedTotals.final)
+                : `${formatCurrency(selectedTotals.monthly)}/mo`}
             </span>
           </div>
-          {paymentOption === 'oneOff' && breakdown.monthlySubtotal > 0 && (
+          {selectedTotals.type === 'oneOff' && breakdown.monthlySubtotal > 0 && (
             <div className="text-white/60 text-body-sm">
               + {formatCurrency(breakdown.monthlySubtotal)}/mo for ongoing services
             </div>
           )}
-          {paymentOption === 'twelve' && (
+          {selectedTotals.type === 'contract' && (
             <div className="text-white/60 text-body-sm">
-              Total over term: {formatCurrency(twelveTotals.totalOverTerm)} • 
-              Then {formatCurrency(twelveTotals.ongoingAfter)}/mo
-            </div>
-          )}
-          {paymentOption === 'twentyFour' && (
-            <div className="text-white/60 text-body-sm">
-              Total over term: {formatCurrency(twentyFourTotals.totalOverTerm)} • 
-              Then {formatCurrency(twentyFourTotals.ongoingAfter)}/mo
+              Total over {selectedTotals.months} months: {formatCurrency(selectedTotals.totalOverTerm)} • 
+              Then {formatCurrency(selectedTotals.ongoingAfter)}/mo
             </div>
           )}
         </div>

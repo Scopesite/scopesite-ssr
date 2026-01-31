@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     }
 
     const normalizedEmail = email.toLowerCase().trim();
-    const result = createQuote(normalizedEmail);
+    const result = await createQuote(normalizedEmail);
 
     // Check if quote limit exceeded
     if (result.limitExceeded) {

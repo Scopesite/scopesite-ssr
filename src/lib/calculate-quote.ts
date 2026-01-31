@@ -329,7 +329,25 @@ export function calculateQuote(request: Partial<QuoteRequest>): QuoteBreakdown {
   // === COMMON ADD-ONS (All project types) ===
   
   // V.O.I.C.E™ AI Visibility
-  if (request.addOns?.voice || request.projectType === 'visibility') {
+  // For SSR projects (or upgrades TO SSR), V.O.I.C.E is INCLUDED in base price
+  const isSSRProject = request.projectType === 'ssr' || 
+    (request.projectType === 'upgrade' && request.upgradeTargetType === 'ssr');
+  
+  if (isSSRProject) {
+    // Add to included items for display
+    includedItems.push({
+      id: 'ssr-voice',
+      label: 'V.O.I.C.E™ AI Visibility',
+      description: 'Included with SSR (worth £562/mo)',
+      quantity: 1,
+      unitPrice: 0,
+      total: 0,
+      isMonthly: true,
+      isRequired: true,
+      isIncluded: true,
+    });
+  } else if (request.addOns?.voice || request.projectType === 'visibility') {
+    // For non-SSR projects, V.O.I.C.E is an optional add-on
     monthlyItems.push({
       id: 'voice',
       label: 'V.O.I.C.E™ AI Visibility',
@@ -414,6 +432,11 @@ export function calculateQuote(request: Partial<QuoteRequest>): QuoteBreakdown {
   const oneOffDiscount = oneOffSubtotal * (1 - PRICING_CONFIG.contracts.oneOff.discount);
   const oneOffFinal = oneOffSubtotal * PRICING_CONFIG.contracts.oneOff.discount;
 
+  // 6-month contract
+  const sixTotal = oneOffSubtotal * PRICING_CONFIG.contracts.six.markup;
+  const sixMonthly = Math.round((sixTotal / 6) + monthlySubtotal);
+  const sixOngoing = PRICING_CONFIG.contracts.six.ongoingMonthly + monthlySubtotal;
+
   // 12-month contract
   const twelveTotal = oneOffSubtotal * PRICING_CONFIG.contracts.twelve.markup;
   const twelveMonthly = Math.round((twelveTotal / 12) + monthlySubtotal);
@@ -424,10 +447,14 @@ export function calculateQuote(request: Partial<QuoteRequest>): QuoteBreakdown {
   const twentyFourMonthly = Math.round((twentyFourTotal / 24) + monthlySubtotal);
   const twentyFourOngoing = PRICING_CONFIG.contracts.twentyFour.ongoingMonthly + monthlySubtotal;
 
-  // Apply SSR minimum monthly payments
-  const isSSR = request.projectType === 'ssr';
-  const ssrTwelveMin = 750;
-  const ssrTwentyFourMin = 400;
+  // 36-month contract
+  const thirtySixTotal = oneOffSubtotal * PRICING_CONFIG.contracts.thirtySix.markup;
+  const thirtySixMonthly = Math.round((thirtySixTotal / 36) + monthlySubtotal);
+  const thirtySixOngoing = PRICING_CONFIG.contracts.thirtySix.ongoingMonthly + monthlySubtotal;
+
+  // Apply SSR minimum monthly payments (also for upgrade-to-SSR)
+  const isSSR = request.projectType === 'ssr' || 
+    (request.projectType === 'upgrade' && request.upgradeTargetType === 'ssr');
 
   return {
     oneOffItems,
@@ -441,15 +468,25 @@ export function calculateQuote(request: Partial<QuoteRequest>): QuoteBreakdown {
         discount: Math.round(oneOffDiscount),
         final: Math.round(oneOffFinal),
       },
+      six: {
+        monthly: isSSR ? Math.max(sixMonthly, PRICING_CONFIG.ssrMinimums.six) : sixMonthly,
+        totalOverTerm: Math.round(sixTotal + (monthlySubtotal * 6)),
+        ongoingAfter: sixOngoing,
+      },
       twelve: {
-        monthly: isSSR ? Math.max(twelveMonthly, ssrTwelveMin) : twelveMonthly,
+        monthly: isSSR ? Math.max(twelveMonthly, PRICING_CONFIG.ssrMinimums.twelve) : twelveMonthly,
         totalOverTerm: Math.round(twelveTotal + (monthlySubtotal * 12)),
         ongoingAfter: twelveOngoing,
       },
       twentyFour: {
-        monthly: isSSR ? Math.max(twentyFourMonthly, ssrTwentyFourMin) : twentyFourMonthly,
+        monthly: isSSR ? Math.max(twentyFourMonthly, PRICING_CONFIG.ssrMinimums.twentyFour) : twentyFourMonthly,
         totalOverTerm: Math.round(twentyFourTotal + (monthlySubtotal * 24)),
         ongoingAfter: twentyFourOngoing,
+      },
+      thirtySix: {
+        monthly: isSSR ? Math.max(thirtySixMonthly, PRICING_CONFIG.ssrMinimums.thirtySix) : thirtySixMonthly,
+        totalOverTerm: Math.round(thirtySixTotal + (monthlySubtotal * 36)),
+        ongoingAfter: thirtySixOngoing,
       },
     },
   };
@@ -466,8 +503,10 @@ function createEmptyBreakdown(): QuoteBreakdown {
     monthlySubtotal: 0,
     totals: {
       oneOff: { upfront: 0, discount: 0, final: 0 },
+      six: { monthly: 0, totalOverTerm: 0, ongoingAfter: 0 },
       twelve: { monthly: 0, totalOverTerm: 0, ongoingAfter: 0 },
       twentyFour: { monthly: 0, totalOverTerm: 0, ongoingAfter: 0 },
+      thirtySix: { monthly: 0, totalOverTerm: 0, ongoingAfter: 0 },
     },
   };
 }
@@ -490,6 +529,13 @@ export function createQuoteResult(
         totalOverTerm: breakdown.totals.oneOff.final,
       };
       break;
+    case 'six':
+      selected = {
+        monthly: breakdown.totals.six.monthly,
+        totalOverTerm: breakdown.totals.six.totalOverTerm,
+        ongoingMonthly: breakdown.totals.six.ongoingAfter,
+      };
+      break;
     case 'twelve':
       selected = {
         monthly: breakdown.totals.twelve.monthly,
@@ -502,6 +548,13 @@ export function createQuoteResult(
         monthly: breakdown.totals.twentyFour.monthly,
         totalOverTerm: breakdown.totals.twentyFour.totalOverTerm,
         ongoingMonthly: breakdown.totals.twentyFour.ongoingAfter,
+      };
+      break;
+    case 'thirtySix':
+      selected = {
+        monthly: breakdown.totals.thirtySix.monthly,
+        totalOverTerm: breakdown.totals.thirtySix.totalOverTerm,
+        ongoingMonthly: breakdown.totals.thirtySix.ongoingAfter,
       };
       break;
   }

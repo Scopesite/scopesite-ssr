@@ -1,7 +1,7 @@
 /**
  * Quote Progress Storage
  * 
- * Simple file-based storage for MVP. Replace with real DB (Prisma, Supabase, etc.) for production.
+ * Persistent storage using Vercel Postgres (Neon) for production.
  * 
  * Schema:
  * - id: Unique quote token (used in URL ?q=)
@@ -14,9 +14,17 @@
  * - submittedAt: Timestamp when quote was submitted (if applicable)
  */
 
-import fs from 'fs';
-import path from 'path';
 import { QuoteRequest } from '@/types/pricing';
+import {
+  createQuoteRow,
+  getQuoteRow,
+  findInProgressQuoteByEmail,
+  countSubmittedQuotes,
+  updateQuoteRow,
+  getAllQuoteRows,
+  getAbandonedQuoteRows,
+  QuoteRow,
+} from './db';
 
 // ============================================
 // TYPES
@@ -41,61 +49,91 @@ export interface StoredQuote {
   submittedAt?: string;
 }
 
-export interface QuoteDatabase {
-  quotes: Record<string, StoredQuote>;
+// ============================================
+// HELPER FUNCTIONS
+// ============================================
+
+/**
+ * Convert database row to StoredQuote format
+ */
+function rowToStoredQuote(row: QuoteRow): StoredQuote {
+  return {
+    id: row.id,
+    email: row.email,
+    status: row.status as QuoteStatus,
+    currentStep: row.current_step,
+    selections: row.selections as StoredQuote['selections'],
+    contact: (row.contact as StoredQuote['contact']) || {
+      name: '',
+      phone: '',
+      company: '',
+      message: '',
+    },
+    createdAt: new Date(row.created_at).toISOString(),
+    updatedAt: new Date(row.updated_at).toISOString(),
+    submittedAt: row.submitted_at ? new Date(row.submitted_at).toISOString() : undefined,
+  };
 }
 
-// ============================================
-// STORAGE PATH
-// ============================================
-
-const DATA_DIR = path.join(process.cwd(), '.data');
-const DB_PATH = path.join(DATA_DIR, 'quotes.json');
-
-// Ensure data directory exists
-function ensureDataDir() {
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-  }
-}
-
-// ============================================
-// DATABASE OPERATIONS
-// ============================================
-
-function readDatabase(): QuoteDatabase {
-  ensureDataDir();
-  
-  if (!fs.existsSync(DB_PATH)) {
-    return { quotes: {} };
-  }
-  
-  try {
-    const data = fs.readFileSync(DB_PATH, 'utf-8');
-    return JSON.parse(data);
-  } catch {
-    console.error('Error reading quote database, starting fresh');
-    return { quotes: {} };
-  }
-}
-
-function writeDatabase(db: QuoteDatabase): void {
-  ensureDataDir();
-  fs.writeFileSync(DB_PATH, JSON.stringify(db, null, 2));
-}
-
-// ============================================
-// QUOTE TOKEN GENERATION
-// ============================================
-
+/**
+ * Generate a URL-safe quote token
+ */
 function generateQuoteToken(): string {
-  // Generate a URL-safe token: 8 chars alphanumeric
   const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let token = '';
   for (let i = 0; i < 8; i++) {
     token += chars.charAt(Math.floor(Math.random() * chars.length));
   }
   return token;
+}
+
+/**
+ * Default selections for a new quote
+ */
+function getDefaultSelections(): StoredQuote['selections'] {
+  return {
+    scope: {
+      websiteType: undefined,
+      pageCount: 5,
+      ecommerce: 'none',
+      headlessEcommerce: 'none',
+      webApp: 'none',
+      ssrWebApp: 'none',
+      hasBlog: false,
+      hasComplexForms: false,
+      hasAutomation: false,
+    },
+    addOns: {
+      voice: false,
+      branding: false,
+      research: false,
+      videoLong: 0,
+      videoShortBundle: false,
+      imageLibrary: false,
+      ssrAnimations: false,
+      ssrCustomerPortal: false,
+      ssrDatabase: false,
+      ssrAuthentication: false,
+      ssrApiIntegrations: 0,
+      ssrMultilanguage: false,
+      ssrRealtime: false,
+      ssrAnalytics: false,
+      ssrScalability: false,
+    },
+    paymentPreference: 'twelve',
+  };
+}
+
+/**
+ * Default contact for a new quote
+ */
+function getDefaultContact(): StoredQuote['contact'] {
+  return {
+    name: '',
+    phone: '',
+    company: '',
+    message: '',
+  };
 }
 
 // ============================================
@@ -114,117 +152,83 @@ export interface CreateQuoteResult {
 /**
  * Count submitted quotes for an email
  */
-export function getSubmittedQuoteCount(email: string): number {
-  const db = readDatabase();
-  return Object.values(db.quotes).filter(
-    q => q.email === email && q.status === 'submitted'
-  ).length;
+export async function getSubmittedQuoteCount(email: string): Promise<number> {
+  return await countSubmittedQuotes(email);
 }
 
 /**
  * Create a new quote when email is submitted
  * Returns limitExceeded: true if email has already used 2 quotes
  */
-export function createQuote(email: string): CreateQuoteResult {
-  const db = readDatabase();
-  
-  // Check if email already has an in-progress quote
-  const existingQuote = Object.values(db.quotes).find(
-    q => q.email === email && (q.status === 'started' || q.status === 'in_progress')
-  );
-  
-  if (existingQuote) {
-    // Return existing quote instead of creating new one
-    const submittedCount = getSubmittedQuoteCount(email);
-    return { 
-      quote: existingQuote, 
+export async function createQuote(email: string): Promise<CreateQuoteResult> {
+  try {
+    // Check if email already has an in-progress quote
+    const existingRow = await findInProgressQuoteByEmail(email);
+    
+    if (existingRow) {
+      // Return existing quote instead of creating new one
+      const submittedCount = await countSubmittedQuotes(email);
+      return {
+        quote: rowToStoredQuote(existingRow),
+        limitExceeded: false,
+        quotesUsed: submittedCount,
+      };
+    }
+    
+    // Count how many quotes this email has already submitted
+    const submittedCount = await countSubmittedQuotes(email);
+    
+    if (submittedCount >= MAX_QUOTES_PER_EMAIL) {
+      console.log(`[Quote] Email ${email} has exceeded quote limit (${submittedCount}/${MAX_QUOTES_PER_EMAIL})`);
+      return {
+        quote: null,
+        limitExceeded: true,
+        quotesUsed: submittedCount,
+      };
+    }
+    
+    // Create new quote
+    const token = generateQuoteToken();
+    const selections = getDefaultSelections();
+    const contact = getDefaultContact();
+    
+    const row = await createQuoteRow(
+      token,
+      email,
+      selections as Record<string, unknown>,
+      contact as Record<string, unknown>
+    );
+    
+    console.log(`[Quote] Created new quote ${token} for ${email} (${submittedCount + 1}/${MAX_QUOTES_PER_EMAIL} quotes used)`);
+    
+    return {
+      quote: rowToStoredQuote(row),
       limitExceeded: false,
       quotesUsed: submittedCount,
     };
+  } catch (error) {
+    console.error('[Quote] Error creating quote:', error);
+    throw error;
   }
-  
-  // Count how many quotes this email has already submitted
-  const submittedCount = getSubmittedQuoteCount(email);
-  
-  if (submittedCount >= MAX_QUOTES_PER_EMAIL) {
-    console.log(`[Quote] Email ${email} has exceeded quote limit (${submittedCount}/${MAX_QUOTES_PER_EMAIL})`);
-    return { 
-      quote: null, 
-      limitExceeded: true,
-      quotesUsed: submittedCount,
-    };
-  }
-  
-  const now = new Date().toISOString();
-  const quote: StoredQuote = {
-    id: generateQuoteToken(),
-    email,
-    status: 'started',
-    currentStep: 1,
-    selections: {
-      scope: {
-        websiteType: undefined, // Set when project type selected
-        pageCount: 5,
-        ecommerce: 'none',
-        headlessEcommerce: 'none',
-        webApp: 'none',
-        ssrWebApp: 'none',
-        hasBlog: false,
-        hasComplexForms: false,
-        hasAutomation: false,
-      },
-      addOns: {
-        voice: false,
-        branding: false,
-        research: false,
-        videoLong: 0,
-        videoShortBundle: false,
-        imageLibrary: false,
-        ssrAnimations: false,
-        ssrCustomerPortal: false,
-        ssrDatabase: false,
-        ssrAuthentication: false,
-        ssrApiIntegrations: 0,
-        ssrMultilanguage: false,
-        ssrRealtime: false,
-        ssrAnalytics: false,
-        ssrScalability: false,
-      },
-      paymentPreference: 'twelve',
-    },
-    contact: {
-      name: '',
-      phone: '',
-      company: '',
-      message: '',
-    },
-    createdAt: now,
-    updatedAt: now,
-  };
-  
-  db.quotes[quote.id] = quote;
-  writeDatabase(db);
-  
-  console.log(`[Quote] Created new quote ${quote.id} for ${email} (${submittedCount + 1}/${MAX_QUOTES_PER_EMAIL} quotes used)`);
-  return { 
-    quote, 
-    limitExceeded: false,
-    quotesUsed: submittedCount,
-  };
 }
 
 /**
  * Get a quote by its token
  */
-export function getQuote(id: string): StoredQuote | null {
-  const db = readDatabase();
-  return db.quotes[id] || null;
+export async function getQuote(id: string): Promise<StoredQuote | null> {
+  try {
+    const row = await getQuoteRow(id);
+    return row ? rowToStoredQuote(row) : null;
+  } catch (error) {
+    console.error('[Quote] Error getting quote:', error);
+    return null;
+  }
 }
 
 /**
  * Update quote progress
  */
-export function updateQuoteProgress(
+export async function updateQuoteProgress(
   id: string,
   updates: {
     currentStep?: number;
@@ -232,81 +236,92 @@ export function updateQuoteProgress(
     contact?: Partial<StoredQuote['contact']>;
     status?: QuoteStatus;
   }
-): StoredQuote | null {
-  const db = readDatabase();
-  const quote = db.quotes[id];
-  
-  if (!quote) {
+): Promise<StoredQuote | null> {
+  try {
+    // First get the current quote to merge updates
+    const currentRow = await getQuoteRow(id);
+    if (!currentRow) {
+      return null;
+    }
+    
+    const currentQuote = rowToStoredQuote(currentRow);
+    
+    // Prepare updates
+    const dbUpdates: Parameters<typeof updateQuoteRow>[1] = {};
+    
+    if (updates.currentStep !== undefined) {
+      dbUpdates.current_step = updates.currentStep;
+      // Auto-update status based on progress
+      if (updates.currentStep > 1 && currentQuote.status === 'started') {
+        dbUpdates.status = 'in_progress';
+      }
+    }
+    
+    if (updates.selections) {
+      dbUpdates.selections = {
+        ...currentQuote.selections,
+        ...updates.selections,
+      } as Record<string, unknown>;
+    }
+    
+    if (updates.contact) {
+      dbUpdates.contact = {
+        ...currentQuote.contact,
+        ...updates.contact,
+      } as Record<string, unknown>;
+    }
+    
+    if (updates.status) {
+      dbUpdates.status = updates.status;
+      if (updates.status === 'submitted') {
+        dbUpdates.submitted_at = new Date();
+      }
+    }
+    
+    const updatedRow = await updateQuoteRow(id, dbUpdates);
+    
+    if (!updatedRow) {
+      return null;
+    }
+    
+    console.log(`[Quote] Updated quote ${id} - Step ${updatedRow.current_step}, Status: ${updatedRow.status}`);
+    return rowToStoredQuote(updatedRow);
+  } catch (error) {
+    console.error('[Quote] Error updating quote:', error);
     return null;
   }
-  
-  const now = new Date().toISOString();
-  
-  if (updates.currentStep !== undefined) {
-    quote.currentStep = updates.currentStep;
-    // Auto-update status based on progress
-    if (updates.currentStep > 1 && quote.status === 'started') {
-      quote.status = 'in_progress';
-    }
-  }
-  
-  if (updates.selections) {
-    quote.selections = {
-      ...quote.selections,
-      ...updates.selections,
-    };
-  }
-  
-  if (updates.contact) {
-    quote.contact = {
-      ...quote.contact,
-      ...updates.contact,
-    };
-  }
-  
-  if (updates.status) {
-    quote.status = updates.status;
-    if (updates.status === 'submitted') {
-      quote.submittedAt = now;
-    }
-  }
-  
-  quote.updatedAt = now;
-  
-  db.quotes[id] = quote;
-  writeDatabase(db);
-  
-  console.log(`[Quote] Updated quote ${id} - Step ${quote.currentStep}, Status: ${quote.status}`);
-  return quote;
 }
 
 /**
  * Mark quote as submitted
  */
-export function submitQuote(id: string): StoredQuote | null {
+export async function submitQuote(id: string): Promise<StoredQuote | null> {
   return updateQuoteProgress(id, { status: 'submitted' });
 }
 
 /**
- * Get all quotes for analytics/admin (optional)
+ * Get all quotes for analytics/admin
  */
-export function getAllQuotes(): StoredQuote[] {
-  const db = readDatabase();
-  return Object.values(db.quotes);
+export async function getAllQuotes(): Promise<StoredQuote[]> {
+  try {
+    const rows = await getAllQuoteRows();
+    return rows.map(rowToStoredQuote);
+  } catch (error) {
+    console.error('[Quote] Error getting all quotes:', error);
+    return [];
+  }
 }
 
 /**
  * Get abandoned quotes (for Brevo integration)
  * Returns quotes that are 'started' or 'in_progress' and older than specified minutes
  */
-export function getAbandonedQuotes(olderThanMinutes: number = 30): StoredQuote[] {
-  const db = readDatabase();
-  const cutoff = new Date(Date.now() - olderThanMinutes * 60 * 1000).toISOString();
-  
-  return Object.values(db.quotes).filter(
-    q => 
-      (q.status === 'started' || q.status === 'in_progress') &&
-      q.updatedAt < cutoff
-  );
+export async function getAbandonedQuotes(olderThanMinutes: number = 30): Promise<StoredQuote[]> {
+  try {
+    const rows = await getAbandonedQuoteRows(olderThanMinutes);
+    return rows.map(rowToStoredQuote);
+  } catch (error) {
+    console.error('[Quote] Error getting abandoned quotes:', error);
+    return [];
+  }
 }
-

@@ -15,7 +15,7 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const quote = getQuote(id);
+    const quote = await getQuote(id);
 
     if (!quote) {
       return NextResponse.json(
@@ -75,7 +75,7 @@ export async function PATCH(
 
     // If this is a final submission
     if (submit === true) {
-      const quote = submitQuote(id);
+      const quote = await submitQuote(id);
       if (!quote) {
         return NextResponse.json(
           { success: false, error: 'Quote not found' },
@@ -195,7 +195,7 @@ export async function PATCH(
     }
 
     // Otherwise update progress
-    const quote = updateQuoteProgress(id, {
+    const quote = await updateQuoteProgress(id, {
       currentStep,
       selections,
       contact,

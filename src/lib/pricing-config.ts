@@ -253,14 +253,33 @@ export const PRICING_CONFIG: PricingConfig = {
     oneOff: {
       discount: 0.95,  // 5% discount for paying upfront
     },
+    six: {
+      markup: 1.03,              // 3% markup for 6 months
+      ongoingMonthly: 125,       // £125/mo after contract
+    },
     twelve: {
-      markup: 1.06,              // Only 6% markup (industry is 15-20%)
+      markup: 1.06,              // 6% markup (industry is 15-20%)
       ongoingMonthly: 95,        // £95/mo after contract
     },
     twentyFour: {
-      markup: 1.12,              // Only 12% markup (industry is 25-35%)
+      markup: 1.12,              // 12% markup (industry is 25-35%)
       ongoingMonthly: 75,        // £75/mo after contract
     },
+    thirtySix: {
+      markup: 1.18,              // 18% markup for longest term
+      ongoingMonthly: 65,        // £65/mo after contract
+    },
+  },
+  
+  /**
+   * SSR MINIMUM MONTHLY PAYMENTS
+   * Minimum monthly amounts for SSR projects by contract length
+   */
+  ssrMinimums: {
+    six: 1200,        // £1,200/mo minimum for 6-month
+    twelve: 750,      // £750/mo minimum for 12-month
+    twentyFour: 400,  // £400/mo minimum for 24-month
+    thirtySix: 300,   // £300/mo minimum for 36-month
   },
 };
 
@@ -327,31 +346,33 @@ export const PRICING_LABELS = {
     automationMonthly: 'Automation Maintenance',
   },
   ssrAddOns: {
-    animations: 'Premium Animations Package',
-    customerPortal: 'Client Customer Portal',
-    database: 'PostgreSQL Database',
-    authentication: 'User Authentication System',
-    apiIntegration: 'API Integrations',
-    multilanguage: 'Multi-language / i18n',
-    realtime: 'Real-time Features',
-    analytics: 'Custom Analytics Dashboard',
-    scalability: 'Enterprise Scalability',
+    animations: 'Premium Animations',
+    customerPortal: 'Client Portal',
+    database: 'Data Storage & Records',
+    authentication: 'Member Login System',
+    apiIntegration: 'Connect Your Tools',
+    multilanguage: 'Multi-language Support',
+    realtime: 'Live Updates & Notifications',
+    analytics: 'Advanced Analytics',
+    scalability: 'High-Traffic Ready',
   },
   ssrAddOnDescriptions: {
     animations: 'Page transitions, scroll-triggered animations, micro-interactions, hover effects. Makes your site feel alive.',
     customerPortal: 'Secure login area for your customers. Dashboard, account management, order history, document access.',
-    database: 'Persistent data storage for user data, custom records, application state. Scales infinitely.',
-    authentication: 'Secure user login, OAuth (Google/Apple/Microsoft), password reset, session management.',
-    apiIntegration: 'Connect to CRMs, payment gateways, booking systems, or any third-party service.',
-    multilanguage: 'Internationalized routing, language switcher, content translation ready. Reach global audiences.',
+    database: 'Store customer data, application records, content libraries. Scales infinitely as you grow.',
+    authentication: 'Secure login with Google/Apple/Microsoft, password reset, session management.',
+    apiIntegration: 'Link your CRM, payment gateways, booking systems, or any third-party service.',
+    multilanguage: 'Reach global audiences with content in multiple languages. Automatic routing by location.',
     realtime: 'WebSocket connections, live updates, notifications, chat functionality.',
-    analytics: 'Beyond Google Analytics. Conversion tracking, funnel visualization, custom events, heatmaps integration.',
-    scalability: 'Load balancing configuration, advanced CDN setup, auto-scaling, performance monitoring.',
+    analytics: 'Beyond Google Analytics. Conversion tracking, funnel visualization, custom event tracking, heatmaps.',
+    scalability: 'Load balancing, advanced CDN setup, auto-scaling, performance monitoring. Built for serious traffic.',
   },
   payments: {
-    oneOff: 'One-Off Payment (5% discount)',
+    oneOff: 'Pay in Full (5% discount)',
+    six: '6-Month Contract',
     twelve: '12-Month Contract',
-    twentyFour: '24-Month Contract (Best Value)',
+    twentyFour: '24-Month Contract',
+    thirtySix: '36-Month Contract',
   },
 };
 
@@ -360,6 +381,7 @@ export const PRICING_LABELS = {
  * What's included in the SSR base price
  */
 export const SSR_INCLUDED_FEATURES = [
+  'V.O.I.C.E™ AI Visibility (worth £562/mo)',
   'Server-Side Rendering (Next.js 16)',
   'Ghost CMS Integration (headless blog)',
   'Auto-generated JSON-LD Schema',
