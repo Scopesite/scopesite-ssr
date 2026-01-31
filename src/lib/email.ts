@@ -368,8 +368,8 @@ export async function sendQuoteAdminNotification(quote: QuoteEmailData): Promise
  * Send confirmation email to client when quote is submitted
  */
 export async function sendQuoteClientConfirmation(quote: QuoteEmailData): Promise<boolean> {
-  const subject = `Your ScopeSite Quote (${quote.quoteId}) - ${formatCurrency(quote.selectedTotal)}`;
   const firstName = quote.name.split(' ')[0] || 'there';
+  const subject = `Your quote's in, ${firstName}`;
 
   const htmlContent = `
     <!DOCTYPE html>
@@ -383,8 +383,8 @@ export async function sendQuoteClientConfirmation(quote: QuoteEmailData): Promis
         
         <!-- Header -->
         <div style="background-color: #0A1B36; padding: 32px; text-align: center;">
-          <h1 style="color: #ECB615; margin: 0; font-size: 28px; font-weight: bold;">YOUR QUOTE IS READY!</h1>
-          <p style="color: #ffffff; margin: 8px 0 0 0; font-size: 14px;">Reference: ${quote.quoteId}</p>
+          <h1 style="color: #ECB615; margin: 0; font-size: 28px; font-weight: bold;">Your Quote is Ready</h1>
+          <p style="color: #ffffff; margin: 8px 0 0 0; font-size: 14px; opacity: 0.8;">Reference: ${quote.quoteId}</p>
         </div>
         
         <!-- Content -->
@@ -394,56 +394,80 @@ export async function sendQuoteClientConfirmation(quote: QuoteEmailData): Promis
             Hi ${firstName},
           </p>
           
-          <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 24px 0;">
-            Thank you for using our instant quote tool! Here's a summary of your quote:
+          <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">
+            <strong>Good news: I've got a price for you.</strong>
+          </p>
+          
+          <p style="color: #333; font-size: 16px; line-height: 1.7; margin: 0 0 24px 0;">
+            Before we get to that, a quick word from me. I'm Dan Cartwright, the founder of ScopeSite and the one who'll be handling your project personally. I'm a former Army Signals guy, and I run things here the same way: clear communication, no fluff, and we deliver what we promise.
+          </p>
+          
+          <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">
+            <strong>Here's your quote:</strong>
           </p>
           
           <!-- Quote Summary Box -->
-          <div style="margin: 24px 0; padding: 24px; background-color: #0A1B36; border-radius: 8px; text-align: center;">
-            <p style="margin: 0 0 4px 0; color: #ffffff; font-size: 14px;">Your ${quote.packageType}</p>
-            <p style="margin: 0 0 12px 0; color: #ECB615; font-size: 36px; font-weight: bold;">${formatCurrency(quote.selectedTotal)}</p>
+          <div style="margin: 24px 0; padding: 28px; background-color: #0A1B36; border-radius: 12px; text-align: center;">
+            <p style="margin: 0 0 8px 0; color: #ffffff; font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px;">Your ${quote.packageType}</p>
+            <p style="margin: 0 0 8px 0; color: #ECB615; font-size: 42px; font-weight: bold;">${formatCurrency(quote.selectedTotal)}</p>
             ${quote.monthlyPayment ? `
-            <p style="margin: 0; color: #ffffff; font-size: 16px;">
-              ${formatCurrency(quote.monthlyPayment)}/month over ${quote.paymentType}
+            <p style="margin: 0; color: #ffffff; font-size: 16px; opacity: 0.9;">
+              (or ${formatCurrency(quote.monthlyPayment)}/month over ${quote.paymentType})
             </p>
             ` : `
-            <p style="margin: 0; color: #ffffff; font-size: 16px;">${quote.paymentType}</p>
+            <p style="margin: 0; color: #ffffff; font-size: 16px; opacity: 0.9;">${quote.paymentType}</p>
             `}
           </div>
           
           <!-- Project Details -->
           <div style="margin: 24px 0; padding: 20px; background-color: #f8f9fa; border-radius: 8px; border-left: 4px solid #ECB615;">
-            <h2 style="color: #0A1B36; margin: 0 0 12px 0; font-size: 16px;">Quote Details</h2>
-            <p style="margin: 4px 0; color: #666;"><strong>Project Type:</strong> ${quote.projectType}</p>
-            <p style="margin: 4px 0; color: #666;"><strong>Package:</strong> ${quote.packageType}</p>
-            <p style="margin: 4px 0; color: #666;"><strong>Payment Plan:</strong> ${quote.paymentType}</p>
+            <p style="margin: 4px 0; color: #555;"><strong style="color: #0A1B36;">Project Type:</strong> ${quote.projectType}</p>
+            <p style="margin: 4px 0; color: #555;"><strong style="color: #0A1B36;">Package:</strong> ${quote.packageType}</p>
+            <p style="margin: 4px 0; color: #555;"><strong style="color: #0A1B36;">Payment Plan:</strong> ${quote.paymentType}</p>
           </div>
           
-          <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">
-            <strong>What happens next?</strong>
-          </p>
-          
-          <ul style="color: #333; font-size: 16px; line-height: 1.8; margin: 0 0 24px 0; padding-left: 20px;">
-            <li>Dan Cartwright will personally review your requirements</li>
-            <li>You'll receive a follow-up within <strong>24 hours</strong></li>
-            <li>We'll discuss your project in detail and answer any questions</li>
-          </ul>
-          
-          <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 24px 0;">
-            Want to speed things up? Book a call and we can discuss your project right away.
-          </p>
-          
-          <!-- CTA Buttons -->
-          <div style="text-align: center; margin: 32px 0;">
-            <a href="https://scopesite.co.uk/book?email=${encodeURIComponent(quote.email)}" 
-               style="display: inline-block; padding: 14px 32px; background-color: #ECB615; color: #0A1B36; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; margin-bottom: 12px;">
-              Book a Free Strategy Call
-            </a>
-            <p style="color: #666; font-size: 14px; margin: 8px 0 0 0;">
-              30 minutes • No obligation • Chat with Dan directly
+          <!-- Value Proposition -->
+          <div style="margin: 28px 0; padding: 24px; background-color: #FEF9E7; border-radius: 8px; border: 1px solid #ECB615;">
+            <p style="color: #0A1B36; font-size: 16px; line-height: 1.6; margin: 0 0 12px 0;">
+              <strong>What this actually means for your business:</strong>
+            </p>
+            <p style="color: #333; font-size: 15px; line-height: 1.7; margin: 0 0 12px 0;">
+              This isn't just a website. It's designed from the ground up so that when potential customers ask ChatGPT, Perplexity, or Google for a recommendation in your field, <strong>your business is the name that comes up</strong>.
+            </p>
+            <p style="color: #333; font-size: 15px; line-height: 1.7; margin: 0;">
+              That's what AI visibility gets you: becoming the recommended answer, not just another search result.
             </p>
           </div>
           
+          <!-- What happens now -->
+          <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 12px 0;">
+            <strong>What happens now?</strong>
+          </p>
+          
+          <p style="color: #333; font-size: 15px; line-height: 1.7; margin: 0 0 24px 0;">
+            I'll personally review the details you submitted and reach out within 24 hours. If you want to skip the back-and-forth and get straight into it, grab a slot on my calendar.
+          </p>
+          
+          <!-- CTA Button -->
+          <div style="text-align: center; margin: 32px 0;">
+            <a href="https://scopesite.co.uk/book?email=${encodeURIComponent(quote.email)}" 
+               style="display: inline-block; padding: 16px 36px; background-color: #ECB615; color: #0A1B36; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px;">
+              Book a 15-Minute Call with Dan
+            </a>
+            <p style="color: #666; font-size: 14px; margin: 12px 0 0 0;">
+              No sales pitch. Just a direct conversation about your project.
+            </p>
+          </div>
+          
+          <!-- Quote validity notice -->
+          <div style="margin: 28px 0; padding: 16px; background-color: #f8f9fa; border-radius: 6px; text-align: center;">
+            <p style="color: #666; font-size: 13px; line-height: 1.6; margin: 0;">
+              This quote is valid for <strong>7 days</strong>. Pricing may be different after this period.<br/>
+              I take on a limited number of projects each quarter to ensure every client gets my direct attention.
+            </p>
+          </div>
+          
+          <!-- View quote link -->
           <div style="text-align: center; margin: 24px 0;">
             <a href="${quote.quoteUrl}" 
                style="color: #ECB615; font-size: 14px; text-decoration: underline;">
@@ -451,18 +475,32 @@ export async function sendQuoteClientConfirmation(quote: QuoteEmailData): Promis
             </a>
           </div>
           
+          <!-- Sign off -->
+          <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid #eee;">
+            <p style="color: #333; font-size: 15px; line-height: 1.6; margin: 0 0 4px 0;">
+              Cheers,
+            </p>
+            <p style="color: #0A1B36; font-size: 16px; font-weight: bold; margin: 0 0 4px 0;">
+              Dan Cartwright
+            </p>
+            <p style="color: #666; font-size: 14px; margin: 0;">
+              Founder, ScopeSite Digital Studios
+            </p>
+          </div>
+          
         </div>
         
         <!-- Footer -->
         <div style="background-color: #0A1B36; padding: 24px; text-align: center;">
-          <p style="margin: 0 0 8px 0; color: #ffffff; font-size: 14px; font-weight: bold;">
+          <p style="margin: 0 0 8px 0; color: #ECB615; font-size: 14px; font-weight: bold;">
             ScopeSite Digital Studios
           </p>
           <p style="margin: 0 0 8px 0; color: #ffffff; font-size: 12px;">
             Veteran-owned • Somerset, UK
           </p>
-          <p style="margin: 0; color: #666; font-size: 12px;">
-            <a href="https://scopesite.co.uk" style="color: #ECB615;">scopesite.co.uk</a> • 
+          <p style="margin: 0; font-size: 12px;">
+            <a href="https://scopesite.co.uk" style="color: #ECB615;">scopesite.co.uk</a>
+            <span style="color: #ffffff; margin: 0 8px;">|</span>
             <a href="tel:+441373311339" style="color: #ECB615;">01373 311 339</a>
           </p>
         </div>
