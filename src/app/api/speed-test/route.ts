@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendSpeedTestLeadNotification } from '@/lib/email';
 
-// Vercel function config - extend timeout to 120 seconds for 3 parallel API calls
+// Vercel function config - extend timeout to 120 seconds for sequential API calls
 export const maxDuration = 120;
+
+// Track recently emailed URLs to prevent duplicate notifications
+// Key: normalized URL, Value: timestamp of last email sent
+const recentlyEmailedUrls = new Map<string, number>();
+const EMAIL_COOLDOWN_MS = 5 * 60 * 1000; // 5 minutes between emails for same URL
 
 interface PageSpeedResult {
   performanceScore: number;
@@ -210,14 +215,33 @@ export async function POST(request: NextRequest) {
 
     console.log(`[SpeedTest] Result for ${finalUrl}: Score ${result.performanceScore} (${validResults.length} runs averaged)`);
 
-    // Send lead notification email (skip if it's our own site)
+    // Send lead notification email (skip if it's our own site or recently emailed)
     const parsedFinalUrl = new URL(finalUrl);
     const isOurSite = parsedFinalUrl.hostname.includes('scopesite.co.uk') || parsedFinalUrl.hostname.includes('scopesite.com');
-    if (!isOurSite) {
+    
+    // Check if we've recently sent an email for this URL (deduplication)
+    const lastEmailTime = recentlyEmailedUrls.get(finalUrl);
+    const now = Date.now();
+    const recentlyEmailed = lastEmailTime && (now - lastEmailTime) < EMAIL_COOLDOWN_MS;
+    
+    if (!isOurSite && !recentlyEmailed) {
+      // Mark this URL as emailed
+      recentlyEmailedUrls.set(finalUrl, now);
+      
+      // Clean up old entries (prevent memory leak)
+      for (const [url, timestamp] of recentlyEmailedUrls.entries()) {
+        if (now - timestamp > EMAIL_COOLDOWN_MS) {
+          recentlyEmailedUrls.delete(url);
+        }
+      }
+      
       // Fire and forget - don't wait for email to send
       sendSpeedTestLeadNotification(result).catch(err => {
         console.error('Failed to send speed test lead email:', err);
       });
+      console.log(`[SpeedTest] Lead email sent for ${finalUrl}`);
+    } else if (recentlyEmailed) {
+      console.log(`[SpeedTest] Skipped duplicate email for ${finalUrl} (cooldown active)`);
     }
 
     return NextResponse.json(result);
