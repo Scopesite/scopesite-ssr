@@ -328,53 +328,113 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
 }
 
 function StatusTimeline({ progress }: { progress: string }) {
+  // Status steps matching exact Trello labels with traffic light colors
+  // Red = Waiting/Blocked, Amber = In Review/Attention, Green = Active/Complete
   const steps = [
-    { key: 'not_seen_yet', label: 'Not Seen Yet', color: 'gray' },
-    { key: 'submission_viewed', label: 'Submission Viewed', color: 'blue' },
-    { key: 'estimate_added', label: 'Estimate Added', color: 'yellow' },
-    { key: 'in_progress', label: 'In Progress', color: 'purple' },
-    { key: 'awaiting_client_info', label: 'Awaiting Information', color: 'orange' },
-    { key: 'in_review', label: 'In Review', color: 'indigo' },
-    { key: 'invoice_sent', label: 'Invoice Sent', color: 'green' },
-    { key: 'invoice_paid', label: 'Invoice Paid', color: 'green-filled' },
+    { key: 'not_seen_yet', label: 'Not Seen Yet', trafficLight: 'gray' },
+    { key: 'submission_viewed', label: 'Submission Viewed', trafficLight: 'amber' },
+    { key: 'estimate_added', label: 'Estimate Added', trafficLight: 'amber' },
+    { key: 'in_progress', label: 'In Progress', trafficLight: 'green' },
+    { key: 'awaiting_client_info', label: 'Awaiting Information From Client', trafficLight: 'red' },
+    { key: 'in_review', label: 'In Review', trafficLight: 'amber' },
+    { key: 'invoice_sent', label: 'Invoice Sent', trafficLight: 'green' },
+    { key: 'invoice_paid', label: 'Invoice Paid', trafficLight: 'green' },
   ];
 
-  // Color mappings for traffic light system
-  const colorClasses: Record<string, { bg: string; text: string; bgMuted: string }> = {
-    'gray': { bg: 'bg-gray-400', text: 'text-gray-700', bgMuted: 'bg-gray-200' },
-    'blue': { bg: 'bg-blue-500', text: 'text-blue-700', bgMuted: 'bg-blue-200' },
-    'yellow': { bg: 'bg-yellow-500', text: 'text-yellow-700', bgMuted: 'bg-yellow-200' },
-    'purple': { bg: 'bg-purple-500', text: 'text-purple-700', bgMuted: 'bg-purple-200' },
-    'orange': { bg: 'bg-orange-500', text: 'text-orange-700', bgMuted: 'bg-orange-200' },
-    'indigo': { bg: 'bg-indigo-500', text: 'text-indigo-700', bgMuted: 'bg-indigo-200' },
-    'green': { bg: 'bg-green-500', text: 'text-green-700', bgMuted: 'bg-green-200' },
-    'green-filled': { bg: 'bg-green-600', text: 'text-green-800', bgMuted: 'bg-green-300' },
+  // Traffic light color system
+  const trafficLightColors: Record<string, { 
+    dot: string; 
+    dotActive: string;
+    text: string; 
+    textActive: string;
+    description: string;
+  }> = {
+    'gray': { 
+      dot: 'bg-gray-300', 
+      dotActive: 'bg-gray-500 ring-2 ring-gray-300',
+      text: 'text-gray-400', 
+      textActive: 'text-gray-700 font-semibold',
+      description: 'Pending'
+    },
+    'red': { 
+      dot: 'bg-red-200', 
+      dotActive: 'bg-red-500 ring-2 ring-red-200 animate-pulse',
+      text: 'text-red-300', 
+      textActive: 'text-red-600 font-semibold',
+      description: 'Action Required'
+    },
+    'amber': { 
+      dot: 'bg-amber-200', 
+      dotActive: 'bg-amber-500 ring-2 ring-amber-200',
+      text: 'text-amber-400', 
+      textActive: 'text-amber-600 font-semibold',
+      description: 'Under Review'
+    },
+    'green': { 
+      dot: 'bg-emerald-200', 
+      dotActive: 'bg-emerald-500 ring-2 ring-emerald-200',
+      text: 'text-emerald-400', 
+      textActive: 'text-emerald-600 font-semibold',
+      description: 'Active/Complete'
+    },
   };
 
   const currentIndex = steps.findIndex(s => s.key === progress);
+  const currentStep = steps.find(s => s.key === progress);
+  const currentTrafficLight = currentStep ? trafficLightColors[currentStep.trafficLight] : null;
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-1">
+      {/* Current status highlight */}
+      {currentTrafficLight && (
+        <div className={`mb-4 p-3 rounded-lg ${
+          currentStep?.trafficLight === 'red' ? 'bg-red-50 border border-red-200' :
+          currentStep?.trafficLight === 'amber' ? 'bg-amber-50 border border-amber-200' :
+          currentStep?.trafficLight === 'green' ? 'bg-emerald-50 border border-emerald-200' :
+          'bg-gray-50 border border-gray-200'
+        }`}>
+          <div className="flex items-center gap-2">
+            <div className={`w-3 h-3 rounded-full ${currentTrafficLight.dotActive}`} />
+            <span className={`text-xs font-medium uppercase tracking-wide ${currentTrafficLight.textActive}`}>
+              {currentTrafficLight.description}
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* Timeline */}
       {steps.map((step, index) => {
         const isComplete = index < currentIndex;
         const isCurrent = step.key === progress || 
           (progress === 'awaiting_approval' && step.key === 'estimate_added');
-        const colors = colorClasses[step.color] || colorClasses['gray'];
+        const colors = trafficLightColors[step.trafficLight] || trafficLightColors['gray'];
 
         return (
-          <div key={step.key} className="flex items-center gap-3">
-            <div className={`w-3 h-3 rounded-full ${
-              isCurrent ? colors.bg : 
-              isComplete ? colors.bgMuted : 
+          <div key={step.key} className={`flex items-center gap-3 py-1.5 px-2 rounded-md transition-colors ${
+            isCurrent ? 'bg-brand-navy/5' : ''
+          }`}>
+            {/* Traffic light dot */}
+            <div className={`w-3 h-3 rounded-full flex-shrink-0 transition-all ${
+              isCurrent ? colors.dotActive : 
+              isComplete ? colors.dot : 
               'bg-gray-200 border border-gray-300'
             }`} />
-            <span className={`text-sm ${
-              isCurrent ? `font-medium ${colors.text}` : 
+            
+            {/* Label */}
+            <span className={`text-sm transition-colors ${
+              isCurrent ? colors.textActive : 
               isComplete ? colors.text : 
-              'text-brand-navy/40'
+              'text-brand-navy/30'
             }`}>
               {step.label}
             </span>
+            
+            {/* Current indicator */}
+            {isCurrent && (
+              <span className="ml-auto text-xs bg-brand-navy text-white px-2 py-0.5 rounded-full">
+                Current
+              </span>
+            )}
           </div>
         );
       })}

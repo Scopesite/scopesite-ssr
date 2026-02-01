@@ -311,35 +311,55 @@ export interface UpdateChangeRequest {
 // ============================================
 
 /**
- * Progress status with display labels
+ * Progress status with display labels - exact Trello terminology
  */
 export const PROGRESS_LABELS: Record<ChangeRequestProgress, string> = {
-  not_seen_yet: 'Submitted',
-  submission_viewed: 'Under Review',
-  estimate_added: 'Quote Ready',
-  awaiting_approval: 'Awaiting Your Approval',
-  approved: 'Approved — In Queue',
+  not_seen_yet: 'Not Seen Yet',
+  submission_viewed: 'Submission Viewed',
+  estimate_added: 'Estimate Added',
+  awaiting_approval: 'Awaiting Approval',
+  approved: 'Approved',
   in_progress: 'In Progress',
-  awaiting_client_info: 'Action Required',
+  awaiting_client_info: 'Awaiting Information From Client',
   in_review: 'In Review',
-  invoice_sent: 'Complete — Invoice Sent',
-  invoice_paid: 'Complete',
+  invoice_sent: 'Invoice Sent',
+  invoice_paid: 'Invoice Paid',
 };
 
 /**
- * Progress status colors for UI
+ * Progress status colors for UI - Traffic Light System
+ * Gray = Not started
+ * Red = Client action required / Blocked
+ * Amber = Under review / Pending decision  
+ * Green = Active work / Complete
  */
 export const PROGRESS_COLORS: Record<ChangeRequestProgress, string> = {
-  not_seen_yet: 'bg-gray-100 text-gray-800',
-  submission_viewed: 'bg-blue-100 text-blue-800',
-  estimate_added: 'bg-yellow-100 text-yellow-800',
-  awaiting_approval: 'bg-yellow-100 text-yellow-800',
-  approved: 'bg-green-100 text-green-800',
-  in_progress: 'bg-purple-100 text-purple-800',
-  awaiting_client_info: 'bg-orange-100 text-orange-800',
-  in_review: 'bg-indigo-100 text-indigo-800',
+  not_seen_yet: 'bg-gray-100 text-gray-700',
+  submission_viewed: 'bg-amber-100 text-amber-800',
+  estimate_added: 'bg-amber-100 text-amber-800',
+  awaiting_approval: 'bg-amber-100 text-amber-800',
+  approved: 'bg-emerald-100 text-emerald-800',
+  in_progress: 'bg-emerald-100 text-emerald-800',
+  awaiting_client_info: 'bg-red-100 text-red-800',
+  in_review: 'bg-amber-100 text-amber-800',
   invoice_sent: 'bg-emerald-100 text-emerald-800',
   invoice_paid: 'bg-emerald-100 text-emerald-800',
+};
+
+/**
+ * Traffic light dot colors for status indicators
+ */
+export const TRAFFIC_LIGHT_DOTS: Record<ChangeRequestProgress, string> = {
+  not_seen_yet: 'bg-gray-400',
+  submission_viewed: 'bg-amber-500',
+  estimate_added: 'bg-amber-500',
+  awaiting_approval: 'bg-amber-500',
+  approved: 'bg-emerald-500',
+  in_progress: 'bg-emerald-500',
+  awaiting_client_info: 'bg-red-500 animate-pulse',
+  in_review: 'bg-amber-500',
+  invoice_sent: 'bg-emerald-500',
+  invoice_paid: 'bg-emerald-500',
 };
 
 /**
