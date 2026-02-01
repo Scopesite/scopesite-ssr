@@ -39,7 +39,7 @@ const faqs: FAQItem[] = [
   { question: "How do you handle revisions?", answer: "Two rounds included. Additional revisions at £60/hour with full transparency." },
   { question: "Can you help with content writing?", answer: "Yes. We can write copy or structure what you provide for AI optimisation." },
   { question: "What's the benefit of Next.js over WordPress?", answer: "Speed, security, and AI optimisation. WordPress averages 3-4 seconds load time. Our sites load under 2 seconds." },
-  { question: "Are you actually based in Somerset?", answer: "Yes - 4 Horse Close, Frome, Somerset, BA11. Veteran-owned, locally registered." },
+  { question: "Are you actually based in Somerset?", answer: "Yes - Frome, Somerset, BA11. Veteran-owned, locally registered." },
   { question: "What guarantee do you offer?", answer: "100% schema validation guarantee. Specific load time and accessibility scores in writing before you commit." },
 ];
 
