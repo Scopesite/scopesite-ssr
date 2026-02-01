@@ -6,10 +6,14 @@
  * 
  * Usage: POST /api/admin/init-db
  * Header: x-admin-key: YOUR_ADMIN_KEY
+ * 
+ * Optional query params:
+ * - portal=true - Also initialize portal tables
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { initializeDatabase, checkConnection } from '@/lib/db';
+import { initializePortalTables } from '@/lib/portal-db';
 
 export async function POST(request: NextRequest) {
   // Check for admin key
@@ -23,6 +27,9 @@ export async function POST(request: NextRequest) {
     );
   }
   
+  const { searchParams } = new URL(request.url);
+  const includePortal = searchParams.get('portal') === 'true';
+  
   try {
     // Check database connection first
     const isConnected = await checkConnection();
@@ -33,13 +40,20 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Initialize tables
+    // Initialize core tables
     await initializeDatabase();
+    const tables = ['briefs', 'quotes'];
+    
+    // Initialize portal tables if requested
+    if (includePortal) {
+      await initializePortalTables();
+      tables.push('clients', 'projects', 'change_requests', 'comments', 'files', 'activity_log');
+    }
     
     return NextResponse.json({
       success: true,
       message: 'Database tables initialized successfully',
-      tables: ['briefs', 'quotes'],
+      tables,
     });
   } catch (error) {
     console.error('Database initialization error:', error);

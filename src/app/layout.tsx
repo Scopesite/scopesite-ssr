@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Paytone_One, Inter } from 'next/font/google';
 import './globals.css';
+import { ClerkProvider } from '@clerk/nextjs';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { JsonLd } from '@/components/JsonLd';
@@ -120,7 +121,7 @@ export default function RootLayout({
   const organizationSchema = generateOrganizationSchema();
   const websiteSchema = generateWebsiteSchema();
 
-  return (
+  const content = (
     <html lang="en-GB">
       <head>
         {/* Preconnect hints for performance */}
@@ -146,4 +147,12 @@ export default function RootLayout({
       </body>
     </html>
   );
+
+  // Wrap with ClerkProvider only when the key is available
+  // This allows static pages to build without Clerk
+  if (process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) {
+    return <ClerkProvider>{content}</ClerkProvider>;
+  }
+
+  return content;
 }

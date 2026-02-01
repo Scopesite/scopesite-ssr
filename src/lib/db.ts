@@ -5,10 +5,7 @@
  * Configured for serverless environments with connection pooling.
  */
 
-import { neon, neonConfig } from '@neondatabase/serverless';
-
-// Configure for serverless environment
-neonConfig.fetchConnectionCache = true;
+import { neon } from '@neondatabase/serverless';
 
 // Lazy-loaded SQL connection
 let _sql: ReturnType<typeof neon> | null = null;
@@ -232,6 +229,20 @@ export async function initializeQuotesTable(): Promise<void> {
 export async function initializeDatabase(): Promise<void> {
   await initializeBriefsTable();
   await initializeQuotesTable();
+}
+
+/**
+ * Initialize all database tables including portal tables
+ * Use this for full database setup
+ */
+export async function initializeAllTables(): Promise<void> {
+  // Core tables
+  await initializeBriefsTable();
+  await initializeQuotesTable();
+
+  // Portal tables (imported dynamically to avoid circular deps)
+  const { initializePortalTables } = await import('./portal-db');
+  await initializePortalTables();
 }
 
 // ============================================

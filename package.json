@@ -14,9 +14,11 @@
     "start": "next start",
     "lint": "eslint",
     "db:init": "npx tsx scripts/db.ts init",
+    "db:init-portal": "npx tsx scripts/db.ts init-portal",
     "db:check": "npx tsx scripts/db.ts check"
   },
   "dependencies": {
+    "@clerk/nextjs": "^6.37.1",
     "@getbrevo/brevo": "^3.0.1",
     "@hookform/resolvers": "^5.2.2",
     "@neondatabase/serverless": "^1.0.2",
@@ -48,6 +50,7 @@
     "react-markdown": "^10.1.0",
     "rehype-slug": "^6.0.0",
     "remark-gfm": "^4.0.1",
+    "svix": "^1.84.1",
     "tailwind-merge": "^3.4.0",
     "zod": "^4.3.4",
     "zustand": "^5.0.9"
