@@ -21,6 +21,12 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const isHome = pathname === '/';
+  const isPortal = pathname?.startsWith('/portal');
+
+  // Don't render main header in portal - it has its own nav
+  if (isPortal) {
+    return null;
+  }
 
   useEffect(() => {
     const handleScroll = () => {

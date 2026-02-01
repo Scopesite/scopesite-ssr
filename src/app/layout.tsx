@@ -4,6 +4,7 @@ import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { MainWrapper } from '@/components/layout/MainWrapper';
 import { JsonLd } from '@/components/JsonLd';
 import { SkipLink, RouteAnnouncer } from '@/components/a11y';
 import { generateOrganizationSchema, generateWebsiteSchema } from '@/lib/schema';
@@ -137,9 +138,9 @@ export default function RootLayout({
       >
         <SkipLink />
         <Header />
-        <main id="main-content" className="pt-32" tabIndex={-1}>
+        <MainWrapper>
           {children}
-        </main>
+        </MainWrapper>
         <Footer />
         <RouteAnnouncer />
         <Analytics />

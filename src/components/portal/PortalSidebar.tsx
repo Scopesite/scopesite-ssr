@@ -52,7 +52,7 @@ export function PortalSidebar({ isAdmin }: PortalSidebarProps) {
           'flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all',
           isActive
             ? 'bg-brand-gold text-brand-navy'
-            : 'text-brand-navy/70 hover:bg-brand-navy/5 hover:text-brand-navy'
+            : 'text-white/70 hover:bg-white/10 hover:text-white'
         )}
       >
         <item.icon size={20} />
@@ -70,7 +70,7 @@ export function PortalSidebar({ isAdmin }: PortalSidebarProps) {
   return (
     <>
       {/* Desktop sidebar */}
-      <aside className="hidden lg:flex flex-col fixed left-0 top-16 bottom-0 w-64 bg-white border-r border-gray-200 p-4 overflow-y-auto">
+      <aside className="hidden lg:flex flex-col fixed left-0 top-16 bottom-0 w-64 bg-brand-navy border-r border-brand-graphite p-4 overflow-y-auto">
         {/* Client navigation */}
         <nav className="space-y-1">
           {clientNavItems.map((item) => (
@@ -81,8 +81,8 @@ export function PortalSidebar({ isAdmin }: PortalSidebarProps) {
         {/* Admin section */}
         {isAdmin && (
           <>
-            <div className="my-6 border-t border-gray-200" />
-            <p className="px-4 mb-2 text-xs font-semibold text-brand-navy/50 uppercase tracking-wider">
+            <div className="my-6 border-t border-brand-graphite" />
+            <p className="px-4 mb-2 text-xs font-semibold text-brand-gold uppercase tracking-wider">
               Admin
             </p>
             <nav className="space-y-1">
@@ -94,7 +94,7 @@ export function PortalSidebar({ isAdmin }: PortalSidebarProps) {
         )}
 
         {/* Settings at bottom */}
-        <div className="mt-auto pt-4 border-t border-gray-200">
+        <div className="mt-auto pt-4 border-t border-brand-graphite">
           <NavLink 
             item={{ name: 'Settings', href: '/portal/settings', icon: Settings }} 
           />
@@ -102,7 +102,7 @@ export function PortalSidebar({ isAdmin }: PortalSidebarProps) {
       </aside>
 
       {/* Mobile sidebar - shown via CSS when menu is open */}
-      <aside className="lg:hidden fixed left-0 top-16 bottom-0 w-64 bg-white border-r border-gray-200 p-4 overflow-y-auto transform -translate-x-full transition-transform z-50 peer-checked:translate-x-0">
+      <aside className="lg:hidden fixed left-0 top-16 bottom-0 w-64 bg-brand-navy border-r border-brand-graphite p-4 overflow-y-auto transform -translate-x-full transition-transform z-50 peer-checked:translate-x-0">
         {/* Same content as desktop */}
         <nav className="space-y-1">
           {clientNavItems.map((item) => (
@@ -112,8 +112,8 @@ export function PortalSidebar({ isAdmin }: PortalSidebarProps) {
 
         {isAdmin && (
           <>
-            <div className="my-6 border-t border-gray-200" />
-            <p className="px-4 mb-2 text-xs font-semibold text-brand-navy/50 uppercase tracking-wider">
+            <div className="my-6 border-t border-brand-graphite" />
+            <p className="px-4 mb-2 text-xs font-semibold text-brand-gold uppercase tracking-wider">
               Admin
             </p>
             <nav className="space-y-1">
@@ -124,7 +124,7 @@ export function PortalSidebar({ isAdmin }: PortalSidebarProps) {
           </>
         )}
 
-        <div className="mt-auto pt-4 border-t border-gray-200">
+        <div className="mt-auto pt-4 border-t border-brand-graphite">
           <NavLink 
             item={{ name: 'Settings', href: '/portal/settings', icon: Settings }} 
           />
