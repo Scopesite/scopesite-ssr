@@ -25,8 +25,30 @@ import {
   sendNewCommentNotification,
   sendInvoiceReadyNotification 
 } from '@/lib/portal-notifications';
-import type { ChangeRequestProgress, UpdateChangeRequest, getCostDisplay } from '@/types/portal';
-import { getCostDisplay as calculateCostDisplay } from '@/types/portal';
+import type { ChangeRequestProgress, UpdateChangeRequest, CommenceWorkBy } from '@/types/portal';
+import { getCostDisplay as calculateCostDisplay, URGENCY_RATES } from '@/types/portal';
+
+/**
+ * Map Trello "Commence Work By" values to database values
+ */
+function mapTrelloUrgencyToDb(trelloUrgency: string): CommenceWorkBy {
+  const mapping: Record<string, CommenceWorkBy> = {
+    'emergency (right now)': 'emergency',
+    'emergency': 'emergency',
+    'now and out of hours': 'out_of_hours',
+    'outofhours': 'out_of_hours',
+    '24 hours': '24_hours',
+    '24hours': '24_hours',
+    '48 hours': '48_hours',
+    '48hours': '48_hours',
+    '3 - 5 days': '3_5_days',
+    '3-5 days': '3_5_days',
+    '35days': '3_5_days',
+  };
+  
+  const normalized = trelloUrgency.toLowerCase().replace(/[£\d]+ph/g, '').trim();
+  return mapping[normalized] || null;
+}
 
 // Trello sends HEAD request to verify webhook URL
 export async function HEAD() {
@@ -183,6 +205,26 @@ async function handleCustomFieldUpdate(
     case 'invoicenumberissued':
       updates.invoice_number = value as string;
       actionDescription = `Invoice number set to ${value}`;
+      break;
+    case 'commenceworkby':
+    case 'urgency':
+      // Map urgency to DB value and auto-set rate
+      const urgency = mapTrelloUrgencyToDb(value as string);
+      if (urgency) {
+        updates.commence_work_by = urgency;
+        // Auto-set the rate based on urgency
+        updates.rate_charged = URGENCY_RATES[urgency];
+        actionDescription = `Urgency set to "${value}" (Rate: £${updates.rate_charged}/hr)`;
+      } else {
+        console.log('[Trello Webhook] Could not map urgency value:', value);
+        return;
+      }
+      break;
+    case 'ratechargedperhour':
+      // Handle "Rate Charged Per Hour" field name variant
+      const ratePerHourStr = value.toString().replace(/[£,]/g, '');
+      updates.rate_charged = parseInt(ratePerHourStr, 10);
+      actionDescription = `Rate charged set to £${updates.rate_charged}/hr`;
       break;
     default:
       // Unknown field - ignore

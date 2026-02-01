@@ -14,18 +14,18 @@ import {
   updateChangeRequest,
   logActivity 
 } from '@/lib/portal-db';
-import { isTrelloConfigured, createCard, addComment } from '@/lib/trello';
+import { isTrelloConfigured, createCard, addComment, setCustomField } from '@/lib/trello';
 import { sendRequestSubmittedNotification } from '@/lib/portal-notifications';
-import type { ChangeRequestType } from '@/types/portal';
-import { TYPE_OF_WORK_LABELS } from '@/types/portal';
+import type { ChangeRequestType, CommenceWorkBy } from '@/types/portal';
+import { TYPE_OF_WORK_LABELS, URGENCY_LABELS, URGENCY_RATES } from '@/types/portal';
 
 // Validation
-function validateRequest(body: unknown): { valid: true; data: { title: string; description: string; type_of_work: ChangeRequestType; project_id?: string; file_urls?: string[] } } | { valid: false; error: string } {
+function validateRequest(body: unknown): { valid: true; data: { title: string; description: string; type_of_work: ChangeRequestType; commence_work_by?: Exclude<CommenceWorkBy, null>; project_id?: string; file_urls?: string[] } } | { valid: false; error: string } {
   if (!body || typeof body !== 'object') {
     return { valid: false, error: 'Invalid request body' };
   }
 
-  const { title, description, type_of_work, project_id, file_urls } = body as Record<string, unknown>;
+  const { title, description, type_of_work, commence_work_by, project_id, file_urls } = body as Record<string, unknown>;
 
   if (!title || typeof title !== 'string' || title.trim().length === 0) {
     return { valid: false, error: 'Title is required' };
@@ -40,12 +40,20 @@ function validateRequest(body: unknown): { valid: true; data: { title: string; d
     return { valid: false, error: 'Invalid type of work' };
   }
 
+  // Validate commence_work_by if provided
+  const validUrgencies: Exclude<CommenceWorkBy, null>[] = ['emergency', 'out_of_hours', '24_hours', '48_hours', '3_5_days'];
+  let validatedUrgency: Exclude<CommenceWorkBy, null> | undefined;
+  if (commence_work_by && validUrgencies.includes(commence_work_by as Exclude<CommenceWorkBy, null>)) {
+    validatedUrgency = commence_work_by as Exclude<CommenceWorkBy, null>;
+  }
+
   return {
     valid: true,
     data: {
       title: title.trim(),
       description: description.trim(),
       type_of_work: type_of_work as ChangeRequestType,
+      commence_work_by: validatedUrgency,
       project_id: typeof project_id === 'string' ? project_id : undefined,
       file_urls: Array.isArray(file_urls) ? file_urls.filter(u => typeof u === 'string') : undefined,
     },
@@ -124,6 +132,7 @@ export async function POST(request: NextRequest) {
       title: validation.data.title,
       description: validation.data.description,
       type_of_work: validation.data.type_of_work,
+      commence_work_by: validation.data.commence_work_by,
     });
 
     // Log activity
@@ -155,6 +164,15 @@ export async function POST(request: NextRequest) {
         await updateChangeRequest(changeRequest.id, {
           trello_card_id: trelloCard.id,
         });
+
+        // Set the Commence Work By custom field and rate if provided
+        if (validation.data.commence_work_by) {
+          const urgencyLabel = URGENCY_LABELS[validation.data.commence_work_by];
+          await setCustomField(trelloCard.id, 'commence_work_by', urgencyLabel);
+          // Also set the rate based on urgency
+          const rate = URGENCY_RATES[validation.data.commence_work_by];
+          await setCustomField(trelloCard.id, 'rate_charged', `£${rate}`);
+        }
 
         // Add file attachment comments to Trello card
         if (validation.data.file_urls && validation.data.file_urls.length > 0) {

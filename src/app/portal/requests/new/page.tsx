@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeft, Send, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { FileUpload, type UploadedFile } from '@/components/FileUpload';
-import { TYPE_OF_WORK_LABELS, type ChangeRequestType } from '@/types/portal';
+import { TYPE_OF_WORK_LABELS, URGENCY_LABELS, type ChangeRequestType, type CommenceWorkBy } from '@/types/portal';
 
 export default function NewRequestPage() {
   const router = useRouter();
@@ -17,7 +17,11 @@ export default function NewRequestPage() {
     title: '',
     description: '',
     type_of_work: 'change_request' as ChangeRequestType,
+    commence_work_by: '3_5_days' as Exclude<CommenceWorkBy, null>,
   });
+
+  // Check if this type of work is billable
+  const isBillable = formData.type_of_work === 'change_request' || formData.type_of_work === 'new_project';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,6 +34,8 @@ export default function NewRequestPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
+          // Only include urgency for billable work types
+          commence_work_by: isBillable ? formData.commence_work_by : null,
           file_urls: uploadedFiles.map(f => f.url),
         }),
       });
@@ -105,6 +111,47 @@ export default function NewRequestPage() {
             )}
           </div>
         </div>
+
+        {/* Urgency / Commence Work By - only show for billable types */}
+        {isBillable && (
+          <div>
+            <label className="block text-sm font-medium text-brand-navy mb-2">
+              Urgency / Timeframe *
+            </label>
+            <p className="text-xs text-brand-navy/60 mb-3">
+              How quickly do you need this completed? Faster turnaround = higher rate.
+            </p>
+            <div className="space-y-2">
+              {(Object.entries(URGENCY_LABELS) as [Exclude<CommenceWorkBy, null>, string][]).map(
+                ([value, label]) => (
+                  <label
+                    key={value}
+                    className={`flex items-center p-3 rounded-lg border-2 cursor-pointer transition-colors ${
+                      formData.commence_work_by === value
+                        ? 'border-brand-gold bg-brand-gold/5'
+                        : 'border-gray-200 hover:border-brand-gold/50'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="commence_work_by"
+                      value={value}
+                      checked={formData.commence_work_by === value}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          commence_work_by: e.target.value as Exclude<CommenceWorkBy, null>,
+                        }))
+                      }
+                      className="sr-only"
+                    />
+                    <span className="text-sm font-medium text-brand-navy">{label}</span>
+                  </label>
+                )
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Title */}
         <div>

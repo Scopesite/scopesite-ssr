@@ -85,6 +85,7 @@ export async function initializePortalTables(): Promise<void> {
       title VARCHAR(500) NOT NULL,
       description TEXT,
       type_of_work VARCHAR(50) NOT NULL,
+      commence_work_by VARCHAR(50),
       progress VARCHAR(50) DEFAULT 'not_seen_yet',
       hours_estimated DECIMAL(10,2),
       hours_worked DECIMAL(10,2),
@@ -99,6 +100,11 @@ export async function initializePortalTables(): Promise<void> {
       created_at TIMESTAMPTZ DEFAULT NOW(),
       updated_at TIMESTAMPTZ DEFAULT NOW()
     )
+  `;
+
+  // Migration: Add commence_work_by column if it doesn't exist
+  await sql`
+    ALTER TABLE change_requests ADD COLUMN IF NOT EXISTS commence_work_by VARCHAR(50)
   `;
 
   // Comments table
@@ -363,6 +369,7 @@ export async function createChangeRequest(
       title,
       description,
       type_of_work,
+      commence_work_by,
       progress
     ) VALUES (
       ${data.client_id},
@@ -370,6 +377,7 @@ export async function createChangeRequest(
       ${data.title},
       ${data.description},
       ${data.type_of_work},
+      ${data.commence_work_by || null},
       'not_seen_yet'
     )
     RETURNING *
@@ -471,6 +479,7 @@ export async function updateChangeRequest(
       title = COALESCE(${updates.title ?? null}, title),
       description = COALESCE(${updates.description ?? null}, description),
       type_of_work = COALESCE(${updates.type_of_work ?? null}, type_of_work),
+      commence_work_by = COALESCE(${updates.commence_work_by ?? null}, commence_work_by),
       progress = COALESCE(${updates.progress ?? null}, progress),
       hours_estimated = COALESCE(${updates.hours_estimated}, hours_estimated),
       hours_worked = COALESCE(${updates.hours_worked}, hours_worked),

@@ -55,6 +55,7 @@ export interface ChangeRequestRow {
   title: string;
   description: string;
   type_of_work: ChangeRequestType;
+  commence_work_by: CommenceWorkBy; // Urgency - determines rate
 
   // Set by admin (synced from Trello)
   progress: ChangeRequestProgress;
@@ -136,6 +137,36 @@ export type ChangeRequestType =
   | 'error_found'
   | 'general_message';
 
+export type CommenceWorkBy =
+  | 'emergency'        // Emergency (Right Now) - £120ph
+  | 'out_of_hours'     // Now and out of hours - £200ph
+  | '24_hours'         // 24 Hours - £90ph
+  | '48_hours'         // 48 Hours - £60ph
+  | '3_5_days'         // 3 - 5 days - £45ph
+  | null;
+
+/**
+ * Mapping from urgency to hourly rate
+ */
+export const URGENCY_RATES: Record<Exclude<CommenceWorkBy, null>, number> = {
+  emergency: 120,
+  out_of_hours: 200,
+  '24_hours': 90,
+  '48_hours': 60,
+  '3_5_days': 45,
+};
+
+/**
+ * Urgency display labels
+ */
+export const URGENCY_LABELS: Record<Exclude<CommenceWorkBy, null>, string> = {
+  emergency: 'Emergency (Right Now) - £120/hr',
+  out_of_hours: 'Now and out of hours - £200/hr',
+  '24_hours': '24 Hours - £90/hr',
+  '48_hours': '48 Hours - £60/hr',
+  '3_5_days': '3 - 5 days - £45/hr',
+};
+
 export type ChangeRequestProgress =
   | 'not_seen_yet'
   | 'submission_viewed'
@@ -200,6 +231,7 @@ export interface NewChangeRequest {
   title: string;
   description: string;
   type_of_work: ChangeRequestType;
+  commence_work_by?: CommenceWorkBy;
 }
 
 export interface NewComment {
@@ -253,6 +285,7 @@ export interface UpdateChangeRequest {
   title?: string;
   description?: string;
   type_of_work?: ChangeRequestType;
+  commence_work_by?: CommenceWorkBy;
   progress?: ChangeRequestProgress;
   hours_estimated?: number | null;
   hours_worked?: number | null;
