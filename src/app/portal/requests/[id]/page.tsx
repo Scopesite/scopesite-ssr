@@ -212,7 +212,7 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
           {/* Cost & Approval section */}
           {(request.hours_estimated || request.one_off_payment) && (
             <div className="bg-white rounded-xl border border-gray-200 p-6">
-              <h2 className="text-lg font-semibold text-brand-navy mb-4">Quote</h2>
+              <h2 className="text-lg font-semibold text-brand-navy mb-4">Estimate</h2>
               <CostDisplay request={request} />
               
               {canApprove && (

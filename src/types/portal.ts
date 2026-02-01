@@ -396,7 +396,7 @@ export function getCostDisplay(request: ChangeRequestRow): CostDisplay {
     };
   }
 
-  // Hourly calculation
+  // Hourly calculation - full estimate
   if (request.hours_estimated && request.rate_charged) {
     const total = request.hours_estimated * request.rate_charged;
     return {
@@ -408,11 +408,22 @@ export function getCostDisplay(request: ChangeRequestRow): CostDisplay {
     };
   }
 
+  // Partial estimate - hours only, rate pending
+  if (request.hours_estimated && !request.rate_charged) {
+    return {
+      type: 'hourly',
+      total: null,
+      hours: request.hours_estimated,
+      rate: undefined,
+      display: `${request.hours_estimated} hours estimated (rate to be confirmed)`,
+    };
+  }
+
   // No estimate yet
   return {
     type: 'pending',
     total: null,
-    display: 'Quote pending',
+    display: 'Estimate pending',
   };
 }
 

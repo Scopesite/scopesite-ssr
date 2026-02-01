@@ -83,7 +83,7 @@ export function ApprovalButtons({ requestId }: ApprovalButtonsProps) {
         <textarea
           value={rejectReason}
           onChange={(e) => setRejectReason(e.target.value)}
-          placeholder="Let us know your questions or concerns about this quote..."
+          placeholder="Let us know your questions or concerns about this estimate..."
           rows={3}
           className="w-full p-3 border border-gray-200 rounded-lg text-sm resize-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold/30"
           autoFocus
@@ -130,7 +130,7 @@ export function ApprovalButtons({ requestId }: ApprovalButtonsProps) {
   return (
     <div className="space-y-4">
       <p className="text-sm text-brand-navy/70">
-        Please review the quote above. By approving, you authorize us to proceed with the work.
+        Please review the estimate above. By approving, you authorize us to proceed with the work.
       </p>
 
       {error && (
@@ -144,7 +144,7 @@ export function ApprovalButtons({ requestId }: ApprovalButtonsProps) {
           className="flex-1 px-4 py-3 border border-gray-200 text-brand-navy text-sm font-medium rounded-lg hover:bg-gray-50 disabled:opacity-50 transition-colors flex items-center justify-center gap-2"
         >
           <X size={16} />
-          Query Quote
+          Query Estimate
         </button>
         <button
           onClick={handleApprove}
@@ -159,7 +159,7 @@ export function ApprovalButtons({ requestId }: ApprovalButtonsProps) {
           ) : (
             <>
               <Check size={16} />
-              Approve Quote
+              Approve Estimate
             </>
           )}
         </button>
