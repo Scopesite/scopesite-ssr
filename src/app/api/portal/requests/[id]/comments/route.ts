@@ -14,6 +14,8 @@ import {
   createComment,
   logActivity 
 } from '@/lib/portal-db';
+import { isTrelloConfigured, addComment as addTrelloComment } from '@/lib/trello';
+import { sendNewCommentNotification } from '@/lib/portal-notifications';
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -139,8 +141,28 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       actor_name: client.primary_contact_name,
     });
 
-    // TODO: Add comment to Trello card with [From Portal] prefix (Phase 4)
-    // TODO: Send admin notification (Phase 6)
+    // Add comment to Trello card with [email]: prefix
+    if (isTrelloConfigured() && changeRequest.trello_card_id) {
+      try {
+        // Format: [client@email.com]: Their message here
+        const trelloCommentText = `[${client.email}]: ${message.trim()}`;
+        await addTrelloComment(changeRequest.trello_card_id, trelloCommentText, false);
+      } catch (trelloError) {
+        console.error('Failed to add comment to Trello:', trelloError);
+        // Don't fail the request if Trello fails
+      }
+    }
+
+    // Send admin notification
+    sendNewCommentNotification({
+      recipientEmail: process.env.ADMIN_EMAIL || 'dan@scopesite.co.uk',
+      recipientName: 'Admin',
+      authorName: client.primary_contact_name,
+      requestTitle: changeRequest.title,
+      requestId: resolvedParams.id,
+      comment: message.trim(),
+      isToAdmin: true,
+    }).catch(err => console.error('Failed to send admin comment notification:', err));
 
     return NextResponse.json({
       success: true,

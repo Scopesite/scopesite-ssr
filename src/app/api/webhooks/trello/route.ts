@@ -39,19 +39,24 @@ export async function POST(request: NextRequest) {
     
     // Trello verification - they send empty body initially
     if (!body || body === '{}') {
+      console.log('[Trello Webhook] Empty body - verification request');
       return NextResponse.json({ ok: true });
     }
 
     const payload = JSON.parse(body);
     const action = payload.action;
 
+    console.log('[Trello Webhook] Received action:', action?.type, '| Card:', action?.data?.card?.id);
+
     if (!action) {
+      console.log('[Trello Webhook] No action in payload');
       return NextResponse.json({ ok: true });
     }
 
     const cardId = action.data?.card?.id;
 
     if (!cardId) {
+      console.log('[Trello Webhook] No card ID in action');
       return NextResponse.json({ ok: true });
     }
 
@@ -60,8 +65,11 @@ export async function POST(request: NextRequest) {
 
     if (!changeRequest) {
       // Card not linked to a portal request - ignore
+      console.log('[Trello Webhook] Card not linked to portal request:', cardId);
       return NextResponse.json({ ok: true });
     }
+
+    console.log('[Trello Webhook] Found change request:', changeRequest.id, '| Action:', action.type);
 
     const client = await getClientById(changeRequest.client_id);
     const actorName = action.memberCreator?.fullName || 'Admin';
@@ -111,7 +119,12 @@ async function handleCustomFieldUpdate(
   const fieldName = action.data?.customField?.name;
   const newValue = action.data?.customFieldItem;
 
-  if (!fieldName || !newValue) return;
+  console.log('[Trello Webhook] Custom field update - Field:', fieldName, '| Value:', JSON.stringify(newValue));
+
+  if (!fieldName || !newValue) {
+    console.log('[Trello Webhook] Missing field name or value');
+    return;
+  }
 
   // Normalize field name
   const normalizedFieldName = fieldName.toLowerCase().replace(/[\s_-]+/g, '');
@@ -129,7 +142,12 @@ async function handleCustomFieldUpdate(
     value = option?.value.text;
   }
 
-  if (value === undefined) return;
+  if (value === undefined) {
+    console.log('[Trello Webhook] Could not extract value from:', JSON.stringify(newValue));
+    return;
+  }
+
+  console.log('[Trello Webhook] Extracted value:', value, '| Normalized field:', normalizedFieldName);
 
   // Map Trello field to DB field
   const updates: UpdateChangeRequest = {};
@@ -168,13 +186,21 @@ async function handleCustomFieldUpdate(
       break;
     default:
       // Unknown field - ignore
+      console.log('[Trello Webhook] Unknown field, ignoring:', normalizedFieldName);
       return;
   }
 
-  if (Object.keys(updates).length === 0) return;
+  if (Object.keys(updates).length === 0) {
+    console.log('[Trello Webhook] No updates to apply');
+    return;
+  }
+
+  console.log('[Trello Webhook] Updating request:', request.id, '| Updates:', JSON.stringify(updates));
 
   // Update database
   await updateChangeRequest(request.id, updates);
+
+  console.log('[Trello Webhook] Database updated successfully');
 
   // Log activity
   await logActivity({
@@ -269,8 +295,10 @@ async function handleNewComment(
   const existing = await getCommentByTrelloId(trelloCommentId);
   if (existing) return;
 
-  // Skip comments that came FROM the portal (they have a marker)
-  if (commentText.includes('[From Portal]')) return;
+  // Skip comments that came FROM the portal
+  // Portal comments start with [email@domain]: pattern OR legacy [From Portal] marker
+  const portalEmailPattern = /^\[[\w.+-]+@[\w.-]+\]:/;
+  if (commentText.includes('[From Portal]') || portalEmailPattern.test(commentText)) return;
 
   // Save comment to DB
   await createComment({
