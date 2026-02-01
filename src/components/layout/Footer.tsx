@@ -8,10 +8,17 @@ import { Phone, Mail, MapPin } from 'lucide-react';
 const FOOTER_LINKS = {
   services: [
     { label: 'Web Design', href: '/web-design' },
+    { label: 'AI Website Design', href: '/ai-website-design' },
+    { label: 'AI SEO Services', href: '/ai-seo-services' },
+    { label: 'Schema Markup', href: '/schema-markup' },
     { label: 'V.O.I.C.E™ AI Visibility', href: '/voice' },
     { label: 'Custom Web Apps', href: '/web-apps' },
     { label: 'Pricing', href: '/pricing' },
-    { label: 'Send Us a Brief', href: '/brief' },
+  ],
+  localServices: [
+    { label: 'Web Design Somerset', href: '/web-design-somerset' },
+    { label: 'Web Design Bath', href: '/web-design-bath' },
+    { label: 'Web Design Bristol', href: '/web-design-bristol' },
   ],
   company: [
     { label: 'About Us', href: '/about' },
@@ -128,6 +135,22 @@ export function Footer() {
                   <Link
                     href={link.href}
                     className="text-white/70 text-body-sm hover:text-brand-gold transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            {/* Local Services Sub-section */}
+            <h4 className="font-body font-semibold text-white/80 text-body-sm mt-6 mb-3">
+              Local Services
+            </h4>
+            <ul className="space-y-2">
+              {FOOTER_LINKS.localServices.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-white/60 text-body-sm hover:text-brand-gold transition-colors"
                   >
                     {link.label}
                   </Link>

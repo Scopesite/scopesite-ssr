@@ -1139,6 +1139,225 @@ export function generateReviewsSchema(reviews: ReviewData[]) {
 }
 
 // ============================================
+// WEBPAGE + FAQPAGE COMBINED SCHEMA
+// ============================================
+
+/**
+ * Generates a combined WebPage + FAQPage schema for service landing pages
+ * Used for pages like /ai-website-design, /schema-markup, /ai-seo-services
+ */
+export function generateWebPageFAQPageSchema(
+  url: string,
+  name: string,
+  description: string,
+  faqs: FAQItem[],
+  serviceId?: string
+) {
+  return {
+    '@type': ['WebPage', 'FAQPage'],
+    '@id': url,
+    url,
+    name,
+    description,
+    inLanguage: 'en-GB',
+    isPartOf: { '@id': `${BASE_URL}/#website` },
+    about: serviceId ? { '@id': serviceId } : { '@id': `${BASE_URL}/#organization` },
+    breadcrumb: { '@id': `${url}#breadcrumb` },
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  };
+}
+
+// ============================================
+// LOCAL SERVICE SCHEMA (for local landing pages)
+// ============================================
+
+export interface AreaServedItem {
+  type: 'AdministrativeArea' | 'City' | 'Country' | 'State';
+  name: string;
+}
+
+export interface ServiceOffer {
+  name: string;
+  price: string;
+}
+
+/**
+ * Generates Service schema with local areaServed targeting
+ * Used for local pages like /web-design-somerset, /web-design-bath, /web-design-bristol
+ */
+export function generateLocalServiceSchema(
+  name: string,
+  alternateNames: string[],
+  description: string,
+  url: string,
+  areaServed: AreaServedItem[],
+  offers?: ServiceOffer[]
+) {
+  const schema: Record<string, unknown> = {
+    '@type': 'Service',
+    '@id': `${url}#service`,
+    name,
+    alternateName: alternateNames,
+    description,
+    provider: { '@id': `${BASE_URL}/#organization` },
+    serviceType: 'Web Design',
+    areaServed: areaServed.map((area) => ({
+      '@type': area.type,
+      name: area.name,
+    })),
+  };
+
+  if (offers && offers.length > 0) {
+    schema.hasOfferCatalog = {
+      '@type': 'OfferCatalog',
+      name: `${name} Packages`,
+      itemListElement: offers.map((offer) => ({
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: offer.name,
+        },
+        priceSpecification: {
+          '@type': 'PriceSpecification',
+          price: offer.price,
+          priceCurrency: 'GBP',
+        },
+      })),
+    };
+  }
+
+  return schema;
+}
+
+/**
+ * Generates a LocalBusiness schema variant for local landing pages
+ * References the main organization but adds local-specific areaServed
+ * This helps with local SEO by explicitly defining service areas
+ */
+export function generateLocalBusinessSchema(
+  areaName: string,
+  areaServed: AreaServedItem[]
+) {
+  return {
+    '@type': 'LocalBusiness',
+    '@id': `${BASE_URL}/#organization`,
+    name: `ScopeSite Digital Studios - ${areaName}`,
+    description: `AI-first web design agency serving ${areaName}. Based in Frome, Somerset.`,
+    telephone: '+441373311339',
+    email: 'support@scopesite.co.uk',
+    url: BASE_URL,
+    priceRange: '££',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: '4 Horse Close',
+      addressLocality: 'Frome',
+      addressRegion: 'Somerset',
+      postalCode: 'BA11',
+      addressCountry: 'GB',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: '51.2308',
+      longitude: '-2.3201',
+    },
+    areaServed: areaServed.map((area) => ({
+      '@type': area.type,
+      name: area.name,
+    })),
+    openingHoursSpecification: {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '09:00',
+      closes: '17:00',
+    },
+  };
+}
+
+// ============================================
+// LANDING PAGE SCHEMA HELPER
+// ============================================
+
+/**
+ * Helper to generate complete schema graph for a landing page
+ * Combines WebPage+FAQPage, Service, and Breadcrumb schemas
+ */
+export function generateLandingPageSchema(
+  url: string,
+  pageName: string,
+  pageTitle: string,
+  pageDescription: string,
+  faqs: FAQItem[],
+  service: {
+    name: string;
+    alternateNames?: string[];
+    description: string;
+  },
+  isLocal?: {
+    areaName: string;
+    areas: AreaServedItem[];
+    offers?: ServiceOffer[];
+  }
+) {
+  const schemas: Record<string, unknown>[] = [];
+
+  // 1. WebPage + FAQPage combined
+  schemas.push(
+    generateWebPageFAQPageSchema(
+      url,
+      pageTitle,
+      pageDescription,
+      faqs,
+      `${url}#service`
+    )
+  );
+
+  // 2. Service schema (local or national)
+  if (isLocal) {
+    schemas.push(
+      generateLocalServiceSchema(
+        service.name,
+        service.alternateNames || [],
+        service.description,
+        url,
+        isLocal.areas,
+        isLocal.offers
+      )
+    );
+  } else {
+    schemas.push({
+      '@type': 'Service',
+      '@id': `${url}#service`,
+      name: service.name,
+      alternateName: service.alternateNames || [],
+      description: service.description,
+      provider: { '@id': `${BASE_URL}/#organization` },
+      serviceType: 'Web Design',
+      areaServed: {
+        '@type': 'Country',
+        name: 'United Kingdom',
+      },
+    });
+  }
+
+  // 3. Breadcrumb
+  schemas.push(
+    generateBreadcrumbSchema([
+      { name: 'Home', url: BASE_URL },
+      { name: pageName, url },
+    ])
+  );
+
+  return wrapInGraph(schemas);
+}
+
+// ============================================
 // GRAPH WRAPPER
 // ============================================
 
