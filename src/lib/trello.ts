@@ -221,10 +221,11 @@ export async function setCustomField(
  */
 export async function addComment(cardId: string, text: string, fromPortal = true): Promise<void> {
   const prefix = fromPortal ? '[From Portal] ' : '';
+  const commentText = `${prefix}${text}`;
   
-  await trelloFetch(`/cards/${cardId}/actions/comments`, {
+  // Trello API expects text as a query parameter, not in the body
+  await trelloFetch(`/cards/${cardId}/actions/comments?text=${encodeURIComponent(commentText)}`, {
     method: 'POST',
-    body: JSON.stringify({ text: `${prefix}${text}` }),
   });
 }
 
