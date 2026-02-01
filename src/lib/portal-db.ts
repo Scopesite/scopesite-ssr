@@ -540,7 +540,7 @@ export async function deleteChangeRequest(id: string): Promise<boolean> {
   const result = await sql`
     DELETE FROM change_requests WHERE id = ${id}
     RETURNING id
-  `;
+  ` as { id: string }[];
   return result.length > 0;
 }
 
