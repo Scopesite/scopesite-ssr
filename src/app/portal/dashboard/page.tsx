@@ -13,6 +13,8 @@ import { RequestCard } from '@/components/portal/RequestCard';
 import { ActivityFeed } from '@/components/portal/ActivityFeed';
 import { currentUser } from '@clerk/nextjs/server';
 
+const ADMIN_CLERK_IDS = (process.env.ADMIN_CLERK_IDS || '').split(',').map(id => id.trim());
+
 export const metadata = {
   title: 'Dashboard - Client Portal',
 };
@@ -22,6 +24,11 @@ export default async function DashboardPage() {
   
   if (!userId) {
     redirect('/portal/sign-in');
+  }
+
+  // If user is admin, redirect to admin dashboard
+  if (ADMIN_CLERK_IDS.includes(userId)) {
+    redirect('/portal/admin/dashboard');
   }
 
   // Get or link client
