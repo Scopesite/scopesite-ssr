@@ -223,10 +223,15 @@ export async function addComment(cardId: string, text: string, fromPortal = true
   const prefix = fromPortal ? '[From Portal] ' : '';
   const commentText = `${prefix}${text}`;
   
-  // Trello API expects text as a query parameter, not in the body
-  await trelloFetch(`/cards/${cardId}/actions/comments?text=${encodeURIComponent(commentText)}`, {
-    method: 'POST',
-  });
+  // Direct API call - Trello comments need text as query param without JSON content-type
+  const url = `https://api.trello.com/1/cards/${cardId}/actions/comments?key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_TOKEN}&text=${encodeURIComponent(commentText)}`;
+  
+  const response = await fetch(url, { method: 'POST' });
+  
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Trello comment error ${response.status}: ${errorText}`);
+  }
 }
 
 /**
