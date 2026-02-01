@@ -6,7 +6,8 @@ import {
   LayoutDashboard, 
   FileText, 
   Plus, 
-  FolderOpen, 
+  Palette, 
+  Receipt,
   Settings,
   Users,
   BarChart3,
@@ -29,7 +30,8 @@ const clientNavItems: NavItem[] = [
   { name: 'Dashboard', href: '/portal/dashboard', icon: LayoutDashboard },
   { name: 'My Requests', href: '/portal/requests', icon: FileText },
   { name: 'New Request', href: '/portal/requests/new', icon: Plus },
-  { name: 'Files', href: '/portal/files', icon: FolderOpen },
+  { name: 'Brand', href: '/portal/files', icon: Palette },
+  { name: 'Invoices', href: '/portal/invoices', icon: Receipt },
 ];
 
 const adminNavItems: NavItem[] = [

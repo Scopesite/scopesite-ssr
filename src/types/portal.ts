@@ -184,10 +184,9 @@ export type ChangeRequestProgress =
 
 export type FileFolderCategory =
   | 'brand_assets'
-  | 'content'
-  | 'designs'
+  | 'fonts'
   | 'documents'
-  | 'deliverables'
+  | 'invoices'
   | 'change_requests';
 
 export type ActivityActionType =

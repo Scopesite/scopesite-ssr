@@ -19,15 +19,27 @@ import type { FileFolderCategory } from '@/types/portal';
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 const MAX_FILES = 5;
 const ALLOWED_TYPES = [
+  // Documents
   'application/pdf',
   'application/msword',
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'text/plain',
+  'application/zip',
+  // Images
   'image/png',
   'image/jpeg',
   'image/jpg',
   'image/webp',
-  'application/zip',
-  'text/plain',
+  'image/svg+xml',
+  // Fonts
+  'font/ttf',
+  'font/otf',
+  'font/woff',
+  'font/woff2',
+  'application/x-font-ttf',
+  'application/x-font-otf',
+  'application/font-woff',
+  'application/font-woff2',
 ];
 
 export async function POST(request: NextRequest) {
@@ -167,6 +179,6 @@ export async function GET() {
     maxFileSize: MAX_FILE_SIZE,
     maxFiles: MAX_FILES,
     allowedTypes: ALLOWED_TYPES,
-    allowedExtensions: ['.pdf', '.doc', '.docx', '.png', '.jpg', '.jpeg', '.webp', '.zip', '.txt'],
+    allowedExtensions: ['.pdf', '.doc', '.docx', '.png', '.jpg', '.jpeg', '.webp', '.svg', '.zip', '.txt', '.ttf', '.otf', '.woff', '.woff2'],
   });
 }

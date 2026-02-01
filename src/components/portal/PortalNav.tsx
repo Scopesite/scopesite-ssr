@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { UserButton } from '@clerk/nextjs';
+import Link from 'next/link';
 import { Menu, X, Bell } from 'lucide-react';
 
 interface PortalNavProps {
@@ -31,12 +31,12 @@ export function PortalNav({ userName, isAdmin, companyName }: PortalNavProps) {
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
 
-            {/* Logo */}
-            <Link href="/portal/dashboard" className="flex items-center gap-3">
+            {/* Logo - links back to main website */}
+            <a href="https://scopesite.co.uk" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3">
               <span className="font-headline text-lg text-white">SCOPESITE</span>
               <span className="hidden sm:inline text-white/50 text-sm">|</span>
               <span className="hidden sm:inline text-white/70 text-sm">Portal</span>
-            </Link>
+            </a>
 
             {/* Company name badge */}
             {companyName && (
@@ -75,7 +75,7 @@ export function PortalNav({ userName, isAdmin, companyName }: PortalNavProps) {
                 {userName}
               </span>
               <UserButton
-                afterSignOutUrl="/"
+                afterSignOutUrl="https://scopesite.co.uk"
                 appearance={{
                   elements: {
                     avatarBox: 'w-9 h-9',

@@ -9,3 +9,4 @@ export { CostDisplay } from './CostDisplay';
 export { ApprovalButtons } from './ApprovalButtons';
 export { VisualProgress, VisualProgressCompact } from './VisualProgress';
 export { AdminDeleteButton } from './AdminDeleteButton';
+export { BrandUploadSection } from './BrandUploadSection';
