@@ -19,7 +19,7 @@ import {
   logActivity,
   getChangeRequestById
 } from '@/lib/portal-db';
-import { mapTrelloProgressToDb } from '@/lib/trello';
+import { mapTrelloProgressToDb, getCustomFields } from '@/lib/trello';
 import { 
   sendEstimateReadyNotification,
   sendNewCommentNotification,
@@ -158,10 +158,29 @@ async function handleCustomFieldUpdate(
     value = newValue.value.text;
   } else if (newValue.value?.number) {
     value = parseFloat(newValue.value.number);
-  } else if (newValue.idValue && action.data?.customField?.options) {
-    // Dropdown - find option text
-    const option = action.data.customField.options.find(o => o.id === newValue.idValue);
-    value = option?.value.text;
+  } else if (newValue.idValue) {
+    // Dropdown - need to look up option text
+    // First try from webhook payload
+    if (action.data?.customField?.options) {
+      const option = action.data.customField.options.find(o => o.id === newValue.idValue);
+      value = option?.value.text;
+    }
+    
+    // If not in payload, fetch from Trello API
+    if (!value) {
+      console.log('[Trello Webhook] Options not in payload, fetching from Trello API...');
+      try {
+        const customFields = await getCustomFields();
+        const field = customFields?.find(f => f.name.toLowerCase().replace(/[\s_-]+/g, '') === normalizedFieldName);
+        if (field?.options) {
+          const option = field.options.find(o => o.id === newValue.idValue);
+          value = option?.value.text;
+          console.log('[Trello Webhook] Found option value from API:', value);
+        }
+      } catch (err) {
+        console.error('[Trello Webhook] Failed to fetch custom fields:', err);
+      }
+    }
   }
 
   if (value === undefined) {
