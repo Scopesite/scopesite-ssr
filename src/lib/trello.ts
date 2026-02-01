@@ -62,6 +62,25 @@ export async function getBoardLists(): Promise<{ id: string; name: string }[]> {
 }
 
 /**
+ * Create a new list on the board (for a new client)
+ */
+export async function createList(name: string): Promise<{ id: string; name: string }> {
+  const result = await trelloFetch<{ id: string; name: string }>('/lists', {
+    method: 'POST',
+    body: JSON.stringify({
+      name,
+      idBoard: TRELLO_BOARD_ID,
+      pos: 'bottom',
+    }),
+  });
+
+  // Invalidate the cached lists
+  cachedLists = null;
+
+  return result;
+}
+
+/**
  * Get custom fields on the board
  */
 export async function getCustomFields(): Promise<typeof cachedCustomFields> {
@@ -96,29 +115,36 @@ async function findCustomField(fieldName: string) {
 export async function createCard(params: {
   name: string;
   desc: string;
-  listName?: string;
+  listId?: string; // Direct list ID (preferred for client-specific lists)
+  listName?: string; // Fallback: find list by name
   labelId?: string;
   portalRequestId?: string;
+  typeOfWork?: string; // Custom field value: Change Request, New Project, etc.
 }): Promise<{ id: string; url: string }> {
-  const lists = await getBoardLists();
-  
-  // Find the target list (default to first list or "Incoming")
-  const targetListName = params.listName || 'Incoming';
-  let targetList = lists.find(l => l.name.toLowerCase().includes(targetListName.toLowerCase()));
-  
-  if (!targetList) {
-    targetList = lists[0];
-  }
+  let targetListId = params.listId;
 
-  if (!targetList) {
-    throw new Error('No lists found on board');
+  // If no direct listId, find by name
+  if (!targetListId) {
+    const lists = await getBoardLists();
+    const targetListName = params.listName || 'Incoming';
+    let targetList = lists.find(l => l.name.toLowerCase().includes(targetListName.toLowerCase()));
+    
+    if (!targetList) {
+      targetList = lists[0];
+    }
+
+    if (!targetList) {
+      throw new Error('No lists found on board');
+    }
+    
+    targetListId = targetList.id;
   }
 
   // Create the card
   const card = await trelloFetch<{ id: string; shortUrl: string }>('/cards', {
     method: 'POST',
     body: JSON.stringify({
-      idList: targetList.id,
+      idList: targetListId,
       name: params.name,
       desc: params.desc,
       idLabels: params.labelId ? [params.labelId] : undefined,
@@ -126,10 +152,19 @@ export async function createCard(params: {
   });
 
   // Set initial custom fields
-  await Promise.all([
+  const fieldPromises: Promise<void>[] = [
     setCustomField(card.id, 'progress', 'Not Seen Yet'),
-    params.portalRequestId ? setCustomField(card.id, 'portal_request_id', params.portalRequestId) : Promise.resolve(),
-  ]);
+  ];
+
+  if (params.portalRequestId) {
+    fieldPromises.push(setCustomField(card.id, 'portal_request_id', params.portalRequestId));
+  }
+
+  if (params.typeOfWork) {
+    fieldPromises.push(setCustomField(card.id, 'type_of_work', params.typeOfWork));
+  }
+
+  await Promise.all(fieldPromises);
 
   return {
     id: card.id,

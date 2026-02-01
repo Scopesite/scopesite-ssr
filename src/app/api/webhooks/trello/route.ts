@@ -16,10 +16,17 @@ import {
   createComment,
   getCommentByTrelloId,
   getClientById,
-  logActivity
+  logActivity,
+  getChangeRequestById
 } from '@/lib/portal-db';
-import { getCustomFields, mapTrelloProgressToDb } from '@/lib/trello';
-import type { ChangeRequestProgress, UpdateChangeRequest } from '@/types/portal';
+import { mapTrelloProgressToDb } from '@/lib/trello';
+import { 
+  sendEstimateReadyNotification,
+  sendNewCommentNotification,
+  sendInvoiceReadyNotification 
+} from '@/lib/portal-notifications';
+import type { ChangeRequestProgress, UpdateChangeRequest, getCostDisplay } from '@/types/portal';
+import { getCostDisplay as calculateCostDisplay } from '@/types/portal';
 
 // Trello sends HEAD request to verify webhook URL
 export async function HEAD() {
@@ -59,14 +66,19 @@ export async function POST(request: NextRequest) {
     const client = await getClientById(changeRequest.client_id);
     const actorName = action.memberCreator?.fullName || 'Admin';
 
+    if (!client) {
+      console.warn(`Client not found for change request ${changeRequest.id}`);
+      return NextResponse.json({ ok: true });
+    }
+
     // Handle different action types
     switch (action.type) {
       case 'updateCustomFieldItem':
-        await handleCustomFieldUpdate(changeRequest, action, client?.primary_contact_name || 'Client');
+        await handleCustomFieldUpdate(changeRequest, action, client);
         break;
 
       case 'commentCard':
-        await handleNewComment(changeRequest, action, actorName);
+        await handleNewComment(changeRequest, action, actorName, client);
         break;
 
       case 'updateCard':
@@ -86,7 +98,7 @@ export async function POST(request: NextRequest) {
  * Handle custom field updates from Trello
  */
 async function handleCustomFieldUpdate(
-  request: { id: string; client_id: string; hours_estimated: number | null; rate_charged: number | null; progress: string },
+  request: { id: string; client_id: string; hours_estimated: number | null; rate_charged: number | null; progress: string; title: string; one_off_payment: number | null; trello_card_id: string | null },
   action: {
     data?: {
       customField?: { name: string; options?: { id: string; value: { text: string } }[] };
@@ -94,7 +106,7 @@ async function handleCustomFieldUpdate(
     };
     memberCreator?: { fullName: string };
   },
-  clientName: string
+  client: { id: string; email: string; primary_contact_name: string; company_name: string }
 ) {
   const fieldName = action.data?.customField?.name;
   const newValue = action.data?.customFieldItem;
@@ -139,8 +151,10 @@ async function handleCustomFieldUpdate(
       break;
     case 'ratecharged':
     case 'hourlyrate':
-      updates.rate_charged = value as number;
-      actionDescription = `Rate charged set to £${value}/hr`;
+      // Strip £ symbol from rate (Trello dropdowns have £45, £60, etc.)
+      const rateStr = value.toString().replace(/[£,]/g, '');
+      updates.rate_charged = parseInt(rateStr, 10);
+      actionDescription = `Rate charged set to £${updates.rate_charged}/hr`;
       break;
     case 'oneoffpayment':
     case 'fixedprice':
@@ -172,22 +186,65 @@ async function handleCustomFieldUpdate(
     actor_name: action.memberCreator?.fullName || 'Admin',
   });
 
-  // Check if estimate is now complete (both hours and rate set)
+  // Get the latest request data to check for notifications
+  const updatedRequest = await getChangeRequestById(request.id);
+  if (!updatedRequest) return;
+
+  // Check if estimate is now complete (both hours and rate set) - auto-progress
   if (
     (normalizedFieldName === 'hoursestimated' || normalizedFieldName === 'ratecharged') &&
     request.progress === 'submission_viewed'
   ) {
-    // Refresh to get latest values
-    const updatedRequest = await getChangeRequestByTrelloId(request.id);
-    if (updatedRequest?.hours_estimated && updatedRequest?.rate_charged) {
+    if (updatedRequest.hours_estimated && updatedRequest.rate_charged) {
       // Auto-update progress to estimate_added
       await updateChangeRequest(request.id, { progress: 'estimate_added' });
       
-      // TODO: Send client notification (Phase 6)
+      // Send estimate ready notification to client
+      const costDisplay = calculateCostDisplay(updatedRequest);
+      sendEstimateReadyNotification({
+        clientEmail: client.email,
+        clientName: client.primary_contact_name,
+        requestTitle: request.title,
+        requestId: request.id,
+        costDisplay: costDisplay.display,
+      }).catch(err => console.error('Failed to send estimate notification:', err));
     }
   }
 
-  // TODO: Send notifications for certain status changes (Phase 6)
+  // Send notifications for specific status changes
+  if (normalizedFieldName === 'progress') {
+    const newProgress = updates.progress;
+    
+    // Estimate added - send notification if we have estimate values
+    if (newProgress === 'estimate_added') {
+      const hasEstimate = (updatedRequest.hours_estimated && updatedRequest.rate_charged) || updatedRequest.one_off_payment;
+      if (hasEstimate) {
+        const costDisplay = calculateCostDisplay(updatedRequest);
+        sendEstimateReadyNotification({
+          clientEmail: client.email,
+          clientName: client.primary_contact_name,
+          requestTitle: request.title,
+          requestId: request.id,
+          costDisplay: costDisplay.display,
+        }).catch(err => console.error('Failed to send estimate notification:', err));
+      }
+    }
+
+    // Invoice sent - send notification
+    if (newProgress === 'invoice_sent') {
+      const costDisplay = calculateCostDisplay(updatedRequest);
+      const totalAmount = costDisplay.total || 0;
+      sendInvoiceReadyNotification({
+        clientEmail: client.email,
+        clientName: client.primary_contact_name,
+        requestTitle: request.title,
+        requestId: request.id,
+        invoiceNumber: updatedRequest.invoice_number || 'N/A',
+        totalAmount,
+        invoiceUrl: updatedRequest.invoice_url || undefined,
+      }).catch(err => console.error('Failed to send invoice notification:', err));
+    }
+  }
 }
 
 /**
@@ -200,7 +257,8 @@ async function handleNewComment(
     data?: { text?: string };
     memberCreator?: { fullName: string; id: string };
   },
-  actorName: string
+  actorName: string,
+  client: { id: string; email: string; primary_contact_name: string; company_name: string }
 ) {
   const commentText = action.data?.text;
   const trelloCommentId = action.id;
@@ -234,7 +292,16 @@ async function handleNewComment(
     actor_name: actorName,
   });
 
-  // TODO: Notify client of new comment (Phase 6)
+  // Notify client of new comment
+  sendNewCommentNotification({
+    recipientEmail: client.email,
+    recipientName: client.primary_contact_name,
+    authorName: actorName,
+    requestTitle: request.title,
+    requestId: request.id,
+    comment: commentText,
+    isToAdmin: false,
+  }).catch(err => console.error('Failed to send comment notification:', err));
 }
 
 /**

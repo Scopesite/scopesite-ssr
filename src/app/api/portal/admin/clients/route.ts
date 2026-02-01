@@ -7,8 +7,9 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
-import { getAllClients, createClient, logActivity } from '@/lib/portal-db';
+import { getAllClients, createClient, updateClient, logActivity } from '@/lib/portal-db';
 import { sendClientInvitation } from '@/lib/portal-notifications';
+import { isTrelloConfigured, createList } from '@/lib/trello';
 
 // Admin check
 const ADMIN_CLERK_IDS = process.env.ADMIN_CLERK_IDS?.split(',') || [];
@@ -80,13 +81,25 @@ export async function POST(request: NextRequest) {
     }
 
     // Create the client
-    const client = await createClient({
+    let client = await createClient({
       company_name: company_name.trim(),
       primary_contact_name: primary_contact_name.trim(),
       email: email.trim().toLowerCase(),
       phone: phone?.trim() || undefined,
       hourly_rate: hourly_rate || undefined,
     });
+
+    // Create Trello list for this client (non-blocking)
+    if (isTrelloConfigured()) {
+      try {
+        const trelloList = await createList(company_name.trim());
+        client = await updateClient(client.id, { trello_list_id: trelloList.id }) || client;
+        console.log(`Created Trello list "${trelloList.name}" (${trelloList.id}) for client ${client.id}`);
+      } catch (trelloError) {
+        console.error('Failed to create Trello list:', trelloError);
+        // Don't fail the whole request, just log the error
+      }
+    }
 
     // Log activity
     await logActivity({

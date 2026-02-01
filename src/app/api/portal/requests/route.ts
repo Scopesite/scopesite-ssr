@@ -14,7 +14,7 @@ import {
   updateChangeRequest,
   logActivity 
 } from '@/lib/portal-db';
-import { isTrelloConfigured, createCard } from '@/lib/trello';
+import { isTrelloConfigured, createCard, addComment } from '@/lib/trello';
 import { sendRequestSubmittedNotification } from '@/lib/portal-notifications';
 import type { ChangeRequestType } from '@/types/portal';
 import { TYPE_OF_WORK_LABELS } from '@/types/portal';
@@ -139,17 +139,31 @@ export async function POST(request: NextRequest) {
     // Create Trello card (non-blocking)
     if (isTrelloConfigured()) {
       try {
+        // Map DB type to Trello dropdown label
+        const typeOfWorkLabel = TYPE_OF_WORK_LABELS[validation.data.type_of_work] || validation.data.type_of_work;
+        
         const trelloCard = await createCard({
           name: `[${client.company_name}] ${validation.data.title}`,
-          desc: `**Type:** ${validation.data.type_of_work}\n**Client:** ${client.company_name}\n**Submitted by:** ${client.primary_contact_name}\n\n---\n\n${validation.data.description}`,
+          desc: `**Type:** ${typeOfWorkLabel}\n**Client:** ${client.company_name}\n**Submitted by:** ${client.primary_contact_name}\n\n---\n\n${validation.data.description}`,
+          listId: client.trello_list_id || undefined, // Use client's list
           labelId: client.trello_label_id || undefined,
           portalRequestId: changeRequest.id,
+          typeOfWork: typeOfWorkLabel, // Set the custom field
         });
 
         // Update request with Trello card ID
         await updateChangeRequest(changeRequest.id, {
           trello_card_id: trelloCard.id,
         });
+
+        // Add file attachment comments to Trello card
+        if (validation.data.file_urls && validation.data.file_urls.length > 0) {
+          for (const fileUrl of validation.data.file_urls) {
+            // Extract filename from URL
+            const filename = fileUrl.split('/').pop() || 'file';
+            await addComment(trelloCard.id, `📎 File uploaded by client: ${filename} - ${fileUrl}`);
+          }
+        }
       } catch (trelloError) {
         // Log but don't fail the request
         console.error('Failed to create Trello card:', trelloError);

@@ -47,10 +47,16 @@ export async function initializePortalTables(): Promise<void> {
       phone VARCHAR(50),
       hourly_rate INTEGER,
       trello_label_id VARCHAR(50),
+      trello_list_id VARCHAR(50),
       created_at TIMESTAMPTZ DEFAULT NOW(),
       updated_at TIMESTAMPTZ DEFAULT NOW(),
       status VARCHAR(50) DEFAULT 'pending_invite'
     )
+  `;
+
+  // Migration: Add trello_list_id column if it doesn't exist
+  await sql`
+    ALTER TABLE clients ADD COLUMN IF NOT EXISTS trello_list_id VARCHAR(50)
   `;
 
   // Projects table
@@ -172,6 +178,7 @@ export async function createClient(data: NewClient): Promise<ClientRow> {
       email,
       phone,
       hourly_rate,
+      trello_list_id,
       status
     ) VALUES (
       ${data.company_name},
@@ -179,6 +186,7 @@ export async function createClient(data: NewClient): Promise<ClientRow> {
       ${data.email},
       ${data.phone || null},
       ${data.hourly_rate || null},
+      ${data.trello_list_id || null},
       'pending_invite'
     )
     RETURNING *
@@ -252,6 +260,7 @@ export async function updateClient(
       phone = COALESCE(${updates.phone}, phone),
       hourly_rate = COALESCE(${updates.hourly_rate}, hourly_rate),
       trello_label_id = COALESCE(${updates.trello_label_id}, trello_label_id),
+      trello_list_id = COALESCE(${updates.trello_list_id}, trello_list_id),
       status = COALESCE(${updates.status ?? null}, status),
       clerk_user_id = COALESCE(${updates.clerk_user_id ?? null}, clerk_user_id)
     WHERE id = ${id}

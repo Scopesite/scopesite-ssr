@@ -20,6 +20,7 @@ export interface ClientRow {
   phone: string | null;
   hourly_rate: number | null; // Default rate: 45/60/90/120/200
   trello_label_id: string | null; // Label ID for this client on shared board
+  trello_list_id: string | null; // Trello list ID for this client's cards
   created_at: Date;
   updated_at: Date;
   status: 'active' | 'inactive' | 'pending_invite';
@@ -182,6 +183,7 @@ export interface NewClient {
   primary_contact_name: string;
   phone?: string;
   hourly_rate?: number;
+  trello_list_id?: string;
 }
 
 export interface NewProject {
@@ -242,6 +244,7 @@ export interface UpdateClient {
   phone?: string | null;
   hourly_rate?: number | null;
   trello_label_id?: string | null;
+  trello_list_id?: string | null;
   status?: ClientStatus;
   clerk_user_id?: string;
 }
