@@ -196,6 +196,7 @@ export type ActivityActionType =
   | 'estimate_approved'
   | 'estimate_rejected'
   | 'file_uploaded'
+  | 'file_deleted'
   | 'comment_added'
   | 'invoice_sent'
   | 'invoice_paid'

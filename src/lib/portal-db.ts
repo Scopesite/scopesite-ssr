@@ -178,6 +178,7 @@ export async function initializePortalTables(): Promise<void> {
   await sql`CREATE INDEX IF NOT EXISTS idx_comments_trello ON comments(trello_comment_id)`;
   await sql`CREATE INDEX IF NOT EXISTS idx_files_client ON files(client_id)`;
   await sql`CREATE INDEX IF NOT EXISTS idx_files_request ON files(change_request_id)`;
+  await sql`CREATE INDEX IF NOT EXISTS idx_files_category ON files(folder_category)`;
   await sql`CREATE INDEX IF NOT EXISTS idx_activity_client ON activity_log(client_id)`;
   await sql`CREATE INDEX IF NOT EXISTS idx_activity_request ON activity_log(change_request_id)`;
 }
