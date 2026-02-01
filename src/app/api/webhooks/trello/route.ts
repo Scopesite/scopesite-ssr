@@ -238,7 +238,8 @@ async function handleCustomFieldUpdate(
     case 'completed':
     case 'iscomplete':
       // COMPLETE checkbox - marks project as complete
-      const isComplete = value === true || value === 'true' || value === 'checked';
+      // Trello checkboxes send 'true'/'false' as strings or the value might be truthy
+      const isComplete = String(value).toLowerCase() === 'true' || String(value) === 'checked' || value === 1;
       updates.is_complete = isComplete;
       if (isComplete) {
         updates.visual_progress = 100; // Auto-set progress to 100%
@@ -249,7 +250,7 @@ async function handleCustomFieldUpdate(
     case 'isrejected':
     case 'halted':
       // REJECTED checkbox - marks project as halted/rejected
-      const isRejected = value === true || value === 'true' || value === 'checked';
+      const isRejected = String(value).toLowerCase() === 'true' || String(value) === 'checked' || value === 1;
       updates.is_rejected = isRejected;
       actionDescription = isRejected ? 'Project marked as REJECTED/HALTED' : 'Project rejection removed';
       break;
