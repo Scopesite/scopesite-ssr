@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { TrendingUp, ArrowRight, Quote } from 'lucide-react';
+import { ArrowRight, Quote } from 'lucide-react';
 import { FadeInOnScroll } from '@/components/animations';
 
 interface LandingCaseStudyProps {
@@ -37,18 +37,16 @@ export function LandingCaseStudy({
               : 'bg-slate-50 border-slate-200'
           }`}>
             <div className="flex flex-col md:flex-row gap-8 items-center">
-              {/* Stat Badge */}
+              {/* Stat Badge - larger circle with better text fit */}
               <div className="flex-shrink-0 text-center">
-                <div className={`inline-flex items-center justify-center w-24 h-24 rounded-full ${
+                <div className={`inline-flex flex-col items-center justify-center w-28 h-28 rounded-full ${
                   isDark ? 'bg-brand-gold/20' : 'bg-brand-navy/10'
                 }`}>
-                  <div>
-                    <div className={`text-3xl font-bold ${isDark ? 'text-brand-gold' : 'text-brand-navy'}`}>
-                      {stat}
-                    </div>
-                    <div className={`text-xs ${isDark ? 'text-white/60' : 'text-muted'}`}>
-                      {statLabel}
-                    </div>
+                  <div className={`text-3xl font-bold leading-none ${isDark ? 'text-brand-gold' : 'text-brand-navy'}`}>
+                    {stat}
+                  </div>
+                  <div className={`text-[10px] leading-tight mt-1 max-w-[80px] ${isDark ? 'text-brand-gold/80' : 'text-muted'}`}>
+                    {statLabel}
                   </div>
                 </div>
               </div>
@@ -64,8 +62,10 @@ export function LandingCaseStudy({
                 </p>
                 <Link 
                   href={href}
-                  className={`inline-flex items-center gap-2 font-medium ${
-                    isDark ? 'text-brand-gold hover:text-brand-gold/80' : 'text-brand-navy hover:text-brand-navy/80'
+                  className={`inline-flex items-center gap-2 font-semibold no-underline transition-all ${
+                    isDark 
+                      ? 'text-brand-gold hover:text-white drop-shadow-[0_0_8px_rgba(236,182,21,0.6)]' 
+                      : 'text-brand-navy hover:text-brand-navy/80'
                   }`}
                 >
                   {linkText}
