@@ -113,6 +113,14 @@ export async function initializePortalTables(): Promise<void> {
     ALTER TABLE change_requests ADD COLUMN IF NOT EXISTS visual_progress INTEGER DEFAULT 0
   `;
 
+  // Migration: Add is_complete and is_rejected columns
+  await sql`
+    ALTER TABLE change_requests ADD COLUMN IF NOT EXISTS is_complete BOOLEAN DEFAULT false
+  `;
+  await sql`
+    ALTER TABLE change_requests ADD COLUMN IF NOT EXISTS is_rejected BOOLEAN DEFAULT false
+  `;
+
   // Comments table
   await sql`
     CREATE TABLE IF NOT EXISTS comments (
@@ -492,6 +500,8 @@ export async function updateChangeRequest(
       rate_charged = COALESCE(${updates.rate_charged}, rate_charged),
       one_off_payment = COALESCE(${updates.one_off_payment}, one_off_payment),
       visual_progress = COALESCE(${updates.visual_progress}, visual_progress),
+      is_complete = COALESCE(${updates.is_complete}, is_complete),
+      is_rejected = COALESCE(${updates.is_rejected}, is_rejected),
       estimate_approved_at = COALESCE(${updates.estimate_approved_at?.toISOString() ?? null}, estimate_approved_at),
       estimate_rejected_at = COALESCE(${updates.estimate_rejected_at?.toISOString() ?? null}, estimate_rejected_at),
       estimate_rejected_reason = COALESCE(${updates.estimate_rejected_reason}, estimate_rejected_reason),
@@ -520,6 +530,18 @@ export async function getChangeRequestsByProgress(
   `;
 
   return result as ChangeRequestRow[];
+}
+
+/**
+ * Delete a change request (admin only)
+ */
+export async function deleteChangeRequest(id: string): Promise<boolean> {
+  const sql = getDb();
+  const result = await sql`
+    DELETE FROM change_requests WHERE id = ${id}
+    RETURNING id
+  `;
+  return result.length > 0;
 }
 
 // ============================================

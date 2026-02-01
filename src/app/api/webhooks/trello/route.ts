@@ -234,6 +234,25 @@ async function handleCustomFieldUpdate(
       updates.visual_progress = progressValue;
       actionDescription = `Progress updated to ${progressValue}%`;
       break;
+    case 'complete':
+    case 'completed':
+    case 'iscomplete':
+      // COMPLETE checkbox - marks project as complete
+      const isComplete = value === true || value === 'true' || value === 'checked';
+      updates.is_complete = isComplete;
+      if (isComplete) {
+        updates.visual_progress = 100; // Auto-set progress to 100%
+      }
+      actionDescription = isComplete ? 'Project marked as COMPLETE' : 'Project completion removed';
+      break;
+    case 'rejected':
+    case 'isrejected':
+    case 'halted':
+      // REJECTED checkbox - marks project as halted/rejected
+      const isRejected = value === true || value === 'true' || value === 'checked';
+      updates.is_rejected = isRejected;
+      actionDescription = isRejected ? 'Project marked as REJECTED/HALTED' : 'Project rejection removed';
+      break;
     default:
       // Unknown field - ignore
       console.log('[Trello Webhook] Unknown field, ignoring:', normalizedFieldName);

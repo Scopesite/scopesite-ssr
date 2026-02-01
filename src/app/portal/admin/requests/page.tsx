@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import { FileText, Filter } from 'lucide-react';
+import { Filter } from 'lucide-react';
 import { getAllClients, getAllChangeRequests } from '@/lib/portal-db';
 import { StatusBadge } from '@/components/portal/StatusBadge';
+import { AdminDeleteButton } from '@/components/portal/AdminDeleteButton';
 import { PROGRESS_LABELS, type ChangeRequestProgress } from '@/types/portal';
 
 export const metadata = {
@@ -88,6 +89,7 @@ export default async function AdminRequestsPage({ searchParams }: AdminRequestsP
                 <th className="text-left px-6 py-3 text-sm font-semibold text-brand-navy hidden md:table-cell">Client</th>
                 <th className="text-left px-6 py-3 text-sm font-semibold text-brand-navy hidden lg:table-cell">Date</th>
                 <th className="text-left px-6 py-3 text-sm font-semibold text-brand-navy">Status</th>
+                <th className="text-right px-6 py-3 text-sm font-semibold text-brand-navy">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -118,7 +120,18 @@ export default async function AdminRequestsPage({ searchParams }: AdminRequestsP
                       <span className="text-sm text-brand-navy/60">{formatDate(request.created_at)}</span>
                     </td>
                     <td className="px-6 py-4">
-                      <StatusBadge status={request.progress as ChangeRequestProgress} size="sm" />
+                      <div className="flex items-center gap-2">
+                        <StatusBadge status={request.progress as ChangeRequestProgress} size="sm" />
+                        {request.is_rejected && (
+                          <span className="px-1.5 py-0.5 bg-red-100 text-red-700 text-xs rounded">HALTED</span>
+                        )}
+                        {request.is_complete && !request.is_rejected && (
+                          <span className="px-1.5 py-0.5 bg-emerald-100 text-emerald-700 text-xs rounded">DONE</span>
+                        )}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <AdminDeleteButton requestId={request.id} requestTitle={request.title} />
                     </td>
                   </tr>
                 );

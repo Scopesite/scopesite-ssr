@@ -68,6 +68,10 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
   // Check if estimate can be approved
   const canApprove = ['estimate_added', 'awaiting_approval'].includes(request.progress);
 
+  // Check for special states
+  const isRejected = request.is_rejected;
+  const isComplete = request.is_complete;
+
   return (
     <div className="max-w-4xl mx-auto">
       {/* Back link */}
@@ -81,6 +85,61 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Main content */}
         <div className="lg:col-span-2 space-y-6">
+          {/* REJECTED/HALTED Banner */}
+          {isRejected && (
+            <div className="bg-red-50 border-2 border-red-300 rounded-xl p-6">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                </div>
+                <div>
+                  <h2 className="text-lg font-bold text-red-800">Work Has Been Halted</h2>
+                  <p className="text-red-700 mt-1">
+                    This project has been paused or cancelled. If you have any questions about this, please contact us.
+                  </p>
+                  <a 
+                    href="mailto:support@scopesite.co.uk"
+                    className="inline-flex items-center gap-2 mt-3 px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    Contact support@scopesite.co.uk
+                  </a>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* COMPLETE Celebration Banner */}
+          {isComplete && !isRejected && (
+            <div className="bg-gradient-to-r from-emerald-50 to-green-50 border-2 border-emerald-300 rounded-xl p-6 relative overflow-hidden">
+              {/* Sparkle decorations */}
+              <div className="absolute top-2 right-4 text-2xl animate-pulse">✨</div>
+              <div className="absolute bottom-2 left-8 text-xl animate-pulse delay-100">🎉</div>
+              <div className="absolute top-4 left-1/3 text-lg animate-pulse delay-200">⭐</div>
+              
+              <div className="flex items-start gap-4 relative z-10">
+                <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-green-500 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg">
+                  <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-emerald-800">Project Complete! 🎊</h2>
+                  <p className="text-emerald-700 mt-1">
+                    Great news! This project has been successfully completed. Thank you for working with ScopeSite!
+                  </p>
+                  <p className="text-sm text-emerald-600 mt-2">
+                    If you need any follow-up work or have a new project in mind, we&apos;d love to help.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Header */}
           <div className="bg-white rounded-xl border border-gray-200 p-6">
             <div className="flex items-start justify-between gap-4 mb-4">
