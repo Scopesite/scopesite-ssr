@@ -7,6 +7,8 @@ import {
   LandingSolution,
   LandingWhatYouGet,
   LandingProof,
+  LandingRelatedServices,
+  LandingCaseStudy,
   FAQSection,
   LandingCTA,
   LandingAreasServed,
@@ -187,6 +189,36 @@ export default function WebDesignBathPage() {
           text: "After being quoted £12K by a Bath agency for basically a template, ScopeSite delivered a genuinely custom site for less than half that. And it actually gets us found on ChatGPT - something the expensive agency had never even mentioned.",
           author: "Professional Services Client, Bath"
         }}
+        theme="light"
+      />
+
+      {/* Case Study Section */}
+      <LandingCaseStudy 
+        title="AI-First Design Gets Results"
+        quote="From invisible to #1 AI-recommended in 6 weeks - without paying Bath agency prices"
+        theme="dark" 
+      />
+
+      {/* Related Services Section */}
+      <LandingRelatedServices
+        title="MORE SERVICES FOR BATH BUSINESSES"
+        services={[
+          {
+            title: "AI Website Design",
+            description: "Websites engineered for ChatGPT and AI recommendations",
+            href: "/ai-website-design"
+          },
+          {
+            title: "Web Design Somerset",
+            description: "Our home county - based in Frome",
+            href: "/web-design-somerset"
+          },
+          {
+            title: "Web Design Bristol",
+            description: "Serving businesses across Bristol too",
+            href: "/web-design-bristol"
+          },
+        ]}
         theme="light"
       />
 

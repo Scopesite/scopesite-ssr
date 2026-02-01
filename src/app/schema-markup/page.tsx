@@ -7,6 +7,8 @@ import {
   LandingSolution,
   LandingWhatYouGet,
   LandingProof,
+  LandingRelatedServices,
+  LandingCaseStudy,
   FAQSection,
   LandingCTA,
 } from '@/components/landing';
@@ -238,6 +240,34 @@ export default function SchemaMarkupPage() {
         quote={{
           text: "We validate against Schema.org standards, not just Google's Rich Results Test. Google's tool only checks a subset of schema types and properties. If you want AI platforms to understand your markup, you need full compliance - and that's what we deliver."
         }}
+        theme="dark"
+      />
+
+      {/* Case Study Section */}
+      <LandingCaseStudy 
+        title="Schema Markup in Action"
+        stat="51"
+        statLabel="Schema entries"
+        quote="51-entry regulatory knowledge library with proper schema - from invisible to #1 AI-recommended in 6 weeks"
+        theme="light" 
+      />
+
+      {/* Related Services Section */}
+      <LandingRelatedServices
+        title="RELATED SERVICES"
+        intro="Schema markup is the foundation - combine it with these for maximum impact"
+        services={[
+          {
+            title: "AI Website Design",
+            description: "Websites engineered from the ground up for AI visibility",
+            href: "/ai-website-design"
+          },
+          {
+            title: "AI SEO Services",
+            description: "Ongoing optimisation for ChatGPT and voice assistant recommendations",
+            href: "/ai-seo-services"
+          },
+        ]}
         theme="dark"
       />
 

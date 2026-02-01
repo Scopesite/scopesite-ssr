@@ -7,6 +7,8 @@ import {
   LandingSolution,
   LandingWhatYouGet,
   LandingProof,
+  LandingRelatedServices,
+  LandingCaseStudy,
   FAQSection,
   LandingCTA,
   LandingAreasServed,
@@ -192,6 +194,36 @@ export default function WebDesignBristolPage() {
           text: "We'd been quoted £18K by Bristol agencies for what turned out to be WordPress templates. ScopeSite delivered a proper Next.js build with full AI optimisation for a third of that. Our site now gets mentioned by ChatGPT - the expensive agencies couldn't even explain what that meant.",
           author: "Tech Startup, Bristol"
         }}
+        theme="light"
+      />
+
+      {/* Case Study Section */}
+      <LandingCaseStudy 
+        title="V.O.I.C.E™ Gets Bristol Results"
+        quote="From invisible to #1 AI-recommended in 6 weeks - the tech-forward approach Bristol businesses deserve"
+        theme="dark" 
+      />
+
+      {/* Related Services Section */}
+      <LandingRelatedServices
+        title="MORE SERVICES FOR BRISTOL BUSINESSES"
+        services={[
+          {
+            title: "AI Website Design",
+            description: "Websites engineered for ChatGPT and AI recommendations",
+            href: "/ai-website-design"
+          },
+          {
+            title: "Web Design Somerset",
+            description: "Our home county - based in Frome",
+            href: "/web-design-somerset"
+          },
+          {
+            title: "Web Design Bath",
+            description: "Serving businesses across Bath too",
+            href: "/web-design-bath"
+          },
+        ]}
         theme="light"
       />
 

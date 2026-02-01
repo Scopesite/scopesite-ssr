@@ -7,6 +7,8 @@ import {
   LandingSolution,
   LandingWhatYouGet,
   LandingProof,
+  LandingRelatedServices,
+  LandingCaseStudy,
   FAQSection,
   LandingCTA,
   LandingAreasServed,
@@ -189,6 +191,36 @@ export default function WebDesignSomersetPage() {
       <LandingProof
         title="SOMERSET WEB DESIGN RESULTS"
         stats={proofStats}
+        theme="light"
+      />
+
+      {/* Case Study Section */}
+      <LandingCaseStudy 
+        title="See What AI-First Design Delivers"
+        quote="A UK business went from invisible to #1 AI-recommended in 6 weeks using our V.O.I.C.E™ methodology"
+        theme="dark" 
+      />
+
+      {/* Related Services Section */}
+      <LandingRelatedServices
+        title="MORE SERVICES FOR SOMERSET BUSINESSES"
+        services={[
+          {
+            title: "AI Website Design",
+            description: "Websites engineered for ChatGPT and AI recommendations",
+            href: "/ai-website-design"
+          },
+          {
+            title: "Web Design Bath",
+            description: "Serving businesses across Bath and surrounds",
+            href: "/web-design-bath"
+          },
+          {
+            title: "Web Design Bristol",
+            description: "Tech-forward web design for Bristol businesses",
+            href: "/web-design-bristol"
+          },
+        ]}
         theme="light"
       />
 

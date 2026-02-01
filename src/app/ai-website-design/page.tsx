@@ -7,6 +7,8 @@ import {
   LandingSolution,
   LandingWhatYouGet,
   LandingProof,
+  LandingRelatedServices,
+  LandingCaseStudy,
   FAQSection,
   LandingCTA,
 } from '@/components/landing';
@@ -239,6 +241,33 @@ export default function AIWebsiteDesignPage() {
           text: "Within 3 weeks of launching our new site, we were being recommended by ChatGPT for 'best wedding photographer Somerset'. That never happened with our old site.",
           author: "Sarah Mitchell, Mitchell Wedding Photography"
         }}
+        theme="dark"
+      />
+
+      {/* Case Study Section */}
+      <LandingCaseStudy theme="light" />
+
+      {/* Related Services Section */}
+      <LandingRelatedServices
+        title="RELATED SERVICES"
+        intro="AI website design works best when combined with these complementary services"
+        services={[
+          {
+            title: "Schema Markup Services",
+            description: "Professional JSON-LD implementation with 100% validation guarantee",
+            href: "/schema-markup"
+          },
+          {
+            title: "AI SEO Services",
+            description: "Get recommended by ChatGPT, Perplexity, and voice assistants",
+            href: "/ai-seo-services"
+          },
+          {
+            title: "V.O.I.C.E™ Optimisation",
+            description: "Our proprietary methodology for AI platform visibility",
+            href: "/voice"
+          },
+        ]}
         theme="dark"
       />
 

@@ -6,3 +6,5 @@ export { LandingWhatYouGet } from './LandingWhatYouGet';
 export { LandingProof } from './LandingProof';
 export { LandingCTA } from './LandingCTA';
 export { LandingAreasServed } from './LandingAreasServed';
+export { LandingRelatedServices } from './LandingRelatedServices';
+export { LandingCaseStudy } from './LandingCaseStudy';

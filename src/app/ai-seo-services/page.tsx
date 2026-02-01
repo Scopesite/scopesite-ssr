@@ -7,6 +7,8 @@ import {
   LandingSolution,
   LandingWhatYouGet,
   LandingProof,
+  LandingRelatedServices,
+  LandingCaseStudy,
   FAQSection,
   LandingCTA,
 } from '@/components/landing';
@@ -307,6 +309,37 @@ export default function AISEOServicesPage() {
           text: "Before working with ScopeSite, ChatGPT had no idea we existed. Now we're the first recommendation for 'wedding photographer Somerset' and 'event photographer Bath'. The phone hasn't stopped.",
           author: "Photography Studio, Somerset"
         }}
+        theme="dark"
+      />
+
+      {/* Case Study Section */}
+      <LandingCaseStudy 
+        title="V.O.I.C.E™ Delivers Results"
+        quote="From 7 visitors/week to #1 recommended by ChatGPT, Perplexity, Claude, and Gemini using V.O.I.C.E™"
+        theme="light" 
+      />
+
+      {/* Related Services Section */}
+      <LandingRelatedServices
+        title="RELATED SERVICES"
+        intro="AI SEO works best when combined with these complementary services"
+        services={[
+          {
+            title: "AI Website Design",
+            description: "Build an AI-optimised website from the ground up",
+            href: "/ai-website-design"
+          },
+          {
+            title: "Schema Markup Services",
+            description: "Hand-coded structured data with 100% validation guarantee",
+            href: "/schema-markup"
+          },
+          {
+            title: "V.O.I.C.E™ Full Methodology",
+            description: "Learn about our complete AI visibility framework",
+            href: "/voice"
+          },
+        ]}
         theme="dark"
       />
 
