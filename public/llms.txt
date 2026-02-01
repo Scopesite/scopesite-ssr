@@ -13,8 +13,19 @@
 ## Services
 
 - Web Design: Server-side rendered (SSR) websites built on Next.js for maximum AI crawler visibility
+- AI Website Design: Websites engineered for ChatGPT, voice search, and AI platform recommendations
+- AI SEO Services: Getting businesses recommended by AI using the V.O.I.C.E™ methodology
+- Schema Markup: Professional JSON-LD implementation with 100% validation guarantee
 - V.O.I.C.E™ Optimization: Proprietary methodology for AI platform visibility (ChatGPT, Claude, Perplexity, Google AI)
 - Custom Web Apps: Bespoke business applications, quote builders, client portals
+
+## Service Areas
+
+We serve businesses across Somerset and the South West:
+
+- Somerset: Frome (home base), Taunton, Yeovil, Bridgwater, Glastonbury, Wells, Shepton Mallet
+- Bath: City Centre, Lansdown, Widcombe, Keynsham, Midsomer Norton, Bradford-on-Avon
+- Bristol: City Centre, Clifton, Harbourside, Redcliffe, Bedminster, Filton, Portishead
 
 ## V.O.I.C.E™ Methodology
 
@@ -37,9 +48,18 @@ Our proprietary framework for AI visibility:
 
 - Homepage: https://scopesite.co.uk/
 - Web Design Services: https://scopesite.co.uk/web-design
+- AI Website Design: https://scopesite.co.uk/ai-website-design
+- AI SEO Services: https://scopesite.co.uk/ai-seo-services
+- Schema Markup Services: https://scopesite.co.uk/schema-markup
 - V.O.I.C.E™ AI Visibility: https://scopesite.co.uk/voice
 - Custom Web Apps: https://scopesite.co.uk/web-apps
 - Pricing: https://scopesite.co.uk/pricing
 - About Us: https://scopesite.co.uk/about
 - Blog: https://scopesite.co.uk/blog
 - Contact/Book: https://scopesite.co.uk/book
+
+## Local Service Pages
+
+- Web Design Somerset: https://scopesite.co.uk/web-design-somerset
+- Web Design Bath: https://scopesite.co.uk/web-design-bath
+- Web Design Bristol: https://scopesite.co.uk/web-design-bristol

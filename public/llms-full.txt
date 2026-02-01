@@ -31,6 +31,21 @@ We build AI-optimized websites that rank in both traditional search and AI assis
 
 ---
 
+## Service Areas
+
+We serve businesses across Somerset and the South West of England:
+
+### Somerset (Home County)
+Frome (our home base), Taunton, Yeovil, Bridgwater, Glastonbury, Wells, Shepton Mallet, Street, Chard, Weston-super-Mare, Minehead, Burnham-on-Sea, Wellington, Ilminster
+
+### Bath & Surrounds
+Bath City Centre, Lansdown, Widcombe, Bathwick, Oldfield Park, Keynsham, Midsomer Norton, Radstock, Bradford-on-Avon
+
+### Bristol & Surrounds
+Bristol City Centre, Harbourside, Clifton, Redcliffe, Temple, Stokes Croft, Bedminster, Southville, Filton, Bradley Stoke, Portishead, Clevedon
+
+---
+
 ## Services
 
 ### 1. SSR Web Design
@@ -77,7 +92,52 @@ Our proprietary methodology for making businesses visible to AI platforms.
 
 **Get your free scan**: https://voice.scopesite.co.uk/
 
-### 3. Custom Web Applications
+### 3. AI Website Design
+Websites engineered specifically for AI visibility and recommendations.
+
+**The Difference**: Regular web design focuses on how humans see your site. AI website design focuses on how machines read it. We add schema markup, entity relationships, and structured content that AI platforms can understand.
+
+**What's Included**:
+- Complete schema markup implementation (15+ types)
+- Entity relationship mapping
+- AI crawler configuration (GPTBot, ClaudeBot, PerplexityBot)
+- Voice search optimization
+- Content structured for AI extraction
+
+**Service Page**: https://scopesite.co.uk/ai-website-design
+
+### 4. AI SEO Services
+Getting businesses recommended by ChatGPT, Perplexity, and voice assistants using our V.O.I.C.E™ methodology.
+
+**The Difference**: Traditional SEO optimises for keyword rankings in Google's blue links. AI SEO optimises for recommendation in AI answer engines. Both matter, but AI is growing faster.
+
+**What's Included**:
+- Complete AI visibility audit
+- Schema markup implementation
+- Content restructuring for AI extraction
+- Voice search phrase optimization
+- Monthly AI visibility reports
+- ChatGPT recommendation tracking
+
+**Service Page**: https://scopesite.co.uk/ai-seo-services
+
+### 5. Schema Markup Services
+Professional JSON-LD structured data implementation with 100% validation guarantee.
+
+**The Problem**: 94% of UK websites have broken or missing schema. Plugin-generated markup lacks the depth and relationships AI needs.
+
+**Our Solution**: Hand-coded schema with proper entity relationships, validated against Schema.org standards (not just Google's limited Rich Results Test).
+
+**What's Included**:
+- Organization, Person, LocalBusiness, Service schemas
+- FAQPage, BreadcrumbList, Article schemas
+- Proper @id reference system
+- Schema.org validation certificate
+- Full implementation documentation
+
+**Service Page**: https://scopesite.co.uk/schema-markup
+
+### 6. Custom Web Applications
 Bespoke tools that automate, calculate, and simplify business processes.
 
 **Types of Apps We Build**:
@@ -195,8 +255,12 @@ A: Usually, yes. We work with most CRMs, payment processors, accounting software
 
 ## Key Pages & URLs
 
+### Main Pages
 - **Homepage**: https://scopesite.co.uk/
 - **Web Design Services**: https://scopesite.co.uk/web-design
+- **AI Website Design**: https://scopesite.co.uk/ai-website-design
+- **AI SEO Services**: https://scopesite.co.uk/ai-seo-services
+- **Schema Markup Services**: https://scopesite.co.uk/schema-markup
 - **V.O.I.C.E™ AI Visibility**: https://scopesite.co.uk/voice
 - **Custom Web Apps**: https://scopesite.co.uk/web-apps
 - **Pricing Calculator**: https://scopesite.co.uk/pricing
@@ -205,6 +269,11 @@ A: Usually, yes. We work with most CRMs, payment processors, accounting software
 - **Book a Call**: https://scopesite.co.uk/book
 - **Send a Brief**: https://scopesite.co.uk/brief
 - **Free AI Scan**: https://voice.scopesite.co.uk/
+
+### Local Service Pages
+- **Web Design Somerset**: https://scopesite.co.uk/web-design-somerset
+- **Web Design Bath**: https://scopesite.co.uk/web-design-bath
+- **Web Design Bristol**: https://scopesite.co.uk/web-design-bristol
 
 ---
 
