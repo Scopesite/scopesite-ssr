@@ -107,6 +107,11 @@ export async function initializePortalTables(): Promise<void> {
     ALTER TABLE change_requests ADD COLUMN IF NOT EXISTS commence_work_by VARCHAR(50)
   `;
 
+  // Migration: Add visual_progress column if it doesn't exist
+  await sql`
+    ALTER TABLE change_requests ADD COLUMN IF NOT EXISTS visual_progress INTEGER DEFAULT 0
+  `;
+
   // Comments table
   await sql`
     CREATE TABLE IF NOT EXISTS comments (
@@ -485,6 +490,7 @@ export async function updateChangeRequest(
       hours_worked = COALESCE(${updates.hours_worked}, hours_worked),
       rate_charged = COALESCE(${updates.rate_charged}, rate_charged),
       one_off_payment = COALESCE(${updates.one_off_payment}, one_off_payment),
+      visual_progress = COALESCE(${updates.visual_progress}, visual_progress),
       estimate_approved_at = COALESCE(${updates.estimate_approved_at?.toISOString() ?? null}, estimate_approved_at),
       estimate_rejected_at = COALESCE(${updates.estimate_rejected_at?.toISOString() ?? null}, estimate_rejected_at),
       estimate_rejected_reason = COALESCE(${updates.estimate_rejected_reason}, estimate_rejected_reason),

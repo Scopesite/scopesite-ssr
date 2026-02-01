@@ -12,7 +12,8 @@ import { StatusBadge } from '@/components/portal/StatusBadge';
 import { CommentThread } from '@/components/portal/CommentThread';
 import { CostDisplay } from '@/components/portal/CostDisplay';
 import { ApprovalButtons } from '@/components/portal/ApprovalButtons';
-import { TYPE_OF_WORK_LABELS } from '@/types/portal';
+import { VisualProgress } from '@/components/portal/VisualProgress';
+import { TYPE_OF_WORK_LABELS, URGENCY_LABELS, type CommenceWorkBy } from '@/types/portal';
 
 interface RequestDetailPageProps {
   params: Promise<{ id: string }>;
@@ -104,6 +105,51 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
             </div>
           </div>
 
+          {/* Visual Progress - show when work has started */}
+          {(['approved', 'in_progress', 'awaiting_client_info', 'in_review', 'invoice_sent', 'invoice_paid'].includes(request.progress)) && (
+            <div className="bg-white rounded-xl border border-gray-200 p-6">
+              <h2 className="text-lg font-semibold text-brand-navy mb-4">Project Progress</h2>
+              <VisualProgress 
+                progress={request.visual_progress || 0} 
+                status={request.progress}
+                size="lg"
+              />
+              
+              {/* Completion summary for finished projects */}
+              {(request.progress === 'invoice_sent' || request.progress === 'invoice_paid') && (
+                <div className="mt-6 pt-4 border-t border-gray-100">
+                  <div className="bg-emerald-50 rounded-lg p-4 border border-emerald-200">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center">
+                        <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-emerald-800">Project Complete!</p>
+                        <p className="text-sm text-emerald-600">Thank you for working with us</p>
+                      </div>
+                    </div>
+                    {request.hours_worked && request.rate_charged && (
+                      <div className="grid grid-cols-2 gap-3 mt-3">
+                        <div className="bg-white/60 rounded p-2 text-center">
+                          <p className="text-xs text-emerald-600 uppercase font-medium">Final Hours</p>
+                          <p className="text-lg font-bold text-emerald-800">{request.hours_worked}</p>
+                        </div>
+                        <div className="bg-white/60 rounded p-2 text-center">
+                          <p className="text-xs text-emerald-600 uppercase font-medium">Final Total</p>
+                          <p className="text-lg font-bold text-emerald-800">
+                            £{(request.hours_worked * request.rate_charged).toLocaleString()}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Cost & Approval section */}
           {(request.hours_estimated || request.one_off_payment) && (
             <div className="bg-white rounded-xl border border-gray-200 p-6">
@@ -175,6 +221,14 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
                 <dt className="text-brand-navy/50">Type</dt>
                 <dd className="text-brand-navy">{typeLabel}</dd>
               </div>
+              {request.commence_work_by && (
+                <div>
+                  <dt className="text-brand-navy/50">Urgency</dt>
+                  <dd className="text-brand-navy text-xs">
+                    {URGENCY_LABELS[request.commence_work_by as Exclude<CommenceWorkBy, null>] || request.commence_work_by}
+                  </dd>
+                </div>
+              )}
               {request.due_date && (
                 <div>
                   <dt className="text-brand-navy/50">Due Date</dt>

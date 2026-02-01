@@ -226,6 +226,14 @@ async function handleCustomFieldUpdate(
       updates.rate_charged = parseInt(ratePerHourStr, 10);
       actionDescription = `Rate charged set to £${updates.rate_charged}/hr`;
       break;
+    case 'visualprogress':
+    case 'progress%':
+    case 'percentcomplete':
+      // Visual progress percentage (0-100)
+      const progressValue = Math.min(100, Math.max(0, Math.round(value as number)));
+      updates.visual_progress = progressValue;
+      actionDescription = `Progress updated to ${progressValue}%`;
+      break;
     default:
       // Unknown field - ignore
       console.log('[Trello Webhook] Unknown field, ignoring:', normalizedFieldName);

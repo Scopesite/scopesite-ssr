@@ -7,3 +7,4 @@ export { ActivityFeed } from './ActivityFeed';
 export { CommentThread } from './CommentThread';
 export { CostDisplay } from './CostDisplay';
 export { ApprovalButtons } from './ApprovalButtons';
+export { VisualProgress, VisualProgressCompact } from './VisualProgress';

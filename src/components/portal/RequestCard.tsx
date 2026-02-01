@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Calendar, MessageSquare, Paperclip } from 'lucide-react';
 import { StatusBadge } from './StatusBadge';
+import { VisualProgressCompact } from './VisualProgress';
 import { 
   type ChangeRequestRow, 
   TYPE_OF_WORK_LABELS,
@@ -73,6 +74,16 @@ export function RequestCard({
           <p className="text-sm font-medium text-brand-navy">
             {cost.display}
           </p>
+        </div>
+      )}
+
+      {/* Visual progress (if work has started) */}
+      {['approved', 'in_progress', 'awaiting_client_info', 'in_review', 'invoice_sent', 'invoice_paid'].includes(request.progress) && (
+        <div className="mb-4">
+          <VisualProgressCompact 
+            progress={request.visual_progress || 0} 
+            status={request.progress} 
+          />
         </div>
       )}
 

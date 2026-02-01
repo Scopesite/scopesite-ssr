@@ -65,6 +65,7 @@ export interface ChangeRequestRow {
   hours_worked: number | null;
   rate_charged: number | null; // 45/60/90/120/200
   one_off_payment: number | null; // For fixed-price jobs
+  visual_progress: number | null; // 0-100 percentage complete
 
   // Approval
   estimate_approved_at: Date | null;
@@ -291,6 +292,7 @@ export interface UpdateChangeRequest {
   hours_worked?: number | null;
   rate_charged?: number | null;
   one_off_payment?: number | null;
+  visual_progress?: number | null;
   estimate_approved_at?: Date | null;
   estimate_rejected_at?: Date | null;
   estimate_rejected_reason?: string | null;
