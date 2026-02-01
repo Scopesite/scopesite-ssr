@@ -1,13 +1,15 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Mail, Phone, Building, Calendar, DollarSign, FileText } from 'lucide-react';
+import { ArrowLeft, Mail, Phone, Calendar, DollarSign, FileText } from 'lucide-react';
 import { 
   getClientById, 
   getChangeRequestsByClientId,
-  getActivityByClientId 
+  getActivityByClientId,
+  getFilesByClientId
 } from '@/lib/portal-db';
 import { StatusBadge } from '@/components/portal/StatusBadge';
 import { ActivityFeed } from '@/components/portal/ActivityFeed';
+import { AdminInvoiceUpload } from '@/components/portal/AdminInvoiceUpload';
 import type { ChangeRequestProgress } from '@/types/portal';
 
 interface ClientDetailPageProps {
@@ -30,10 +32,14 @@ export default async function ClientDetailPage({ params }: ClientDetailPageProps
     notFound();
   }
 
-  const [requests, activity] = await Promise.all([
+  const [requests, activity, files] = await Promise.all([
     getChangeRequestsByClientId(client.id),
     getActivityByClientId(client.id, 15),
+    getFilesByClientId(client.id, false), // Include all files (admin view)
   ]);
+
+  // Filter invoices
+  const invoices = files.filter(f => f.folder_category === 'invoices');
 
   const formatDate = (date: Date | string) => {
     return new Date(date).toLocaleDateString('en-GB', {
@@ -201,6 +207,9 @@ export default async function ClientDetailPage({ params }: ClientDetailPageProps
               )}
             </div>
           </div>
+
+          {/* Invoices */}
+          <AdminInvoiceUpload clientId={client.id} invoices={invoices} />
 
           {/* Activity */}
           <div className="bg-white rounded-xl border border-gray-200 p-6">

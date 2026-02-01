@@ -685,6 +685,31 @@ export async function getFilesByRequestId(
   return result as FileRow[];
 }
 
+/**
+ * Get file by ID
+ */
+export async function getFileById(id: string): Promise<FileRow | null> {
+  const sql = getDb();
+  const result = await sql`
+    SELECT * FROM files WHERE id = ${id}
+  ` as FileRow[];
+
+  return result[0] || null;
+}
+
+/**
+ * Delete a file by ID
+ */
+export async function deleteFile(id: string): Promise<boolean> {
+  const sql = getDb();
+  const result = await sql`
+    DELETE FROM files WHERE id = ${id}
+    RETURNING id
+  ` as { id: string }[];
+  
+  return result.length > 0;
+}
+
 // ============================================
 // ACTIVITY LOG OPERATIONS
 // ============================================
