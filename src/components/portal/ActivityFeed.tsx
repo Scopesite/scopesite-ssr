@@ -6,7 +6,8 @@ import {
   Upload, 
   Bell,
   Receipt,
-  UserPlus
+  UserPlus,
+  Trash2
 } from 'lucide-react';
 import { type ActivityRow, type ActivityActionType } from '@/types/portal';
 import { cn } from '@/lib/utils';
@@ -23,6 +24,7 @@ const ACTION_ICONS: Record<ActivityActionType, React.ElementType> = {
   estimate_approved: CheckCircle,
   estimate_rejected: XCircle,
   file_uploaded: Upload,
+  file_deleted: Trash2,
   comment_added: MessageSquare,
   invoice_sent: Receipt,
   invoice_paid: CheckCircle,
@@ -37,6 +39,7 @@ const ACTION_COLORS: Record<ActivityActionType, string> = {
   estimate_approved: 'bg-green-100 text-green-600',
   estimate_rejected: 'bg-red-100 text-red-600',
   file_uploaded: 'bg-purple-100 text-purple-600',
+  file_deleted: 'bg-red-100 text-red-600',
   comment_added: 'bg-indigo-100 text-indigo-600',
   invoice_sent: 'bg-emerald-100 text-emerald-600',
   invoice_paid: 'bg-emerald-100 text-emerald-600',

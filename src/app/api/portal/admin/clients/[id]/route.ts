@@ -112,7 +112,8 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       if (body[field] !== undefined) {
         updates[field] = body[field];
         // Track what changed for activity log
-        if (body[field] !== (existingClient as Record<string, unknown>)[field]) {
+        const existingValue = (existingClient as unknown as Record<string, unknown>)[field];
+        if (body[field] !== existingValue) {
           changedFields.push(field);
         }
       }

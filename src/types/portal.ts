@@ -5,6 +5,12 @@
  */
 
 // ============================================
+// STATUS TYPES (needed before row types)
+// ============================================
+
+export type ClientStatus = 'active' | 'inactive' | 'pending_invite' | 'archived';
+
+// ============================================
 // DATABASE ROW TYPES
 // ============================================
 
@@ -23,7 +29,7 @@ export interface ClientRow {
   trello_list_id: string | null; // Trello list ID for this client's cards
   created_at: Date;
   updated_at: Date;
-  status: 'active' | 'inactive' | 'pending_invite';
+  status: ClientStatus;
 }
 
 /**
@@ -234,7 +240,6 @@ export type ActivityActionType =
 
 export type ProjectType = 'ssr' | 'clientManaged' | 'visibility' | 'webapp' | 'ongoing';
 export type ProjectStatus = 'active' | 'on_hold' | 'complete' | 'cancelled';
-export type ClientStatus = 'active' | 'inactive' | 'pending_invite' | 'archived';
 
 // ============================================
 // INPUT TYPES (for creating/updating)
