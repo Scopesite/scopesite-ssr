@@ -88,8 +88,9 @@ export async function GET() {
     });
   } catch (error) {
     console.error('Error fetching requests:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
-      { success: false, error: 'Failed to fetch requests' },
+      { success: false, error: `Failed to fetch requests: ${errorMessage}` },
       { status: 500 }
     );
   }
@@ -204,8 +205,9 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Error creating request:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
-      { success: false, error: 'Failed to create request' },
+      { success: false, error: `Failed to create request: ${errorMessage}` },
       { status: 500 }
     );
   }

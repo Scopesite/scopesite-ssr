@@ -91,6 +91,7 @@ export async function initializePortalTables(): Promise<void> {
       hours_worked DECIMAL(10,2),
       rate_charged INTEGER,
       one_off_payment DECIMAL(10,2),
+      visual_progress INTEGER DEFAULT 0,
       estimate_approved_at TIMESTAMPTZ,
       estimate_rejected_at TIMESTAMPTZ,
       estimate_rejected_reason TEXT,
