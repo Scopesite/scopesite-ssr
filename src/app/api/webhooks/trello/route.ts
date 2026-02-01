@@ -177,6 +177,7 @@ async function handleCustomFieldUpdate(
 
   switch (normalizedFieldName) {
     case 'progress':
+    case 'workingprogress':
       updates.progress = mapTrelloProgressToDb(value as string) as ChangeRequestProgress;
       actionDescription = `Status changed to "${value}"`;
       break;

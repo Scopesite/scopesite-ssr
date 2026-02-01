@@ -100,7 +100,7 @@ export function CommentThread({ requestId, comments, clientName }: CommentThread
                   <p className="whitespace-pre-wrap">{comment.message}</p>
                 </div>
                 <p className="text-xs text-brand-navy/40 mt-1">
-                  {comment.user_name} · {formatDate(comment.created_at)}
+                  {comment.user_type === 'client' ? 'You' : comment.user_name} · {formatDate(comment.created_at)}
                 </p>
               </div>
             </div>

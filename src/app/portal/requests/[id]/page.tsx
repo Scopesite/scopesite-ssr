@@ -165,7 +165,7 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
           </div>
 
           {/* Visual Progress - show when work has started */}
-          {(['approved', 'in_progress', 'awaiting_client_info', 'in_review', 'invoice_sent', 'invoice_paid'].includes(request.progress)) && (
+          {(['in_progress', 'awaiting_client_info', 'in_review', 'invoice_sent', 'invoice_paid'].includes(request.progress)) && (
             <div className="bg-white rounded-xl border border-gray-200 p-6">
               <h2 className="text-lg font-semibold text-brand-navy mb-4">Project Progress</h2>
               <VisualProgress 
@@ -329,36 +329,48 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
 
 function StatusTimeline({ progress }: { progress: string }) {
   const steps = [
-    { key: 'not_seen_yet', label: 'Submitted' },
-    { key: 'submission_viewed', label: 'Under Review' },
-    { key: 'estimate_added', label: 'Quote Ready' },
-    { key: 'approved', label: 'Approved' },
-    { key: 'in_progress', label: 'In Progress' },
-    { key: 'in_review', label: 'In Review' },
-    { key: 'invoice_sent', label: 'Complete' },
+    { key: 'not_seen_yet', label: 'Not Seen Yet', color: 'gray' },
+    { key: 'submission_viewed', label: 'Submission Viewed', color: 'blue' },
+    { key: 'estimate_added', label: 'Estimate Added', color: 'yellow' },
+    { key: 'in_progress', label: 'In Progress', color: 'purple' },
+    { key: 'awaiting_client_info', label: 'Awaiting Information', color: 'orange' },
+    { key: 'in_review', label: 'In Review', color: 'indigo' },
+    { key: 'invoice_sent', label: 'Invoice Sent', color: 'green' },
+    { key: 'invoice_paid', label: 'Invoice Paid', color: 'green-filled' },
   ];
+
+  // Color mappings for traffic light system
+  const colorClasses: Record<string, { bg: string; text: string; bgMuted: string }> = {
+    'gray': { bg: 'bg-gray-400', text: 'text-gray-700', bgMuted: 'bg-gray-200' },
+    'blue': { bg: 'bg-blue-500', text: 'text-blue-700', bgMuted: 'bg-blue-200' },
+    'yellow': { bg: 'bg-yellow-500', text: 'text-yellow-700', bgMuted: 'bg-yellow-200' },
+    'purple': { bg: 'bg-purple-500', text: 'text-purple-700', bgMuted: 'bg-purple-200' },
+    'orange': { bg: 'bg-orange-500', text: 'text-orange-700', bgMuted: 'bg-orange-200' },
+    'indigo': { bg: 'bg-indigo-500', text: 'text-indigo-700', bgMuted: 'bg-indigo-200' },
+    'green': { bg: 'bg-green-500', text: 'text-green-700', bgMuted: 'bg-green-200' },
+    'green-filled': { bg: 'bg-green-600', text: 'text-green-800', bgMuted: 'bg-green-300' },
+  };
 
   const currentIndex = steps.findIndex(s => s.key === progress);
 
   return (
     <div className="space-y-3">
       {steps.map((step, index) => {
-        const isComplete = index < currentIndex || progress === 'invoice_paid';
+        const isComplete = index < currentIndex;
         const isCurrent = step.key === progress || 
-          (progress === 'awaiting_approval' && step.key === 'estimate_added') ||
-          (progress === 'awaiting_client_info' && step.key === 'in_progress') ||
-          (progress === 'invoice_paid' && step.key === 'invoice_sent');
+          (progress === 'awaiting_approval' && step.key === 'estimate_added');
+        const colors = colorClasses[step.color] || colorClasses['gray'];
 
         return (
           <div key={step.key} className="flex items-center gap-3">
             <div className={`w-3 h-3 rounded-full ${
-              isComplete ? 'bg-green-500' : 
-              isCurrent ? 'bg-brand-gold' : 
-              'bg-gray-200'
+              isCurrent ? colors.bg : 
+              isComplete ? colors.bgMuted : 
+              'bg-gray-200 border border-gray-300'
             }`} />
             <span className={`text-sm ${
-              isCurrent ? 'font-medium text-brand-navy' : 
-              isComplete ? 'text-green-700' : 
+              isCurrent ? `font-medium ${colors.text}` : 
+              isComplete ? colors.text : 
               'text-brand-navy/40'
             }`}>
               {step.label}
