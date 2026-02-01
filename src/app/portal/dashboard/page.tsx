@@ -147,11 +147,11 @@ export default async function DashboardPage() {
           href="/portal/requests/new"
           className="flex items-center gap-4 p-6 bg-brand-navy text-white rounded-xl hover:bg-brand-graphite transition-colors"
         >
-          <div className="w-12 h-12 bg-brand-gold rounded-lg flex items-center justify-center">
+          <div className="w-12 h-12 bg-brand-gold rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(236,182,21,0.6)]">
             <Plus className="w-6 h-6 text-brand-navy" />
           </div>
           <div>
-            <h3 className="font-semibold">Submit New Request</h3>
+            <h3 className="font-semibold text-brand-gold drop-shadow-[0_0_8px_rgba(236,182,21,0.8)]">Submit New Request</h3>
             <p className="text-sm text-white/70">Start a new change request or project</p>
           </div>
         </Link>
