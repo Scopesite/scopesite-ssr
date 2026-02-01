@@ -129,14 +129,14 @@ export async function sendEstimateReadyNotification(data: {
   costDisplay: string;
 }): Promise<boolean> {
   const content = `
-    <h1 style="color: ${COLORS.navy}; font-size: 24px; margin: 0 0 16px 0;">Quote Ready for Approval</h1>
+    <h1 style="color: ${COLORS.navy}; font-size: 24px; margin: 0 0 16px 0;">Estimate Ready for Approval</h1>
     
     <p style="color: ${COLORS.graphite}; font-size: 16px; line-height: 1.6; margin: 0 0 24px 0;">
       Hi ${data.clientName.split(' ')[0]},
     </p>
     
     <p style="color: ${COLORS.graphite}; font-size: 16px; line-height: 1.6; margin: 0 0 24px 0;">
-      We've prepared a quote for your request: <strong>"${data.requestTitle}"</strong>
+      We've prepared an estimate for your request: <strong>"${data.requestTitle}"</strong>
     </p>
     
     <div style="background-color: ${COLORS.gold}; background: linear-gradient(135deg, ${COLORS.gold} 0%, #d4a012 100%); padding: 20px; border-radius: 8px; margin-bottom: 24px;">
@@ -144,13 +144,22 @@ export async function sendEstimateReadyNotification(data: {
     </div>
     
     <p style="color: ${COLORS.graphite}; font-size: 16px; line-height: 1.6; margin: 0 0 24px 0;">
-      Please log in to your portal to review the details and approve the quote so we can get started.
+      Please log in to your portal to review the details and approve the estimate so we can get started.
     </p>
+    
+    <div style="background-color: #f0f9ff; padding: 16px; border-radius: 8px; margin-bottom: 24px; border-left: 4px solid #3b82f6;">
+      <p style="color: #1e40af; margin: 0; font-size: 13px; font-weight: bold;">About this estimate:</p>
+      <ul style="color: #1e40af; margin: 8px 0 0 0; padding-left: 16px; font-size: 13px;">
+        <li>We aim to complete the work within this estimate</li>
+        <li>You only pay for actual hours worked</li>
+        <li>We'll notify you if we expect to exceed the estimate by more than 2 hours</li>
+      </ul>
+    </div>
     
     <a href="${BASE_URL}/portal/requests/${data.requestId}" style="display: inline-block; background-color: ${COLORS.gold}; color: ${COLORS.navy}; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">Review &amp; Approve</a>
     
     <p style="color: ${COLORS.graphite}; font-size: 14px; line-height: 1.6; margin: 24px 0 0 0;">
-      If you have any questions about this quote, you can reply directly in the portal.
+      If you have any questions about this estimate, you can reply directly in the portal.
     </p>
     
     <p style="color: ${COLORS.graphite}; font-size: 16px; line-height: 1.6; margin: 24px 0 0 0;">
@@ -161,8 +170,8 @@ export async function sendEstimateReadyNotification(data: {
 
   return sendEmail({
     to: data.clientEmail,
-    subject: `Quote Ready: ${data.requestTitle}`,
-    html: emailTemplate(content, 'Quote Ready for Approval'),
+    subject: `Estimate Ready: ${data.requestTitle}`,
+    html: emailTemplate(content, 'Estimate Ready for Approval'),
   });
 }
 
