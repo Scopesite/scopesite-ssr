@@ -15,6 +15,7 @@ const FOOTER_LINKS = {
     { label: 'Case Studies', href: '/case-studies/h4tlt' },
     { label: 'Blog', href: '/blog' },
     { label: 'Book a Call', href: '/book' },
+    { label: 'Client Login', href: 'https://accounts.scopesite.co.uk/sign-in' },
   ],
   legal: [
     { label: 'Privacy Policy', href: '/privacy-policy' },
