@@ -50,8 +50,8 @@ export default async function PortalLayout({
         {/* Sidebar */}
         <PortalSidebar isAdmin={isAdmin} />
         
-        {/* Main content */}
-        <main className="flex-1 p-6 lg:p-8 ml-0 lg:ml-64 pt-20">
+        {/* Main content - pt-24 on mobile for nav clearance, pt-20 on desktop */}
+        <main className="flex-1 p-6 lg:p-8 ml-0 lg:ml-64 pt-24 lg:pt-20">
           <div className="max-w-6xl mx-auto">
             {children}
           </div>

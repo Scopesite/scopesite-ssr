@@ -130,6 +130,35 @@ export interface ActivityRow {
   created_at: Date;
 }
 
+/**
+ * Client contact record - multiple contacts per client
+ */
+export interface ClientContactRow {
+  id: string; // UUID
+  client_id: string; // FK to clients
+  name: string;
+  email: string | null;
+  phone: string | null;
+  role: string | null; // e.g. "CEO", "Marketing Manager"
+  is_primary: boolean;
+  can_access_portal: boolean;
+  notes: string | null;
+  created_at: Date;
+  updated_at: Date;
+}
+
+/**
+ * Client note record - internal admin memos
+ */
+export interface ClientNoteRow {
+  id: string; // UUID
+  client_id: string; // FK to clients
+  content: string;
+  created_by: string; // Admin name/ID
+  created_at: Date;
+  updated_at: Date;
+}
+
 // ============================================
 // ENUM TYPES
 // ============================================
@@ -205,7 +234,7 @@ export type ActivityActionType =
 
 export type ProjectType = 'ssr' | 'clientManaged' | 'visibility' | 'webapp' | 'ongoing';
 export type ProjectStatus = 'active' | 'on_hold' | 'complete' | 'cancelled';
-export type ClientStatus = 'active' | 'inactive' | 'pending_invite';
+export type ClientStatus = 'active' | 'inactive' | 'pending_invite' | 'archived';
 
 // ============================================
 // INPUT TYPES (for creating/updating)
@@ -266,6 +295,33 @@ export interface NewActivity {
   actor_type: 'client' | 'admin' | 'system';
   actor_name: string;
   metadata?: Record<string, unknown>;
+}
+
+export interface NewClientContact {
+  client_id: string;
+  name: string;
+  email?: string;
+  phone?: string;
+  role?: string;
+  is_primary?: boolean;
+  can_access_portal?: boolean;
+  notes?: string;
+}
+
+export interface NewClientNote {
+  client_id: string;
+  content: string;
+  created_by: string;
+}
+
+export interface UpdateClientContact {
+  name?: string;
+  email?: string | null;
+  phone?: string | null;
+  role?: string | null;
+  is_primary?: boolean;
+  can_access_portal?: boolean;
+  notes?: string | null;
 }
 
 // ============================================

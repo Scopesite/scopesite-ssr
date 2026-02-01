@@ -13,14 +13,19 @@ import type {
   CommentRow,
   FileRow,
   ActivityRow,
+  ClientContactRow,
+  ClientNoteRow,
   NewClient,
   NewProject,
   NewChangeRequest,
   NewComment,
   NewFile,
   NewActivity,
+  NewClientContact,
+  NewClientNote,
   UpdateClient,
   UpdateChangeRequest,
+  UpdateClientContact,
   ClientDashboardStats,
   AdminDashboardStats,
   ChangeRequestProgress,
@@ -167,6 +172,35 @@ export async function initializePortalTables(): Promise<void> {
     )
   `;
 
+  // Client Contacts table - multiple contacts per client
+  await sql`
+    CREATE TABLE IF NOT EXISTS client_contacts (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      client_id UUID NOT NULL REFERENCES clients(id) ON DELETE CASCADE,
+      name VARCHAR(255) NOT NULL,
+      email VARCHAR(255),
+      phone VARCHAR(50),
+      role VARCHAR(100),
+      is_primary BOOLEAN DEFAULT false,
+      can_access_portal BOOLEAN DEFAULT false,
+      notes TEXT,
+      created_at TIMESTAMPTZ DEFAULT NOW(),
+      updated_at TIMESTAMPTZ DEFAULT NOW()
+    )
+  `;
+
+  // Client Notes table - internal admin memos
+  await sql`
+    CREATE TABLE IF NOT EXISTS client_notes (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      client_id UUID NOT NULL REFERENCES clients(id) ON DELETE CASCADE,
+      content TEXT NOT NULL,
+      created_by VARCHAR(255) NOT NULL,
+      created_at TIMESTAMPTZ DEFAULT NOW(),
+      updated_at TIMESTAMPTZ DEFAULT NOW()
+    )
+  `;
+
   // Create indexes
   await sql`CREATE INDEX IF NOT EXISTS idx_clients_clerk_user ON clients(clerk_user_id)`;
   await sql`CREATE INDEX IF NOT EXISTS idx_clients_email ON clients(email)`;
@@ -181,6 +215,19 @@ export async function initializePortalTables(): Promise<void> {
   await sql`CREATE INDEX IF NOT EXISTS idx_files_category ON files(folder_category)`;
   await sql`CREATE INDEX IF NOT EXISTS idx_activity_client ON activity_log(client_id)`;
   await sql`CREATE INDEX IF NOT EXISTS idx_activity_request ON activity_log(change_request_id)`;
+  await sql`CREATE INDEX IF NOT EXISTS idx_contacts_client ON client_contacts(client_id)`;
+  await sql`CREATE INDEX IF NOT EXISTS idx_notes_client ON client_notes(client_id)`;
+
+  // Migration: Copy primary contact from clients to client_contacts (if not already migrated)
+  // This ensures each client has at least one contact entry
+  await sql`
+    INSERT INTO client_contacts (client_id, name, email, phone, is_primary, can_access_portal)
+    SELECT id, primary_contact_name, email, phone, true, true
+    FROM clients
+    WHERE NOT EXISTS (
+      SELECT 1 FROM client_contacts WHERE client_contacts.client_id = clients.id
+    )
+  `;
 }
 
 // ============================================
@@ -774,6 +821,211 @@ export async function getRecentActivity(limit = 50): Promise<ActivityRow[]> {
   `;
 
   return result as ActivityRow[];
+}
+
+// ============================================
+// CLIENT CONTACTS OPERATIONS
+// ============================================
+
+/**
+ * Create a new client contact
+ */
+export async function createClientContact(data: NewClientContact): Promise<ClientContactRow> {
+  const sql = getDb();
+
+  // If this is marked as primary, unset any existing primary
+  if (data.is_primary) {
+    await sql`
+      UPDATE client_contacts 
+      SET is_primary = false, updated_at = NOW()
+      WHERE client_id = ${data.client_id} AND is_primary = true
+    `;
+  }
+
+  const result = await sql`
+    INSERT INTO client_contacts (
+      client_id,
+      name,
+      email,
+      phone,
+      role,
+      is_primary,
+      can_access_portal,
+      notes
+    ) VALUES (
+      ${data.client_id},
+      ${data.name},
+      ${data.email || null},
+      ${data.phone || null},
+      ${data.role || null},
+      ${data.is_primary ?? false},
+      ${data.can_access_portal ?? false},
+      ${data.notes || null}
+    )
+    RETURNING *
+  ` as ClientContactRow[];
+
+  return result[0];
+}
+
+/**
+ * Get contacts by client ID
+ */
+export async function getContactsByClientId(clientId: string): Promise<ClientContactRow[]> {
+  const sql = getDb();
+  const result = await sql`
+    SELECT * FROM client_contacts
+    WHERE client_id = ${clientId}
+    ORDER BY is_primary DESC, created_at ASC
+  `;
+
+  return result as ClientContactRow[];
+}
+
+/**
+ * Get contact by ID
+ */
+export async function getContactById(id: string): Promise<ClientContactRow | null> {
+  const sql = getDb();
+  const result = await sql`
+    SELECT * FROM client_contacts WHERE id = ${id}
+  ` as ClientContactRow[];
+
+  return result[0] || null;
+}
+
+/**
+ * Update a client contact
+ */
+export async function updateClientContact(
+  id: string,
+  updates: UpdateClientContact
+): Promise<ClientContactRow | null> {
+  const sql = getDb();
+
+  // If setting as primary, unset others first
+  if (updates.is_primary) {
+    const contact = await getContactById(id);
+    if (contact) {
+      await sql`
+        UPDATE client_contacts 
+        SET is_primary = false, updated_at = NOW()
+        WHERE client_id = ${contact.client_id} AND is_primary = true AND id != ${id}
+      `;
+    }
+  }
+
+  const result = await sql`
+    UPDATE client_contacts SET
+      updated_at = NOW(),
+      name = COALESCE(${updates.name ?? null}, name),
+      email = COALESCE(${updates.email}, email),
+      phone = COALESCE(${updates.phone}, phone),
+      role = COALESCE(${updates.role}, role),
+      is_primary = COALESCE(${updates.is_primary ?? null}, is_primary),
+      can_access_portal = COALESCE(${updates.can_access_portal ?? null}, can_access_portal),
+      notes = COALESCE(${updates.notes}, notes)
+    WHERE id = ${id}
+    RETURNING *
+  ` as ClientContactRow[];
+
+  return result[0] || null;
+}
+
+/**
+ * Delete a client contact
+ */
+export async function deleteClientContact(id: string): Promise<boolean> {
+  const sql = getDb();
+  const result = await sql`
+    DELETE FROM client_contacts WHERE id = ${id}
+    RETURNING id
+  ` as { id: string }[];
+  
+  return result.length > 0;
+}
+
+// ============================================
+// CLIENT NOTES OPERATIONS
+// ============================================
+
+/**
+ * Create a new client note
+ */
+export async function createClientNote(data: NewClientNote): Promise<ClientNoteRow> {
+  const sql = getDb();
+  const result = await sql`
+    INSERT INTO client_notes (
+      client_id,
+      content,
+      created_by
+    ) VALUES (
+      ${data.client_id},
+      ${data.content},
+      ${data.created_by}
+    )
+    RETURNING *
+  ` as ClientNoteRow[];
+
+  return result[0];
+}
+
+/**
+ * Get notes by client ID
+ */
+export async function getNotesByClientId(clientId: string): Promise<ClientNoteRow[]> {
+  const sql = getDb();
+  const result = await sql`
+    SELECT * FROM client_notes
+    WHERE client_id = ${clientId}
+    ORDER BY created_at DESC
+  `;
+
+  return result as ClientNoteRow[];
+}
+
+/**
+ * Get note by ID
+ */
+export async function getNoteById(id: string): Promise<ClientNoteRow | null> {
+  const sql = getDb();
+  const result = await sql`
+    SELECT * FROM client_notes WHERE id = ${id}
+  ` as ClientNoteRow[];
+
+  return result[0] || null;
+}
+
+/**
+ * Update a client note
+ */
+export async function updateClientNote(
+  id: string,
+  content: string
+): Promise<ClientNoteRow | null> {
+  const sql = getDb();
+  const result = await sql`
+    UPDATE client_notes SET
+      content = ${content},
+      updated_at = NOW()
+    WHERE id = ${id}
+    RETURNING *
+  ` as ClientNoteRow[];
+
+  return result[0] || null;
+}
+
+/**
+ * Delete a client note
+ */
+export async function deleteClientNote(id: string): Promise<boolean> {
+  const sql = getDb();
+  const result = await sql`
+    DELETE FROM client_notes WHERE id = ${id}
+    RETURNING id
+  ` as { id: string }[];
+  
+  return result.length > 0;
 }
 
 // ============================================

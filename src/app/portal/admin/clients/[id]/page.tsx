@@ -1,15 +1,20 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Mail, Phone, Calendar, DollarSign, FileText } from 'lucide-react';
+import { ArrowLeft, Mail, Calendar, DollarSign, FileText } from 'lucide-react';
 import { 
   getClientById, 
   getChangeRequestsByClientId,
   getActivityByClientId,
-  getFilesByClientId
+  getFilesByClientId,
+  getContactsByClientId,
+  getNotesByClientId
 } from '@/lib/portal-db';
 import { StatusBadge } from '@/components/portal/StatusBadge';
 import { ActivityFeed } from '@/components/portal/ActivityFeed';
 import { AdminInvoiceUpload } from '@/components/portal/AdminInvoiceUpload';
+import { ClientActions } from '@/components/portal/ClientActions';
+import { ClientContacts } from '@/components/portal/ClientContacts';
+import { ClientNotes } from '@/components/portal/ClientNotes';
 import type { ChangeRequestProgress } from '@/types/portal';
 
 interface ClientDetailPageProps {
@@ -32,10 +37,12 @@ export default async function ClientDetailPage({ params }: ClientDetailPageProps
     notFound();
   }
 
-  const [requests, activity, files] = await Promise.all([
+  const [requests, activity, files, contacts, notes] = await Promise.all([
     getChangeRequestsByClientId(client.id),
     getActivityByClientId(client.id, 15),
     getFilesByClientId(client.id, false), // Include all files (admin view)
+    getContactsByClientId(client.id),
+    getNotesByClientId(client.id),
   ]);
 
   // Filter invoices
@@ -110,30 +117,19 @@ export default async function ClientDetailPage({ params }: ClientDetailPageProps
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Main content */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Contact info */}
+          {/* Client Details */}
           <div className="bg-white rounded-xl border border-gray-200 p-6">
-            <h2 className="text-lg font-semibold text-brand-navy mb-4">Contact Information</h2>
+            <h2 className="text-lg font-semibold text-brand-navy mb-4">Client Details</h2>
             <div className="grid sm:grid-cols-2 gap-4">
               <div className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-brand-navy/40" />
                 <div>
-                  <p className="text-xs text-brand-navy/50 uppercase">Email</p>
+                  <p className="text-xs text-brand-navy/50 uppercase">Portal Login Email</p>
                   <a href={`mailto:${client.email}`} className="text-brand-navy hover:text-brand-gold-accessible">
                     {client.email}
                   </a>
                 </div>
               </div>
-              {client.phone && (
-                <div className="flex items-center gap-3">
-                  <Phone className="w-5 h-5 text-brand-navy/40" />
-                  <div>
-                    <p className="text-xs text-brand-navy/50 uppercase">Phone</p>
-                    <a href={`tel:${client.phone}`} className="text-brand-navy hover:text-brand-gold-accessible">
-                      {client.phone}
-                    </a>
-                  </div>
-                </div>
-              )}
               <div className="flex items-center gap-3">
                 <DollarSign className="w-5 h-5 text-brand-navy/40" />
                 <div>
@@ -152,6 +148,9 @@ export default async function ClientDetailPage({ params }: ClientDetailPageProps
               </div>
             </div>
           </div>
+
+          {/* Contacts */}
+          <ClientContacts clientId={client.id} contacts={contacts} />
 
           {/* Requests */}
           <div className="bg-white rounded-xl border border-gray-200 p-6">
@@ -188,28 +187,14 @@ export default async function ClientDetailPage({ params }: ClientDetailPageProps
 
         {/* Sidebar */}
         <div className="space-y-6">
-          {/* Actions */}
-          <div className="bg-white rounded-xl border border-gray-200 p-6">
-            <h3 className="font-semibold text-brand-navy mb-4">Actions</h3>
-            <div className="space-y-2">
-              <a
-                href={`mailto:${client.email}`}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-brand-navy text-white rounded-lg hover:bg-brand-graphite transition-colors"
-              >
-                <Mail size={16} /> Send Email
-              </a>
-              {client.status === 'pending_invite' && (
-                <button
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2 border border-brand-gold text-brand-gold-accessible rounded-lg hover:bg-brand-gold/5 transition-colors"
-                >
-                  Resend Invitation
-                </button>
-              )}
-            </div>
-          </div>
+          {/* Actions (includes Edit Panel) */}
+          <ClientActions client={client} />
 
           {/* Invoices */}
           <AdminInvoiceUpload clientId={client.id} invoices={invoices} />
+
+          {/* Internal Notes */}
+          <ClientNotes clientId={client.id} notes={notes} />
 
           {/* Activity */}
           <div className="bg-white rounded-xl border border-gray-200 p-6">
