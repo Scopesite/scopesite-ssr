@@ -49,10 +49,10 @@ export function PortalSidebar({ isAdmin }: PortalSidebarProps) {
       <Link
         href={item.href}
         className={cn(
-          'flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all',
+          'flex items-center gap-3 px-4 py-3 text-sm font-bold text-white transition-all',
           isActive
-            ? 'bg-brand-gold text-brand-navy'
-            : 'text-white/70 hover:bg-white/10 hover:text-white'
+            ? 'border-2 border-brand-gold rounded-lg shadow-[0_0_10px_rgba(236,182,21,0.5)]'
+            : 'border-2 border-transparent hover:border-white/30 rounded-lg'
         )}
       >
         <item.icon size={20} />
@@ -62,7 +62,7 @@ export function PortalSidebar({ isAdmin }: PortalSidebarProps) {
             {item.badge}
           </span>
         )}
-        {isActive && <ChevronRight size={16} />}
+        {isActive && <ChevronRight size={16} className="text-brand-gold" />}
       </Link>
     );
   };
