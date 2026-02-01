@@ -16,6 +16,7 @@ const FOOTER_LINKS = {
     { label: 'Blog', href: '/blog' },
     { label: 'Book a Call', href: '/book' },
     { label: 'Client Login', href: 'https://accounts.scopesite.co.uk/sign-in' },
+    { label: 'Sign Up as Client', href: 'https://accounts.scopesite.co.uk/sign-up' },
   ],
   legal: [
     { label: 'Privacy Policy', href: '/privacy-policy' },
