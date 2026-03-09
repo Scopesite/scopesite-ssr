@@ -179,7 +179,7 @@ export function generateWebsiteSchema() {
 export function generateBreadcrumbSchema(items: BreadcrumbItem[]) {
   return {
     '@type': 'BreadcrumbList',
-    '@id': `${items[items.length - 1]?.url || BASE_URL}/#breadcrumb`,
+    '@id': `${items[items.length - 1]?.url || BASE_URL}#breadcrumb`,
     itemListElement: items.map((item, index) => ({
       '@type': 'ListItem',
       position: index + 1,
