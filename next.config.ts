@@ -1,15 +1,14 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  // Consistent URL handling - no trailing slashes
   trailingSlash: false,
-
-  // Enable static generation where possible
   output: 'standalone',
 
-  // Experimental optimizations
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+
   experimental: {
-    // Inline critical CSS to reduce render-blocking
     optimizeCss: true,
   },
 

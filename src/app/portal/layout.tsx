@@ -1,5 +1,5 @@
+import { ClerkProvider } from '@clerk/nextjs';
 import { auth, currentUser } from '@clerk/nextjs/server';
-import { redirect } from 'next/navigation';
 import { PortalNav } from '@/components/portal/PortalNav';
 import { PortalSidebar } from '@/components/portal/PortalSidebar';
 import { getClientByClerkId } from '@/lib/portal-db';
@@ -19,44 +19,40 @@ export default async function PortalLayout({
   children: React.ReactNode;
 }) {
   const { userId } = await auth();
-  
-  // If not signed in, the middleware will redirect to sign-in
-  // But we also check here for the layout to work properly
+
   if (!userId) {
-    redirect('/portal/sign-in');
+    return (
+      <ClerkProvider>
+        <div className="-mt-32">{children}</div>
+      </ClerkProvider>
+    );
   }
-  
-  // Get the current user from Clerk
+
   const user = await currentUser();
-  
-  // Try to get the client from our database
   const client = await getClientByClerkId(userId);
-  
-  // Check if user is admin (you can customize this list)
   const adminIds = process.env.ADMIN_CLERK_IDS?.split(',') || [];
   const isAdmin = adminIds.includes(userId);
-  
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Top navigation */}
-      <PortalNav 
-        userName={user?.firstName || user?.emailAddresses[0]?.emailAddress || 'User'}
-        userEmail={user?.emailAddresses[0]?.emailAddress || ''}
-        isAdmin={isAdmin}
-        companyName={client?.company_name}
-      />
-      
-      <div className="flex">
-        {/* Sidebar */}
-        <PortalSidebar isAdmin={isAdmin} />
-        
-        {/* Main content - pt-24 on mobile for nav clearance, pt-20 on desktop */}
-        <main className="flex-1 p-6 lg:p-8 ml-0 lg:ml-64 pt-24 lg:pt-20">
-          <div className="max-w-6xl mx-auto">
-            {children}
-          </div>
-        </main>
+    <ClerkProvider>
+      <div className="-mt-32 min-h-screen bg-gray-50">
+        <PortalNav
+          userName={user?.firstName || user?.emailAddresses[0]?.emailAddress || 'User'}
+          userEmail={user?.emailAddresses[0]?.emailAddress || ''}
+          isAdmin={isAdmin}
+          companyName={client?.company_name}
+        />
+
+        <div className="flex">
+          <PortalSidebar isAdmin={isAdmin} />
+
+          <main className="flex-1 p-6 lg:p-8 ml-0 lg:ml-64 pt-24 lg:pt-20">
+            <div className="max-w-6xl mx-auto">
+              {children}
+            </div>
+          </main>
+        </div>
       </div>
-    </div>
+    </ClerkProvider>
   );
 }

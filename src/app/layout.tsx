@@ -1,10 +1,9 @@
 import type { Metadata, Viewport } from 'next';
 import { Paytone_One, Inter } from 'next/font/google';
 import './globals.css';
-import { ClerkProvider } from '@clerk/nextjs';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import { MainWrapper } from '@/components/layout/MainWrapper';
+import { FooterVisibility } from '@/components/layout/FooterVisibility';
 import { JsonLd } from '@/components/JsonLd';
 import { SkipLink, RouteAnnouncer } from '@/components/a11y';
 import { generateOrganizationSchema, generateWebsiteSchema } from '@/lib/schema';
@@ -118,19 +117,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Generate base schemas for every page
   const organizationSchema = generateOrganizationSchema();
   const websiteSchema = generateWebsiteSchema();
 
-  const content = (
+  return (
     <html lang="en-GB">
       <head>
-        {/* Preconnect hints for performance */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <meta name="color-scheme" content="light" />
         <meta name="supported-color-schemes" content="light" />
-        {/* Base structured data for entire site */}
         <JsonLd schema={[organizationSchema, websiteSchema]} />
       </head>
       <body
@@ -138,22 +132,14 @@ export default function RootLayout({
       >
         <SkipLink />
         <Header />
-        <MainWrapper>
+        <main id="main-content" className="pt-32" tabIndex={-1}>
           {children}
-        </MainWrapper>
-        <Footer />
+        </main>
+        <FooterVisibility><Footer /></FooterVisibility>
         <RouteAnnouncer />
         <Analytics />
         <SpeedInsights />
       </body>
     </html>
   );
-
-  // Wrap with ClerkProvider only when the key is available
-  // This allows static pages to build without Clerk
-  if (process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) {
-    return <ClerkProvider>{content}</ClerkProvider>;
-  }
-
-  return content;
 }

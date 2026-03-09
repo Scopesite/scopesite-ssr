@@ -1,8 +1,5 @@
-'use client';
-
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
 import { Phone, Mail, MapPin } from 'lucide-react';
 
 const FOOTER_LINKS = {
@@ -67,13 +64,7 @@ const SOCIAL_LINKS = [
 ];
 
 export function Footer() {
-  const pathname = usePathname();
   const currentYear = new Date().getFullYear();
-
-  // Don't render main footer in portal
-  if (pathname?.startsWith('/portal')) {
-    return null;
-  }
 
   return (
     <footer className="bg-navy-gradient text-white" aria-label="Site footer">
