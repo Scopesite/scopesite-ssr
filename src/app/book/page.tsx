@@ -120,10 +120,10 @@ export default function BookPage() {
       </section>
 
       {/* Google Calendar Booking Section */}
-      <section className="bg-brand-navy py-8">
+      <section className="bg-white py-8">
         <div className="container-content">
           <div className="max-w-4xl mx-auto">
-            <div className="w-full rounded-2xl overflow-hidden">
+            <div className="w-full rounded-2xl overflow-hidden bg-white">
               <iframe
                 src={GOOGLE_CAL_URL}
                 title="Book a Free Strategy Call with ScopeSite Digital Studios"
@@ -132,11 +132,12 @@ export default function BookPage() {
                   border: 'none',
                   minHeight: '700px',
                   borderRadius: '16px',
+                  background: '#ffffff',
                 }}
                 allow="camera; microphone"
               />
             </div>
-            <p className="text-center text-white/50 text-sm mt-4">
+            <p className="text-center text-brand-graphite/50 text-sm mt-4">
               Having trouble seeing the booking calendar?{' '}
               <a
                 href={GOOGLE_CAL_URL}
