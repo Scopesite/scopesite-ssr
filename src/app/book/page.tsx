@@ -128,8 +128,7 @@ export default function BookPage() {
                 src={GOOGLE_CAL_URL}
                 title="Book a Free Strategy Call with ScopeSite Digital Studios"
                 width="100%"
-                height="1100"
-                scrolling="no"
+                height="1600"
                 style={{
                   border: 'none',
                   background: '#ffffff',
