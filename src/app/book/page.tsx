@@ -123,16 +123,17 @@ export default function BookPage() {
       <section className="bg-white py-8">
         <div className="container-content">
           <div className="max-w-4xl mx-auto">
-            <div className="w-full rounded-2xl overflow-hidden bg-white">
+            <div className="w-full overflow-hidden bg-white">
               <iframe
                 src={GOOGLE_CAL_URL}
                 title="Book a Free Strategy Call with ScopeSite Digital Studios"
                 width="100%"
+                height="1100"
+                scrolling="no"
                 style={{
                   border: 'none',
-                  minHeight: '700px',
-                  borderRadius: '16px',
                   background: '#ffffff',
+                  overflow: 'hidden',
                 }}
                 allow="camera; microphone"
               />
