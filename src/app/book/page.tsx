@@ -1,6 +1,4 @@
 import { Metadata } from 'next';
-import { Suspense } from 'react';
-import { FilloutEmbed } from '@/components/shared/FilloutEmbed';
 import { JsonLd } from '@/components/JsonLd';
 import {
   generateBreadcrumbSchema,
@@ -10,15 +8,16 @@ import {
 
 const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/book`;
+const GOOGLE_CAL_URL = 'https://calendar.app.google/CqSQz6Dy5KjiMqyq6';
 
 export const metadata: Metadata = {
   title: 'Book a Free Strategy Call',
   description:
-    'Book a free 30-minute strategy call with Dan Cartwright. Discuss your web design or AI visibility project. No obligation, no hard sell. Somerset-based.',
+    'Book a free 60-minute strategy call with Dan Cartwright. No sales pitch, just honest advice about your website, AI visibility, and what would actually move the needle for your business.',
   openGraph: {
     title: 'Book a Free Strategy Call | Web Design Consultation | ScopeSite Digital Studios',
     description:
-      'Book a free 30-minute strategy call with Dan Cartwright. Discuss your web design or AI visibility project. No obligation, no hard sell. Somerset-based.',
+      'Book a free 60-minute strategy call with Dan Cartwright. No sales pitch, just honest advice about your website, AI visibility, and what would actually move the needle for your business.',
     url: PAGE_URL,
     images: [
       {
@@ -32,7 +31,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary',
     title: 'Book a Free Strategy Call | ScopeSite',
-    description: 'Book a free 30-minute strategy call with Dan Cartwright. Discuss your web design or AI visibility project.',
+    description: 'Book a free 60-minute strategy call with Dan Cartwright. No sales pitch, just honest advice about your website and AI visibility.',
     images: [`${BASE_URL}/images/dan-headshot.webp`],
   },
   alternates: {
@@ -41,7 +40,6 @@ export const metadata: Metadata = {
 };
 
 export default function BookPage() {
-  // Generate schemas
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: BASE_URL },
     { name: 'Book a Call', url: PAGE_URL },
@@ -52,7 +50,6 @@ export default function BookPage() {
 
   return (
     <>
-      {/* Page-specific structured data */}
       <JsonLd
         schema={[breadcrumbSchema, contactPageSchema, scheduleActionSchema]}
       />
@@ -62,14 +59,11 @@ export default function BookPage() {
         <div className="container-content text-center">
           <span className="badge-gold mb-4">Zero Pressure</span>
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-display text-white mb-4">
-            BOOK A <span className="text-brand-gold">STRATEGY CALL</span>
+            BOOK A <span className="text-brand-gold">FREE STRATEGY CALL</span>
           </h1>
           <p className="text-body-lg text-white/80 max-w-2xl mx-auto">
-            Struggling to find what you&apos;re looking for? Book a free 1:1
-            Google Meet with
-            <strong className="text-brand-gold"> Dan Cartwright</strong>, the
-            director of ScopeSite, where he&apos;ll help determine the best
-            solution for your project.
+            No sales pitch. No pressure. Just a straight-talking conversation
+            about your website and how AI search engines find your business.
           </p>
         </div>
       </section>
@@ -125,21 +119,35 @@ export default function BookPage() {
         </div>
       </section>
 
-      {/* Fillout Form Section */}
+      {/* Google Calendar Booking Section */}
       <section className="bg-brand-navy py-8">
         <div className="container-content">
           <div className="max-w-4xl mx-auto">
-            <Suspense
-              fallback={
-                <div className="h-[900px] flex items-center justify-center">
-                  <div className="text-white/60">
-                    Loading booking calendar...
-                  </div>
-                </div>
-              }
-            >
-              <FilloutEmbed />
-            </Suspense>
+            <div className="w-full rounded-2xl overflow-hidden">
+              <iframe
+                src={GOOGLE_CAL_URL}
+                title="Book a Free Strategy Call with ScopeSite Digital Studios"
+                width="100%"
+                style={{
+                  border: 'none',
+                  minHeight: '700px',
+                  borderRadius: '16px',
+                }}
+                allow="camera; microphone"
+              />
+            </div>
+            <p className="text-center text-white/50 text-sm mt-4">
+              Having trouble seeing the booking calendar?{' '}
+              <a
+                href={GOOGLE_CAL_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline transition-colors"
+                style={{ color: '#996D00' }}
+              >
+                Click here to book directly
+              </a>.
+            </p>
           </div>
         </div>
       </section>
@@ -150,10 +158,10 @@ export default function BookPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div>
               <div className="text-h2 text-brand-gold font-headline mb-2">
-                30 min
+                60 min
               </div>
               <div className="text-body-sm text-brand-graphite">
-                Quick & focused call
+                Thorough & focused call
               </div>
             </div>
             <div>
