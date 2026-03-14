@@ -165,7 +165,7 @@ export default function VoicePage() {
             <h1 className="sr-only">V.O.I.C.E™ AI Visibility Optimisation for UK Businesses</h1>
             <Image
               src="/images/voice-ai-aeo-geo-uk-scopesite-top-logo.webp"
-              alt="V.O.I.C.E™ - Visibility Optimisation for Intelligent Conversational Engines"
+              alt=""
               width={600}
               height={120}
               className="mx-auto mb-4"

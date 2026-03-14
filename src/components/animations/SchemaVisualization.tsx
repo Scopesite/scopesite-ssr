@@ -95,6 +95,7 @@ export function SchemaVisualization({ className = '' }: SchemaVisualizationProps
           viewBox="0 0 800 300" 
           className="w-full h-auto"
           style={{ minHeight: '250px', maxHeight: '350px' }}
+          aria-hidden="true"
         >
           {/* Connection Lines */}
           {connections.map((conn, index) => {

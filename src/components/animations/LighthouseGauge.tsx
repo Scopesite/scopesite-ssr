@@ -46,6 +46,7 @@ export function LighthouseGauge({
           width={size}
           height={size}
           className="transform -rotate-90"
+          aria-hidden="true"
         >
           <circle
             cx={size / 2}
