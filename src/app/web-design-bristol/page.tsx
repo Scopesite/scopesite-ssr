@@ -167,7 +167,7 @@ export default function WebDesignBristolPage() {
       {/* Solution Section */}
       <LandingSolution
         title="BRISTOL WEB DESIGN FOR THE AI ERA"
-        intro="AI optimisation in Bristol starts with the right foundation. Startups and scale-ups here understand that web design Bristol agencies deliver needs to be AI-first. Our V.O.I.C.E\u2122 methodology makes that happen."
+        intro="AI optimisation in Bristol starts with the right foundation. Startups and scale-ups here understand that web design Bristol agencies deliver needs to be AI-first. Our V.O.I.C.E™ methodology makes that happen."
         features={solutionFeatures}
         layout="table"
       />
@@ -214,7 +214,7 @@ export default function WebDesignBristolPage() {
             href: "/seo-bristol"
           },
           {
-            title: "V.O.I.C.E\u2122 Methodology",
+            title: "V.O.I.C.E™ Methodology",
             description: "Our AI visibility framework that gets businesses recommended",
             href: "/voice"
           },

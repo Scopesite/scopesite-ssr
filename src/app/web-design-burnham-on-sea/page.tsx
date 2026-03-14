@@ -75,7 +75,7 @@ const whatYouGetCards = [
     icon: Brain,
     items: [
       "Complete schema markup",
-      "V.O.I.C.E\u2122 optimisation",
+      "V.O.I.C.E™ optimisation",
       "Voice search configuration",
       "ChatGPT recommendation testing",
     ],
@@ -171,7 +171,7 @@ export default function WebDesignBurnhamOnSeaPage() {
 
       <LandingCaseStudy 
         title="See What AI-First Design Delivers"
-        quote="A UK business went from invisible to #1 AI-recommended in 6 weeks using our V.O.I.C.E\u2122 methodology"
+        quote="A UK business went from invisible to #1 AI-recommended in 6 weeks using our V.O.I.C.E™ methodology"
         theme="dark" 
       />
 

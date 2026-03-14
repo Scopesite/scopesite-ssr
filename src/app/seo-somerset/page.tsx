@@ -43,7 +43,7 @@ const problemPoints = [
 ];
 
 const solutionFeatures = [
-  { title: "V.O.I.C.E\u2122 AI Methodology", description: "Get recommended by ChatGPT, not just indexed by Google" },
+  { title: "V.O.I.C.E™ AI Methodology", description: "Get recommended by ChatGPT, not just indexed by Google" },
   { title: "Technical SEO Foundation", description: "Schema markup, SSR, sub-2-second load times" },
   { title: "Local Search Dominance", description: "Google Business Profile, local citations, geographic targeting" },
   { title: "Transparent Reporting", description: "Metrics that matter, not vanity dashboards" },
@@ -66,7 +66,7 @@ const whatYouGetCards = [
     icon: Brain,
     items: [
       "ChatGPT recommendation testing",
-      "V.O.I.C.E\u2122 optimisation",
+      "V.O.I.C.E™ optimisation",
       "AI crawler configuration",
       "Structured data engineering",
       "Voice search optimisation",
@@ -138,7 +138,7 @@ export default function SEOSomersetPage() {
               The search landscape has changed.
             </p>
             <p>
-              ScopeSite delivers SEO services in Somerset that cover the full picture: Google rankings, AI recommendations, and voice search visibility. Our V.O.I.C.E\u2122 methodology gets your business found by ChatGPT, Perplexity, and Google. Based in Frome, veteran-owned, and transparent about everything we do.
+              ScopeSite delivers SEO services in Somerset that cover the full picture: Google rankings, AI recommendations, and voice search visibility. Our V.O.I.C.E™ methodology gets your business found by ChatGPT, Perplexity, and Google. Based in Frome, veteran-owned, and transparent about everything we do.
             </p>
           </>
         }
@@ -150,13 +150,13 @@ export default function SEOSomersetPage() {
         problems={problemPoints}
         conclusion={{
           title: "The Bottom Line:",
-          text: "Somerset businesses need SEO that covers Google, AI platforms, and voice search. That's what V.O.I.C.E\u2122 delivers."
+          text: "Somerset businesses need SEO that covers Google, AI platforms, and voice search. That's what V.O.I.C.E™ delivers."
         }}
       />
 
       <LandingSolution
         title="SEO THAT ACTUALLY WORKS IN 2026"
-        intro="Our V.O.I.C.E\u2122 methodology covers every way your customers search for businesses like yours:"
+        intro="Our V.O.I.C.E™ methodology covers every way your customers search for businesses like yours:"
         features={solutionFeatures}
         layout="table"
       />
@@ -185,7 +185,7 @@ export default function SEOSomersetPage() {
       />
 
       <LandingCaseStudy 
-        title="V.O.I.C.E\u2122 Gets Somerset Results"
+        title="V.O.I.C.E™ Gets Somerset Results"
         quote="From invisible to #1 AI-recommended in 6 weeks using our proprietary methodology"
         theme="dark" 
       />
@@ -194,7 +194,7 @@ export default function SEOSomersetPage() {
         title="MORE SERVICES FOR SOMERSET"
         services={[
           {
-            title: "V.O.I.C.E\u2122 Methodology",
+            title: "V.O.I.C.E™ Methodology",
             description: "Our AI visibility framework explained in full",
             href: "/voice"
           },

@@ -345,7 +345,7 @@ export default function AISEOServicesPage() {
             href: "/schema-markup"
           },
           {
-            title: "V.O.I.C.E\u2122 Full Methodology",
+            title: "V.O.I.C.E™ Full Methodology",
             description: "Learn about our complete AI visibility framework",
             href: "/voice"
           },
