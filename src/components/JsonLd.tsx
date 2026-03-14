@@ -21,12 +21,14 @@ export function JsonLd({ schema }: JsonLdProps) {
         ...schema,
       };
 
+  // Escape < as \u003c to prevent </script> in content from breaking the tag.
+  // JSON parsers decode \u003c back to < so the schema remains valid.
+  const safeJson = JSON.stringify(structuredData).replace(/</g, '\\u003c');
+
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(structuredData, null, 0),
-      }}
+      dangerouslySetInnerHTML={{ __html: safeJson }}
     />
   );
 }

@@ -95,36 +95,40 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { posts: allPosts } = await getPosts({ limit: 4 });
   const relatedPosts = allPosts.filter((p) => p.id !== post.id).slice(0, 3);
 
-  // Generate schemas
-  const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: 'Home', url: BASE_URL },
-    { name: 'Blog', url: `${BASE_URL}/blog` },
-    { name: post.title, url: pageUrl },
-  ]);
+  // Generate schemas — wrapped in try/catch so a schema failure never
+  // prevents the page from rendering (degrades gracefully without JSON-LD)
+  let schemas: Record<string, unknown>[] = [];
+  try {
+    const breadcrumbSchema = generateBreadcrumbSchema([
+      { name: 'Home', url: BASE_URL },
+      { name: 'Blog', url: `${BASE_URL}/blog` },
+      { name: post.title, url: pageUrl },
+    ]);
 
-  const blogPostingSchema = generateBlogPostingSchema(post, pageUrl);
-  blogPostingSchema.speakable = generateSpeakableSchema([
-    'h1',
-    '.key-takeaway',
-    '.prose-scopesite > p:first-of-type',
-    '.prose-scopesite > p:nth-of-type(2)',
-  ]);
+    const blogPostingSchema = generateBlogPostingSchema(post, pageUrl);
+    blogPostingSchema.speakable = generateSpeakableSchema([
+      'h1',
+      '.key-takeaway',
+      '.prose-scopesite h2',
+      '.prose-scopesite h3',
+      '.prose-scopesite > p:first-of-type',
+      '.prose-scopesite > p:nth-of-type(2)',
+    ]);
 
-  // Conditionally generate FAQ schema if post has FAQ content/tag
-  const faqSchema = generateBlogFAQSchema(post);
+    schemas = [breadcrumbSchema, blogPostingSchema];
 
-  // Conditionally generate HowTo schema if post is a tutorial
-  const howToSchema = generateBlogHowToSchema(post, pageUrl);
+    const faqSchema = generateBlogFAQSchema(post);
+    if (faqSchema) schemas.push(faqSchema);
 
-  // Build schema array - only include non-null schemas
-  const schemas: Record<string, unknown>[] = [breadcrumbSchema, blogPostingSchema];
-  if (faqSchema) schemas.push(faqSchema);
-  if (howToSchema) schemas.push(howToSchema);
+    const howToSchema = generateBlogHowToSchema(post, pageUrl);
+    if (howToSchema) schemas.push(howToSchema);
+  } catch (e) {
+    console.error('[BlogPost] Schema generation failed for', slug, e);
+  }
 
   return (
     <>
-      {/* Page-specific structured data - NO Organization/WebSite (already in layout.tsx) */}
-      <JsonLd schema={schemas} />
+      {schemas.length > 0 && <JsonLd schema={schemas} />}
 
       {/* Hero Section */}
       <section className="bg-brand-navy text-white py-section">
