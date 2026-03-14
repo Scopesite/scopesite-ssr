@@ -110,9 +110,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       'h1',
       '.key-takeaway',
       '.prose-scopesite h2',
-      '.prose-scopesite h3',
-      '.prose-scopesite > p:first-of-type',
-      '.prose-scopesite > p:nth-of-type(2)',
     ]);
 
     schemas = [breadcrumbSchema, blogPostingSchema];
