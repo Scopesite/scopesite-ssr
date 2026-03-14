@@ -179,6 +179,11 @@ export default function WebDesignBurnhamOnSeaPage() {
         title="MORE SERVICES FOR THE SOMERSET COAST"
         services={[
           {
+            title: "V.O.I.C.E™ AI Visibility",
+            description: "Get recommended by ChatGPT, Perplexity, and AI assistants using our proprietary methodology.",
+            href: "/voice"
+          },
+          {
             title: "Web Design Somerset",
             description: "Our county-wide web design service",
             href: "/web-design-somerset"

@@ -258,6 +258,11 @@ export default function SchemaMarkupPage() {
         intro="Schema markup is the foundation - combine it with these for maximum impact"
         services={[
           {
+            title: "V.O.I.C.E™ AI Visibility",
+            description: "Get recommended by ChatGPT, Perplexity, and AI assistants using our proprietary methodology.",
+            href: "/voice"
+          },
+          {
             title: "AI Website Design",
             description: "Websites engineered from the ground up for AI visibility",
             href: "/ai-website-design"

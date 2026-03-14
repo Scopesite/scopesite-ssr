@@ -105,23 +105,26 @@ export function generateOrganizationSchema() {
     ],
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
-      name: 'Web Design Services',
+      name: 'ScopeSite Services',
       itemListElement: [
         {
           '@type': 'Offer',
           itemOffered: {
             '@type': 'Service',
             name: 'AI-First Web Design',
-            description: 'Websites optimized for ChatGPT and AI search visibility',
+            description: 'Server-side rendered websites optimised for ChatGPT, Perplexity, and AI search visibility',
           },
         },
         {
           '@type': 'Offer',
           itemOffered: {
             '@type': 'Service',
-            name: 'V.O.I.C.E™ AI Visibility Optimization',
+            name: 'V.O.I.C.E™ Methodology',
+            alternateName: 'Voice-Optimised Intelligent Content Engineering',
             description:
-              'Comprehensive AI search optimization using our proprietary methodology',
+              'Proprietary methodology for optimising websites to be visible and recommended by AI search engines including ChatGPT, Perplexity, Gemini, and Claude.',
+            provider: { '@id': `${BASE_URL}/#organization` },
+            url: `${BASE_URL}/voice`,
           },
         },
         {
@@ -129,17 +132,23 @@ export function generateOrganizationSchema() {
           itemOffered: {
             '@type': 'Service',
             name: 'Custom Web Applications',
-            description: 'Bespoke business tools and web applications',
+            description: 'Bespoke business tools and web applications built with Next.js',
           },
         },
       ],
     },
     knowsAbout: [
+      'V.O.I.C.E Methodology',
+      'Voice-Optimised Intelligent Content Engineering',
+      'Generative Engine Optimisation',
+      'Answer Engine Optimisation',
+      'AI Search Visibility',
       'AI Search Optimization',
       'ChatGPT Business Recommendations',
-      'Voice Search Optimization',
+      'Server-Side Rendering',
       'JSON-LD Schema Markup',
       'Next.js Development',
+      'Google Lighthouse Optimisation',
       'Web Design',
       'SEO',
     ],
@@ -309,9 +318,14 @@ export function generatePersonSchema(
   name: string,
   jobTitle: string,
   description: string,
-  image?: string
+  image?: string,
+  options?: {
+    knowsAbout?: string[];
+    hasCredential?: { credentialCategory: string; description: string };
+    sameAs?: string[];
+  }
 ) {
-  return {
+  const schema: Record<string, unknown> = {
     '@type': 'Person',
     '@id': `${BASE_URL}/#${name.toLowerCase().replace(/\s+/g, '-')}`,
     name,
@@ -322,6 +336,23 @@ export function generatePersonSchema(
       '@id': `${BASE_URL}/#organization`,
     },
   };
+
+  if (options?.knowsAbout && options.knowsAbout.length > 0) {
+    schema.knowsAbout = options.knowsAbout;
+  }
+
+  if (options?.hasCredential) {
+    schema.hasCredential = {
+      '@type': 'EducationalOccupationalCredential',
+      ...options.hasCredential,
+    };
+  }
+
+  if (options?.sameAs && options.sameAs.length > 0) {
+    schema.sameAs = options.sameAs;
+  }
+
+  return schema;
 }
 
 // ============================================
@@ -342,6 +373,27 @@ export function generateAboutPageSchema(url: string) {
     about: {
       '@id': `${BASE_URL}/#organization`,
     },
+  };
+}
+
+// ============================================
+// GENERIC WEBPAGE SCHEMA
+// ============================================
+
+export function generateWebPageSchema(
+  title: string,
+  description: string,
+  url: string
+) {
+  return {
+    '@type': 'WebPage',
+    '@id': `${url}/#webpage`,
+    name: title,
+    description,
+    url,
+    isPartOf: { '@id': `${BASE_URL}/#website` },
+    publisher: { '@id': `${BASE_URL}/#organization` },
+    inLanguage: 'en-GB',
   };
 }
 
@@ -491,6 +543,8 @@ const KNOWN_TOOLS: Record<string, { type: string; description: string }> = {
   'Ahrefs': { type: 'Thing', description: 'SEO analysis tool' },
   'Semrush': { type: 'Thing', description: 'SEO and marketing tool' },
   'MOZ': { type: 'Thing', description: 'SEO software' },
+  'V.O.I.C.E': { type: 'Service', description: 'Proprietary AI visibility methodology by ScopeSite Digital Studios' },
+  'Google Lighthouse': { type: 'Thing', description: 'Web auditing tool by Google' },
 };
 
 /**
@@ -1060,21 +1114,17 @@ export function generateBlogHowToSchema(
 }
 
 // ============================================
-// SPEAKABLE SCHEMA (Deprecated - causes validation issues)
+// SPEAKABLE SCHEMA
 // ============================================
 
 /**
- * @deprecated Speakable schema causes validation errors with Ghost HTML
- * Use only if you have full control over the HTML structure
+ * Returns a SpeakableSpecification object to embed as a property on
+ * existing schemas (BlogPosting, WebPage, etc.)
  */
-export function generateSpeakableSchema(url: string, cssSelectors: string[]) {
+export function generateSpeakableSchema(cssSelectors: string[]) {
   return {
-    '@type': 'WebPage',
-    '@id': url,
-    speakable: {
-      '@type': 'SpeakableSpecification',
-      cssSelector: cssSelectors,
-    },
+    '@type': 'SpeakableSpecification',
+    cssSelector: cssSelectors,
   };
 }
 
@@ -1239,8 +1289,8 @@ export function generateLocalServiceSchema(
 
 /**
  * Generates a LocalBusiness schema variant for local landing pages
- * References the main organization but adds local-specific areaServed
- * This helps with local SEO by explicitly defining service areas
+ * Uses a location-specific @id to avoid collisions with the root Organization schema
+ * References the parent Organization via parentOrganization
  */
 export function generateLocalBusinessSchema(
   areaName: string,
@@ -1248,9 +1298,10 @@ export function generateLocalBusinessSchema(
 ) {
   return {
     '@type': 'LocalBusiness',
-    '@id': `${BASE_URL}/#organization`,
+    '@id': `${BASE_URL}/#local-${areaName.toLowerCase().replace(/\s+/g, '-')}`,
     name: `ScopeSite Digital Studios - ${areaName}`,
     description: `AI-first web design agency serving ${areaName}. Based in Frome, Somerset.`,
+    parentOrganization: { '@id': `${BASE_URL}/#organization` },
     telephone: '+441373311339',
     email: 'support@scopesite.co.uk',
     url: BASE_URL,

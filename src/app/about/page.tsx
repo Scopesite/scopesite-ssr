@@ -121,9 +121,26 @@ export default function AboutPage() {
 
   const founderSchema = generatePersonSchema(
     'Dan Cartwright',
-    'Founder & Director',
-    'British Army veteran and web design specialist with 6 years CAMHS experience. Founded ScopeSite to bring military precision and genuine care to web design.',
-    `${BASE_URL}/images/dan-headshot.webp`
+    'Director',
+    'British Army veteran and founder of ScopeSite Digital Studios. Creator of the V.O.I.C.E™ methodology for AI search visibility.',
+    `${BASE_URL}/images/dan-headshot.webp`,
+    {
+      knowsAbout: [
+        'AI Search Optimisation',
+        'Server-Side Rendering',
+        'Next.js',
+        'V.O.I.C.E Methodology',
+        'Schema Markup',
+        'Generative Engine Optimisation',
+      ],
+      hasCredential: {
+        credentialCategory: 'Military Service',
+        description: 'British Army Veteran',
+      },
+      sameAs: [
+        'https://www.linkedin.com/in/dan-cartwright-scopesite',
+      ],
+    }
   );
 
   return (
@@ -151,6 +168,48 @@ export default function AboutPage() {
               Somerset-based studio that believes businesses deserve better than
               the bullshit most agencies sell.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Company Identity Section */}
+      <section className="bg-white py-12 border-b border-brand-navy/10">
+        <div className="container-content">
+          <div className="max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <h2 className="text-brand-navy font-bold text-xl mb-4">Who We Are</h2>
+                <p className="text-brand-navy/70 mb-4">
+                  ScopeSite Digital Studios is a veteran-owned, AI-first web design agency based in
+                  Somerset, UK. Founded by Dan Cartwright, a British Army veteran, ScopeSite builds
+                  server-side rendered websites using Next.js and the proprietary V.O.I.C.E™
+                  (Voice-Optimised Intelligent Content Engineering) methodology.
+                </p>
+                <p className="text-brand-navy/70">
+                  ScopeSite specialises in web design, SEO, and AI search optimisation for businesses
+                  in Somerset, Bristol, Bath, and across the South West. Every website is custom-built
+                  using server-side rendering with Next.js, achieving 100/100 Google Lighthouse scores.
+                </p>
+              </div>
+              <div>
+                <h2 className="text-brand-navy font-bold text-xl mb-4">What Makes Us Different</h2>
+                <p className="text-brand-navy/70 mb-4">
+                  Unlike traditional agencies that rely on WordPress templates, ScopeSite builds every
+                  site from scratch using Next.js server-side rendering. This means faster load times,
+                  better Google rankings, and visibility in AI search engines like ChatGPT, Perplexity,
+                  and Gemini.
+                </p>
+                <p className="text-brand-navy/70">
+                  ScopeSite achieved #1 AI recommendations for client H4TLT across all four major AI
+                  platforms. The agency&apos;s{' '}
+                  <Link href="/voice" className="text-brand-gold hover:underline font-medium">
+                    V.O.I.C.E™ methodology
+                  </Link>{' '}
+                  is the only proprietary AI visibility system offered by a web design agency in the
+                  South West.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

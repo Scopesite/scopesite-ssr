@@ -218,6 +218,11 @@ export default function WebDesignBathPage() {
             description: "Serving businesses across Bristol too",
             href: "/web-design-bristol"
           },
+          {
+            title: "V.O.I.C.E™ AI Visibility",
+            description: "Get recommended by ChatGPT, Perplexity, and AI assistants using our proprietary methodology.",
+            href: "/voice"
+          },
         ]}
         theme="light"
       />

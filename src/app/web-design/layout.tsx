@@ -95,7 +95,27 @@ const faqItems = [
   {
     question: 'What technology do you use and why does it matter?',
     answer:
-      "We build with Next.js and deploy on Vercel's edge network. Unlike WordPress or Wix sites, ours are Server-Side Rendered — meaning AI crawlers can actually read your content. This is why our clients show up when someone asks ChatGPT for recommendations. The tech matters, but only because of what it delivers: speed, visibility, and results.",
+      "We build with Next.js and deploy on Vercel's edge network. Unlike WordPress or Wix sites, ours are Server-Side Rendered, meaning AI crawlers can actually read your content. This is why our clients show up when someone asks ChatGPT for recommendations. The tech matters, but only because of what it delivers: speed, visibility, and results.",
+  },
+  {
+    question: 'How much should a website cost in the UK in 2026?',
+    answer:
+      'It depends on what you need. Template sites (Wix, Squarespace) cost £500-£2,000. Custom WordPress builds run £3,000-£10,000. Server-side rendered Next.js sites (what ScopeSite builds) range from £2,625-£15,000+. The price difference reflects the technology. SSR sites score 100/100 on Lighthouse, load in under a second, and are readable by AI crawlers. Template sites cannot match this. The investment in SSR pays back through better search rankings and AI recommendations.',
+  },
+  {
+    question: 'What is the difference between a template website and a custom website?',
+    answer:
+      'Template sites (Wix, Squarespace, WordPress themes) use pre-built layouts with limited customisation. They rely on client-side JavaScript that AI crawlers cannot read. Custom SSR websites are built from scratch using Next.js, delivering complete HTML to every visitor and crawler. This means faster load times, full control over schema markup, and genuine AI visibility. Template sites work for hobby projects. Businesses that want to be found by AI need custom builds.',
+  },
+  {
+    question: 'Why is SSR (server-side rendering) better for SEO?',
+    answer:
+      'When Google or an AI crawler visits a client-side rendered site (React SPA, most WordPress themes), they receive an empty HTML shell and must execute JavaScript to see content. Many crawlers skip this step entirely. SSR delivers complete HTML on every request. Google can read it immediately. AI crawlers like GPTBot and PerplexityBot can parse it without executing scripts. The result: faster indexing, better rankings, and AI recommendations.',
+  },
+  {
+    question: 'Do I need a website if I have social media?',
+    answer:
+      'Yes. AI chatbots cannot recommend your Instagram page or Facebook profile. When someone asks ChatGPT "Who is the best plumber near me?", it pulls from websites with structured data, not social media posts. Your social presence supports your brand, but your website is what AI systems reference. Without a website with proper schema markup, you are invisible to the fastest-growing search channel.',
   },
 ];
 
@@ -150,7 +170,7 @@ export default function WebDesignLayout({
     operatingSystem: 'Any',
     offers: {
       '@type': 'Offer',
-      price: '0',
+      price: 0,
       priceCurrency: 'GBP',
     },
     provider: {

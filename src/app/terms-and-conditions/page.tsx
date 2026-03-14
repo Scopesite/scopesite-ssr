@@ -7,7 +7,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
 import { JsonLd } from '@/components/JsonLd';
-import { generateBreadcrumbSchema } from '@/lib/schema';
+import { generateBreadcrumbSchema, generateWebPageSchema } from '@/lib/schema';
 
 const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/terms-and-conditions`;
@@ -78,16 +78,20 @@ function getTermsContent(): string {
 export default function TermsPage() {
   const termsContent = getTermsContent();
 
-  // Generate breadcrumb schema
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: BASE_URL },
     { name: 'Terms and Conditions', url: PAGE_URL },
   ]);
 
+  const webPageSchema = generateWebPageSchema(
+    'Terms & Conditions',
+    'Full terms and conditions for ScopeSite Digital Studios. Covers pricing, deliverables, IP rights, data protection and change request procedures.',
+    PAGE_URL
+  );
+
   return (
     <>
-      {/* Page-specific structured data */}
-      <JsonLd schema={breadcrumbSchema} />
+      <JsonLd schema={[breadcrumbSchema, webPageSchema]} />
 
       {/* Hero Section */}
       <section className="bg-white py-12 md:py-16">

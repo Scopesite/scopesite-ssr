@@ -225,6 +225,11 @@ export default function WebDesignSomersetPage() {
             description: "Tech-forward web design for Bristol businesses",
             href: "/web-design-bristol"
           },
+          {
+            title: "V.O.I.C.E™ AI Visibility",
+            description: "Get recommended by ChatGPT, Perplexity, and AI assistants using our proprietary methodology.",
+            href: "/voice"
+          },
         ]}
         theme="light"
       />

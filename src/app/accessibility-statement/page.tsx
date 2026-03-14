@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { ArrowLeft, CheckCircle, AlertCircle } from 'lucide-react';
 import type { Metadata } from 'next';
 import { JsonLd } from '@/components/JsonLd';
-import { generateBreadcrumbSchema } from '@/lib/schema';
+import { generateBreadcrumbSchema, generateWebPageSchema } from '@/lib/schema';
 
 const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/accessibility-statement`;
@@ -112,9 +112,15 @@ export default function AccessibilityPage() {
     { name: 'Accessibility Statement', url: PAGE_URL },
   ]);
 
+  const webPageSchema = generateWebPageSchema(
+    'Accessibility Statement',
+    'Our commitment to digital accessibility at ScopeSite. Learn about accessibility features on our website.',
+    PAGE_URL
+  );
+
   return (
     <>
-      <JsonLd schema={breadcrumbSchema} />
+      <JsonLd schema={[breadcrumbSchema, webPageSchema]} />
 
       {/* Hero Section */}
       <section className="bg-white py-12 md:py-16">

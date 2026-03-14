@@ -7,7 +7,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
 import { JsonLd } from '@/components/JsonLd';
-import { generateBreadcrumbSchema } from '@/lib/schema';
+import { generateBreadcrumbSchema, generateWebPageSchema } from '@/lib/schema';
 
 const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/privacy-policy`;
@@ -71,16 +71,20 @@ function getPrivacyContent(): string {
 export default function PrivacyPolicyPage() {
   const privacyContent = getPrivacyContent();
 
-  // Generate breadcrumb schema
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: BASE_URL },
     { name: 'Privacy Policy', url: PAGE_URL },
   ]);
 
+  const webPageSchema = generateWebPageSchema(
+    'Privacy Policy',
+    'How ScopeSite Digital Studios collects, uses and protects your personal data. UK GDPR compliant.',
+    PAGE_URL
+  );
+
   return (
     <>
-      {/* Page-specific structured data */}
-      <JsonLd schema={breadcrumbSchema} />
+      <JsonLd schema={[breadcrumbSchema, webPageSchema]} />
 
       {/* Hero Section */}
       <section className="bg-white py-12 md:py-16">

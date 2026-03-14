@@ -4,6 +4,7 @@ import {
   generateLocalServiceSchema,
   generateLocalBusinessSchema,
   generateBreadcrumbSchema,
+  generateSpeakableSchema,
   wrapInGraph,
   type FAQItem,
   type AreaServedItem 
@@ -47,13 +48,16 @@ const areasServed: AreaServedItem[] = [
 ];
 
 const pageSchema = wrapInGraph([
-  generateWebPageFAQPageSchema(
-    PAGE_URL,
-    'SEO Somerset | AI-Powered Search Optimisation',
-    'Somerset SEO services built for AI search visibility. V.O.I.C.E methodology gets your business found by ChatGPT, Perplexity, and Google.',
-    faqs,
-    `${PAGE_URL}#service`
-  ),
+  {
+    ...generateWebPageFAQPageSchema(
+      PAGE_URL,
+      'SEO Somerset | AI-Powered Search Optimisation',
+      'Somerset SEO services built for AI search visibility. V.O.I.C.E methodology gets your business found by ChatGPT, Perplexity, and Google.',
+      faqs,
+      `${PAGE_URL}#service`
+    ),
+    speakable: generateSpeakableSchema(['h1', 'section:first-of-type p:first-of-type']),
+  },
   generateLocalServiceSchema(
     'SEO Somerset',
     ['Somerset SEO', 'Search Engine Optimisation Somerset', 'SEO Services Somerset'],

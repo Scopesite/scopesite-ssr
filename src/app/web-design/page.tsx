@@ -46,7 +46,7 @@ import { SpeedTestComparison } from '@/components/SpeedTestComparison';
 // FAQ Accordion Component for light background
 function FAQItem({ question, answer, isOpen, onClick }: { 
   question: string; 
-  answer: string; 
+  answer: React.ReactNode; 
   isOpen: boolean; 
   onClick: () => void;
 }) {
@@ -68,7 +68,7 @@ function FAQItem({ question, answer, isOpen, onClick }: {
           isOpen ? 'max-h-[500px] pb-6' : 'max-h-0'
         }`}
       >
-        <p className="text-muted leading-relaxed whitespace-pre-line">{answer}</p>
+        <div className="text-muted leading-relaxed">{answer}</div>
       </div>
     </div>
   );
@@ -249,7 +249,14 @@ const faqItems = [
   },
   {
     question: 'Can you help with SEO and AI visibility?',
-    answer: 'Every site has bulletproof technical SEO built in — proper meta tags, structured data, XML sitemaps, optimised images, fast load times. For ongoing content strategy and getting recommended by ChatGPT, Claude, and Perplexity, check out our V.O.I.C.E™ service.',
+    answer: (
+      <>
+        Every site has bulletproof technical SEO built in: proper meta tags, structured data, XML sitemaps, optimised images, fast load times. For ongoing content strategy and getting recommended by ChatGPT, Claude, and Perplexity, check out our{' '}
+        <Link href="/voice" className="text-brand-gold hover:text-brand-gold/80 font-medium underline underline-offset-2">
+          V.O.I.C.E™ service
+        </Link>.
+      </>
+    ),
   },
   {
     question: 'What technology do you use and why does it matter?',

@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { JsonLd } from '@/components/JsonLd';
-import { generateBreadcrumbSchema, generateReviewsSchema } from '@/lib/schema';
+import { generateBreadcrumbSchema, generateReviewsSchema, generateSpeakableSchema, generateWebPageSchema, generateFAQSchema, type FAQItem } from '@/lib/schema';
+import { ChevronDown } from 'lucide-react';
 import { HomeBelowFoldWrapper } from './HomeBelowFoldWrapper';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -40,19 +41,50 @@ const googleReviews = [
   },
 ];
 
+const homeFaqs: FAQItem[] = [
+  {
+    question: 'What is AI search optimisation?',
+    answer: 'AI search optimisation (also called GEO or AEO) is the process of making your website visible to AI chatbots like ChatGPT, Perplexity, and Gemini. Google Trends UK shows "geo vs seo" searches have grown over 1,150% in the past year. Traditional SEO gets you ranked on Google. AI search optimisation gets you recommended by AI assistants. ScopeSite uses the V.O.I.C.E™ methodology to achieve both.',
+  },
+  {
+    question: 'How do I get my business recommended by ChatGPT?',
+    answer: 'Getting recommended by ChatGPT requires three things: structured data (JSON-LD schema markup) that describes your business clearly, server-side rendered HTML that AI crawlers can read, and content engineered for AI extraction. ScopeSite achieved #1 AI recommendations for client H4TLT across all four major AI platforms using these exact techniques.',
+  },
+  {
+    question: 'Is a website still worth it for a small business in 2026?',
+    answer: 'Yes, but only if it is built for AI visibility. Social media pages cannot be recommended by AI chatbots. They need structured data from your own website to cite and recommend your business. A website without schema markup is invisible to AI. A website built with SSR and proper structured data becomes your most powerful marketing asset.',
+  },
+  {
+    question: 'How much does a website cost in the UK?',
+    answer: 'ScopeSite websites start from £2,625 for simple sites, £5,625 for standard builds, and £9,375+ for complex projects. Monthly payment plans are available with no interest and no credit checks. Every build includes AI-optimised schema markup, 100/100 Lighthouse scores, and server-side rendering. Visit our pricing page for an instant quote in under 2 minutes.',
+  },
+  {
+    question: 'What is V.O.I.C.E™?',
+    answer: 'V.O.I.C.E™ (Voice-Optimised Intelligent Content Engineering) is ScopeSite\'s proprietary methodology for making websites visible to AI search engines. It combines server-side rendering, structured data engineering, and content architecture designed specifically for generative AI citation. It is the only systemised AI visibility methodology offered by a web design agency in the South West.',
+  },
+];
+
 export default function Home() {
-  // Homepage breadcrumb
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: BASE_URL },
   ]);
 
-  // Individual review schemas
   const reviewSchemas = generateReviewsSchema(googleReviews);
+
+  const homePageSchema = {
+    ...generateWebPageSchema(
+      'ScopeSite Digital Studios | AI-First Web Design Agency',
+      'Veteran-owned AI-first web design agency in Somerset. SSR websites that get recommended by ChatGPT, Perplexity, and Google. 100/100 Lighthouse scores.',
+      BASE_URL
+    ),
+    speakable: generateSpeakableSchema(['h1', '.hero-description']),
+  };
+
+  const faqSchema = generateFAQSchema(homeFaqs);
 
   return (
     <>
-      {/* Page-specific structured data */}
-      <JsonLd schema={[breadcrumbSchema, ...reviewSchemas]} />
+      <JsonLd schema={[breadcrumbSchema, homePageSchema, faqSchema, ...reviewSchemas]} />
 
       {/* Hero Section - Server Rendered for fast LCP */}
       <section className="bg-brand-navy text-white min-h-[80vh] overflow-hidden">
@@ -71,7 +103,7 @@ export default function Home() {
               </h1>
 
               {/* Subtext */}
-              <p className="text-body-lg text-white/80 mb-8 max-w-md lg:max-w-lg mx-auto md:mx-0">
+              <p className="hero-description text-body-lg text-white/80 mb-8 max-w-md lg:max-w-lg mx-auto md:mx-0">
                 We build AI-optimized websites that rank in both traditional search 
                 and AI assistants like ChatGPT and Claude. No bullshit. Just results.
               </p>
@@ -182,6 +214,30 @@ export default function Home() {
                 {area.name}
               </Link>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="bg-white py-16 border-b border-brand-navy/10">
+        <div className="container-content">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-brand-navy text-2xl sm:text-3xl font-bold mb-8 text-center">
+              Frequently Asked Questions
+            </h2>
+            <div className="space-y-0 divide-y divide-brand-navy/10">
+              {homeFaqs.map((faq) => (
+                <details key={faq.question} className="group py-5">
+                  <summary className="flex items-center justify-between cursor-pointer list-none text-brand-navy font-medium text-lg pr-8">
+                    {faq.question}
+                    <ChevronDown className="w-5 h-5 text-brand-gold transition-transform group-open:rotate-180 flex-shrink-0" />
+                  </summary>
+                  <p className="mt-3 text-brand-navy/70 leading-relaxed">
+                    {faq.answer}
+                  </p>
+                </details>
+              ))}
+            </div>
           </div>
         </div>
       </section>

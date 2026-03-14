@@ -84,6 +84,14 @@ const faqs: FAQItem[] = [
     question: "What if I'm already working with another SEO agency?",
     answer: "We work alongside other agencies all the time. Schema implementation is specialised work that most general SEO agencies outsource anyway. We can implement schema while your existing agency handles other aspects of your digital marketing. No conflict, no drama."
   },
+  {
+    question: "Is schema markup dead in 2026?",
+    answer: "The opposite. 99.7% of websites still lack proper schema markup, yet AI systems rely on it more than ever to understand and recommend businesses. Schema has become the primary language AI chatbots use to decide which businesses to cite. Google, ChatGPT, Perplexity, and Claude all parse schema data to build their understanding of your business. Ignoring schema in 2026 is like ignoring mobile in 2015."
+  },
+  {
+    question: "How does schema markup help with AI search specifically?",
+    answer: "AI chatbots like ChatGPT and Perplexity need structured context to recommend your business. Schema provides exactly this: your business name, services, location, credentials, and relationships. Without schema, AI sees unstructured text and guesses. With schema, AI receives explicit facts it can confidently cite. This is why ScopeSite's V.O.I.C.E™ methodology puts schema at the centre of every AI visibility project."
+  },
 ];
 
 // Generate page schema

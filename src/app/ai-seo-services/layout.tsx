@@ -42,7 +42,27 @@ const faqs: FAQItem[] = [
   },
   {
     question: "What's the V.O.I.C.E™ methodology?",
-    answer: "V.O.I.C.E™ stands for Voice Optimisation for Intelligent Conversational Engines. It's our proprietary framework for making businesses visible to AI platforms. It covers Vector Optimisation, Optimised Intelligence, Intelligent Architecture, Crawler Engineering, and Embedding Excellence - each addressing a different aspect of AI visibility."
+    answer: "V.O.I.C.E™ stands for Voice-Optimised Intelligent Content Engineering. It's our proprietary methodology that combines server-side rendering, structured data engineering, and content architecture specifically designed for generative AI citation. V.O.I.C.E™ is the only systemised AI visibility methodology offered by a web design agency in the South West."
+  },
+  {
+    question: "What is the difference between GEO and SEO?",
+    answer: "SEO (Search Engine Optimisation) targets Google rankings through keywords, backlinks, and technical optimisation. GEO (Generative Engine Optimisation) targets AI chatbot recommendations through structured data, entity graphs, and content engineering. SEO gets you ranked. GEO gets you recommended. In 2026, you need both. Google Trends UK shows 'geo vs seo' searches have grown over 1,150% in the past year."
+  },
+  {
+    question: "What is Answer Engine Optimisation (AEO)?",
+    answer: "AEO is the practice of optimising your website so AI-powered answer engines (ChatGPT, Perplexity, Gemini, Claude) can extract, understand, and cite your content. It focuses on structured data, clear factual content, and entity relationships. AEO and GEO are closely related, and both are part of ScopeSite's V.O.I.C.E™ methodology."
+  },
+  {
+    question: "How do AI search engines decide which businesses to recommend?",
+    answer: "AI search engines use several signals: JSON-LD schema markup that describes your business, content structured in a way AI can extract, server-side rendered HTML (not client-side JavaScript), authority signals from backlinks and entity graphs, and freshness of content. Websites built on WordPress or Wix often fail multiple criteria because they rely on client-side rendering and plugin-generated schema."
+  },
+  {
+    question: "Can my existing website be optimised for AI search?",
+    answer: "It depends on the tech stack. WordPress can be partially optimised with custom code (not plugins). Wix and Squarespace have limited options. Server-side rendered sites (Next.js, Nuxt) are the gold standard because AI crawlers receive complete HTML on every request. During our audit, we assess what is achievable on your current platform."
+  },
+  {
+    question: "How long does it take to appear in AI search results?",
+    answer: "Typically 4-12 weeks depending on your existing authority and the competitiveness of your industry. AI platforms re-crawl faster than Google, but building strong entity recognition takes time. Early wins (like appearing in Perplexity results) often happen within 4 weeks. Consistent ChatGPT recommendations usually take 8-12 weeks."
   },
   {
     question: "How much does AI SEO cost?",

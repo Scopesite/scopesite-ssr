@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { ArrowLeft, Clock, FileText, Zap } from 'lucide-react';
 import { JsonLd } from '@/components/JsonLd';
-import { generateBreadcrumbSchema } from '@/lib/schema';
+import { generateBreadcrumbSchema, generateWebPageSchema } from '@/lib/schema';
 import { BriefForm } from '@/components/BriefForm';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -40,9 +40,15 @@ export default function BriefPage() {
     { name: 'Send Us a Brief', url: PAGE_URL },
   ]);
 
+  const webPageSchema = generateWebPageSchema(
+    'Send Us Your Project Brief',
+    'Submit your web design or AI visibility project brief. Tell us what you need and we\'ll respond within 2 business days.',
+    PAGE_URL
+  );
+
   return (
     <>
-      <JsonLd schema={breadcrumbSchema} />
+      <JsonLd schema={[breadcrumbSchema, webPageSchema]} />
 
       {/* Hero Section */}
       <section className="bg-brand-navy text-white py-16 md:py-20">

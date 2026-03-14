@@ -193,6 +193,11 @@ export default function WebDesignGlastonburyPage() {
             description: "Serving businesses across Bath and surrounds",
             href: "/web-design-bath"
           },
+          {
+            title: "V.O.I.C.E™ AI Visibility",
+            description: "Get recommended by ChatGPT, Perplexity, and AI assistants using our proprietary methodology.",
+            href: "/voice"
+          },
         ]}
         theme="light"
       />

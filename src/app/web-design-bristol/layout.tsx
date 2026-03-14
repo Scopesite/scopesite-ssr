@@ -4,6 +4,7 @@ import {
   generateLocalServiceSchema,
   generateLocalBusinessSchema,
   generateBreadcrumbSchema,
+  generateSpeakableSchema,
   wrapInGraph,
   type FAQItem,
   type AreaServedItem 
@@ -52,13 +53,16 @@ const areasServed: AreaServedItem[] = [
 
 // Generate schema
 const pageSchema = wrapInGraph([
-  generateWebPageFAQPageSchema(
-    PAGE_URL,
-    'Web Design Bristol | AI-First SSR Websites',
-    'Bristol web design that gets your business recommended by ChatGPT and Google. 100/100 Lighthouse scores, SSR builds, fair pricing.',
-    faqs,
-    `${PAGE_URL}#service`
-  ),
+  {
+    ...generateWebPageFAQPageSchema(
+      PAGE_URL,
+      'Web Design Bristol | AI-First SSR Websites',
+      'Bristol web design that gets your business recommended by ChatGPT and Google. 100/100 Lighthouse scores, SSR builds, fair pricing.',
+      faqs,
+      `${PAGE_URL}#service`
+    ),
+    speakable: generateSpeakableSchema(['h1', 'section:first-of-type p:first-of-type']),
+  },
   generateLocalServiceSchema(
     'Web Design Bristol',
     ['Bristol Web Design', 'Web Designer Bristol', 'Website Design Bristol'],

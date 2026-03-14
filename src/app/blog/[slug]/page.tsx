@@ -16,6 +16,7 @@ import {
   generateBlogPostingSchema,
   generateBlogFAQSchema,
   generateBlogHowToSchema,
+  generateSpeakableSchema,
 } from '@/lib/schema';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -102,6 +103,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   ]);
 
   const blogPostingSchema = generateBlogPostingSchema(post, pageUrl);
+  blogPostingSchema.speakable = generateSpeakableSchema([
+    'h1',
+    '.key-takeaway',
+    '.prose-scopesite > p:first-of-type',
+    '.prose-scopesite > p:nth-of-type(2)',
+  ]);
 
   // Conditionally generate FAQ schema if post has FAQ content/tag
   const faqSchema = generateBlogFAQSchema(post);
@@ -201,6 +208,18 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <section className="section-white">
         <div className="container-content">
           <article className="max-w-3xl mx-auto">
+            {(post.excerpt || post.custom_excerpt) && (
+              <div
+                className="key-takeaway mb-8 p-6 rounded-xl border-l-4 border-brand-gold bg-brand-navy/[0.03]"
+                role="note"
+                aria-label="Key Takeaway"
+              >
+                <p className="font-bold text-brand-navy mb-1 text-sm uppercase tracking-wide">Key Takeaway</p>
+                <p className="text-brand-navy/80 leading-relaxed">
+                  {post.custom_excerpt || post.excerpt}
+                </p>
+              </div>
+            )}
             {post.html ? (
               <div
                 className="prose-scopesite"
