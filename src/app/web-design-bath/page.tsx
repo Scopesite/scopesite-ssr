@@ -204,9 +204,9 @@ export default function WebDesignBathPage() {
         title="MORE SERVICES FOR BATH BUSINESSES"
         services={[
           {
-            title: "AI Website Design",
-            description: "Websites engineered for ChatGPT and AI recommendations",
-            href: "/ai-website-design"
+            title: "SEO Somerset",
+            description: "AI-powered search optimisation for Somerset",
+            href: "/seo-somerset"
           },
           {
             title: "Web Design Somerset",

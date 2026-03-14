@@ -325,6 +325,16 @@ export default function AISEOServicesPage() {
         intro="AI SEO works best when combined with these complementary services"
         services={[
           {
+            title: "SEO Somerset",
+            description: "Local SEO services for Somerset businesses",
+            href: "/seo-somerset"
+          },
+          {
+            title: "SEO Bristol",
+            description: "AI search optimisation for Bristol businesses",
+            href: "/seo-bristol"
+          },
+          {
             title: "AI Website Design",
             description: "Build an AI-optimised website from the ground up",
             href: "/ai-website-design"
@@ -335,7 +345,7 @@ export default function AISEOServicesPage() {
             href: "/schema-markup"
           },
           {
-            title: "V.O.I.C.E™ Full Methodology",
+            title: "V.O.I.C.E\u2122 Full Methodology",
             description: "Learn about our complete AI visibility framework",
             href: "/voice"
           },

@@ -155,6 +155,37 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Areas We Serve Section */}
+      <section className="bg-brand-navy py-16" aria-labelledby="areas-heading">
+        <div className="container-content">
+          <h2 id="areas-heading" className="text-white text-2xl sm:text-3xl font-bold mb-4 text-center">
+            Areas We Serve
+          </h2>
+          <p className="text-white/70 text-center max-w-2xl mx-auto mb-10">
+            Based in Frome, Somerset. Serving businesses across the South West with AI-first web design and SEO.
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
+            {[
+              { name: 'Web Design Somerset', href: '/web-design-somerset' },
+              { name: 'Web Design Bristol', href: '/web-design-bristol' },
+              { name: 'Web Design Bath', href: '/web-design-bath' },
+              { name: 'Web Design Glastonbury', href: '/web-design-glastonbury' },
+              { name: 'Web Design Burnham-on-Sea', href: '/web-design-burnham-on-sea' },
+              { name: 'SEO Somerset', href: '/seo-somerset' },
+              { name: 'SEO Bristol', href: '/seo-bristol' },
+            ].map((area) => (
+              <Link
+                key={area.href}
+                href={area.href}
+                className="block text-center px-4 py-3 rounded-lg border border-white/10 bg-white/5 text-white hover:bg-brand-gold hover:text-brand-navy hover:border-brand-gold transition-all duration-200 text-sm font-medium"
+              >
+                {area.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Below-fold content - static on mobile, animated on desktop */}
       <HomeBelowFoldWrapper reviews={googleReviews} />
     </>

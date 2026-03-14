@@ -206,6 +206,11 @@ export default function WebDesignSomersetPage() {
         title="MORE SERVICES FOR SOMERSET BUSINESSES"
         services={[
           {
+            title: "SEO Somerset",
+            description: "AI-powered search optimisation for Somerset businesses",
+            href: "/seo-somerset"
+          },
+          {
             title: "AI Website Design",
             description: "Websites engineered for ChatGPT and AI recommendations",
             href: "/ai-website-design"

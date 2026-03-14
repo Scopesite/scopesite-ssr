@@ -14,8 +14,12 @@ const FOOTER_LINKS = {
   ],
   localServices: [
     { label: 'Web Design Somerset', href: '/web-design-somerset' },
-    { label: 'Web Design Bath', href: '/web-design-bath' },
     { label: 'Web Design Bristol', href: '/web-design-bristol' },
+    { label: 'Web Design Bath', href: '/web-design-bath' },
+    { label: 'Web Design Glastonbury', href: '/web-design-glastonbury' },
+    { label: 'Web Design Burnham-on-Sea', href: '/web-design-burnham-on-sea' },
+    { label: 'SEO Somerset', href: '/seo-somerset' },
+    { label: 'SEO Bristol', href: '/seo-bristol' },
   ],
   company: [
     { label: 'About Us', href: '/about' },

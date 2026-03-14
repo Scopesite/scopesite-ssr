@@ -136,7 +136,7 @@ export default function WebDesignBristolPage() {
         badge="Bristol's AI-First Alternative"
         badgeIcon={<MapPin className="w-4 h-4 text-brand-gold" />}
         headlineHighlight="WEB DESIGN BRISTOL:"
-        headline="BUILT FOR AI, PRICED FAIRLY"
+        headline="AI-FIRST WEBSITES. FAIR PRICES."
         subheadline="Tech-forward web design without the Bristol agency markup."
         bodyCopy={
           <>
@@ -156,18 +156,18 @@ export default function WebDesignBristolPage() {
       {/* Problem Section */}
       <LandingProblem
         title="BRISTOL'S WEB DESIGN SCENE HAS A PROBLEM"
-        intro="Bristol fancies itself a tech hub. And it is - there's genuine talent here. But the web design market? It's stuck in 2018."
+        intro="Bristol fancies itself a tech hub. And it is. But the website design Bristol businesses are getting? It's stuck in 2018. Most Bristol website designers are still delivering WordPress templates at premium rates."
         problems={problemPoints}
         conclusion={{
           title: "The Real Problem:",
-          text: "Bristol businesses are paying premium prices for technology that's already obsolete."
+          text: "Bristol businesses are paying website design company prices for technology that's already obsolete. The website designers Bristol relies on haven't adapted to AI search."
         }}
       />
 
       {/* Solution Section */}
       <LandingSolution
         title="BRISTOL WEB DESIGN FOR THE AI ERA"
-        intro="Bristol's tech scene gets it. Startups and scale-ups here understand that the future is AI-first. Here's how we compare to typical Bristol agencies:"
+        intro="AI optimisation in Bristol starts with the right foundation. Startups and scale-ups here understand that web design Bristol agencies deliver needs to be AI-first. Our V.O.I.C.E\u2122 methodology makes that happen."
         features={solutionFeatures}
         layout="table"
       />
@@ -209,9 +209,14 @@ export default function WebDesignBristolPage() {
         title="MORE SERVICES FOR BRISTOL BUSINESSES"
         services={[
           {
-            title: "AI Website Design",
-            description: "Websites engineered for ChatGPT and AI recommendations",
-            href: "/ai-website-design"
+            title: "SEO Bristol",
+            description: "AI search optimisation for Bristol businesses",
+            href: "/seo-bristol"
+          },
+          {
+            title: "V.O.I.C.E\u2122 Methodology",
+            description: "Our AI visibility framework that gets businesses recommended",
+            href: "/voice"
           },
           {
             title: "Web Design Somerset",

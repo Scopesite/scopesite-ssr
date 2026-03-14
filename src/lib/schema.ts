@@ -1198,7 +1198,8 @@ export function generateLocalServiceSchema(
   description: string,
   url: string,
   areaServed: AreaServedItem[],
-  offers?: ServiceOffer[]
+  offers?: ServiceOffer[],
+  serviceType: string = 'Web Design'
 ) {
   const schema: Record<string, unknown> = {
     '@type': 'Service',
@@ -1207,7 +1208,7 @@ export function generateLocalServiceSchema(
     alternateName: alternateNames,
     description,
     provider: { '@id': `${BASE_URL}/#organization` },
-    serviceType: 'Web Design',
+    serviceType,
     areaServed: areaServed.map((area) => ({
       '@type': area.type,
       name: area.name,
