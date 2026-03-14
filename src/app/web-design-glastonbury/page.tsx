@@ -211,7 +211,7 @@ export default function WebDesignGlastonburyPage() {
       <LandingCTA
         title="LET'S BUILD SOMETHING FOR GLASTONBURY"
         description="Get an instant quote in 60 seconds, or book a call for a proper conversation about what your Glastonbury business needs."
-        footnote="No obligation \u2022 Transparent pricing \u2022 Veteran-owned"
+        footnote="No obligation • Transparent pricing • Veteran-owned"
       />
     </>
   );

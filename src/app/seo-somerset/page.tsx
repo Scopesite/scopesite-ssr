@@ -221,7 +221,7 @@ export default function SEOSomersetPage() {
       <LandingCTA
         title="GET FOUND BY AI AND GOOGLE"
         description="Stop paying for SEO that only targets half the search landscape. Get a free AI visibility audit and find out exactly where your Somerset business stands."
-        footnote="No obligation \u2022 Free AI audit \u2022 Veteran-owned"
+        footnote="No obligation • Free AI audit • Veteran-owned"
       />
     </>
   );

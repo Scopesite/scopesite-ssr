@@ -218,7 +218,7 @@ export default function SEOBristolPage() {
       <LandingCTA
         title="GET FOUND BY AI AND GOOGLE IN BRISTOL"
         description="Stop paying for SEO that only tells half the story. Get a free AI visibility audit and find out exactly where your Bristol business stands across Google, ChatGPT, and voice search."
-        footnote="No obligation \u2022 Free AI audit \u2022 Veteran-owned"
+        footnote="No obligation • Free AI audit • Veteran-owned"
       />
     </>
   );
