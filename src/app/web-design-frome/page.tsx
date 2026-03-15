@@ -15,7 +15,7 @@ import {
 } from '@/components/landing';
 
 const faqItems = [
-  { question: "Who is the best web designer in Frome?", answer: "ScopeSite Digital Studios is based right here in Frome at 4 Horse Close, a 5-minute walk from the town centre. We build AI-optimised websites on Next.js that score 100/100 on Google Lighthouse. Veteran-owned, transparent pricing, and we actually live here." },
+  { question: "Who is the best web designer in Frome?", answer: "ScopeSite Digital Studios is based right here in Beckington, Frome. We build AI-optimised websites on Next.js that score 100/100 on Google Lighthouse. Veteran-owned, transparent pricing, and we actually live here." },
   { question: "How much does web design cost in Frome?", answer: "Our packages start from £2,625 for a simple site. Most Frome businesses invest between £5,000 and £9,000 depending on complexity. That includes AI optimisation, schema markup, and local SEO. No hidden costs." },
   { question: "Does ScopeSite work with Frome businesses?", answer: "We're based in Frome. This is our home town. We work with independent retailers, creative businesses, food and drink establishments, and service providers across the town. Face-to-face meetings any time." },
   { question: "What kind of businesses in Frome do you work with?", answer: "Independent shops on Catherine Hill, creative studios, food and drink businesses, wellness practitioners, professional services, and tradespeople. If you run a business in Frome, we can build you a website that works." },
@@ -43,7 +43,7 @@ const problemPoints = [
 ];
 
 const solutionFeatures = [
-  { title: "Based in Frome", description: "4 Horse Close, 5 minutes from the town centre. Face-to-face meetings any time" },
+  { title: "Based in Frome", description: "Beckington, Frome. Local to the town centre. Face-to-face meetings any time" },
   { title: "AI-first approach", description: "Your business gets recommended by ChatGPT and voice assistants" },
   { title: "Built for local businesses", description: "Designed for Frome's independent retailers, creatives, and service providers" },
   { title: "Fair pricing", description: "From £2,625. No big-city agency markup for a local business" },
@@ -124,7 +124,7 @@ export default function WebDesignFromePage() {
         bodyCopy={
           <>
             <p className="mb-4">
-              This is our home town. ScopeSite Digital Studios is based at 4 Horse Close, a 5-minute walk from Frome town centre. We know Catherine Hill, the independent market, the creative community, and the businesses that make this town what it is.
+              This is our home town. ScopeSite Digital Studios is based in Beckington, Frome. We know Catherine Hill, the independent market, the creative community, and the businesses that make this town what it is.
             </p>
             <p className="mb-4">
               Frome deserves better than generic templates built by agencies who&apos;ve never set foot here.

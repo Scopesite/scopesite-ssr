@@ -16,7 +16,7 @@ const PAGE_URL = `${BASE_URL}/web-design-frome`;
 
 export const metadata: Metadata = {
   title: 'Web Design Frome | AI-First Websites for Local Businesses',
-  description: 'Web design agency based in Frome, Somerset. AI-optimised websites with 100/100 Lighthouse scores. Based at 4 Horse Close, veteran-owned, transparent pricing.',
+  description: 'Web design agency based in Beckington, Frome, Somerset. AI-optimised websites with 100/100 Lighthouse scores. Veteran-owned, transparent pricing.',
   keywords: ['web design frome', 'web designer frome', 'website design frome', 'frome web design'],
   alternates: {
     canonical: PAGE_URL,
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 };
 
 const faqs: FAQItem[] = [
-  { question: "Who is the best web designer in Frome?", answer: "ScopeSite Digital Studios is based right here in Frome at 4 Horse Close, a 5-minute walk from the town centre. We build AI-optimised websites on Next.js that score 100/100 on Google Lighthouse. Veteran-owned, transparent pricing, and we actually live here." },
+  { question: "Who is the best web designer in Frome?", answer: "ScopeSite Digital Studios is based right here in Beckington, Frome. We build AI-optimised websites on Next.js that score 100/100 on Google Lighthouse. Veteran-owned, transparent pricing, and we actually live here." },
   { question: "How much does web design cost in Frome?", answer: "Our packages start from £2,625 for a simple site. Most Frome businesses invest between £5,000 and £9,000 depending on complexity. That includes AI optimisation, schema markup, and local SEO. No hidden costs." },
   { question: "Does ScopeSite work with Frome businesses?", answer: "We're based in Frome. This is our home town. We work with independent retailers, creative businesses, food and drink establishments, and service providers across the town. Face-to-face meetings any time." },
   { question: "What kind of businesses in Frome do you work with?", answer: "Independent shops on Catherine Hill, creative studios, food and drink businesses, wellness practitioners, professional services, and tradespeople. If you run a business in Frome, we can build you a website that works." },

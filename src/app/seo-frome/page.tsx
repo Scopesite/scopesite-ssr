@@ -134,7 +134,7 @@ export default function SEOFromePage() {
               Search has changed. Google is only part of the picture now.
             </p>
             <p>
-              ScopeSite is based right here in Frome at 4 Horse Close. We deliver SEO that covers Google rankings, AI recommendations from ChatGPT and Perplexity, and voice search visibility. Our V.O.I.C.E™ methodology is proven. Veteran-owned, transparent about everything we do, and always available for a coffee and a chat in town.
+              ScopeSite is based right here in Beckington, Frome. We deliver SEO that covers Google rankings, AI recommendations from ChatGPT and Perplexity, and voice search visibility. Our V.O.I.C.E™ methodology is proven. Veteran-owned, transparent about everything we do, and always available for a coffee and a chat in town.
             </p>
           </>
         }
