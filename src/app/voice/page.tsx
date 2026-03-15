@@ -424,7 +424,7 @@ export default function VoicePage() {
           <div className="text-center mt-6">
             <Link
               href="/book"
-              className="inline-block bg-brand-gold text-brand-navy font-bold px-8 py-3 rounded-lg hover:bg-brand-gold/90 transition-colors"
+              className="inline-block bg-brand-gold text-[#0A1B36] font-extrabold text-lg px-10 py-4 rounded-xl shadow-[0_4px_0_#b8860b] hover:shadow-[0_2px_0_#b8860b] hover:translate-y-[2px] active:shadow-none active:translate-y-[4px] transition-all duration-150"
             >
               Book a Demo
             </Link>
