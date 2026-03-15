@@ -292,12 +292,11 @@ export async function getPosts(options: {
     };
   }
 
-  // Fetch from Ghost API
+  // Fetch from Ghost API (no `fields` filter so Ghost returns computed fields like reading_time)
   const params: Record<string, string> = {
     page: page.toString(),
     limit: limit.toString(),
     include: 'tags,authors',
-    fields: 'id,uuid,slug,title,excerpt,custom_excerpt,feature_image,feature_image_alt,featured,published_at,updated_at,reading_time',
   };
 
   if (filter) {
@@ -383,7 +382,6 @@ export async function getFeaturedPosts(limit: number = 3): Promise<GhostPost[]> 
     limit: limit.toString(),
     filter: 'featured:true',
     include: 'tags,authors',
-    fields: 'id,uuid,slug,title,excerpt,custom_excerpt,feature_image,feature_image_alt,featured,published_at,updated_at,reading_time',
   };
 
   try {
