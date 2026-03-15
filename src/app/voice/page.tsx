@@ -2,6 +2,12 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
+
+const VoiceSchemaDemo = dynamic(
+  () => import('@/components/animations/VoiceSchemaDemo').then((m) => m.VoiceSchemaDemo),
+  { ssr: false, loading: () => <div className="h-[500px]" /> }
+);
 import { 
   Eye, 
   Settings, 
@@ -378,6 +384,50 @@ export default function VoicePage() {
               Get Your Free Score
               <ArrowRight className="w-5 h-5" />
             </a>
+          </div>
+        </div>
+      </section>
+
+      {/* V.O.I.C.E. Interactive Demo */}
+      <section className="bg-[#1a1a2e] py-section">
+        <div className="container-content">
+          <h2 className="text-white text-center mb-2 text-xl sm:text-2xl md:text-h2">
+            See V.O.I.C.E. in Action
+          </h2>
+          <p className="text-white/50 text-center mb-10 max-w-xl mx-auto text-sm">
+            From publish to AI recommendation in seconds
+          </p>
+
+          <VoiceSchemaDemo />
+
+          {/* noscript fallback for JS-disabled browsers */}
+          <noscript>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+              <div className="bg-[#16213e] rounded-lg border border-white/10 p-5">
+                <div className="text-brand-gold font-bold text-xs uppercase tracking-wider mb-2">1. Publish</div>
+                <p className="text-white/70 text-sm">You write and publish a blog post in Ghost CMS. One click.</p>
+              </div>
+              <div className="bg-[#16213e] rounded-lg border border-white/10 p-5">
+                <div className="text-brand-gold font-bold text-xs uppercase tracking-wider mb-2">2. Schema Generates</div>
+                <p className="text-white/70 text-sm">6 schema types auto-generated: BlogPosting, Author, Publisher, FAQ, Speakable, and entity mentions.</p>
+              </div>
+              <div className="bg-[#16213e] rounded-lg border border-white/10 p-5">
+                <div className="text-brand-gold font-bold text-xs uppercase tracking-wider mb-2">3. AI Recommends</div>
+                <p className="text-white/70 text-sm">AI platforms read your schema and recommend your business to users asking relevant questions.</p>
+              </div>
+            </div>
+          </noscript>
+
+          <p className="text-white/70 text-center mt-10 text-sm">
+            This happens automatically. Every time you publish. No plugins. No manual work.
+          </p>
+          <div className="text-center mt-6">
+            <Link
+              href="/book"
+              className="inline-block bg-brand-gold text-brand-navy font-bold px-8 py-3 rounded-lg hover:bg-brand-gold/90 transition-colors"
+            >
+              Book a Demo
+            </Link>
           </div>
         </div>
       </section>
