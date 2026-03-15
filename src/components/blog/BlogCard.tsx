@@ -10,7 +10,7 @@ interface BlogCardProps {
   featureImage?: string;
   featureImageAlt?: string;
   publishedAt: string;
-  readingTime: number;
+  readingTime?: number;
   tag?: {
     name: string;
     slug: string;
@@ -123,7 +123,7 @@ export function BlogCard({
             </time>
             <span className="flex items-center gap-1">
               <Clock className="w-4 h-4" />
-              {readingTime} min read
+              {readingTime || 1} min read
             </span>
           </div>
         </div>
