@@ -21,7 +21,7 @@ export function BlogLoadMore({ initialPage, totalPages }: BlogLoadMoreProps) {
     
     startTransition(async () => {
       try {
-        const response = await fetch(`/api/blog?page=${nextPage}&limit=9`);
+        const response = await fetch(`/api/blog?page=${nextPage}&limit=12`);
         if (!response.ok) throw new Error('Failed to fetch');
         
         const data = await response.json();
@@ -49,12 +49,13 @@ export function BlogLoadMore({ initialPage, totalPages }: BlogLoadMoreProps) {
               key={post.id}
               slug={post.slug}
               title={post.title}
-              excerpt={post.excerpt || post.custom_excerpt}
+              excerpt={post.custom_excerpt || post.excerpt}
               featureImage={post.feature_image}
               featureImageAlt={post.feature_image_alt}
               publishedAt={post.published_at}
               readingTime={post.reading_time}
               tag={post.primary_tag}
+              tags={post.tags}
             />
           ))}
         </div>

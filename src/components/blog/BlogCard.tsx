@@ -15,7 +15,13 @@ interface BlogCardProps {
     name: string;
     slug: string;
   };
+  tags?: { name: string; slug: string }[];
   featured?: boolean;
+}
+
+function truncateExcerpt(text: string, max = 150): string {
+  if (text.length <= max) return text;
+  return text.slice(0, max).trimEnd() + '...';
 }
 
 export function BlogCard({
@@ -27,8 +33,10 @@ export function BlogCard({
   publishedAt,
   readingTime,
   tag,
+  tags,
   featured = false,
 }: BlogCardProps) {
+  const displayExcerpt = excerpt ? truncateExcerpt(excerpt) : undefined;
   return (
     <Link href={`/blog/${slug}`} className="group block h-full">
       <article
@@ -88,10 +96,24 @@ export function BlogCard({
           </h3>
           
           {/* Excerpt */}
-          {excerpt && (
+          {displayExcerpt && (
             <p className={`text-brand-navy/60 mb-4 line-clamp-3 ${featured ? 'text-base md:text-lg' : 'text-sm'}`}>
-              {excerpt}
+              {displayExcerpt}
             </p>
+          )}
+
+          {/* Tags */}
+          {tags && tags.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mb-4">
+              {tags.map((t) => (
+                <span
+                  key={t.slug}
+                  className="px-2 py-0.5 rounded-full text-[11px] font-medium bg-brand-navy/5 text-brand-navy/60"
+                >
+                  {t.name}
+                </span>
+              ))}
+            </div>
           )}
           
           {/* Meta */}

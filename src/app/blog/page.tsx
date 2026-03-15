@@ -42,11 +42,10 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage() {
-  const { posts, meta } = await getPosts({ page: 1, limit: 9 });
-
-  // Separate featured post from the rest
-  const featuredPost = posts.find((post) => post.featured);
-  const regularPosts = posts.filter((post) => !post.featured);
+  const [{ posts: featuredPosts }, { posts: allPosts, meta }] = await Promise.all([
+    getPosts({ filter: 'featured:true', limit: 6 }),
+    getPosts({ page: 1, limit: 12 }),
+  ]);
 
   // Generate schemas
   const breadcrumbSchema = generateBreadcrumbSchema([
@@ -93,53 +92,79 @@ export default async function BlogPage() {
         </div>
       </section>
 
-      {/* Blog Posts Section */}
-      <section className="section-white">
-        <div className="container-content">
-          {/* Featured Post */}
-          {featuredPost && (
-            <div className="mb-12">
+      {/* Featured Posts Section */}
+      {featuredPosts.length > 0 && (
+        <section className="section-white border-b border-brand-navy/10">
+          <div className="container-content">
+            <div className="mb-8">
               <BlogCard
-                slug={featuredPost.slug}
-                title={featuredPost.title}
-                excerpt={featuredPost.excerpt || featuredPost.custom_excerpt}
-                featureImage={featuredPost.feature_image}
-                featureImageAlt={featuredPost.feature_image_alt}
-                publishedAt={featuredPost.published_at}
-                readingTime={featuredPost.reading_time}
-                tag={featuredPost.primary_tag}
+                slug={featuredPosts[0].slug}
+                title={featuredPosts[0].title}
+                excerpt={featuredPosts[0].excerpt || featuredPosts[0].custom_excerpt}
+                featureImage={featuredPosts[0].feature_image}
+                featureImageAlt={featuredPosts[0].feature_image_alt}
+                publishedAt={featuredPosts[0].published_at}
+                readingTime={featuredPosts[0].reading_time}
+                tag={featuredPosts[0].primary_tag}
                 featured={true}
               />
             </div>
-          )}
 
-          {/* Posts Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {regularPosts.map((post) => (
-              <BlogCard
-                key={post.id}
-                slug={post.slug}
-                title={post.title}
-                excerpt={post.excerpt || post.custom_excerpt}
-                featureImage={post.feature_image}
-                featureImageAlt={post.feature_image_alt}
-                publishedAt={post.published_at}
-                readingTime={post.reading_time}
-                tag={post.primary_tag}
-              />
-            ))}
+            {featuredPosts.length > 1 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {featuredPosts.slice(1).map((post) => (
+                  <BlogCard
+                    key={post.id}
+                    slug={post.slug}
+                    title={post.title}
+                    excerpt={post.excerpt || post.custom_excerpt}
+                    featureImage={post.feature_image}
+                    featureImageAlt={post.feature_image_alt}
+                    publishedAt={post.published_at}
+                    readingTime={post.reading_time}
+                    tag={post.primary_tag}
+                  />
+                ))}
+              </div>
+            )}
           </div>
+        </section>
+      )}
 
-          {/* Load More */}
-          {meta.pagination.pages > 1 && (
-            <BlogLoadMore
-              initialPage={1}
-              totalPages={meta.pagination.pages}
-            />
-          )}
+      {/* All Articles Section */}
+      <section className="section-white">
+        <div className="container-content">
+          <h2 className="text-brand-navy text-center mb-10 text-xl sm:text-2xl md:text-h2">
+            All Articles
+          </h2>
 
-          {/* Empty State */}
-          {posts.length === 0 && (
+          {allPosts.length > 0 ? (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {allPosts.map((post) => (
+                  <BlogCard
+                    key={post.id}
+                    slug={post.slug}
+                    title={post.title}
+                    excerpt={post.custom_excerpt || post.excerpt}
+                    featureImage={post.feature_image}
+                    featureImageAlt={post.feature_image_alt}
+                    publishedAt={post.published_at}
+                    readingTime={post.reading_time}
+                    tag={post.primary_tag}
+                    tags={post.tags}
+                  />
+                ))}
+              </div>
+
+              {meta.pagination.pages > 1 && (
+                <BlogLoadMore
+                  initialPage={1}
+                  totalPages={meta.pagination.pages}
+                />
+              )}
+            </>
+          ) : (
             <div className="text-center py-16">
               <p className="text-brand-navy/60 text-lg">
                 No posts yet. Check back soon!
