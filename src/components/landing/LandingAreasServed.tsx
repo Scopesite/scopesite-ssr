@@ -39,15 +39,15 @@ export function LandingAreasServed({
             const isHome = homeBase && town === homeBase;
             return (
               <StaggerItem key={index}>
-                <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
+                <div className={`inline-flex items-center justify-center gap-2 min-w-[140px] px-5 py-2.5 rounded-full border-2 transition-all duration-300 ${
                   isHome 
-                    ? 'bg-brand-gold text-brand-navy font-bold' 
+                    ? 'bg-brand-gold text-brand-navy font-extrabold border-white/40 shadow-[inset_0_-2px_4px_rgba(0,0,0,0.2),0_2px_8px_rgba(236,182,21,0.3)]' 
                     : isDark 
-                      ? 'bg-white/10 text-white hover:bg-white/20' 
-                      : 'bg-brand-navy/5 text-brand-navy hover:bg-brand-navy/10'
+                      ? 'bg-white/5 text-brand-gold font-bold border-white/20 shadow-[inset_0_-2px_4px_rgba(0,0,0,0.3)] hover:border-brand-gold/50 hover:shadow-[inset_0_-2px_4px_rgba(0,0,0,0.2),0_0_12px_rgba(236,182,21,0.15)]' 
+                      : 'bg-brand-navy/5 text-brand-gold font-bold border-brand-navy/15 shadow-[inset_0_-2px_4px_rgba(0,0,0,0.1)] hover:border-brand-gold/40 hover:shadow-[inset_0_-2px_4px_rgba(0,0,0,0.08),0_0_12px_rgba(236,182,21,0.1)]'
                 }`}>
                   {isHome && <MapPin className="w-4 h-4" />}
-                  <span>{town}</span>
+                  <span className={isHome ? '' : 'drop-shadow-[0_0_6px_rgba(236,182,21,0.4)]'}>{town}</span>
                   {isHome && <span className="text-xs">(home base)</span>}
                 </div>
               </StaggerItem>
