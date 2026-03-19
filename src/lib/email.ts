@@ -381,7 +381,17 @@ export async function sendQuoteAdminNotification(quote: QuoteEmailData): Promise
 export async function sendQuoteClientConfirmation(quote: QuoteEmailData): Promise<boolean> {
   const loc = quote.locale || 'uk';
   const firstName = quote.name.split(' ')[0] || 'there';
-  const subject = `Your quote's in, ${firstName}`;
+  const subject = loc === 'us'
+    ? `Your quote is ready, ${firstName}`
+    : `Your quote's in, ${firstName}`;
+
+  const introLine = loc === 'us'
+    ? `<strong>Good news: I've put together a price for you.</strong>`
+    : `<strong>Good news: I've got a price for you.</strong>`;
+
+  const bioParagraph = loc === 'us'
+    ? `Before we get to that, a quick word from me. I'm Dan Cartwright, the founder of ScopeSite and the person who'll be handling your project directly. I'm a former British Army Signals veteran, and I run things here the same way I ran operations: clear communication, no fluff, and we deliver what we promise. We're based in the UK but work seamlessly across US time zones.`
+    : `Before we get to that, a quick word from me. I'm Dan Cartwright, the founder of ScopeSite and the one who'll be handling your project personally. I'm a former Army Signals guy, and I run things here the same way: clear communication, no fluff, and we deliver what we promise.`;
 
   const htmlContent = `
     <!DOCTYPE html>
@@ -407,11 +417,11 @@ export async function sendQuoteClientConfirmation(quote: QuoteEmailData): Promis
           </p>
           
           <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">
-            <strong>Good news: I've got a price for you.</strong>
+            ${introLine}
           </p>
           
           <p style="color: #333; font-size: 16px; line-height: 1.7; margin: 0 0 24px 0;">
-            Before we get to that, a quick word from me. I'm Dan Cartwright, the founder of ScopeSite and the one who'll be handling your project personally. I'm a former Army Signals guy, and I run things here the same way: clear communication, no fluff, and we deliver what we promise.
+            ${bioParagraph}
           </p>
           
           <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">
@@ -444,7 +454,10 @@ export async function sendQuoteClientConfirmation(quote: QuoteEmailData): Promis
               <strong>What this actually means for your business:</strong>
             </p>
             <p style="color: #333; font-size: 15px; line-height: 1.7; margin: 0 0 12px 0;">
-              This isn't just a website. It's designed from the ground up so that when potential customers ask ChatGPT, Perplexity, or Google for a recommendation in your field, <strong>your business is the name that comes up</strong>.
+              ${loc === 'us'
+                ? `This isn't just a website. It's engineered from the ground up so that when prospective customers ask ChatGPT, Perplexity, or Google for a recommendation in your field, <strong>your business is the name that comes up</strong>.`
+                : `This isn't just a website. It's designed from the ground up so that when potential customers ask ChatGPT, Perplexity, or Google for a recommendation in your field, <strong>your business is the name that comes up</strong>.`
+              }
             </p>
             <p style="color: #333; font-size: 15px; line-height: 1.7; margin: 0;">
               That's what AI visibility gets you: becoming the recommended answer, not just another search result.
@@ -457,14 +470,17 @@ export async function sendQuoteClientConfirmation(quote: QuoteEmailData): Promis
           </p>
           
           <p style="color: #333; font-size: 15px; line-height: 1.7; margin: 0 0 24px 0;">
-            I'll personally review the details you submitted and reach out within 24 hours. If you want to skip the back-and-forth and get straight into it, grab a slot on my calendar.
+            ${loc === 'us'
+              ? `I'll personally review the details you submitted and reach out within 24 hours. If you'd like to skip the back-and-forth and jump straight in, grab a slot on my calendar.`
+              : `I'll personally review the details you submitted and reach out within 24 hours. If you want to skip the back-and-forth and get straight into it, grab a slot on my calendar.`
+            }
           </p>
           
           <!-- CTA Button -->
           <div style="text-align: center; margin: 32px 0;">
             <a href="https://scopesite.co.uk/book?email=${encodeURIComponent(quote.email)}" 
                style="display: inline-block; padding: 16px 36px; background-color: #ECB615; color: #0A1B36; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px;">
-              Book a 15-Minute Call with Dan
+              ${loc === 'us' ? 'Schedule a 15-Minute Call with Dan' : 'Book a 15-Minute Call with Dan'}
             </a>
             <p style="color: #666; font-size: 14px; margin: 12px 0 0 0;">
               No sales pitch. Just a direct conversation about your project.
@@ -544,6 +560,267 @@ export async function sendQuoteClientConfirmation(quote: QuoteEmailData): Promis
     return true;
   } catch (error) {
     console.error('Failed to send quote client confirmation:', error);
+    return false;
+  }
+}
+
+// ============================================
+// ABANDONED QUOTE RECOVERY
+// ============================================
+
+export interface AbandonedQuoteData {
+  email: string;
+  name?: string;
+  quoteToken: string;
+  serviceType?: string;
+  stepReached: number;
+  locale?: 'uk' | 'us';
+}
+
+/**
+ * Send abandoned quote recovery email to the user
+ */
+export async function sendAbandonedQuoteEmail(data: AbandonedQuoteData): Promise<boolean> {
+  const loc = data.locale || 'uk';
+  const firstName = data.name?.split(' ')[0] || 'there';
+  const resumeUrl = loc === 'us'
+    ? `https://scopesite.co.uk/us/quote?q=${data.quoteToken}`
+    : `https://scopesite.co.uk/pricing?q=${data.quoteToken}`;
+
+  const subject = loc === 'us'
+    ? `Your quote is still waiting, ${firstName}`
+    : `Your quote's still waiting, ${firstName}`;
+
+  const serviceLabel = data.serviceType || 'your project';
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f5f5f5; margin: 0; padding: 20px;">
+      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+
+        <!-- Header -->
+        <div style="background-color: #0A1B36; padding: 32px; text-align: center;">
+          <h1 style="color: #ECB615; margin: 0; font-size: 28px; font-weight: bold;">Your Quote is Waiting</h1>
+        </div>
+
+        <!-- Content -->
+        <div style="padding: 32px;">
+          <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">
+            Hi ${firstName},
+          </p>
+
+          <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">
+            ${loc === 'us'
+              ? `I noticed you started putting together a quote for ${serviceLabel} but didn't finish. No worries, your progress is saved and ready for you to pick up where you left off.`
+              : `I noticed you started putting together a quote for ${serviceLabel} but didn't finish. No worries, your progress is saved and ready for you to pick up where you left off.`
+            }
+          </p>
+
+          <!-- CTA Button -->
+          <div style="text-align: center; margin: 32px 0;">
+            <a href="${resumeUrl}"
+               style="display: inline-block; padding: 16px 36px; background-color: #ECB615; color: #0A1B36; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px;">
+              ${loc === 'us' ? 'Resume Your Quote' : 'Resume Your Quote'}
+            </a>
+          </div>
+
+          <p style="color: #333; font-size: 15px; line-height: 1.7; margin: 0 0 24px 0;">
+            ${loc === 'us'
+              ? `If you'd prefer to talk through your project first, I'm happy to jump on a call. I work across all US time zones.`
+              : `If you'd prefer to talk through your project first, I'm happy to jump on a call.`
+            }
+          </p>
+
+          <!-- Secondary CTA -->
+          <div style="text-align: center; margin: 24px 0;">
+            <a href="https://scopesite.co.uk/book"
+               style="display: inline-block; padding: 12px 24px; background-color: #0A1B36; color: #ffffff; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px;">
+              ${loc === 'us' ? 'Schedule a Call with Dan' : 'Book a Call with Dan'}
+            </a>
+          </div>
+
+          <!-- Sign off -->
+          <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid #eee;">
+            <p style="color: #333; font-size: 15px; line-height: 1.6; margin: 0 0 4px 0;">
+              ${loc === 'us' ? 'Best,' : 'Cheers,'}
+            </p>
+            <p style="color: #0A1B36; font-size: 16px; font-weight: bold; margin: 0 0 4px 0;">
+              Dan Cartwright
+            </p>
+            <p style="color: #666; font-size: 14px; margin: 0;">
+              Founder, ScopeSite Digital Studios
+            </p>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div style="background-color: #0A1B36; padding: 24px; text-align: center;">
+          <p style="margin: 0 0 8px 0; color: #ECB615; font-size: 14px; font-weight: bold;">
+            ScopeSite Digital Studios
+          </p>
+          <p style="margin: 0 0 8px 0; color: #ffffff; font-size: 12px;">
+            Veteran-owned ${loc === 'us' ? '• UK-based, serving US businesses' : '• Somerset, UK'}
+          </p>
+          <p style="margin: 0; font-size: 12px;">
+            <a href="https://scopesite.co.uk" style="color: #ECB615;">scopesite.co.uk</a>
+          </p>
+          <p style="margin: 8px 0 0 0; color: #ffffff; font-size: 11px; opacity: 0.5;">
+            You're receiving this because you started a quote on scopesite.co.uk.
+          </p>
+        </div>
+
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+    sendSmtpEmail.subject = subject;
+    sendSmtpEmail.htmlContent = htmlContent;
+    sendSmtpEmail.sender = { name: 'Dan at ScopeSite', email: FROM_EMAIL };
+    sendSmtpEmail.to = [{ email: data.email, name: data.name || data.email }];
+
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    console.log(`[Email] Abandoned quote recovery sent to ${data.email} (token: ${data.quoteToken})`);
+    return true;
+  } catch (error) {
+    console.error('Failed to send abandoned quote email:', error);
+    return false;
+  }
+}
+
+// ============================================
+// ABANDONED QUOTE ADMIN DIGEST
+// ============================================
+
+export interface AbandonedDigestItem {
+  email: string;
+  serviceType?: string;
+  stepReached: number;
+  lastActivity: string;
+  locale?: string;
+}
+
+/**
+ * Send daily digest of abandoned quotes to admin
+ */
+export async function sendAbandonedQuoteDigest(items: AbandonedDigestItem[]): Promise<boolean> {
+  if (items.length === 0) return true;
+
+  const stepLabels: Record<number, string> = {
+    1: 'Email Entry',
+    2: 'Project Type',
+    3: 'Scope',
+    4: 'Add-ons',
+    5: 'Payment',
+    6: 'Summary',
+  };
+
+  const stepCounts: Record<number, number> = {};
+  const serviceCounts: Record<string, number> = {};
+  for (const item of items) {
+    stepCounts[item.stepReached] = (stepCounts[item.stepReached] || 0) + 1;
+    const svc = item.serviceType || 'Unknown';
+    serviceCounts[svc] = (serviceCounts[svc] || 0) + 1;
+  }
+
+  const mostAbandonedStep = Object.entries(stepCounts).sort((a, b) => b[1] - a[1])[0];
+  const mostViewedService = Object.entries(serviceCounts).sort((a, b) => b[1] - a[1])[0];
+
+  const tableRows = items.map(item => {
+    const hoursAgo = Math.round((Date.now() - new Date(item.lastActivity).getTime()) / (1000 * 60 * 60));
+    return `
+      <tr>
+        <td style="padding: 8px 12px; border-bottom: 1px solid #eee; color: #333; font-size: 14px;">
+          <a href="mailto:${item.email}" style="color: #ECB615;">${item.email}</a>
+          ${item.locale === 'us' ? ' <span style="color: #999; font-size: 11px;">[US]</span>' : ''}
+        </td>
+        <td style="padding: 8px 12px; border-bottom: 1px solid #eee; color: #555; font-size: 14px;">${item.serviceType || 'Not selected'}</td>
+        <td style="padding: 8px 12px; border-bottom: 1px solid #eee; color: #555; font-size: 14px;">${stepLabels[item.stepReached] || `Step ${item.stepReached}`}</td>
+        <td style="padding: 8px 12px; border-bottom: 1px solid #eee; color: #999; font-size: 14px;">${hoursAgo}h ago</td>
+      </tr>
+    `;
+  }).join('');
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f5f5f5; margin: 0; padding: 20px;">
+      <div style="max-width: 700px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+
+        <!-- Header -->
+        <div style="background-color: #0A1B36; padding: 24px; text-align: center;">
+          <h1 style="color: #ECB615; margin: 0; font-size: 24px; font-weight: bold;">ABANDONED QUOTES DIGEST</h1>
+          <p style="color: #ffffff; margin: 8px 0 0 0; font-size: 14px;">${new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</p>
+        </div>
+
+        <!-- Summary Stats -->
+        <div style="padding: 24px;">
+          <div style="display: flex; gap: 16px; margin-bottom: 24px;">
+            <div style="flex: 1; padding: 16px; background-color: #FEF3C7; border-radius: 8px; text-align: center;">
+              <p style="margin: 0; font-size: 32px; font-weight: bold; color: #92400E;">${items.length}</p>
+              <p style="margin: 4px 0 0 0; font-size: 12px; color: #92400E;">Abandoned</p>
+            </div>
+            <div style="flex: 1; padding: 16px; background-color: #FEE2E2; border-radius: 8px; text-align: center;">
+              <p style="margin: 0; font-size: 14px; font-weight: bold; color: #991B1B;">Most dropped at</p>
+              <p style="margin: 4px 0 0 0; font-size: 16px; font-weight: bold; color: #991B1B;">${mostAbandonedStep ? stepLabels[parseInt(mostAbandonedStep[0])] || `Step ${mostAbandonedStep[0]}` : 'N/A'}</p>
+            </div>
+            <div style="flex: 1; padding: 16px; background-color: #D1FAE5; border-radius: 8px; text-align: center;">
+              <p style="margin: 0; font-size: 14px; font-weight: bold; color: #065F46;">Top service</p>
+              <p style="margin: 4px 0 0 0; font-size: 14px; font-weight: bold; color: #065F46;">${mostViewedService ? mostViewedService[0] : 'N/A'}</p>
+            </div>
+          </div>
+
+          <!-- Quotes Table -->
+          <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr style="background-color: #0A1B36;">
+                <th style="padding: 10px 12px; text-align: left; color: #ECB615; font-size: 12px; text-transform: uppercase;">Email</th>
+                <th style="padding: 10px 12px; text-align: left; color: #ECB615; font-size: 12px; text-transform: uppercase;">Service</th>
+                <th style="padding: 10px 12px; text-align: left; color: #ECB615; font-size: 12px; text-transform: uppercase;">Dropped At</th>
+                <th style="padding: 10px 12px; text-align: left; color: #ECB615; font-size: 12px; text-transform: uppercase;">Last Active</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${tableRows}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Footer -->
+        <div style="background-color: #0A1B36; padding: 16px; text-align: center;">
+          <p style="margin: 0; color: #ffffff; font-size: 12px;">
+            ScopeSite Quote System - Daily Digest
+          </p>
+        </div>
+
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+    sendSmtpEmail.subject = `Abandoned Quotes: ${items.length} in the last 24 hours`;
+    sendSmtpEmail.htmlContent = htmlContent;
+    sendSmtpEmail.sender = { name: FROM_NAME, email: FROM_EMAIL };
+    sendSmtpEmail.to = [{ email: ADMIN_EMAIL, name: 'Dan Cartwright' }];
+
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    console.log(`[Email] Abandoned quote digest sent (${items.length} quotes)`);
+    return true;
+  } catch (error) {
+    console.error('Failed to send abandoned quote digest:', error);
     return false;
   }
 }

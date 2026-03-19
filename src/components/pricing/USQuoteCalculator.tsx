@@ -96,6 +96,7 @@ export function USQuoteCalculator() {
   const [quoteToken, setQuoteToken] = useState<string | null>(null);
   const [isLoadingQuote, setIsLoadingQuote] = useState(false);
   const [quoteLimitExceeded, setQuoteLimitExceeded] = useState(false);
+  const [browseMode, setBrowseMode] = useState(false);
 
   const breakdown = useMemo(() => calculateUSQuote(request), [request]);
 
@@ -208,21 +209,24 @@ export function USQuoteCalculator() {
   const canGoNext = useCallback(() => {
     switch (currentStep) {
       case 1:
-        return contact.email.trim() !== '' && isValidEmail(contact.email);
+        return browseMode || (contact.email.trim() !== '' && isValidEmail(contact.email));
       case 2:
         return !!request.serviceType;
       case 3:
         return true;
       case 4:
+        if (browseMode && !quoteToken) return false;
         return true;
       case 5:
+        if (browseMode && !quoteToken) return false;
         return !!request.paymentPreference;
       case 6:
+        if (browseMode && !quoteToken) return false;
         return contact.name.trim() !== '';
       default:
         return false;
     }
-  }, [currentStep, request, contact]);
+  }, [currentStep, request, contact, browseMode, quoteToken]);
 
   const scrollToTop = useCallback(() => {
     setTimeout(() => {
@@ -246,40 +250,56 @@ export function USQuoteCalculator() {
     return prev;
   };
 
+  const startQuoteWithEmail = useCallback(async (email: string) => {
+    try {
+      const response = await fetch('/api/quote/start', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        setQuoteToken(data.quoteId);
+        updateUrlWithToken(data.quoteId);
+        setBrowseMode(false);
+
+        if (data.isExisting && data.selections) {
+          setRequest(prev => ({ ...prev, ...data.selections }));
+          if (data.contact) {
+            setContact(prev => ({ ...prev, ...data.contact }));
+          }
+        }
+        return { success: true, data };
+      } else if (data.limitExceeded) {
+        setQuoteLimitExceeded(true);
+        return { success: false, limitExceeded: true };
+      }
+      return { success: false };
+    } catch (error) {
+      console.error('Failed to start quote:', error);
+      return { success: false };
+    }
+  }, []);
+
   const goNext = async () => {
     if (currentStep < STEPS.length && canGoNext()) {
       const nextStep = getNextStep(currentStep);
 
+      if (currentStep === 1 && browseMode && !contact.email.trim()) {
+        setCurrentStep(nextStep);
+        scrollToTop();
+        return;
+      }
+
       if (currentStep === 1 && !quoteToken) {
-        try {
-          const response = await fetch('/api/quote/start', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: contact.email }),
-          });
-          const data = await response.json();
-
-          if (data.success) {
-            setQuoteToken(data.quoteId);
-            updateUrlWithToken(data.quoteId);
-
-            if (data.isExisting && data.selections) {
-              setRequest(prev => ({ ...prev, ...data.selections }));
-              if (data.contact) {
-                setContact(prev => ({ ...prev, ...data.contact }));
-              }
-              if (data.currentStep > 2) {
-                setCurrentStep(data.currentStep);
-                scrollToTop();
-                return;
-              }
-            }
-          } else if (data.limitExceeded) {
-            setQuoteLimitExceeded(true);
-            return;
-          }
-        } catch (error) {
-          console.error('Failed to start quote:', error);
+        const result = await startQuoteWithEmail(contact.email);
+        if (!result.success) {
+          if (result.limitExceeded) return;
+        } else if (result.data?.isExisting && result.data.currentStep > 2) {
+          setCurrentStep(result.data.currentStep);
+          scrollToTop();
+          return;
         }
       } else if (quoteToken) {
         saveProgress(nextStep);
@@ -293,7 +313,7 @@ export function USQuoteCalculator() {
   const goBack = () => {
     if (currentStep > 1) {
       const prevStep = getPrevStep(currentStep);
-      if (prevStep === 1 && quoteToken) return;
+      if (prevStep === 1 && quoteToken && !browseMode) return;
       if (quoteToken) saveProgress(prevStep);
       setCurrentStep(prevStep);
       scrollToTop();
@@ -551,10 +571,41 @@ export function USQuoteCalculator() {
           </CardDescription>
         </CardHeader>
         <CardContent className="p-6 md:p-8">
+          {browseMode && !quoteToken && currentStep > 1 && (
+            <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg flex flex-col sm:flex-row items-start sm:items-center gap-3">
+              <div className="flex-1">
+                <p className="text-sm font-medium text-amber-900">Enter your email to save your quote and unlock payment options</p>
+              </div>
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <Input
+                  type="email"
+                  value={contact.email}
+                  onChange={(e) => setContact({ ...contact, email: e.target.value })}
+                  placeholder="your@email.com"
+                  className="h-9 text-sm w-full sm:w-48"
+                />
+                <Button
+                  size="sm"
+                  disabled={!contact.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email)}
+                  onClick={async () => {
+                    const result = await startQuoteWithEmail(contact.email);
+                    if (result.success) {
+                      setBrowseMode(false);
+                    }
+                  }}
+                  className="bg-brand-gold text-brand-navy hover:bg-brand-navy hover:text-white shrink-0"
+                >
+                  Save
+                </Button>
+              </div>
+            </div>
+          )}
+
           {currentStep === 1 && (
             <StepGetStarted
               email={contact.email}
               onChange={(email) => setContact({ ...contact, email })}
+              onSkip={() => { setBrowseMode(true); setCurrentStep(2); scrollToTop(); }}
             />
           )}
 
@@ -606,37 +657,99 @@ export function USQuoteCalculator() {
           <Separator className="mb-6" />
 
           {/* Live Price Display */}
-          {breakdown.oneOffSubtotal > 0 && currentStep > 1 && currentStep < 6 && !isEnquiryBased && (
-            <div
-              className={cn(
-                "rounded-lg p-5 mb-6",
-                isSSR ? "bg-gradient-to-r from-brand-navy to-brand-graphite" : "bg-brand-navy"
-              )}
-              role="status"
-              aria-live="polite"
-              aria-atomic="true"
-            >
-              <div className="flex justify-between items-center">
-                <div>
-                  <span className="text-white font-medium text-body-lg">Current Estimate:</span>
-                  {isSSR && (
-                    <span className="ml-2 text-xs bg-brand-gold/20 text-brand-gold px-2 py-0.5 rounded">
-                      SSR Premium
-                    </span>
+          {breakdown.oneOffSubtotal > 0 && currentStep > 1 && currentStep < 6 && !isEnquiryBased && (() => {
+            const plan = request.paymentPreference || 'twelve';
+            const isPaymentStep = currentStep === 5;
+            const showContract = isPaymentStep && plan !== 'oneOff';
+            const monthsMap: Record<string, number> = { six: 6, twelve: 12, twentyFour: 24, thirtySix: 36 };
+            const planLabels: Record<string, string> = { oneOff: 'Pay in Full', six: '6-Month', twelve: '12-Month', twentyFour: '24-Month', thirtySix: '36-Month' };
+
+            if (isPaymentStep && plan === 'oneOff') {
+              const savings = breakdown.totals.oneOff.upfront - breakdown.totals.oneOff.final;
+              return (
+                <div className={cn("rounded-lg p-5 mb-6 transition-all duration-300", isSSR ? "bg-gradient-to-r from-brand-navy to-brand-graphite" : "bg-brand-navy")} role="status" aria-live="polite" aria-atomic="true">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <span className="text-white font-medium text-body-lg">Pay in Full (5% OFF):</span>
+                      {isSSR && <span className="ml-2 text-xs bg-brand-gold/20 text-brand-gold px-2 py-0.5 rounded">SSR Premium</span>}
+                    </div>
+                    <div className="text-right">
+                      <span className="text-h2 text-brand-gold font-headline">{formatUSD(breakdown.totals.oneOff.final)}</span>
+                      {savings > 0 && <span className="ml-2 text-body-sm text-white/50 line-through">{formatUSD(breakdown.totals.oneOff.upfront)}</span>}
+                    </div>
+                  </div>
+                  {savings > 0 && (
+                    <div className="flex justify-between items-center text-body-sm text-green-400 mt-1">
+                      <span>You save:</span>
+                      <span>{formatUSD(savings)}</span>
+                    </div>
+                  )}
+                  {breakdown.monthlySubtotal > 0 && (
+                    <div className="flex justify-between items-center text-body-sm text-white/70 mt-2 pt-2 border-t border-white/10">
+                      <span>+ Ongoing monthly services:</span>
+                      <span>{formatUSD(breakdown.monthlySubtotal)}/mo</span>
+                    </div>
                   )}
                 </div>
-                <span className="text-h2 text-brand-gold font-headline">
-                  {formatUSD(breakdown.totals.oneOff.final)}
-                </span>
-              </div>
-              {breakdown.monthlySubtotal > 0 && (
-                <div className="flex justify-between items-center text-body-sm text-white/70 mt-2">
-                  <span>+ Monthly services:</span>
-                  <span>{formatUSD(breakdown.monthlySubtotal)}/mo</span>
+              );
+            }
+
+            if (showContract) {
+              const planData = breakdown.totals[plan as keyof typeof breakdown.totals] as { monthly: number; totalOverTerm: number; ongoingAfter: number };
+              const months = monthsMap[plan] || 12;
+              const buildMonthly = planData.monthly - breakdown.monthlySubtotal;
+              const buildTotal = Math.round(buildMonthly * months);
+              const servicesTotal = Math.round(breakdown.monthlySubtotal * months);
+
+              return (
+                <div className={cn("rounded-lg p-5 mb-6 transition-all duration-300", isSSR ? "bg-gradient-to-r from-brand-navy to-brand-graphite" : "bg-brand-navy")} role="status" aria-live="polite" aria-atomic="true">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <span className="text-white font-medium text-body-lg">{planLabels[plan]} Contract:</span>
+                      {isSSR && <span className="ml-2 text-xs bg-brand-gold/20 text-brand-gold px-2 py-0.5 rounded">SSR Premium</span>}
+                    </div>
+                    <span className="text-h2 text-brand-gold font-headline">{formatUSD(planData.monthly)}/mo</span>
+                  </div>
+                  {breakdown.monthlySubtotal > 0 && (
+                    <div className="text-body-sm text-white/60 mt-1 space-y-0.5">
+                      <div className="flex justify-between"><span>Build: {formatUSD(buildMonthly)}/mo</span><span>Services: {formatUSD(breakdown.monthlySubtotal)}/mo</span></div>
+                    </div>
+                  )}
+                  <div className="flex justify-between items-center text-body-sm text-white/70 mt-2 pt-2 border-t border-white/10">
+                    <span>Total over {months} months:</span>
+                    <span>
+                      {formatUSD(planData.totalOverTerm)}
+                      {breakdown.monthlySubtotal > 0 && <span className="text-white/50 ml-1">({formatUSD(buildTotal)} build + {formatUSD(servicesTotal)} services)</span>}
+                    </span>
+                  </div>
+                  {planData.ongoingAfter > 0 && (
+                    <div className="flex justify-between items-center text-body-sm text-white/60 mt-1">
+                      <span>Then ongoing:</span>
+                      <span>{formatUSD(planData.ongoingAfter)}/mo</span>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          )}
+              );
+            }
+
+            return (
+              <div className={cn("rounded-lg p-5 mb-6 transition-all duration-300", isSSR ? "bg-gradient-to-r from-brand-navy to-brand-graphite" : "bg-brand-navy")} role="status" aria-live="polite" aria-atomic="true">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <span className="text-white font-medium text-body-lg">Current Estimate:</span>
+                    {isSSR && <span className="ml-2 text-xs bg-brand-gold/20 text-brand-gold px-2 py-0.5 rounded">SSR Premium</span>}
+                  </div>
+                  <span className="text-h2 text-brand-gold font-headline">{formatUSD(breakdown.totals.oneOff.final)}</span>
+                </div>
+                {breakdown.monthlySubtotal > 0 && (
+                  <div className="flex justify-between items-center text-body-sm text-white/70 mt-2">
+                    <span>+ Monthly services:</span>
+                    <span>{formatUSD(breakdown.monthlySubtotal)}/mo</span>
+                  </div>
+                )}
+              </div>
+            );
+          })()}
 
           {/* Enquiry-based notice */}
           {isEnquiryBased && currentStep > 1 && currentStep < 6 && (
@@ -670,7 +783,7 @@ export function USQuoteCalculator() {
             <Button
               variant="outline"
               onClick={goBack}
-              disabled={currentStep === 1 || (currentStep === 2 && !!quoteToken)}
+              disabled={currentStep === 1 || (currentStep === 2 && !!quoteToken && !browseMode)}
               className="border-brand-graphite text-brand-navy hover:bg-brand-navy hover:text-white"
             >
               <ChevronLeft className="w-4 h-4 mr-2" />
@@ -716,9 +829,10 @@ export function USQuoteCalculator() {
 interface StepGetStartedProps {
   email: string;
   onChange: (email: string) => void;
+  onSkip: () => void;
 }
 
-function StepGetStarted({ email, onChange }: StepGetStartedProps) {
+function StepGetStarted({ email, onChange, onSkip }: StepGetStartedProps) {
   const isValid = email.trim() !== '' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const showError = email.trim() !== '' && !isValid;
 
@@ -769,6 +883,16 @@ function StepGetStarted({ email, onChange }: StepGetStartedProps) {
             in USD and flexible payment options. All prices include our full service.
           </div>
         </div>
+      </div>
+
+      <div className="text-center pt-2">
+        <button
+          type="button"
+          onClick={onSkip}
+          className="text-body-sm text-brand-graphite/60 hover:text-brand-graphite underline-offset-2 hover:underline transition-colors"
+        >
+          Skip for now and explore pricing
+        </button>
       </div>
     </div>
   );
