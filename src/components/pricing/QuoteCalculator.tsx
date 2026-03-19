@@ -1803,8 +1803,7 @@ function StepPayment({ value, onChange, breakdown, isSSR }: StepPaymentProps) {
     { value: 'oneOff', label: 'Pay in Full', badge: '5% OFF' },
     { value: 'six', label: '6-Month Contract' },
     { value: 'twelve', label: '12-Month Contract', badge: 'MOST POPULAR' },
-    { value: 'twentyFour', label: '24-Month Contract' },
-    { value: 'thirtySix', label: '36-Month Contract', badge: 'Best Value', reassurance: 'Lock in today\'s prices — no increases during your term' },
+    { value: 'twentyFour', label: '24-Month Contract', badge: 'Best Value', reassurance: 'Lock in today\'s prices — no increases during your term' },
   ];
 
   // Get totals for each option
@@ -1832,12 +1831,12 @@ function StepPayment({ value, onChange, breakdown, isSSR }: StepPaymentProps) {
       {isSSR && (
         <div className="bg-brand-gold/10 rounded-lg p-4 border border-brand-gold/20">
           <p className="text-sm text-brand-navy">
-            <strong>SSR Project Minimums:</strong> 6-month min £1,200/mo • 12-month min £750/mo • 24-month min £400/mo • 36-month min £300/mo
+            <strong>SSR Project Minimums:</strong> 6-month min £1,200/mo • 12-month min £750/mo • 24-month min £400/mo
           </p>
         </div>
       )}
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {options.map((option) => {
           const isSelected = value === option.value;
           const totals = getTotals(option.value);
@@ -1888,17 +1887,37 @@ function StepPayment({ value, onChange, breakdown, isSSR }: StepPaymentProps) {
                   )}
                 </div>
               ) : (
-                <div className="space-y-1">
-                  <div className="text-xl text-brand-gold font-headline font-bold">
-                    {formatCurrency((totals as { monthly: number }).monthly)}<span className="text-sm font-normal">/mo</span>
-                  </div>
-                  <div className="text-xs text-brand-graphite">
-                    Total: {formatCurrency((totals as { totalOverTerm: number }).totalOverTerm)}
-                  </div>
-                  <div className="text-xs text-brand-graphite">
-                    Then {formatCurrency((totals as { ongoingAfter: number }).ongoingAfter)}/mo
-                  </div>
-                </div>
+                (() => {
+                  const monthly = (totals as { monthly: number }).monthly;
+                  const totalOverTerm = (totals as { totalOverTerm: number }).totalOverTerm;
+                  const ongoingAfter = (totals as { ongoingAfter: number }).ongoingAfter;
+                  const buildMonthly = monthly - breakdown.monthlySubtotal;
+                  const hasServices = breakdown.monthlySubtotal > 0;
+
+                  return (
+                    <div className="space-y-1">
+                      <div className="text-xl text-brand-gold font-headline font-bold">
+                        {formatCurrency(monthly)}<span className="text-sm font-normal">/mo</span>
+                      </div>
+                      {hasServices && (
+                        <div className="text-[11px] text-brand-navy/60 leading-tight">
+                          {formatCurrency(buildMonthly)} build + {formatCurrency(breakdown.monthlySubtotal)} services
+                        </div>
+                      )}
+                      <div className="text-xs text-brand-graphite">
+                        Total: {formatCurrency(totalOverTerm)}
+                      </div>
+                      {hasServices && (
+                        <div className="text-[11px] text-brand-navy/50 leading-tight">
+                          Build: {formatCurrency(totalOverTerm - (breakdown.monthlySubtotal * ({ six: 6, twelve: 12, twentyFour: 24, thirtySix: 36 } as Record<string, number>)[option.value]))} + Services: {formatCurrency(breakdown.monthlySubtotal * ({ six: 6, twelve: 12, twentyFour: 24, thirtySix: 36 } as Record<string, number>)[option.value])}
+                        </div>
+                      )}
+                      <div className="text-xs text-brand-graphite">
+                        Then {formatCurrency(ongoingAfter)}/mo
+                      </div>
+                    </div>
+                  );
+                })()
               )}
               
               {option.reassurance && isSelected && (
