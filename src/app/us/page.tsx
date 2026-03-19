@@ -70,12 +70,12 @@ export default function USPage() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/us/pricing" className="btn-primary inline-flex items-center gap-2 group">
-                See US Pricing
+              <Link href="/us/quote" className="btn-primary inline-flex items-center gap-2 group">
+                Get Instant Quote
                 <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
               </Link>
-              <Link href="/us/ai-visibility" className="btn-secondary">
-                Check Your AI Visibility
+              <Link href="/us/pricing" className="btn-secondary">
+                See US Pricing
               </Link>
             </div>
           </div>

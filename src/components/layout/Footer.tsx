@@ -38,6 +38,7 @@ const FOOTER_LINKS = {
   usServices: [
     { label: 'US Home', href: '/us' },
     { label: 'US Pricing', href: '/us/pricing' },
+    { label: 'Get US Quote', href: '/us/quote' },
     { label: 'US Services', href: '/us/services' },
     { label: 'AI Visibility (US)', href: '/us/ai-visibility' },
   ],

@@ -18,6 +18,7 @@ export function Header() {
   const pathname = usePathname();
   const isHome = pathname === '/';
   const isPortal = pathname?.startsWith('/portal');
+  const isUS = pathname?.startsWith('/us');
 
   useEffect(() => {
     if (isPortal) return;
@@ -72,7 +73,7 @@ export function Header() {
               asChild
               className="bg-brand-gold text-brand-navy hover:bg-white hover:text-brand-navy shadow-button font-body font-bold px-5 py-2 whitespace-nowrap"
             >
-              <Link href="/pricing">Get Instant Quote</Link>
+              <Link href={isUS ? '/us/quote' : '/pricing'}>Get Instant Quote</Link>
             </Button>
             <Button
               asChild

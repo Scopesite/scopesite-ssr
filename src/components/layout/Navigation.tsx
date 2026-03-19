@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -32,9 +33,17 @@ export function Navigation({
   variant = 'header' 
 }: NavigationProps) {
   const pathname = usePathname();
-  
-  // Include Home link only for mobile navigation
-  const links = variant === 'mobile' ? [HOME_LINK, ...NAV_LINKS] : NAV_LINKS;
+  const isUS = pathname?.startsWith('/us');
+
+  const localeLinks = useMemo(() => {
+    if (!isUS) return NAV_LINKS;
+    return NAV_LINKS.map((link) => {
+      if (link.href === '/pricing') return { ...link, href: '/us/quote' };
+      return link;
+    });
+  }, [isUS]);
+
+  const links = variant === 'mobile' ? [HOME_LINK, ...localeLinks] : localeLinks;
 
   // Determine aria-label based on variant
   const navLabel = variant === 'mobile' ? 'Mobile navigation' : 'Main navigation';

@@ -348,6 +348,41 @@ export interface CalculatorState {
 }
 
 // ============================================
+// US QUOTE TYPES
+// ============================================
+
+import type { USServiceType } from '@/lib/us-pricing-config';
+
+export interface USQuoteRequest {
+  serviceType: USServiceType;
+  scope: {
+    pageCount: number;
+    hasEcommerce: boolean;
+    hasComplexForms: boolean;
+    hasAutomation: boolean;
+    requirements?: string;
+  };
+  addOns: {
+    branding: boolean;
+    research: boolean;
+    videoLong: number;
+    videoShortBundle: boolean;
+    imageLibrary: boolean;
+    ssrAnimations: boolean;
+    ssrCustomerPortal: boolean;
+    ssrDatabase: boolean;
+    ssrAuthentication: boolean;
+    ssrApiIntegrations: number;
+    ssrMultilanguage: boolean;
+    ssrRealtime: boolean;
+    ssrAnalytics: boolean;
+    ssrScalability: boolean;
+  };
+  paymentPreference: PaymentPreference;
+  contact?: ContactInfo;
+}
+
+// ============================================
 // FORM VALIDATION SCHEMAS (Zod)
 // ============================================
 

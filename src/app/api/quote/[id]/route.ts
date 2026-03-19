@@ -71,7 +71,7 @@ export async function PATCH(
   try {
     const { id } = await params;
     const body = await request.json();
-    const { currentStep, selections, contact, submit, pricing } = body;
+    const { currentStep, selections, contact, submit, pricing, locale } = body;
 
     // If this is a final submission
     if (submit === true) {
@@ -100,7 +100,7 @@ export async function PATCH(
         PHONE: quote.contact.phone || contact?.phone || null,
         COMPANY_NAME: quote.contact.company || contact?.company || null,
         QUOTE_ID: quote.id,
-        QUOTE_URL: `https://scopesite.co.uk/pricing?q=${quote.id}`,
+        QUOTE_URL: locale === 'us' ? `https://scopesite.co.uk/us/quote?q=${quote.id}` : `https://scopesite.co.uk/pricing?q=${quote.id}`,
         QUOTE_TOTAL: pricing?.selectedTotal ?? 0,
         QUOTE_MONTHLY: pricing?.monthlyPayment ?? null,
         QUOTE_PACKAGE: pricing?.packageType || 'Starter',
@@ -158,8 +158,12 @@ export async function PATCH(
         paymentType: quote.selections.paymentPreference || 'twelve',
         total: pricing?.selectedTotal ?? 0,
         monthly: pricing?.monthlyPayment ?? null,
-        quoteUrl: `https://scopesite.co.uk/pricing?q=${quote.id}`,
+        quoteUrl: locale === 'us' ? `https://scopesite.co.uk/us/quote?q=${quote.id}` : `https://scopesite.co.uk/pricing?q=${quote.id}`,
       });
+
+      const quoteUrl = locale === 'us'
+        ? `https://scopesite.co.uk/us/quote?q=${quote.id}`
+        : `https://scopesite.co.uk/pricing?q=${quote.id}`;
 
       // Send confirmation emails (non-blocking)
       const emailData = {
@@ -174,7 +178,8 @@ export async function PATCH(
         paymentType: pricing?.paymentType || 'One-off',
         selectedTotal: pricing?.selectedTotal ?? 0,
         monthlyPayment: pricing?.monthlyPayment,
-        quoteUrl: `https://scopesite.co.uk/pricing?q=${quote.id}`,
+        quoteUrl,
+        locale: locale === 'us' ? 'us' as const : 'uk' as const,
       };
 
       // Send both emails in parallel (non-blocking to not delay response)

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -17,6 +18,9 @@ interface MobileMenuProps {
 }
 
 export default function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
+  const pathname = usePathname();
+  const isUS = pathname?.startsWith('/us');
+
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
@@ -50,7 +54,7 @@ export default function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
             className="w-full bg-brand-gold text-brand-navy hover:bg-brand-navy hover:text-white shadow-button font-body font-bold"
             onClick={() => onOpenChange(false)}
           >
-            <Link href="/pricing">Get Instant Quote</Link>
+            <Link href={isUS ? '/us/quote' : '/pricing'}>Get Instant Quote</Link>
           </Button>
         </div>
       </SheetContent>

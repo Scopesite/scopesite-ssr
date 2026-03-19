@@ -251,9 +251,18 @@ export interface QuoteEmailData {
   selectedTotal: number;
   monthlyPayment?: number | null;
   quoteUrl: string;
+  locale?: 'uk' | 'us';
 }
 
-function formatCurrency(amount: number): string {
+function formatCurrency(amount: number, locale?: 'uk' | 'us'): string {
+  if (locale === 'us') {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount);
+  }
   return new Intl.NumberFormat('en-GB', {
     style: 'currency',
     currency: 'GBP',
@@ -266,7 +275,9 @@ function formatCurrency(amount: number): string {
  * Send notification email to admin when quote is submitted
  */
 export async function sendQuoteAdminNotification(quote: QuoteEmailData): Promise<boolean> {
-  const subject = `New Quote: ${quote.company || quote.name} - ${quote.packageType} (${formatCurrency(quote.selectedTotal)})`;
+  const loc = quote.locale || 'uk';
+  const currencyNote = loc === 'us' ? ' [US/USD]' : '';
+  const subject = `New Quote${currencyNote}: ${quote.company || quote.name} - ${quote.packageType} (${formatCurrency(quote.selectedTotal, loc)})`;
 
   const htmlContent = `
     <!DOCTYPE html>
@@ -289,9 +300,9 @@ export async function sendQuoteAdminNotification(quote: QuoteEmailData): Promise
           
           <!-- Pricing Summary (highlighted) -->
           <div style="margin-bottom: 24px; padding: 20px; background-color: #ECB615; border-radius: 8px; text-align: center;">
-            <p style="margin: 0 0 8px 0; color: #0A1B36; font-size: 14px; font-weight: bold;">TOTAL VALUE</p>
-            <p style="margin: 0; color: #0A1B36; font-size: 32px; font-weight: bold;">${formatCurrency(quote.selectedTotal)}</p>
-            ${quote.monthlyPayment ? `<p style="margin: 8px 0 0 0; color: #0A1B36; font-size: 14px;">${formatCurrency(quote.monthlyPayment)}/month (${quote.paymentType})</p>` : `<p style="margin: 8px 0 0 0; color: #0A1B36; font-size: 14px;">${quote.paymentType}</p>`}
+            <p style="margin: 0 0 8px 0; color: #0A1B36; font-size: 14px; font-weight: bold;">TOTAL VALUE${loc === 'us' ? ' (USD)' : ''}</p>
+            <p style="margin: 0; color: #0A1B36; font-size: 32px; font-weight: bold;">${formatCurrency(quote.selectedTotal, loc)}</p>
+            ${quote.monthlyPayment ? `<p style="margin: 8px 0 0 0; color: #0A1B36; font-size: 14px;">${formatCurrency(quote.monthlyPayment, loc)}/month (${quote.paymentType})</p>` : `<p style="margin: 8px 0 0 0; color: #0A1B36; font-size: 14px;">${quote.paymentType}</p>`}
           </div>
           
           <!-- Contact Info -->
@@ -368,6 +379,7 @@ export async function sendQuoteAdminNotification(quote: QuoteEmailData): Promise
  * Send confirmation email to client when quote is submitted
  */
 export async function sendQuoteClientConfirmation(quote: QuoteEmailData): Promise<boolean> {
+  const loc = quote.locale || 'uk';
   const firstName = quote.name.split(' ')[0] || 'there';
   const subject = `Your quote's in, ${firstName}`;
 
@@ -409,10 +421,10 @@ export async function sendQuoteClientConfirmation(quote: QuoteEmailData): Promis
           <!-- Quote Summary Box -->
           <div style="margin: 24px 0; padding: 28px; background-color: #0A1B36; border-radius: 12px; text-align: center;">
             <p style="margin: 0 0 8px 0; color: #ffffff; font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px;">Your ${quote.packageType}</p>
-            <p style="margin: 0 0 8px 0; color: #ECB615; font-size: 42px; font-weight: bold;">${formatCurrency(quote.selectedTotal)}</p>
+            <p style="margin: 0 0 8px 0; color: #ECB615; font-size: 42px; font-weight: bold;">${formatCurrency(quote.selectedTotal, loc)}</p>
             ${quote.monthlyPayment ? `
             <p style="margin: 0; color: #ffffff; font-size: 16px; opacity: 0.9;">
-              (or ${formatCurrency(quote.monthlyPayment)}/month over ${quote.paymentType})
+              (or ${formatCurrency(quote.monthlyPayment, loc)}/month over ${quote.paymentType})
             </p>
             ` : `
             <p style="margin: 0; color: #ffffff; font-size: 16px; opacity: 0.9;">${quote.paymentType}</p>
@@ -478,7 +490,7 @@ export async function sendQuoteClientConfirmation(quote: QuoteEmailData): Promis
           <!-- Sign off -->
           <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid #eee;">
             <p style="color: #333; font-size: 15px; line-height: 1.6; margin: 0 0 4px 0;">
-              Cheers,
+              ${loc === 'us' ? 'Best,' : 'Cheers,'}
             </p>
             <p style="color: #0A1B36; font-size: 16px; font-weight: bold; margin: 0 0 4px 0;">
               Dan Cartwright
@@ -496,13 +508,23 @@ export async function sendQuoteClientConfirmation(quote: QuoteEmailData): Promis
             ScopeSite Digital Studios
           </p>
           <p style="margin: 0 0 8px 0; color: #ffffff; font-size: 12px;">
-            Veteran-owned • Somerset, UK
+            Veteran-owned ${loc === 'us' ? '• UK-based, serving US businesses' : '• Somerset, UK'}
           </p>
+          ${loc === 'us' ? `
+          <p style="margin: 0 0 8px 0; color: #ffffff; font-size: 12px;">
+            All prices are in USD.
+          </p>
+          ` : ''}
           <p style="margin: 0; font-size: 12px;">
             <a href="https://scopesite.co.uk" style="color: #ECB615;">scopesite.co.uk</a>
             <span style="color: #ffffff; margin: 0 8px;">|</span>
             <a href="tel:+441373311339" style="color: #ECB615;">01373 311 339</a>
           </p>
+          ${loc === 'us' ? `
+          <p style="margin: 8px 0 0 0; color: #ffffff; font-size: 11px; opacity: 0.6;">
+            We accommodate all US time zones for calls and meetings.
+          </p>
+          ` : ''}
         </div>
         
       </div>

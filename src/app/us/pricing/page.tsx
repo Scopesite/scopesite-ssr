@@ -95,7 +95,7 @@ export default function USPricingPage() {
             be found, recommended, and cited by AI search platforms. No hidden fees, no hourly
             billing, no surprises.
           </p>
-          <p className="text-white/60 max-w-xl mx-auto">
+          <p className="text-white/60 max-w-xl mx-auto mb-8">
             Every package is built on our{' '}
             <Link href="/us/ai-visibility" className="text-brand-gold underline hover:text-brand-gold/80">
               V.O.I.C.E. methodology
@@ -106,6 +106,12 @@ export default function USPricingPage() {
             </Link>
             .
           </p>
+          <Link
+            href="/us/quote"
+            className="btn inline-block bg-brand-gold !text-brand-navy no-underline font-extrabold text-lg px-10 py-4 rounded-xl shadow-[0_4px_0_#b8860b] hover:shadow-[0_2px_0_#b8860b] hover:translate-y-[2px] active:shadow-none active:translate-y-[4px] transition-all duration-150"
+          >
+            Get Instant Quote
+          </Link>
         </div>
       </section>
 
