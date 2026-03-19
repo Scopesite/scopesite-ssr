@@ -107,6 +107,11 @@ export const metadata: Metadata = {
   manifest: '/site.webmanifest',
   alternates: {
     canonical: BASE_URL,
+    languages: {
+      'en-GB': BASE_URL,
+      'en-US': `${BASE_URL}/us`,
+      'x-default': BASE_URL,
+    },
   },
   category: 'technology',
   classification: 'Web Design Agency',

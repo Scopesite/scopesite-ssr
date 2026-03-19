@@ -1135,7 +1135,8 @@ export function generateSpeakableSchema(cssSelectors: string[]) {
 export function generateOfferSchema(
   name: string,
   description: string,
-  priceRange: string
+  priceRange: string,
+  currency: string = 'GBP'
 ) {
   return {
     '@type': 'Offer',
@@ -1143,7 +1144,7 @@ export function generateOfferSchema(
     description,
     priceSpecification: {
       '@type': 'PriceSpecification',
-      priceCurrency: 'GBP',
+      priceCurrency: currency,
       price: priceRange,
     },
     seller: {
@@ -1249,7 +1250,8 @@ export function generateLocalServiceSchema(
   url: string,
   areaServed: AreaServedItem[],
   offers?: ServiceOffer[],
-  serviceType: string = 'Web Design'
+  serviceType: string = 'Web Design',
+  currency: string = 'GBP'
 ) {
   const schema: Record<string, unknown> = {
     '@type': 'Service',
@@ -1278,7 +1280,7 @@ export function generateLocalServiceSchema(
         priceSpecification: {
           '@type': 'PriceSpecification',
           price: offer.price,
-          priceCurrency: 'GBP',
+          priceCurrency: currency,
         },
       })),
     };
@@ -1323,6 +1325,46 @@ export function generateLocalBusinessSchema(
       '@type': area.type,
       name: area.name,
     })),
+    openingHoursSpecification: {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '09:00',
+      closes: '17:00',
+    },
+  };
+}
+
+/**
+ * Generates a LocalBusiness schema for the US market.
+ * Uses #local-us @id. The business is UK-based but serves the US remotely.
+ */
+export function generateUSLocalBusinessSchema() {
+  return {
+    '@type': 'LocalBusiness',
+    '@id': `${BASE_URL}/#local-us`,
+    name: 'ScopeSite Digital Studios',
+    description: 'AI-first web design agency based in the UK, serving businesses across the United States.',
+    parentOrganization: { '@id': `${BASE_URL}/#organization` },
+    telephone: '+441373311339',
+    email: 'dan@scopesite.co.uk',
+    url: `${BASE_URL}/us`,
+    priceRange: '$$',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Frome',
+      addressRegion: 'Somerset',
+      postalCode: 'BA11',
+      addressCountry: 'GB',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: '51.2308',
+      longitude: '-2.3201',
+    },
+    areaServed: {
+      '@type': 'Country',
+      name: 'United States',
+    },
     openingHoursSpecification: {
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],

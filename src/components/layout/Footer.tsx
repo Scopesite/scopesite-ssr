@@ -35,6 +35,12 @@ const FOOTER_LINKS = {
     { label: 'Client Login', href: 'https://accounts.scopesite.co.uk/sign-in' },
     { label: 'Sign Up as Client', href: 'https://accounts.scopesite.co.uk/sign-up' },
   ],
+  usServices: [
+    { label: 'US Home', href: '/us' },
+    { label: 'US Pricing', href: '/us/pricing' },
+    { label: 'US Services', href: '/us/services' },
+    { label: 'AI Visibility (US)', href: '/us/ai-visibility' },
+  ],
   legal: [
     { label: 'Privacy Policy', href: '/privacy-policy' },
     { label: 'Terms & Conditions', href: '/terms-and-conditions' },
@@ -148,6 +154,21 @@ export function Footer() {
             </h4>
             <ul className="space-y-2">
               {FOOTER_LINKS.localServices.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-white/60 text-body-sm hover:text-brand-gold transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <h4 className="font-body font-semibold text-white/80 text-body-sm mt-6 mb-3">
+              US Services
+            </h4>
+            <ul className="space-y-2">
+              {FOOTER_LINKS.usServices.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}

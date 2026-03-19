@@ -37,6 +37,7 @@ const isPublicRoute = createRouteMatcher([
   '/api/briefs(.*)',
   '/api/blog',
   '/api/webhooks(.*)', // All webhooks (Trello, Clerk)
+  '/us(.*)', // US market pages
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
