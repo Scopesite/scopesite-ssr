@@ -32,7 +32,7 @@ export default function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
           <div className="flex items-center justify-center gap-4 pt-4 pb-10 border-b border-brand-graphite">
             <Image
               src="/images/logo-icon.svg"
-              alt=""
+              alt="ScopeSite Digital Studios logo"
               width={60}
               height={60}
             />

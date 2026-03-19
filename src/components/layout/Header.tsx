@@ -49,7 +49,7 @@ export function Header() {
           <Link href="/" className="flex items-center gap-4 group shrink-0" aria-label="ScopeSite - Go to homepage">
             <Image
               src="/images/logo-icon.svg"
-              alt=""
+              alt="ScopeSite Digital Studios logo"
               width={100}
               height={100}
               className="transition-transform group-hover:scale-105"

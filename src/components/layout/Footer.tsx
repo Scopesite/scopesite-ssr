@@ -93,7 +93,7 @@ export function Footer() {
             <Link href="/" className="flex items-center gap-3 mb-6 group">
               <Image
                 src="/images/logo-icon.svg"
-                alt=""
+                alt="ScopeSite Digital Studios logo"
                 width={48}
                 height={48}
                 className="transition-transform group-hover:scale-105"
