@@ -1,59 +1,41 @@
-import { Metadata } from 'next';
-import { JsonLd } from '@/components/JsonLd';
-import {
-  generateBreadcrumbSchema,
-  generateContactPageSchema,
-  generateScheduleActionSchema,
-} from '@/lib/schema';
+'use client';
 
-const BASE_URL = 'https://scopesite.co.uk';
-const PAGE_URL = `${BASE_URL}/book`;
-const GOOGLE_CAL_URL = 'https://calendar.app.google/CqSQz6Dy5KjiMqyq6';
+import { useEffect, useRef } from 'react';
 
-export const metadata: Metadata = {
-  title: 'Book a Free Strategy Call',
-  description:
-    'Book a free 60-minute strategy call with Dan Cartwright. No sales pitch, just honest advice about your website, AI visibility, and what would actually move the needle for your business.',
-  openGraph: {
-    title: 'Book a Free Strategy Call | Web Design Consultation | ScopeSite Digital Studios',
-    description:
-      'Book a free 60-minute strategy call with Dan Cartwright. No sales pitch, just honest advice about your website, AI visibility, and what would actually move the needle for your business.',
-    url: PAGE_URL,
-    images: [
-      {
-        url: `${BASE_URL}/images/dan-headshot.webp`,
-        width: 400,
-        height: 400,
-        alt: 'Dan Cartwright - Director of ScopeSite Digital Studios',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary',
-    title: 'Book a Free Strategy Call | ScopeSite',
-    description: 'Book a free 60-minute strategy call with Dan Cartwright. No sales pitch, just honest advice about your website and AI visibility.',
-    images: [`${BASE_URL}/images/dan-headshot.webp`],
-  },
-  alternates: {
-    canonical: PAGE_URL,
-  },
-};
+const CAL_LINK = 'scopesite/30min';
+const CAL_URL = `https://cal.com/${CAL_LINK}`;
 
 export default function BookPage() {
-  const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: 'Home', url: BASE_URL },
-    { name: 'Book a Call', url: PAGE_URL },
-  ]);
+  const initialized = useRef(false);
 
-  const contactPageSchema = generateContactPageSchema(PAGE_URL);
-  const scheduleActionSchema = generateScheduleActionSchema();
+  useEffect(() => {
+    if (initialized.current) return;
+    initialized.current = true;
+
+    const script = document.createElement('script');
+    script.src = 'https://app.cal.com/embed/embed.js';
+    script.async = true;
+    script.onload = () => {
+      const w = window as unknown as Record<string, unknown>;
+      const Cal = w.Cal as ((...args: unknown[]) => void) & { ns?: Record<string, ((...args: unknown[]) => void) & { q?: unknown[] }> };
+      if (!Cal) return;
+
+      Cal('init', '30min', { origin: 'https://cal.com' });
+      Cal('ns:30min', 'inline', {
+        elementOrSelector: '#cal-embed',
+        calLink: CAL_LINK,
+        layout: 'month_view',
+      });
+      Cal('ns:30min', 'ui', {
+        hideEventTypeDetails: false,
+        layout: 'month_view',
+      });
+    };
+    document.head.appendChild(script);
+  }, []);
 
   return (
     <>
-      <JsonLd
-        schema={[breadcrumbSchema, contactPageSchema, scheduleActionSchema]}
-      />
-
       {/* Hero Section */}
       <section className="bg-brand-navy pt-12 pb-8">
         <div className="container-content text-center">
@@ -119,28 +101,18 @@ export default function BookPage() {
         </div>
       </section>
 
-      {/* Google Calendar Booking Section */}
+      {/* Cal.com Booking Section */}
       <section className="bg-white py-8">
         <div className="container-content">
           <div className="max-w-4xl mx-auto">
-            <div className="w-full overflow-hidden bg-white">
-              <iframe
-                src={GOOGLE_CAL_URL}
-                title="Book a Free Strategy Call with ScopeSite Digital Studios"
-                width="100%"
-                height="1600"
-                style={{
-                  border: 'none',
-                  background: '#ffffff',
-                  overflow: 'hidden',
-                }}
-                allow="camera; microphone"
-              />
-            </div>
+            <div
+              id="cal-embed"
+              style={{ width: '100%', minHeight: '600px', overflow: 'auto' }}
+            />
             <p className="text-center text-brand-graphite/50 text-sm mt-4">
               Having trouble seeing the booking calendar?{' '}
               <a
-                href={GOOGLE_CAL_URL}
+                href={CAL_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline transition-colors"
@@ -159,10 +131,10 @@ export default function BookPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div>
               <div className="text-h2 text-brand-gold font-headline mb-2">
-                60 min
+                30 min
               </div>
               <div className="text-body-sm text-brand-graphite">
-                Thorough & focused call
+                Focused strategy call
               </div>
             </div>
             <div>
