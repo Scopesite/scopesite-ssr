@@ -1,39 +1,51 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import Script from 'next/script';
 
 const CAL_LINK = 'scopesite/30min';
 const CAL_URL = `https://cal.com/${CAL_LINK}`;
 
+const CAL_INIT_SCRIPT = `
+(function (C, A, L) {
+  let p = function (a, ar) { a.q.push(ar); };
+  let d = C.document;
+  C.Cal = C.Cal || function () {
+    let cal = C.Cal;
+    let ar = arguments;
+    if (!cal.loaded) {
+      cal.ns = {};
+      cal.q = cal.q || [];
+      d.head.appendChild(d.createElement("script")).src = A;
+      cal.loaded = true;
+    }
+    if (ar[0] === L) {
+      const api = function () { p(api, arguments); };
+      const namespace = ar[1];
+      api.q = api.q || [];
+      if (typeof namespace === "string") {
+        cal.ns[namespace] = cal.ns[namespace] || api;
+        p(cal.ns[namespace], ar);
+        p(cal, ["initNamespace", namespace]);
+      } else p(cal, ar);
+      return;
+    }
+    p(cal, ar);
+  };
+})(window, "https://app.cal.com/embed/embed.js", "init");
+
+Cal("init", "30min", { origin: "https://cal.com" });
+Cal.ns["30min"]("inline", {
+  elementOrSelector: "#cal-embed",
+  calLink: "${CAL_LINK}",
+  layout: "month_view"
+});
+Cal.ns["30min"]("ui", {
+  hideEventTypeDetails: false,
+  layout: "month_view"
+});
+`;
+
 export default function BookPage() {
-  const initialized = useRef(false);
-
-  useEffect(() => {
-    if (initialized.current) return;
-    initialized.current = true;
-
-    const script = document.createElement('script');
-    script.src = 'https://app.cal.com/embed/embed.js';
-    script.async = true;
-    script.onload = () => {
-      const w = window as unknown as Record<string, unknown>;
-      const Cal = w.Cal as ((...args: unknown[]) => void) & { ns?: Record<string, ((...args: unknown[]) => void) & { q?: unknown[] }> };
-      if (!Cal) return;
-
-      Cal('init', '30min', { origin: 'https://cal.com' });
-      Cal('ns:30min', 'inline', {
-        elementOrSelector: '#cal-embed',
-        calLink: CAL_LINK,
-        layout: 'month_view',
-      });
-      Cal('ns:30min', 'ui', {
-        hideEventTypeDetails: false,
-        layout: 'month_view',
-      });
-    };
-    document.head.appendChild(script);
-  }, []);
-
   return (
     <>
       {/* Hero Section */}
@@ -108,6 +120,11 @@ export default function BookPage() {
             <div
               id="cal-embed"
               style={{ width: '100%', minHeight: '600px', overflow: 'auto' }}
+            />
+            <Script
+              id="cal-embed-init"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{ __html: CAL_INIT_SCRIPT }}
             />
             <p className="text-center text-brand-graphite/50 text-sm mt-4">
               Having trouble seeing the booking calendar?{' '}
