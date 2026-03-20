@@ -222,7 +222,7 @@ A: We don't disappear. All our packages include ongoing maintenance and support.
 ### V.O.I.C.E™ FAQs
 
 **Q: What is V.O.I.C.E™ GEO?**
-A: V.O.I.C.E™ stands for Visibility Optimisation for Intelligent Conversational Engines. It's our AI-first system that makes sure your website gets seen by tools like ChatGPT, Siri, Alexa, and Claude.
+A: V.O.I.C.E.™ stands for Visibility, Optimisation, for Intelligent, Crawler, Engines. It's our AI-first system that makes sure your website gets seen by tools like ChatGPT, Siri, Alexa, and Claude.
 
 **Q: Is the scan really free?**
 A: 100%, no strings, no sneaky sales pitch. We run a full visibility scan and tell you what's working, what's invisible, and what needs fixing.

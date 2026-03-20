@@ -135,7 +135,7 @@ const benefits = [
 const faqItems = [
   {
     question: 'What is V.O.I.C.E™ methodology?',
-    answer: 'V.O.I.C.E™ stands for Voice-Optimised Intelligent Content Engineering. It\'s a proprietary methodology developed by ScopeSite Digital Studios that combines server-side rendering, structured data engineering, and content architecture specifically designed for generative AI citation. It makes your website visible and recommendable by ChatGPT, Perplexity, Gemini, and Claude.',
+    answer: 'V.O.I.C.E.™ stands for Visibility, Optimisation, for Intelligent, Crawler, Engines. It\'s a proprietary methodology developed by ScopeSite Digital Studios that combines server-side rendering, structured data engineering, and content architecture specifically designed for generative AI citation. It makes your website visible and recommendable by ChatGPT, Perplexity, Gemini, and Claude.',
   },
   {
     question: 'Who created V.O.I.C.E™?',
@@ -179,7 +179,7 @@ export default function VoicePage() {
               aria-hidden="true"
             />
             <p className="text-xl md:text-2xl text-white/90 font-medium mb-8">
-              Voice-Optimised Intelligent Content Engineering
+              Visibility, Optimisation, for Intelligent, Crawler, Engines
             </p>
             <p className="text-body-lg text-white/70 mb-6 max-w-3xl mx-auto">
               UK businesses are already being found by AI assistants as often as traditional search. 
@@ -213,7 +213,7 @@ export default function VoicePage() {
             <div className="p-8 rounded-2xl bg-brand-navy/[0.03] border border-brand-navy/10">
               <h2 className="text-brand-navy text-2xl font-bold mb-4">What is V.O.I.C.E™?</h2>
               <p className="text-brand-navy/80 leading-relaxed text-lg">
-                V.O.I.C.E™ (Voice-Optimised Intelligent Content Engineering) is a proprietary
+                V.O.I.C.E.™ (Visibility, Optimisation, for Intelligent, Crawler, Engines) is a proprietary
                 methodology developed by ScopeSite Digital Studios for optimising websites to be
                 visible and recommended by AI search engines including ChatGPT, Perplexity, Gemini,
                 and Claude. Created by Dan Cartwright, a British Army veteran and web developer,

@@ -42,7 +42,7 @@ const faqs: FAQItem[] = [
   },
   {
     question: "What's the V.O.I.C.E™ methodology?",
-    answer: "V.O.I.C.E™ stands for Voice-Optimised Intelligent Content Engineering. It's our proprietary methodology that combines server-side rendering, structured data engineering, and content architecture specifically designed for generative AI citation. V.O.I.C.E™ is the only systemised AI visibility methodology offered by a web design agency in the South West."
+    answer: "V.O.I.C.E.™ stands for Visibility, Optimisation, for Intelligent, Crawler, Engines. It's our proprietary methodology that combines server-side rendering, structured data engineering, and content architecture specifically designed for generative AI citation. V.O.I.C.E.™ is the only systemised AI visibility methodology offered by a web design agency in the South West."
   },
   {
     question: "What is the difference between GEO and SEO?",

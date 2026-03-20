@@ -38,11 +38,11 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: 'Website Designer Somerset | ScopeSite',
+    default: 'AI-Visible Web Design Somerset | ScopeSite Digital Studios',
     template: '%s | ScopeSite',
   },
   description:
-    'Veteran-owned website designers in Somerset. We make your business visible to ChatGPT & AI search. V.O.I.C.E™ methodology. Free AI visibility audit.',
+    'Veteran-owned website designers in Somerset. We make your business visible to ChatGPT & AI search. V.O.I.C.E. by ScopeSite methodology. Free AI visibility audit.',
   keywords: [
     'website designer Somerset',
     'AI visibility',
@@ -67,9 +67,9 @@ export const metadata: Metadata = {
     locale: 'en_GB',
     url: BASE_URL,
     siteName: 'ScopeSite Digital Studios',
-    title: 'Website Designer Somerset | AI Visibility Experts | ScopeSite Digital Studios',
+    title: 'AI-Visible Web Design Somerset | ScopeSite Digital Studios',
     description:
-      'Veteran-owned website designers in Somerset. We make your business visible to ChatGPT & AI search. V.O.I.C.E™ methodology. Free AI visibility audit.',
+      'Veteran-owned website designers in Somerset. We make your business visible to ChatGPT & AI search. V.O.I.C.E. by ScopeSite methodology. Free AI visibility audit.',
     images: [
       {
         url: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
@@ -81,9 +81,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Website Designer Somerset | AI Visibility Experts | ScopeSite Digital Studios',
+    title: 'AI-Visible Web Design Somerset | ScopeSite Digital Studios',
     description:
-      'Veteran-owned website designers in Somerset. We make your business visible to ChatGPT & AI search. V.O.I.C.E™ methodology.',
+      'Veteran-owned website designers in Somerset. We make your business visible to ChatGPT & AI search. V.O.I.C.E. by ScopeSite methodology.',
     images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
   },
   robots: {

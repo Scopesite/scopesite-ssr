@@ -51,7 +51,7 @@ const faqItems = [
   {
     question: 'What is V.O.I.C.E™ methodology?',
     answer:
-      "V.O.I.C.E™ stands for Voice-Optimised Intelligent Content Engineering. It's a proprietary methodology developed by ScopeSite Digital Studios that combines server-side rendering, structured data engineering, and content architecture specifically designed for generative AI citation. It makes your website visible and recommendable by ChatGPT, Perplexity, Gemini, and Claude.",
+      "V.O.I.C.E.™ stands for Visibility, Optimisation, for Intelligent, Crawler, Engines. It's a proprietary methodology developed by ScopeSite Digital Studios that combines server-side rendering, structured data engineering, and content architecture specifically designed for generative AI citation. It makes your website visible and recommendable by ChatGPT, Perplexity, Gemini, and Claude.",
   },
   {
     question: 'Who created V.O.I.C.E™?',

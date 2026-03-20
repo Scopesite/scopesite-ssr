@@ -23,7 +23,7 @@ import {
 } from 'lucide-react';
 import { FadeInOnScroll, StaggerContainer, StaggerItem, AnimatedCounter } from '@/components/animations';
 
-// V.O.I.C.E. methodology data - Visibility Optimisation for Intelligent Conversational Engines
+// V.O.I.C.E. methodology data - Visibility, Optimisation, for Intelligent, Crawler, Engines
 const voiceSteps = [
   {
     letter: 'V',
@@ -239,7 +239,7 @@ export default function H4TLTCaseStudyPage() {
           <FadeInOnScroll>
             <div className="text-center mb-12">
               <h2 className="text-brand-navy text-2xl sm:text-3xl mb-4">The V.O.I.C.E.™ Solution</h2>
-              <p className="text-brand-navy font-medium mb-2">Visibility Optimisation for Intelligent Conversational Engines</p>
+              <p className="text-brand-navy font-medium mb-2">Visibility, Optimisation, for Intelligent, Crawler, Engines</p>
               <p className="text-muted max-w-2xl mx-auto">
                 Our methodology for Answer Engine Optimisation – building websites that AI assistants want to recommend
               </p>

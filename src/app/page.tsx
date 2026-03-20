@@ -60,7 +60,7 @@ const homeFaqs: FAQItem[] = [
   },
   {
     question: 'What is V.O.I.C.E™?',
-    answer: 'V.O.I.C.E™ (Voice-Optimised Intelligent Content Engineering) is ScopeSite\'s proprietary methodology for making websites visible to AI search engines. It combines server-side rendering, structured data engineering, and content architecture designed specifically for generative AI citation. It is the only systemised AI visibility methodology offered by a web design agency in the South West.',
+    answer: 'V.O.I.C.E.™ (Visibility, Optimisation, for Intelligent, Crawler, Engines) is ScopeSite\'s proprietary methodology for making websites visible to AI search engines. It combines server-side rendering, structured data engineering, and content architecture designed specifically for generative AI citation. It is the only systemised AI visibility methodology offered by a web design agency in the South West.',
   },
 ];
 
@@ -77,14 +77,65 @@ export default function Home() {
       'Veteran-owned AI-first web design agency in Somerset. SSR websites that get recommended by ChatGPT, Perplexity, and Google. 100/100 Lighthouse scores.',
       BASE_URL
     ),
-    speakable: generateSpeakableSchema(['h1', '.hero-description']),
+    speakable: generateSpeakableSchema(['h1', '.hero-description', '.faq-answer', 'h2']),
   };
 
   const faqSchema = generateFAQSchema(homeFaqs);
 
+  const homeServiceSchemas = [
+    {
+      '@type': 'Service',
+      serviceType: 'AI-Visible Web Design',
+      name: 'Web Design by ScopeSite',
+      description: 'Server-side rendered websites built for AI visibility. Includes JSON-LD schema markup, 100/100 Lighthouse scores, and optimisation for ChatGPT, Claude, and Gemini.',
+      provider: {
+        '@type': 'Organization',
+        name: 'ScopeSite Digital Studios',
+        url: BASE_URL,
+      },
+      areaServed: {
+        '@type': 'Place',
+        name: 'Somerset, United Kingdom',
+      },
+      url: `${BASE_URL}/web-design`,
+    },
+    {
+      '@type': 'Service',
+      serviceType: 'AI Visibility Optimisation',
+      name: 'V.O.I.C.E. by ScopeSite',
+      description: 'AI visibility audits and optimisation using the V.O.I.C.E. methodology. Schema validation, Core Web Vitals analysis, AI crawler access checks, and implementation support from £0.58 per scan.',
+      provider: {
+        '@type': 'Organization',
+        name: 'ScopeSite Digital Studios',
+        url: BASE_URL,
+      },
+      areaServed: {
+        '@type': 'Place',
+        name: 'United Kingdom',
+      },
+      url: `${BASE_URL}/voice`,
+    },
+    {
+      '@type': 'Service',
+      serviceType: 'Custom Web Application Development',
+      name: 'Custom Web Apps by ScopeSite',
+      description: 'Bespoke tools and web applications built to automate business workflows. Built with modern frameworks and server-side rendering.',
+      provider: {
+        '@type': 'Organization',
+        name: 'ScopeSite Digital Studios',
+        url: BASE_URL,
+      },
+      areaServed: {
+        '@type': 'Place',
+        name: 'United Kingdom',
+      },
+      url: `${BASE_URL}/web-apps`,
+    },
+  ];
+
   return (
     <>
-      <JsonLd schema={[breadcrumbSchema, homePageSchema, faqSchema, ...reviewSchemas]} />
+      <JsonLd schema={[breadcrumbSchema, homePageSchema, faqSchema, ...reviewSchemas, ...homeServiceSchemas]} />
 
       {/* Hero Section - Server Rendered for fast LCP */}
       <section className="bg-brand-navy text-white min-h-[80vh] overflow-hidden">
@@ -232,7 +283,7 @@ export default function Home() {
                     {faq.question}
                     <ChevronDown className="w-5 h-5 text-brand-gold transition-transform group-open:rotate-180 flex-shrink-0" />
                   </summary>
-                  <p className="mt-3 text-brand-navy/70 leading-relaxed">
+                  <p className="faq-answer mt-3 text-brand-navy/70 leading-relaxed">
                     {faq.answer}
                   </p>
                 </details>

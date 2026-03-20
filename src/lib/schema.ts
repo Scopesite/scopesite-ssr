@@ -99,9 +99,10 @@ export function generateOrganizationSchema() {
       closes: '17:00',
     },
     sameAs: [
-      'https://www.linkedin.com/company/scopesite',
+      'https://www.linkedin.com/in/scopesite',
       'https://www.facebook.com/scopesite',
-      'https://www.instagram.com/scopesite',
+      'https://www.instagram.com/aiseo_experts',
+      'https://find-and-update.company-information.service.gov.uk/company/16130355',
     ],
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
@@ -119,8 +120,8 @@ export function generateOrganizationSchema() {
           '@type': 'Offer',
           itemOffered: {
             '@type': 'Service',
-            name: 'V.O.I.C.E™ Methodology',
-            alternateName: 'Voice-Optimised Intelligent Content Engineering',
+            name: 'V.O.I.C.E. by ScopeSite',
+            alternateName: 'Visibility, Optimisation, for Intelligent, Crawler, Engines',
             description:
               'Proprietary methodology for optimising websites to be visible and recommended by AI search engines including ChatGPT, Perplexity, Gemini, and Claude.',
             provider: { '@id': `${BASE_URL}/#organization` },
@@ -139,7 +140,7 @@ export function generateOrganizationSchema() {
     },
     knowsAbout: [
       'V.O.I.C.E Methodology',
-      'Voice-Optimised Intelligent Content Engineering',
+      'Visibility, Optimisation, for Intelligent, Crawler, Engines',
       'Generative Engine Optimisation',
       'Answer Engine Optimisation',
       'AI Search Visibility',
