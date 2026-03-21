@@ -42,6 +42,14 @@ export interface GhostPost {
   tags?: GhostTag[];
   primary_author?: GhostAuthor;
   authors?: GhostAuthor[];
+  meta_title?: string;
+  meta_description?: string;
+  og_title?: string;
+  og_description?: string;
+  og_image?: string;
+  twitter_title?: string;
+  twitter_description?: string;
+  twitter_image?: string;
 }
 
 export interface GhostPostsResponse {

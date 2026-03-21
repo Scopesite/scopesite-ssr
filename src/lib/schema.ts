@@ -87,6 +87,7 @@ export function generateOrganizationSchema() {
       jobTitle: 'Founder & Director',
       description:
         'British Army veteran and web design specialist with 6 years CAMHS experience',
+      sameAs: ['https://www.linkedin.com/in/scopesite'],
     },
     foundingDate: '2024-12-01',
     priceRange: '££',
@@ -110,30 +111,69 @@ export function generateOrganizationSchema() {
       itemListElement: [
         {
           '@type': 'Offer',
+          priceRange: '£2,625 - £9,375+',
+          priceCurrency: 'GBP',
+          availability: 'https://schema.org/InStock',
+          url: `${BASE_URL}/pricing`,
+          description: 'AI-visible website design packages including schema markup, SSR, and 100/100 Lighthouse scores.',
           itemOffered: {
             '@type': 'Service',
             name: 'AI-First Web Design',
-            description: 'Server-side rendered websites optimised for ChatGPT, Perplexity, and AI search visibility',
+            serviceType: 'Web Design',
+            description: 'Server-side rendered websites built for AI visibility. Includes JSON-LD schema markup, 100/100 Lighthouse scores, and optimisation for ChatGPT, Claude, and Gemini.',
+            provider: { '@id': `${BASE_URL}/#organization` },
+            areaServed: {
+              '@type': 'Place',
+              name: 'Somerset, United Kingdom',
+            },
+            url: `${BASE_URL}/web-design`,
           },
         },
         {
           '@type': 'Offer',
+          price: '0.58',
+          priceCurrency: 'GBP',
+          availability: 'https://schema.org/InStock',
+          url: `${BASE_URL}/voice`,
+          description: 'AI visibility scan from £0.58 per scan. No subscription. Credits never expire.',
+          eligibleQuantity: {
+            '@type': 'QuantitativeValue',
+            value: 1,
+            unitText: 'scan',
+          },
           itemOffered: {
             '@type': 'Service',
             name: 'V.O.I.C.E. by ScopeSite',
+            serviceType: 'AI Visibility Optimisation',
             alternateName: 'Visibility, Optimisation, for Intelligent, Crawler, Engines',
             description:
-              'Proprietary methodology for optimising websites to be visible and recommended by AI search engines including ChatGPT, Perplexity, Gemini, and Claude.',
+              'AI visibility audits and optimisation using the V.O.I.C.E. methodology. Schema validation, Core Web Vitals analysis, AI crawler access checks, and implementation support from £0.58 per scan.',
             provider: { '@id': `${BASE_URL}/#organization` },
+            areaServed: {
+              '@type': 'Place',
+              name: 'United Kingdom',
+            },
             url: `${BASE_URL}/voice`,
           },
         },
         {
           '@type': 'Offer',
+          priceRange: 'From £5,000',
+          priceCurrency: 'GBP',
+          availability: 'https://schema.org/InStock',
+          url: `${BASE_URL}/web-apps`,
+          description: 'Bespoke web applications and automation tools.',
           itemOffered: {
             '@type': 'Service',
-            name: 'Custom Web Applications',
-            description: 'Bespoke business tools and web applications built with Next.js',
+            name: 'Custom Web Apps by ScopeSite',
+            serviceType: 'Custom Web Application Development',
+            description: 'Bespoke tools and web applications built to automate business workflows. Built with modern frameworks and server-side rendering.',
+            provider: { '@id': `${BASE_URL}/#organization` },
+            areaServed: {
+              '@type': 'Place',
+              name: 'United Kingdom',
+            },
+            url: `${BASE_URL}/web-apps`,
           },
         },
       ],
@@ -394,6 +434,7 @@ export function generateWebPageSchema(
     url,
     isPartOf: { '@id': `${BASE_URL}/#website` },
     publisher: { '@id': `${BASE_URL}/#organization` },
+    breadcrumb: { '@id': `${url}#breadcrumb` },
     inLanguage: 'en-GB',
   };
 }

@@ -48,22 +48,25 @@ export async function generateMetadata({
 
   const pageUrl = `${BASE_URL}/blog/${slug}`;
 
+  const description = post.meta_description || post.excerpt || post.custom_excerpt || `Read ${post.title} on the ScopeSite blog.`;
+  const ogImage = post.og_image || post.feature_image;
+  const twitterImage = post.twitter_image || post.feature_image;
+
   return {
-    title: post.title,
-    description:
-      post.excerpt || post.custom_excerpt || `Read ${post.title} on the ScopeSite blog.`,
+    title: post.meta_title || post.title,
+    description,
     openGraph: {
-      title: `${post.title} | ScopeSite Blog`,
-      description: post.excerpt || post.custom_excerpt,
+      title: post.og_title || post.meta_title || `${post.title} | ScopeSite Blog`,
+      description: post.og_description || description,
       type: 'article',
       url: pageUrl,
       publishedTime: post.published_at,
       modifiedTime: post.updated_at,
       authors: post.primary_author?.name ? [post.primary_author.name] : undefined,
-      images: post.feature_image
+      images: ogImage
         ? [
             {
-              url: post.feature_image,
+              url: ogImage,
               alt: post.feature_image_alt || post.title,
             },
           ]
@@ -71,9 +74,9 @@ export async function generateMetadata({
     },
     twitter: {
       card: 'summary_large_image',
-      title: post.title,
-      description: post.excerpt || post.custom_excerpt,
-      images: post.feature_image ? [post.feature_image] : undefined,
+      title: post.twitter_title || post.meta_title || post.title,
+      description: post.twitter_description || description,
+      images: twitterImage ? [twitterImage] : undefined,
     },
     alternates: {
       canonical: pageUrl,
