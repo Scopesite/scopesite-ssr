@@ -498,20 +498,6 @@ main a:not(.btn):not(.btn-primary):not(.btn-secondary):not(.btn-secondary-light)
   animation: glow-pulse 3s ease-in-out infinite;
 }
 
-/* Draw line animation for timeline */
-@keyframes draw-line {
-  0% {
-    height: 0;
-  }
-  100% {
-    height: 100%;
-  }
-}
-
-.animate-draw-line {
-  animation: draw-line 2s ease-out forwards;
-}
-
 /* Counter glow */
 @keyframes counter-glow {
   0%, 100% {
@@ -524,34 +510,6 @@ main a:not(.btn):not(.btn-primary):not(.btn-secondary):not(.btn-secondary-light)
 
 .animate-counter-glow {
   animation: counter-glow 2s ease-in-out infinite;
-}
-
-/* Float animation for icons */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-/* Typing cursor blink */
-@keyframes blink {
-  0%, 50% {
-    opacity: 1;
-  }
-  51%, 100% {
-    opacity: 0;
-  }
-}
-
-.animate-blink {
-  animation: blink 1s step-end infinite;
 }
 
 /* Subtle pulse for CTAs */

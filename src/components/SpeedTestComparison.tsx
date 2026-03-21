@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Loader2, AlertCircle, CheckCircle, XCircle } from 'lucide-react';
+import { scopesiteBenchmarks } from '@/lib/speed-test-benchmarks';
 
 interface SpeedTestResult {
   performanceScore: number;
@@ -14,16 +15,14 @@ interface SpeedTestResult {
   runsCompleted?: number;
 }
 
-// Our benchmark scores
 const OUR_SCORES = {
-  performanceScore: 100,
-  fcp: 0.3,
-  lcp: 0.6,
-  ttfb: 100,
-  cls: 0,
+  performanceScore: scopesiteBenchmarks.performanceScore,
+  fcp: scopesiteBenchmarks.fcp,
+  lcp: scopesiteBenchmarks.lcp,
+  ttfb: scopesiteBenchmarks.ttfb,
+  cls: scopesiteBenchmarks.cls,
 };
 
-// Check if URL is our own site
 function isOurSite(url: string): boolean {
   const normalizedUrl = url.toLowerCase();
   return normalizedUrl.includes('scopesite.co.uk') || normalizedUrl.includes('scopesite.com');
@@ -34,42 +33,51 @@ function MetricComparison({
   theirValue,
   ourValue,
   unit,
-  higherIsBetter = false,
+  threshold,
+  showOurColumn = true,
 }: {
   label: string;
   theirValue: number;
   ourValue: number;
   unit: string;
-  higherIsBetter?: boolean;
+  threshold: number;
+  showOurColumn?: boolean;
 }) {
-  // For metrics where LOWER is better (FCP, LCP, TTFB, CLS)
-  // theyAreBetter = their value <= our value
-  // For metrics where HIGHER is better (Performance Score)
-  // theyAreBetter = their value >= our value
-  
-  const theyAreBetter = higherIsBetter 
-    ? theirValue >= ourValue 
-    : theirValue <= ourValue;
-  
-  const theyAreWorse = higherIsBetter
-    ? theirValue < ourValue
-    : theirValue > ourValue;
+  const isBad = theirValue > threshold;
 
   return (
-    <div className="grid grid-cols-3 gap-4 items-center py-4 border-b border-brand-navy/10 last:border-b-0">
+    <div className={`grid ${showOurColumn ? 'grid-cols-3' : 'grid-cols-2'} gap-4 items-center py-4 border-b border-brand-navy/10 last:border-b-0`}>
       <div className="text-brand-navy/70 text-sm font-medium">{label}</div>
-      <div className={`text-center font-bold text-lg ${
-        theyAreWorse ? 'text-red-600' : theyAreBetter ? 'text-green-600' : 'text-brand-navy'
-      }`}>
+      <div className={`text-center font-bold text-lg ${isBad ? 'text-red-600' : 'text-green-600'}`}>
         {theirValue}{unit}
-        {theyAreWorse && <XCircle className="w-4 h-4 inline ml-2 text-red-500" />}
-        {theyAreBetter && <CheckCircle className="w-4 h-4 inline ml-2 text-green-500" />}
+        {isBad
+          ? <XCircle className="w-4 h-4 inline ml-2 text-red-500" />
+          : <CheckCircle className="w-4 h-4 inline ml-2 text-green-500" />
+        }
       </div>
-      <div className="text-center font-bold text-lg text-brand-gold">
-        {ourValue}{unit}
-        <CheckCircle className="w-4 h-4 inline ml-2 text-green-500" />
-      </div>
+      {showOurColumn && (
+        <div className="text-center font-bold text-lg text-green-600">
+          {ourValue}{unit}
+          <CheckCircle className="w-4 h-4 inline ml-2 text-green-500" />
+        </div>
+      )}
     </div>
+  );
+}
+
+function ResultsFooter({ result }: { result: SpeedTestResult }) {
+  return (
+    <>
+      {result.runsCompleted && (
+        <p className="text-brand-navy/40 text-xs text-center mt-4">
+          Results averaged from {result.runsCompleted} test runs (best of 3, worst discarded)
+        </p>
+      )}
+      <p className="text-brand-navy/40 text-xs text-center mt-2 max-w-xl mx-auto">
+        <strong className="font-semibold">These results are mobile scores using simulated slow 4G throttling, the same conditions Google uses to rank your website.</strong>{' '}
+        Desktop scores are typically higher, but Google uses mobile-first indexing, so this is the score that matters.
+      </p>
+    </>
   );
 }
 
@@ -88,7 +96,6 @@ export function SpeedTestComparison() {
     setResult(null);
 
     try {
-      // 2 minute timeout for the entire request (3 tests can take ~90 seconds)
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 120000);
 
@@ -118,6 +125,8 @@ export function SpeedTestComparison() {
       setLoading(false);
     }
   };
+
+  const testingOwnSite = result ? isOurSite(result.url) : false;
 
   return (
     <div className="bg-white rounded-2xl border border-brand-navy/10 shadow-xl overflow-hidden"
@@ -193,84 +202,80 @@ export function SpeedTestComparison() {
       {/* Results */}
       {result && (
         <div className="border-t border-brand-navy/10 p-8 md:p-10 bg-gradient-to-b from-brand-navy/[0.02] to-transparent">
-          {/* Check if they tested our site */}
-          {isOurSite(result.url) ? (
-            <div className="text-center py-8">
-              <div className="text-5xl mb-4">👋</div>
-              <h4 className="text-brand-navy font-bold text-xl mb-2">That&apos;s us!</h4>
-              <p className="text-brand-navy/70 mb-6">
-                Try testing your own website to see how it compares to our standards.
-              </p>
-              <button
-                onClick={() => {
-                  setResult(null);
-                  setUrl('');
-                }}
-                className="btn-secondary"
-              >
-                Test a Different Site
-              </button>
-            </div>
+          {testingOwnSite ? (
+            <>
+              {/* Own site banner */}
+              <div className="text-center mb-8 pb-6 border-b border-brand-navy/10">
+                <div className="text-5xl mb-4">👋</div>
+                <h4 className="text-brand-navy font-bold text-xl mb-2">That&apos;s us!</h4>
+                <p className="text-brand-navy/70 mb-4">
+                  Here are our live scores. Try testing your own website to see how it compares.
+                </p>
+                <button
+                  onClick={() => {
+                    setResult(null);
+                    setUrl('');
+                  }}
+                  className="btn-secondary"
+                >
+                  Test a Different Site
+                </button>
+              </div>
+
+              {/* Single-column scores (no comparison) */}
+              <div className="grid grid-cols-2 gap-4 mb-6 pb-4 border-b-2 border-brand-navy/20">
+                <div className="text-brand-navy/70 font-medium">Metric</div>
+                <div className="text-center text-brand-navy font-bold">Score</div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 items-center py-6 border-b border-brand-navy/10 bg-brand-navy/[0.02] -mx-6 px-6 mb-4">
+                <div className="text-brand-navy font-bold">Performance Score</div>
+                <div className={`text-center font-bold text-3xl ${
+                  result.performanceScore < 80 ? 'text-red-600' : 'text-green-600'
+                }`}>
+                  {result.performanceScore}
+                  <span className="text-lg">/100</span>
+                </div>
+              </div>
+
+              <MetricComparison label="First Contentful Paint" theirValue={result.fcp} ourValue={OUR_SCORES.fcp} unit="s" threshold={2.5} showOurColumn={false} />
+              <MetricComparison label="Largest Contentful Paint" theirValue={result.lcp} ourValue={OUR_SCORES.lcp} unit="s" threshold={4.0} showOurColumn={false} />
+              <MetricComparison label="Time to First Byte" theirValue={result.ttfb} ourValue={OUR_SCORES.ttfb} unit="ms" threshold={800} showOurColumn={false} />
+              <MetricComparison label="Layout Shift" theirValue={result.cls} ourValue={OUR_SCORES.cls} unit="" threshold={0.1} showOurColumn={false} />
+
+              <ResultsFooter result={result} />
+            </>
           ) : (
             <>
               {/* Score Header */}
               <div className="grid grid-cols-3 gap-4 mb-6 pb-4 border-b-2 border-brand-navy/20">
                 <div className="text-brand-navy/70 font-medium">Metric</div>
                 <div className="text-center text-brand-navy font-bold">Your Site</div>
-                <div className="text-center text-brand-gold font-bold">Our Sites</div>
+                <div className="text-center text-green-600 font-bold">Our Sites</div>
               </div>
 
               {/* Performance Score - Big */}
               <div className="grid grid-cols-3 gap-4 items-center py-6 border-b border-brand-navy/10 bg-brand-navy/[0.02] -mx-6 px-6 mb-4">
                 <div className="text-brand-navy font-bold">Performance Score</div>
                 <div className={`text-center font-bold text-3xl ${
-                  result.performanceScore < OUR_SCORES.performanceScore ? 'text-red-600' : 'text-green-600'
+                  result.performanceScore < 80 ? 'text-red-600' : 'text-green-600'
                 }`}>
                   {result.performanceScore}
                   <span className="text-lg">/100</span>
                 </div>
-                <div className="text-center font-bold text-3xl text-brand-gold">
+                <div className="text-center font-bold text-3xl text-green-600">
                   {OUR_SCORES.performanceScore}
                   <span className="text-lg">/100</span>
                 </div>
               </div>
 
-              {/* Individual Metrics - Lower is better for all these */}
-              <MetricComparison
-                label="First Contentful Paint"
-                theirValue={result.fcp}
-                ourValue={OUR_SCORES.fcp}
-                unit="s"
-                higherIsBetter={false}
-              />
-              <MetricComparison
-                label="Largest Contentful Paint"
-                theirValue={result.lcp}
-                ourValue={OUR_SCORES.lcp}
-                unit="s"
-                higherIsBetter={false}
-              />
-              <MetricComparison
-                label="Time to First Byte"
-                theirValue={result.ttfb}
-                ourValue={OUR_SCORES.ttfb}
-                unit="ms"
-                higherIsBetter={false}
-              />
-              <MetricComparison
-                label="Layout Shift"
-                theirValue={result.cls}
-                ourValue={OUR_SCORES.cls}
-                unit=""
-                higherIsBetter={false}
-              />
+              {/* Individual Metrics */}
+              <MetricComparison label="First Contentful Paint" theirValue={result.fcp} ourValue={OUR_SCORES.fcp} unit="s" threshold={2.5} />
+              <MetricComparison label="Largest Contentful Paint" theirValue={result.lcp} ourValue={OUR_SCORES.lcp} unit="s" threshold={4.0} />
+              <MetricComparison label="Time to First Byte" theirValue={result.ttfb} ourValue={OUR_SCORES.ttfb} unit="ms" threshold={800} />
+              <MetricComparison label="Layout Shift" theirValue={result.cls} ourValue={OUR_SCORES.cls} unit="" threshold={0.1} />
 
-              {/* Runs info */}
-              {result.runsCompleted && (
-                <p className="text-brand-navy/40 text-xs text-center mt-4">
-                  Results averaged from {result.runsCompleted} test runs (best of 3, worst discarded)
-                </p>
-              )}
+              <ResultsFooter result={result} />
 
               {/* CTA */}
               <div className="mt-8 text-center">

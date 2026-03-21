@@ -10,6 +10,17 @@ const nextConfig: NextConfig = {
 
   experimental: {
     optimizeCss: true,
+    optimizePackageImports: [
+      'lucide-react',
+      'motion/react',
+      '@radix-ui/react-dialog',
+      '@radix-ui/react-select',
+      '@radix-ui/react-checkbox',
+      '@radix-ui/react-radio-group',
+      '@radix-ui/react-slider',
+      '@radix-ui/react-progress',
+      '@radix-ui/react-separator',
+    ],
   },
 
   // Headers for AI crawlers and SEO
