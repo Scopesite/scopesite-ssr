@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     template: '%s | ScopeSite',
   },
   description:
-    'Veteran-owned website designers in Somerset. We make your business visible to ChatGPT & AI search. V.O.I.C.E. by ScopeSite methodology. Free AI visibility audit.',
+    'Veteran-owned web design studio in Somerset. We build server-side rendered websites that show up in Google, ChatGPT, Claude and Perplexity.',
   keywords: [
     'website designer Somerset',
     'AI visibility',
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     siteName: 'ScopeSite Digital Studios',
     title: 'AI-Visible Web Design Somerset | ScopeSite Digital Studios',
     description:
-      'Veteran-owned website designers in Somerset. We make your business visible to ChatGPT & AI search. V.O.I.C.E. by ScopeSite methodology. Free AI visibility audit.',
+      'Veteran-owned web design studio in Somerset. We build server-side rendered websites that show up in Google, ChatGPT, Claude and Perplexity.',
     images: [
       {
         url: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
@@ -83,7 +83,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'AI-Visible Web Design Somerset | ScopeSite Digital Studios',
     description:
-      'Veteran-owned website designers in Somerset. We make your business visible to ChatGPT & AI search. V.O.I.C.E. by ScopeSite methodology.',
+      'Veteran-owned web design studio in Somerset. We build server-side rendered websites that show up in Google, ChatGPT, Claude and Perplexity.',
     images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
   },
   robots: {
