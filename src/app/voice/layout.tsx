@@ -6,6 +6,7 @@ import {
   generateFAQSchema,
   generateHowToSchema,
   generateSpeakableSchema,
+  generateImageObjectSchema,
 } from '@/lib/schema';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -128,9 +129,17 @@ export default function VoiceLayout({
     howToSteps
   );
 
+  const voiceLogoSchema = generateImageObjectSchema({
+    contentUrl: `${BASE_URL}/images/voice-ai-aeo-geo-uk-scopesite-top-logo.webp`,
+    name: 'V.O.I.C.E. AI Visibility Logo',
+    description: 'V.O.I.C.E. AI visibility scanning tool by ScopeSite Digital Studios',
+    width: 600,
+    height: 120,
+  });
+
   return (
     <>
-      <JsonLd schema={[breadcrumbSchema, serviceSchema, howToSchema, faqSchema]} />
+      <JsonLd schema={[breadcrumbSchema, serviceSchema, howToSchema, faqSchema, voiceLogoSchema]} />
       {children}
     </>
   );

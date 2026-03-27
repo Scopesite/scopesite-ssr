@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { JsonLd } from '@/components/JsonLd';
-import { generateBreadcrumbSchema, generateReviewsSchema, generateSpeakableSchema, generateWebPageSchema, generateFAQSchema, type FAQItem } from '@/lib/schema';
+import { generateBreadcrumbSchema, generateReviewsSchema, generateSpeakableSchema, generateWebPageSchema, generateFAQSchema, generateImageObjectSchema, type FAQItem } from '@/lib/schema';
 import { ChevronDown } from 'lucide-react';
 import { HomeBelowFoldWrapper } from './HomeBelowFoldWrapper';
 
@@ -82,6 +82,15 @@ export default function Home() {
 
   const faqSchema = generateFAQSchema(homeFaqs);
 
+  const heroImageSchema = generateImageObjectSchema({
+    contentUrl: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
+    name: 'ScopeSite Websites That Get Found Hero',
+    description: 'AI-optimized websites that get found in search and AI assistants',
+    width: 800,
+    height: 800,
+    id: `${BASE_URL}/#hero-image`,
+  });
+
   const homeServiceSchemas = [
     {
       '@type': 'Service',
@@ -135,7 +144,7 @@ export default function Home() {
 
   return (
     <>
-      <JsonLd schema={[breadcrumbSchema, homePageSchema, faqSchema, ...reviewSchemas, ...homeServiceSchemas]} />
+      <JsonLd schema={[breadcrumbSchema, homePageSchema, faqSchema, heroImageSchema, ...reviewSchemas, ...homeServiceSchemas]} />
 
       {/* Hero Section - Server Rendered for fast LCP */}
       <section className="bg-brand-navy text-white min-h-[80vh] overflow-hidden">

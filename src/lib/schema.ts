@@ -49,11 +49,26 @@ export function generateOrganizationSchema() {
     url: BASE_URL,
     logo: {
       '@type': 'ImageObject',
+      '@id': `${BASE_URL}/#logo`,
+      contentUrl: `${BASE_URL}/images/logo-icon.svg`,
       url: `${BASE_URL}/images/logo-icon.svg`,
+      name: 'ScopeSite Digital Studios Logo',
+      description: 'ScopeSite Digital Studios logo',
       width: 512,
       height: 512,
+      inLanguage: 'en-GB',
     },
-    image: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
+    image: {
+      '@type': 'ImageObject',
+      '@id': `${BASE_URL}/#hero-image`,
+      contentUrl: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
+      url: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
+      name: 'ScopeSite Websites That Get Found Hero',
+      description: 'AI-optimized websites that get found in search and AI assistants',
+      width: 800,
+      height: 800,
+      inLanguage: 'en-GB',
+    },
     telephone: '+441373311339',
     email: 'support@scopesite.co.uk',
     address: {
@@ -1497,6 +1512,32 @@ export function generateLandingPageSchema(
 // ============================================
 // GRAPH WRAPPER
 // ============================================
+
+export function generateImageObjectSchema(options: {
+  contentUrl: string;
+  name: string;
+  description: string;
+  width: number;
+  height: number;
+  id?: string;
+}) {
+  const schema: Record<string, unknown> = {
+    '@type': 'ImageObject',
+    contentUrl: options.contentUrl,
+    url: options.contentUrl,
+    name: options.name,
+    description: options.description,
+    width: options.width,
+    height: options.height,
+    inLanguage: 'en-GB',
+  };
+
+  if (options.id) {
+    schema['@id'] = options.id;
+  }
+
+  return schema;
+}
 
 export function wrapInGraph(schemas: Record<string, unknown>[]) {
   return {

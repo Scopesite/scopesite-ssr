@@ -13,6 +13,7 @@ import {
   generateBreadcrumbSchema,
   generateAboutPageSchema,
   generatePersonSchema,
+  generateImageObjectSchema,
 } from '@/lib/schema';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -143,10 +144,18 @@ export default function AboutPage() {
     }
   );
 
+  const headshotImageSchema = generateImageObjectSchema({
+    contentUrl: `${BASE_URL}/images/dan-headshot.webp`,
+    name: 'Dan Cartwright Headshot',
+    description: 'Dan Cartwright - Founder and Director of ScopeSite',
+    width: 400,
+    height: 400,
+  });
+
   return (
     <>
       {/* Page-specific structured data */}
-      <JsonLd schema={[breadcrumbSchema, aboutPageSchema, founderSchema]} />
+      <JsonLd schema={[breadcrumbSchema, aboutPageSchema, founderSchema, headshotImageSchema]} />
 
       {/* Hero Section */}
       <section className="bg-brand-navy text-white py-section min-h-[60vh] flex items-center">

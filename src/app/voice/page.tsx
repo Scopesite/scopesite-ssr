@@ -171,12 +171,11 @@ export default function VoicePage() {
             <h1 className="sr-only">V.O.I.C.E™ AI Visibility Optimisation for UK Businesses</h1>
             <Image
               src="/images/voice-ai-aeo-geo-uk-scopesite-top-logo.webp"
-              alt=""
+              alt="V.O.I.C.E. AI visibility scanning tool by ScopeSite Digital Studios"
               width={600}
               height={120}
               className="mx-auto mb-4"
               priority
-              aria-hidden="true"
             />
             <p className="text-xl md:text-2xl text-white/90 font-medium mb-8">
               Visibility, Optimisation, for Intelligent, Crawler, Engines
