@@ -101,6 +101,7 @@ export function generateOrganizationSchema() {
     },
     sameAs: [
       'https://www.linkedin.com/in/scopesite',
+      'https://www.linkedin.com/company/scopesite',
       'https://www.facebook.com/scopesite',
       'https://www.instagram.com/aiseo_experts',
       'https://find-and-update.company-information.service.gov.uk/company/16130355',
