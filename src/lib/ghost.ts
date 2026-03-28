@@ -320,7 +320,9 @@ export async function getPosts(options: {
       throw new Error(`Failed to fetch posts: ${response.statusText}`);
     }
 
-    return response.json();
+    const data: GhostPostsResponse = await response.json();
+    data.posts = data.posts.map(cleanPost);
+    return data;
   } catch (error) {
     console.error('Ghost API error, falling back to mock data:', error);
     // Fallback to mock data on error
@@ -369,7 +371,8 @@ export async function getPostBySlug(slug: string): Promise<GhostPost | null> {
     }
 
     const data = await response.json();
-    return data.posts?.[0] || null;
+    const post = data.posts?.[0] || null;
+    return post ? cleanPost(post) : null;
   } catch (error) {
     console.error('Ghost API error for slug, falling back to mock data:', error);
     // Fallback to mock data on error
@@ -402,7 +405,7 @@ export async function getFeaturedPosts(limit: number = 3): Promise<GhostPost[]> 
     }
 
     const data = await response.json();
-    return data.posts || [];
+    return (data.posts || []).map(cleanPost);
   } catch (error) {
     console.error('Ghost API error for featured posts, falling back to mock data:', error);
     // Fallback to mock data on error
@@ -440,6 +443,25 @@ export async function getAllPostSlugs(): Promise<string[]> {
     // Fallback to mock data on error
     return MOCK_POSTS.map(post => post.slug);
   }
+}
+
+/**
+ * Strip Ghost's outbound link tracking ?ref= parameters from post HTML.
+ * Ghost appends ?ref=<ghost-domain> to all links even when the setting is off.
+ */
+export function stripGhostTrackingParams(html: string): string {
+  return html
+    .replace(/([?&])ref=[^&"'<>\s]*/gi, (_match, prefix) => prefix === '?' ? '' : '')
+    .replace(/\?&/g, '?')
+    .replace(/\?(?=["'<>\s])/g, '')
+    .replace(/&(?=["'<>\s])/g, '');
+}
+
+function cleanPost(post: GhostPost): GhostPost {
+  if (post.html) {
+    return { ...post, html: stripGhostTrackingParams(post.html) };
+  }
+  return post;
 }
 
 /**
