@@ -130,6 +130,18 @@ export function Footer() {
                 <span>Frome, Somerset, UK</span>
               </div>
             </div>
+
+            {/* Sister site */}
+            <p className="text-white/60 text-body-sm mt-4">
+              See also:{' '}
+              <a
+                href="https://www.fromewebdesign.com"
+                target="_blank"
+                className="text-brand-gold hover:text-white transition-colors"
+              >
+                Frome Web Design
+              </a>
+            </p>
           </div>
 
           {/* Services Links */}
