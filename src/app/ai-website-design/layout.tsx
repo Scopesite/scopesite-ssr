@@ -9,6 +9,28 @@ export const metadata: Metadata = {
   title: 'AI Website Design | Websites Built for ChatGPT & Voice Search',
   description: 'AI website design that gets your business recommended by ChatGPT, not just indexed. UK agency specialising in AI-first web design with V.O.I.C.E™ methodology.',
   keywords: ['ai website design', 'ai web design', 'ai powered website design', 'chatgpt website optimisation'],
+  openGraph: {
+    title: 'AI Website Design | Websites Built for ChatGPT & Voice Search',
+    description: 'AI website design that gets your business recommended by ChatGPT, not just indexed. UK agency specialising in AI-first web design with V.O.I.C.E™ methodology.',
+    url: PAGE_URL,
+    siteName: 'ScopeSite Digital Studios',
+    images: [
+      {
+        url: `${BASE_URL}/images/og/og-ai-website-design.png`,
+        width: 1200,
+        height: 630,
+        alt: 'AI Website Design by ScopeSite - Built for ChatGPT and Voice Search',
+      },
+    ],
+    locale: 'en_GB',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AI Website Design | Websites Built for ChatGPT & Voice Search',
+    description: 'AI website design that gets your business recommended by ChatGPT, not just indexed. UK agency specialising in AI-first web design.',
+    images: [`${BASE_URL}/images/og/og-ai-website-design.png`],
+  },
   alternates: {
     canonical: PAGE_URL,
   },

@@ -26,7 +26,24 @@ export const metadata: Metadata = {
     description:
       'Get an instant quote for AI-ready web design, AI visibility services, and custom development. All prices in USD.',
     url: PAGE_URL,
+    siteName: 'ScopeSite Digital Studios',
+    images: [
+      {
+        url: `${BASE_URL}/images/og/og-us-quote.png`,
+        width: 1200,
+        height: 630,
+        alt: 'Instant Quote for AI Web Design - US Pricing by ScopeSite',
+      },
+    ],
     locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Instant Quote | US Pricing | ScopeSite',
+    description:
+      'Get an instant quote for AI-ready web design, AI visibility services, and custom development. All prices in USD.',
+    images: [`${BASE_URL}/images/og/og-us-quote.png`],
   },
 };
 

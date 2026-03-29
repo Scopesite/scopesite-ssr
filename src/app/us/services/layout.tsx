@@ -30,7 +30,24 @@ export const metadata: Metadata = {
     description:
       'AI-first web design and visibility services for American businesses. Server-side rendered websites, schema markup, and answer engine optimization.',
     url: PAGE_URL,
+    siteName: 'ScopeSite Digital Studios',
+    images: [
+      {
+        url: `${BASE_URL}/images/og/og-us-services.png`,
+        width: 1200,
+        height: 630,
+        alt: 'ScopeSite US Services - AI Web Design and Visibility for American Businesses',
+      },
+    ],
     locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Web Design and AI Visibility Services for US Businesses | ScopeSite',
+    description:
+      'AI-first web design and visibility services for American businesses. Server-side rendered websites, schema markup, and answer engine optimization.',
+    images: [`${BASE_URL}/images/og/og-us-services.png`],
   },
 };
 

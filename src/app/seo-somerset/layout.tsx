@@ -18,6 +18,28 @@ export const metadata: Metadata = {
   title: 'SEO Somerset | AI-Powered Search Optimisation',
   description: 'Somerset SEO services built for AI search visibility. V.O.I.C.E methodology gets your business found by ChatGPT, Perplexity, and Google. Free audit available.',
   keywords: ['seo somerset', 'somerset seo', 'search engine optimisation somerset', 'seo services somerset', 'ai seo somerset', 'local seo somerset'],
+  openGraph: {
+    title: 'SEO Somerset | AI-Powered Search Optimisation',
+    description: 'Somerset SEO services built for AI search visibility. V.O.I.C.E methodology gets your business found by ChatGPT, Perplexity, and Google. Free audit available.',
+    url: PAGE_URL,
+    siteName: 'ScopeSite Digital Studios',
+    images: [
+      {
+        url: `${BASE_URL}/images/og/og-seo-somerset.png`,
+        width: 1200,
+        height: 630,
+        alt: 'SEO Somerset - AI-Powered Search Optimisation by ScopeSite',
+      },
+    ],
+    locale: 'en_GB',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'SEO Somerset | AI-Powered Search Optimisation',
+    description: 'Somerset SEO services built for AI search visibility. V.O.I.C.E methodology gets your business found by ChatGPT, Perplexity, and Google.',
+    images: [`${BASE_URL}/images/og/og-seo-somerset.png`],
+  },
   alternates: {
     canonical: PAGE_URL,
   },

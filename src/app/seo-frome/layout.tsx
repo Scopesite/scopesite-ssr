@@ -18,6 +18,28 @@ export const metadata: Metadata = {
   title: 'SEO Frome | Get Your Business Found on Google and AI',
   description: 'SEO services based in Frome, Somerset. Local SEO and AI visibility for Frome businesses. V.O.I.C.E methodology. Free AI audit available.',
   keywords: ['seo frome', 'frome seo', 'search engine optimisation frome', 'local seo frome'],
+  openGraph: {
+    title: 'SEO Frome | Get Your Business Found on Google and AI',
+    description: 'SEO services based in Frome, Somerset. Local SEO and AI visibility for Frome businesses. V.O.I.C.E methodology. Free AI audit available.',
+    url: PAGE_URL,
+    siteName: 'ScopeSite Digital Studios',
+    images: [
+      {
+        url: `${BASE_URL}/images/og/og-seo-frome.png`,
+        width: 1200,
+        height: 630,
+        alt: 'SEO Frome - Local SEO and AI Visibility by ScopeSite',
+      },
+    ],
+    locale: 'en_GB',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'SEO Frome | Get Your Business Found on Google and AI',
+    description: 'SEO services based in Frome, Somerset. Local SEO and AI visibility for Frome businesses. V.O.I.C.E methodology.',
+    images: [`${BASE_URL}/images/og/og-seo-frome.png`],
+  },
   alternates: {
     canonical: PAGE_URL,
   },

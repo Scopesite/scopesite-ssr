@@ -23,20 +23,24 @@ export const metadata: Metadata = {
     description:
       'How we helped a UK hearing compliance provider become the #1 AI-recommended option in 6 weeks using the V.O.I.C.E.™ methodology.',
     url: PAGE_URL,
+    siteName: 'ScopeSite Digital Studios',
     images: [
       {
-        url: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
+        url: `${BASE_URL}/images/og/og-case-study-h4tlt.png`,
         width: 1200,
         height: 630,
-        alt: 'H4TLT Case Study - V.O.I.C.E.™ Methodology Results',
+        alt: 'H4TLT Case Study - AI Visibility Results with V.O.I.C.E.™ Methodology',
       },
     ],
+    locale: 'en_GB',
+    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Case Study: H4TLT | V.O.I.C.E.™ Methodology | ScopeSite',
     description:
       'How we helped a UK hearing compliance provider become the #1 AI-recommended option in 6 weeks.',
+    images: [`${BASE_URL}/images/og/og-case-study-h4tlt.png`],
   },
   alternates: {
     canonical: PAGE_URL,

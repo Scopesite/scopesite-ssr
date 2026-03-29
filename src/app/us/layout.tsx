@@ -28,7 +28,23 @@ export const metadata: Metadata = {
     title: 'AI-First Web Design for US Businesses | ScopeSite Digital Studios',
     description: 'UK-based web design agency serving US businesses. Server-side rendered websites optimized for AI visibility.',
     url: PAGE_URL,
+    siteName: 'ScopeSite Digital Studios',
+    images: [
+      {
+        url: `${BASE_URL}/images/og/og-us-home.png`,
+        width: 1200,
+        height: 630,
+        alt: 'ScopeSite Digital Studios - AI-First Web Design for US Businesses',
+      },
+    ],
     locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AI-First Web Design for US Businesses | ScopeSite',
+    description: 'UK-based web design agency serving US businesses. Server-side rendered websites optimized for AI visibility.',
+    images: [`${BASE_URL}/images/og/og-us-home.png`],
   },
 };
 

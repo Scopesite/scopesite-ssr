@@ -18,6 +18,28 @@ export const metadata: Metadata = {
   title: 'Web Design Frome | AI-First Websites for Local Businesses',
   description: 'Web design agency based in Beckington, Frome, Somerset. AI-optimised websites with 100/100 Lighthouse scores. Veteran-owned, transparent pricing.',
   keywords: ['web design frome', 'web designer frome', 'website design frome', 'frome web design'],
+  openGraph: {
+    title: 'Web Design Frome | AI-First Websites for Local Businesses',
+    description: 'Web design agency based in Beckington, Frome, Somerset. AI-optimised websites with 100/100 Lighthouse scores. Veteran-owned, transparent pricing.',
+    url: PAGE_URL,
+    siteName: 'ScopeSite Digital Studios',
+    images: [
+      {
+        url: `${BASE_URL}/images/og/og-web-design-frome.png`,
+        width: 1200,
+        height: 630,
+        alt: 'Web Design Frome - AI-First Websites by ScopeSite Digital Studios',
+      },
+    ],
+    locale: 'en_GB',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Web Design Frome | AI-First Websites for Local Businesses',
+    description: 'Web design agency based in Beckington, Frome, Somerset. AI-optimised websites with 100/100 Lighthouse scores.',
+    images: [`${BASE_URL}/images/og/og-web-design-frome.png`],
+  },
   alternates: {
     canonical: PAGE_URL,
   },

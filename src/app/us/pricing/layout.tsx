@@ -53,15 +53,24 @@ export const metadata: Metadata = {
     description:
       'Transparent USD pricing for AI visibility services. Three clear tiers from $2,500. No hidden fees, no surprises.',
     url: PAGE_URL,
-    locale: 'en_US',
+    siteName: 'ScopeSite Digital Studios',
     images: [
       {
-        url: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
+        url: `${BASE_URL}/images/og/og-us-pricing.png`,
         width: 1200,
         height: 630,
         alt: 'ScopeSite US Pricing - AI Visibility Packages in USD',
       },
     ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'US Pricing: AI-Ready Websites and Visibility Packages | ScopeSite',
+    description:
+      'Transparent USD pricing for AI visibility services. Three clear tiers from $2,500. No hidden fees, no surprises.',
+    images: [`${BASE_URL}/images/og/og-us-pricing.png`],
   },
 };
 

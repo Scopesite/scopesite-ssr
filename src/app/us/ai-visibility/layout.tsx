@@ -39,7 +39,24 @@ export const metadata: Metadata = {
     description:
       'Free AI visibility scanner for US businesses. Check if ChatGPT, Perplexity, and Claude can find and recommend your business.',
     url: PAGE_URL,
+    siteName: 'ScopeSite Digital Studios',
+    images: [
+      {
+        url: `${BASE_URL}/images/og/og-us-ai-visibility.png`,
+        width: 1200,
+        height: 630,
+        alt: 'AI Visibility Scanner for US Businesses - Free Check by ScopeSite',
+      },
+    ],
     locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Is Your Business Visible to AI? Check for Free | ScopeSite',
+    description:
+      'Free AI visibility scanner for US businesses. Check if ChatGPT, Perplexity, and Claude can find and recommend your business.',
+    images: [`${BASE_URL}/images/og/og-us-ai-visibility.png`],
   },
 };
 

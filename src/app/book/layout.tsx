@@ -18,20 +18,23 @@ export const metadata: Metadata = {
     description:
       'Book a free 30-minute strategy call with Dan Cartwright. No sales pitch, just honest advice about your website, AI visibility, and what would actually move the needle for your business.',
     url: PAGE_URL,
+    siteName: 'ScopeSite Digital Studios',
     images: [
       {
-        url: `${BASE_URL}/images/dan-headshot.webp`,
-        width: 400,
-        height: 400,
-        alt: 'Dan Cartwright - Director of ScopeSite Digital Studios',
+        url: `${BASE_URL}/images/og/og-book.png`,
+        width: 1200,
+        height: 630,
+        alt: 'Book a Free Strategy Call with ScopeSite Digital Studios',
       },
     ],
+    locale: 'en_GB',
+    type: 'website',
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'Book a Free Strategy Call | ScopeSite',
     description: 'Book a free 30-minute strategy call with Dan Cartwright. No sales pitch, just honest advice about your website and AI visibility.',
-    images: [`${BASE_URL}/images/dan-headshot.webp`],
+    images: [`${BASE_URL}/images/og/og-book.png`],
   },
   alternates: {
     canonical: PAGE_URL,

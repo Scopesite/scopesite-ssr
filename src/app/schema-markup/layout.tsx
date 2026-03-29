@@ -9,6 +9,28 @@ export const metadata: Metadata = {
   title: 'Schema Markup Services | Professional JSON-LD Implementation UK',
   description: 'Expert schema markup implementation that makes your business visible to AI. 100% validation guarantee. Professional structured data services for UK businesses.',
   keywords: ['schema markup services', 'structured data implementation', 'json-ld services', 'schema markup agency'],
+  openGraph: {
+    title: 'Schema Markup Services | Professional JSON-LD Implementation UK',
+    description: 'Expert schema markup implementation that makes your business visible to AI. 100% validation guarantee. Professional structured data services for UK businesses.',
+    url: PAGE_URL,
+    siteName: 'ScopeSite Digital Studios',
+    images: [
+      {
+        url: `${BASE_URL}/images/og/og-schema-markup.png`,
+        width: 1200,
+        height: 630,
+        alt: 'Schema Markup Services - Professional JSON-LD Implementation by ScopeSite',
+      },
+    ],
+    locale: 'en_GB',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Schema Markup Services | Professional JSON-LD Implementation UK',
+    description: 'Expert schema markup implementation that makes your business visible to AI. 100% validation guarantee.',
+    images: [`${BASE_URL}/images/og/og-schema-markup.png`],
+  },
   alternates: {
     canonical: PAGE_URL,
   },

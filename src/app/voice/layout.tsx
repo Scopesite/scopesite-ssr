@@ -24,21 +24,24 @@ export const metadata: Metadata = {
     description:
       'Get your business recommended by ChatGPT, Claude & Perplexity. Our V.O.I.C.E™ methodology makes you visible to AI search. Free AI visibility score.',
     url: PAGE_URL,
+    siteName: 'ScopeSite Digital Studios',
     images: [
       {
-        url: `${BASE_URL}/images/voice-ai-aeo-geo-uk-scopesite-top-logo.webp`,
+        url: `${BASE_URL}/images/og/og-voice.png`,
         width: 1200,
         height: 630,
-        alt: 'V.O.I.C.E™ - AI Visibility Optimisation by ScopeSite',
+        alt: 'V.O.I.C.E™ AI Visibility Methodology by ScopeSite Digital Studios',
       },
     ],
+    locale: 'en_GB',
+    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'AI Visibility Optimisation | V.O.I.C.E™ | ScopeSite',
     description:
       'Get your business recommended by ChatGPT, Claude & Perplexity. Our V.O.I.C.E™ methodology makes you visible to AI search.',
-    images: [`${BASE_URL}/images/voice-ai-aeo-geo-uk-scopesite-top-logo.webp`],
+    images: [`${BASE_URL}/images/og/og-voice.png`],
   },
   alternates: {
     canonical: PAGE_URL,

@@ -28,21 +28,24 @@ export const metadata: Metadata = {
     description:
       'Founded by British Army veteran Dan Cartwright. Website designers with military precision, based in Somerset, serving UK-wide. No corporate bullshit, just results.',
     url: PAGE_URL,
+    siteName: 'ScopeSite Digital Studios',
     images: [
       {
-        url: `${BASE_URL}/images/dan-headshot.webp`,
-        width: 400,
-        height: 400,
-        alt: 'Dan Cartwright - Founder of ScopeSite Digital Studios',
+        url: `${BASE_URL}/images/og/og-about.png`,
+        width: 1200,
+        height: 630,
+        alt: 'About ScopeSite Digital Studios - Veteran-Owned Web Design Agency',
       },
     ],
+    locale: 'en_GB',
+    type: 'website',
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'About Us | Veteran-Owned Website Designers | ScopeSite',
     description:
       'Founded by British Army veteran Dan Cartwright. Website designers with military precision, based in Somerset, serving UK-wide.',
-    images: [`${BASE_URL}/images/dan-headshot.webp`],
+    images: [`${BASE_URL}/images/og/og-about.png`],
   },
   alternates: {
     canonical: PAGE_URL,

@@ -52,20 +52,23 @@ export const metadata: Metadata = {
     description:
       'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Flexible 6, 12 or 24-month payment plans. Somerset-based, UK-wide service.',
     url: PAGE_URL,
+    siteName: 'ScopeSite Digital Studios',
     images: [
       {
-        url: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
+        url: `${BASE_URL}/images/og/og-pricing.png`,
         width: 1200,
         height: 630,
-        alt: 'Web Design Pricing UK - Transparent Costs - ScopeSite',
+        alt: 'ScopeSite Web Design Pricing UK - Transparent Costs',
       },
     ],
+    locale: 'en_GB',
+    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Web Design Pricing UK | Transparent Costs | ScopeSite',
     description: 'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Flexible payment plans available.',
-    images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
+    images: [`${BASE_URL}/images/og/og-pricing.png`],
   },
   alternates: {
     canonical: PAGE_URL,

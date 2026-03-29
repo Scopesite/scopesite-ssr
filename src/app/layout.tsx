@@ -79,10 +79,10 @@ export const metadata: Metadata = {
       'Veteran-owned web design studio in Somerset. We build server-side rendered websites that show up in Google, ChatGPT, Claude and Perplexity.',
     images: [
       {
-        url: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
+        url: `${BASE_URL}/images/og/og-home.png`,
         width: 1200,
         height: 630,
-        alt: 'ScopeSite Digital Studios - Website Designer Somerset, AI Visibility Experts',
+        alt: 'ScopeSite Digital Studios - AI-Visible Web Design Somerset',
       },
     ],
   },
@@ -91,7 +91,7 @@ export const metadata: Metadata = {
     title: 'AI-Visible Web Design Somerset | ScopeSite Digital Studios',
     description:
       'Veteran-owned web design studio in Somerset. We build server-side rendered websites that show up in Google, ChatGPT, Claude and Perplexity.',
-    images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
+    images: [`${BASE_URL}/images/og/og-home.png`],
   },
   robots: {
     index: true,
