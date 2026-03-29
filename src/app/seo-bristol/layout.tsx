@@ -47,7 +47,8 @@ const pageSchema = wrapInGraph([
     'SEO Bristol | AI Search Optimisation',
     'Bristol SEO services that go beyond Google rankings. Get your business recommended by ChatGPT, Perplexity, and AI search engines.',
     faqs,
-    `${PAGE_URL}#service`
+    `${PAGE_URL}/#service`,
+    ['h1', '.hero-description', '.faq-answer', 'h2']
   ),
   generateLocalServiceSchema(
     'SEO Bristol',

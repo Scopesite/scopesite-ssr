@@ -8,6 +8,8 @@ import {
   generateServiceSchema,
   generateOfferSchema,
   generateFAQSchema,
+  generateWebPageSchema,
+  generateItemListSchema,
 } from '@/lib/schema';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -117,13 +119,30 @@ export default function PricingPage() {
 
   const faqSchema = generateFAQSchema(pricingFAQs);
 
+  const offerListSchema = generateItemListSchema(
+    `${PAGE_URL}/#offer-list`,
+    'ScopeSite Web Design Packages',
+    [starterOffer, professionalOffer, enterpriseOffer]
+  );
+
+  const webPageSchema = {
+    ...generateWebPageSchema(
+      'Web Design Pricing UK',
+      'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Flexible 6, 12 or 24-month payment plans. Somerset-based, UK-wide service.',
+      PAGE_URL
+    ),
+    mainEntity: { '@id': `${PAGE_URL}/#offer-list` },
+  };
+
   return (
     <>
       {/* Page-specific structured data */}
       <JsonLd
         schema={[
+          webPageSchema,
           breadcrumbSchema,
           serviceSchema,
+          offerListSchema,
           starterOffer,
           professionalOffer,
           enterpriseOffer,

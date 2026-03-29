@@ -4,6 +4,8 @@ import {
   generateBreadcrumbSchema,
   generateServiceSchema,
   generateFAQSchema,
+  generateWebPageSchema,
+  generateServiceChannels,
 } from '@/lib/schema';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -97,14 +99,30 @@ export default function WebAppsLayout({
   const serviceSchema = generateServiceSchema(
     'Custom Web Application Development',
     'Bespoke web applications built to solve real business problems. Quote calculators, client portals, booking systems, compliance tools, and AI-powered automation.',
-    PAGE_URL
+    PAGE_URL,
+    undefined,
+    {
+      isRelatedTo: [
+        { '@id': `${BASE_URL}/web-design/#service` },
+      ],
+      availableChannel: generateServiceChannels(),
+    }
   );
 
   const faqSchema = generateFAQSchema(faqItems);
 
+  const webPageSchema = {
+    ...generateWebPageSchema(
+      'Custom Web Apps UK',
+      'Bespoke web applications built in Somerset for UK businesses. Quote calculators, client portals, booking systems & AI-powered tools. Solve real problems.',
+      PAGE_URL
+    ),
+    mainEntity: { '@id': `${PAGE_URL}/#service` },
+  };
+
   return (
     <>
-      <JsonLd schema={[breadcrumbSchema, serviceSchema, faqSchema]} />
+      <JsonLd schema={[webPageSchema, breadcrumbSchema, serviceSchema, faqSchema]} />
       {children}
     </>
   );

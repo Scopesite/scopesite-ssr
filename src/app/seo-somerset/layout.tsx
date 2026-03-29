@@ -54,7 +54,7 @@ const pageSchema = wrapInGraph([
       'SEO Somerset | AI-Powered Search Optimisation',
       'Somerset SEO services built for AI search visibility. V.O.I.C.E methodology gets your business found by ChatGPT, Perplexity, and Google.',
       faqs,
-      `${PAGE_URL}#service`
+      `${PAGE_URL}/#service`
     ),
     speakable: generateSpeakableSchema(['h1', 'section:first-of-type p:first-of-type']),
   },

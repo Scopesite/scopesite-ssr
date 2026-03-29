@@ -46,7 +46,8 @@ const pageSchema = wrapInGraph([
     'Web Design Westbury | Professional Websites for Wiltshire Businesses',
     'Web design for Westbury businesses with AI optimisation and local SEO.',
     faqs,
-    `${PAGE_URL}#service`
+    `${PAGE_URL}/#service`,
+    ['h1', '.hero-description', '.faq-answer', 'h2']
   ),
   generateLocalServiceSchema(
     'Web Design Westbury',

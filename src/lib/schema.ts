@@ -86,40 +86,126 @@ export function generateOrganizationSchema() {
     },
     areaServed: [
       {
+        '@type': 'GeoCircle',
+        geoMidpoint: {
+          '@type': 'GeoCoordinates',
+          latitude: 51.2672,
+          longitude: -2.2890,
+        },
+        geoRadius: '80000',
+      },
+      {
         '@type': 'Country',
         name: 'United Kingdom',
       },
       {
-        '@type': 'AdministrativeArea',
-        name: 'Somerset',
+        '@type': 'Country',
+        name: 'United States',
       },
     ],
     founder: {
-      '@type': 'Person',
-      '@id': `${BASE_URL}/#founder`,
-      name: 'Dan Cartwright',
-      url: `${BASE_URL}/about`,
-      jobTitle: 'Founder & Director',
-      description:
-        'British Army veteran and web design specialist with 6 years CAMHS experience',
-      sameAs: ['https://www.linkedin.com/in/scopesite'],
+      '@id': `${BASE_URL}/#dan-cartwright`,
     },
     foundingDate: '2024-12-01',
-    priceRange: '££',
+    priceRange: '££-£££',
     currenciesAccepted: 'GBP',
-    paymentAccepted: 'Credit Card, Bank Transfer, Payment Plans',
+    paymentAccepted: 'Bank Transfer, Credit Card',
     openingHoursSpecification: {
       '@type': 'OpeningHoursSpecification',
       dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
       opens: '09:00',
       closes: '17:00',
     },
+    contactPoint: [
+      {
+        '@type': 'ContactPoint',
+        contactType: 'customer service',
+        telephone: '+441373311339',
+        email: 'dan@scopesite.co.uk',
+        availableLanguage: ['en-GB', 'en-US'],
+        areaServed: [
+          { '@type': 'Country', name: 'United Kingdom' },
+          { '@type': 'Country', name: 'United States' },
+        ],
+      },
+    ],
     sameAs: [
       'https://www.linkedin.com/in/scopesite',
-      'https://www.linkedin.com/company/scopesite',
+      'https://www.linkedin.com/company/106028304',
       'https://www.facebook.com/scopesite',
       'https://www.instagram.com/aiseo_experts',
+      'https://x.com/DlgltaI',
       'https://find-and-update.company-information.service.gov.uk/company/16130355',
+      'https://www.google.com/maps/place/ScopeSite+Digital+Studios/@51.2672214,-2.2915633,17z',
+      'https://github.com/Scopesite/scopesite-ssr',
+      'https://github.com/Scopesite/voice',
+      'https://www.trustpilot.com/review/scopesite.co.uk',
+      'https://www.yell.com/biz/scopesite-digital-studios-beckington-11012422/',
+      'https://fromechamber.com/member/scopesite-ltd/',
+      'https://www.gov.uk/armed-forces-covenant-businesses/scopesite-digital-studios-scopesite-digital-ltd',
+      'https://www.approvedbusiness.co.uk/companies/scopesite-ltd',
+      'https://www.threads.com/@aiseo_experts',
+      'https://uk.pinterest.com/web_graphic_design',
+      'https://bsky.app/profile/webdesignsomerset.bsky.social',
+      'https://www.tiktok.com/@dan_the_webdesigner',
+      'https://frome.cylex-uk.co.uk/company/scopesite-digital-studios-28469047.html',
+      'https://diib.com/featuredmembers/scopesite-digital-studios/',
+      'https://www.hotfrog.co.uk/company/ef91c8e5a352cf95b1dd6f23891ed6b6/scopesite-digital-studios/frome/web-design',
+    ],
+    hasCertification: [
+      {
+        '@type': 'Certification',
+        name: 'Companies House Registration',
+        issuedBy: {
+          '@type': 'Organization',
+          name: 'Companies House',
+          url: 'https://www.gov.uk/government/organisations/companies-house',
+        },
+        certificationIdentification: '16130355',
+        url: 'https://find-and-update.company-information.service.gov.uk/company/16130355',
+      },
+      {
+        '@type': 'Certification',
+        name: 'ICO Data Protection Registration',
+        issuedBy: {
+          '@type': 'Organization',
+          name: "Information Commissioner's Office",
+          url: 'https://ico.org.uk',
+        },
+        certificationIdentification: 'ZC071472',
+        validFrom: '2025-12-23',
+        validThrough: '2026-12-22',
+      },
+      {
+        '@type': 'Certification',
+        name: 'Armed Forces Covenant Signatory',
+        issuedBy: {
+          '@type': 'GovernmentOrganization',
+          name: 'Ministry of Defence',
+          url: 'https://www.gov.uk/government/organisations/ministry-of-defence',
+        },
+        url: 'https://www.gov.uk/armed-forces-covenant-businesses/scopesite-digital-studios-scopesite-digital-ltd',
+      },
+    ],
+    publishingPrinciples: `${BASE_URL}/terms-and-conditions`,
+    correctionsPolicy: `${BASE_URL}/terms-and-conditions`,
+    brand: [
+      {
+        '@type': 'Brand',
+        '@id': `${BASE_URL}/#brand-scopesite`,
+        name: 'ScopeSite Digital Studios',
+        url: BASE_URL,
+        logo: { '@id': `${BASE_URL}/#logo` },
+      },
+      {
+        '@type': 'Brand',
+        '@id': `${BASE_URL}/#brand-voice`,
+        name: 'V.O.I.C.E. by ScopeSite',
+        slogan: 'Recommend Your Business',
+        url: `${BASE_URL}/voice`,
+        description:
+          "V.O.I.C.E. (Visibility, Optimisation, for Intelligent, Crawler, Engines) is ScopeSite Digital Studios' proprietary AI visibility methodology and scanning tool.",
+      },
     ],
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
@@ -210,6 +296,18 @@ export function generateOrganizationSchema() {
       'SEO',
     ],
     slogan: 'Making UK Businesses Visible to AI',
+    potentialAction: {
+      '@type': 'ScheduleAction',
+      name: 'Book a Strategy Call',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${BASE_URL}/book`,
+        actionPlatform: [
+          'http://schema.org/DesktopWebPlatform',
+          'http://schema.org/MobileWebPlatform',
+        ],
+      },
+    },
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '5',
@@ -219,6 +317,214 @@ export function generateOrganizationSchema() {
       reviewCount: '6',
     },
   };
+}
+
+// ============================================
+// FOUNDER PERSON SCHEMA
+// ============================================
+
+export function generateFounderPersonSchema() {
+  return {
+    '@type': 'Person',
+    '@id': `${BASE_URL}/#dan-cartwright`,
+    name: 'Dan Cartwright',
+    jobTitle: 'Founder & Director',
+    worksFor: { '@id': `${BASE_URL}/#organization` },
+    url: `${BASE_URL}/about`,
+    image: `${BASE_URL}/images/dan-headshot.webp`,
+    sameAs: [
+      'https://www.linkedin.com/in/scopesite',
+    ],
+    knowsAbout: [
+      'AI Visibility',
+      'Schema Markup',
+      'Server-Side Rendering',
+      'Next.js',
+      'Structured Data',
+      'Answer Engine Optimisation',
+      'Web Design',
+      'JSON-LD',
+      'Entity SEO',
+    ],
+    knowsLanguage: 'en-GB',
+    hasOccupation: {
+      '@type': 'Occupation',
+      name: 'Founder & Director, AI-First Web Design Agency',
+      occupationLocation: {
+        '@type': 'Country',
+        name: 'United Kingdom',
+      },
+      skills: 'AI Visibility, Schema Markup, SSR Web Design, Next.js, Structured Data, Entity SEO',
+    },
+    hasCredential: {
+      '@type': 'EducationalOccupationalCredential',
+      credentialCategory: 'Military Service',
+      description: 'British Army veteran, Royal Electrical and Mechanical Engineers (REME)',
+    },
+  };
+}
+
+// ============================================
+// V.O.I.C.E. DEFINED TERM SET SCHEMA
+// ============================================
+
+export function generateVOICEDefinedTermSetSchema() {
+  return {
+    '@type': 'DefinedTermSet',
+    '@id': `${BASE_URL}/#voice-methodology`,
+    name: 'V.O.I.C.E. Methodology',
+    description:
+      "V.O.I.C.E. (Visibility, Optimisation, for Intelligent, Crawler, Engines) is ScopeSite Digital Studios' proprietary framework for measuring and improving AI visibility.",
+    url: `${BASE_URL}/voice`,
+    creator: { '@id': `${BASE_URL}/#organization` },
+    hasDefinedTerm: [
+      {
+        '@type': 'DefinedTerm',
+        '@id': `${BASE_URL}/#voice-visibility`,
+        name: 'Visibility',
+        description: 'Measuring and improving how visible a business is to AI search engines and answer engines.',
+        inDefinedTermSet: { '@id': `${BASE_URL}/#voice-methodology` },
+      },
+      {
+        '@type': 'DefinedTerm',
+        '@id': `${BASE_URL}/#voice-optimisation`,
+        name: 'Optimisation',
+        description: 'Technical and content optimisation strategies that improve how AI systems interpret and recommend a business.',
+        inDefinedTermSet: { '@id': `${BASE_URL}/#voice-methodology` },
+      },
+      {
+        '@type': 'DefinedTerm',
+        '@id': `${BASE_URL}/#voice-intelligent`,
+        name: 'Intelligent',
+        description: 'Building intelligent, machine-readable content structures that AI systems can parse, trust, and cite.',
+        inDefinedTermSet: { '@id': `${BASE_URL}/#voice-methodology` },
+      },
+      {
+        '@type': 'DefinedTerm',
+        '@id': `${BASE_URL}/#voice-crawler`,
+        name: 'Crawler',
+        description: 'Ensuring AI crawlers (ChatGPT, Perplexity, Google AI, Claude) can access, read, and index website content.',
+        inDefinedTermSet: { '@id': `${BASE_URL}/#voice-methodology` },
+      },
+      {
+        '@type': 'DefinedTerm',
+        '@id': `${BASE_URL}/#voice-engines`,
+        name: 'Engines',
+        description: 'Targeting AI answer engines and large language models as distinct platforms from traditional search engines.',
+        inDefinedTermSet: { '@id': `${BASE_URL}/#voice-methodology` },
+      },
+    ],
+  };
+}
+
+// ============================================
+// BUSINESS AUDIENCE SCHEMA
+// ============================================
+
+export function generateBusinessAudienceSchema() {
+  return {
+    '@type': 'BusinessAudience',
+    '@id': `${BASE_URL}/#target-audience`,
+    audienceType: 'UK Small and Medium Enterprises',
+    geographicArea: {
+      '@type': 'Country',
+      name: 'United Kingdom',
+    },
+    numberOfEmployees: {
+      '@type': 'QuantitativeValue',
+      minValue: 1,
+      maxValue: 250,
+    },
+  };
+}
+
+// ============================================
+// V.O.I.C.E. SOFTWARE APPLICATION SCHEMA
+// ============================================
+
+export function generateVOICESoftwareApplicationSchema() {
+  return {
+    '@type': ['SoftwareApplication', 'WebApplication'],
+    '@id': `${BASE_URL}/#voice-scanner`,
+    name: 'V.O.I.C.E. AI Visibility Scanner',
+    description:
+      'AI visibility scoring tool that analyses websites across 7 categories (Schema, On-Page Structure, Performance, AI Crawler Access, Accessibility, Domain Authority, Entity Signals) using a deductive scoring model starting at 100.',
+    url: 'https://voice.scopesite.co.uk',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Web',
+    creator: { '@id': `${BASE_URL}/#organization` },
+    brand: { '@id': `${BASE_URL}/#brand-voice` },
+    about: { '@id': `${BASE_URL}/#voice-methodology` },
+    offers: [
+      {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'GBP',
+        name: 'Free AI Visibility Scan',
+        description: 'Instant AI visibility score across 7 categories',
+      },
+    ],
+    featureList:
+      'Schema markup scoring, On-page structure analysis, Performance analysis, AI crawler access detection, Accessibility scoring, Domain authority check, Entity signal analysis',
+    potentialAction: {
+      '@type': 'AssessAction',
+      name: 'Scan Website AI Visibility',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: 'https://voice.scopesite.co.uk',
+        actionPlatform: 'https://schema.org/DesktopWebPlatform',
+      },
+    },
+  };
+}
+
+// ============================================
+// ITEM LIST SCHEMA
+// ============================================
+
+export function generateItemListSchema(
+  id: string,
+  name: string,
+  items: Array<{ '@id'?: string; '@type'?: string | string[]; [key: string]: unknown }>
+) {
+  return {
+    '@type': 'ItemList',
+    '@id': id,
+    name,
+    numberOfItems: items.length,
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: item['@id'] ? { '@id': item['@id'] } : item,
+    })),
+  };
+}
+
+// ============================================
+// SERVICE CHANNELS SCHEMA
+// ============================================
+
+export function generateServiceChannels() {
+  return [
+    {
+      '@type': 'ServiceChannel',
+      name: 'Online Booking',
+      serviceUrl: `${BASE_URL}/book`,
+    },
+    {
+      '@type': 'ServiceChannel',
+      name: 'Project Brief',
+      serviceUrl: `${BASE_URL}/brief`,
+    },
+    {
+      '@type': 'ServiceChannel',
+      name: 'Phone Enquiry',
+      servicePhone: {
+        '@type': 'ContactPoint',
+        telephone: '+441373311339',
+      },
+    },
+  ];
 }
 
 // ============================================
@@ -281,9 +587,15 @@ export function generateServiceSchema(
   name: string,
   description: string,
   url: string,
-  additionalType?: string
+  additionalType?: string,
+  options?: {
+    isRelatedTo?: Array<{ '@id': string }>;
+    availableChannel?: Record<string, unknown>[];
+    potentialAction?: Record<string, unknown>;
+    audience?: { '@id': string };
+  }
 ) {
-  return {
+  const schema: Record<string, unknown> = {
     '@type': additionalType || 'Service',
     '@id': `${url}/#service`,
     name,
@@ -297,6 +609,21 @@ export function generateServiceSchema(
       name: 'United Kingdom',
     },
   };
+
+  if (options?.isRelatedTo) {
+    schema.isRelatedTo = options.isRelatedTo;
+  }
+  if (options?.availableChannel) {
+    schema.availableChannel = options.availableChannel;
+  }
+  if (options?.potentialAction) {
+    schema.potentialAction = options.potentialAction;
+  }
+  if (options?.audience) {
+    schema.audience = options.audience;
+  }
+
+  return schema;
 }
 
 // ============================================
@@ -674,7 +1001,7 @@ export function extractTopicsFromContent(
 // BLOG POSTING SCHEMA (Enhanced for GEO)
 // ============================================
 
-export function generateBlogPostingSchema(post: GhostPost, url: string) {
+export function generateBlogPostingSchema(post: GhostPost, url: string, citations?: Array<{ name: string; url: string }>) {
   // Extract keywords from tags
   const keywords = post.tags?.map(t => t.name) || [];
   
@@ -684,8 +1011,15 @@ export function generateBlogPostingSchema(post: GhostPost, url: string) {
   // Extract about topics (limited to primary + 3 tags)
   const aboutTopics = extractTopicsFromContent(post.tags, post.primary_tag);
 
+  // Multi-typing via tag mapping
+  const tagSlugs = new Set(post.tags?.map(t => t.slug.toLowerCase()) || []);
+  const types: string[] = ['BlogPosting'];
+  if (tagSlugs.has('guide')) types.push('Guide');
+  if (tagSlugs.has('tech-article')) types.push('TechArticle');
+  if (tagSlugs.has('learning-resource')) types.push('LearningResource');
+
   const schema: Record<string, unknown> = {
-    '@type': 'BlogPosting',
+    '@type': types.length === 1 ? types[0] : types,
     '@id': `${url}/#article`,
     headline: post.title,
     description: post.excerpt || post.custom_excerpt,
@@ -701,12 +1035,10 @@ export function generateBlogPostingSchema(post: GhostPost, url: string) {
       '@id': `${BASE_URL}/#organization`,
     },
     mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': url,
+      '@id': `${url}/#webpage`,
     },
-    // Author linked by @id to the founder defined in Organization schema
     author: {
-      '@id': `${BASE_URL}/#founder`,
+      '@id': `${BASE_URL}/#dan-cartwright`,
     },
   };
 
@@ -750,6 +1082,25 @@ export function generateBlogPostingSchema(post: GhostPost, url: string) {
     schema.timeRequired = `PT${post.reading_time}M`;
   }
 
+  // TechArticle-specific properties
+  if (tagSlugs.has('tech-article')) {
+    schema.proficiencyLevel = 'Beginner';
+  }
+
+  // LearningResource-specific properties
+  if (tagSlugs.has('learning-resource') && aboutTopics.length > 0) {
+    schema.teaches = aboutTopics[0];
+  }
+
+  // Citations for external source references
+  if (citations && citations.length > 0) {
+    schema.citation = citations.map(c => ({
+      '@type': 'CreativeWork',
+      name: c.name,
+      url: c.url,
+    }));
+  }
+
   return schema;
 }
 
@@ -767,7 +1118,7 @@ export function generateArticleSchema(post: GhostPost, url: string) {
     datePublished: post.published_at,
     dateModified: post.updated_at,
     author: {
-      '@id': `${BASE_URL}/#founder`,
+      '@id': `${BASE_URL}/#dan-cartwright`,
     },
     publisher: {
       '@id': `${BASE_URL}/#organization`,
@@ -1260,9 +1611,10 @@ export function generateWebPageFAQPageSchema(
   name: string,
   description: string,
   faqs: FAQItem[],
-  serviceId?: string
+  serviceId?: string,
+  speakableCssSelectors?: string[]
 ) {
-  return {
+  const schema: Record<string, unknown> = {
     '@type': ['WebPage', 'FAQPage'],
     '@id': url,
     url,
@@ -1281,6 +1633,12 @@ export function generateWebPageFAQPageSchema(
       },
     })),
   };
+
+  if (speakableCssSelectors && speakableCssSelectors.length > 0) {
+    schema.speakable = generateSpeakableSchema(speakableCssSelectors);
+  }
+
+  return schema;
 }
 
 // ============================================
@@ -1313,7 +1671,7 @@ export function generateLocalServiceSchema(
 ) {
   const schema: Record<string, unknown> = {
     '@type': 'Service',
-    '@id': `${url}#service`,
+    '@id': `${url}/#service`,
     name,
     alternateName: alternateNames,
     description,
@@ -1365,7 +1723,9 @@ export function generateLocalBusinessSchema(
     telephone: '+441373311339',
     email: 'support@scopesite.co.uk',
     url: BASE_URL,
-    priceRange: '££',
+    priceRange: '££-£££',
+    currenciesAccepted: 'GBP',
+    paymentAccepted: 'Bank Transfer, Credit Card',
     address: {
       '@type': 'PostalAddress',
       streetAddress: '4 Horse Close',
@@ -1406,7 +1766,9 @@ export function generateUSLocalBusinessSchema() {
     telephone: '+441373311339',
     email: 'dan@scopesite.co.uk',
     url: `${BASE_URL}/us`,
-    priceRange: '$$',
+    priceRange: '$$-$$$',
+    currenciesAccepted: 'USD',
+    paymentAccepted: 'Bank Transfer, Credit Card',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Frome',
@@ -1455,6 +1817,11 @@ export function generateLandingPageSchema(
     areaName: string;
     areas: AreaServedItem[];
     offers?: ServiceOffer[];
+  },
+  serviceOptions?: {
+    isRelatedTo?: Array<{ '@id': string }>;
+    availableChannel?: Record<string, unknown>[];
+    potentialAction?: Record<string, unknown>;
   }
 ) {
   const schemas: Record<string, unknown>[] = [];
@@ -1466,26 +1833,32 @@ export function generateLandingPageSchema(
       pageTitle,
       pageDescription,
       faqs,
-      `${url}#service`
+      `${url}/#service`
     )
   );
 
   // 2. Service schema (local or national)
+  const serviceExtras: Record<string, unknown> = {};
+  if (serviceOptions?.isRelatedTo) serviceExtras.isRelatedTo = serviceOptions.isRelatedTo;
+  if (serviceOptions?.availableChannel) serviceExtras.availableChannel = serviceOptions.availableChannel;
+  if (serviceOptions?.potentialAction) serviceExtras.potentialAction = serviceOptions.potentialAction;
+
   if (isLocal) {
-    schemas.push(
-      generateLocalServiceSchema(
+    schemas.push({
+      ...generateLocalServiceSchema(
         service.name,
         service.alternateNames || [],
         service.description,
         url,
         isLocal.areas,
         isLocal.offers
-      )
-    );
+      ),
+      ...serviceExtras,
+    });
   } else {
     schemas.push({
       '@type': 'Service',
-      '@id': `${url}#service`,
+      '@id': `${url}/#service`,
       name: service.name,
       alternateName: service.alternateNames || [],
       description: service.description,
@@ -1495,6 +1868,7 @@ export function generateLandingPageSchema(
         '@type': 'Country',
         name: 'United Kingdom',
       },
+      ...serviceExtras,
     });
   }
 

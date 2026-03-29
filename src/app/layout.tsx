@@ -6,7 +6,14 @@ import { Footer } from '@/components/layout/Footer';
 import { FooterVisibility } from '@/components/layout/FooterVisibility';
 import { JsonLd } from '@/components/JsonLd';
 import { SkipLink, RouteAnnouncer } from '@/components/a11y';
-import { generateOrganizationSchema, generateWebsiteSchema } from '@/lib/schema';
+import {
+  generateOrganizationSchema,
+  generateWebsiteSchema,
+  generateFounderPersonSchema,
+  generateVOICEDefinedTermSetSchema,
+  generateBusinessAudienceSchema,
+  generateScheduleActionSchema,
+} from '@/lib/schema';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
@@ -124,13 +131,17 @@ export default function RootLayout({
 }>) {
   const organizationSchema = generateOrganizationSchema();
   const websiteSchema = generateWebsiteSchema();
+  const founderSchema = generateFounderPersonSchema();
+  const voiceTermSetSchema = generateVOICEDefinedTermSetSchema();
+  const audienceSchema = generateBusinessAudienceSchema();
+  const scheduleActionSchema = generateScheduleActionSchema();
 
   return (
     <html lang="en-GB">
       <head>
         <meta name="color-scheme" content="light" />
         <meta name="supported-color-schemes" content="light" />
-        <JsonLd schema={[organizationSchema, websiteSchema]} />
+        <JsonLd schema={[organizationSchema, websiteSchema, founderSchema, voiceTermSetSchema, audienceSchema, scheduleActionSchema]} />
       </head>
       <body
         className={`${paytoneOne.variable} ${inter.variable} font-body`}

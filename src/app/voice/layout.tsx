@@ -7,6 +7,9 @@ import {
   generateHowToSchema,
   generateSpeakableSchema,
   generateImageObjectSchema,
+  generateWebPageSchema,
+  generateVOICESoftwareApplicationSchema,
+  generateServiceChannels,
 } from '@/lib/schema';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -116,7 +119,15 @@ export default function VoiceLayout({
     ...generateServiceSchema(
       'V.O.I.C.E™ AI Visibility Optimization',
       'Proprietary methodology for optimising websites to be visible and recommended by AI search engines including ChatGPT, Perplexity, Gemini, and Claude. Created by Dan Cartwright at ScopeSite Digital Studios.',
-      PAGE_URL
+      PAGE_URL,
+      undefined,
+      {
+        isRelatedTo: [
+          { '@id': `${BASE_URL}/ai-seo-services/#service` },
+          { '@id': `${BASE_URL}/schema-markup/#service` },
+        ],
+        availableChannel: generateServiceChannels(),
+      }
     ),
     speakable: generateSpeakableSchema(['h1', '#voice-definition', '.voice-definition']),
   };
@@ -137,9 +148,20 @@ export default function VoiceLayout({
     height: 120,
   });
 
+  const webPageSchema = {
+    ...generateWebPageSchema(
+      'AI Visibility | V.O.I.C.E™',
+      'Get your business recommended by ChatGPT, Claude & Perplexity. Our V.O.I.C.E™ methodology makes you visible to AI search. Free AI visibility score.',
+      PAGE_URL
+    ),
+    mainEntity: { '@id': `${BASE_URL}/#voice-scanner` },
+  };
+
+  const softwareAppSchema = generateVOICESoftwareApplicationSchema();
+
   return (
     <>
-      <JsonLd schema={[breadcrumbSchema, serviceSchema, howToSchema, faqSchema, voiceLogoSchema]} />
+      <JsonLd schema={[webPageSchema, breadcrumbSchema, serviceSchema, softwareAppSchema, howToSchema, faqSchema, voiceLogoSchema]} />
       {children}
     </>
   );

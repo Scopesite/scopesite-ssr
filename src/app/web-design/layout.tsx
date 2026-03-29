@@ -4,6 +4,8 @@ import {
   generateBreadcrumbSchema,
   generateProfessionalServiceSchema,
   generateFAQSchema,
+  generateWebPageSchema,
+  generateServiceChannels,
 } from '@/lib/schema';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -150,12 +152,19 @@ export default function WebDesignLayout({
     { name: 'SSR Web Design', url: PAGE_URL },
   ]);
 
-  const serviceSchema = generateProfessionalServiceSchema(
-    'SSR Web Design - Server-Side Rendered Websites',
-    'Professional SSR web design services using Next.js and Vercel. Server-side rendered websites optimized for both traditional search engines and AI assistants like ChatGPT, Claude, and Perplexity. 100/100 Lighthouse scores, auto-generated schema, mobile-first design.',
-    PAGE_URL,
-    serviceOfferings
-  );
+  const serviceSchema = {
+    ...generateProfessionalServiceSchema(
+      'SSR Web Design - Server-Side Rendered Websites',
+      'Professional SSR web design services using Next.js and Vercel. Server-side rendered websites optimized for both traditional search engines and AI assistants like ChatGPT, Claude, and Perplexity. 100/100 Lighthouse scores, auto-generated schema, mobile-first design.',
+      PAGE_URL,
+      serviceOfferings
+    ),
+    isRelatedTo: [
+      { '@id': `${BASE_URL}/ai-seo-services/#service` },
+      { '@id': `${BASE_URL}/schema-markup/#service` },
+    ],
+    availableChannel: generateServiceChannels(),
+  };
 
   const faqSchema = generateFAQSchema(faqItems);
 
@@ -187,9 +196,18 @@ export default function WebDesignLayout({
     ],
   };
 
+  const webPageSchema = {
+    ...generateWebPageSchema(
+      'Web Design Somerset | SSR Websites',
+      'Professional web design in Somerset. Server-side rendered sites AI crawlers can see. 100/100 Lighthouse scores, auto-generated schema. Next.js experts.',
+      PAGE_URL
+    ),
+    mainEntity: { '@id': `${PAGE_URL}/#service` },
+  };
+
   return (
     <>
-      <JsonLd schema={[breadcrumbSchema, serviceSchema, faqSchema, speedTestSchema]} />
+      <JsonLd schema={[webPageSchema, breadcrumbSchema, serviceSchema, faqSchema, speedTestSchema]} />
       {children}
     </>
   );

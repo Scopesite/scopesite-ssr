@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { generateLandingPageSchema, type FAQItem } from '@/lib/schema';
+import { generateLandingPageSchema, generateServiceChannels, type FAQItem } from '@/lib/schema';
 import { JsonLd } from '@/components/JsonLd';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -105,6 +105,14 @@ const pageSchema = generateLandingPageSchema(
     name: 'Schema Markup Services',
     alternateNames: ['Structured Data Services', 'JSON-LD Implementation', 'Schema Markup Implementation'],
     description: 'Professional schema markup implementation service with 100% validation guarantee. Hand-coded JSON-LD structured data for AI visibility and rich results.',
+  },
+  undefined,
+  {
+    isRelatedTo: [
+      { '@id': `${BASE_URL}/web-design/#service` },
+      { '@id': `${BASE_URL}/ai-seo-services/#service` },
+    ],
+    availableChannel: generateServiceChannels(),
   }
 );
 

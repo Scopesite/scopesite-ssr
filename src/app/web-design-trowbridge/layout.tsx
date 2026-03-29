@@ -46,7 +46,8 @@ const pageSchema = wrapInGraph([
     'Web Design Trowbridge | Modern Websites Built Near You',
     'Web design for Trowbridge businesses. AI-optimised websites built by ScopeSite, just 12 miles away in Frome.',
     faqs,
-    `${PAGE_URL}#service`
+    `${PAGE_URL}/#service`,
+    ['h1', '.hero-description', '.faq-answer', 'h2']
   ),
   generateLocalServiceSchema(
     'Web Design Trowbridge',

@@ -59,7 +59,7 @@ const pageSchema = wrapInGraph([
       'Web Design Bristol | AI-First SSR Websites',
       'Bristol web design that gets your business recommended by ChatGPT and Google. 100/100 Lighthouse scores, SSR builds, fair pricing.',
       faqs,
-      `${PAGE_URL}#service`
+      `${PAGE_URL}/#service`
     ),
     speakable: generateSpeakableSchema(['h1', 'section:first-of-type p:first-of-type']),
   },

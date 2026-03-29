@@ -7,6 +7,7 @@ import {
   generateBreadcrumbSchema,
   generateBlogSchema,
   generateCollectionPageSchema,
+  generateItemListSchema,
 } from '@/lib/schema';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -60,10 +61,21 @@ export default async function BlogPage() {
     'ScopeSite Blog - AI Visibility & Web Design Insights'
   );
 
+  const blogPostListSchema = generateItemListSchema(
+    `${PAGE_URL}/#post-list`,
+    'ScopeSite Blog Posts',
+    allPosts.map((post) => ({
+      '@type': 'BlogPosting' as const,
+      '@id': `${BASE_URL}/blog/${post.slug}/#article`,
+      headline: post.title,
+      url: `${BASE_URL}/blog/${post.slug}`,
+    }))
+  );
+
   return (
     <>
       {/* Page-specific structured data */}
-      <JsonLd schema={[breadcrumbSchema, blogSchema, collectionPageSchema]} />
+      <JsonLd schema={[breadcrumbSchema, blogSchema, collectionPageSchema, blogPostListSchema]} />
 
       {/* Hero Section */}
       <section className="bg-brand-navy text-white py-section">

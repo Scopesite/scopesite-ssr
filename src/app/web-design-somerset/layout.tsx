@@ -64,7 +64,7 @@ const pageSchema = wrapInGraph([
       'Web Design Somerset | AI-First Websites That Get Found',
       'Somerset web design agency building AI-optimised websites that get recommended by ChatGPT.',
       faqs,
-      `${PAGE_URL}#service`
+      `${PAGE_URL}/#service`
     ),
     speakable: generateSpeakableSchema(['h1', 'section:first-of-type p:first-of-type']),
   },

@@ -48,7 +48,7 @@ const pageSchema = wrapInGraph([
       'SEO Frome | Get Your Business Found on Google and AI',
       'SEO services based in Frome, Somerset. Local SEO and AI visibility for Frome businesses. V.O.I.C.E methodology.',
       faqs,
-      `${PAGE_URL}#service`
+      `${PAGE_URL}/#service`
     ),
     speakable: generateSpeakableSchema(['h1', 'section:first-of-type p:first-of-type']),
   },

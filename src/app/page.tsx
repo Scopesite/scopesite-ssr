@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { JsonLd } from '@/components/JsonLd';
-import { generateBreadcrumbSchema, generateReviewsSchema, generateSpeakableSchema, generateWebPageSchema, generateFAQSchema, generateImageObjectSchema, type FAQItem } from '@/lib/schema';
+import { generateBreadcrumbSchema, generateReviewsSchema, generateSpeakableSchema, generateWebPageSchema, generateFAQSchema, generateImageObjectSchema, generateItemListSchema, type FAQItem } from '@/lib/schema';
 import { ChevronDown } from 'lucide-react';
 import { HomeBelowFoldWrapper } from './HomeBelowFoldWrapper';
 
@@ -94,14 +94,11 @@ export default function Home() {
   const homeServiceSchemas = [
     {
       '@type': 'Service',
+      '@id': `${BASE_URL}/web-design/#service`,
       serviceType: 'AI-Visible Web Design',
       name: 'Web Design by ScopeSite',
       description: 'Server-side rendered websites built for AI visibility. Includes JSON-LD schema markup, 100/100 Lighthouse scores, and optimisation for ChatGPT, Claude, and Gemini.',
-      provider: {
-        '@type': 'Organization',
-        name: 'ScopeSite Digital Studios',
-        url: BASE_URL,
-      },
+      provider: { '@id': `${BASE_URL}/#organization` },
       areaServed: {
         '@type': 'Place',
         name: 'Somerset, United Kingdom',
@@ -110,14 +107,11 @@ export default function Home() {
     },
     {
       '@type': 'Service',
+      '@id': `${BASE_URL}/voice/#service`,
       serviceType: 'AI Visibility Optimisation',
       name: 'V.O.I.C.E. by ScopeSite',
       description: 'AI visibility audits and optimisation using the V.O.I.C.E. methodology. Schema validation, Core Web Vitals analysis, AI crawler access checks, and implementation support from £0.58 per scan.',
-      provider: {
-        '@type': 'Organization',
-        name: 'ScopeSite Digital Studios',
-        url: BASE_URL,
-      },
+      provider: { '@id': `${BASE_URL}/#organization` },
       areaServed: {
         '@type': 'Place',
         name: 'United Kingdom',
@@ -126,14 +120,11 @@ export default function Home() {
     },
     {
       '@type': 'Service',
+      '@id': `${BASE_URL}/web-apps/#service`,
       serviceType: 'Custom Web Application Development',
       name: 'Custom Web Apps by ScopeSite',
       description: 'Bespoke tools and web applications built to automate business workflows. Built with modern frameworks and server-side rendering.',
-      provider: {
-        '@type': 'Organization',
-        name: 'ScopeSite Digital Studios',
-        url: BASE_URL,
-      },
+      provider: { '@id': `${BASE_URL}/#organization` },
       areaServed: {
         '@type': 'Place',
         name: 'United Kingdom',
@@ -142,9 +133,15 @@ export default function Home() {
     },
   ];
 
+  const coreServicesListSchema = generateItemListSchema(
+    `${BASE_URL}/#core-services`,
+    'ScopeSite Core Services',
+    homeServiceSchemas
+  );
+
   return (
     <>
-      <JsonLd schema={[breadcrumbSchema, homePageSchema, faqSchema, heroImageSchema, ...reviewSchemas, ...homeServiceSchemas]} />
+      <JsonLd schema={[breadcrumbSchema, homePageSchema, faqSchema, heroImageSchema, coreServicesListSchema, ...reviewSchemas, ...homeServiceSchemas]} />
 
       {/* Hero Section - Server Rendered for fast LCP */}
       <section className="bg-brand-navy text-white min-h-[80vh] overflow-hidden">

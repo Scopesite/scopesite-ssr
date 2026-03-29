@@ -46,7 +46,8 @@ const pageSchema = wrapInGraph([
     'Web Design Burnham-on-Sea | AI-First Websites',
     'Burnham-on-Sea web design for tourism, hospitality, and local businesses.',
     faqs,
-    `${PAGE_URL}#service`
+    `${PAGE_URL}/#service`,
+    ['h1', '.hero-description', '.faq-answer', 'h2']
   ),
   generateLocalServiceSchema(
     'Web Design Burnham-on-Sea',

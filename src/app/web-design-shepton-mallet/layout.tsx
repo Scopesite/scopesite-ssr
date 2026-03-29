@@ -46,7 +46,8 @@ const pageSchema = wrapInGraph([
     'Web Design Shepton Mallet | AI-Ready Websites for Local Businesses',
     'Web design for Shepton Mallet businesses with AI optimisation and local SEO.',
     faqs,
-    `${PAGE_URL}#service`
+    `${PAGE_URL}/#service`,
+    ['h1', '.hero-description', '.faq-answer', 'h2']
   ),
   generateLocalServiceSchema(
     'Web Design Shepton Mallet',

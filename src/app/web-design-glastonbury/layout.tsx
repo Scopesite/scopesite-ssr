@@ -46,7 +46,8 @@ const pageSchema = wrapInGraph([
     'Web Design Glastonbury | AI-First Websites',
     'Glastonbury web design for independent businesses, tourism operators, and creative studios.',
     faqs,
-    `${PAGE_URL}#service`
+    `${PAGE_URL}/#service`,
+    ['h1', '.hero-description', '.faq-answer', 'h2']
   ),
   generateLocalServiceSchema(
     'Web Design Glastonbury',

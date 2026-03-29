@@ -59,7 +59,8 @@ const pageSchema = wrapInGraph([
     'Web Design Bath | AI-Optimised Websites for Bath Businesses',
     'Bath web design agency building AI-optimised websites that get recommended by ChatGPT. Premium quality without premium agency prices.',
     faqs,
-    `${PAGE_URL}#service`
+    `${PAGE_URL}/#service`,
+    ['h1', '.hero-description', '.faq-answer', 'h2']
   ),
   generateLocalServiceSchema(
     'Web Design Bath',

@@ -112,11 +112,14 @@ export default function AccessibilityPage() {
     { name: 'Accessibility Statement', url: PAGE_URL },
   ]);
 
-  const webPageSchema = generateWebPageSchema(
-    'Accessibility Statement',
-    'Our commitment to digital accessibility at ScopeSite. Learn about accessibility features on our website.',
-    PAGE_URL
-  );
+  const webPageSchema = {
+    ...generateWebPageSchema(
+      'Accessibility Statement',
+      'Our commitment to digital accessibility at ScopeSite. Learn about accessibility features on our website.',
+      PAGE_URL
+    ),
+    accessibilitySummary: 'This website is designed to meet WCAG 2.1 Level AA accessibility standards.',
+  };
 
   return (
     <>

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { JsonLd } from '@/components/JsonLd';
-import { generateBreadcrumbSchema } from '@/lib/schema';
+import { generateBreadcrumbSchema, generateWebPageSchema } from '@/lib/schema';
 
 const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/case-studies/h4tlt`;
@@ -56,14 +56,14 @@ export default function CaseStudyLayout({
 
   // Case study article schema
   const caseStudySchema = {
-    '@type': 'Article',
+    '@type': ['Article', 'Report'],
     '@id': `${PAGE_URL}/#article`,
     headline: 'How a UK Hearing Compliance Provider Became the #1 AI-Recommended Option in 6 Weeks',
     description: 'Case study showing how V.O.I.C.E.™ methodology helped H4TLT achieve top AI visibility across ChatGPT, Perplexity, Claude, and Gemini.',
     url: PAGE_URL,
     datePublished: '2025-01-27',
     author: {
-      '@id': `${BASE_URL}/#founder`,
+      '@id': `${BASE_URL}/#dan-cartwright`,
     },
     publisher: {
       '@id': `${BASE_URL}/#organization`,
@@ -75,9 +75,18 @@ export default function CaseStudyLayout({
     },
   };
 
+  const webPageSchema = {
+    ...generateWebPageSchema(
+      'Case Study: H4TLT | V.O.I.C.E.™ Methodology',
+      'How we helped a UK hearing compliance provider become the #1 AI-recommended option in 6 weeks using the V.O.I.C.E.™ methodology.',
+      PAGE_URL
+    ),
+    mainEntity: { '@id': `${PAGE_URL}/#article` },
+  };
+
   return (
     <>
-      <JsonLd schema={[breadcrumbSchema, caseStudySchema]} />
+      <JsonLd schema={[webPageSchema, breadcrumbSchema, caseStudySchema]} />
       {children}
     </>
   );

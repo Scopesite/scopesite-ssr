@@ -48,7 +48,7 @@ const pageSchema = wrapInGraph([
       'Web Design Frome | AI-First Websites for Local Businesses',
       'Web design agency based in Frome, Somerset. AI-optimised websites with 100/100 Lighthouse scores.',
       faqs,
-      `${PAGE_URL}#service`
+      `${PAGE_URL}/#service`
     ),
     speakable: generateSpeakableSchema(['h1', 'section:first-of-type p:first-of-type']),
   },

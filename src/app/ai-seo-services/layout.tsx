@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { generateLandingPageSchema, type FAQItem } from '@/lib/schema';
+import { generateLandingPageSchema, generateServiceChannels, type FAQItem } from '@/lib/schema';
 import { JsonLd } from '@/components/JsonLd';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -117,6 +117,14 @@ const pageSchema = generateLandingPageSchema(
     name: 'AI SEO Services',
     alternateNames: ['AI Search Optimisation', 'ChatGPT SEO', 'AI SEO Agency', 'Artificial Intelligence SEO'],
     description: 'AI SEO services that get your business recommended by ChatGPT, Perplexity, and voice assistants using the V.O.I.C.E™ methodology.',
+  },
+  undefined,
+  {
+    isRelatedTo: [
+      { '@id': `${BASE_URL}/schema-markup/#service` },
+      { '@id': `${BASE_URL}/web-design/#service` },
+    ],
+    availableChannel: generateServiceChannels(),
   }
 );
 

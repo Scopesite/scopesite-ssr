@@ -4,6 +4,7 @@ import {
   generateOfferSchema,
   generateUSLocalBusinessSchema,
   generateBreadcrumbSchema,
+  generateItemListSchema,
   wrapInGraph,
   type FAQItem,
 } from '@/lib/schema';
@@ -100,8 +101,15 @@ const breadcrumbSchema = generateBreadcrumbSchema([
   { name: 'Pricing', url: PAGE_URL },
 ]);
 
+const usOfferListSchema = generateItemListSchema(
+  `${PAGE_URL}/#offer-list`,
+  'ScopeSite US Pricing Packages',
+  [auditOffer, websiteOffer, retainerOffer]
+);
+
 const pageSchema = wrapInGraph([
   webPageFAQSchema,
+  usOfferListSchema,
   auditOffer,
   websiteOffer,
   retainerOffer,

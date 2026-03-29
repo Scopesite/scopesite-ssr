@@ -77,7 +77,7 @@ const webPageSchema = {
     'Is Your Business Visible to AI? Check for Free',
     'AI visibility scanner for US businesses. Check if ChatGPT, Perplexity, and Claude can find and recommend your business.',
     faqs,
-    `${PAGE_URL}#service`
+    `${PAGE_URL}/#service`
   ),
   speakable: generateSpeakableSchema(['h1', 'section:first-of-type p:first-of-type']),
 };

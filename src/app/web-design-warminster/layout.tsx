@@ -46,7 +46,8 @@ const pageSchema = wrapInGraph([
     'Web Design Warminster | Websites Built for AI Visibility',
     'Web design for Warminster businesses. AI-optimised websites by ScopeSite, based 20 minutes away in Frome.',
     faqs,
-    `${PAGE_URL}#service`
+    `${PAGE_URL}/#service`,
+    ['h1', '.hero-description', '.faq-answer', 'h2']
   ),
   generateLocalServiceSchema(
     'Web Design Warminster',
