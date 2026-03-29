@@ -173,8 +173,7 @@ export function generateOrganizationSchema() {
           url: 'https://ico.org.uk',
         },
         certificationIdentification: 'ZC071472',
-        validFrom: '2025-12-23',
-        validThrough: '2026-12-22',
+        expires: '2026-12-22',
       },
       {
         '@type': 'Certification',
@@ -213,8 +212,13 @@ export function generateOrganizationSchema() {
       itemListElement: [
         {
           '@type': 'Offer',
-          priceRange: '£2,625 - £9,375+',
           priceCurrency: 'GBP',
+          priceSpecification: {
+            '@type': 'PriceSpecification',
+            minPrice: '2625',
+            maxPrice: '9375',
+            priceCurrency: 'GBP',
+          },
           availability: 'https://schema.org/InStock',
           url: `${BASE_URL}/pricing`,
           description: 'AI-visible website design packages including schema markup, SSR, and 100/100 Lighthouse scores.',
@@ -260,8 +264,12 @@ export function generateOrganizationSchema() {
         },
         {
           '@type': 'Offer',
-          priceRange: 'From £5,000',
           priceCurrency: 'GBP',
+          priceSpecification: {
+            '@type': 'PriceSpecification',
+            minPrice: '5000',
+            priceCurrency: 'GBP',
+          },
           availability: 'https://schema.org/InStock',
           url: `${BASE_URL}/web-apps`,
           description: 'Bespoke web applications and automation tools.',
@@ -444,7 +452,7 @@ export function generateBusinessAudienceSchema() {
 
 export function generateVOICESoftwareApplicationSchema() {
   return {
-    '@type': ['SoftwareApplication', 'WebApplication'],
+    '@type': 'SoftwareApplication',
     '@id': `${BASE_URL}/#voice-scanner`,
     name: 'V.O.I.C.E. AI Visibility Scanner',
     description:
@@ -455,6 +463,7 @@ export function generateVOICESoftwareApplicationSchema() {
     creator: { '@id': `${BASE_URL}/#organization` },
     brand: { '@id': `${BASE_URL}/#brand-voice` },
     about: { '@id': `${BASE_URL}/#voice-methodology` },
+    isRelatedTo: { '@id': `${BASE_URL}/voice/#service` },
     offers: [
       {
         '@type': 'Offer',
