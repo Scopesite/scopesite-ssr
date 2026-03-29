@@ -461,9 +461,7 @@ export function generateVOICESoftwareApplicationSchema() {
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
     creator: { '@id': `${BASE_URL}/#organization` },
-    brand: { '@id': `${BASE_URL}/#brand-voice` },
     about: { '@id': `${BASE_URL}/#voice-methodology` },
-    isRelatedTo: { '@id': `${BASE_URL}/voice/#service` },
     offers: [
       {
         '@type': 'Offer',

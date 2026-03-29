@@ -130,7 +130,6 @@ export default function VoiceLayout({
       { '@id': `${BASE_URL}/schema-markup/#service` },
       { '@id': `${BASE_URL}/#voice-scanner` },
     ],
-    speakable: generateSpeakableSchema(['h1', '#voice-definition', '.voice-definition']),
   };
 
   const faqSchema = generateFAQSchema(faqItems);
@@ -156,6 +155,7 @@ export default function VoiceLayout({
       PAGE_URL
     ),
     mainEntity: { '@id': `${BASE_URL}/#voice-scanner` },
+    speakable: generateSpeakableSchema(['h1', '#voice-definition', '.voice-definition']),
   };
 
   const softwareAppSchema = generateVOICESoftwareApplicationSchema();
