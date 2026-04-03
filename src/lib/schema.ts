@@ -136,6 +136,7 @@ export function generateOrganizationSchema() {
       'https://www.instagram.com/aiseo_experts',
       'https://x.com/DlgltaI',
       'https://find-and-update.company-information.service.gov.uk/company/16130355',
+      'https://www.wikidata.org/wiki/Q138866631',
       'https://www.google.com/maps/place/ScopeSite+Digital+Studios/@51.2672214,-2.2915633,17z',
       'https://github.com/Scopesite/scopesite-ssr',
       'https://github.com/Scopesite/voice',
