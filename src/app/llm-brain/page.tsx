@@ -132,6 +132,81 @@ export default function LlmBrainPage() {
     }
   }
 
+  function renderPricingCards() {
+    return (
+      <>
+        <div className="grid md:grid-cols-2 gap-8">
+          <div className="rounded-2xl border-2 border-brand-navy/15 bg-white p-8 shadow-sm flex flex-col">
+            <div className="flex items-center gap-2 text-brand-navy mb-4">
+              <PoundSterling className="w-6 h-6" aria-hidden />
+              <span className="font-bold text-lg">Done-for-you setup</span>
+            </div>
+            <p className="text-brand-navy font-headline text-4xl mb-2">£250</p>
+            <p className="text-muted text-sm mb-6">One-time. We build it, configure it, seed it, hand it over.</p>
+            <ul className="text-brand-navy/80 text-sm space-y-2 mb-8 flex-1 list-disc pl-5">
+              <li>Initial setup and configuration</li>
+              <li>Data seeding from what you give us</li>
+              <li>Claude MCP connection</li>
+              <li>ChatGPT bridge (Make.com)</li>
+              <li>Thirty-minute onboarding call</li>
+            </ul>
+            <button
+              onClick={() => handleCheckout('setup')}
+              disabled={loadingPlan !== null}
+              className="btn-primary w-full text-center inline-flex items-center justify-center gap-2"
+            >
+              {loadingPlan === 'setup' ? (
+                <Loader2 className="w-5 h-5 animate-spin" aria-hidden />
+              ) : null}
+              {loadingPlan === 'setup' ? 'Redirecting...' : 'Buy Setup, £250'}
+            </button>
+          </div>
+          <div className="rounded-2xl border-2 border-brand-gold/40 bg-white p-8 shadow-sm flex flex-col ring-2 ring-brand-gold/20">
+            <div className="flex items-center gap-2 text-brand-navy mb-4">
+              <Clock className="w-6 h-6" aria-hidden />
+              <span className="font-bold text-lg">Managed service</span>
+            </div>
+            <p className="text-brand-navy font-headline text-4xl mb-2">£85</p>
+            <p className="text-muted text-sm mb-1">per month</p>
+            <p className="text-muted text-sm mb-6">Hosted, maintained, updates and backups handled by us.</p>
+            <ul className="text-brand-navy/80 text-sm space-y-2 mb-8 flex-1 list-disc pl-5">
+              <li>Everything in the setup package</li>
+              <li>Ongoing hosting and health checks</li>
+              <li>We handle updates and backups</li>
+              <li>Support when you need a hand</li>
+            </ul>
+            <button
+              onClick={() => handleCheckout('managed')}
+              disabled={loadingPlan !== null}
+              className="btn-primary w-full text-center inline-flex items-center justify-center gap-2"
+            >
+              {loadingPlan === 'managed' ? (
+                <Loader2 className="w-5 h-5 animate-spin" aria-hidden />
+              ) : null}
+              {loadingPlan === 'managed' ? 'Redirecting...' : 'Subscribe, £85/mo'}
+            </button>
+          </div>
+        </div>
+        <p className="text-center text-muted text-sm mt-8">
+          Both options include initial setup, data seeding, Claude MCP, ChatGPT bridge, and your
+          onboarding call.
+        </p>
+        <p className="text-center text-brand-navy/50 text-xs mt-4">
+          Follow us on{' '}
+          <a
+            href="https://www.linkedin.com/in/scopesite"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline hover:text-brand-gold-accessible"
+          >
+            LinkedIn
+          </a>{' '}
+          for exclusive launch pricing.
+        </p>
+      </>
+    );
+  }
+
   return (
     <>
       {/* 1. Hero */}
@@ -217,7 +292,7 @@ export default function LlmBrainPage() {
         </div>
       </section>
 
-      {/* 3. Pricing (moved up) */}
+      {/* 3. Pricing (early) */}
       <section className="section-white" aria-labelledby="pricing-heading">
         <div className="container-content max-w-5xl mx-auto">
           <h2 id="pricing-heading" className="text-brand-navy text-2xl sm:text-3xl font-bold mb-4 text-center">
@@ -226,78 +301,11 @@ export default function LlmBrainPage() {
           <p className="text-muted text-center mb-12 max-w-2xl mx-auto">
             Two simple options. Same outcome: a brain that survives the close button.
           </p>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="rounded-2xl border-2 border-brand-navy/15 bg-white p-8 shadow-sm flex flex-col">
-              <div className="flex items-center gap-2 text-brand-navy mb-4">
-                <PoundSterling className="w-6 h-6" aria-hidden />
-                <span className="font-bold text-lg">Done-for-you setup</span>
-              </div>
-              <p className="text-brand-navy font-headline text-4xl mb-2">£250</p>
-              <p className="text-muted text-sm mb-6">One-time. We build it, configure it, seed it, hand it over.</p>
-              <ul className="text-brand-navy/80 text-sm space-y-2 mb-8 flex-1 list-disc pl-5">
-                <li>Initial setup and configuration</li>
-                <li>Data seeding from what you give us</li>
-                <li>Claude MCP connection</li>
-                <li>ChatGPT bridge (Make.com)</li>
-                <li>Thirty-minute onboarding call</li>
-              </ul>
-              <button
-                onClick={() => handleCheckout('setup')}
-                disabled={loadingPlan !== null}
-                className="btn-primary w-full text-center inline-flex items-center justify-center gap-2"
-              >
-                {loadingPlan === 'setup' ? (
-                  <Loader2 className="w-5 h-5 animate-spin" aria-hidden />
-                ) : null}
-                {loadingPlan === 'setup' ? 'Redirecting...' : 'Buy Setup, £250'}
-              </button>
-            </div>
-            <div className="rounded-2xl border-2 border-brand-gold/40 bg-brand-navy/5 p-8 shadow-sm flex flex-col ring-2 ring-brand-gold/20">
-              <div className="flex items-center gap-2 text-brand-navy mb-4">
-                <Clock className="w-6 h-6" aria-hidden />
-                <span className="font-bold text-lg">Managed service</span>
-              </div>
-              <p className="text-brand-navy font-headline text-4xl mb-2">£85</p>
-              <p className="text-muted text-sm mb-1">per month</p>
-              <p className="text-muted text-sm mb-6">Hosted, maintained, updates and backups handled by us.</p>
-              <ul className="text-brand-navy/80 text-sm space-y-2 mb-8 flex-1 list-disc pl-5">
-                <li>Everything in the setup package</li>
-                <li>Ongoing hosting and health checks</li>
-                <li>We handle updates and backups</li>
-                <li>Support when you need a hand</li>
-              </ul>
-              <button
-                onClick={() => handleCheckout('managed')}
-                disabled={loadingPlan !== null}
-                className="btn-primary w-full text-center inline-flex items-center justify-center gap-2"
-              >
-                {loadingPlan === 'managed' ? (
-                  <Loader2 className="w-5 h-5 animate-spin" aria-hidden />
-                ) : null}
-                {loadingPlan === 'managed' ? 'Redirecting...' : 'Subscribe, £85/mo'}
-              </button>
-            </div>
-          </div>
-          <p className="text-center text-muted text-sm mt-8">
-            Both options include initial setup, data seeding, Claude MCP, ChatGPT bridge, and your
-            onboarding call.
-          </p>
-          <p className="text-center text-brand-navy/50 text-xs mt-4">
-            Follow us on{' '}
-            <a
-              href="https://www.linkedin.com/in/scopesite"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline hover:text-brand-gold-accessible"
-            >
-              LinkedIn
-            </a>{' '}
-            for exclusive launch pricing.
-          </p>
+          {renderPricingCards()}
         </div>
       </section>
 
-      {/* 4. What Happens Next (moved up) */}
+      {/* 4. What Happens Next */}
       <section className="bg-brand-navy/5 py-section border-y border-brand-navy/10" aria-labelledby="next-steps-heading">
         <div className="container-content max-w-4xl mx-auto">
           <h2 id="next-steps-heading" className="text-brand-navy text-2xl sm:text-3xl font-bold mb-10 text-center">
@@ -375,7 +383,7 @@ export default function LlmBrainPage() {
         </div>
       </section>
 
-      {/* 6. What It Stores */}
+      {/* 6. What It Stores (white) */}
       <section className="section-white relative overflow-hidden" aria-labelledby="stores-heading">
         <div className="absolute inset-0 opacity-[0.03] bg-grid" aria-hidden />
         <div className="container-content relative z-10">
@@ -400,69 +408,82 @@ export default function LlmBrainPage() {
         </div>
       </section>
 
-      {/* 7. Cross-Platform */}
-      <section className="bg-brand-navy/5 py-section border-y border-brand-navy/10">
+      {/* 7. Cross-Platform (navy) */}
+      <section className="bg-brand-navy py-section">
         <div className="container-content max-w-4xl mx-auto">
-          <h2 className="text-brand-navy text-2xl sm:text-3xl font-bold mb-8 text-center">
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-8 text-center">
             Works with Claude and ChatGPT
           </h2>
           <div className="grid md:grid-cols-2 gap-8 mb-10">
-            <div className="bg-white rounded-2xl p-8 border border-brand-navy/10 shadow-sm">
+            <div className="bg-white/10 rounded-2xl p-8 border border-white/10">
               <div className="flex items-center gap-3 mb-4">
-                <Bot className="w-8 h-8 text-brand-navy" aria-hidden />
-                <h3 className="text-brand-navy text-xl font-bold">Claude</h3>
+                <Bot className="w-8 h-8 text-brand-gold" aria-hidden />
+                <h3 className="text-white text-xl font-bold">Claude</h3>
               </div>
-              <p className="text-muted">
+              <p className="text-white/75">
                 Native MCP connection. Plug in, authenticate, and your brain is live. No duct tape
                 required.
               </p>
             </div>
-            <div className="bg-white rounded-2xl p-8 border border-brand-navy/10 shadow-sm">
+            <div className="bg-white/10 rounded-2xl p-8 border border-white/10">
               <div className="flex items-center gap-3 mb-4">
-                <MessageSquare className="w-8 h-8 text-brand-navy" aria-hidden />
-                <h3 className="text-brand-navy text-xl font-bold">ChatGPT</h3>
+                <MessageSquare className="w-8 h-8 text-brand-gold" aria-hidden />
+                <h3 className="text-white text-xl font-bold">ChatGPT</h3>
               </div>
-              <p className="text-muted">
+              <p className="text-white/75">
                 Connects through a Make.com workflow that keeps Supabase and Google Sheets in sync, so
                 both assistants share one source of truth.
               </p>
             </div>
           </div>
-          <p className="text-brand-navy/80 text-center text-lg font-medium">
-            Your data lives in <span className="text-brand-navy font-bold">your</span> database, not
+          <p className="text-white/80 text-center text-lg font-medium">
+            Your data lives in <span className="text-brand-gold font-bold">your</span> database, not
             trapped inside a single AI vendor. Switch tools, your brain comes with you.
           </p>
         </div>
       </section>
 
-      {/* 8. The Numbers */}
-      <section className="bg-brand-navy py-section text-white" aria-labelledby="numbers-heading">
+      {/* 8. The Numbers (light) */}
+      <section className="section-white" aria-labelledby="numbers-heading">
         <div className="container-content">
-          <h2 id="numbers-heading" className="text-2xl sm:text-3xl font-bold mb-10 text-center">
+          <h2 id="numbers-heading" className="text-brand-navy text-2xl sm:text-3xl font-bold mb-10 text-center">
             The numbers
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto text-center">
             <div>
               <p className="text-brand-gold font-headline text-4xl mb-2">520</p>
-              <p className="text-white/90 text-sm">Hours a year you could claw back from re-briefing</p>
+              <p className="text-brand-navy/80 text-sm">Hours a year you could claw back from re-briefing</p>
             </div>
             <div>
               <p className="text-brand-gold font-headline text-4xl mb-2">43</p>
-              <p className="text-white/90 text-sm">Twelve-hour working days, same maths, different lens</p>
+              <p className="text-brand-navy/80 text-sm">Twelve-hour working days, same maths, different lens</p>
             </div>
             <div>
               <p className="text-brand-gold font-headline text-4xl mb-2">£250</p>
-              <p className="text-white/90 text-sm">One-time setup versus the cost of another year of amnesia</p>
+              <p className="text-brand-navy/80 text-sm">One-time setup versus the cost of another year of amnesia</p>
             </div>
             <div>
               <p className="text-brand-gold font-headline text-4xl mb-2">Day one</p>
-              <p className="text-white/90 text-sm">Most clients are productive from the first conversation after setup</p>
+              <p className="text-brand-navy/80 text-sm">Most clients are productive from the first conversation after setup</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 9. FAQ */}
+      {/* 9. Pricing (repeat, navy) */}
+      <section className="bg-brand-navy py-section" aria-labelledby="pricing-heading-repeat">
+        <div className="container-content max-w-5xl mx-auto">
+          <h2 id="pricing-heading-repeat" className="text-white text-2xl sm:text-3xl font-bold mb-4 text-center">
+            Ready to get started?
+          </h2>
+          <p className="text-white/70 text-center mb-12 max-w-2xl mx-auto">
+            Two simple options. Same outcome: a brain that survives the close button.
+          </p>
+          {renderPricingCards()}
+        </div>
+      </section>
+
+      {/* 10. FAQ */}
       <section className="bg-white py-16">
         <div className="container-content max-w-3xl mx-auto">
           <h2 className="text-brand-navy text-2xl sm:text-3xl font-bold mb-8 text-center">
@@ -482,7 +503,7 @@ export default function LlmBrainPage() {
         </div>
       </section>
 
-      {/* 10. Final CTA */}
+      {/* 11. Final CTA */}
       <section className="section-navy" aria-labelledby="final-cta-heading">
         <div className="container-content text-center max-w-2xl mx-auto">
           <h2 id="final-cta-heading" className="text-white text-2xl sm:text-3xl md:text-h2 mb-4">
@@ -491,7 +512,7 @@ export default function LlmBrainPage() {
           <p className="text-white/80 mb-8">
             Your AI should already know your business. For £250, it will.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
+          <div className="flex flex-col sm:flex-row justify-center gap-4 mb-4">
             <button
               onClick={() => handleCheckout('setup')}
               disabled={loadingPlan !== null}
@@ -508,9 +529,18 @@ export default function LlmBrainPage() {
               rel="noopener noreferrer"
               className="btn-secondary-light"
             >
-              Download the free guide
+              Download the Free Guide
             </a>
           </div>
+          <p className="mb-8">
+            <button
+              onClick={() => handleCheckout('managed')}
+              disabled={loadingPlan !== null}
+              className="text-white/60 text-sm hover:text-brand-gold underline underline-offset-4 transition-colors"
+            >
+              {loadingPlan === 'managed' ? 'Redirecting...' : 'Or subscribe to managed service, £85/mo'}
+            </button>
+          </p>
           <p className="text-white/60 text-sm">
             Veteran-owned. Built in Somerset. Your data, your database, your rules.
           </p>

@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     const session = await getStripe().checkout.sessions.create({
       mode,
       line_items: [{ price: priceId, quantity: 1 }],
-      allow_promotion_codes: true,
+      ...(plan === 'setup' && { allow_promotion_codes: true }),
       success_url: `${BASE_URL}/llm-brain/order-confirmed?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${BASE_URL}/llm-brain`,
     });
