@@ -397,8 +397,43 @@ export default function LlmBrainPage() {
         </div>
       </section>
 
+      {/* What Happens Next */}
+      <section className="bg-brand-navy/5 py-section border-y border-brand-navy/10" aria-labelledby="next-steps-heading">
+        <div className="container-content max-w-4xl mx-auto">
+          <h2 id="next-steps-heading" className="text-brand-navy text-2xl sm:text-3xl font-bold mb-10 text-center">
+            What happens after you buy?
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center md:text-left">
+              <p className="text-teal-500 font-headline text-4xl mb-3">1</p>
+              <h3 className="text-brand-navy font-bold mb-2">Pay securely</h3>
+              <p className="text-muted text-sm leading-relaxed">
+                You pay through Stripe, promo codes accepted at checkout. Quick, safe, and no
+                messing about.
+              </p>
+            </div>
+            <div className="text-center md:text-left">
+              <p className="text-teal-500 font-headline text-4xl mb-3">2</p>
+              <h3 className="text-brand-navy font-bold mb-2">We get to work</h3>
+              <p className="text-muted text-sm leading-relaxed">
+                Your LLM Brain is built, configured, and seeded with your data. Usually live
+                same day.
+              </p>
+            </div>
+            <div className="text-center md:text-left">
+              <p className="text-teal-500 font-headline text-4xl mb-3">3</p>
+              <h3 className="text-brand-navy font-bold mb-2">You are up and running</h3>
+              <p className="text-muted text-sm leading-relaxed">
+                We send you a confirmation email with your onboarding call link. You will be
+                live within 24 hours of a working day, Monday to Friday.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ */}
-      <section className="bg-white py-16 border-t border-brand-navy/10">
+      <section className="bg-white py-16">
         <div className="container-content max-w-3xl mx-auto">
           <h2 className="text-brand-navy text-2xl sm:text-3xl font-bold mb-8 text-center">
             Frequently asked questions
