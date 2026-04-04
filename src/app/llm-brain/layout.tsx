@@ -44,11 +44,11 @@ const faqItems: FAQItem[] = [
 export const metadata: Metadata = {
   title: 'LLM Brain | Persistent AI Memory for Your Business',
   description:
-    'Stop re-briefing AI every conversation. LLM Brain gives Claude and ChatGPT a permanent database that remembers your business. £150 one-time setup.',
+    'Stop re-briefing AI every conversation. LLM Brain gives Claude and ChatGPT a permanent database that remembers your business. £250 one-time setup.',
   openGraph: {
     title: 'LLM Brain | Persistent AI Memory for Your Business | ScopeSite',
     description:
-      'Stop re-briefing AI every conversation. LLM Brain gives Claude and ChatGPT a permanent database that remembers your business. £150 one-time setup.',
+      'Stop re-briefing AI every conversation. LLM Brain gives Claude and ChatGPT a permanent database that remembers your business. £250 one-time setup.',
     url: PAGE_URL,
     siteName: 'ScopeSite Digital Studios',
     images: [
@@ -82,14 +82,14 @@ export default function LlmBrainLayout({
   const setupOffer = generateOfferSchema(
     'LLM Brain done-for-you setup',
     'One-time build, configure, seed your data, Claude MCP and ChatGPT bridge, thirty-minute onboarding.',
-    '150',
+    '250',
     'GBP'
   );
 
   const managedOffer = generateOfferSchema(
     'LLM Brain managed hosting',
     'Hosted, maintained, updates and backups handled by ScopeSite.',
-    '29',
+    '85',
     'GBP'
   );
 

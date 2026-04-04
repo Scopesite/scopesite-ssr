@@ -283,7 +283,7 @@ export default function LlmBrainPage() {
               <p className="text-white/90 text-sm">Twelve-hour working days, same maths, different lens</p>
             </div>
             <div>
-              <p className="text-brand-gold font-headline text-4xl mb-2">£150</p>
+              <p className="text-brand-gold font-headline text-4xl mb-2">£250</p>
               <p className="text-white/90 text-sm">One-time setup versus the cost of another year of amnesia</p>
             </div>
             <div>
@@ -309,7 +309,7 @@ export default function LlmBrainPage() {
                 <PoundSterling className="w-6 h-6" aria-hidden />
                 <span className="font-bold text-lg">Done-for-you setup</span>
               </div>
-              <p className="text-brand-navy font-headline text-4xl mb-2">£150</p>
+              <p className="text-brand-navy font-headline text-4xl mb-2">£250</p>
               <p className="text-muted text-sm mb-6">One-time. We build it, configure it, seed it, hand it over.</p>
               <ul className="text-brand-navy/80 text-sm space-y-2 mb-8 flex-1 list-disc pl-5">
                 <li>Initial setup and configuration</li>
@@ -327,7 +327,7 @@ export default function LlmBrainPage() {
                 <Clock className="w-6 h-6" aria-hidden />
                 <span className="font-bold text-lg">Managed service</span>
               </div>
-              <p className="text-brand-navy font-headline text-4xl mb-2">£29</p>
+              <p className="text-brand-navy font-headline text-4xl mb-2">£85</p>
               <p className="text-muted text-sm mb-1">per month</p>
               <p className="text-muted text-sm mb-6">Hosted, maintained, updates and backups handled by us.</p>
               <ul className="text-brand-navy/80 text-sm space-y-2 mb-8 flex-1 list-disc pl-5">
@@ -344,6 +344,18 @@ export default function LlmBrainPage() {
           <p className="text-center text-muted text-sm mt-8">
             Both options include initial setup, data seeding, Claude MCP, ChatGPT bridge, and your
             onboarding call.
+          </p>
+          <p className="text-center text-brand-navy/50 text-xs mt-4">
+            Follow us on{' '}
+            <a
+              href="https://www.linkedin.com/in/scopesite"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-brand-gold-accessible"
+            >
+              LinkedIn
+            </a>{' '}
+            for exclusive launch pricing.
           </p>
         </div>
       </section>
