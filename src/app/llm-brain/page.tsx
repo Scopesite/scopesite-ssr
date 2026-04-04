@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   ChevronDown,
@@ -51,6 +51,11 @@ const faqs = [
     answer:
       'Typically two to three hours for a full setup, including initial data seeding and your thirty-minute onboarding call.',
   },
+  {
+    question: 'Do you offer a discount?',
+    answer:
+      'We run launch pricing through our LinkedIn community. Follow us there for exclusive offers.',
+  },
 ];
 
 const storeItems = [
@@ -98,6 +103,15 @@ const storeItems = [
 
 export default function LlmBrainPage() {
   const [loadingPlan, setLoadingPlan] = useState<'setup' | 'managed' | null>(null);
+  const [showStickyBar, setShowStickyBar] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowStickyBar(window.scrollY > 600);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   async function handleCheckout(plan: 'setup' | 'managed') {
     setLoadingPlan(plan);
@@ -120,7 +134,7 @@ export default function LlmBrainPage() {
 
   return (
     <>
-      {/* Hero */}
+      {/* 1. Hero */}
       <section className="bg-brand-navy text-white min-h-[70vh] flex items-center py-section">
         <div className="container-content">
           <div className="max-w-3xl">
@@ -135,23 +149,39 @@ export default function LlmBrainPage() {
               and write to, so context builds instead of resetting every session.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
+              <button
+                onClick={() => handleCheckout('setup')}
+                disabled={loadingPlan !== null}
+                className="btn-primary text-center inline-flex items-center justify-center gap-2"
+              >
+                {loadingPlan === 'setup' ? (
+                  <Loader2 className="w-5 h-5 animate-spin" aria-hidden />
+                ) : null}
+                {loadingPlan === 'setup' ? 'Redirecting...' : 'Buy Setup, £250'}
+              </button>
               <a
                 href={PDF_GUIDE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-primary text-center"
+                className="btn-secondary text-center"
               >
                 Download the Free Guide
               </a>
-              <Link href="/book" className="btn-secondary text-center">
-                Book a Setup Call
-              </Link>
             </div>
+            <p className="mt-4">
+              <button
+                onClick={() => handleCheckout('managed')}
+                disabled={loadingPlan !== null}
+                className="text-white/60 text-sm hover:text-brand-gold underline underline-offset-4 transition-colors"
+              >
+                {loadingPlan === 'managed' ? 'Redirecting...' : 'Or subscribe to managed service, £85/mo'}
+              </button>
+            </p>
           </div>
         </div>
       </section>
 
-      {/* The Problem */}
+      {/* 2. The Problem */}
       <section className="section-white border-b border-brand-navy/10">
         <div className="container-content max-w-4xl mx-auto">
           <h2 className="text-brand-navy text-2xl sm:text-3xl font-bold mb-6">
@@ -187,137 +217,7 @@ export default function LlmBrainPage() {
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="bg-brand-navy py-section" aria-labelledby="how-heading">
-        <div className="container-content">
-          <h2 id="how-heading" className="text-white text-2xl sm:text-3xl font-bold mb-12 text-center">
-            How it works
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {[
-              {
-                step: '1',
-                title: 'We build your brain',
-                text: 'We set up a Supabase database tailored to your business, wired to your AI tools through MCP and, where needed, Make.com.',
-                icon: Wrench,
-              },
-              {
-                step: '2',
-                title: 'Your AI remembers',
-                text: 'Every conversation reads from and writes to the same store, so decisions, tasks, and context stack up instead of vanishing.',
-                icon: Database,
-              },
-              {
-                step: '3',
-                title: 'You stop repeating yourself',
-                text: 'Your assistant picks up where you left off, with your knowledge base, contacts, and history already in place.',
-                icon: RefreshCw,
-              },
-            ].map((item) => (
-              <div
-                key={item.step}
-                className="card-dark-hover rounded-2xl p-8 border border-white/10 text-center md:text-left"
-              >
-                <div className="text-brand-gold font-headline text-5xl mb-4">{item.step}</div>
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-brand-gold/10 mb-4 mx-auto md:mx-0">
-                  <item.icon className="w-7 h-7 text-brand-gold" aria-hidden />
-                </div>
-                <h3 className="text-white text-xl font-bold mb-3">{item.title}</h3>
-                <p className="text-white/75 text-sm leading-relaxed">{item.text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* What It Stores */}
-      <section className="section-white relative overflow-hidden" aria-labelledby="stores-heading">
-        <div className="absolute inset-0 opacity-[0.03] bg-grid" aria-hidden />
-        <div className="container-content relative z-10">
-          <h2 id="stores-heading" className="text-brand-navy text-2xl sm:text-3xl font-bold mb-4 text-center">
-            What it stores
-          </h2>
-          <p className="text-muted text-center max-w-2xl mx-auto mb-12">
-            One brain for tasks, people, ideas, history, and reference material. Your AI stops
-            improvising and starts working from facts you already approved.
-          </p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {storeItems.map((item) => (
-              <div key={item.title} className="group card-hover p-6 rounded-2xl h-full">
-                <div className="icon-box-md mb-4">
-                  <item.icon className="w-6 h-6 icon-brand" aria-hidden />
-                </div>
-                <h3 className="text-brand-navy font-bold mb-2">{item.title}</h3>
-                <p className="text-muted text-sm leading-relaxed">{item.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Cross-Platform */}
-      <section className="bg-brand-navy/5 py-section border-y border-brand-navy/10">
-        <div className="container-content max-w-4xl mx-auto">
-          <h2 className="text-brand-navy text-2xl sm:text-3xl font-bold mb-8 text-center">
-            Works with Claude and ChatGPT
-          </h2>
-          <div className="grid md:grid-cols-2 gap-8 mb-10">
-            <div className="bg-white rounded-2xl p-8 border border-brand-navy/10 shadow-sm">
-              <div className="flex items-center gap-3 mb-4">
-                <Bot className="w-8 h-8 text-brand-navy" aria-hidden />
-                <h3 className="text-brand-navy text-xl font-bold">Claude</h3>
-              </div>
-              <p className="text-muted">
-                Native MCP connection. Plug in, authenticate, and your brain is live. No duct tape
-                required.
-              </p>
-            </div>
-            <div className="bg-white rounded-2xl p-8 border border-brand-navy/10 shadow-sm">
-              <div className="flex items-center gap-3 mb-4">
-                <MessageSquare className="w-8 h-8 text-brand-navy" aria-hidden />
-                <h3 className="text-brand-navy text-xl font-bold">ChatGPT</h3>
-              </div>
-              <p className="text-muted">
-                Connects through a Make.com workflow that keeps Supabase and Google Sheets in sync, so
-                both assistants share one source of truth.
-              </p>
-            </div>
-          </div>
-          <p className="text-brand-navy/80 text-center text-lg font-medium">
-            Your data lives in <span className="text-brand-navy font-bold">your</span> database, not
-            trapped inside a single AI vendor. Switch tools, your brain comes with you.
-          </p>
-        </div>
-      </section>
-
-      {/* The Numbers */}
-      <section className="bg-brand-navy py-section text-white" aria-labelledby="numbers-heading">
-        <div className="container-content">
-          <h2 id="numbers-heading" className="text-2xl sm:text-3xl font-bold mb-10 text-center">
-            The numbers
-          </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto text-center">
-            <div>
-              <p className="text-brand-gold font-headline text-4xl mb-2">520</p>
-              <p className="text-white/90 text-sm">Hours a year you could claw back from re-briefing</p>
-            </div>
-            <div>
-              <p className="text-brand-gold font-headline text-4xl mb-2">43</p>
-              <p className="text-white/90 text-sm">Twelve-hour working days, same maths, different lens</p>
-            </div>
-            <div>
-              <p className="text-brand-gold font-headline text-4xl mb-2">£250</p>
-              <p className="text-white/90 text-sm">One-time setup versus the cost of another year of amnesia</p>
-            </div>
-            <div>
-              <p className="text-brand-gold font-headline text-4xl mb-2">Day one</p>
-              <p className="text-white/90 text-sm">Most clients are productive from the first conversation after setup</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing */}
+      {/* 3. Pricing (moved up) */}
       <section className="section-white" aria-labelledby="pricing-heading">
         <div className="container-content max-w-5xl mx-auto">
           <h2 id="pricing-heading" className="text-brand-navy text-2xl sm:text-3xl font-bold mb-4 text-center">
@@ -397,7 +297,7 @@ export default function LlmBrainPage() {
         </div>
       </section>
 
-      {/* What Happens Next */}
+      {/* 4. What Happens Next (moved up) */}
       <section className="bg-brand-navy/5 py-section border-y border-brand-navy/10" aria-labelledby="next-steps-heading">
         <div className="container-content max-w-4xl mx-auto">
           <h2 id="next-steps-heading" className="text-brand-navy text-2xl sm:text-3xl font-bold mb-10 text-center">
@@ -432,7 +332,137 @@ export default function LlmBrainPage() {
         </div>
       </section>
 
-      {/* FAQ */}
+      {/* 5. How It Works */}
+      <section className="bg-brand-navy py-section" aria-labelledby="how-heading">
+        <div className="container-content">
+          <h2 id="how-heading" className="text-white text-2xl sm:text-3xl font-bold mb-12 text-center">
+            How it works
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {[
+              {
+                step: '1',
+                title: 'We build your brain',
+                text: 'We set up a Supabase database tailored to your business, wired to your AI tools through MCP and, where needed, Make.com.',
+                icon: Wrench,
+              },
+              {
+                step: '2',
+                title: 'Your AI remembers',
+                text: 'Every conversation reads from and writes to the same store, so decisions, tasks, and context stack up instead of vanishing.',
+                icon: Database,
+              },
+              {
+                step: '3',
+                title: 'You stop repeating yourself',
+                text: 'Your assistant picks up where you left off, with your knowledge base, contacts, and history already in place.',
+                icon: RefreshCw,
+              },
+            ].map((item) => (
+              <div
+                key={item.step}
+                className="card-dark-hover rounded-2xl p-8 border border-white/10 text-center md:text-left"
+              >
+                <div className="text-brand-gold font-headline text-5xl mb-4">{item.step}</div>
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-brand-gold/10 mb-4 mx-auto md:mx-0">
+                  <item.icon className="w-7 h-7 text-brand-gold" aria-hidden />
+                </div>
+                <h3 className="text-white text-xl font-bold mb-3">{item.title}</h3>
+                <p className="text-white/75 text-sm leading-relaxed">{item.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 6. What It Stores */}
+      <section className="section-white relative overflow-hidden" aria-labelledby="stores-heading">
+        <div className="absolute inset-0 opacity-[0.03] bg-grid" aria-hidden />
+        <div className="container-content relative z-10">
+          <h2 id="stores-heading" className="text-brand-navy text-2xl sm:text-3xl font-bold mb-4 text-center">
+            What it stores
+          </h2>
+          <p className="text-muted text-center max-w-2xl mx-auto mb-12">
+            One brain for tasks, people, ideas, history, and reference material. Your AI stops
+            improvising and starts working from facts you already approved.
+          </p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {storeItems.map((item) => (
+              <div key={item.title} className="group card-hover p-6 rounded-2xl h-full">
+                <div className="icon-box-md mb-4">
+                  <item.icon className="w-6 h-6 icon-brand" aria-hidden />
+                </div>
+                <h3 className="text-brand-navy font-bold mb-2">{item.title}</h3>
+                <p className="text-muted text-sm leading-relaxed">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 7. Cross-Platform */}
+      <section className="bg-brand-navy/5 py-section border-y border-brand-navy/10">
+        <div className="container-content max-w-4xl mx-auto">
+          <h2 className="text-brand-navy text-2xl sm:text-3xl font-bold mb-8 text-center">
+            Works with Claude and ChatGPT
+          </h2>
+          <div className="grid md:grid-cols-2 gap-8 mb-10">
+            <div className="bg-white rounded-2xl p-8 border border-brand-navy/10 shadow-sm">
+              <div className="flex items-center gap-3 mb-4">
+                <Bot className="w-8 h-8 text-brand-navy" aria-hidden />
+                <h3 className="text-brand-navy text-xl font-bold">Claude</h3>
+              </div>
+              <p className="text-muted">
+                Native MCP connection. Plug in, authenticate, and your brain is live. No duct tape
+                required.
+              </p>
+            </div>
+            <div className="bg-white rounded-2xl p-8 border border-brand-navy/10 shadow-sm">
+              <div className="flex items-center gap-3 mb-4">
+                <MessageSquare className="w-8 h-8 text-brand-navy" aria-hidden />
+                <h3 className="text-brand-navy text-xl font-bold">ChatGPT</h3>
+              </div>
+              <p className="text-muted">
+                Connects through a Make.com workflow that keeps Supabase and Google Sheets in sync, so
+                both assistants share one source of truth.
+              </p>
+            </div>
+          </div>
+          <p className="text-brand-navy/80 text-center text-lg font-medium">
+            Your data lives in <span className="text-brand-navy font-bold">your</span> database, not
+            trapped inside a single AI vendor. Switch tools, your brain comes with you.
+          </p>
+        </div>
+      </section>
+
+      {/* 8. The Numbers */}
+      <section className="bg-brand-navy py-section text-white" aria-labelledby="numbers-heading">
+        <div className="container-content">
+          <h2 id="numbers-heading" className="text-2xl sm:text-3xl font-bold mb-10 text-center">
+            The numbers
+          </h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto text-center">
+            <div>
+              <p className="text-brand-gold font-headline text-4xl mb-2">520</p>
+              <p className="text-white/90 text-sm">Hours a year you could claw back from re-briefing</p>
+            </div>
+            <div>
+              <p className="text-brand-gold font-headline text-4xl mb-2">43</p>
+              <p className="text-white/90 text-sm">Twelve-hour working days, same maths, different lens</p>
+            </div>
+            <div>
+              <p className="text-brand-gold font-headline text-4xl mb-2">£250</p>
+              <p className="text-white/90 text-sm">One-time setup versus the cost of another year of amnesia</p>
+            </div>
+            <div>
+              <p className="text-brand-gold font-headline text-4xl mb-2">Day one</p>
+              <p className="text-white/90 text-sm">Most clients are productive from the first conversation after setup</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 9. FAQ */}
       <section className="bg-white py-16">
         <div className="container-content max-w-3xl mx-auto">
           <h2 className="text-brand-navy text-2xl sm:text-3xl font-bold mb-8 text-center">
@@ -452,28 +482,34 @@ export default function LlmBrainPage() {
         </div>
       </section>
 
-      {/* Final CTA */}
+      {/* 10. Final CTA */}
       <section className="section-navy" aria-labelledby="final-cta-heading">
         <div className="container-content text-center max-w-2xl mx-auto">
           <h2 id="final-cta-heading" className="text-white text-2xl sm:text-3xl md:text-h2 mb-4">
             Stop briefing. Start building.
           </h2>
           <p className="text-white/80 mb-8">
-            Grab the free six-page guide, or book a call and we will walk you through whether LLM Brain
-            fits how you work.
+            Your AI should already know your business. For £250, it will.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
+            <button
+              onClick={() => handleCheckout('setup')}
+              disabled={loadingPlan !== null}
+              className="btn-primary inline-flex items-center justify-center gap-2"
+            >
+              {loadingPlan === 'setup' ? (
+                <Loader2 className="w-5 h-5 animate-spin" aria-hidden />
+              ) : null}
+              {loadingPlan === 'setup' ? 'Redirecting...' : 'Buy Setup, £250'}
+            </button>
             <a
               href={PDF_GUIDE_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary"
+              className="btn-secondary-light"
             >
               Download the free guide
             </a>
-            <Link href="/book" className="btn-secondary-light">
-              Book a setup call
-            </Link>
           </div>
           <p className="text-white/60 text-sm">
             Veteran-owned. Built in Somerset. Your data, your database, your rules.
@@ -485,6 +521,29 @@ export default function LlmBrainPage() {
           </p>
         </div>
       </section>
+
+      {/* Sticky buy bar */}
+      <div
+        className={`fixed bottom-0 left-0 right-0 z-40 bg-brand-navy/95 backdrop-blur-md border-t border-white/10 transition-transform duration-300 ${
+          showStickyBar ? 'translate-y-0' : 'translate-y-full'
+        }`}
+      >
+        <div className="container-content py-3 flex items-center justify-between gap-4">
+          <p className="text-white text-sm font-medium hidden sm:block">
+            LLM Brain, £250 setup
+          </p>
+          <button
+            onClick={() => handleCheckout('setup')}
+            disabled={loadingPlan !== null}
+            className="btn-primary text-sm px-6 py-2 inline-flex items-center justify-center gap-2 ml-auto"
+          >
+            {loadingPlan === 'setup' ? (
+              <Loader2 className="w-4 h-4 animate-spin" aria-hidden />
+            ) : null}
+            {loadingPlan === 'setup' ? 'Redirecting...' : 'Buy Now'}
+          </button>
+        </div>
+      </div>
     </>
   );
 }
