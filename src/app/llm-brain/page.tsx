@@ -311,7 +311,7 @@ export default function LlmBrainPage() {
               </div>
               <p className="text-brand-navy font-headline text-4xl mb-2">£150</p>
               <p className="text-muted text-sm mb-6">One-time. We build it, configure it, seed it, hand it over.</p>
-              <ul className="text-brand-navy/80 text-sm space-y-2 mb-8 flex-1">
+              <ul className="text-brand-navy/80 text-sm space-y-2 mb-8 flex-1 list-disc pl-5">
                 <li>Initial setup and configuration</li>
                 <li>Data seeding from what you give us</li>
                 <li>Claude MCP connection</li>
@@ -330,7 +330,7 @@ export default function LlmBrainPage() {
               <p className="text-brand-navy font-headline text-4xl mb-2">£29</p>
               <p className="text-muted text-sm mb-1">per month</p>
               <p className="text-muted text-sm mb-6">Hosted, maintained, updates and backups handled by us.</p>
-              <ul className="text-brand-navy/80 text-sm space-y-2 mb-8 flex-1">
+              <ul className="text-brand-navy/80 text-sm space-y-2 mb-8 flex-1 list-disc pl-5">
                 <li>Everything in the setup package</li>
                 <li>Ongoing hosting and health checks</li>
                 <li>We handle updates and backups</li>

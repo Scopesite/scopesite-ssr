@@ -53,10 +53,10 @@ export const metadata: Metadata = {
     siteName: 'ScopeSite Digital Studios',
     images: [
       {
-        url: `${BASE_URL}/images/og/og-home.png`,
+        url: `${BASE_URL}/images/og/og-llm-brain.png`,
         width: 1200,
         height: 630,
-        alt: 'LLM Brain by ScopeSite — persistent memory for Claude and ChatGPT',
+        alt: 'LLM Brain — Persistent AI Memory for Your Business by ScopeSite Digital Studios',
       },
     ],
     locale: 'en_GB',
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     title: 'LLM Brain | Persistent AI Memory for Your Business | ScopeSite',
     description:
       'Stop re-briefing AI every conversation. LLM Brain gives Claude and ChatGPT a permanent database that remembers your business.',
-    images: [`${BASE_URL}/images/og/og-home.png`],
+    images: [`${BASE_URL}/images/og/og-llm-brain.png`],
   },
   alternates: {
     canonical: PAGE_URL,
