@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 
 const PDF_GUIDE_URL =
-  'https://cd2a442a-c7c5-41f7-a575-ec3260f53540.usrfiles.com/ugd/cd2a44_35c892dce49c4990af873dcd872b7011.pdf';
+  'https://cd2a442a-c7c5-41f7-a575-ec3260f53540.usrfiles.com/ugd/cd2a44_d1bee5c09d1a44c09b49bf5ce6ac0e17.pdf';
 
 const faqs = [
   {
