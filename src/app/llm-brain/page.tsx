@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import {
   ChevronDown,
@@ -18,6 +19,7 @@ import {
   MessageSquare,
   Clock,
   PoundSterling,
+  Loader2,
 } from 'lucide-react';
 
 const PDF_GUIDE_URL =
@@ -95,6 +97,27 @@ const storeItems = [
 ];
 
 export default function LlmBrainPage() {
+  const [loadingPlan, setLoadingPlan] = useState<'setup' | 'managed' | null>(null);
+
+  async function handleCheckout(plan: 'setup' | 'managed') {
+    setLoadingPlan(plan);
+    try {
+      const res = await fetch('/api/llm-brain/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        setLoadingPlan(null);
+      }
+    } catch {
+      setLoadingPlan(null);
+    }
+  }
+
   return (
     <>
       {/* Hero */}
@@ -318,9 +341,16 @@ export default function LlmBrainPage() {
                 <li>ChatGPT bridge (Make.com)</li>
                 <li>Thirty-minute onboarding call</li>
               </ul>
-              <Link href="/book" className="btn-primary w-full text-center">
-                Book setup
-              </Link>
+              <button
+                onClick={() => handleCheckout('setup')}
+                disabled={loadingPlan !== null}
+                className="btn-primary w-full text-center inline-flex items-center justify-center gap-2"
+              >
+                {loadingPlan === 'setup' ? (
+                  <Loader2 className="w-5 h-5 animate-spin" aria-hidden />
+                ) : null}
+                {loadingPlan === 'setup' ? 'Redirecting...' : 'Buy Setup, £250'}
+              </button>
             </div>
             <div className="rounded-2xl border-2 border-brand-gold/40 bg-brand-navy/5 p-8 shadow-sm flex flex-col ring-2 ring-brand-gold/20">
               <div className="flex items-center gap-2 text-brand-navy mb-4">
@@ -336,9 +366,16 @@ export default function LlmBrainPage() {
                 <li>We handle updates and backups</li>
                 <li>Support when you need a hand</li>
               </ul>
-              <Link href="/book" className="btn-primary w-full text-center">
-                Talk to us
-              </Link>
+              <button
+                onClick={() => handleCheckout('managed')}
+                disabled={loadingPlan !== null}
+                className="btn-primary w-full text-center inline-flex items-center justify-center gap-2"
+              >
+                {loadingPlan === 'managed' ? (
+                  <Loader2 className="w-5 h-5 animate-spin" aria-hidden />
+                ) : null}
+                {loadingPlan === 'managed' ? 'Redirecting...' : 'Subscribe, £85/mo'}
+              </button>
             </div>
           </div>
           <p className="text-center text-muted text-sm mt-8">
