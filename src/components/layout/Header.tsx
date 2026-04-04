@@ -64,23 +64,16 @@ export function Header() {
           </Link>
 
           <Navigation
-            className="hidden lg:flex items-center gap-8"
+            className="hidden lg:flex items-center gap-5 xl:gap-8"
             variant="header"
           />
 
-          <div className="hidden lg:flex items-center gap-3 shrink-0">
+          <div className="hidden lg:flex items-center shrink-0">
             <Button
               asChild
               className="bg-brand-gold text-brand-navy hover:bg-white hover:text-brand-navy shadow-button font-body font-bold px-5 py-2 whitespace-nowrap"
             >
-              <Link href={isUS ? '/us/quote' : '/pricing'}>Get Instant Quote</Link>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              className="border-2 border-brand-gold text-brand-gold bg-transparent hover:bg-brand-gold hover:text-brand-navy font-body font-bold px-5 py-2 whitespace-nowrap"
-            >
-              <Link href="/book">Book Strategy Call</Link>
+              <Link href={isUS ? '/us/quote' : '/pricing'}>Get a Quote</Link>
             </Button>
           </div>
 
