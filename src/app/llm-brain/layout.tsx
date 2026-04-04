@@ -1,0 +1,128 @@
+import type { Metadata } from 'next';
+import { JsonLd } from '@/components/JsonLd';
+import {
+  generateBreadcrumbSchema,
+  generateServiceSchema,
+  generateFAQSchema,
+  generateWebPageSchema,
+  generateSpeakableSchema,
+  generateOfferSchema,
+  type FAQItem,
+} from '@/lib/schema';
+
+const BASE_URL = 'https://scopesite.co.uk';
+const PAGE_URL = `${BASE_URL}/llm-brain`;
+
+const faqItems: FAQItem[] = [
+  {
+    question: 'Does LLM Brain work with ChatGPT?',
+    answer:
+      'Yes. ChatGPT connects through a Make.com bridge that syncs your Supabase database to Google Sheets. Claude uses native MCP. Both assistants read and write to the same brain, so you are not locked into one provider.',
+  },
+  {
+    question: 'Is my data safe?',
+    answer:
+      'Your data lives in your own database on Supabase, hosted in the EU. We do not see it unless you give us access for support. You control credentials and access.',
+  },
+  {
+    question: 'Can I add my own reference material?',
+    answer:
+      'Yes. You can upload ebooks, research, frameworks, playbooks, and anything you want your AI to pull from during conversations. It all sits in your knowledge base.',
+  },
+  {
+    question: 'What if I cancel the managed service?',
+    answer:
+      'You own the database. We hand over all credentials. It keeps working, you just manage hosting and updates yourself.',
+  },
+  {
+    question: 'How long does setup take?',
+    answer:
+      'Typically two to three hours for a full setup, including initial data seeding and your thirty-minute onboarding call.',
+  },
+];
+
+export const metadata: Metadata = {
+  title: 'LLM Brain | Persistent AI Memory for Your Business',
+  description:
+    'Stop re-briefing AI every conversation. LLM Brain gives Claude and ChatGPT a permanent database that remembers your business. £150 one-time setup.',
+  openGraph: {
+    title: 'LLM Brain | Persistent AI Memory for Your Business | ScopeSite',
+    description:
+      'Stop re-briefing AI every conversation. LLM Brain gives Claude and ChatGPT a permanent database that remembers your business. £150 one-time setup.',
+    url: PAGE_URL,
+    siteName: 'ScopeSite Digital Studios',
+    images: [
+      {
+        url: `${BASE_URL}/images/og/og-home.png`,
+        width: 1200,
+        height: 630,
+        alt: 'LLM Brain by ScopeSite — persistent memory for Claude and ChatGPT',
+      },
+    ],
+    locale: 'en_GB',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'LLM Brain | Persistent AI Memory for Your Business | ScopeSite',
+    description:
+      'Stop re-briefing AI every conversation. LLM Brain gives Claude and ChatGPT a permanent database that remembers your business.',
+    images: [`${BASE_URL}/images/og/og-home.png`],
+  },
+  alternates: {
+    canonical: PAGE_URL,
+  },
+};
+
+export default function LlmBrainLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const setupOffer = generateOfferSchema(
+    'LLM Brain done-for-you setup',
+    'One-time build, configure, seed your data, Claude MCP and ChatGPT bridge, thirty-minute onboarding.',
+    '150',
+    'GBP'
+  );
+
+  const managedOffer = generateOfferSchema(
+    'LLM Brain managed hosting',
+    'Hosted, maintained, updates and backups handled by ScopeSite.',
+    '29',
+    'GBP'
+  );
+
+  const serviceSchema = {
+    ...generateServiceSchema(
+      'LLM Brain',
+      'Done-for-you persistent memory for AI assistants. Supabase database connected via MCP and Make.com so Claude and ChatGPT remember tasks, contacts, decisions, and your knowledge base across every conversation.',
+      PAGE_URL
+    ),
+    offers: [setupOffer, managedOffer],
+  };
+
+  const webPageSchema = {
+    ...generateWebPageSchema(
+      'LLM Brain | Persistent AI Memory for Your Business',
+      'Stop re-briefing AI every conversation. LLM Brain gives Claude and ChatGPT a permanent database that remembers your business.',
+      PAGE_URL
+    ),
+    mainEntity: { '@id': `${PAGE_URL}/#service` },
+    speakable: generateSpeakableSchema(['h1', '.hero-description', '.faq-answer', 'h2']),
+  };
+
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: BASE_URL },
+    { name: 'LLM Brain', url: PAGE_URL },
+  ]);
+
+  const faqSchema = generateFAQSchema(faqItems);
+
+  return (
+    <>
+      <JsonLd schema={[webPageSchema, breadcrumbSchema, serviceSchema, faqSchema]} />
+      {children}
+    </>
+  );
+}

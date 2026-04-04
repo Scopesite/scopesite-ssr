@@ -1,35 +1,63 @@
 'use client';
 
 import Link from 'next/link';
-import { Globe, Sparkles, Code, ArrowRight, Star } from 'lucide-react';
+import { Globe, Sparkles, Code, ArrowRight, Star, FileCode, Brain } from 'lucide-react';
 import { motion, Variants } from 'motion/react';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { FadeInOnScroll, StaggerContainer, StaggerItem } from '@/components/animations';
 import { GoogleIcon } from '@/components/icons';
 
-// Service card data
+const VOICE_SCAN_URL = 'https://voice.scopesite.co.uk';
+
 const services = [
   {
-    title: 'Web Design',
-    description: 'Beautiful, responsive websites built with SSR for maximum visibility.',
+    title: 'Websites AI systems trust',
+    description:
+      'Server-rendered sites that load fast and read clean, so assistants can cite you instead of skipping you.',
     icon: Globe,
     href: '/web-design',
-    cta: 'Explore Web Design',
+    cta: 'Web design',
   },
   {
-    title: 'V.O.I.C.E™',
-    description: 'AI visibility optimization so ChatGPT and Claude recommend you.',
+    title: 'V.O.I.C.E.™ scan',
+    description: 'Free score across the categories that decide whether AI can see you at all.',
     icon: Sparkles,
     href: '/voice',
-    cta: 'Discover V.O.I.C.E™',
+    cta: 'Run the scan',
   },
   {
-    title: 'Custom Web Apps',
-    description: 'Bespoke tools and applications built to automate your business workflows.',
+    title: 'Structured data that tells the truth',
+    description:
+      'Hand-built schema so machines know what you do, where you are, and why you are legitimate.',
+    icon: FileCode,
+    href: '/schema-markup',
+    cta: 'Schema services',
+  },
+  {
+    title: 'Custom web apps',
+    description: 'Portals, calculators, booking flows, anything that should live on your domain.',
     icon: Code,
     href: '/web-apps',
-    cta: 'Explore Web Apps',
+    cta: 'Web apps',
   },
+  {
+    title: 'LLM Brain',
+    description:
+      'Persistent memory for Claude and ChatGPT. Stop re-briefing every chat. Your database, your rules.',
+    icon: Brain,
+    href: '/llm-brain',
+    cta: 'LLM Brain',
+  },
+];
+
+const areaLinks = [
+  { name: 'Web Design Somerset', href: '/web-design-somerset' },
+  { name: 'Web Design Bristol', href: '/web-design-bristol' },
+  { name: 'Web Design Bath', href: '/web-design-bath' },
+  { name: 'Web Design Glastonbury', href: '/web-design-glastonbury' },
+  { name: 'Web Design Burnham-on-Sea', href: '/web-design-burnham-on-sea' },
+  { name: 'SEO Somerset', href: '/seo-somerset' },
+  { name: 'SEO Bristol', href: '/seo-bristol' },
 ];
 
 // Animation variants
@@ -86,22 +114,70 @@ export function HomeBelowFold({ reviews }: HomeBelowFoldProps) {
 
   return (
     <>
+      <section className="bg-brand-navy/5 py-section border-b border-brand-navy/10" aria-labelledby="case-heading">
+        <div className="container-content max-w-5xl mx-auto">
+          <FadeInOnScroll>
+            <h2 id="case-heading" className="text-brand-navy text-2xl sm:text-3xl font-bold mb-4 text-center">
+              From invisible to recommended
+            </h2>
+          </FadeInOnScroll>
+          <FadeInOnScroll delay={0.05}>
+            <p className="text-muted text-center max-w-2xl mx-auto mb-10">
+              H4TLT (Hearing 4 The Long Term) had a typical brochure site. After a full rebuild with SSR,
+              schema, and V.O.I.C.E. optimisation, they hit #1 AI recommendations across ChatGPT,
+              Perplexity, Claude, and Gemini for their category.
+            </p>
+          </FadeInOnScroll>
+          <div className="grid md:grid-cols-2 gap-6">
+            <FadeInOnScroll delay={0.1}>
+              <div className="rounded-2xl border border-brand-navy/15 bg-white p-8 shadow-sm h-full">
+                <h3 className="text-brand-navy font-bold text-lg mb-4">Before</h3>
+                <ul className="text-muted text-sm space-y-2 list-disc pl-5">
+                  <li>Wix-style delivery AI crawlers struggled to parse</li>
+                  <li>Little structured data, lots of guesswork for machines</li>
+                  <li>Slow loads, weak signals, not in AI answers</li>
+                </ul>
+              </div>
+            </FadeInOnScroll>
+            <FadeInOnScroll delay={0.15}>
+              <div className="rounded-2xl border-2 border-brand-gold/30 bg-white p-8 shadow-sm h-full">
+                <h3 className="text-brand-navy font-bold text-lg mb-4">After</h3>
+                <ul className="text-muted text-sm space-y-2 list-disc pl-5">
+                  <li>Next.js SSR, HTML delivered ready to read</li>
+                  <li>Full JSON-LD entity graph, validated</li>
+                  <li>V.O.I.C.E. tuned, #1 mentions on major AI platforms</li>
+                </ul>
+                <Link
+                  href="/case-studies/h4tlt"
+                  className="inline-flex items-center gap-2 mt-6 text-brand-navy font-semibold hover:text-brand-gold-accessible underline underline-offset-4"
+                >
+                  Read the case study
+                  <ArrowRight className="w-4 h-4" aria-hidden />
+                </Link>
+              </div>
+            </FadeInOnScroll>
+          </div>
+        </div>
+      </section>
+
       {/* Services Section */}
       <section className="section-white relative overflow-hidden" aria-labelledby="services-heading">
         <div className="absolute inset-0 opacity-[0.03] bg-grid" aria-hidden="true" />
         
         <div className="container-content text-center relative z-10">
           <FadeInOnScroll>
-            <h2 id="services-heading" className="text-brand-navy mb-4 text-2xl sm:text-3xl md:text-h2">OUR SERVICES</h2>
+            <h2 id="services-heading" className="text-brand-navy mb-4 text-2xl sm:text-3xl md:text-h2">
+              What we actually do
+            </h2>
           </FadeInOnScroll>
           <FadeInOnScroll delay={0.1}>
             <p className="text-muted mb-12 max-w-2xl mx-auto">
-              From stunning web design to AI visibility optimization, we&apos;ve got 
-              everything you need to dominate online.
+              Outcomes first. If you want the technical spec sheet, it is on each service page. Here is the
+              short version.
             </p>
           </FadeInOnScroll>
           
-          <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-8" staggerDelay={0.15}>
+          <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto" staggerDelay={0.15}>
             {services.map((service) => (
               <StaggerItem key={service.title}>
                 {prefersReducedMotion ? (
@@ -152,15 +228,17 @@ export function HomeBelowFold({ reviews }: HomeBelowFoldProps) {
                     <Star key={i} className="w-4 h-4 sm:w-5 sm:h-5 text-brand-gold fill-brand-gold" aria-hidden="true" />
                   ))}
                 </div>
-                <span className="text-white font-medium text-sm sm:text-base">6 Five-Star Reviews on Google</span>
+                <span className="text-white font-medium text-sm sm:text-base">6 five-star reviews on Google</span>
               </div>
             </FadeInOnScroll>
             <FadeInOnScroll delay={0.1}>
-              <h2 id="testimonials-heading" className="text-white mb-4 text-2xl sm:text-3xl md:text-h2">WHAT OUR CLIENTS SAY</h2>
+              <h2 id="testimonials-heading" className="text-white mb-4 text-2xl sm:text-3xl md:text-h2">
+                What clients say
+              </h2>
             </FadeInOnScroll>
             <FadeInOnScroll delay={0.2}>
               <p className="text-white max-w-2xl mx-auto">
-                Don&apos;t just take our word for it. Here&apos;s what real businesses say about working with ScopeSite.
+                Short version: we show up, we explain things in English, and we deliver.
               </p>
             </FadeInOnScroll>
           </div>
@@ -195,40 +273,66 @@ export function HomeBelowFold({ reviews }: HomeBelowFoldProps) {
                 className="btn-primary inline-flex items-center gap-3"
               >
                 <GoogleIcon />
-                View All Reviews on Google
+                View all reviews on Google
               </a>
             </div>
           </FadeInOnScroll>
         </div>
       </section>
 
-      {/* CTA Section */}
+      <section className="bg-brand-navy py-12" aria-labelledby="areas-heading-below">
+        <div className="container-content">
+          <FadeInOnScroll>
+            <h2 id="areas-heading-below" className="text-white text-xl sm:text-2xl font-bold mb-3 text-center">
+              AI-first web design, local roots
+            </h2>
+          </FadeInOnScroll>
+          <FadeInOnScroll delay={0.05}>
+            <p className="text-white/70 text-center max-w-2xl mx-auto mb-8 text-sm">
+              Frome and Somerset first, Bath, Bristol, and nationwide for the right projects.
+            </p>
+          </FadeInOnScroll>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 max-w-4xl mx-auto">
+            {areaLinks.map((area) => (
+              <Link
+                key={area.href}
+                href={area.href}
+                className="btn block text-center min-w-[140px] px-4 py-2 rounded-full border-2 border-white/20 bg-white/5 !text-brand-gold font-bold no-underline shadow-[inset_0_-2px_4px_rgba(0,0,0,0.3)] hover:border-brand-gold/50 hover:shadow-[inset_0_-2px_4px_rgba(0,0,0,0.2),0_0_12px_rgba(236,182,21,0.15)] transition-all duration-300 text-xs sm:text-sm drop-shadow-[0_0_6px_rgba(236,182,21,0.4)]"
+              >
+                {area.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="section-navy" aria-labelledby="cta-heading">
         <div className="container-content text-center">
           <FadeInOnScroll>
-            <h2 id="cta-heading" className="text-white mb-4 text-2xl sm:text-3xl md:text-h2">READY TO GET STARTED?</h2>
+            <h2 id="cta-heading" className="text-white mb-4 text-2xl sm:text-3xl md:text-h2">
+              Ready when you are
+            </h2>
           </FadeInOnScroll>
           <FadeInOnScroll delay={0.1}>
             <p className="text-white mb-8 max-w-xl mx-auto">
-              Get an instant quote for your project or book a free strategy call 
-              to discuss your needs.
+              No obligation, no hard sell. Run the free scan or book a call and we will talk honestly about
+              whether we are a fit.
             </p>
           </FadeInOnScroll>
           <FadeInOnScroll delay={0.2}>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link 
-                href="/pricing" 
-                className="btn-primary"
-              >
-                Get Instant Quote
-              </Link>
-              <Link 
-                href="/voice" 
-                className="btn-secondary-light"
-              >
-                Learn About V.O.I.C.E™
+              <a href={VOICE_SCAN_URL} className="btn-primary" target="_blank" rel="noopener noreferrer">
+                Get your free V.O.I.C.E. scan
+              </a>
+              <Link href="/book" className="btn-secondary-light">
+                Book a discovery call
               </Link>
             </div>
+          </FadeInOnScroll>
+          <FadeInOnScroll delay={0.25}>
+            <p className="text-white/50 text-sm mt-8">
+              Veteran-owned. Military precision. Zero bullshit.
+            </p>
           </FadeInOnScroll>
         </div>
       </section>

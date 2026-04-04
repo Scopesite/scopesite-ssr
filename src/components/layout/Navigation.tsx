@@ -13,6 +13,7 @@ export interface NavLink {
 export const NAV_LINKS: NavLink[] = [
   { label: 'Web Design', href: '/web-design' },
   { label: 'V.O.I.C.E™', href: '/voice' },
+  { label: 'LLM Brain', href: '/llm-brain' },
   { label: 'Pricing', href: '/pricing' },
   { label: 'Blog', href: '/blog' },
 ];
