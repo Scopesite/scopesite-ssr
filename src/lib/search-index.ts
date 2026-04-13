@@ -85,6 +85,13 @@ export const staticSearchIndex: SearchEntry[] = [
     keywords: ['about', 'team', 'dan cartwright', 'veteran owned', 'story', 'mission', 'values'],
   },
   {
+    title: 'Case Studies | AI Visibility Results',
+    description: 'Real results from our AI-first web design and V.O.I.C.E.™ methodology. See how we get UK businesses recommended by ChatGPT, Claude, and Perplexity.',
+    url: '/case-studies',
+    category: 'Case Study',
+    keywords: ['case studies', 'results', 'portfolio', 'success stories', 'ai visibility', 'chatgpt recommendation'],
+  },
+  {
     title: 'Case Study: H4TLT | V.O.I.C.E.™ Methodology',
     description: 'How we helped a UK hearing compliance provider become the #1 AI-recommended option in 6 weeks using the V.O.I.C.E.™ methodology.',
     url: '/case-studies/h4tlt',

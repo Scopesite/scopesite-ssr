@@ -103,9 +103,7 @@ export function generateOrganizationSchema() {
         name: 'United States',
       },
     ],
-    founder: {
-      '@id': `${BASE_URL}/#dan-cartwright`,
-    },
+    founder: generateFounderPersonSchema(),
     foundingDate: '2024-12-01',
     priceRange: '££-£££',
     currenciesAccepted: 'GBP',
@@ -340,17 +338,21 @@ export function generateFounderPersonSchema() {
     '@id': `${BASE_URL}/#dan-cartwright`,
     name: 'Dan Cartwright',
     jobTitle: 'Founder & Director',
+    description: 'British Army veteran and founder of ScopeSite Digital Studios. Creator of the V.O.I.C.E™ methodology for AI search visibility.',
     worksFor: { '@id': `${BASE_URL}/#organization` },
     url: `${BASE_URL}/about`,
     image: `${BASE_URL}/images/dan-headshot.webp`,
     sameAs: [
-      'https://www.linkedin.com/in/scopesite',
+      'https://www.linkedin.com/in/dan-cartwright-scopesite',
     ],
     knowsAbout: [
-      'AI Visibility',
-      'Schema Markup',
+      'AI Search Optimisation',
       'Server-Side Rendering',
       'Next.js',
+      'V.O.I.C.E Methodology',
+      'Schema Markup',
+      'Generative Engine Optimisation',
+      'AI Visibility',
       'Structured Data',
       'Answer Engine Optimisation',
       'Web Design',
@@ -639,6 +641,31 @@ export function generateServiceSchema(
   }
   if (options?.audience) {
     schema.audience = options.audience;
+  }
+
+  return schema;
+}
+
+// ============================================
+// PRODUCT SCHEMA
+// ============================================
+
+export function generateProductSchema(
+  name: string,
+  description: string,
+  url: string,
+  offers?: Record<string, unknown>[]
+) {
+  const schema: Record<string, unknown> = {
+    '@type': 'Product',
+    '@id': `${url}/#product`,
+    name,
+    description,
+    brand: { '@id': `${BASE_URL}/#organization` },
+  };
+
+  if (offers && offers.length > 0) {
+    schema.offers = offers;
   }
 
   return schema;

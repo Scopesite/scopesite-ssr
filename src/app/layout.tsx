@@ -9,7 +9,6 @@ import { SkipLink, RouteAnnouncer } from '@/components/a11y';
 import {
   generateOrganizationSchema,
   generateWebsiteSchema,
-  generateFounderPersonSchema,
   generateVOICEDefinedTermSetSchema,
   generateBusinessAudienceSchema,
   generateScheduleActionSchema,
@@ -131,7 +130,6 @@ export default function RootLayout({
 }>) {
   const organizationSchema = generateOrganizationSchema();
   const websiteSchema = generateWebsiteSchema();
-  const founderSchema = generateFounderPersonSchema();
   const voiceTermSetSchema = generateVOICEDefinedTermSetSchema();
   const audienceSchema = generateBusinessAudienceSchema();
   const scheduleActionSchema = generateScheduleActionSchema();
@@ -141,7 +139,7 @@ export default function RootLayout({
       <head>
         <meta name="color-scheme" content="light" />
         <meta name="supported-color-schemes" content="light" />
-        <JsonLd schema={[organizationSchema, websiteSchema, founderSchema, voiceTermSetSchema, audienceSchema, scheduleActionSchema]} />
+        <JsonLd schema={[organizationSchema, websiteSchema, voiceTermSetSchema, audienceSchema, scheduleActionSchema]} />
       </head>
       <body
         className={`${paytoneOne.variable} ${inter.variable} font-body`}

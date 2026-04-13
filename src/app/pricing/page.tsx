@@ -7,7 +7,6 @@ import {
   generateBreadcrumbSchema,
   generateServiceSchema,
   generateOfferSchema,
-  generateFAQSchema,
   generateWebPageSchema,
   generateItemListSchema,
 } from '@/lib/schema';
@@ -120,8 +119,6 @@ export default function PricingPage() {
     '8000+'
   );
 
-  const faqSchema = generateFAQSchema(pricingFAQs);
-
   const offerListSchema = generateItemListSchema(
     `${PAGE_URL}/#offer-list`,
     'ScopeSite Web Design Packages',
@@ -151,8 +148,6 @@ export default function PricingPage() {
           enterpriseOffer,
         ]}
       />
-      {/* FAQPage schema as separate output for better Google recognition */}
-      <JsonLd schema={faqSchema} />
 
       {/* Hero Section */}
       <section className="bg-brand-navy pt-12 pb-8">

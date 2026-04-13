@@ -12,7 +12,6 @@ import { JsonLd } from '@/components/JsonLd';
 import {
   generateBreadcrumbSchema,
   generateAboutPageSchema,
-  generatePersonSchema,
   generateImageObjectSchema,
 } from '@/lib/schema';
 
@@ -123,30 +122,6 @@ export default function AboutPage() {
 
   const aboutPageSchema = generateAboutPageSchema(PAGE_URL);
 
-  const founderSchema = generatePersonSchema(
-    'Dan Cartwright',
-    'Director',
-    'British Army veteran and founder of ScopeSite Digital Studios. Creator of the V.O.I.C.E™ methodology for AI search visibility.',
-    `${BASE_URL}/images/dan-headshot.webp`,
-    {
-      knowsAbout: [
-        'AI Search Optimisation',
-        'Server-Side Rendering',
-        'Next.js',
-        'V.O.I.C.E Methodology',
-        'Schema Markup',
-        'Generative Engine Optimisation',
-      ],
-      hasCredential: {
-        credentialCategory: 'Military Service',
-        description: 'British Army Veteran',
-      },
-      sameAs: [
-        'https://www.linkedin.com/in/dan-cartwright-scopesite',
-      ],
-    }
-  );
-
   const headshotImageSchema = generateImageObjectSchema({
     contentUrl: `${BASE_URL}/images/dan-headshot.webp`,
     name: 'Dan Cartwright Headshot',
@@ -158,7 +133,7 @@ export default function AboutPage() {
   return (
     <>
       {/* Page-specific structured data */}
-      <JsonLd schema={[breadcrumbSchema, aboutPageSchema, founderSchema, headshotImageSchema]} />
+      <JsonLd schema={[breadcrumbSchema, aboutPageSchema, headshotImageSchema]} />
 
       {/* Hero Section */}
       <section className="bg-brand-navy text-white py-section min-h-[60vh] flex items-center">
