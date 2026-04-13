@@ -4,6 +4,11 @@
 # Default rule - allow all
 User-agent: *
 Allow: /
+Disallow: /portal/
+Disallow: /api/portal/
+Disallow: /llm-brain/order-confirmed/
+Disallow: /brief/
+Disallow: /search
 
 # AI Crawlers - Welcome!
 # We're an AI-first agency - we want AI to understand our content
@@ -39,6 +44,12 @@ User-agent: Cohere-ai
 Allow: /
 
 User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Claude-SearchBot
 Allow: /
 
 # AI/LLM Information Files

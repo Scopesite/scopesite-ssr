@@ -68,7 +68,7 @@ function FAQItem({ question, answer, isOpen, onClick }: {
           isOpen ? 'max-h-[500px] pb-6' : 'max-h-0'
         }`}
       >
-        <div className="text-muted leading-relaxed">{answer}</div>
+        <div className="faq-answer text-muted leading-relaxed">{answer}</div>
       </div>
     </div>
   );

@@ -119,7 +119,10 @@ const pageSchema = generateLandingPageSchema(
     name: 'AI Website Design',
     alternateNames: ['AI Web Design', 'AI-Powered Website Design', 'Artificial Intelligence Website Design'],
     description: 'AI website design service that builds websites optimised for ChatGPT recommendations, voice search, and AI answer engines using schema markup and structured data.',
-  }
+  },
+  undefined,
+  undefined,
+  ['h1', '.hero-description', '.faq-answer', 'h2']
 );
 
 export default function AIWebsiteDesignLayout({

@@ -2,7 +2,7 @@
 # Learn more: https://llmstxt.org/
 # This file contains expanded information for AI systems
 
-> ScopeSite Digital Studios is a veteran-owned, AI-first web design agency based in Somerset, UK. We specialize in making businesses visible to AI platforms like ChatGPT, Claude, and Perplexity through our proprietary V.O.I.C.E™ methodology.
+> Veteran-owned AI-first web design agency in Somerset, UK. We build server-side rendered websites optimised for Google, ChatGPT, Claude, Perplexity and Google AI Overviews using the V.O.I.C.E™ methodology.
 
 ---
 

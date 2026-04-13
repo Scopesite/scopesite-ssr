@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Phone, Mail, MapPin } from 'lucide-react';
+import { FooterSearch } from './FooterSearch';
 
 const FOOTER_LINKS = {
   services: [
@@ -86,6 +87,21 @@ export function Footer() {
 
   return (
     <footer className="bg-navy-gradient text-white" aria-label="Site footer">
+      {/* Search Bar Section */}
+      <div className="border-b border-white/10">
+        <div className="container-content py-10">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+              <h2 className="text-xl font-bold text-white mb-2">Looking for something specific?</h2>
+              <p className="text-white/70 text-sm">Search our services, case studies, and blog posts.</p>
+            </div>
+            <div className="w-full md:w-auto md:min-w-[400px]">
+              <FooterSearch />
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Main Footer Content */}
       <div className="container-content py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">

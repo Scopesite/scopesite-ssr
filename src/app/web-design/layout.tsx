@@ -6,6 +6,7 @@ import {
   generateFAQSchema,
   generateWebPageSchema,
   generateServiceChannels,
+  generateSpeakableSchema,
 } from '@/lib/schema';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -203,6 +204,7 @@ export default function WebDesignLayout({
       PAGE_URL
     ),
     mainEntity: { '@id': `${PAGE_URL}/#service` },
+    speakable: generateSpeakableSchema(['h1', '.hero-description', '.faq-answer', 'h2']),
   };
 
   return (

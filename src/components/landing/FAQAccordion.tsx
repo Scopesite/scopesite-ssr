@@ -44,7 +44,7 @@ function FAQAccordionItem({ question, answer, isOpen, onClick, theme = 'light' }
         role="region"
         aria-hidden={!isOpen}
       >
-        <p className={`${isLight ? 'text-muted' : 'text-white/70'} leading-relaxed whitespace-pre-line`}>
+        <p className={`faq-answer ${isLight ? 'text-muted' : 'text-white/70'} leading-relaxed whitespace-pre-line`}>
           {answer}
         </p>
       </div>

@@ -106,27 +106,28 @@ const faqs: FAQItem[] = [
   },
 ];
 
-// Generate page schema
-const pageSchema = generateLandingPageSchema(
-  PAGE_URL,
-  'AI SEO Services',
-  'AI SEO Services UK | Get Recommended by ChatGPT & AI Platforms',
-  'AI SEO services that get your business recommended by ChatGPT, Perplexity, and voice assistants. UK agency specialising in AI search optimisation with proven results.',
-  faqs,
-  {
-    name: 'AI SEO Services',
-    alternateNames: ['AI Search Optimisation', 'ChatGPT SEO', 'AI SEO Agency', 'Artificial Intelligence SEO'],
-    description: 'AI SEO services that get your business recommended by ChatGPT, Perplexity, and voice assistants using the V.O.I.C.E™ methodology.',
-  },
-  undefined,
-  {
-    isRelatedTo: [
-      { '@id': `${BASE_URL}/schema-markup/#service` },
-      { '@id': `${BASE_URL}/web-design/#service` },
-    ],
-    availableChannel: generateServiceChannels(),
-  }
-);
+  // Generate page schema
+  const pageSchema = generateLandingPageSchema(
+    PAGE_URL,
+    'AI SEO Services',
+    'AI SEO Services UK | Get Recommended by ChatGPT & AI Platforms',
+    'AI SEO services that get your business recommended by ChatGPT, Perplexity, and voice assistants. UK agency specialising in AI search optimisation with proven results.',
+    faqs,
+    {
+      name: 'AI SEO Services',
+      alternateNames: ['AI Search Optimisation', 'ChatGPT SEO', 'AI SEO Agency', 'Artificial Intelligence SEO'],
+      description: 'AI SEO services that get your business recommended by ChatGPT, Perplexity, and voice assistants using the V.O.I.C.E™ methodology.',
+    },
+    undefined,
+    {
+      isRelatedTo: [
+        { '@id': `${BASE_URL}/schema-markup/#service` },
+        { '@id': `${BASE_URL}/web-design/#service` },
+      ],
+      availableChannel: generateServiceChannels(),
+    },
+    ['h1', '.hero-description', '.faq-answer', 'h2']
+  );
 
 export default function AISEOServicesLayout({
   children,

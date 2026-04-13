@@ -92,7 +92,7 @@ export function LandingHero({
           </FadeInOnScroll>
           
           <FadeInOnScroll delay={1}>
-            <div className="text-body-lg text-white/70 mb-10 max-w-3xl mx-auto">
+            <div className="hero-description text-body-lg text-white/70 mb-10 max-w-3xl mx-auto">
               {typeof bodyCopy === 'string' ? <p>{bodyCopy}</p> : bodyCopy}
             </div>
           </FadeInOnScroll>

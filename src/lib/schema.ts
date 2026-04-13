@@ -45,7 +45,7 @@ export function generateOrganizationSchema() {
     name: 'ScopeSite Digital Studios',
     legalName: 'ScopeSite Digital Studios Ltd',
     description:
-      'Veteran-owned AI-first web design agency specializing in making UK businesses visible to ChatGPT, Claude, and AI search platforms using the V.O.I.C.E™ methodology.',
+      'Veteran-owned AI-first web design agency in Somerset, UK. We build server-side rendered websites optimised for Google, ChatGPT, Claude, Perplexity and Google AI Overviews using the V.O.I.C.E™ methodology.',
     url: BASE_URL,
     logo: {
       '@type': 'ImageObject',
@@ -152,6 +152,8 @@ export function generateOrganizationSchema() {
       'https://frome.cylex-uk.co.uk/company/scopesite-digital-studios-28469047.html',
       'https://diib.com/featuredmembers/scopesite-digital-studios/',
       'https://www.hotfrog.co.uk/company/ef91c8e5a352cf95b1dd6f23891ed6b6/scopesite-digital-studios/frome/web-design',
+      'https://www.crunchbase.com/organization/scopesite-digital-studios',
+      'https://www.bark.com/en/gb/company/scopesite/VVVVPy/',
     ],
     hasCertification: [
       {
@@ -204,7 +206,7 @@ export function generateOrganizationSchema() {
         slogan: 'Recommend Your Business',
         url: `${BASE_URL}/voice`,
         description:
-          "V.O.I.C.E. (Visibility, Optimisation, for Intelligent, Crawler, Engines) is ScopeSite Digital Studios' proprietary AI visibility methodology and scanning tool.",
+          "V.O.I.C.E. (Visibility, Optimisation, for Intelligent, Conversational, Engines) is ScopeSite Digital Studios' proprietary AI visibility methodology and scanning tool.",
       },
     ],
     hasOfferCatalog: {
@@ -383,7 +385,7 @@ export function generateVOICEDefinedTermSetSchema() {
     '@id': `${BASE_URL}/#voice-methodology`,
     name: 'V.O.I.C.E. Methodology',
     description:
-      "V.O.I.C.E. (Visibility, Optimisation, for Intelligent, Crawler, Engines) is ScopeSite Digital Studios' proprietary framework for measuring and improving AI visibility.",
+      "V.O.I.C.E. (Visibility, Optimisation, for Intelligent, Conversational, Engines) is ScopeSite Digital Studios' proprietary framework for measuring and improving AI visibility.",
     url: `${BASE_URL}/voice`,
     creator: { '@id': `${BASE_URL}/#organization` },
     hasDefinedTerm: [
@@ -549,6 +551,14 @@ export function generateWebsiteSchema() {
       '@id': `${BASE_URL}/#organization`,
     },
     inLanguage: 'en-GB',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${BASE_URL}/search?q={search_term_string}`
+      },
+      'query-input': 'required name=search_term_string'
+    }
   };
 }
 
@@ -1623,7 +1633,7 @@ export function generateWebPageFAQPageSchema(
   speakableCssSelectors?: string[]
 ) {
   const schema: Record<string, unknown> = {
-    '@type': ['WebPage', 'FAQPage'],
+    '@type': 'WebPage',
     '@id': url,
     url,
     name,
@@ -1632,14 +1642,6 @@ export function generateWebPageFAQPageSchema(
     isPartOf: { '@id': `${BASE_URL}/#website` },
     about: serviceId ? { '@id': serviceId } : { '@id': `${BASE_URL}/#organization` },
     breadcrumb: { '@id': `${url}#breadcrumb` },
-    mainEntity: faqs.map((faq) => ({
-      '@type': 'Question',
-      name: faq.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: faq.answer,
-      },
-    })),
   };
 
   if (speakableCssSelectors && speakableCssSelectors.length > 0) {
@@ -1830,7 +1832,8 @@ export function generateLandingPageSchema(
     isRelatedTo?: Array<{ '@id': string }>;
     availableChannel?: Record<string, unknown>[];
     potentialAction?: Record<string, unknown>;
-  }
+  },
+  speakableCssSelectors?: string[]
 ) {
   const schemas: Record<string, unknown>[] = [];
 
@@ -1841,7 +1844,8 @@ export function generateLandingPageSchema(
       pageTitle,
       pageDescription,
       faqs,
-      `${url}/#service`
+      `${url}/#service`,
+      speakableCssSelectors
     )
   );
 

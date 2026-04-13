@@ -23,22 +23,6 @@ const nextConfig: NextConfig = {
     ],
   },
 
-  // Headers for AI crawlers and SEO
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'X-Robots-Tag',
-            value:
-              'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
-          },
-        ],
-      },
-    ];
-  },
-
   // 301 redirects for old/changed URLs (legacy Wix site)
   async redirects() {
     return [
