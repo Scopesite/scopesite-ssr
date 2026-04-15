@@ -7,6 +7,7 @@ interface FeatureCard {
   title: string;
   items: string[];
   icon?: LucideIcon;
+  iconNode?: React.ReactNode;
 }
 
 interface LandingWhatYouGetProps {
@@ -50,9 +51,9 @@ export function LandingWhatYouGet({
           {cards.map((card, index) => (
             <StaggerItem key={index}>
               <div className="card-hover h-full">
-                {card.icon && (
+                {(card.icon || card.iconNode) && (
                   <div className="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brand-gold/10">
-                    <card.icon className="w-6 h-6 text-brand-gold" />
+                    {card.iconNode ? card.iconNode : (card.icon && <card.icon className="w-6 h-6 text-brand-gold" />)}
                   </div>
                 )}
                 <h3 className="text-brand-navy font-bold text-lg mb-4">

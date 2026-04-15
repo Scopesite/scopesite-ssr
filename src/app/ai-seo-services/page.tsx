@@ -1,370 +1,272 @@
-'use client';
-
-import { Search, Bot, FileCode, BarChart3, Eye, Mic, FileText, TrendingUp } from 'lucide-react';
+import Link from 'next/link';
+import { Search, Brain, Code2, Globe, Shield, Zap, TrendingUp, Eye, FileCode, FileText, Settings, Database } from 'lucide-react';
 import {
   LandingHero,
   LandingProblem,
   LandingSolution,
   LandingWhatYouGet,
   LandingProof,
-  LandingRelatedServices,
   LandingCaseStudy,
   FAQSection,
   LandingCTA,
 } from '@/components/landing';
-import { FadeInOnScroll } from '@/components/animations';
 
 // FAQ Data
 const faqItems = [
   {
-    question: "What's the difference between traditional SEO and AI SEO?",
-    answer: "Traditional SEO focuses on Google rankings through keywords, backlinks, and on-page optimisation. AI SEO focuses on getting recommended by AI platforms through schema markup, entity relationships, and content structure. Both matter, but they require different approaches. You can rank #1 on Google and still be invisible to ChatGPT."
+    question: "What AI SEO services do you offer?",
+    answer: "We offer a comprehensive suite of AI SEO services including V.O.I.C.E. AI visibility audits, AI-first website builds using server-side rendering (SSR), JSON-LD schema engineering, entity building across Knowledge Graphs, content architecture for AI extraction, and AI crawler configuration (robots.txt, llms.txt, ai-context.json)."
   },
   {
-    question: "How do you get ChatGPT to recommend my business?",
-    answer: "ChatGPT uses structured data, entity recognition, and content signals to decide which businesses to recommend. We implement schema markup that explicitly describes your business, services, location, and credentials. We structure your content so ChatGPT can extract clear answers. And we ensure AI crawlers can access and understand your site."
+    question: "Do I need a new website for AI SEO?",
+    answer: "Not always, but often yes. If your current website relies heavily on client-side JavaScript (like many Wix, Squarespace, or basic React sites), AI crawlers cannot read your content. In these cases, an AI-first website build using Next.js SSR is required. If your site is already server-side rendered, we can often implement schema and content architecture over the top."
   },
   {
-    question: "How long does AI SEO take to show results?",
-    answer: "Most clients see improvements in AI recommendations within 4-8 weeks. AI platforms re-crawl and update their understanding faster than traditional Google indexing. However, building strong entity recognition in knowledge graphs is an ongoing process that improves over time."
+    question: "What is a V.O.I.C.E. audit?",
+    answer: "A V.O.I.C.E. audit is our proprietary diagnostic scan that tests your business's visibility across 4 major AI platforms: ChatGPT, Claude, Gemini, and Perplexity. It identifies whether AI can see you, how it describes you, and what technical blockers are preventing you from being recommended."
   },
   {
-    question: "Do I still need traditional SEO if I do AI SEO?",
-    answer: "Yes. Google isn't going away, and many people still use traditional search. AI SEO and traditional SEO complement each other - good schema markup helps Google too, and quality content works across all platforms. We recommend doing both, which is why our packages include elements of each."
+    question: "How does schema markup help AI find my business?",
+    answer: "Schema markup (JSON-LD) is the structured data language that AI platforms use to understand facts about your business. Instead of forcing AI to guess what your website is about by reading paragraphs of text, schema explicitly states your services, prices, location, and credentials in a machine-readable format."
   },
   {
-    question: "What AI platforms do you optimise for?",
-    answer: "We optimise for ChatGPT, Perplexity, Claude, Google's AI Overviews, Bing Copilot, and voice assistants including Siri, Alexa, and Google Assistant. Our approach uses universal structured data standards that work across all platforms rather than trying to game individual systems."
+    question: "What is entity building and why does it matter?",
+    answer: "Entity building is the process of establishing your business as a recognised 'thing' (entity) in databases like Wikidata and the Google Knowledge Graph. AI models rely on these entity databases to verify facts. If you aren't an established entity, AI is less likely to trust and recommend you."
   },
   {
-    question: "How do you measure AI SEO success?",
-    answer: "We track direct AI mentions (when ChatGPT recommends you by name), voice search appearances, schema validation scores, and AI crawler access logs. We also benchmark against competitors' AI visibility. Traditional metrics like rankings and traffic matter too, but AI recommendation is our primary success metric."
+    question: "Can you optimise my existing Wix/WordPress/Squarespace site for AI?",
+    answer: "We can implement basic schema and content changes on WordPress, but platforms like Wix and Squarespace are fundamentally limited for true AI SEO because of how they render code and restrict server access. For serious AI visibility, we strongly recommend a custom SSR build."
   },
   {
-    question: "What's the V.O.I.C.E™ methodology?",
-    answer: "V.O.I.C.E™ stands for Voice Optimisation for Intelligent Conversational Engines. It's our proprietary framework for making businesses visible to AI platforms. It covers Vector Optimisation, Optimised Intelligence, Intelligent Architecture, Crawler Engineering, and Embedding Excellence - each addressing a different aspect of AI visibility."
+    question: "What is an AI visibility retainer?",
+    answer: "An AI visibility retainer is our ongoing service where we monitor your AI citations, update your schema as your business changes, add new content structured for AI extraction, and adapt to the rapidly changing algorithms of ChatGPT, Claude, and Perplexity."
   },
   {
-    question: "How much does AI SEO cost?",
-    answer: "AI SEO packages start from £750/month for ongoing optimisation. One-time implementations for smaller projects start from £1,500. The exact cost depends on your site's current state, competition level, and goals. Our quote calculator gives you a specific price based on your requirements."
-  },
-  {
-    question: "Can you help with voice search specifically?",
-    answer: "Yes. Voice search optimisation is a core part of our AI SEO services. We implement speakable schema markup, optimise content for conversational queries, and structure FAQ sections for voice assistant extraction. Voice search accounts for 58% of local searches - it's not optional anymore."
-  },
-  {
-    question: "What if my industry is very competitive?",
-    answer: "Competitive industries often benefit most from AI SEO because fewer competitors are doing it properly. While everyone fights over Google rankings, the AI recommendation space is relatively uncrowded. Getting in early on AI optimisation gives you an advantage that's hard for competitors to replicate quickly."
-  },
-  {
-    question: "Do you work with e-commerce businesses?",
-    answer: "Yes. E-commerce AI SEO includes Product schema, Offer schema, AggregateRating schema, and FAQ schema for product pages. We optimise for product-related AI queries like 'best X for Y' and 'where to buy Z'. The principles are the same, but the implementation is tailored to e-commerce needs."
-  },
-  {
-    question: "What's included in your AI visibility audit?",
-    answer: "Our audit checks how ChatGPT currently describes your business, your schema markup status, AI crawler access configuration, competitor AI visibility, voice search phrase opportunities, and knowledge graph presence. You get a detailed report with specific recommendations and priority actions."
-  },
-  {
-    question: "How often do you report on results?",
-    answer: "Monthly reports are standard, covering AI visibility metrics, schema validation status, new AI mentions detected, and recommendations for continued improvement. We also provide quarterly strategy reviews to adjust our approach based on results and any changes in the AI landscape."
-  },
-  {
-    question: "Can AI SEO help with local business visibility?",
-    answer: "Absolutely. Local businesses see some of the biggest gains from AI SEO because local searches are heavily shifting to voice assistants and AI. When someone asks 'Who's the best plumber near me?', proper LocalBusiness schema and entity relationships determine whether you get mentioned."
-  },
-  {
-    question: "What makes your approach different from other AI SEO agencies?",
-    answer: "Most agencies claiming to do AI SEO are just adding schema plugins and calling it done. We hand-code all schema markup, build proper entity relationships, validate against Schema.org standards (not just Google's limited tool), and actually test AI recommendations. Our 100% schema validation guarantee is unique in the industry."
-  },
-  {
-    question: "Do I need a new website for AI SEO to work?",
-    answer: "Not necessarily. If your current site allows custom code, we can implement AI optimisation without rebuilding. However, some platforms severely limit what's possible. During the audit, we'll tell you honestly whether your current setup can support proper AI SEO or if a rebuild makes more sense."
-  },
-  {
-    question: "What guarantee do you offer?",
-    answer: "We guarantee 100% schema validation against Schema.org standards. We also guarantee specific deliverables in writing before you commit - audit completion, schema implementation, and ongoing monitoring. We can't guarantee specific ChatGPT rankings (no one legitimately can), but we guarantee the work that creates visibility."
-  },
+    question: "How quickly will I see results from AI SEO services?",
+    answer: "Once an AI-first website is launched with proper schema and crawler access, we typically see initial citations in Perplexity within 2-4 weeks. Consistent recommendations in ChatGPT and Claude usually take 6-12 weeks as the models update their underlying data and entity confidence grows."
+  }
 ];
 
 // Problem points
 const problemPoints = [
   {
-    title: "Get you mentioned in AI-generated answers",
-    description: "Traditional SEO can't make ChatGPT or Perplexity recommend you by name."
+    title: "Client-Side Rendering Blockers",
+    description: "Most modern websites load a blank page and use JavaScript to fill in the content. AI crawlers don't run JavaScript. They see nothing."
   },
   {
-    title: "Make voice assistants recommend you",
-    description: "58% of local searches happen through voice - and Siri doesn't care about your Google ranking."
+    title: "Unstructured Data",
+    description: "Without JSON-LD schema, AI has to guess what your business does. Guessing leads to hallucinations or being ignored entirely."
   },
   {
-    title: "Build entity recognition in knowledge graphs",
-    description: "AI needs to understand what your business IS, not just find keywords on your pages."
+    title: "Blocked Crawlers",
+    description: "Many standard robots.txt configurations accidentally block GPTBot, ClaudeBot, and PerplexityBot. You are locking the door on AI."
   },
   {
-    title: "Create the structured signals AI uses to evaluate trust",
-    description: "You can be #1 on Google and completely invisible to AI. Thousands of businesses are discovering this the hard way."
-  },
-];
-
-// V.O.I.C.E methodology table
-const voiceMethodology = [
-  {
-    title: "V - Vector Optimisation",
-    description: "Content structured for AI embedding and retrieval",
-  },
-  {
-    title: "O - Optimised Intelligence",
-    description: "Schema markup that tells AI exactly what you do",
-  },
-  {
-    title: "I - Intelligent Architecture",
-    description: "Site structure AI crawlers can navigate and understand",
-  },
-  {
-    title: "C - Crawler Engineering",
-    description: "Proper access for GPTBot, ClaudeBot, PerplexityBot",
-  },
-  {
-    title: "E - Embedding Excellence",
-    description: "Content that gets captured in AI training data",
+    title: "Poor Content Architecture",
+    description: "Long, rambling paragraphs are hard for AI to extract facts from. Content must be structured for machine reading, not just human reading."
   },
 ];
 
 // Solution features
 const solutionFeatures = [
   {
-    title: "AI Visibility Audit",
-    description: "Complete analysis of how AI currently sees your business",
-    icon: Eye,
+    title: "V.O.I.C.E. Audit",
+    description: "Diagnostic scan across 4 AI platforms to establish your baseline visibility.",
+    iconNode: <Eye className="w-6 h-6 text-brand-gold" />,
   },
   {
-    title: "Schema Implementation",
-    description: "15+ schema types with proper entity relationships",
-    icon: FileCode,
+    title: "AI-First Builds",
+    description: "Next.js SSR architecture delivering server-rendered HTML that AI crawlers can read.",
+    iconNode: <Code2 className="w-6 h-6 text-brand-gold" />,
   },
   {
-    title: "Content Optimisation",
-    description: "Restructuring content for AI extraction and voice search",
-    icon: FileText,
+    title: "Schema Engineering",
+    description: "JSON-LD structured data that explicitly teaches AI what your business is.",
+    iconNode: <FileCode className="w-6 h-6 text-brand-gold" />,
   },
   {
-    title: "Ongoing Monitoring",
-    description: "Tracking AI mentions, voice search appearances, and recommendations",
-    icon: BarChart3,
+    title: "Entity Building",
+    description: "Wikidata, Google Knowledge Graph, directory submissions, and sameAs signals.",
+    iconNode: <Database className="w-6 h-6 text-brand-gold" />,
   },
 ];
 
 // What you get cards
 const whatYouGetCards = [
   {
-    title: "AI Visibility Foundation",
-    icon: Eye,
+    title: "Content Architecture",
+    iconNode: <FileText className="w-6 h-6 text-brand-gold" />,
     items: [
-      "Complete AI visibility audit",
-      "ChatGPT recommendation testing",
-      "Voice search phrase research",
-      "Competitor AI visibility analysis",
-      "Knowledge graph mapping",
+      "Content structured for AI extraction",
+      "FAQ-first content design",
+      "Clear entity relationships",
+      "Speakable schema for voice",
     ],
   },
   {
-    title: "Technical Implementation",
-    icon: FileCode,
+    title: "Crawler Configuration",
+    iconNode: <Settings className="w-6 h-6 text-brand-gold" />,
     items: [
-      "Schema markup implementation",
-      "Entity relationship engineering",
-      "AI crawler configuration",
-      "robots.txt and llms.txt optimisation",
-      "Speakable markup for voice search",
+      "Optimised robots.txt",
+      "llms.txt implementation",
+      ".well-known/ai-context.json",
+      "Crawler access monitoring",
     ],
   },
   {
-    title: "Content Optimisation",
-    icon: FileText,
+    title: "AI Visibility Retainer",
+    iconNode: <TrendingUp className="w-6 h-6 text-brand-gold" />,
     items: [
-      "Content restructuring for AI extraction",
-      "FAQ development for featured snippets",
-      "Question-answer formatting",
-      "Conversational keyword targeting",
-      "Voice search phrase optimisation",
+      "Ongoing AI citation monitoring",
+      "Schema maintenance",
+      "Content updates",
+      "Algorithm adaptation",
     ],
   },
   {
-    title: "Monitoring & Reporting",
-    icon: TrendingUp,
+    title: "Technical Foundation",
+    iconNode: <Shield className="w-6 h-6 text-brand-gold" />,
     items: [
-      "Monthly AI visibility reports",
-      "ChatGPT mention tracking",
-      "Schema validation monitoring",
-      "Voice search appearance tracking",
-      "Competitor AI visibility benchmarking",
+      "Server-Side Rendering (SSR)",
+      "100/100 Lighthouse scores",
+      "Core Web Vitals optimisation",
+      "Fast global edge delivery",
     ],
   },
 ];
 
 // Proof stats
 const proofStats = [
-  { value: 89, suffix: "%", label: "ChatGPT Recommendation Rate", description: "of our clients get recommended by ChatGPT" },
-  { value: 73, suffix: "%", label: "Voice Search Visibility", description: "improvement in voice search appearances" },
-  { value: 15, suffix: "+", label: "Schema Types Implemented", description: "per client on average" },
-  { value: 40, suffix: "+", label: "Client Industries", description: "different sectors optimised" },
+  { value: 100, suffix: "%", label: "Lighthouse Scores", description: "Perfect technical performance on every build" },
+  { value: 4, suffix: "x", label: "AI Platforms", description: "Optimised for ChatGPT, Claude, Gemini & Perplexity" },
+  { value: 800, suffix: "M+", label: "Weekly AI Users", description: "The audience you are currently missing" },
+  { value: 1, suffix: "st", label: "AI Recommendation", description: "Our goal for your business" },
 ];
 
 export default function AISEOServicesPage() {
   return (
     <>
-      {/* Hero Section */}
       <LandingHero
-        badge="AI Search Specialists"
-        badgeIcon={<Search className="w-4 h-4 text-brand-gold" />}
+        badge="AI SEO Services"
+        badgeIcon={<Code2 className="w-4 h-4 text-brand-gold" />}
         headlineHighlight="AI SEO SERVICES"
-        headline="THAT MAKE AI RECOMMEND YOU"
-        subheadline="Traditional SEO gets you ranked. AI SEO gets you recommended."
+        headline="EVERYTHING YOU NEED TO BE VISIBLE."
+        subheadline="Everything your business needs to become visible to AI search."
         bodyCopy={
           <>
             <p className="mb-4">
-              Google isn&apos;t the only search engine anymore. ChatGPT answers questions. Perplexity provides research. Claude writes recommendations. Voice assistants tell people who to call.
+              Being recommended by AI doesn't happen by accident. It requires a specific technical architecture, deep structured data, and content engineered for machine extraction.
             </p>
             <p className="mb-4">
-              And none of them care about your keyword rankings.
+              Our AI SEO services cover the entire stack: from auditing your current visibility with our V.O.I.C.E. scanner, to rebuilding your site with Server-Side Rendering (SSR), to engineering the JSON-LD schema that teaches AI exactly who you are.
             </p>
             <p>
-              AI SEO is a completely different discipline. It&apos;s not about stuffing keywords into meta tags or building dodgy backlinks. It&apos;s about structuring your content so AI understands your expertise, trusts your business, and recommends you when someone asks for help.
+              Learn more about our <Link href="/ai-seo-agency" className="text-brand-gold hover:underline">AI SEO agency</Link>, or check your current <Link href="/ai-visibility" className="text-brand-gold hover:underline">AI visibility</Link> with a free scan.
             </p>
           </>
         }
+        primaryCTA={{ text: 'Free V.O.I.C.E. Scan', href: '/voice' }}
+        secondaryCTA={{ text: 'Get a Quote', href: '/pricing' }}
       />
 
-      {/* Problem Section */}
       <LandingProblem
-        title="THE PROBLEM WITH TRADITIONAL SEO IN 2026"
-        intro="Traditional SEO worked brilliantly when Google was the only game in town. Rank high, get clicks, convert visitors. Simple. But search behaviour has changed fundamentally. 58% of local searches now happen through voice assistants. ChatGPT handles 100+ million queries daily. Here's what traditional SEO can't do:"
+        title="WHY YOUR CURRENT SITE IS INVISIBLE"
+        intro="Most websites are built for humans to look at, not for AI to read. Here are the technical blockers preventing you from being recommended."
         problems={problemPoints}
       />
 
-      {/* V.O.I.C.E Methodology Section */}
-      <section className="bg-brand-navy py-section">
-        <div className="container-content">
-          <FadeInOnScroll>
-            <div className="text-center mb-8 md:mb-12">
-              <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">
-                AI SEO: HOW WE MAKE AI TRUST YOU
-              </h2>
-              <p className="text-white/70 max-w-2xl mx-auto">
-                Our AI SEO services use the V.O.I.C.E™ methodology - Voice Optimisation for Intelligent Conversational Engines. This isn&apos;t a rebrand of traditional SEO tactics. It&apos;s a completely different approach.
-              </p>
-            </div>
-          </FadeInOnScroll>
-
-          <FadeInOnScroll delay={0.2}>
-            <div className="max-w-4xl mx-auto mb-12">
-              <h3 className="text-brand-gold font-bold text-xl mb-6 text-center">The V.O.I.C.E™ Framework</h3>
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-white/20">
-                      <th className="text-left py-4 px-4 text-brand-gold font-bold">Component</th>
-                      <th className="text-left py-4 px-4 text-brand-gold font-bold">What It Means</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {voiceMethodology.map((item, index) => (
-                      <tr key={index} className="border-b border-white/10 last:border-b-0">
-                        <td className="py-4 px-4 text-white font-bold align-top">
-                          {item.title}
-                        </td>
-                        <td className="py-4 px-4 text-white/70">
-                          {item.description}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </FadeInOnScroll>
-        </div>
-      </section>
-
-      {/* Solution Section (Features Grid) */}
       <LandingSolution
-        title="WHAT OUR AI SEO DELIVERS"
+        title="OUR AI SEO SERVICES"
         features={solutionFeatures}
         columns={4}
       />
 
-      {/* What You Get Section */}
+      {/* Service Breakdown */}
+      <section className="bg-brand-navy py-section">
+        <div className="container-content">
+          <div className="text-center mb-12">
+            <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">THE FULL STACK</h2>
+            <p className="text-white/70 max-w-2xl mx-auto">
+              We don't just tweak meta tags. We rebuild your technical foundation for <Link href="/answer-engine-optimisation" className="text-brand-gold hover:underline">Answer Engine Optimisation</Link>.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <div className="bg-brand-graphite/30 p-8 rounded-2xl border border-white/10">
+              <h3 className="text-brand-gold font-bold text-xl mb-3 flex items-center gap-2">
+                <Eye className="w-5 h-5" /> V.O.I.C.E. AI Visibility Audit
+              </h3>
+              <p className="text-white/70">A diagnostic scan across 4 AI platforms to establish your baseline visibility and identify technical blockers.</p>
+            </div>
+            <div className="bg-brand-graphite/30 p-8 rounded-2xl border border-white/10">
+              <h3 className="text-brand-gold font-bold text-xl mb-3 flex items-center gap-2">
+                <Code2 className="w-5 h-5" /> AI-First Website Build
+              </h3>
+              <p className="text-white/70">Next.js SSR architecture delivering server-rendered HTML that AI crawlers can read instantly, without relying on JavaScript execution.</p>
+            </div>
+            <div className="bg-brand-graphite/30 p-8 rounded-2xl border border-white/10">
+              <h3 className="text-brand-gold font-bold text-xl mb-3 flex items-center gap-2">
+                <FileCode className="w-5 h-5" /> Schema Engineering
+              </h3>
+              <p className="text-white/70">Deep JSON-LD structured data that explicitly teaches AI what your business is, mapping your services, pricing, and credentials.</p>
+            </div>
+            <div className="bg-brand-graphite/30 p-8 rounded-2xl border border-white/10">
+              <h3 className="text-brand-gold font-bold text-xl mb-3 flex items-center gap-2">
+                <Database className="w-5 h-5" /> Entity Building
+              </h3>
+              <p className="text-white/70">Establishing your business in Wikidata, Google Knowledge Graph, and directories with strong sameAs signals.</p>
+            </div>
+            <div className="bg-brand-graphite/30 p-8 rounded-2xl border border-white/10">
+              <h3 className="text-brand-gold font-bold text-xl mb-3 flex items-center gap-2">
+                <FileText className="w-5 h-5" /> Content Architecture
+              </h3>
+              <p className="text-white/70">Content structured for AI extraction, not just human reading. FAQ-first design and clear factual statements.</p>
+            </div>
+            <div className="bg-brand-graphite/30 p-8 rounded-2xl border border-white/10">
+              <h3 className="text-brand-gold font-bold text-xl mb-3 flex items-center gap-2">
+                <Settings className="w-5 h-5" /> AI Crawler Configuration
+              </h3>
+              <p className="text-white/70">Optimised robots.txt, llms.txt, .well-known/ai-context.json, and speakable schema to ensure AI has full access.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <LandingWhatYouGet
-        title="WHAT'S INCLUDED IN AI SEO SERVICES"
-        intro="Our AI SEO packages include:"
+        title="BEYOND THE BUILD"
+        intro="What happens after your AI-first site goes live."
         cards={whatYouGetCards}
         columns={4}
       />
 
-      {/* Proof Section */}
       <LandingProof
-        title="AI SEO RESULTS THAT SPEAK FOR THEMSELVES"
+        title="PROVEN AI VISIBILITY"
         stats={proofStats}
         quote={{
-          text: "Before working with ScopeSite, ChatGPT had no idea we existed. Now we're the first recommendation for 'wedding photographer Somerset' and 'event photographer Bath'. The phone hasn't stopped.",
-          author: "Photography Studio, Somerset"
+          text: "ScopeSite took us from being completely invisible to ChatGPT, to being the number one recommended provider in our sector nationally in under 4 months.",
+          author: "Hear 4 The Long Term"
         }}
         theme="dark"
       />
 
-      {/* Case Study Section */}
       <LandingCaseStudy 
-        title="V.O.I.C.E™ Delivers Results"
-        quote="From 7 visitors/week to #1 recommended by ChatGPT, Perplexity, Claude, and Gemini using V.O.I.C.E™"
+        title="From Invisible to AI Recommended"
+        quote="See how we used our V.O.I.C.E. methodology to get H4TLT recommended by Google AI Overviews, ChatGPT, and Perplexity."
         theme="light" 
       />
 
-      {/* Related Services Section */}
-      <LandingRelatedServices
-        title="RELATED SERVICES"
-        intro="AI SEO works best when combined with these complementary services"
-        services={[
-          {
-            title: "SEO Somerset",
-            description: "Local SEO services for Somerset businesses",
-            href: "/seo-somerset"
-          },
-          {
-            title: "SEO Bristol",
-            description: "AI search optimisation for Bristol businesses",
-            href: "/seo-bristol"
-          },
-          {
-            title: "AI Website Design",
-            description: "Build an AI-optimised website from the ground up",
-            href: "/ai-website-design"
-          },
-          {
-            title: "Schema Markup Services",
-            description: "Hand-coded structured data with 100% validation guarantee",
-            href: "/schema-markup"
-          },
-          {
-            title: "V.O.I.C.E™ Full Methodology",
-            description: "Learn about our complete AI visibility framework",
-            href: "/voice"
-          },
-        ]}
-        theme="dark"
-      />
-
-      {/* FAQ Section */}
       <FAQSection
-        title="AI SEO SERVICES: YOUR QUESTIONS ANSWERED"
+        title="AI SEO SERVICES FAQS"
         items={faqItems}
         theme="light"
       />
 
-      {/* Final CTA Section */}
       <LandingCTA
-        title="READY TO BE THE AI'S RECOMMENDATION?"
-        description="Every AI query in your industry is an opportunity. When someone asks ChatGPT for recommendations, will they hear your name or your competitor's? AI SEO isn't coming - it's here. Get your AI visibility audit today."
-        footnote="No obligation • 100% schema validation guarantee • Veteran-owned"
+        title="READY FOR AI VISIBILITY?"
+        description="Stop fighting for blue links while your competitors get recommended by AI. Run a free V.O.I.C.E. scan today, or get an instant quote for our AI SEO services."
+        primaryCTA={{ text: 'Free V.O.I.C.E. Scan', href: '/voice' }}
+        secondaryCTA={{ text: 'Get Instant Quote', href: '/pricing' }}
+        footnote="No corporate waffle • Real results • Read our latest insights on the blog"
       />
     </>
   );

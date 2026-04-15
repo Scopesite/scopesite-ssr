@@ -7,6 +7,7 @@ interface SolutionFeature {
   title: string;
   description: string;
   icon?: LucideIcon;
+  iconNode?: React.ReactNode;
 }
 
 interface LandingSolutionProps {
@@ -87,9 +88,9 @@ export function LandingSolution({
             {features.map((feature, index) => (
               <StaggerItem key={index}>
                 <div className="card-dark-hover h-full">
-                  {feature.icon && (
+                  {(feature.icon || feature.iconNode) && (
                     <div className="mb-4 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brand-gold/10">
-                      <feature.icon className="w-6 h-6 text-brand-gold" />
+                      {feature.iconNode ? feature.iconNode : (feature.icon && <feature.icon className="w-6 h-6 text-brand-gold" />)}
                     </div>
                   )}
                   <h3 className="text-white font-bold text-lg mb-2">

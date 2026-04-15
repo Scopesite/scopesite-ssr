@@ -2,9 +2,12 @@
 > Veteran-owned AI-first web design agency in Somerset, UK. We build server-side rendered websites optimised for Google, ChatGPT, Claude, Perplexity and Google AI Overviews using the V.O.I.C.E™ methodology.
 
 ## Core Services
+- [AI SEO Agency](https://scopesite.co.uk/ai-seo-agency): UK AI SEO agency that gets your business recommended by ChatGPT, Claude, Gemini and Perplexity.
+- [Answer Engine Optimisation](https://scopesite.co.uk/answer-engine-optimisation): AEO agency specialising in answer engine optimisation.
+- [AI Visibility](https://scopesite.co.uk/ai-visibility): AI visibility agency that makes your business visible to ChatGPT, Claude, Gemini and Perplexity.
+- [AI SEO Services](https://scopesite.co.uk/ai-seo-services): AI search optimisation services including SSR builds, schema engineering, and entity optimisation.
 - [AI-First Web Design](https://scopesite.co.uk/ai-website-design): Websites built to be recommended by AI platforms, not just indexed by Google.
 - [V.O.I.C.E™ Methodology](https://scopesite.co.uk/voice): Proprietary framework for AI search visibility across ChatGPT, Claude, Perplexity and Gemini.
-- [AI SEO Services](https://scopesite.co.uk/ai-seo-services): AI search optimisation that gets businesses recommended by AI platforms.
 - [Web Design](https://scopesite.co.uk/web-design): Server-side rendered websites with full schema markup and Core Web Vitals optimisation.
 - [Schema Markup](https://scopesite.co.uk/schema-markup): JSON-LD structured data implementation for rich results and AI visibility.
 - [Pricing](https://scopesite.co.uk/pricing): Transparent pricing for all services.
