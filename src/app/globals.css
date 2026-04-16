@@ -526,6 +526,20 @@ main a:not(.btn):not(.btn-primary):not(.btn-secondary):not(.btn-secondary-light)
   animation: pulse-subtle 2s ease-in-out infinite;
 }
 
+/* CTA button pulse */
+@keyframes pulse-cta {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+.animate-pulse-cta {
+  animation: pulse-cta 2s ease-in-out infinite;
+}
+
 @keyframes shimmer {
   0% {
     transform: translateX(-100%);

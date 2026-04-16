@@ -6,9 +6,9 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/case-studies/h4tlt`;
 
 export const metadata: Metadata = {
-  title: 'Case Study: H4TLT | V.O.I.C.E.™ Methodology',
+  title: 'Case Study: H4TLT | From Invisible to National #1 in 4 Months | V.O.I.C.E.™ | ScopeSite',
   description:
-    'How we helped a UK hearing compliance provider become the #1 AI-recommended option in 6 weeks using the V.O.I.C.E.™ methodology.',
+    'How V.O.I.C.E.™ methodology took a Somerset audiologist from 7 visitors/week to nationally recommended by Google AI Overview, ChatGPT and Perplexity. No ad spend. No backlinks.',
   keywords: [
     'case study',
     'V.O.I.C.E methodology',
@@ -19,9 +19,9 @@ export const metadata: Metadata = {
     'AI SEO case study',
   ],
   openGraph: {
-    title: 'Case Study: H4TLT | V.O.I.C.E.™ Methodology | ScopeSite',
+    title: 'Case Study: H4TLT | From Invisible to National #1 in 4 Months | V.O.I.C.E.™ | ScopeSite',
     description:
-      'How we helped a UK hearing compliance provider become the #1 AI-recommended option in 6 weeks using the V.O.I.C.E.™ methodology.',
+      'How V.O.I.C.E.™ methodology took a Somerset audiologist from 7 visitors/week to nationally recommended by Google AI Overview, ChatGPT and Perplexity. No ad spend. No backlinks.',
     url: PAGE_URL,
     siteName: 'ScopeSite Digital Studios',
     images: [
@@ -37,9 +37,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Case Study: H4TLT | V.O.I.C.E.™ Methodology | ScopeSite',
+    title: 'Case Study: H4TLT | From Invisible to National #1 in 4 Months | V.O.I.C.E.™ | ScopeSite',
     description:
-      'How we helped a UK hearing compliance provider become the #1 AI-recommended option in 6 weeks.',
+      'How V.O.I.C.E.™ methodology took a Somerset audiologist from 7 visitors/week to nationally recommended by Google AI Overview, ChatGPT and Perplexity. No ad spend. No backlinks.',
     images: [`${BASE_URL}/images/og/og-case-study-h4tlt.png`],
   },
   alternates: {
@@ -60,37 +60,99 @@ export default function CaseStudyLayout({
 
   // Case study article schema
   const caseStudySchema = {
-    '@type': ['Article', 'Report'],
-    '@id': `${PAGE_URL}/#article`,
-    headline: 'How a UK Hearing Compliance Provider Became the #1 AI-Recommended Option in 6 Weeks',
-    description: 'Case study showing how V.O.I.C.E.™ methodology helped H4TLT achieve top AI visibility across ChatGPT, Perplexity, Claude, and Gemini.',
-    url: PAGE_URL,
-    datePublished: '2025-01-27',
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    '@id': `${PAGE_URL}#article`,
+    headline: 'From Invisible to National #1 in 4 Months: H4TLT Case Study',
+    description: 'How V.O.I.C.E. methodology took a Somerset audiologist from zero AI visibility to being recommended nationally by Google AI Overview, ChatGPT and Perplexity in 4 months.',
     author: {
-      '@id': `${BASE_URL}/#dan-cartwright`,
+      '@type': 'Person',
+      name: 'Dan Cartwright',
+      url: `${BASE_URL}/about`
     },
     publisher: {
-      '@id': `${BASE_URL}/#organization`,
+      '@type': 'Organization',
+      name: 'ScopeSite Digital Studios',
+      '@id': `${BASE_URL}/#organization`
     },
+    datePublished: '2026-01-15',
+    dateModified: '2026-04-16',
     about: {
-      '@type': 'Thing',
-      name: 'V.O.I.C.E.™ Methodology',
-      description: 'Answer Engine Optimisation methodology for AI visibility',
+      '@type': 'Service',
+      name: 'V.O.I.C.E. AI Visibility Methodology',
+      provider: {
+        '@type': 'Organization',
+        name: 'ScopeSite Digital Studios'
+      }
     },
+    mentions: [
+      {
+        '@type': 'Organization',
+        name: 'Hear 4 The Long Term',
+        url: 'https://hear4thelongterm.co.uk'
+      }
+    ]
+  };
+
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How long did it take for H4TLT to appear in AI recommendations?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The website went live on 1 January 2026. By April 2026, H4TLT was being recommended nationally by Google AI Overview, ChatGPT and Perplexity across multiple search queries.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the V.O.I.C.E. methodology?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'V.O.I.C.E. stands for Visibility, Optimisation, for Intelligent, Crawler, Engines. It is a research-backed methodology developed by ScopeSite Digital Studios for making businesses visible to AI assistants like ChatGPT, Claude, Gemini and Perplexity.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does AI visibility work for small businesses?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'H4TLT is a single-operator audiology business. Within 4 months of implementing V.O.I.C.E., it was recommended nationally alongside firms that have operated for decades with significantly larger marketing budgets. The methodology is designed to level the playing field.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'How much does AI visibility optimisation cost?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The H4TLT project was delivered for under £5,000 including website build, schema implementation, entity building, and content architecture. Start with a free V.O.I.C.E. scan at voice.scopesite.co.uk to see where your site currently stands.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Is AI visibility the same as SEO?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No. AI platforms use different crawlers, different ranking signals, and different citation logic to traditional search engines. The Princeton GEO paper (2024) found that traditional SEO techniques like keyword stuffing performed 10% worse on AI platforms than doing nothing. AI visibility requires a distinct methodology.'
+        }
+      }
+    ]
   };
 
   const webPageSchema = {
     ...generateWebPageSchema(
-      'Case Study: H4TLT | V.O.I.C.E.™ Methodology',
-      'How we helped a UK hearing compliance provider become the #1 AI-recommended option in 6 weeks using the V.O.I.C.E.™ methodology.',
+      'Case Study: H4TLT | From Invisible to National #1 in 4 Months | V.O.I.C.E.™ | ScopeSite',
+      'How V.O.I.C.E.™ methodology took a Somerset audiologist from 7 visitors/week to nationally recommended by Google AI Overview, ChatGPT and Perplexity. No ad spend. No backlinks.',
       PAGE_URL
     ),
-    mainEntity: { '@id': `${PAGE_URL}/#article` },
+    mainEntity: { '@id': `${PAGE_URL}#article` },
   };
 
   return (
     <>
-      <JsonLd schema={[webPageSchema, breadcrumbSchema, caseStudySchema]} />
+      <JsonLd schema={[webPageSchema, breadcrumbSchema, caseStudySchema, faqSchema]} />
       {children}
     </>
   );
