@@ -102,7 +102,7 @@ export default function CaseStudyLayout({
         url: 'https://hear4thelongterm.co.uk',
         founder: {
           '@type': 'Person',
-          '@id': 'https://hear4thelongterm.co.uk/#mark-ashmore",
+          '@id': 'https://hear4thelongterm.co.uk/#mark-ashmore',
           name: 'Mark Ashmore',
           jobTitle: 'Registered Audiologist',
           hasCredential: {
@@ -164,12 +164,12 @@ export default function CaseStudyLayout({
         about: { '@id': 'https://scopesite.co.uk/#voice-methodology' },
         mentions: [
           { '@id': 'https://hear4thelongterm.co.uk/#organization' },
-          { '@id": "https://doi.org/10.61841/xt3he524" },
-          { '@id": "https://doi.org/10.1145/3637528.3671900" }
+          { '@id': 'https://doi.org/10.61841/xt3he524' },
+          { '@id': 'https://doi.org/10.1145/3637528.3671900' }
         ],
         citation: [
-          { '@id": "https://doi.org/10.61841/xt3he524" },
-          { '@id": "https://doi.org/10.1145/3637528.3671900" }
+          { '@id': 'https://doi.org/10.61841/xt3he524' },
+          { '@id': 'https://doi.org/10.1145/3637528.3671900' }
         ]
       },
       {
