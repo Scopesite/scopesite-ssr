@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { 
   ChevronDown,
@@ -7,14 +8,13 @@ import {
   Settings, 
   Brain, 
   Cpu,
-  ArrowRight,
   Check,
   X,
-  Bot,
-  ClipboardCheck,
-  MessageSquare
+  MessageSquare,
+  Search
 } from 'lucide-react';
 import { FadeInOnScroll, StaggerContainer, StaggerItem, AnimatedCounter } from '@/components/animations';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 // V.O.I.C.E. methodology data
 const voiceSteps = [
@@ -50,28 +50,6 @@ const voiceSteps = [
   },
 ];
 
-// AI results data
-const aiResults = [
-  {
-    platform: 'Google AI Overview',
-    query: '"best HSE industrial hearing tests UK"',
-    description: 'H4TLT listed first nationally in Google\'s AI-generated overview. Pricing shown alongside the recommendation. Appearing next to firms that have been operating for decades with significantly larger marketing budgets.',
-    quote: 'Known for pioneering a self-service audiometric testing system to lower costs.',
-  },
-  {
-    platform: 'ChatGPT',
-    query: '"cheapest industrial HSE hearing tests in the UK"',
-    description: 'Named by ChatGPT as the top option for cost-effective HSE-compliant hearing tests. Cited with a direct link to the H4TLT website as a primary source.',
-    quote: 'This is the absolute bargain option right now.',
-  },
-  {
-    platform: 'Perplexity',
-    query: '"best HSE industrial hearing test company UK"',
-    description: 'Cited as a primary source by Perplexity\'s research AI. Named first for cost and flexibility. Listed alongside established nationwide operators including Clarity Occupational Health and Latus Group.',
-    quote: 'Hear 4 The Long Term: strongest if you want the lowest reported per-test pricing and a highly flexible, self-service model with HSE-compliant documentation.',
-  },
-];
-
 // Before/After comparison
 const comparison = [
   { metric: 'Weekly traffic', before: '7 visitors', after: '53 unique visitors in the last 30 days, up 36%' },
@@ -86,6 +64,61 @@ const comparison = [
 ];
 
 export default function H4TLTCaseStudyPage() {
+  const [activeCard, setActiveCard] = useState<number | null>(null);
+  const prefersReducedMotion = useReducedMotion();
+
+  const defaultTransforms = [
+    { rotate: -3, x: -40, y: 0, z: 3 },
+    { rotate: 0, x: 0, y: -20, z: 2 },
+    { rotate: 3, x: 40, y: -40, z: 1 },
+  ];
+
+  function getCardStyle(index: number) {
+    const d = defaultTransforms[index];
+    const isActive = activeCard === index;
+    const hasActive = activeCard !== null;
+    const receded = hasActive && !isActive;
+
+    if (prefersReducedMotion) {
+      return {
+        zIndex: isActive ? 10 : d.z,
+        opacity: receded ? 0.7 : 1,
+      };
+    }
+
+    if (isActive) {
+      return {
+        transform: 'rotate(0deg) translateX(0px) translateY(0px) scale(1.05)',
+        zIndex: 10,
+        opacity: 1,
+      };
+    }
+
+    if (receded) {
+      const pushFactor = 1.4;
+      return {
+        transform: `rotate(${d.rotate}deg) translateX(${d.x * pushFactor}px) translateY(${d.y}px) scale(0.95)`,
+        zIndex: d.z,
+        opacity: 0.7,
+      };
+    }
+
+    return {
+      transform: `rotate(${d.rotate}deg) translateX(${d.x}px) translateY(${d.y}px) scale(1)`,
+      zIndex: d.z,
+      opacity: 1,
+    };
+  }
+
+  const cardInteraction = (index: number) => ({
+    onMouseEnter: () => setActiveCard(index),
+    onMouseLeave: () => setActiveCard(null),
+    onClick: () => setActiveCard(activeCard === index ? null : index),
+    onFocus: () => setActiveCard(index),
+    onBlur: () => setActiveCard(null),
+    tabIndex: 0,
+  });
+
   return (
     <>
       {/* Section 1: Hero */}
@@ -284,7 +317,7 @@ export default function H4TLTCaseStudyPage() {
       </section>
 
       {/* Section 6: Second CTA Interrupt */}
-      <section className="bg-brand-navy py-16 border-t border-white/10">
+      <section className="bg-brand-graphite py-16">
         <div className="container-content text-center">
           <FadeInOnScroll>
             <p className="text-white text-2xl font-medium mb-8">Want to see which V.O.I.C.E. pillars your site is missing?</p>
@@ -295,11 +328,11 @@ export default function H4TLTCaseStudyPage() {
         </div>
       </section>
 
-      {/* Section 7: The Results — Progressive Platform Reveal */}
+      {/* Section 7: The Results — Overlapping Platform Cards */}
       <section className="bg-brand-navy py-section overflow-hidden">
         <div className="container-content">
           <FadeInOnScroll>
-            <div className="text-center mb-16">
+            <div className="text-center mb-16 md:mb-24">
               <h2 className="text-white text-3xl sm:text-4xl mb-4">The results</h2>
               <p className="text-slate-400 text-lg max-w-2xl mx-auto">
                 Four months after the new site went live. Three major AI platforms. All recommending Mark nationally.
@@ -307,24 +340,245 @@ export default function H4TLTCaseStudyPage() {
             </div>
           </FadeInOnScroll>
 
-          <StaggerContainer className="max-w-4xl mx-auto space-y-8" staggerDelay={0.3}>
-            {aiResults.map((result, index) => (
-              <StaggerItem key={index} direction="up">
-                <div className="bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-sm">
-                  <h3 className="text-brand-gold text-2xl font-bold mb-4">{result.platform}</h3>
-                  <p className="text-slate-400 italic mb-6 text-lg">Query: {result.query}</p>
-                  <p className="text-white text-lg leading-relaxed mb-6">
-                    {result.description}
-                  </p>
-                  <div className="bg-brand-navy/50 border-l-4 border-brand-gold p-6 rounded-r-lg">
-                    <p className="text-brand-gold font-medium italic text-lg">
-                      "{result.quote}"
-                    </p>
+          {/* Desktop: overlapping fanned stack */}
+          <div
+            className="hidden md:flex justify-center items-start max-w-[900px] mx-auto pb-16"
+            style={{ perspective: '1000px' }}
+            role="group"
+            aria-label="AI platform recommendations"
+          >
+            {/* Card 0: Google AI Overview */}
+            <article
+              className="relative w-[420px] rounded-xl cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-brand-gold"
+              style={{
+                ...getCardStyle(0),
+                willChange: 'transform, opacity',
+                transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
+                marginRight: '-140px',
+              }}
+              aria-label="Google AI Overview recommendation for H4TLT"
+              {...cardInteraction(0)}
+            >
+              <div className="bg-white rounded-xl overflow-hidden">
+                <div className="bg-[#F1F3F4] px-4 py-3 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg font-bold">
+                      <span className="text-[#4285F4]">G</span>
+                      <span className="text-[#EA4335]">o</span>
+                      <span className="text-[#FBBC05]">o</span>
+                      <span className="text-[#4285F4]">g</span>
+                      <span className="text-[#34A853]">l</span>
+                      <span className="text-[#EA4335]">e</span>
+                    </span>
+                    <span className="text-[#5F6368] text-sm font-medium">AI Overview</span>
                   </div>
                 </div>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
+                <div className="p-6">
+                  <div className="inline-block bg-[#E8EAED] rounded-full px-4 py-1.5 text-sm text-[#202124] mb-4">
+                    best HSE industrial hearing tests UK
+                  </div>
+                  <p className="text-[#202124] text-sm leading-relaxed mb-4">
+                    H4TLT listed first nationally. Pricing shown alongside the recommendation. Appearing next to firms operating for decades with significantly larger marketing budgets.
+                  </p>
+                  <div className="border-l-4 border-brand-gold bg-[#FEF9E7] p-4 rounded-r-lg mb-4">
+                    <p className="text-[#202124] text-sm italic">
+                      &ldquo;Known for pioneering a self-service audiometric testing system to lower costs.&rdquo;
+                    </p>
+                  </div>
+                  <p className="text-[#5F6368] text-xs">April 2026</p>
+                </div>
+              </div>
+            </article>
+
+            {/* Card 1: ChatGPT */}
+            <article
+              className="relative w-[420px] rounded-xl cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-brand-gold"
+              style={{
+                ...getCardStyle(1),
+                willChange: 'transform, opacity',
+                transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                boxShadow: '0 2px 12px rgba(0,0,0,0.3)',
+                marginRight: '-140px',
+              }}
+              aria-label="ChatGPT recommendation for H4TLT"
+              {...cardInteraction(1)}
+            >
+              <div className="bg-[#343541] rounded-xl overflow-hidden">
+                <div className="bg-[#40414F] px-4 py-3 flex items-center gap-2">
+                  <div className="w-5 h-5 rounded-full bg-[#10A37F] flex items-center justify-center">
+                    <span className="text-white text-[10px] font-bold">AI</span>
+                  </div>
+                  <span className="text-white text-sm font-medium">ChatGPT</span>
+                </div>
+                <div className="p-6">
+                  <div className="bg-[#40414F] rounded-2xl px-4 py-3 mb-4">
+                    <p className="text-[#D1D5DB] text-sm">cheapest industrial HSE hearing tests in the UK</p>
+                  </div>
+                  <p className="text-[#ECECF1] text-sm leading-relaxed mb-4">
+                    Named as the top option for cost-effective HSE-compliant hearing tests. Cited with a direct link to the H4TLT website as a primary source.
+                  </p>
+                  <p className="text-brand-gold font-medium text-sm italic mb-4">
+                    &ldquo;This is the absolute bargain option right now.&rdquo;
+                  </p>
+                  <p className="text-[#8E8EA0] text-xs">April 2026</p>
+                </div>
+              </div>
+            </article>
+
+            {/* Card 2: Perplexity */}
+            <article
+              className="relative w-[420px] rounded-xl cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-brand-gold"
+              style={{
+                ...getCardStyle(2),
+                willChange: 'transform, opacity',
+                transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                boxShadow: '0 2px 12px rgba(0,0,0,0.3)',
+              }}
+              aria-label="Perplexity recommendation for H4TLT"
+              {...cardInteraction(2)}
+            >
+              <div className="bg-[#1A1A2E] rounded-xl overflow-hidden">
+                <div className="bg-[#252547] px-4 py-3 flex items-center gap-2">
+                  <Search className="w-4 h-4 text-[#20B2AA]" />
+                  <span className="text-white text-sm font-medium">Perplexity</span>
+                  <span className="text-[#20B2AA] text-xs ml-auto">Answer</span>
+                </div>
+                <div className="p-6">
+                  <p className="text-[#8E8EA0] text-sm italic mb-4">best HSE industrial hearing test company UK</p>
+                  <p className="text-white/90 text-sm leading-relaxed mb-4">
+                    Cited as a primary source. Named first for cost and flexibility. Listed alongside established nationwide operators including Clarity Occupational Health and Latus Group.
+                  </p>
+                  <p className="text-[#20B2AA] font-medium text-sm italic mb-4">
+                    &ldquo;Hear 4 The Long Term: strongest if you want the lowest reported per-test pricing and a highly flexible, self-service model with HSE-compliant documentation.&rdquo;
+                  </p>
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="bg-[#20B2AA]/20 text-[#20B2AA] rounded-full text-xs px-3 py-1">hear4thelongterm.co.uk</span>
+                  </div>
+                  <p className="text-[#8E8EA0] text-xs">April 2026</p>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          {/* Mobile: vertical stack with overlap */}
+          <div
+            className="md:hidden flex flex-col items-center px-4"
+            role="group"
+            aria-label="AI platform recommendations"
+          >
+            {/* Mobile Card 0: Google AI Overview */}
+            <article
+              className="relative w-full max-w-[calc(100vw-48px)] rounded-xl cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-brand-gold"
+              style={{
+                zIndex: activeCard === 0 ? 10 : 3,
+                opacity: activeCard !== null && activeCard !== 0 ? 0.7 : 1,
+                transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
+              }}
+              aria-label="Google AI Overview recommendation for H4TLT"
+              {...cardInteraction(0)}
+            >
+              {activeCard !== 0 && <span className="absolute top-2 right-3 text-[#5F6368] text-[10px] uppercase tracking-wider z-10">Tap to view</span>}
+              <div className="bg-white rounded-xl overflow-hidden">
+                <div className="bg-[#F1F3F4] px-4 py-3 flex items-center gap-2">
+                  <span className="text-lg font-bold">
+                    <span className="text-[#4285F4]">G</span>
+                    <span className="text-[#EA4335]">o</span>
+                    <span className="text-[#FBBC05]">o</span>
+                    <span className="text-[#4285F4]">g</span>
+                    <span className="text-[#34A853]">l</span>
+                    <span className="text-[#EA4335]">e</span>
+                  </span>
+                  <span className="text-[#5F6368] text-sm font-medium">AI Overview</span>
+                </div>
+                <div className="p-5">
+                  <div className="inline-block bg-[#E8EAED] rounded-full px-3 py-1 text-sm text-[#202124] mb-3">
+                    best HSE industrial hearing tests UK
+                  </div>
+                  <p className="text-[#202124] text-sm leading-relaxed mb-3">
+                    H4TLT listed first nationally. Pricing shown alongside the recommendation.
+                  </p>
+                  <div className="border-l-4 border-brand-gold bg-[#FEF9E7] p-3 rounded-r-lg mb-3">
+                    <p className="text-[#202124] text-sm italic">
+                      &ldquo;Known for pioneering a self-service audiometric testing system to lower costs.&rdquo;
+                    </p>
+                  </div>
+                  <p className="text-[#5F6368] text-xs">April 2026</p>
+                </div>
+              </div>
+            </article>
+
+            {/* Mobile Card 1: ChatGPT */}
+            <article
+              className="relative w-full max-w-[calc(100vw-48px)] rounded-xl cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-brand-gold -mt-8"
+              style={{
+                zIndex: activeCard === 1 ? 10 : 2,
+                opacity: activeCard !== null && activeCard !== 1 ? 0.7 : 1,
+                transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                boxShadow: '0 2px 12px rgba(0,0,0,0.3)',
+              }}
+              aria-label="ChatGPT recommendation for H4TLT"
+              {...cardInteraction(1)}
+            >
+              {activeCard !== 1 && <span className="absolute top-2 right-3 text-[#8E8EA0] text-[10px] uppercase tracking-wider z-10">Tap to view</span>}
+              <div className="bg-[#343541] rounded-xl overflow-hidden">
+                <div className="bg-[#40414F] px-4 py-3 flex items-center gap-2">
+                  <div className="w-5 h-5 rounded-full bg-[#10A37F] flex items-center justify-center">
+                    <span className="text-white text-[10px] font-bold">AI</span>
+                  </div>
+                  <span className="text-white text-sm font-medium">ChatGPT</span>
+                </div>
+                <div className="p-5">
+                  <div className="bg-[#40414F] rounded-2xl px-4 py-2 mb-3">
+                    <p className="text-[#D1D5DB] text-sm">cheapest industrial HSE hearing tests in the UK</p>
+                  </div>
+                  <p className="text-[#ECECF1] text-sm leading-relaxed mb-3">
+                    Named as the top option for cost-effective HSE-compliant hearing tests.
+                  </p>
+                  <p className="text-brand-gold font-medium text-sm italic mb-3">
+                    &ldquo;This is the absolute bargain option right now.&rdquo;
+                  </p>
+                  <p className="text-[#8E8EA0] text-xs">April 2026</p>
+                </div>
+              </div>
+            </article>
+
+            {/* Mobile Card 2: Perplexity */}
+            <article
+              className="relative w-full max-w-[calc(100vw-48px)] rounded-xl cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-brand-gold -mt-8"
+              style={{
+                zIndex: activeCard === 2 ? 10 : 1,
+                opacity: activeCard !== null && activeCard !== 2 ? 0.7 : 1,
+                transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                boxShadow: '0 2px 12px rgba(0,0,0,0.3)',
+              }}
+              aria-label="Perplexity recommendation for H4TLT"
+              {...cardInteraction(2)}
+            >
+              {activeCard !== 2 && <span className="absolute top-2 right-3 text-[#8E8EA0] text-[10px] uppercase tracking-wider z-10">Tap to view</span>}
+              <div className="bg-[#1A1A2E] rounded-xl overflow-hidden">
+                <div className="bg-[#252547] px-4 py-3 flex items-center gap-2">
+                  <Search className="w-4 h-4 text-[#20B2AA]" />
+                  <span className="text-white text-sm font-medium">Perplexity</span>
+                  <span className="text-[#20B2AA] text-xs ml-auto">Answer</span>
+                </div>
+                <div className="p-5">
+                  <p className="text-[#8E8EA0] text-sm italic mb-3">best HSE industrial hearing test company UK</p>
+                  <p className="text-white/90 text-sm leading-relaxed mb-3">
+                    Cited as a primary source. Named first for cost and flexibility.
+                  </p>
+                  <p className="text-[#20B2AA] font-medium text-sm italic mb-3">
+                    &ldquo;Hear 4 The Long Term: strongest if you want the lowest reported per-test pricing and a highly flexible, self-service model.&rdquo;
+                  </p>
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="bg-[#20B2AA]/20 text-[#20B2AA] rounded-full text-xs px-3 py-1">hear4thelongterm.co.uk</span>
+                  </div>
+                  <p className="text-[#8E8EA0] text-xs">April 2026</p>
+                </div>
+              </div>
+            </article>
+          </div>
         </div>
       </section>
 
@@ -596,8 +850,8 @@ export default function H4TLTCaseStudyPage() {
         <div className="container-content text-center">
           <div className="max-w-4xl mx-auto">
             <FadeInOnScroll>
-              <h2 className="text-white text-3xl sm:text-4xl md:text-[40px] font-bold mb-8 leading-tight">
-                When a prospect asks ChatGPT to recommend a good [solicitor / accountant / estate agent] in your area, is your firm on the list?
+              <h2 className="text-white text-[28px] sm:text-[36px] md:text-[42px] font-body font-bold normal-case mb-8 leading-tight">
+                When a prospect asks ChatGPT to recommend a good <span className="text-brand-gold">[solicitor / accountant / estate agent]</span> in your area, is your firm on the list?
               </h2>
             </FadeInOnScroll>
             

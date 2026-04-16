@@ -46,13 +46,13 @@ export const metadata: Metadata = {
 
 const caseStudies = [
   {
-    title: 'How a UK Hearing Compliance Provider Became the #1 AI-Recommended Option in 6 Weeks',
+    title: 'From Invisible to National #1 in 4 Months',
     client: 'Hear 4 The Long Term (H4TLT)',
     slug: 'h4tlt',
-    description: 'Case study showing how V.O.I.C.E.™ methodology helped H4TLT achieve top AI visibility across ChatGPT, Perplexity, Claude, and Gemini.',
+    description: 'How V.O.I.C.E.™ methodology took a Somerset audiologist from 7 visitors a week to nationally recommended by Google AI Overview, ChatGPT and Perplexity. No ad spend.',
     metrics: [
-      { label: 'AI Bot Crawls', value: '185' },
-      { label: 'AI Platforms', value: '#1 on 4' },
+      { label: 'AI Bot Crawls', value: '2,169' },
+      { label: 'AI Platforms', value: '#1 on 3' },
     ],
   },
 ];

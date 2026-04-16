@@ -297,7 +297,7 @@ export function HomeBelowFold({ reviews }: HomeBelowFoldProps) {
               <Link
                 key={area.href}
                 href={area.href}
-                className="btn block text-center min-w-[140px] px-4 py-2 rounded-full border-2 border-white/20 bg-white/5 !text-brand-gold font-bold no-underline shadow-[inset_0_-2px_4px_rgba(0,0,0,0.3)] hover:border-brand-gold/50 hover:shadow-[inset_0_-2px_4px_rgba(0,0,0,0.2),0_0_12px_rgba(236,182,21,0.15)] transition-all duration-300 text-xs sm:text-sm drop-shadow-[0_0_6px_rgba(236,182,21,0.4)]"
+                className="btn block text-center px-3 py-2 rounded-full border-2 border-white/20 bg-white/5 !text-brand-gold font-bold no-underline shadow-[inset_0_-2px_4px_rgba(0,0,0,0.3)] hover:border-brand-gold/50 hover:shadow-[inset_0_-2px_4px_rgba(0,0,0,0.2),0_0_12px_rgba(236,182,21,0.15)] transition-all duration-300 text-xs drop-shadow-[0_0_6px_rgba(236,182,21,0.4)] whitespace-nowrap"
               >
                 {area.name}
               </Link>

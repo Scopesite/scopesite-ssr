@@ -350,7 +350,7 @@ main a:not(.btn):not(.btn-primary):not(.btn-secondary):not(.btn-secondary-light)
 
   .badge-gold-lg {
     @apply badge-gold;
-    @apply text-center text-[15px] h-[50px] w-[220px] inline-flex items-center justify-center;
+    @apply text-center text-[15px] h-[50px] px-6 inline-flex items-center justify-center whitespace-nowrap;
   }
 
   .badge-navy {
