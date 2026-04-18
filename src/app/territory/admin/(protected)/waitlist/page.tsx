@@ -134,6 +134,7 @@ export default async function TerritoryAdminWaitlistPage({ searchParams }: Props
                   <td className="px-3 py-2 text-right">
                     <AdminWaitlistRowActions
                       id={r.id}
+                      firmName={r.firm_name}
                       notifiedAt={r.notified_at}
                     />
                   </td>

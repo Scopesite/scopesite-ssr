@@ -957,6 +957,15 @@ export async function markAreaWaitlistNotified(id: string): Promise<boolean> {
   return rows.length > 0;
 }
 
+/** Admin: permanently remove an area_waitlist row. Irreversible. */
+export async function deleteAreaWaitlistEntry(id: string): Promise<boolean> {
+  const sql = getDb();
+  const rows = (await sql`
+    DELETE FROM territory.area_waitlist WHERE id = ${id} RETURNING id
+  `) as Array<{ id: string }>;
+  return rows.length > 0;
+}
+
 // ---------------------------------------------------------------------------
 // CRON: expire pending seats
 // ---------------------------------------------------------------------------
