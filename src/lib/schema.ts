@@ -134,7 +134,8 @@ export function generateOrganizationSchema() {
       'https://www.instagram.com/aiseo_experts',
       'https://x.com/DlgltaI',
       'https://find-and-update.company-information.service.gov.uk/company/16130355',
-      'https://www.wikidata.org/wiki/Q138866631',
+      // TEMP REMOVED 2026-04-18: Wikidata entity Q138866631 deleted 6 April 2026 (spam/advertising). Awaiting admin review. Restore if entity is reinstated.
+      // 'https://www.wikidata.org/wiki/Q138866631',
       'https://www.google.com/maps/place/ScopeSite+Digital+Studios/@51.2672214,-2.2915633,17z',
       'https://github.com/Scopesite/scopesite-ssr',
       'https://github.com/Scopesite/voice',

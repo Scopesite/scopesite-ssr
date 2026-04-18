@@ -83,7 +83,8 @@ export default function CaseStudyLayout({
         telephone: '01373 311339',
         email: 'support@scopesite.co.uk',
         sameAs: [
-          'https://www.wikidata.org/wiki/Q138866631',
+          // TEMP REMOVED 2026-04-18: Wikidata entity Q138866631 deleted 6 April 2026 (spam/advertising). Awaiting admin review. Restore if entity is reinstated.
+          // 'https://www.wikidata.org/wiki/Q138866631',
           'https://find-and-update.company-information.service.gov.uk/company/16130355'
         ]
       },
