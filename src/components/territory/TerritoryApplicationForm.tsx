@@ -8,13 +8,22 @@ import { normalisePostcode, isPlausibleUkPostcode } from '@/lib/territory/postco
 import { Spinner } from './Spinner';
 import { Button } from '@/components/ui/button';
 
-/** Discriminated union shared with /territory/apply/page.tsx. Seat-mode
- *  holds a real territory.seats row (48h hold on submit). Freeform-mode is
- *  seat-less; the submit just inserts a freeform row in applications. */
+/** Discriminated union shared with /territory/apply/page.tsx. Three modes:
+ *   - seat:     real territory.seats row (48h hold on submit)
+ *   - sector:   known sector + active postcode, but we don't flip a seat
+ *               (applicable to inactive sectors in active postcodes, e.g.
+ *                not-yet-live verticals from the bulk sector import)
+ *   - freeform: user-typed industry text, no sector row at all */
 export type ResolvedApplyContext =
   | {
       mode: 'seat';
       seatId: string;
+      postcodeDistrict: string;
+      sectorSlug: string;
+      sectorLabel: string;
+    }
+  | {
+      mode: 'sector';
       postcodeDistrict: string;
       sectorSlug: string;
       sectorLabel: string;
@@ -46,7 +55,7 @@ export function TerritoryApplicationForm({ context }: Props) {
   const [topError, setTopError] = useState<string | null>(null);
 
   const bannerLabel =
-    context.mode === 'seat' ? context.sectorLabel : context.freeformIndustry;
+    context.mode === 'freeform' ? context.freeformIndustry : context.sectorLabel;
 
   const validate = (): boolean => {
     const e: Record<string, string> = {};
@@ -86,6 +95,13 @@ export function TerritoryApplicationForm({ context }: Props) {
         ? {
             entryType: 'seat' as const,
             seatId: context.seatId,
+            sectorSlug: context.sectorSlug,
+            ...base,
+          }
+        : context.mode === 'sector'
+        ? {
+            entryType: 'sector' as const,
+            postcode: context.postcodeDistrict,
             sectorSlug: context.sectorSlug,
             ...base,
           }

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import {
+  getSectorBySlug,
   getSeatFullById,
   getSeatFullByPostcodeAndSector,
 } from '@/lib/territory/queries';
@@ -33,9 +34,16 @@ interface Props {
  *   (b) ?postcode=X&sector=<slug>          PilotCheckerModal, known sector
  *   (c) ?postcode=X&industry=<text>        PilotCheckerModal, freeform
  *
- * (a) + (b) both resolve to a seat row and render seat-mode. (c) has no
- * seat, renders freeform-mode. Rendering is identical in all three cases;
- * only the submit payload and the "Applying for X" label differ.
+ * Resolution rules:
+ *   seat  mode - we have a specific available territory.seats row to hold
+ *   sector mode - known sector + known pilot postcode, but the seat is
+ *                 not currently available (not_active, pending, claimed,
+ *                 or simply not present). Submit inserts an application
+ *                 without flipping any seat.
+ *   freeform mode - postcode known but sector is free text.
+ *
+ * Rendering is identical in all three cases; only the submit payload and
+ * the "Applying for X" label differ.
  */
 async function resolveContext(params: {
   seat?: string;
@@ -62,15 +70,37 @@ async function resolveContext(params: {
   }
 
   if (postcode && sector) {
+    // First try to resolve as an available seat (fast path, keeps 48h hold).
     const s = await getSeatFullByPostcodeAndSector(postcode, sector);
-    if (!s) return null;
-    if (s.state !== 'available') return 'unavailable';
+    if (s && s.state === 'available') {
+      return {
+        mode: 'seat',
+        seatId: s.seat_id,
+        postcodeDistrict: s.postcode_district,
+        sectorSlug: s.sector_slug,
+        sectorLabel: s.sector_label,
+      };
+    }
+    // Fall back to sector-mode: the sector must still exist in our
+    // taxonomy (rejects garbage slugs from manual URL tampering). If
+    // we found a seat but it's pending/claimed, render sector-mode
+    // using that seat's postcode_district + sector_label; otherwise
+    // resolve the sector directly by slug.
+    if (s) {
+      return {
+        mode: 'sector',
+        postcodeDistrict: s.postcode_district,
+        sectorSlug: s.sector_slug,
+        sectorLabel: s.sector_label,
+      };
+    }
+    const sectorRow = await getSectorBySlug(sector);
+    if (!sectorRow) return null;
     return {
-      mode: 'seat',
-      seatId: s.seat_id,
-      postcodeDistrict: s.postcode_district,
-      sectorSlug: s.sector_slug,
-      sectorLabel: s.sector_label,
+      mode: 'sector',
+      postcodeDistrict: postcode,
+      sectorSlug: sectorRow.slug,
+      sectorLabel: sectorRow.label,
     };
   }
 
@@ -117,7 +147,7 @@ export default async function TerritoryApplyPage({ searchParams }: Props) {
 
   const ctx = resolved;
   const titleLabel =
-    ctx.mode === 'seat' ? ctx.sectorLabel : ctx.freeformIndustry;
+    ctx.mode === 'freeform' ? ctx.freeformIndustry : ctx.sectorLabel;
 
   return (
     <section className="py-12 sm:py-16 lg:py-20">

@@ -831,8 +831,9 @@ export async function sendAbandonedQuoteDigest(items: AbandonedDigestItem[]): Pr
 
 export interface TerritoryApplicationEmailContext {
   /** 'seat' = 48h hold on a specific territory.seats row.
+   *  'sector' = known sector + active postcode, no seat hold.
    *  'freeform' = seat-less enquiry (sector not yet activated). */
-  entryType: 'seat' | 'freeform';
+  entryType: 'seat' | 'sector' | 'freeform';
   applicationId: string;
   firmName: string;
   contactName: string;
@@ -897,22 +898,39 @@ export async function sendTerritoryAdminNotification(
   ctx: TerritoryApplicationEmailContext,
 ): Promise<boolean> {
   const territory = formatTerritoryLabel(ctx.postcodeDistrict, ctx.sectorLabel);
+  const isSeat = ctx.entryType === 'seat';
+  const isSector = ctx.entryType === 'sector';
   const isFreeform = ctx.entryType === 'freeform';
-  const subjectPrefix = isFreeform
-    ? 'Territory Command FREEFORM application'
-    : 'Territory Command application';
+
+  const subjectPrefix = isSeat
+    ? 'Territory Command application'
+    : isSector
+      ? 'Territory Command SECTOR application'
+      : 'Territory Command FREEFORM application';
   const subject = `${subjectPrefix}: ${ctx.firmName} for ${territory}`;
 
-  const stateBlock = isFreeform
+  const headerSuffix = isSeat
+    ? ''
+    : isSector
+      ? ' (SECTOR)'
+      : ' (FREEFORM)';
+
+  const stateBlock = isSeat
     ? `
-          <div style="margin-bottom: 20px; padding: 16px; background-color: #FEF9E7; border-radius: 8px; border: 1px solid #ECB615;">
-            <p style="margin: 0 0 4px 0; color: #0A1B36; font-size: 14px; font-weight: bold;">Entry: Freeform industry &mdash; no seat held.</p>
-            <p style="margin: 0; color: #333; font-size: 14px;">The requested sector isn't live yet. Respond within 4 working hours to discuss activation and territory terms.</p>
-          </div>`
-    : `
           <div style="margin-bottom: 20px; padding: 16px; background-color: #FEF9E7; border-radius: 8px; border: 1px solid #ECB615;">
             <p style="margin: 0 0 4px 0; color: #0A1B36; font-size: 14px; font-weight: bold;">State after submission:</p>
             <p style="margin: 0; color: #333; font-size: 14px;">Pending (held until ${ctx.pendingUntil ? formatPendingUntil(ctx.pendingUntil) : '[unknown]'} Europe/London). Respond within 4 working hours to maintain the 48-hour window.</p>
+          </div>`
+    : isSector
+      ? `
+          <div style="margin-bottom: 20px; padding: 16px; background-color: #FEF9E7; border-radius: 8px; border: 1px solid #ECB615;">
+            <p style="margin: 0 0 4px 0; color: #0A1B36; font-size: 14px; font-weight: bold;">Entry: known sector, no seat hold.</p>
+            <p style="margin: 0; color: #333; font-size: 14px;">The sector is in our taxonomy but this seat wasn't available at submission time. Respond within 4 working hours to discuss activation and territory terms.</p>
+          </div>`
+      : `
+          <div style="margin-bottom: 20px; padding: 16px; background-color: #FEF9E7; border-radius: 8px; border: 1px solid #ECB615;">
+            <p style="margin: 0 0 4px 0; color: #0A1B36; font-size: 14px; font-weight: bold;">Entry: Freeform industry &mdash; no seat held.</p>
+            <p style="margin: 0; color: #333; font-size: 14px;">The requested sector isn't live yet. Respond within 4 working hours to discuss activation and territory terms.</p>
           </div>`;
 
   const sectorLine = isFreeform
@@ -926,7 +944,7 @@ export async function sendTerritoryAdminNotification(
     <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f5f5f5; margin: 0; padding: 20px;">
       <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
         <div style="background-color: #0A1B36; padding: 24px; text-align: center;">
-          <h1 style="color: #ECB615; margin: 0; font-size: 22px; font-weight: bold;">TERRITORY COMMAND APPLICATION${isFreeform ? ' (FREEFORM)' : ''}</h1>
+          <h1 style="color: #ECB615; margin: 0; font-size: 22px; font-weight: bold;">TERRITORY COMMAND APPLICATION${headerSuffix}</h1>
           <p style="color: #ffffff; margin: 8px 0 0 0; font-size: 14px;">${territory}</p>
         </div>
         <div style="padding: 24px;">${stateBlock}
@@ -1001,24 +1019,26 @@ export async function sendTerritoryApplicationConfirmation(
 ): Promise<boolean> {
   const territory = formatTerritoryLabel(ctx.postcodeDistrict, ctx.sectorLabel);
   const firstName = ctx.contactName.split(' ')[0] || ctx.contactName;
-  const isFreeform = ctx.entryType === 'freeform';
-  const subject = isFreeform
-    ? `Your application is received: ${territory}`
-    : `Your territory is held: ${territory}`;
+  const isSeat = ctx.entryType === 'seat';
+  // Sector + freeform share the no-hold "application is received" copy;
+  // only the seat path advertises the 48h hold.
+  const subject = isSeat
+    ? `Your territory is held: ${territory}`
+    : `Your application is received: ${territory}`;
 
-  const headlineText = isFreeform
-    ? 'Your Application is Received'
-    : 'Your Territory is Held';
+  const headlineText = isSeat
+    ? 'Your Territory is Held'
+    : 'Your Application is Received';
 
-  const introParagraph = isFreeform
-    ? `Thanks for your application for <strong>${territory}</strong>. It has been logged and Dan will review it personally.`
-    : `<strong>${territory}</strong> is now marked as pending in your name. You have 48 hours for Dan to reach out and arrange your qualifying call before the territory returns to available.`;
+  const introParagraph = isSeat
+    ? `<strong>${territory}</strong> is now marked as pending in your name. You have 48 hours for Dan to reach out and arrange your qualifying call before the territory returns to available.`
+    : `Thanks for your application for <strong>${territory}</strong>. It has been logged and Dan will review it personally.`;
 
-  const followUpParagraph = isFreeform
-    ? `Dan will email you within the next 4 working hours to discuss your sector and territory.`
-    : `Dan will email you within the next 4 working hours to schedule.`;
+  const followUpParagraph = isSeat
+    ? `Dan will email you within the next 4 working hours to schedule.`
+    : `Dan will email you within the next 4 working hours to discuss your sector and territory.`;
 
-  const holdBlock = isFreeform || !ctx.pendingUntil
+  const holdBlock = !isSeat || !ctx.pendingUntil
     ? ''
     : `
           <div style="margin: 28px 0; padding: 16px; background-color: #f8f9fa; border-radius: 6px; text-align: center;">
@@ -1225,6 +1245,83 @@ export async function sendAreaWaitlistConfirmation(
     return true;
   } catch (error) {
     console.error('Failed to send area waitlist confirmation:', error);
+    return false;
+  }
+}
+
+/**
+ * Admin notification when someone joins the area waitlist (non-pilot
+ * region, postcode outside the active pilot, or inactive sector inside
+ * an active postcode via the PilotCheckerModal inactive-sector fallback).
+ * Parallels sendAreaWaitlistConfirmation which notifies the applicant.
+ */
+export async function sendAreaWaitlistAdminNotification(
+  ctx: TerritoryAreaWaitlistEmailContext,
+): Promise<boolean> {
+  const areaLabel = ctx.requestedPostcode
+    ? ctx.requestedPostcode
+    : ctx.regionLabel || ctx.requestedRegion || 'Unknown area';
+  const subject = `Area waitlist: ${ctx.firmName} for ${areaLabel} (${ctx.sectorLabel})`;
+
+  const sourceLabel =
+    ctx.entrySource === 'region_click'
+      ? 'Region click (inactive region on map)'
+      : 'Postcode not in pilot';
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head><meta charset="utf-8"></head>
+    <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f5f5f5; margin: 0; padding: 20px;">
+      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <div style="background-color: #0A1B36; padding: 24px; text-align: center;">
+          <h1 style="color: #ECB615; margin: 0; font-size: 22px; font-weight: bold;">AREA WAITLIST ENTRY</h1>
+          <p style="color: #ffffff; margin: 8px 0 0 0; font-size: 14px;">${areaLabel} &middot; ${ctx.sectorLabel}</p>
+        </div>
+        <div style="padding: 24px;">
+          <div style="margin-bottom: 20px; padding: 16px; background-color: #FEF9E7; border-radius: 8px; border: 1px solid #ECB615;">
+            <p style="margin: 0 0 4px 0; color: #0A1B36; font-size: 14px; font-weight: bold;">Entry source: ${sourceLabel}</p>
+            <p style="margin: 0; color: #333; font-size: 14px;">No territory is held. When the area/sector activates, this contact should be notified first.</p>
+          </div>
+          <div style="margin-bottom: 20px; padding: 16px; background-color: #f8f9fa; border-radius: 8px;">
+            <h2 style="color: #0A1B36; margin: 0 0 12px 0; font-size: 16px;">Requested</h2>
+            ${ctx.requestedPostcode ? `<p style="margin: 4px 0; color: #333;"><strong>Postcode:</strong> ${ctx.requestedPostcode}</p>` : ''}
+            ${ctx.regionLabel || ctx.requestedRegion ? `<p style="margin: 4px 0; color: #333;"><strong>Region:</strong> ${ctx.regionLabel || ctx.requestedRegion}</p>` : ''}
+            <p style="margin: 4px 0; color: #333;"><strong>Sector:</strong> ${ctx.sectorLabel}</p>
+          </div>
+          <div style="margin-bottom: 20px; padding: 16px; background-color: #f8f9fa; border-radius: 8px;">
+            <h2 style="color: #0A1B36; margin: 0 0 12px 0; font-size: 16px;">Contact</h2>
+            <p style="margin: 4px 0; color: #333;"><strong>Firm:</strong> ${ctx.firmName}</p>
+            <p style="margin: 4px 0; color: #333;"><strong>Name:</strong> ${ctx.contactName}</p>
+            <p style="margin: 4px 0; color: #333;"><strong>Email:</strong> <a href="mailto:${ctx.contactEmail}" style="color: #ECB615;">${ctx.contactEmail}</a></p>
+          </div>
+          <div style="text-align: center; margin-top: 24px;">
+            <a href="mailto:${ctx.contactEmail}?subject=Re: your ${areaLabel} area waitlist registration"
+               style="display: inline-block; padding: 12px 32px; background-color: #ECB615; color: #0A1B36; text-decoration: none; border-radius: 8px; font-weight: bold;">
+              Reply to ${ctx.contactName.split(' ')[0] || ctx.contactName}
+            </a>
+          </div>
+        </div>
+        <div style="background-color: #0A1B36; padding: 16px; text-align: center;">
+          <p style="margin: 0; color: #ffffff; font-size: 12px;">Submitted via scopesite.co.uk/territory</p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+    sendSmtpEmail.subject = subject;
+    sendSmtpEmail.htmlContent = htmlContent;
+    sendSmtpEmail.sender = { name: FROM_NAME, email: FROM_EMAIL };
+    sendSmtpEmail.to = [{ email: ADMIN_EMAIL, name: 'Dan Cartwright' }];
+    sendSmtpEmail.replyTo = { email: ctx.contactEmail, name: ctx.contactName };
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    console.log(`[Email] Area waitlist admin notification sent for ${ctx.contactEmail}`);
+    return true;
+  } catch (error) {
+    console.error('Failed to send area waitlist admin notification:', error);
     return false;
   }
 }

@@ -1,7 +1,11 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getApplicationById, getSeatFullById } from '@/lib/territory/queries';
+import {
+  getApplicationById,
+  getSectorBySlug,
+  getSeatFullById,
+} from '@/lib/territory/queries';
 import { APPLICATION_CONFIRMED } from '@/lib/territory/copy';
 import { Button } from '@/components/ui/button';
 
@@ -23,28 +27,41 @@ export default async function TerritoryConfirmedPage({ searchParams }: Props) {
   const application = await getApplicationById(applicationId);
   if (!application) notFound();
 
-  // Resolve the display postcode + sector/industry label. Seat rows look up
-  // the seat; freeform rows carry the values directly on the application.
-  const isFreeform = application.entry_type === 'freeform';
+  // Resolve the display postcode + sector/industry label. Three shapes:
+  //   seat     -> look up the seat for canonical postcode + sector label
+  //   sector   -> use requested_postcode_district + sector_slug (resolve
+  //               label via sectors table for the human-readable form)
+  //   freeform -> requested_postcode_district + freeform_industry (text)
+  // "isSeat" keeps the 48h hold copy. Everything else shows the generic
+  // "application is received" copy.
+  const isSeat = application.entry_type === 'seat';
   let postcodeDistrict: string;
   let industryLabel: string;
-  if (isFreeform) {
-    postcodeDistrict = application.requested_postcode_district || application.firm_postcode;
-    industryLabel = application.freeform_industry || 'your sector';
-  } else {
+  if (application.entry_type === 'seat') {
     const seat = application.seat_id
       ? await getSeatFullById(application.seat_id)
       : null;
     postcodeDistrict = seat?.postcode_district || application.firm_postcode;
     industryLabel = seat?.sector_label || application.sector_slug || 'your sector';
+  } else if (application.entry_type === 'sector') {
+    postcodeDistrict =
+      application.requested_postcode_district || application.firm_postcode;
+    const sector = application.sector_slug
+      ? await getSectorBySlug(application.sector_slug)
+      : null;
+    industryLabel = sector?.label || application.sector_slug || 'your sector';
+  } else {
+    postcodeDistrict =
+      application.requested_postcode_district || application.firm_postcode;
+    industryLabel = application.freeform_industry || 'your sector';
   }
 
-  const headline = isFreeform
-    ? APPLICATION_CONFIRMED.headlineFreeform
-    : APPLICATION_CONFIRMED.headlineSeat;
-  const sourceLines = isFreeform
-    ? APPLICATION_CONFIRMED.bodyLinesFreeform
-    : APPLICATION_CONFIRMED.bodyLinesSeat;
+  const headline = isSeat
+    ? APPLICATION_CONFIRMED.headlineSeat
+    : APPLICATION_CONFIRMED.headlineFreeform;
+  const sourceLines = isSeat
+    ? APPLICATION_CONFIRMED.bodyLinesSeat
+    : APPLICATION_CONFIRMED.bodyLinesFreeform;
   const bodyLines = sourceLines.map((line) =>
     line.replace('[POSTCODE]', postcodeDistrict).replace('[SECTOR]', industryLabel),
   );

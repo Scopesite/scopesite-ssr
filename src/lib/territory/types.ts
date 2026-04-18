@@ -58,15 +58,20 @@ export interface Seat {
   updated_at: string;
 }
 
-/** Discriminator for application rows. Freeform entries have no seat_id
- *  and no sector_slug; seat-bound entries have both. Enforced by the
- *  applications_entry_shape_chk constraint on the DB. */
-export type ApplicationEntryType = 'seat' | 'freeform';
+/** Discriminator for application rows. Three shapes, enforced by the
+ *  applications_entry_shape_chk constraint:
+ *    seat     - seat_id + sector_slug populated (48h hold path)
+ *    sector   - sector_slug + requested_postcode_district populated,
+ *               no seat hold (known sector in active postcode but not
+ *               yet in territory.seats as available)
+ *    freeform - requested_postcode_district + freeform_industry only,
+ *               no sector_slug (user-typed industry text) */
+export type ApplicationEntryType = 'seat' | 'sector' | 'freeform';
 
 export interface Application {
   id: string;
   entry_type: ApplicationEntryType;
-  /** Populated when entry_type === 'seat'. NULL for freeform. */
+  /** Populated when entry_type === 'seat'. NULL for sector/freeform. */
   seat_id: string | null;
   firm_name: string;
   contact_name: string;
@@ -75,11 +80,11 @@ export interface Application {
   contact_phone: string | null;
   website_url: string | null;
   firm_postcode: string;
-  /** Populated when entry_type === 'seat'. NULL for freeform. */
+  /** Populated when entry_type === 'seat' or 'sector'. NULL for freeform. */
   sector_slug: string | null;
-  /** Populated when entry_type === 'freeform'. NULL for seat. */
+  /** Populated when entry_type === 'sector' or 'freeform'. NULL for seat. */
   requested_postcode_district: string | null;
-  /** Populated when entry_type === 'freeform'. NULL for seat. */
+  /** Populated when entry_type === 'freeform'. NULL for seat/sector. */
   freeform_industry: string | null;
   ai_visibility_approach: string | null;
   additional_context: string | null;
@@ -102,6 +107,23 @@ export interface FreeformApplicationInsert {
   firmPostcode: string;
   requestedPostcodeDistrict: string;
   freeformIndustry: string;
+  aiVisibilityApproach: string | null;
+  additionalContext: string | null;
+}
+
+/** Sector-known application (no seat hold). Shape:
+ *  entry_type='sector', sector_slug + requested_postcode_district set,
+ *  seat_id + freeform_industry null. */
+export interface SectorApplicationInsert {
+  firmName: string;
+  contactName: string;
+  contactRole: string | null;
+  contactEmail: string;
+  contactPhone: string | null;
+  websiteUrl: string | null;
+  firmPostcode: string;
+  sectorSlug: string;
+  requestedPostcodeDistrict: string;
   aiVisibilityApproach: string | null;
   additionalContext: string | null;
 }

@@ -13,6 +13,8 @@ import { getDb } from './db';
 import { normalisePostcode, toPostcodeDistrict } from './postcode';
 import type {
   AvailabilityResult,
+  ApplicationEntryType,
+  ApplicationStatus,
   MapDataPoint,
   SectorTile,
   Sector,
@@ -22,6 +24,7 @@ import type {
   AreaWaitlistEntry,
   ApplicationInsert,
   FreeformApplicationInsert,
+  SectorApplicationInsert,
   WaitlistInsert,
   AreaWaitlistInsert,
 } from './types';
@@ -475,12 +478,223 @@ export async function createFreeformApplication(
   return { applicationId: rows[0].id };
 }
 
+/**
+ * Insert a sector-known application (known sector, active postcode, but
+ * no seat hold). No CTE - we do not flip a seats row because the seat
+ * for this postcode+sector combination is typically state='not_active'
+ * (expanded to 6,510 rows after the bulk import) and we don't want to
+ * convert those into pending. The admin follows up manually and either
+ * activates the seat or declines the application.
+ *
+ * The CHECK constraint enforces: seat_id NULL, sector_slug NOT NULL,
+ * requested_postcode_district NOT NULL, freeform_industry NULL when
+ * entry_type = 'sector'.
+ */
+export async function createSectorApplication(
+  input: SectorApplicationInsert,
+): Promise<{ applicationId: string }> {
+  const sql = getDb();
+  const rows = (await sql`
+    INSERT INTO territory.applications (
+      entry_type, seat_id,
+      firm_name, contact_name, contact_role, contact_email,
+      contact_phone, website_url, firm_postcode,
+      sector_slug,
+      requested_postcode_district, freeform_industry,
+      ai_visibility_approach, additional_context, status
+    ) VALUES (
+      'sector', NULL,
+      ${input.firmName}, ${input.contactName}, ${input.contactRole},
+      ${input.contactEmail}, ${input.contactPhone}, ${input.websiteUrl},
+      ${input.firmPostcode},
+      ${input.sectorSlug},
+      ${input.requestedPostcodeDistrict}, NULL,
+      ${input.aiVisibilityApproach}, ${input.additionalContext}, 'received'
+    )
+    RETURNING id
+  `) as Array<{ id: string }>;
+  return { applicationId: rows[0].id };
+}
+
 export async function getApplicationById(id: string): Promise<Application | null> {
   const sql = getDb();
   const rows = (await sql`
     SELECT * FROM territory.applications WHERE id = ${id} LIMIT 1
   `) as Application[];
   return rows[0] || null;
+}
+
+// ---------------------------------------------------------------------------
+// ADMIN QUERIES
+// ---------------------------------------------------------------------------
+
+/** Row shape returned by getApplicationsList(). Joined with v_seats_full
+ *  via a LEFT JOIN so seat rows are optional (sector + freeform paths
+ *  have no seat_id). Resolves a single display `territory_label` that
+ *  works for all three entry_type variants. */
+export interface AdminApplicationRow {
+  id: string;
+  entry_type: ApplicationEntryType;
+  status: ApplicationStatus;
+  firm_name: string;
+  contact_name: string;
+  contact_email: string;
+  created_at: string;
+  /** Display-ready "BA11 Chartered Accountants" label (seat path resolves
+   *  via seats view; sector/freeform paths build from the stored columns). */
+  territory_label: string;
+  /** Raw pieces for filtering. Nullable to accommodate all three shapes. */
+  postcode_district: string | null;
+  sector_label: string | null;
+  freeform_industry: string | null;
+}
+
+export interface AdminApplicationFilters {
+  status?: ApplicationStatus | 'all';
+  entryType?: ApplicationEntryType | 'all';
+  q?: string;
+  limit?: number;
+  offset?: number;
+}
+
+/** Admin applications list. Joins v_seats_full and sectors so seat-based
+ *  rows pick up their resolved sector label and postcode district, and
+ *  sector/freeform rows fall back to their explicit stored columns. */
+export async function getApplicationsList(
+  filters: AdminApplicationFilters = {},
+): Promise<AdminApplicationRow[]> {
+  const sql = getDb();
+  const status = filters.status && filters.status !== 'all' ? filters.status : null;
+  const entryType = filters.entryType && filters.entryType !== 'all' ? filters.entryType : null;
+  const q = filters.q?.trim() ?? '';
+  const like = q ? `%${q.replace(/[%_]/g, '\\$&')}%` : null;
+  const limit = Math.min(Math.max(filters.limit ?? 50, 1), 200);
+  const offset = Math.max(filters.offset ?? 0, 0);
+
+  const rows = (await sql`
+    SELECT
+      a.id,
+      a.entry_type,
+      a.status,
+      a.firm_name,
+      a.contact_name,
+      a.contact_email,
+      a.created_at,
+      -- Postcode district: seat -> via v_seats_full, else stored column.
+      COALESCE(v.postcode_district, a.requested_postcode_district) AS postcode_district,
+      -- Sector label: seat -> via v_seats_full, sector -> via sectors,
+      -- freeform -> NULL (the freeform_industry column carries the text).
+      CASE
+        WHEN a.entry_type = 'seat'     THEN v.sector_label
+        WHEN a.entry_type = 'sector'   THEN s.label
+        ELSE NULL
+      END AS sector_label,
+      a.freeform_industry,
+      -- Single display label that works for all three entry_type values.
+      CASE
+        WHEN a.entry_type = 'seat'     THEN COALESCE(v.postcode_district || ' ' || v.sector_label, 'Unknown')
+        WHEN a.entry_type = 'sector'   THEN COALESCE(a.requested_postcode_district || ' ' || s.label, a.requested_postcode_district, 'Unknown')
+        WHEN a.entry_type = 'freeform' THEN COALESCE(a.requested_postcode_district || ' ' || a.freeform_industry, a.requested_postcode_district, 'Unknown')
+      END AS territory_label
+    FROM territory.applications a
+    LEFT JOIN territory.v_seats_full v ON v.seat_id = a.seat_id
+    LEFT JOIN territory.sectors s ON s.slug = a.sector_slug
+    WHERE (${status}::text IS NULL OR a.status::text = ${status}::text)
+      AND (${entryType}::text IS NULL OR a.entry_type::text = ${entryType}::text)
+      AND (
+        ${like}::text IS NULL
+        OR a.firm_name ILIKE ${like}
+        OR a.contact_name ILIKE ${like}
+        OR a.contact_email ILIKE ${like}
+        OR a.requested_postcode_district ILIKE ${like}
+        OR a.freeform_industry ILIKE ${like}
+        OR v.postcode_district ILIKE ${like}
+      )
+    ORDER BY a.created_at DESC
+    LIMIT ${limit} OFFSET ${offset}
+  `) as AdminApplicationRow[];
+  return rows;
+}
+
+/** Per-status counts for the dashboard summary panel. */
+export async function getApplicationStatusCounts(): Promise<
+  Record<ApplicationStatus, number> & { total: number }
+> {
+  const sql = getDb();
+  const rows = (await sql`
+    SELECT status, COUNT(*)::int AS n
+    FROM territory.applications
+    GROUP BY status
+  `) as Array<{ status: ApplicationStatus; n: number }>;
+  const base: Record<ApplicationStatus, number> = {
+    received: 0,
+    qualified: 0,
+    declined: 0,
+    converted: 0,
+    expired: 0,
+  };
+  for (const r of rows) base[r.status] = r.n;
+  const total = Object.values(base).reduce((a, b) => a + b, 0);
+  return { ...base, total };
+}
+
+/** Detail view shape. Includes resolved seat + sector data alongside
+ *  the raw application row for the admin detail page. */
+export interface AdminApplicationDetail {
+  application: Application;
+  seat: SeatFull | null;
+  sectorLabel: string | null;
+  postcodeDistrict: string;
+  industryLabel: string;
+}
+
+export async function getApplicationDetail(
+  id: string,
+): Promise<AdminApplicationDetail | null> {
+  const app = await getApplicationById(id);
+  if (!app) return null;
+
+  let seat: SeatFull | null = null;
+  if (app.seat_id) {
+    seat = await getSeatFullById(app.seat_id);
+  }
+
+  let sectorLabel: string | null = null;
+  let postcodeDistrict = app.firm_postcode;
+  let industryLabel = 'your sector';
+
+  if (app.entry_type === 'seat' && seat) {
+    sectorLabel = seat.sector_label;
+    postcodeDistrict = seat.postcode_district;
+    industryLabel = seat.sector_label;
+  } else if (app.entry_type === 'sector' && app.sector_slug) {
+    const sector = await getSectorBySlug(app.sector_slug);
+    sectorLabel = sector?.label ?? app.sector_slug;
+    postcodeDistrict = app.requested_postcode_district ?? app.firm_postcode;
+    industryLabel = sectorLabel ?? 'your sector';
+  } else if (app.entry_type === 'freeform') {
+    postcodeDistrict = app.requested_postcode_district ?? app.firm_postcode;
+    industryLabel = app.freeform_industry ?? 'your sector';
+  }
+
+  return { application: app, seat, sectorLabel, postcodeDistrict, industryLabel };
+}
+
+/** Transition application status. No side-effects on the seat row; we
+ *  leave seat lifecycle to the existing expire-pending cron + manual
+ *  ops (Phase A scope). Returns true when a row actually changed. */
+export async function updateApplicationStatus(
+  id: string,
+  nextStatus: ApplicationStatus,
+): Promise<boolean> {
+  const sql = getDb();
+  const rows = (await sql`
+    UPDATE territory.applications
+    SET status = ${nextStatus}, updated_at = NOW()
+    WHERE id = ${id}
+    RETURNING id
+  `) as Array<{ id: string }>;
+  return rows.length > 0;
 }
 
 // ---------------------------------------------------------------------------
@@ -592,6 +806,155 @@ export async function getAreaWaitlistEntryById(
     SELECT * FROM territory.area_waitlist WHERE id = ${id} LIMIT 1
   `) as AreaWaitlistEntry[];
   return rows[0] || null;
+}
+
+// ---------------------------------------------------------------------------
+// ADMIN: AREA WAITLIST
+// ---------------------------------------------------------------------------
+
+/** Sentinel prefix used by /api/territory/area-waitlist when the user
+ *  typed a freeform industry (no matching row in territory.sectors).
+ *  Mirrors the value in src/app/api/territory/area-waitlist/route.ts. */
+const AREA_WAITLIST_FREEFORM_PREFIX = '__freeform__:';
+
+export interface AdminAreaWaitlistRow {
+  id: string;
+  firm_name: string;
+  contact_name: string;
+  contact_email: string;
+  requested_postcode: string | null;
+  requested_region: string | null;
+  /** Display sector label (resolved from sectors table OR the freeform
+   *  text extracted from the __freeform__: sentinel slug). */
+  sector_label: string;
+  /** True when the entry was stored as a freeform industry (no real
+   *  sector row). Useful for admin filtering. */
+  is_freeform: boolean;
+  entry_source: 'region_click' | 'postcode_not_in_pilot';
+  notified_at: string | null;
+  created_at: string;
+}
+
+export interface AdminAreaWaitlistFilters {
+  notified?: 'all' | 'pending' | 'done';
+  q?: string;
+  limit?: number;
+  offset?: number;
+}
+
+export async function getAreaWaitlistList(
+  filters: AdminAreaWaitlistFilters = {},
+): Promise<AdminAreaWaitlistRow[]> {
+  const sql = getDb();
+  const notified = filters.notified ?? 'all';
+  const notifiedFilter =
+    notified === 'pending' ? 'pending' : notified === 'done' ? 'done' : null;
+  const q = filters.q?.trim() ?? '';
+  const like = q ? `%${q.replace(/[%_]/g, '\\$&')}%` : null;
+  const limit = Math.min(Math.max(filters.limit ?? 50, 1), 200);
+  const offset = Math.max(filters.offset ?? 0, 0);
+
+  const rows = (await sql`
+    SELECT
+      aw.id,
+      aw.firm_name,
+      aw.contact_name,
+      aw.contact_email,
+      aw.requested_postcode,
+      aw.requested_region,
+      aw.requested_sector_slug,
+      aw.entry_source,
+      aw.notified_at,
+      aw.created_at,
+      s.label AS sector_label_resolved,
+      (aw.requested_sector_slug LIKE ${AREA_WAITLIST_FREEFORM_PREFIX + '%'}) AS is_freeform
+    FROM territory.area_waitlist aw
+    LEFT JOIN territory.sectors s ON s.slug = aw.requested_sector_slug
+    WHERE (
+        ${notifiedFilter}::text IS NULL
+        OR (${notifiedFilter}::text = 'pending' AND aw.notified_at IS NULL)
+        OR (${notifiedFilter}::text = 'done'    AND aw.notified_at IS NOT NULL)
+      )
+      AND (
+        ${like}::text IS NULL
+        OR aw.firm_name ILIKE ${like}
+        OR aw.contact_name ILIKE ${like}
+        OR aw.contact_email ILIKE ${like}
+        OR aw.requested_postcode ILIKE ${like}
+        OR aw.requested_region ILIKE ${like}
+        OR aw.requested_sector_slug ILIKE ${like}
+      )
+    ORDER BY aw.created_at DESC
+    LIMIT ${limit} OFFSET ${offset}
+  `) as Array<{
+    id: string;
+    firm_name: string;
+    contact_name: string;
+    contact_email: string;
+    requested_postcode: string | null;
+    requested_region: string | null;
+    requested_sector_slug: string;
+    entry_source: 'region_click' | 'postcode_not_in_pilot';
+    notified_at: string | null;
+    created_at: string;
+    sector_label_resolved: string | null;
+    is_freeform: boolean;
+  }>;
+
+  return rows.map((r) => {
+    let sectorLabel: string;
+    if (r.is_freeform) {
+      sectorLabel = r.requested_sector_slug.slice(
+        AREA_WAITLIST_FREEFORM_PREFIX.length,
+      );
+    } else {
+      sectorLabel = r.sector_label_resolved ?? r.requested_sector_slug;
+    }
+    return {
+      id: r.id,
+      firm_name: r.firm_name,
+      contact_name: r.contact_name,
+      contact_email: r.contact_email,
+      requested_postcode: r.requested_postcode,
+      requested_region: r.requested_region,
+      sector_label: sectorLabel,
+      is_freeform: r.is_freeform,
+      entry_source: r.entry_source,
+      notified_at: r.notified_at,
+      created_at: r.created_at,
+    };
+  });
+}
+
+export async function getAreaWaitlistStatusCounts(): Promise<{
+  pending: number;
+  done: number;
+  total: number;
+}> {
+  const sql = getDb();
+  const rows = (await sql`
+    SELECT
+      COUNT(*) FILTER (WHERE notified_at IS NULL)::int AS pending,
+      COUNT(*) FILTER (WHERE notified_at IS NOT NULL)::int AS done,
+      COUNT(*)::int AS total
+    FROM territory.area_waitlist
+  `) as Array<{ pending: number; done: number; total: number }>;
+  return rows[0] ?? { pending: 0, done: 0, total: 0 };
+}
+
+/** Admin action: mark an area-waitlist entry as notified (sets
+ *  notified_at = NOW()). Idempotent: re-running on an already-notified
+ *  row is a no-op and still returns true. Returns false only when the
+ *  row does not exist. */
+export async function markAreaWaitlistNotified(id: string): Promise<boolean> {
+  const sql = getDb();
+  const rows = (await sql`
+    UPDATE territory.area_waitlist
+    SET notified_at = COALESCE(notified_at, NOW())
+    WHERE id = ${id}
+    RETURNING id
+  `) as Array<{ id: string }>;
+  return rows.length > 0;
 }
 
 // ---------------------------------------------------------------------------

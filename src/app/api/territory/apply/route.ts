@@ -1,24 +1,31 @@
 /**
  * POST /api/territory/apply
  *
- * Accepts two payload shapes, discriminated by `entryType`:
+ * Accepts three payload shapes, discriminated by `entryType`:
  *
  *   { entryType: 'seat', seatId, sectorSlug, ...contact }
  *     -> existing 48h-hold flow: verifies seat is available, atomically
  *        inserts the application AND flips the seat to pending, returns
  *        { applicationId, pendingUntil }.
  *
- *   { entryType: 'freeform', postcode, freeformIndustry, ...contact }
- *     -> seat-less flow: plain INSERT into territory.applications with
- *        entry_type='freeform'. Returns { applicationId, pendingUntil: null }.
- *        No seat hold because there is no seat row - the requested
- *        sector hasn't been activated yet.
+ *   { entryType: 'sector', postcode, sectorSlug, ...contact }
+ *     -> known-sector seat-less flow: the sector exists in
+ *        territory.sectors and the postcode is an active pilot
+ *        territory, but we intentionally do NOT flip a seat (typical
+ *        case is not-yet-activated seats from the bulk import). Plain
+ *        INSERT with entry_type='sector'. Returns
+ *        { applicationId, pendingUntil: null }.
  *
- * Shared behaviour for both paths:
+ *   { entryType: 'freeform', postcode, freeformIndustry, ...contact }
+ *     -> seat-less flow with no sector row at all: plain INSERT with
+ *        entry_type='freeform'. Returns
+ *        { applicationId, pendingUntil: null }.
+ *
+ * Shared behaviour across all three paths:
  *   - Zod discriminated-union validation
  *   - 24h email dedup (contact_email + status in received/qualified)
- *   - Admin email to dan@scopesite.co.uk
- *   - Confirmation email to the applicant
+ *   - Admin email to dan@scopesite.co.uk (branched on entryType)
+ *   - Confirmation email to the applicant (branched on entryType)
  *   - HubSpot stub (Phase A: console.warn only)
  *   - Identical response shape + redirect target (/territory/confirmed)
  */
@@ -28,7 +35,9 @@ import { z } from 'zod';
 import {
   createApplication,
   createFreeformApplication,
+  createSectorApplication,
   getApplicationById,
+  getSectorBySlug,
   getSeatFullById,
   hasRecentApplicationByEmail,
 } from '@/lib/territory/queries';
@@ -64,6 +73,13 @@ const SeatBody = z.object({
   ...sharedFields,
 });
 
+const SectorBody = z.object({
+  entryType: z.literal('sector'),
+  postcode: z.string().trim().min(2).max(12),
+  sectorSlug: z.string().trim().toLowerCase().min(1).max(100),
+  ...sharedFields,
+});
+
 const FreeformBody = z.object({
   entryType: z.literal('freeform'),
   postcode: z.string().trim().min(2).max(12),
@@ -71,7 +87,11 @@ const FreeformBody = z.object({
   ...sharedFields,
 });
 
-const Body = z.discriminatedUnion('entryType', [SeatBody, FreeformBody]);
+const Body = z.discriminatedUnion('entryType', [
+  SeatBody,
+  SectorBody,
+  FreeformBody,
+]);
 
 export async function POST(request: NextRequest) {
   let body: unknown;
@@ -90,16 +110,13 @@ export async function POST(request: NextRequest) {
   }
   const data = parsed.data;
 
-  // Applicant's firm postcode (shared across both paths).
+  // Applicant's firm postcode (shared across all three paths).
   const firmPostcode = normalisePostcode(data.firmPostcode);
   if (!isPlausibleUkPostcode(firmPostcode)) {
-    return NextResponse.json(
-      { error: 'Invalid postcode' },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: 'Invalid postcode' }, { status: 400 });
   }
 
-  // Dedup: applies to BOTH paths. One active application per email per 24h.
+  // Dedup applies to all three paths. One active application per email per 24h.
   try {
     if (await hasRecentApplicationByEmail(data.contactEmail)) {
       return NextResponse.json(
@@ -140,10 +157,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (!seatResult) {
-      return NextResponse.json(
-        { error: 'seat_unavailable' },
-        { status: 409 },
-      );
+      return NextResponse.json({ error: 'seat_unavailable' }, { status: 409 });
     }
 
     const [application, seatFull] = await Promise.all([
@@ -203,7 +217,7 @@ export async function POST(request: NextRequest) {
   }
 
   // -------------------------------------------------------------------------
-  // FREEFORM PATH
+  // SECTOR + FREEFORM PATHS: shared postcode validation.
   // -------------------------------------------------------------------------
   const targetPostcode = normalisePostcode(data.postcode);
   if (!isPlausibleUkPostcode(targetPostcode)) {
@@ -214,6 +228,90 @@ export async function POST(request: NextRequest) {
   }
   const requestedPostcodeDistrict = toPostcodeDistrict(targetPostcode);
 
+  // -------------------------------------------------------------------------
+  // SECTOR PATH
+  // -------------------------------------------------------------------------
+  if (data.entryType === 'sector') {
+    const sector = await getSectorBySlug(data.sectorSlug);
+    if (!sector) {
+      return NextResponse.json({ error: 'Unknown sector' }, { status: 400 });
+    }
+
+    let sectorResult: { applicationId: string };
+    try {
+      sectorResult = await createSectorApplication({
+        firmName: data.firmName,
+        contactName: data.contactName,
+        contactRole: data.contactRole ?? null,
+        contactEmail: data.contactEmail,
+        contactPhone: data.contactPhone ?? null,
+        websiteUrl: data.websiteUrl ?? null,
+        firmPostcode,
+        sectorSlug: sector.slug,
+        requestedPostcodeDistrict,
+        aiVisibilityApproach: data.aiVisibilityApproach ?? null,
+        additionalContext: data.additionalContext ?? null,
+      });
+    } catch (err) {
+      console.error('[territory/apply] createSectorApplication failed:', err);
+      return NextResponse.json({ error: 'Internal error' }, { status: 500 });
+    }
+
+    const application = await getApplicationById(sectorResult.applicationId);
+    if (application) {
+      try {
+        await pushToHubSpot(application);
+      } catch (err) {
+        console.error('[territory/apply] HubSpot stub call failed:', err);
+      }
+    }
+
+    let confirmationEmailSent = false;
+    let adminEmailSent = false;
+    if (application) {
+      const emailCtx = {
+        entryType: 'sector' as const,
+        applicationId: application.id,
+        firmName: application.firm_name,
+        contactName: application.contact_name,
+        contactRole: application.contact_role,
+        contactEmail: application.contact_email,
+        contactPhone: application.contact_phone,
+        websiteUrl: application.website_url,
+        firmPostcode: application.firm_postcode,
+        sectorSlug: sector.slug,
+        sectorLabel: sector.label,
+        postcodeDistrict: requestedPostcodeDistrict,
+        aiVisibilityApproach: application.ai_visibility_approach,
+        additionalContext: application.additional_context,
+        pendingUntil: null as string | null,
+      };
+      const [adminSent, applicantSent] = await Promise.all([
+        sendTerritoryAdminNotification(emailCtx).catch((e) => {
+          console.error('[territory/apply] admin email failed:', e);
+          return false;
+        }),
+        sendTerritoryApplicationConfirmation(emailCtx).catch((e) => {
+          console.error('[territory/apply] applicant email failed:', e);
+          return false;
+        }),
+      ]);
+      adminEmailSent = adminSent;
+      confirmationEmailSent = applicantSent;
+    }
+
+    return NextResponse.json({
+      ok: true,
+      applicationId: sectorResult.applicationId,
+      pendingUntil: null,
+      confirmationEmailSent,
+      adminEmailSent,
+    });
+  }
+
+  // -------------------------------------------------------------------------
+  // FREEFORM PATH
+  // -------------------------------------------------------------------------
   let freeformResult: { applicationId: string };
   try {
     freeformResult = await createFreeformApplication({

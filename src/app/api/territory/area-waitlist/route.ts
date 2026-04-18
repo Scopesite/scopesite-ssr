@@ -14,7 +14,10 @@ import { z } from 'zod';
 import { createAreaWaitlistEntry, getSectorBySlug } from '@/lib/territory/queries';
 import { normalisePostcode, isPlausibleUkPostcode } from '@/lib/territory/postcode';
 import { MAP_REGIONS } from '@/lib/territory/map-regions';
-import { sendAreaWaitlistConfirmation } from '@/lib/email';
+import {
+  sendAreaWaitlistAdminNotification,
+  sendAreaWaitlistConfirmation,
+} from '@/lib/email';
 
 export const runtime = 'nodejs';
 
@@ -153,7 +156,7 @@ export async function POST(request: NextRequest) {
       entrySource: data.entrySource,
     });
 
-    sendAreaWaitlistConfirmation({
+    const emailCtx = {
       contactName: data.contactName,
       contactEmail: data.contactEmail,
       firmName: data.firmName,
@@ -164,9 +167,17 @@ export async function POST(request: NextRequest) {
         : null,
       sectorLabel,
       entrySource: data.entrySource,
-    }).catch((e) =>
-      console.error('[territory/area-waitlist] email failed:', e),
-    );
+    };
+    // Fire-and-forget both emails in parallel. The client-facing response
+    // shouldn't block on admin-notification delivery.
+    void Promise.all([
+      sendAreaWaitlistConfirmation(emailCtx).catch((e) =>
+        console.error('[territory/area-waitlist] applicant email failed:', e),
+      ),
+      sendAreaWaitlistAdminNotification(emailCtx).catch((e) =>
+        console.error('[territory/area-waitlist] admin email failed:', e),
+      ),
+    ]);
 
     return NextResponse.json({ ok: true, ...result });
   } catch (err) {
