@@ -10,7 +10,7 @@ import type { SeatState, Tier } from './types';
 
 export const HERO = {
   eyebrow: 'TERRITORY COMMAND',
-  headline: 'One postcode. One sector. One firm.',
+  headline: 'One postcode. One sector. Your firm.',
   subHeadline:
     'Exclusive AI visibility representation in your territory. No competitor can claim what you hold.',
   priceStrip: 'From £500/month. Full pricing discussed on your qualifying call.',
@@ -147,7 +147,7 @@ export const FAQ = {
 
 export const FINAL_CTA = {
   headline: 'Check your territory',
-  body: 'One postcode. One sector. One firm.',
+  body: 'One postcode. One sector. Your firm.',
   buttonLabel: 'Check availability',
 } as const;
 
