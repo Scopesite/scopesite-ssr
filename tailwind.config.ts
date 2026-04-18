@@ -27,6 +27,13 @@ const config: Config = {
   				'orange-accessible': '#B35E00', // WCAG AA on white
   				graphite: '#1E2D50'
   			},
+  			territory: {
+  				available: '#F5B700',
+  				pending:   '#F59E0B',
+  				claimed:   '#B91C1C',
+  				inactive:  '#64748B',
+  				premium:   '#D4A017',
+  			},
   			primary: {
   				DEFAULT: 'hsl(var(--primary))',
   				foreground: 'hsl(var(--primary-foreground))'
