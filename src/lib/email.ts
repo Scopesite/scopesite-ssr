@@ -826,6 +826,410 @@ export async function sendAbandonedQuoteDigest(items: AbandonedDigestItem[]): Pr
 }
 
 // ============================================
+// TERRITORY COMMAND EMAIL FUNCTIONS
+// ============================================
+
+export interface TerritoryApplicationEmailContext {
+  /** 'seat' = 48h hold on a specific territory.seats row.
+   *  'freeform' = seat-less enquiry (sector not yet activated). */
+  entryType: 'seat' | 'freeform';
+  applicationId: string;
+  firmName: string;
+  contactName: string;
+  contactRole: string | null;
+  contactEmail: string;
+  contactPhone: string | null;
+  websiteUrl: string | null;
+  firmPostcode: string;
+  /** Null for freeform (no sector row). */
+  sectorSlug: string | null;
+  /** For freeform this is the user-typed industry text. */
+  sectorLabel: string;
+  postcodeDistrict: string;
+  aiVisibilityApproach: string | null;
+  additionalContext: string | null;
+  /** Null for freeform (no seat hold). */
+  pendingUntil: string | null;
+}
+
+export interface TerritoryWaitlistEmailContext {
+  contactName: string;
+  contactEmail: string;
+  firmName: string | null;
+  postcodeDistrict: string;
+  sectorLabel: string;
+  position: number;
+  waitlistId: string;
+}
+
+export interface TerritoryAreaWaitlistEmailContext {
+  contactName: string;
+  contactEmail: string;
+  firmName: string;
+  requestedPostcode: string | null;
+  requestedRegion: string | null;
+  regionLabel: string | null;
+  sectorLabel: string;
+  entrySource: 'region_click' | 'postcode_not_in_pilot';
+}
+
+function formatTerritoryLabel(postcodeDistrict: string, sectorLabel: string): string {
+  return `${postcodeDistrict} ${sectorLabel}`;
+}
+
+function formatPendingUntil(iso: string): string {
+  const d = new Date(iso);
+  return d.toLocaleString('en-GB', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: 'Europe/London',
+  });
+}
+
+/**
+ * Admin notification on new Territory Command application.
+ * Subject + body follow master doc section 3 "Admin notification email".
+ */
+export async function sendTerritoryAdminNotification(
+  ctx: TerritoryApplicationEmailContext,
+): Promise<boolean> {
+  const territory = formatTerritoryLabel(ctx.postcodeDistrict, ctx.sectorLabel);
+  const isFreeform = ctx.entryType === 'freeform';
+  const subjectPrefix = isFreeform
+    ? 'Territory Command FREEFORM application'
+    : 'Territory Command application';
+  const subject = `${subjectPrefix}: ${ctx.firmName} for ${territory}`;
+
+  const stateBlock = isFreeform
+    ? `
+          <div style="margin-bottom: 20px; padding: 16px; background-color: #FEF9E7; border-radius: 8px; border: 1px solid #ECB615;">
+            <p style="margin: 0 0 4px 0; color: #0A1B36; font-size: 14px; font-weight: bold;">Entry: Freeform industry &mdash; no seat held.</p>
+            <p style="margin: 0; color: #333; font-size: 14px;">The requested sector isn't live yet. Respond within 4 working hours to discuss activation and territory terms.</p>
+          </div>`
+    : `
+          <div style="margin-bottom: 20px; padding: 16px; background-color: #FEF9E7; border-radius: 8px; border: 1px solid #ECB615;">
+            <p style="margin: 0 0 4px 0; color: #0A1B36; font-size: 14px; font-weight: bold;">State after submission:</p>
+            <p style="margin: 0; color: #333; font-size: 14px;">Pending (held until ${ctx.pendingUntil ? formatPendingUntil(ctx.pendingUntil) : '[unknown]'} Europe/London). Respond within 4 working hours to maintain the 48-hour window.</p>
+          </div>`;
+
+  const sectorLine = isFreeform
+    ? `<p style="margin: 4px 0; color: #333;"><strong>Sector (freeform):</strong> ${ctx.sectorLabel}</p>`
+    : `<p style="margin: 4px 0; color: #333;"><strong>Sector:</strong> ${ctx.sectorLabel}${ctx.sectorSlug ? ` (${ctx.sectorSlug})` : ''}</p>`;
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head><meta charset="utf-8"></head>
+    <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f5f5f5; margin: 0; padding: 20px;">
+      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <div style="background-color: #0A1B36; padding: 24px; text-align: center;">
+          <h1 style="color: #ECB615; margin: 0; font-size: 22px; font-weight: bold;">TERRITORY COMMAND APPLICATION${isFreeform ? ' (FREEFORM)' : ''}</h1>
+          <p style="color: #ffffff; margin: 8px 0 0 0; font-size: 14px;">${territory}</p>
+        </div>
+        <div style="padding: 24px;">${stateBlock}
+          <div style="margin-bottom: 20px; padding: 16px; background-color: #f8f9fa; border-radius: 8px;">
+            <h2 style="color: #0A1B36; margin: 0 0 12px 0; font-size: 16px;">Firm</h2>
+            <p style="margin: 4px 0; color: #333;"><strong>Name:</strong> ${ctx.firmName}</p>
+            ${ctx.websiteUrl ? `<p style="margin: 4px 0; color: #333;"><strong>Website:</strong> <a href="${ctx.websiteUrl}" style="color: #ECB615;">${ctx.websiteUrl}</a></p>` : ''}
+            <p style="margin: 4px 0; color: #333;"><strong>Postcode:</strong> ${ctx.firmPostcode}</p>
+            ${sectorLine}
+          </div>
+          <div style="margin-bottom: 20px; padding: 16px; background-color: #f8f9fa; border-radius: 8px;">
+            <h2 style="color: #0A1B36; margin: 0 0 12px 0; font-size: 16px;">Contact</h2>
+            <p style="margin: 4px 0; color: #333;"><strong>Name:</strong> ${ctx.contactName}</p>
+            ${ctx.contactRole ? `<p style="margin: 4px 0; color: #333;"><strong>Role:</strong> ${ctx.contactRole}</p>` : ''}
+            <p style="margin: 4px 0; color: #333;"><strong>Email:</strong> <a href="mailto:${ctx.contactEmail}" style="color: #ECB615;">${ctx.contactEmail}</a></p>
+            ${ctx.contactPhone ? `<p style="margin: 4px 0; color: #333;"><strong>Phone:</strong> <a href="tel:${ctx.contactPhone}" style="color: #ECB615;">${ctx.contactPhone}</a></p>` : ''}
+          </div>
+          ${ctx.aiVisibilityApproach ? `
+          <div style="margin-bottom: 20px; padding: 16px; background-color: #f8f9fa; border-radius: 8px;">
+            <h2 style="color: #0A1B36; margin: 0 0 12px 0; font-size: 16px;">Current AI visibility approach</h2>
+            <p style="margin: 0; color: #333;">${ctx.aiVisibilityApproach}</p>
+          </div>
+          ` : ''}
+          ${ctx.additionalContext ? `
+          <div style="margin-bottom: 20px;">
+            <h2 style="color: #0A1B36; margin: 0 0 12px 0; font-size: 16px;">Context from applicant</h2>
+            <div style="padding: 16px; background-color: #0A1B36; border-radius: 8px; color: #ffffff; line-height: 1.6;">
+              ${ctx.additionalContext.replace(/\n/g, '<br>')}
+            </div>
+          </div>
+          ` : ''}
+          <div style="margin: 24px 0; padding: 12px; background-color: #f8f9fa; border-radius: 6px; color: #666; font-size: 12px;">
+            Application ID: ${ctx.applicationId}
+          </div>
+          <div style="text-align: center; margin-top: 24px;">
+            <a href="mailto:${ctx.contactEmail}?subject=Your Territory Command application for ${territory}"
+               style="display: inline-block; padding: 12px 32px; background-color: #ECB615; color: #0A1B36; text-decoration: none; border-radius: 8px; font-weight: bold;">
+              Reply to ${ctx.contactName.split(' ')[0] || ctx.contactName}
+            </a>
+          </div>
+        </div>
+        <div style="background-color: #0A1B36; padding: 16px; text-align: center;">
+          <p style="margin: 0; color: #ffffff; font-size: 12px;">Submitted via scopesite.co.uk/territory</p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+    sendSmtpEmail.subject = subject;
+    sendSmtpEmail.htmlContent = htmlContent;
+    sendSmtpEmail.sender = { name: FROM_NAME, email: FROM_EMAIL };
+    sendSmtpEmail.to = [{ email: ADMIN_EMAIL, name: 'Dan Cartwright' }];
+    sendSmtpEmail.replyTo = { email: ctx.contactEmail, name: ctx.contactName };
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    console.log(`[Email] Territory admin notification sent for ${ctx.applicationId}`);
+    return true;
+  } catch (error) {
+    console.error('Failed to send territory admin notification:', error);
+    return false;
+  }
+}
+
+/**
+ * Applicant confirmation email. Copy adapted from master doc section 3
+ * "Application confirmation page copy".
+ */
+export async function sendTerritoryApplicationConfirmation(
+  ctx: TerritoryApplicationEmailContext,
+): Promise<boolean> {
+  const territory = formatTerritoryLabel(ctx.postcodeDistrict, ctx.sectorLabel);
+  const firstName = ctx.contactName.split(' ')[0] || ctx.contactName;
+  const isFreeform = ctx.entryType === 'freeform';
+  const subject = isFreeform
+    ? `Your application is received: ${territory}`
+    : `Your territory is held: ${territory}`;
+
+  const headlineText = isFreeform
+    ? 'Your Application is Received'
+    : 'Your Territory is Held';
+
+  const introParagraph = isFreeform
+    ? `Thanks for your application for <strong>${territory}</strong>. It has been logged and Dan will review it personally.`
+    : `<strong>${territory}</strong> is now marked as pending in your name. You have 48 hours for Dan to reach out and arrange your qualifying call before the territory returns to available.`;
+
+  const followUpParagraph = isFreeform
+    ? `Dan will email you within the next 4 working hours to discuss your sector and territory.`
+    : `Dan will email you within the next 4 working hours to schedule.`;
+
+  const holdBlock = isFreeform || !ctx.pendingUntil
+    ? ''
+    : `
+          <div style="margin: 28px 0; padding: 16px; background-color: #f8f9fa; border-radius: 6px; text-align: center;">
+            <p style="color: #666; font-size: 14px; line-height: 1.6; margin: 0;">
+              Territory held until <strong>${formatPendingUntil(ctx.pendingUntil)} (Europe/London)</strong>.
+            </p>
+          </div>`;
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head><meta charset="utf-8"></head>
+    <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f5f5f5; margin: 0; padding: 20px;">
+      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <div style="background-color: #0A1B36; padding: 32px; text-align: center;">
+          <h1 style="color: #ECB615; margin: 0; font-size: 26px; font-weight: bold;">${headlineText}</h1>
+          <p style="color: #ffffff; margin: 8px 0 0 0; font-size: 16px;">${territory}</p>
+        </div>
+        <div style="padding: 32px;">
+          <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">Hi ${firstName},</p>
+          <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">
+            ${introParagraph}
+          </p>
+          <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 24px 0;">
+            ${followUpParagraph}
+          </p>${holdBlock}
+          <p style="color: #333; font-size: 15px; line-height: 1.6; margin: 0 0 16px 0;">
+            Any questions, reply to this email or call 01373 311 339.
+          </p>
+          <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid #eee;">
+            <p style="color: #333; font-size: 15px; line-height: 1.6; margin: 0 0 4px 0;">Cheers,</p>
+            <p style="color: #0A1B36; font-size: 16px; font-weight: bold; margin: 0 0 4px 0;">Dan Cartwright</p>
+            <p style="color: #666; font-size: 14px; margin: 0;">Founder, ScopeSite Digital Studios</p>
+          </div>
+        </div>
+        <div style="background-color: #0A1B36; padding: 24px; text-align: center;">
+          <p style="margin: 0 0 8px 0; color: #ECB615; font-size: 14px; font-weight: bold;">ScopeSite Digital Studios</p>
+          <p style="margin: 0; color: #ffffff; font-size: 12px;">Veteran-owned, Somerset, UK</p>
+          <p style="margin: 8px 0 0 0; font-size: 12px;">
+            <a href="https://scopesite.co.uk/territory" style="color: #ECB615;">scopesite.co.uk/territory</a>
+            <span style="color: #ffffff; margin: 0 8px;">|</span>
+            <a href="tel:+441373311339" style="color: #ECB615;">01373 311 339</a>
+          </p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+    sendSmtpEmail.subject = subject;
+    sendSmtpEmail.htmlContent = htmlContent;
+    sendSmtpEmail.sender = { name: 'Dan at ScopeSite', email: FROM_EMAIL };
+    sendSmtpEmail.to = [{ email: ctx.contactEmail, name: ctx.contactName }];
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    console.log(`[Email] Territory applicant confirmation sent for ${ctx.applicationId}`);
+    return true;
+  } catch (error) {
+    console.error('Failed to send territory applicant confirmation:', error);
+    return false;
+  }
+}
+
+/**
+ * Waitlist joiner confirmation for pending/claimed/inactive seats.
+ */
+export async function sendTerritoryWaitlistConfirmation(
+  ctx: TerritoryWaitlistEmailContext,
+): Promise<boolean> {
+  const territory = formatTerritoryLabel(ctx.postcodeDistrict, ctx.sectorLabel);
+  const firstName = ctx.contactName.split(' ')[0] || ctx.contactName;
+  const subject = `You are on the waitlist: ${territory}`;
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head><meta charset="utf-8"></head>
+    <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f5f5f5; margin: 0; padding: 20px;">
+      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <div style="background-color: #0A1B36; padding: 32px; text-align: center;">
+          <h1 style="color: #ECB615; margin: 0; font-size: 24px; font-weight: bold;">You are on the waitlist</h1>
+          <p style="color: #ffffff; margin: 8px 0 0 0; font-size: 16px;">${territory}</p>
+        </div>
+        <div style="padding: 32px;">
+          <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">Hi ${firstName},</p>
+          <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">
+            You are on the waitlist for <strong>${territory}</strong>${ctx.position ? ` at position ${ctx.position}` : ''}.
+          </p>
+          <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">
+            We will email you the moment this territory becomes available. If it is released from contract, waitlist members are notified in the order they joined. First right of application goes to position 1.
+          </p>
+          <div style="margin: 28px 0; padding: 20px; background-color: #f8f9fa; border-radius: 8px; border-left: 4px solid #ECB615;">
+            <p style="margin: 0 0 6px 0; color: #666; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">Your position</p>
+            <p style="margin: 0; color: #0A1B36; font-size: 28px; font-weight: bold;">${ctx.position}</p>
+          </div>
+          <div style="text-align: center; margin: 32px 0;">
+            <a href="https://scopesite.co.uk/territory"
+               style="display: inline-block; padding: 14px 28px; background-color: #0A1B36; color: #ffffff; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 15px;">
+              Return to Territory Command
+            </a>
+          </div>
+          <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid #eee;">
+            <p style="color: #333; font-size: 15px; line-height: 1.6; margin: 0 0 4px 0;">Cheers,</p>
+            <p style="color: #0A1B36; font-size: 16px; font-weight: bold; margin: 0 0 4px 0;">Dan Cartwright</p>
+            <p style="color: #666; font-size: 14px; margin: 0;">Founder, ScopeSite Digital Studios</p>
+          </div>
+        </div>
+        <div style="background-color: #0A1B36; padding: 16px; text-align: center;">
+          <p style="margin: 0; color: #ffffff; font-size: 12px;">
+            <a href="https://scopesite.co.uk/territory" style="color: #ECB615;">scopesite.co.uk/territory</a>
+          </p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+    sendSmtpEmail.subject = subject;
+    sendSmtpEmail.htmlContent = htmlContent;
+    sendSmtpEmail.sender = { name: FROM_NAME, email: FROM_EMAIL };
+    sendSmtpEmail.to = [{ email: ctx.contactEmail, name: ctx.contactName }];
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    console.log(`[Email] Territory waitlist confirmation sent for ${ctx.waitlistId}`);
+    return true;
+  } catch (error) {
+    console.error('Failed to send territory waitlist confirmation:', error);
+    return false;
+  }
+}
+
+/**
+ * Area waitlist confirmation for inactive regions or postcodes outside the
+ * current pilot zone.
+ */
+export async function sendAreaWaitlistConfirmation(
+  ctx: TerritoryAreaWaitlistEmailContext,
+): Promise<boolean> {
+  const firstName = ctx.contactName.split(' ')[0] || ctx.contactName;
+  const areaLabel = ctx.requestedPostcode
+    ? ctx.requestedPostcode
+    : ctx.regionLabel || 'your area';
+  const subject = `Registered for ${areaLabel} (${ctx.sectorLabel})`;
+
+  const intro =
+    ctx.entrySource === 'region_click'
+      ? `Thanks for registering interest in <strong>${ctx.regionLabel || areaLabel}</strong>. This region is not yet in the Territory Command pilot.`
+      : `Thanks for registering <strong>${ctx.requestedPostcode || areaLabel}</strong>. This postcode is valid but not yet in the Territory Command pilot zone.`;
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head><meta charset="utf-8"></head>
+    <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f5f5f5; margin: 0; padding: 20px;">
+      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <div style="background-color: #0A1B36; padding: 32px; text-align: center;">
+          <h1 style="color: #ECB615; margin: 0; font-size: 24px; font-weight: bold;">Interest Registered</h1>
+          <p style="color: #ffffff; margin: 8px 0 0 0; font-size: 16px;">${areaLabel} &middot; ${ctx.sectorLabel}</p>
+        </div>
+        <div style="padding: 32px;">
+          <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">Hi ${firstName},</p>
+          <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">${intro}</p>
+          <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 24px 0;">
+            We will email you the moment your area goes live, and sooner if you are in one of the earlier rollout areas. Waitlist members get first right of application on their postcode when the sector activates.
+          </p>
+          <div style="margin: 28px 0; padding: 20px; background-color: #f8f9fa; border-radius: 8px; border-left: 4px solid #ECB615;">
+            <p style="margin: 0 0 8px 0; color: #0A1B36; font-size: 14px; font-weight: bold;">Registered for:</p>
+            <p style="margin: 2px 0; color: #333; font-size: 15px;"><strong>Area:</strong> ${areaLabel}</p>
+            <p style="margin: 2px 0; color: #333; font-size: 15px;"><strong>Sector:</strong> ${ctx.sectorLabel}</p>
+            <p style="margin: 2px 0; color: #333; font-size: 15px;"><strong>Firm:</strong> ${ctx.firmName}</p>
+          </div>
+          <div style="text-align: center; margin: 32px 0;">
+            <a href="https://scopesite.co.uk/territory"
+               style="display: inline-block; padding: 14px 28px; background-color: #0A1B36; color: #ffffff; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 15px;">
+              Return to Territory Command
+            </a>
+          </div>
+          <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid #eee;">
+            <p style="color: #333; font-size: 15px; line-height: 1.6; margin: 0 0 4px 0;">Cheers,</p>
+            <p style="color: #0A1B36; font-size: 16px; font-weight: bold; margin: 0 0 4px 0;">Dan Cartwright</p>
+            <p style="color: #666; font-size: 14px; margin: 0;">Founder, ScopeSite Digital Studios</p>
+          </div>
+        </div>
+        <div style="background-color: #0A1B36; padding: 16px; text-align: center;">
+          <p style="margin: 0; color: #ffffff; font-size: 12px;">
+            <a href="https://scopesite.co.uk/territory" style="color: #ECB615;">scopesite.co.uk/territory</a>
+          </p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+    sendSmtpEmail.subject = subject;
+    sendSmtpEmail.htmlContent = htmlContent;
+    sendSmtpEmail.sender = { name: FROM_NAME, email: FROM_EMAIL };
+    sendSmtpEmail.to = [{ email: ctx.contactEmail, name: ctx.contactName }];
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    console.log(`[Email] Area waitlist confirmation sent to ${ctx.contactEmail}`);
+    return true;
+  } catch (error) {
+    console.error('Failed to send area waitlist confirmation:', error);
+    return false;
+  }
+}
+
+// ============================================
 // SPEED TEST LEAD CAPTURE
 // ============================================
 

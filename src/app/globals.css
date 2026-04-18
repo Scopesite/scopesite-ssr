@@ -439,6 +439,23 @@ main a:not(.btn):not(.btn-primary):not(.btn-secondary):not(.btn-secondary-light)
   }
 }
 
+/*
+ * TERRITORY FORM DEFENSIVE COLOURS
+ * Belt-and-braces for inputs inside [data-territory-form] so future refactors
+ * cannot regress into white-on-white text.
+ */
+[data-territory-form] input,
+[data-territory-form] textarea,
+[data-territory-form] select {
+  color: #0A1B36;
+  background-color: #FFFFFF;
+}
+
+[data-territory-form] ::placeholder {
+  color: #94A3B8;
+  opacity: 1;
+}
+
 /* 
  * ANIMATIONS
  */

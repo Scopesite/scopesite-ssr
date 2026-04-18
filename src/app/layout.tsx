@@ -142,6 +142,7 @@ export default function RootLayout({
         <JsonLd schema={[organizationSchema, websiteSchema, voiceTermSetSchema, audienceSchema, scheduleActionSchema]} />
       </head>
       <body
+        suppressHydrationWarning
         className={`${paytoneOne.variable} ${inter.variable} font-body`}
       >
         <SkipLink />

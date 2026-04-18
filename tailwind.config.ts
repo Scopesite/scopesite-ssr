@@ -28,11 +28,12 @@ const config: Config = {
   				graphite: '#1E2D50'
   			},
   			territory: {
-  				available: '#F5B700',
-  				pending:   '#F59E0B',
-  				claimed:   '#B91C1C',
-  				inactive:  '#64748B',
-  				premium:   '#D4A017',
+  				available: '#22C55E', // green
+  				pending:   '#3B82F6', // blue
+  				claimed:   '#B91C1C', // red (unchanged)
+  				inactive:  '#64748B', // slate (unchanged)
+  				premium:   '#A855F7', // purple
+  				home:      '#F5B700', // gold - exclusively for BA11 home ring
   			},
   			primary: {
   				DEFAULT: 'hsl(var(--primary))',

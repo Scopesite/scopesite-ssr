@@ -19,12 +19,20 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        // ScopeSite brand buttons. `link-navy` opts out of the global
+        // `main a` underline + gold-accessible recolour rule in globals.css
+        // so asChild-wrapped <Link> renders correctly without gold-on-gold.
+        brand:
+          "link-navy rounded-lg bg-brand-gold text-brand-navy font-semibold no-underline shadow-sm hover:bg-brand-gold/90 focus-visible:ring-brand-gold/40 focus-visible:ring-2",
+        brandOutline:
+          "link-navy rounded-lg border-2 border-brand-navy bg-white text-brand-navy font-semibold no-underline hover:bg-slate-50 focus-visible:ring-brand-navy/30 focus-visible:ring-2",
       },
       size: {
         default: "h-9 px-4 py-2",
         sm: "h-8 rounded-md px-3 text-xs",
         lg: "h-10 rounded-md px-8",
         icon: "h-9 w-9",
+        brand: "h-auto px-5 py-3 text-base",
       },
     },
     defaultVariants: {
