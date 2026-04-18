@@ -1,0 +1,622 @@
+slug,label,category,sub_category,sic_2007_code,recognition_score
+solicitors,Solicitors,Legal Services,Legal Practice,69102,5
+barristers,Barristers,Legal Services,Legal Practice,69101,5
+paralegals,Paralegals,Legal Services,Legal Practice,69109,5
+conveyancers,Conveyancers,Legal Services,Property Law,69109,5
+immigration-advisors,Immigration Advisors,Legal Services,Specialist Law,69109,5
+family-law,Family Law,Legal Services,Specialist Law,69102,5
+criminal-defence,Criminal Defence,Legal Services,Specialist Law,69102,5
+personal-injury,Personal Injury,Legal Services,Specialist Law,69102,5
+will-writers,Will Writers,Legal Services,Estate Planning,69109,5
+notaries,Notaries,Legal Services,Legal Practice,69109,5
+legal-executives,Legal Executives,Legal Services,Legal Practice,69109,5
+employment-lawyers,Employment Lawyers,Legal Services,Specialist Law,69102,5
+commercial-lawyers,Commercial Lawyers,Legal Services,Corporate Law,69102,5
+ip-lawyers,Intellectual Property Lawyers,Legal Services,Corporate Law,69102,5
+mediation-services,Mediation Services,Legal Services,Dispute Resolution,69109,4
+human-rights-lawyers,Human Rights Lawyers,Legal Services,Specialist Law,69102,5
+legal-aid-practices,Legal Aid Practices,Legal Services,Legal Practice,69102,5
+trade-mark-attorneys,Trade Mark Attorneys,Legal Services,Corporate Law,69109,5
+probate-specialists,Probate Specialists,Legal Services,Estate Planning,69109,5
+corporate-lawyers,Corporate Lawyers,Legal Services,Corporate Law,69102,5
+chartered-accountants,Chartered Accountants,Financial Services,Accounting,69201,5
+bookkeepers,Bookkeepers,Financial Services,Accounting,69202,5
+tax-advisors,Tax Advisors,Financial Services,Accounting,69203,5
+ifas,Independent Financial Advisors (IFAs),Financial Services,Advisory,66190,5
+mortgage-brokers,Mortgage Brokers,Financial Services,Broking,66190,5
+insurance-brokers,Insurance Brokers,Financial Services,Broking,66220,5
+commercial-finance-brokers,Commercial Finance Brokers,Financial Services,Broking,66190,5
+wealth-managers,Wealth Managers,Financial Services,Advisory,66190,5
+pension-consultants,Pension Consultants,Financial Services,Advisory,66190,5
+debt-counsellors,Debt Counsellors,Financial Services,Advisory,88990,4
+insolvency-practitioners,Insolvency Practitioners,Financial Services,Corporate Recovery,69201,5
+bridging-finance,Bridging Finance Providers,Financial Services,Lending,64922,4
+asset-finance,Asset Finance Brokers,Financial Services,Lending,64910,4
+payroll-services,Payroll Services,Financial Services,Accounting,69202,5
+actuaries,Actuaries,Financial Services,Advisory,66290,4
+stockbrokers,Stockbrokers,Financial Services,Trading,66120,5
+credit-unions,Credit Unions,Financial Services,Banking,64192,5
+foreign-exchange,Foreign Exchange Services,Financial Services,Trading,66120,5
+loss-adjusters,Loss Adjusters,Financial Services,Insurance,66210,4
+venture-capital,Venture Capital Firms,Financial Services,Investment,64303,5
+private-equity,Private Equity Firms,Financial Services,Investment,64301,5
+angel-investors,Angel Investment Networks,Financial Services,Investment,64999,4
+fund-managers,Fund Managers,Financial Services,Investment,66300,5
+cryptocurrency-exchanges,Cryptocurrency Exchanges,Financial Services,Trading,66190,5
+life-insurance-brokers,Life Insurance Brokers,Financial Services,Broking,66220,5
+architects,Architects,Professional Services,Design & Planning,71111,5
+chartered-surveyors,Chartered Surveyors,Professional Services,Surveying,71122,5
+building-surveyors,Building Surveyors,Professional Services,Surveying,71122,5
+civil-engineers,Civil Engineers,Professional Services,Engineering,71121,5
+structural-engineers,Structural Engineers,Professional Services,Engineering,71121,5
+mechanical-engineers,Mechanical Engineers,Professional Services,Engineering,71121,5
+electrical-engineers,Electrical Engineers,Professional Services,Engineering,71121,5
+project-managers,Project Managers,Professional Services,Consulting,70229,5
+hr-consultants,HR Consultants,Professional Services,Consulting,70229,5
+marketing-agencies,Marketing Agencies,Professional Services,Marketing,73110,5
+pr-firms,PR Firms,Professional Services,Marketing,70210,5
+seo-agencies,SEO Agencies,Professional Services,Digital Marketing,73110,5
+web-designers,Web Designers,Professional Services,Digital Design,62012,5
+graphic-designers,Graphic Designers,Professional Services,Design,74100,5
+photographers,Photographers,Professional Services,Media,74201,5
+videographers,Videographers,Professional Services,Media,74209,5
+translators,Translators,Professional Services,Language Services,74300,5
+interpreters,Interpreters,Professional Services,Language Services,74300,5
+management-consultants,Management Consultants,Professional Services,Consulting,70229,5
+business-coaches,Business Coaches,Professional Services,Consulting,85590,5
+health-and-safety,Health & Safety Consultants,Professional Services,Consulting,74909,5
+environmental-consultants,Environmental Consultants,Professional Services,Consulting,74901,5
+acoustic-consultants,Acoustic Consultants,Professional Services,Consulting,71122,4
+interior-designers,Interior Designers,Professional Services,Design,74100,5
+town-planners,Town Planners,Professional Services,Planning,71112,4
+quantity-surveyors,Quantity Surveyors,Professional Services,Surveying,74902,5
+event-planners,Event Planners,Professional Services,Events,82302,5
+wedding-planners,Wedding Planners,Professional Services,Events,96090,5
+copywriters,Copywriters,Professional Services,Content,74909,5
+market-research,Market Research Agencies,Professional Services,Research,73200,5
+branding-agencies,Branding Agencies,Professional Services,Marketing,73110,5
+virtual-assistants,Virtual Assistants,Professional Services,Administration,82110,5
+patent-attorneys,Patent Attorneys,Professional Services,Legal,69109,4
+loss-assessors,Loss Assessors,Professional Services,Insurance,66210,4
+social-media-agencies,Social Media Agencies,Professional Services,Digital Marketing,73110,5
+ppc-agencies,PPC Agencies,Professional Services,Digital Marketing,73110,5
+lead-generation-agencies,Lead Generation Agencies,Professional Services,Marketing,73110,5
+b2b-sales-consultants,B2B Sales Consultants,Professional Services,Consulting,70229,5
+change-management,Change Management Consultants,Professional Services,Consulting,70229,4
+sustainability-consultants,Sustainability Consultants,Professional Services,Consulting,74901,5
+residential-estate-agents,Residential Estate Agents,Real Estate & Property,Agency,68310,5
+commercial-estate-agents,Commercial Estate Agents,Real Estate & Property,Agency,68310,5
+letting-agents,Letting Agents,Real Estate & Property,Agency,68310,5
+property-management,Property Management,Real Estate & Property,Management,68320,5
+block-management,Block Management,Real Estate & Property,Management,68320,5
+property-developers,Property Developers,Real Estate & Property,Development,41100,5
+buying-agents,Buying Agents,Real Estate & Property,Agency,68310,4
+auctioneers,Auctioneers,Real Estate & Property,Sales,82990,5
+serviced-accommodation,Serviced Accommodation,Real Estate & Property,Hospitality,55100,5
+coworking-spaces,Co-working Spaces,Real Estate & Property,Commercial,68209,5
+property-investment,Property Investment,Real Estate & Property,Investment,68209,5
+relocation-agents,Relocation Agents,Real Estate & Property,Agency,68310,4
+housing-associations,Housing Associations,Real Estate & Property,Social Housing,68201,5
+inventory-clerks,Inventory Clerks,Real Estate & Property,Services,68320,5
+epc-assessors,EPC Assessors,Real Estate & Property,Services,71122,5
+commercial-landlords,Commercial Landlords,Real Estate & Property,Leasing,68209,5
+facilities-management,Facilities Management,Real Estate & Property,Management,81100,5
+student-accommodation,Student Accommodation,Real Estate & Property,Leasing,55900,5
+land-agents,Land Agents,Real Estate & Property,Agency,68310,4
+holiday-let-management,Holiday Let Management,Real Estate & Property,Management,68320,5
+commercial-property-management,Commercial Property Management,Real Estate & Property,Management,68320,5
+property-sourcing,Property Sourcing Agents,Real Estate & Property,Investment,68310,5
+dental-practices,Dental Practices,Health & Wellness,Medical,86230,5
+gp-surgeries,GP Surgeries,Health & Wellness,Medical,86210,5
+private-medical,Private Medical Clinics,Health & Wellness,Medical,86220,5
+physiotherapy,Physiotherapy,Health & Wellness,Therapy,86909,5
+chiropractors,Chiropractors,Health & Wellness,Therapy,86909,5
+osteopaths,Osteopaths,Health & Wellness,Therapy,86909,5
+acupuncture,Acupuncture,Health & Wellness,Alternative Therapy,86909,5
+hypnotherapy,Hypnotherapy,Health & Wellness,Alternative Therapy,86909,5
+nutritionists,Nutritionists,Health & Wellness,Dietary,86909,5
+personal-trainers,Personal Trainers,Health & Wellness,Fitness,93130,5
+yoga-studios,Yoga Studios,Health & Wellness,Fitness,93130,5
+pilates-studios,Pilates Studios,Health & Wellness,Fitness,93130,5
+sports-massage,Sports Massage,Health & Wellness,Therapy,86909,5
+cosmetic-clinics,Cosmetic Clinics,Health & Wellness,Medical,86220,5
+fertility-clinics,Fertility Clinics,Health & Wellness,Medical,86220,5
+mental-health,Mental Health Practices,Health & Wellness,Psychology,86220,5
+speech-therapists,Speech Therapists,Health & Wellness,Therapy,86909,5
+opticians,Opticians,Health & Wellness,Medical,86220,5
+audiologists,Audiologists,Health & Wellness,Medical,86909,5
+podiatrists,Podiatrists,Health & Wellness,Therapy,86909,5
+dietitians,Dietitians,Health & Wellness,Dietary,86909,5
+reflexologists,Reflexologists,Health & Wellness,Alternative Therapy,86909,5
+reiki-practitioners,Reiki Practitioners,Health & Wellness,Alternative Therapy,86909,4
+homeopathy-clinics,Homeopathy Clinics,Health & Wellness,Alternative Therapy,86909,4
+floatation-therapy,Floatation Therapy,Health & Wellness,Wellness,96040,5
+cryotherapy,Cryotherapy Centres,Health & Wellness,Wellness,96040,5
+chiropodists,Chiropodists,Health & Wellness,Therapy,86909,5
+psychotherapists,Psychotherapists,Health & Wellness,Psychology,86909,5
+counselling-services,Counselling Services,Health & Wellness,Psychology,86909,5
+occupational-therapists,Occupational Therapists,Health & Wellness,Therapy,86909,5
+sports-therapy,Sports Therapy,Health & Wellness,Therapy,86909,5
+hearing-clinics,Hearing Clinics,Health & Wellness,Medical,86909,5
+travel-clinics,Travel Clinics,Health & Wellness,Medical,86210,4
+sleep-clinics,Sleep Clinics,Health & Wellness,Medical,86220,5
+addiction-treatment,Addiction Treatment,Health & Wellness,Rehabilitation,86220,5
+care-homes,Care Homes,Health & Wellness,Residential Care,87900,5
+domiciliary-care,Domiciliary Care,Health & Wellness,Home Care,88100,5
+gyms,Gyms,Health & Wellness,Fitness,93130,5
+crossfit-boxes,CrossFit Boxes,Health & Wellness,Fitness,93130,5
+boxing-gyms,Boxing Gyms,Health & Wellness,Fitness,93130,5
+spin-studios,Spin Studios,Health & Wellness,Fitness,93130,5
+wellness-retreats,Wellness Retreats,Health & Wellness,Wellness,55100,5
+beauty-salons,Beauty Salons,Beauty & Personal Care,Salons,96020,5
+hair-salons,Hair Salons,Beauty & Personal Care,Salons,96020,5
+barbers,Barbers,Beauty & Personal Care,Salons,96020,5
+nail-technicians,Nail Technicians,Beauty & Personal Care,Specialist Beauty,96020,5
+lash-technicians,Lash Technicians,Beauty & Personal Care,Specialist Beauty,96020,5
+tattoo-studios,Tattoo Studios,Beauty & Personal Care,Body Art,96090,5
+piercing-studios,Piercing Studios,Beauty & Personal Care,Body Art,96090,5
+tanning-salons,Tanning Salons,Beauty & Personal Care,Salons,96040,5
+waxing-clinics,Waxing Clinics,Beauty & Personal Care,Specialist Beauty,96020,5
+brow-bars,Brow Bars,Beauty & Personal Care,Specialist Beauty,96020,5
+massage-parlours,Massage Parlours,Beauty & Personal Care,Wellness,96040,5
+spa-retreats,Spa Retreats,Beauty & Personal Care,Wellness,96040,5
+makeup-artists,Makeup Artists,Beauty & Personal Care,Freelance,96020,5
+mobile-hairdressers,Mobile Hairdressers,Beauty & Personal Care,Freelance,96020,5
+skin-care-clinics,Skin Care Clinics,Beauty & Personal Care,Clinical Beauty,96020,5
+aesthetics-clinics,Aesthetics Clinics,Beauty & Personal Care,Clinical Beauty,86220,5
+hair-loss-clinics,Hair Loss Clinics,Beauty & Personal Care,Clinical Beauty,96020,5
+trichologists,Trichologists,Beauty & Personal Care,Clinical Beauty,96020,4
+perfumeries,Perfumeries,Beauty & Personal Care,Retail,47750,4
+laser-hair-removal,Laser Hair Removal,Beauty & Personal Care,Clinical Beauty,96020,5
+microblading,Microblading Specialists,Beauty & Personal Care,Specialist Beauty,96020,5
+holistic-therapies,Holistic Therapies,Beauty & Personal Care,Wellness,96040,4
+men-grooming,Men's Grooming,Beauty & Personal Care,Salons,96020,5
+wig-makers,Wig Makers,Beauty & Personal Care,Specialist,32990,4
+mobile-beauty,Mobile Beauty Therapists,Beauty & Personal Care,Freelance,96020,5
+teeth-whitening,Teeth Whitening Clinics,Beauty & Personal Care,Clinical Beauty,96020,5
+nail-bars,Nail Bars,Beauty & Personal Care,Salons,96020,5
+electricians,Electricians,Trades & Construction,Electrical,43210,5
+plumbers,Plumbers,Trades & Construction,Plumbing,43220,5
+heating-engineers,Heating Engineers,Trades & Construction,Plumbing & Heating,43220,5
+roofers,Roofers,Trades & Construction,Roofing,43910,5
+builders,Builders,Trades & Construction,General Building,41202,5
+painters-and-decorators,Painters and Decorators,Trades & Construction,Decorating,43341,5
+plasterers,Plasterers,Trades & Construction,Plastering,43310,5
+carpenters,Carpenters,Trades & Construction,Carpentry,43320,5
+kitchen-fitters,Kitchen Fitters,Trades & Construction,Installations,43320,5
+bathroom-fitters,Bathroom Fitters,Trades & Construction,Installations,43220,5
+tilers,Tilers,Trades & Construction,Decorating,43330,5
+flooring-specialists,Flooring Specialists,Trades & Construction,Flooring,43330,5
+landscape-gardeners,Landscape Gardeners,Trades & Construction,Landscaping,81300,5
+tree-surgeons,Tree Surgeons,Trades & Construction,Landscaping,81300,5
+pest-control,Pest Control,Trades & Construction,Maintenance,81291,5
+locksmiths,Locksmiths,Trades & Construction,Security,80200,5
+glaziers,Glaziers,Trades & Construction,Windows & Glass,43320,5
+skip-hire,Skip Hire Companies,Trades & Construction,Waste & Clearance,38110,5
+damp-proofing,Damp Proofing,Trades & Construction,Specialist Trades,43999,5
+loft-conversions,Loft Conversions,Trades & Construction,Building,41202,5
+driveway-contractors,Driveway Contractors,Trades & Construction,Groundworks,43999,5
+scaffolding,Scaffolding Companies,Trades & Construction,Support Services,43991,5
+groundworkers,Groundworkers,Trades & Construction,Groundworks,43120,5
+bricklayers,Bricklayers,Trades & Construction,Building,43999,5
+stonemasons,Stonemasons,Trades & Construction,Specialist Trades,43999,5
+solar-panel-installers,Solar Panel Installers,Trades & Construction,Renewables,43210,5
+heat-pump-installers,Heat Pump Installers,Trades & Construction,Renewables,43220,5
+insulation-contractors,Insulation Contractors,Trades & Construction,Specialist Trades,43290,5
+fencing-contractors,Fencing Contractors,Trades & Construction,Landscaping,43999,5
+handyman-services,Handyman Services,Trades & Construction,Maintenance,43390,5
+demolition-contractors,Demolition Contractors,Trades & Construction,Clearance,43110,5
+asbestos-removal,Asbestos Removal,Trades & Construction,Specialist Trades,39000,5
+conservatory-installers,Conservatory Installers,Trades & Construction,Installations,43320,5
+double-glazing,Double Glazing Installers,Trades & Construction,Windows & Glass,43320,5
+shopfitters,Shopfitters,Trades & Construction,Commercial,43320,5
+paving-contractors,Paving Contractors,Trades & Construction,Groundworks,43999,5
+drainage-specialists,Drainage Specialists,Trades & Construction,Plumbing,43220,5
+gas-safe-engineers,Gas Safe Engineers,Trades & Construction,Plumbing & Heating,43220,5
+air-conditioning,Air Conditioning Installers,Trades & Construction,HVAC,43220,5
+chimney-sweeps,Chimney Sweeps,Trades & Construction,Maintenance,81223,5
+thatchers,Thatchers,Trades & Construction,Roofing,43910,4
+block-paving,Block Paving Specialists,Trades & Construction,Groundworks,43999,5
+resin-driveways,Resin Driveway Specialists,Trades & Construction,Groundworks,43999,5
+pointing-specialists,Pointing Specialists,Trades & Construction,Building,43999,4
+dry-lining,Dry Lining Contractors,Trades & Construction,Plastering,43310,4
+rendering-specialists,Rendering Specialists,Trades & Construction,Plastering,43310,5
+steel-erectors,Steel Erectors,Trades & Construction,Structural,43999,4
+formwork-contractors,Formwork Contractors,Trades & Construction,Structural,43999,4
+civil-engineering-contractors,Civil Engineering Contractors,Trades & Construction,Engineering,42990,5
+basement-conversions,Basement Conversions,Trades & Construction,Building,41202,5
+acoustic-insulation,Acoustic Insulation,Trades & Construction,Specialist Trades,43290,4
+underpinning-specialists,Underpinning Specialists,Trades & Construction,Structural,43999,4
+core-drilling,Core Drilling Contractors,Trades & Construction,Specialist Trades,43120,4
+fire-protection-installers,Fire Protection Installers,Trades & Construction,Security,43290,5
+cladding-contractors,Cladding Contractors,Trades & Construction,Building,43999,5
+guttering-services,Guttering Services,Trades & Construction,Roofing,43910,5
+bespoke-joiners,Bespoke Joiners,Trades & Construction,Carpentry,43320,5
+commercial-window-cleaners,Commercial Window Cleaners,Trades & Construction,Maintenance,81221,5
+property-maintenance,Property Maintenance,Trades & Construction,Maintenance,43390,5
+car-dealerships-new,Car Dealerships (New),Automotive,Sales,45111,5
+car-dealerships-used,Car Dealerships (Used),Automotive,Sales,45112,5
+motorcycle-dealerships,Motorcycle Dealerships,Automotive,Sales,45400,5
+mot-centres,MOT Centres,Automotive,Maintenance,45200,5
+garage-mechanics,Garage/Mechanics,Automotive,Maintenance,45200,5
+body-shops,Body Shops,Automotive,Repair,45200,5
+tyre-specialists,Tyre Specialists,Automotive,Maintenance,45200,5
+car-detailing,Car Detailing,Automotive,Cleaning,45200,5
+car-valeters,Car Valeters,Automotive,Cleaning,45200,5
+car-hire,Car Hire,Automotive,Rental,77110,5
+driving-schools,Driving Schools,Automotive,Education,85530,5
+breakdown-recovery,Breakdown Recovery,Automotive,Support,52213,5
+vehicle-transporters,Vehicle Transporters,Automotive,Logistics,49410,5
+commercial-vehicle-dealers,Commercial Vehicle Dealers,Automotive,Sales,45190,5
+van-hire,Van Hire,Automotive,Rental,77120,5
+mobile-mechanics,Mobile Mechanics,Automotive,Maintenance,45200,5
+auto-electricians,Auto Electricians,Automotive,Repair,45200,5
+windscreen-repair,Windscreen Repair,Automotive,Repair,45200,5
+car-breakers,Car Breakers,Automotive,Salvage,46770,5
+alloy-wheel-refurbishers,Alloy Wheel Refurbishers,Automotive,Repair,45200,5
+caravan-dealers,Caravan Dealers,Automotive,Sales,45190,5
+motorhome-hire,Motorhome Hire,Automotive,Rental,77110,5
+hgv-training,HGV Training Schools,Automotive,Education,85530,5
+engine-tuning,Engine Tuning Specialists,Automotive,Performance,45200,4
+exhaust-specialists,Exhaust Specialists,Automotive,Repair,45200,4
+car-wrapping,Car Wrapping,Automotive,Customisation,45200,5
+window-tinting,Window Tinting,Automotive,Customisation,45200,5
+auto-locksmiths,Auto Locksmiths,Automotive,Support,45200,5
+fleet-management,Fleet Management,Automotive,Corporate,77110,5
+classic-car-restoration,Classic Car Restoration,Automotive,Specialist,45200,5
+vehicle-leasing,Vehicle Leasing,Automotive,Corporate,77110,5
+accident-management,Accident Management,Automotive,Support,66210,5
+car-audio-installers,Car Audio Installers,Automotive,Customisation,45200,5
+dashcam-installers,Dashcam Installers,Automotive,Customisation,45200,4
+motorcycle-mechanics,Motorcycle Mechanics,Automotive,Repair,45400,5
+scooter-dealers,Scooter Dealers,Automotive,Sales,45400,4
+atv-dealers,ATV Dealers,Automotive,Sales,45190,4
+motorsport-preparation,Motorsport Preparation,Automotive,Specialist,45200,4
+vehicle-upholstery,Vehicle Upholstery,Automotive,Repair,45200,4
+car-wash,Car Wash,Automotive,Cleaning,45200,5
+restaurants,Restaurants,Hospitality & Leisure,Food Service,56101,5
+pubs,Pubs,Hospitality & Leisure,Drinking Establishments,56302,5
+bars,Bars,Hospitality & Leisure,Drinking Establishments,56302,5
+cafes,Cafes,Hospitality & Leisure,Food Service,56102,5
+hotels,Hotels,Hospitality & Leisure,Accommodation,55100,5
+bbs,B&Bs,Hospitality & Leisure,Accommodation,55209,5
+holiday-cottages,Holiday Cottages,Hospitality & Leisure,Accommodation,55209,5
+caravan-parks,Caravan Parks,Hospitality & Leisure,Accommodation,55300,5
+wedding-venues,Wedding Venues,Hospitality & Leisure,Events,82302,5
+event-venues,Event Venues,Hospitality & Leisure,Events,82302,5
+catering-companies,Catering Companies,Hospitality & Leisure,Food Service,56210,5
+mobile-bartenders,Mobile Bartenders,Hospitality & Leisure,Events,56302,5
+food-trucks,Food Trucks,Hospitality & Leisure,Food Service,56103,5
+escape-rooms,Escape Rooms,Hospitality & Leisure,Entertainment,93290,5
+nightclubs,Nightclubs,Hospitality & Leisure,Entertainment,56301,5
+members-clubs,Members Clubs,Hospitality & Leisure,Entertainment,94990,4
+soft-play-centres,Soft Play Centres,Hospitality & Leisure,Entertainment,93290,5
+amusement-arcades,Amusement Arcades,Hospitality & Leisure,Entertainment,93290,5
+bowling-alleys,Bowling Alleys,Hospitality & Leisure,Entertainment,93290,5
+laser-tag,Laser Tag Arenas,Hospitality & Leisure,Entertainment,93290,5
+paintball-centres,Paintball Centres,Hospitality & Leisure,Entertainment,93290,5
+bingo-halls,Bingo Halls,Hospitality & Leisure,Entertainment,92000,5
+cinemas,Cinemas,Hospitality & Leisure,Entertainment,59140,5
+theatres,Theatres,Hospitality & Leisure,Entertainment,90040,5
+trampoline-parks,Trampoline Parks,Hospitality & Leisure,Entertainment,93290,5
+glamping-sites,Glamping Sites,Hospitality & Leisure,Accommodation,55300,5
+yurt-hire,Yurt Hire Companies,Hospitality & Leisure,Events,77390,5
+theme-parks,Theme Parks,Hospitality & Leisure,Entertainment,93210,5
+zoos,Zoos,Hospitality & Leisure,Attractions,91040,5
+aquariums,Aquariums,Hospitality & Leisure,Attractions,91040,5
+boat-hire,Boat Hire Companies,Hospitality & Leisure,Recreation,77210,5
+paddleboard-instructors,Paddleboard Instructors,Hospitality & Leisure,Recreation,93199,5
+surf-schools,Surf Schools,Hospitality & Leisure,Recreation,85510,5
+golf-clubs,Golf Clubs,Hospitality & Leisure,Sports,93110,5
+tennis-clubs,Tennis Clubs,Hospitality & Leisure,Sports,93110,5
+snooker-halls,Snooker Halls,Hospitality & Leisure,Entertainment,93290,5
+go-karting,Go Karting Tracks,Hospitality & Leisure,Entertainment,93290,5
+outdoor-pursuits,Outdoor Pursuits Centres,Hospitality & Leisure,Recreation,93290,5
+cookery-schools,Cookery Schools,Hospitality & Leisure,Education,85590,5
+wine-tasting,Wine Tasting Experiences,Hospitality & Leisure,Events,56302,4
+cocktail-masterclasses,Cocktail Masterclasses,Hospitality & Leisure,Events,56302,4
+popup-restaurants,Pop-up Restaurants,Hospitality & Leisure,Food Service,56101,5
+shisha-lounges,Shisha Lounges,Hospitality & Leisure,Entertainment,56302,5
+comedy-clubs,Comedy Clubs,Hospitality & Leisure,Entertainment,90040,5
+sports-bars,Sports Bars,Hospitality & Leisure,Drinking Establishments,56302,5
+hostels,Hostels,Hospitality & Leisure,Accommodation,55209,5
+fashion-boutiques,Fashion Boutiques,Retail,Clothing,47710,5
+shoe-shops,Shoe Shops,Retail,Clothing,47721,5
+jewellers,Jewellers,Retail,Accessories,47770,5
+bookshops,Bookshops,Retail,Leisure,47610,5
+gift-shops,Gift Shops,Retail,Specialist,47789,5
+florists,Florists,Retail,Specialist,47760,5
+butchers,Butchers,Retail,Food & Drink,47220,5
+bakeries,Bakeries,Retail,Food & Drink,47240,5
+greengrocers,Greengrocers,Retail,Food & Drink,47210,5
+off-licences,Off-Licences,Retail,Food & Drink,47250,5
+convenience-stores,Convenience Stores,Retail,General,47110,5
+health-food-shops,Health Food Shops,Retail,Food & Drink,47290,5
+pet-shops,Pet Shops,Retail,Specialist,47760,5
+charity-shops,Charity Shops,Retail,General,47791,5
+toy-shops,Toy Shops,Retail,Leisure,47650,5
+homeware-shops,Homeware Shops,Retail,Home,47599,5
+garden-centres,Garden Centres,Retail,Home,47760,5
+diy-shops,DIY Shops,Retail,Home,47520,5
+vape-shops,Vape Shops,Retail,Specialist,47190,5
+bridal-shops,Bridal Shops,Retail,Clothing,47710,5
+music-shops,Music Shops,Retail,Leisure,47591,5
+record-stores,Record Stores,Retail,Leisure,47610,5
+sports-shops,Sports Shops,Retail,Leisure,47640,5
+bicycle-shops,Bicycle Shops,Retail,Leisure,47640,5
+hardware-stores,Hardware Stores,Retail,Home,47520,5
+furniture-stores,Furniture Stores,Retail,Home,47599,5
+antiques-shops,Antiques Shops,Retail,Specialist,47799,5
+cosmetic-shops,Cosmetic Shops,Retail,Beauty,47750,5
+pharmacies,Pharmacies,Retail,Health,47730,5
+stationers,Stationers,Retail,Office,47620,5
+mobility-shops,Mobility Shops,Retail,Health,47749,5
+opticians-retail,Opticians (Retail),Retail,Health,47782,5
+haberdasheries,Haberdasheries,Retail,Specialist,47510,4
+farm-shops,Farm Shops,Retail,Food & Drink,47210,5
+delicatessens,Delicatessens,Retail,Food & Drink,47290,5
+fishmongers,Fishmongers,Retail,Food & Drink,47230,5
+sweet-shops,Sweet Shops,Retail,Food & Drink,47240,5
+party-supplies,Party Supplies Shops,Retail,Specialist,47789,5
+market-stalls,Market Stalls,Retail,General,47890,5
+ecommerce-retailers,E-commerce Retailers,Retail,Digital,47910,5
+department-stores,Department Stores,Retail,General,47190,5
+supermarkets,Supermarkets,Retail,General,47110,5
+discount-stores,Discount Stores,Retail,General,47190,5
+electronics-shops,Electronics Shops,Retail,Technology,47430,5
+computer-shops,Computer Shops,Retail,Technology,47410,5
+mobile-phone-shops,Mobile Phone Shops,Retail,Technology,47421,5
+camera-shops,Camera Shops,Retail,Technology,47430,4
+outdoor-clothing,Outdoor Clothing Shops,Retail,Clothing,47710,5
+camping-equipment,Camping Equipment Shops,Retail,Leisure,47640,5
+fishing-tackle,Fishing Tackle Shops,Retail,Leisure,47640,5
+equestrian-shops,Equestrian Shops,Retail,Specialist,47640,4
+golf-shops,Golf Shops,Retail,Leisure,47640,4
+sewing-machine-shops,Sewing Machine Shops,Retail,Specialist,47599,3
+wool-shops,Wool Shops,Retail,Specialist,47510,4
+craft-shops,Craft Shops,Retail,Specialist,47789,5
+art-supplies,Art Supplies Shops,Retail,Specialist,47789,5
+model-shops,Model Shops,Retail,Leisure,47650,4
+comic-book-shops,Comic Book Shops,Retail,Leisure,47610,5
+board-game-shops,Board Game Shops,Retail,Leisure,47650,5
+crystal-shops,Crystal Shops,Retail,Specialist,47789,4
+lighting-shops,Lighting Shops,Retail,Home,47599,5
+bathroom-showrooms,Bathroom Showrooms,Retail,Home,47520,5
+kitchen-showrooms,Kitchen Showrooms,Retail,Home,47599,5
+tile-showrooms,Tile Showrooms,Retail,Home,47520,5
+carpet-shops,Carpet Shops,Retail,Home,47530,5
+breweries,Breweries,Food & Drink,Production,11050,5
+distilleries,Distilleries,Food & Drink,Production,11010,5
+coffee-roasters,Coffee Roasters,Food & Drink,Production,10831,5
+artisan-bakeries,Artisan Bakeries,Food & Drink,Production,10710,5
+wholesale-butchers,Wholesale Butchers,Food & Drink,Wholesale,46320,5
+dairy-farms,Dairy Farms,Food & Drink,Agriculture,01410,5
+food-manufacturers,Food Manufacturers,Food & Drink,Production,10890,5
+confectionery-manufacturers,Confectionery Manufacturers,Food & Drink,Production,10821,5
+soft-drink-manufacturers,Soft Drink Manufacturers,Food & Drink,Production,11070,5
+wineries,Wineries,Food & Drink,Production,11020,5
+cider-makers,Cider Makers,Food & Drink,Production,11030,5
+specialty-food-importers,Specialty Food Importers,Food & Drink,Wholesale,46380,4
+commercial-kitchens,Commercial Kitchens,Food & Drink,Facilities,56290,4
+meal-prep-services,Meal Prep Services,Food & Drink,Production,56210,5
+wholesale-food,Wholesale Food Distributors,Food & Drink,Wholesale,46390,5
+tea-merchants,Tea Merchants,Food & Drink,Wholesale,46370,5
+coffee-machine-suppliers,Coffee Machine Suppliers,Food & Drink,Wholesale,46690,4
+wholesale-bakers,Wholesale Bakers,Food & Drink,Wholesale,46360,5
+meat-wholesalers,Meat Wholesalers,Food & Drink,Wholesale,46320,5
+fish-merchants,Fish Merchants,Food & Drink,Wholesale,46330,5
+cheese-makers,Cheese Makers,Food & Drink,Production,10512,5
+wine-merchants,Wine Merchants,Food & Drink,Wholesale,46342,5
+design-studios,Design Studios,Creative & Media,Design,74100,5
+film-production,Film Production,Creative & Media,Production,59112,5
+music-production,Music Production,Creative & Media,Production,59200,5
+recording-studios,Recording Studios,Creative & Media,Production,59200,5
+dance-schools,Dance Schools,Creative & Media,Performing Arts,85520,5
+drama-schools,Drama Schools,Creative & Media,Performing Arts,85520,5
+art-galleries,Art Galleries,Creative & Media,Exhibition,47781,5
+wedding-photographers,Wedding Photographers,Creative & Media,Photography,74202,5
+commercial-photographers,Commercial Photographers,Creative & Media,Photography,74201,5
+illustrators,Illustrators,Creative & Media,Design,74100,5
+animators,Animators,Creative & Media,Design,59112,5
+theatrical-producers,Theatrical Producers,Creative & Media,Performing Arts,90020,4
+music-publishers,Music Publishers,Creative & Media,Publishing,59200,4
+model-agencies,Model Agencies,Creative & Media,Agencies,78109,5
+talent-agencies,Talent Agencies,Creative & Media,Agencies,74909,5
+audio-visual-hire,Audio Visual Hire,Creative & Media,Equipment,77390,5
+sign-makers,Sign Makers,Creative & Media,Manufacturing,32990,5
+art-restoration,Art Restoration,Creative & Media,Specialist,90030,4
+calligraphers,Calligraphers,Creative & Media,Specialist,90030,4
+broadcast-media,Broadcast Media Companies,Creative & Media,Broadcasting,60200,4
+podcast-production,Podcast Production Agencies,Creative & Media,Production,59200,5
+3d-modellers,3D Modellers,Creative & Media,Design,74100,4
+creative-agencies,Creative Agencies,Creative & Media,Agencies,73110,5
+casting-agencies,Casting Agencies,Creative & Media,Agencies,78109,5
+prop-hire,Prop Hire,Creative & Media,Equipment,77390,4
+set-builders,Set Builders,Creative & Media,Production,90020,4
+costume-hire,Costume Hire,Creative & Media,Equipment,77291,5
+makeup-fx-studios,Makeup FX Studios,Creative & Media,Production,90020,4
+sound-design-studios,Sound Design Studios,Creative & Media,Production,59200,4
+tutoring-services,Tutoring Services,Education & Training,Private Tuition,85590,5
+music-teachers,Music Teachers,Education & Training,Private Tuition,85520,5
+private-schools,Private Schools,Education & Training,Institutions,85200,5
+nurseries,Nurseries,Education & Training,Early Years,85100,5
+ofsted-childminders,Ofsted-Registered Childminders,Education & Training,Early Years,88910,5
+language-schools,Language Schools,Education & Training,Institutions,85590,5
+driving-instructors,Driving Instructors,Education & Training,Skills,85530,5
+first-aid-trainers,First Aid Trainers,Education & Training,Vocational,85590,5
+vocational-training,Vocational Training Centres,Education & Training,Vocational,85320,5
+health-safety-training,Health and Safety Training,Education & Training,Vocational,85590,5
+it-training,IT Training Providers,Education & Training,Vocational,85590,5
+corporate-training,Corporate Training Providers,Education & Training,Vocational,85590,5
+send-specialists,SEND Specialists,Education & Training,Special Needs,85200,4
+drama-coaches,Drama Coaches,Education & Training,Private Tuition,85520,5
+swimming-schools,Swimming Schools,Education & Training,Sports,85510,5
+martial-arts-schools,Martial Arts Schools,Education & Training,Sports,85510,5
+trade-schools,Trade Schools,Education & Training,Vocational,85320,5
+tefl-providers,TEFL Providers,Education & Training,Institutions,85590,5
+independent-colleges,Independent Colleges,Education & Training,Institutions,85310,5
+performing-arts-colleges,Performing Arts Colleges,Education & Training,Institutions,85320,5
+sports-coaches,Sports Coaches,Education & Training,Sports,85510,5
+dyslexia-assessors,Dyslexia Assessors,Education & Training,Special Needs,85600,4
+adult-education,Adult Education Centres,Education & Training,Institutions,85590,5
+business-schools,Business Schools,Education & Training,Institutions,85421,5
+beauty-schools,Beauty Schools,Education & Training,Vocational,85320,5
+culinary-schools,Culinary Schools,Education & Training,Vocational,85590,5
+forest-schools,Forest Schools,Education & Training,Early Years,85100,5
+montessori-nurseries,Montessori Nurseries,Education & Training,Early Years,85100,5
+after-school-clubs,After School Clubs,Education & Training,Childcare,88910,5
+tuition-centres,Tuition Centres,Education & Training,Private Tuition,85590,5
+software-development,Software Development,Technology & Telecoms,Development,62012,5
+it-support,IT Support,Technology & Telecoms,Services,62020,5
+cybersecurity,Cybersecurity,Technology & Telecoms,Security,62020,5
+web-hosting,Web Hosting,Technology & Telecoms,Infrastructure,63110,5
+managed-service-providers,Managed Service Providers (MSPs),Technology & Telecoms,Services,62020,5
+cloud-services,Cloud Services,Technology & Telecoms,Infrastructure,63110,5
+saas-companies,SaaS Companies,Technology & Telecoms,Development,62012,5
+app-developers,App Developers,Technology & Telecoms,Development,62012,5
+telecoms-providers,Telecoms Providers,Technology & Telecoms,Communications,61900,5
+data-centres,Data Centres,Technology & Telecoms,Infrastructure,63110,5
+it-consultants,IT Consultants,Technology & Telecoms,Consulting,62020,5
+network-installation,Network Installation,Technology & Telecoms,Infrastructure,61900,5
+hardware-suppliers,Hardware Suppliers,Technology & Telecoms,Retail & Wholesale,46510,5
+voip-providers,VoIP Providers,Technology & Telecoms,Communications,61900,5
+ai-startups,AI Startups,Technology & Telecoms,Development,62011,5
+elearning-platforms,E-learning Platform Providers,Technology & Telecoms,Development,62012,4
+game-development,Game Development Studios,Technology & Telecoms,Development,58210,5
+blockchain-consultancies,Blockchain Consultancies,Technology & Telecoms,Consulting,62020,4
+digital-transformation,Digital Transformation Consultancies,Technology & Telecoms,Consulting,62020,5
+qa-testing,QA Testing Services,Technology & Telecoms,Services,62020,4
+devops-consultancies,DevOps Consultancies,Technology & Telecoms,Consulting,62020,4
+it-recruitment,IT Recruitment Agencies,Technology & Telecoms,Services,78200,5
+unified-communications,Unified Communications Providers,Technology & Telecoms,Communications,61900,4
+broadband-providers,Broadband Providers,Technology & Telecoms,Communications,61200,5
+internet-service-providers,Internet Service Providers (ISPs),Technology & Telecoms,Communications,61200,5
+taxi-firms,Taxi Firms,Transport & Logistics,Passenger,49320,5
+minicab-companies,Minicab Companies,Transport & Logistics,Passenger,49320,5
+chauffeur-services,Chauffeur Services,Transport & Logistics,Passenger,49320,5
+couriers,Couriers,Transport & Logistics,Freight,53201,5
+haulage,Haulage Companies,Transport & Logistics,Freight,49410,5
+removals-firms,Removals Firms,Transport & Logistics,Moving,49420,5
+man-with-van,Man-with-Van Services,Transport & Logistics,Moving,49420,5
+same-day-delivery,Same-Day Delivery,Transport & Logistics,Freight,53201,5
+medical-transport,Medical Transport,Transport & Logistics,Specialist,86909,5
+freight-forwarders,Freight Forwarders,Transport & Logistics,Freight,52290,5
+warehousing,Warehousing,Transport & Logistics,Storage,52109,5
+cold-storage,Cold Storage Facilities,Transport & Logistics,Storage,52101,5
+fulfillment-centres,Fulfillment Centres,Transport & Logistics,Logistics,52290,5
+shipping-agents,Shipping Agents,Transport & Logistics,Freight,52290,4
+pallet-networks,Pallet Networks,Transport & Logistics,Freight,52290,4
+skip-delivery,Skip Delivery,Transport & Logistics,Specialist,38110,4
+vehicle-recovery,Vehicle Recovery,Transport & Logistics,Support,52213,5
+airport-transfers,Airport Transfers,Transport & Logistics,Passenger,49320,5
+coach-hire,Coach Hire,Transport & Logistics,Passenger,49390,5
+self-drive-hire,Self-Drive Hire,Transport & Logistics,Rental,77110,5
+heavy-haulage,Heavy Haulage,Transport & Logistics,Freight,49410,5
+refrigerated-transport,Refrigerated Transport,Transport & Logistics,Freight,49410,5
+motorcycle-couriers,Motorcycle Couriers,Transport & Logistics,Freight,53201,5
+international-removals,International Removals,Transport & Logistics,Moving,49420,5
+waste-transport,Waste Transport,Transport & Logistics,Specialist,38110,4
+veterinary-practices,Veterinary Practices,Agriculture, Pets & Veterinary,Veterinary,75000,5
+pet-groomers,Pet Groomers,Agriculture, Pets & Veterinary,Pet Services,96090,5
+kennels,Boarding Kennels,Agriculture, Pets & Veterinary,Pet Services,96090,5
+cattery,Catteries,Agriculture, Pets & Veterinary,Pet Services,96090,5
+dog-walkers,Dog Walkers,Agriculture, Pets & Veterinary,Pet Services,96090,5
+pet-sitters,Pet Sitters,Agriculture, Pets & Veterinary,Pet Services,96090,5
+arable-farms,Arable Farms,Agriculture, Pets & Veterinary,Agriculture,01110,5
+dairy-farms-agri,Dairy Farms,Agriculture, Pets & Veterinary,Agriculture,01410,5
+livestock-farms,Livestock Farms,Agriculture, Pets & Veterinary,Agriculture,01420,5
+equine-businesses,Equine Businesses,Agriculture, Pets & Veterinary,Equine,01430,5
+equestrian-centres,Equestrian Centres,Agriculture, Pets & Veterinary,Equine,93199,5
+farriers,Farriers,Agriculture, Pets & Veterinary,Equine,01629,5
+dog-trainers,Dog Trainers,Agriculture, Pets & Veterinary,Pet Services,96090,5
+pet-breeders,Pet Breeders,Agriculture, Pets & Veterinary,Breeding,01490,5
+feed-suppliers,Feed Suppliers,Agriculture, Pets & Veterinary,Retail & Wholesale,46210,5
+agricultural-contractors,Agricultural Contractors,Agriculture, Pets & Veterinary,Support Services,01610,5
+forestry-contractors,Forestry Contractors,Agriculture, Pets & Veterinary,Forestry,02100,5
+tree-nurseries,Tree Nurseries,Agriculture, Pets & Veterinary,Agriculture,01300,4
+fish-farms,Fish Farms,Agriculture, Pets & Veterinary,Aquaculture,03220,5
+poultry-farms,Poultry Farms,Agriculture, Pets & Veterinary,Agriculture,01470,5
+beekeepers,Beekeepers,Agriculture, Pets & Veterinary,Agriculture,01490,5
+pet-crematoriums,Pet Crematoriums,Agriculture, Pets & Veterinary,Pet Services,96030,5
+veterinary-physiotherapists,Veterinary Physiotherapists,Agriculture, Pets & Veterinary,Veterinary,75000,4
+alpaca-farms,Alpaca Farms,Agriculture, Pets & Veterinary,Agriculture,01440,5
+pet-boutiques,Pet Boutiques,Agriculture, Pets & Veterinary,Retail,47760,5
+aquarium-services,Aquarium Services,Agriculture, Pets & Veterinary,Pet Services,96090,4
+reptile-specialists,Reptile Specialists,Agriculture, Pets & Veterinary,Retail,47760,4
+falconry-centres,Falconry Centres,Agriculture, Pets & Veterinary,Attractions,93290,4
+agricultural-engineers,Agricultural Engineers,Agriculture, Pets & Veterinary,Support Services,33120,5
+grain-merchants,Grain Merchants,Agriculture, Pets & Veterinary,Wholesale,46210,5
+bespoke-furniture,Bespoke Furniture Makers,Manufacturing & Industrial,Woodwork,31090,5
+joinery,Joinery Manufacturers,Manufacturing & Industrial,Woodwork,16230,5
+metal-fabrication,Metal Fabricators,Manufacturing & Industrial,Metalwork,25110,5
+commercial-printing,Commercial Printers,Manufacturing & Industrial,Printing,18129,5
+embroidery,Embroidery Services,Manufacturing & Industrial,Textiles,13990,5
+3d-printing-services,3D Printing Services,Manufacturing & Industrial,Technology,32990,5
+precision-engineers,Precision Engineers,Manufacturing & Industrial,Engineering,25620,5
+injection-moulding,Injection Moulding Companies,Manufacturing & Industrial,Plastics,22290,5
+packaging-manufacturers,Packaging Manufacturers,Manufacturing & Industrial,Packaging,17219,5
+chemical-manufacturers,Chemical Manufacturers,Manufacturing & Industrial,Chemicals,20590,5
+textile-manufacturers,Textile Manufacturers,Manufacturing & Industrial,Textiles,13200,5
+sheet-metal-workers,Sheet Metal Workers,Manufacturing & Industrial,Metalwork,25110,5
+powder-coating,Powder Coating Services,Manufacturing & Industrial,Metalwork,25610,5
+upholsterers,Upholsterers,Manufacturing & Industrial,Furniture,31090,5
+toolmakers,Toolmakers,Manufacturing & Industrial,Engineering,25730,5
+cnc-machinists,CNC Machinists,Manufacturing & Industrial,Engineering,25620,5
+food-processing,Food Processing Plants,Manufacturing & Industrial,Food & Drink,10890,5
+steel-stockholders,Steel Stockholders,Manufacturing & Industrial,Metalwork,46720,5
+brewery-equipment,Brewery Equipment Manufacturers,Manufacturing & Industrial,Machinery,28930,4
+glass-manufacturers,Glass Manufacturers,Manufacturing & Industrial,Materials,23110,5
+plastics-manufacturers,Plastics Manufacturers,Manufacturing & Industrial,Plastics,22290,5
+electronics-manufacturers,Electronics Manufacturers,Manufacturing & Industrial,Technology,26110,5
+clothing-manufacturers,Clothing Manufacturers,Manufacturing & Industrial,Textiles,14131,5
+uniform-manufacturers,Uniform Manufacturers,Manufacturing & Industrial,Textiles,14120,5
+label-manufacturers,Label Manufacturers,Manufacturing & Industrial,Printing,17290,4
+cardboard-box,Cardboard Box Manufacturers,Manufacturing & Industrial,Packaging,17211,5
+pallet-manufacturers,Pallet Manufacturers,Manufacturing & Industrial,Woodwork,16240,5
+spring-manufacturers,Spring Manufacturers,Manufacturing & Industrial,Metalwork,25930,4
+fastener-manufacturers,Fastener Manufacturers,Manufacturing & Industrial,Metalwork,25940,4
+gear-manufacturers,Gear Manufacturers,Manufacturing & Industrial,Engineering,28150,4
+bearing-manufacturers,Bearing Manufacturers,Manufacturing & Industrial,Engineering,28150,4
+seal-manufacturers,Seal Manufacturers,Manufacturing & Industrial,Engineering,28150,4
+gasket-manufacturers,Gasket Manufacturers,Manufacturing & Industrial,Engineering,22190,4
+foam-converters,Foam Converters,Manufacturing & Industrial,Plastics,22210,3
+commercial-cleaning,Commercial Cleaners,Other Services,Cleaning,81229,5
+domestic-cleaning,Domestic Cleaners,Other Services,Cleaning,81210,5
+window-cleaners,Window Cleaners,Other Services,Cleaning,81221,5
+laundrettes,Laundrettes,Other Services,Cleaning,96010,5
+dry-cleaners,Dry Cleaners,Other Services,Cleaning,96010,5
+funeral-directors,Funeral Directors,Other Services,Death Care,96030,5
+funeral-plan,Funeral Plan Providers,Other Services,Death Care,65120,5
+carpet-cleaners,Carpet Cleaners,Other Services,Cleaning,81229,5
+oven-cleaners,Oven Cleaners,Other Services,Cleaning,81229,5
+airbnb-cleaners,Airbnb Cleaners,Other Services,Cleaning,81210,5
+drone-operators,Drone Operators,Other Services,Specialist,74209,5
+waste-management,Waste Management,Other Services,Environmental,38110,5
+security-companies,Security Companies,Other Services,Security,80100,5
+cctv-installers,CCTV Installers,Other Services,Security,80200,5
+private-investigators,Private Investigators,Other Services,Security,80300,5
+reprographics,Reprographics Services,Other Services,B2B Services,82190,4
+house-clearance,House Clearance,Other Services,Clearance,81299,5
+scrap-metal,Scrap Metal Merchants,Other Services,Recycling,46770,5
+ironing-services,Ironing Services,Other Services,Cleaning,96010,5
+shoe-repair,Shoe Repair Services,Other Services,Maintenance,95230,5
+key-cutting,Key Cutting Services,Other Services,Maintenance,95290,5
+tailors,Tailors,Other Services,Apparel,14131,5
+alterations,Alteration Services,Other Services,Apparel,95290,5
+portable-toilet-hire,Portable Toilet Hire,Other Services,Rental,77390,5
+end-of-tenancy,End of Tenancy Cleaning,Other Services,Cleaning,81210,5
+graffiti-removal,Graffiti Removal,Other Services,Cleaning,81229,4
+crime-scene-cleaning,Crime Scene Cleaning,Other Services,Cleaning,81229,4
+biohazard-cleaning,Biohazard Cleaning,Other Services,Cleaning,81229,4
+shredding-services,Shredding Services,Other Services,B2B Services,82990,5
+document-storage,Document Storage,Other Services,B2B Services,52109,5
+archiving-services,Archiving Services,Other Services,B2B Services,91011,4
+translation-services,Translation Services,Other Services,Language,74300,5
+interpreting-services,Interpreting Services,Other Services,Language,74300,5
+transcription-services,Transcription Services,Other Services,Language,82190,5
+call-centres,Call Centres,Other Services,B2B Services,82200,5
+answering-services,Answering Services,Other Services,B2B Services,82200,5
+telemarketing,Telemarketing Agencies,Other Services,B2B Services,82200,5
+debt-collection,Debt Collection Agencies,Other Services,Financial Services,82911,5
+bailiffs,Bailiff Services,Other Services,Financial Services,82911,5
+repossession-agents,Repossession Agents,Other Services,Financial Services,82911,5
