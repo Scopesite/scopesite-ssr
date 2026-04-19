@@ -3,7 +3,6 @@ import { JsonLd } from '@/components/JsonLd';
 import {
   generateBreadcrumbSchema,
   generateContactPageSchema,
-  generateScheduleActionSchema,
 } from '@/lib/schema';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -48,12 +47,11 @@ export default function BookLayout({ children }: { children: React.ReactNode }) 
   ]);
 
   const contactPageSchema = generateContactPageSchema(PAGE_URL);
-  const scheduleActionSchema = generateScheduleActionSchema();
 
   return (
     <>
       <JsonLd
-        schema={[breadcrumbSchema, contactPageSchema, scheduleActionSchema]}
+        schema={[breadcrumbSchema, contactPageSchema]}
       />
       {children}
     </>
