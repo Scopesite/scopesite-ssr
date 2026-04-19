@@ -282,7 +282,7 @@ Commits target `main`; schema fixes committed per route when code changed. This 
 
 ## Service NAP on `/web-design` — `telephone` / `priceRange` / `address`
 
-**Commit:** _(pending — see git after push)_
+**Commit:** `7ec49f4`
 
 **Issue:** **`generateProfessionalServiceSchema`** duplicated **`telephone`**, **`priceRange`**, and **`PostalAddress`** on the returned object. **`src/app/web-design/layout.tsx`** overrides **`@type`** to **`Service`**. Schema.org **`Service`** (direct properties per MCP **`get_type_properties`**) does not include those fields; they apply to **`Organization`** / **`LocalBusiness`**. Organization already exposes NAP at **`https://scopesite.co.uk/#organization`** (root layout); **`provider`** references it.
 
