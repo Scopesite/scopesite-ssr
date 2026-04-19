@@ -119,12 +119,12 @@ export default function CaseStudyLayout({
       },
       {
         '@type': 'Service',
-        '@id': 'https://scopesite.co.uk/#voice-methodology',
+        '@id': 'https://scopesite.co.uk/case-studies/h4tlt/#methodology-service',
         name: 'V.O.I.C.E.™ Methodology',
         alternateName: 'Visibility, Optimisation, for Intelligent, Crawler, Engines',
         provider: { '@id': 'https://scopesite.co.uk/#organization' },
         description: 'Answer Engine Optimisation methodology for AI visibility',
-        url: 'https://scopesite.co.uk/voice'
+        url: 'https://scopesite.co.uk/voice',
       },
       {
         '@type': 'ScholarlyArticle',
@@ -142,16 +142,16 @@ export default function CaseStudyLayout({
       },
       {
         '@type': 'WebPage',
-        '@id': 'https://scopesite.co.uk/case-studies/h4tlt#webpage',
+        '@id': 'https://scopesite.co.uk/case-studies/h4tlt/#webpage',
         url: 'https://scopesite.co.uk/case-studies/h4tlt',
         name: 'Case Study: H4TLT | From Invisible to National #1 in 4 Months | V.O.I.C.E.™ | ScopeSite',
-        isPartOf: { '@id': 'https://scopesite.co.uk/#website' }
+        isPartOf: { '@id': 'https://scopesite.co.uk/#website' },
       },
       {
         '@type': 'Article',
-        '@id': 'https://scopesite.co.uk/case-studies/h4tlt#article',
-        isPartOf: { '@id': 'https://scopesite.co.uk/case-studies/h4tlt#webpage' },
-        mainEntityOfPage: { '@id': 'https://scopesite.co.uk/case-studies/h4tlt#webpage' },
+        '@id': 'https://scopesite.co.uk/case-studies/h4tlt/#article',
+        isPartOf: { '@id': 'https://scopesite.co.uk/case-studies/h4tlt/#webpage' },
+        mainEntityOfPage: { '@id': 'https://scopesite.co.uk/case-studies/h4tlt/#webpage' },
         headline: 'From Invisible to National #1 in 4 Months: H4TLT Case Study',
         description: 'How V.O.I.C.E. methodology took a Somerset audiologist from zero AI visibility to being recommended nationally by Google AI Overview, ChatGPT and Perplexity in 4 months.',
         author: { '@id': 'https://scopesite.co.uk/#dan-cartwright' },
@@ -175,7 +175,7 @@ export default function CaseStudyLayout({
       },
       {
         '@type': 'FAQPage',
-        '@id': 'https://scopesite.co.uk/case-studies/h4tlt#faq',
+        '@id': 'https://scopesite.co.uk/case-studies/h4tlt/#faq',
         mainEntity: [
           {
             '@type': 'Question',
