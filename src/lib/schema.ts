@@ -1797,19 +1797,20 @@ export function generateLocalBusinessSchema(
 }
 
 /**
- * Generates a LocalBusiness schema for the US market.
- * Uses #local-us @id. The business is UK-based but serves the US remotely.
+ * Generates a LocalBusiness schema for the US market (page-scoped @id/url).
+ * The business is UK-based but serves the US remotely.
  */
-export function generateUSLocalBusinessSchema() {
+export function generateUSLocalBusinessSchema(pageUrl: string) {
+  const pageBase = pageUrl.replace(/\/$/, '');
   return {
     '@type': 'LocalBusiness',
-    '@id': `${BASE_URL}/#local-us`,
+    '@id': `${pageBase}/#local-business`,
     name: 'ScopeSite Digital Studios',
     description: 'AI-first web design agency based in the UK, serving businesses across the United States.',
     parentOrganization: { '@id': `${BASE_URL}/#organization` },
     telephone: '+441373311339',
     email: 'dan@scopesite.co.uk',
-    url: `${BASE_URL}/us`,
+    url: pageBase,
     priceRange: '$$-$$$',
     currenciesAccepted: 'USD',
     paymentAccepted: 'Bank Transfer, Credit Card',

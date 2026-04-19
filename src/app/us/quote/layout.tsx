@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import {
   generateBreadcrumbSchema,
+  generateWebPageSchema,
   generateUSLocalBusinessSchema,
   wrapInGraph,
 } from '@/lib/schema';
@@ -48,19 +49,12 @@ export const metadata: Metadata = {
 };
 
 const pageSchema = wrapInGraph([
-  {
-    '@type': 'WebPage',
-    name: 'Instant Quote | US Pricing | ScopeSite',
-    description:
-      'Get an instant quote for AI-ready web design, AI visibility services, and custom development. All prices in USD.',
-    url: PAGE_URL,
-    isPartOf: {
-      '@type': 'WebSite',
-      name: 'ScopeSite Digital Studios',
-      url: BASE_URL,
-    },
-  },
-  generateUSLocalBusinessSchema(),
+  generateWebPageSchema(
+    'Instant Quote | US Pricing | ScopeSite',
+    'Get an instant quote for AI-ready web design, AI visibility services, and custom development. All prices in USD.',
+    PAGE_URL
+  ),
+  generateUSLocalBusinessSchema(PAGE_URL),
   generateBreadcrumbSchema([
     { name: 'Home', url: BASE_URL },
     { name: 'United States', url: `${BASE_URL}/us` },

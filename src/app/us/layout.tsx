@@ -67,7 +67,7 @@ const serviceSchema = {
 
 const pageSchema = wrapInGraph([
   serviceSchema,
-  generateUSLocalBusinessSchema(),
+  generateUSLocalBusinessSchema(PAGE_URL),
   generateBreadcrumbSchema([
     { name: 'Home', url: BASE_URL },
     { name: 'United States', url: PAGE_URL },

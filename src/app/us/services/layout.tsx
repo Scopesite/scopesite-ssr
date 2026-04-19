@@ -100,7 +100,7 @@ const pageSchema = wrapInGraph([
     'Web Design',
     'USD'
   ),
-  generateUSLocalBusinessSchema(),
+  generateUSLocalBusinessSchema(PAGE_URL),
   generateBreadcrumbSchema([
     { name: 'Home', url: BASE_URL },
     { name: 'United States', url: `${BASE_URL}/us` },

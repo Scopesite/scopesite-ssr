@@ -102,7 +102,7 @@ const retainerOffer = generateOfferSchema(
   'USD'
 );
 
-const usLocalBusiness = generateUSLocalBusinessSchema();
+const usLocalBusiness = generateUSLocalBusinessSchema(PAGE_URL);
 
 const breadcrumbSchema = generateBreadcrumbSchema([
   { name: 'Home', url: BASE_URL },
