@@ -74,7 +74,7 @@ const pageSchema = wrapInGraph([
       { name: 'Complex Website', price: '9375' },
     ]
   ),
-  generateLocalBusinessSchema('Bath', areasServed),
+  generateLocalBusinessSchema('Bath', areasServed, PAGE_URL),
   generateBreadcrumbSchema([
     { name: 'Home', url: BASE_URL },
     { name: 'Web Design Bath', url: PAGE_URL },

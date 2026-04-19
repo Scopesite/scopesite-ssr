@@ -61,7 +61,7 @@ const pageSchema = wrapInGraph([
       { name: 'Complex Website', price: '9375' },
     ]
   ),
-  generateLocalBusinessSchema('Burnham-on-Sea', areasServed),
+  generateLocalBusinessSchema('Burnham-on-Sea', areasServed, PAGE_URL),
   generateBreadcrumbSchema([
     { name: 'Home', url: BASE_URL },
     { name: 'Web Design Burnham-on-Sea', url: PAGE_URL },

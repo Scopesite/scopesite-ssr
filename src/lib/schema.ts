@@ -1748,22 +1748,25 @@ export function generateLocalServiceSchema(
 
 /**
  * Generates a LocalBusiness schema variant for local landing pages
- * Uses a location-specific @id to avoid collisions with the root Organization schema
- * References the parent Organization via parentOrganization
+ * Uses a page-scoped @id (…/path/#local-business) so e.g. web-design-bristol and
+ * seo-bristol do not both emit the same #local-bristol fragment on the apex URL.
+ * References the parent Organization via parentOrganization.
  */
 export function generateLocalBusinessSchema(
   areaName: string,
-  areaServed: AreaServedItem[]
+  areaServed: AreaServedItem[],
+  pageUrl: string
 ) {
+  const pageBase = pageUrl.replace(/\/$/, '');
   return {
     '@type': 'LocalBusiness',
-    '@id': `${BASE_URL}/#local-${areaName.toLowerCase().replace(/\s+/g, '-')}`,
+    '@id': `${pageBase}/#local-business`,
     name: `ScopeSite Digital Studios - ${areaName}`,
     description: `AI-first web design agency serving ${areaName}. Based in Frome, Somerset.`,
     parentOrganization: { '@id': `${BASE_URL}/#organization` },
     telephone: '+441373311339',
     email: 'support@scopesite.co.uk',
-    url: BASE_URL,
+    url: pageBase,
     priceRange: '££-£££',
     currenciesAccepted: 'GBP',
     paymentAccepted: 'Bank Transfer, Credit Card',

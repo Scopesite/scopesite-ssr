@@ -86,7 +86,7 @@ const pageSchema = wrapInGraph([
     ],
     'SEO'
   ),
-  generateLocalBusinessSchema('Frome', areasServed),
+  generateLocalBusinessSchema('Frome', areasServed, PAGE_URL),
   generateBreadcrumbSchema([
     { name: 'Home', url: BASE_URL },
     { name: 'SEO Frome', url: PAGE_URL },

@@ -183,7 +183,7 @@ export default function WebDesignLayout({
   // Speed Test Tool schema
   const speedTestSchema = {
     '@type': 'WebApplication',
-    '@id': `${PAGE_URL}#speed-test`,
+    '@id': `${PAGE_URL}/#speed-test`,
     name: 'Website Speed Test Tool',
     description:
       "Free website speed test comparing your site's performance against Google's Core Web Vitals standards. Tests mobile performance with simulated 4G throttling using Google PageSpeed Insights API.",
