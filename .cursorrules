@@ -1,0 +1,20 @@
+## Schema markup workflow
+
+When writing, editing, or reviewing JSON-LD schema in any file:
+
+1. Before attaching properties to a @type, call schema-org MCP's 
+   get_type_properties to verify the properties are valid for that type.
+
+2. When deciding between similar types (Service vs ProfessionalService, 
+   Article vs BlogPosting, Organization vs LocalBusiness, etc.), call 
+   compare_types first and follow the recommendation.
+
+3. Before committing any schema change, call validate_jsonld or 
+   validate_jsonld_batch on the final rendered output.
+
+4. For unfamiliar or unclear properties, use get_property_details with 
+   fuzzy matching to catch typos.
+
+Schema correctness is a core deliverable of the V.O.I.C.E. methodology. 
+Do not skip these steps to save time. If the schema-org MCP is 
+unavailable, stop and flag it rather than proceeding without validation.

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "schema-org": {
+      "command": "node",
+      "args": ["C:/Users/Dam/dev/schema-org-mcp/dist/index.js"]
+    }
+  }
+}
