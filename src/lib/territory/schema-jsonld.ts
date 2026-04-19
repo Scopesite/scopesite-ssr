@@ -17,15 +17,15 @@ export function generateTerritoryJsonLd(): Record<string, unknown>[] {
   return [
     {
       '@type': 'WebPage',
-      '@id': `${TERRITORY_URL}#webpage`,
+      '@id': `${TERRITORY_URL}/#webpage`,
       url: TERRITORY_URL,
       name: 'Territory Command - Exclusive AI Visibility Representation by Postcode',
       description:
         'One firm per postcode per sector. Exclusive AI visibility engineering with an outcome guarantee. Check whether your territory is available.',
       inLanguage: 'en-GB',
       isPartOf: { '@id': `${BASE_URL}/#website` },
-      about: { '@id': `${TERRITORY_URL}#service` },
-      breadcrumb: { '@id': `${TERRITORY_URL}#breadcrumb` },
+      about: { '@id': `${TERRITORY_URL}/#service` },
+      breadcrumb: { '@id': `${TERRITORY_URL}/#breadcrumb` },
       primaryImageOfPage: {
         '@type': 'ImageObject',
         url: `${BASE_URL}/images/territory/territory-command-og.png`,
@@ -33,7 +33,7 @@ export function generateTerritoryJsonLd(): Record<string, unknown>[] {
     },
     {
       '@type': 'BreadcrumbList',
-      '@id': `${TERRITORY_URL}#breadcrumb`,
+      '@id': `${TERRITORY_URL}/#breadcrumb`,
       itemListElement: [
         {
           '@type': 'ListItem',
@@ -51,7 +51,7 @@ export function generateTerritoryJsonLd(): Record<string, unknown>[] {
     },
     {
       '@type': 'Service',
-      '@id': `${TERRITORY_URL}#service`,
+      '@id': `${TERRITORY_URL}/#service`,
       name: 'Territory Command',
       alternateName: 'Exclusive AI Visibility Representation',
       serviceType: 'AI Visibility Engineering',
@@ -63,7 +63,7 @@ export function generateTerritoryJsonLd(): Record<string, unknown>[] {
         '@type': 'BusinessAudience',
         audienceType: 'Professional Services Firms',
       },
-      offers: { '@id': `${TERRITORY_URL}#offer` },
+      offers: { '@id': `${TERRITORY_URL}/#offer` },
       termsOfService: `${BASE_URL}/terms-and-conditions`,
       hasOfferCatalog: {
         '@type': 'OfferCatalog',
@@ -109,7 +109,7 @@ export function generateTerritoryJsonLd(): Record<string, unknown>[] {
     },
     {
       '@type': 'Offer',
-      '@id': `${TERRITORY_URL}#offer`,
+      '@id': `${TERRITORY_URL}/#offer`,
       name: 'Territory Command Monthly Representation',
       price: '500',
       priceCurrency: 'GBP',
@@ -131,7 +131,7 @@ export function generateTerritoryJsonLd(): Record<string, unknown>[] {
     },
     {
       '@type': 'FAQPage',
-      '@id': `${TERRITORY_URL}#faq`,
+      '@id': `${TERRITORY_URL}/#faq`,
       mainEntity: FAQ.items.map((item) => ({
         '@type': 'Question',
         name: item.q,
