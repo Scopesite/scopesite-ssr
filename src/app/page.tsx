@@ -8,7 +8,6 @@ import {
   generateSpeakableSchema,
   generateWebPageSchema,
   generateFAQSchema,
-  generateImageObjectSchema,
   generateItemListSchema,
   type FAQItem,
 } from '@/lib/schema';
@@ -143,15 +142,6 @@ export default function Home() {
 
   const faqSchema = generateFAQSchema(homeFaqs);
 
-  const heroImageSchema = generateImageObjectSchema({
-    contentUrl: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
-    name: 'ScopeSite — websites AI can recommend',
-    description: 'Web design that helps AI assistants cite and recommend your business',
-    width: 800,
-    height: 800,
-    id: `${BASE_URL}/#hero-image`,
-  });
-
   const homeServiceSchemas = [
     {
       '@type': 'Service',
@@ -222,7 +212,6 @@ export default function Home() {
           breadcrumbSchema,
           homePageSchema,
           faqSchema,
-          heroImageSchema,
           coreServicesListSchema,
           ...reviewSchemas,
           ...homeServiceSchemas,
