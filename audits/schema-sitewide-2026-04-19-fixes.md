@@ -194,6 +194,49 @@ Commits target `main`; schema fixes committed per route when code changed. This 
 
 ---
 
+## Batch 5 — `/web-design` hub + 10 local `web-design-*` routes
+
+**Shared commit:** `6f8c8c0` — `src/lib/schema.ts` (`generateLocalBusinessSchema`), **all 10** `web-design-*/layout.tsx`, and `src/app/web-design/layout.tsx` (speed-test `@id`).
+
+### Cross-cutting fix (3+ routes): `LocalBusiness` `@id` collision
+
+**Before:** `generateLocalBusinessSchema` emitted `@id` `https://scopesite.co.uk/#local-<city>` (e.g. `#local-bristol`). **Different landings** (`/web-design-bristol` vs `/seo-bristol`) **shared the same apex `@id`**, which is invalid when both pages ship JSON-LD.
+
+**After:** `@id` → **`${pageCanonical}/#local-business`** and **`url`** → that landing’s canonical URL. All local web-design layouts pass **`PAGE_URL`**.
+
+### `/web-design` hub (speed test)
+
+**Before:** `WebApplication` used `@id` `https://scopesite.co.uk/web-design#speed-test` (no slash before `#`).  
+**After:** `https://scopesite.co.uk/web-design/#speed-test`. Live HTML verified post-deploy.
+
+### Per-route validation (live + MCP)
+
+- **`/web-design`:** Prior hub work (`8a0ad61` area) unchanged except speed-test fragment; MCP spot: **0 errors**, **0 warnings** beyond LOW suggestions.
+- **`/web-design-bath` … `/web-design-westbury`:** No per-city postal/geo edits needed (HQ Frome `BA11` / coords intentional in helper). **ServiceChannel** URLs unchanged (`generateServiceChannels` shared). Live check: **`web-design-bristol/#local-business`** present; legacy **`#local-bristol`** on apex **absent** after deploy.
+
+**Flag-only:** `generateWebPageFAQPageSchema` still does not embed FAQ entities in the returned object (pre-existing); not changed (CONFIRM-FIX / content scope).
+
+---
+
+## Gate C — Batch 5 summary
+
+- **Routes:** `/web-design` + 10 local `web-design-*` pages.
+- **Commits:** **1** — `6f8c8c0` (helper + hub + 10 locals).
+- **Auto-fixes:** Page-scoped **`LocalBusiness`**; **`WebApplication`** fragment consistency on `/web-design`.
+- **Paused for helper:** Yes — duplicate `@id` pattern met **≥3** routes; fixed once in **`generateLocalBusinessSchema`**.
+
+---
+
+## Batch 6 — SEO locality (`/seo-bristol`, `/seo-frome`, `/seo-somerset`)
+
+**Same commit as Batch 5:** `6f8c8c0` — three layouts updated to pass **`PAGE_URL`** into **`generateLocalBusinessSchema`**.
+
+**Before / after:** Same collision class as web-design vs SEO for shared city names; resolved by page-scoped **`#local-business`**. Live: **`seo-bristol/#local-business`** present; apex **`#local-bristol`** absent on fetched `/seo-bristol` HTML.
+
+**Gate C — Batch 6 summary:** 1 commit (shared with Batch 5); 3 routes; no additional code edits beyond the helper call sites.
+
+---
+
 ## Next
 
-- **Batch 5** (`/web-design` + local `web-design-*` hub): continue same cycle unless CONFIRM-FIX / CRITICAL.
+- **Batch 7** (US cluster) or next planned batch per audit roadmap.
