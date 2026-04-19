@@ -235,8 +235,51 @@ Commits target `main`; schema fixes committed per route when code changed. This 
 
 **Gate C — Batch 6 summary:** 1 commit (shared with Batch 5); 3 routes; no additional code edits beyond the helper call sites.
 
+**Follow-up verification (2026-04-19):** No further code changes. Build + route list confirms three SEO routes static; pattern matches Batch 5 helper.
+
+---
+
+## Batch 7 — US cluster (`/us`, `/us/pricing`, `/us/quote`, `/us/services`, `/us/ai-visibility`)
+
+**Commit:** `8ffee25`
+
+**Issue:** All five layouts embedded **`generateUSLocalBusinessSchema()`** with a shared **`@id`** **`${BASE_URL}/#local-us`** and fixed **`url`** **`/us`** — duplicate entity across routes (same class as UK **`#local-*`** collisions).
+
+**Auto-fixes applied:**
+- **`generateUSLocalBusinessSchema(pageUrl)`** in **`src/lib/schema.ts`**: **`@id`** **`${pageBase}/#local-business`**, **`url`**: **`pageBase`** (mirrors UK **`generateLocalBusinessSchema`**).
+- All five **`src/app/us/**/layout.tsx`** call sites pass each route’s **`PAGE_URL`**.
+- **`/us/quote`:** Replaced hand-rolled partial **`WebPage`** (missing stable graph shape vs other pages) with **`generateWebPageSchema`** so **`@type`**, **`@id`** **`…/quote/#webpage`**, **`isPartOf`** **`#website`**, **`breadcrumb`**, **`publisher`** align with sitewide **`WebPage`** pattern.
+
+**Gate C — Batch 7 summary:** 1 commit; 5 routes.
+
+---
+
+## Batch 8 — `/voice` (single route)
+
+**Commit:** `f3be5c4`
+
+**Issue:** **`ImageObject`** for the V.O.I.C.E. logo had no **`@id`** (anonymous node in **`@graph`**).
+
+**Auto-fixes applied:**
+- **`src/app/voice/layout.tsx`:** **`generateImageObjectSchema`** now passes **`id: \`${PAGE_URL}/#voice-logo\``**.
+
+**Gate C — Batch 8 summary:** 1 commit; 1 route.
+
+---
+
+## Batch 9 — Blog posts (`/blog/[slug]` template, all Ghost SSG slugs)
+
+**Commit:** `240035c`
+
+**Issue:** **`BlogPosting.mainEntityOfPage`** referenced **`${pageUrl}/#webpage`**, but no **`WebPage`** entity was emitted in the same JSON-LD **`@graph`** — dangling **`@id`** reference for every post.
+
+**Auto-fixes applied:**
+- **`src/app/blog/[slug]/page.tsx`:** Emit **`generateWebPageSchema(...)`** first in the graph, with **`mainEntity: { '@id': \`${pageUrl}/#article\` }`**, matching **`BlogPosting`** **`@id`**.
+
+**Gate C — Batch 9 summary:** 1 commit; covers all blog SSG routes from **`getAllPostSlugs`** (no per-slug edits).
+
 ---
 
 ## Next
 
-- **Batch 7** (US cluster) or next planned batch per audit roadmap.
+- Further batches per roadmap (e.g. remaining static routes, cross-cutting FAQ embedding) or Gate D wrap-up.
