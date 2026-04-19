@@ -280,6 +280,22 @@ Commits target `main`; schema fixes committed per route when code changed. This 
 
 ---
 
+## Service NAP on `/web-design` — `telephone` / `priceRange` / `address`
+
+**Commit:** _(pending — see git after push)_
+
+**Issue:** **`generateProfessionalServiceSchema`** duplicated **`telephone`**, **`priceRange`**, and **`PostalAddress`** on the returned object. **`src/app/web-design/layout.tsx`** overrides **`@type`** to **`Service`**. Schema.org **`Service`** (direct properties per MCP **`get_type_properties`**) does not include those fields; they apply to **`Organization`** / **`LocalBusiness`**. Organization already exposes NAP at **`https://scopesite.co.uk/#organization`** (root layout); **`provider`** references it.
+
+**Auto-fixes applied:**
+- Removed **`telephone`**, **`priceRange`**, **`address`** from **`generateProfessionalServiceSchema`** in **`src/lib/schema.ts`** (only consumer: **`/web-design`**).
+- Simplified **`web-design/layout.tsx`** (no destructuring to strip fields).
+
+**MCP (`validate_jsonld` on representative **`Service`** node without NAP):** **`valid: true`**, warnings reduced to **`@context`** hint only (no **`telephone` / `priceRange` / `address`** on **`Service`** warnings).
+
+**Sweep:** Other top-level **`Service`** graphs (**`generateServiceSchema`**, **`generateLocalServiceSchema`**, territory/case study/homepage **`Service`** stubs) do not duplicate NAP on **`Service`**.
+
+---
+
 ## Next
 
 - Further batches per roadmap (e.g. remaining static routes, cross-cutting FAQ embedding) or Gate D wrap-up.

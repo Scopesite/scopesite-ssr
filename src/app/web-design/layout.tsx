@@ -153,20 +153,12 @@ export default function WebDesignLayout({
     { name: 'SSR Web Design', url: PAGE_URL },
   ]);
 
-  const {
-    telephone,
-    priceRange,
-    address,
-    ...serviceBase
-  } = generateProfessionalServiceSchema(
+  const serviceBase = generateProfessionalServiceSchema(
     'SSR Web Design - Server-Side Rendered Websites',
     'Professional SSR web design services using Next.js and Vercel. Server-side rendered websites optimized for both traditional search engines and AI assistants like ChatGPT, Claude, and Perplexity. 100/100 Lighthouse scores, auto-generated schema, mobile-first design.',
     PAGE_URL,
     serviceOfferings
   );
-  void telephone;
-  void priceRange;
-  void address;
 
   const serviceSchema = {
     ...serviceBase,

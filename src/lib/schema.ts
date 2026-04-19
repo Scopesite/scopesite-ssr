@@ -716,16 +716,8 @@ export function generateProfessionalServiceSchema(
     description,
     url,
     image: image || `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
-    telephone: '+441373311339',
-    priceRange: '££-£££',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: 'Frome',
-      addressLocality: 'Frome',
-      addressRegion: 'Somerset',
-      postalCode: 'BA11',
-      addressCountry: 'GB',
-    },
+    // NAP (telephone, address, priceRange) lives on Organization — not duplicated here.
+    // /web-design emits @type Service; those properties are invalid on Service and redundant vs provider.
     provider: {
       '@id': `${BASE_URL}/#organization`,
     },
