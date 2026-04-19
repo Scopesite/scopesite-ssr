@@ -128,6 +128,72 @@ Commits target `main`; schema fixes committed per route when code changed. This 
 
 ---
 
+## Batch 3 — Legal + blog index
+
+**Shared commit:** `91048b6` (`src/lib/schema.ts`) — applies to all four routes below.
+
+### `/terms-and-conditions`, `/privacy-policy`, `/accessibility-statement`
+
+**Commit:** `91048b6` (helper)  
+**Before:** `BreadcrumbList` used `@id` `…/path#breadcrumb` while `WebPage` used `…/path/#webpage` and pointed `breadcrumb` at `…/path#breadcrumb` — fragment segment inconsistent with the slash-before-`#` pattern used elsewhere.  
+**After:** Live HTML: `terms-and-conditions/#breadcrumb` present (grep count **4** on fetched page); **0** matches for legacy `terms-and-conditions#breadcrumb` substring.
+
+**Auto-fixes applied (via helpers):**
+- `generateBreadcrumbSchema`: `@id` → `${pageUrl}/#breadcrumb`.
+- `generateWebPageSchema`: `breadcrumb` ref → `${pageUrl}/#breadcrumb`.
+
+**Flag-only:** MCP low suggestions on sample `WebPage` + `BreadcrumbList` pairs.
+
+---
+
+### `/blog`
+
+**Commit:** `91048b6` (helper)  
+**Before / after:** Index graph (`BreadcrumbList`, `Blog`, `CollectionPage`, `ItemList`) uses the same breadcrumb helpers; **no separate page edits.** Live/build unchanged beyond helper.
+
+**Auto-fixes applied:** Same as above for `BreadcrumbList` on `/blog`.
+
+**Flag-only:** —  
+
+---
+
+## Gate C — Batch 3 summary
+
+- **Routes:** `/terms-and-conditions`, `/privacy-policy`, `/accessibility-statement`, `/blog`.
+- **Commits:** **1** — `91048b6` (shared `schema.ts` fix; no per-route-only commits).
+- **Auto-fixes:** Breadcrumb / `WebPage` `@id` alignment sitewide for these generators.
+- **Template-level:** Intentional single-helper change (same pattern as territory slash pass).
+
+---
+
+## Batch 4 — National service landings
+
+**Shared commit:** `91048b6` — all seven routes use `generateLandingPageSchema` and/or `generateWebPageSchema`; no layout-only edits required.
+
+| Route | Source | Notes |
+|--------|--------|--------|
+| `/ai-seo-agency` | `generateLandingPageSchema` | Post-deploy: `ai-seo-agency/#webpage` substring present; bare page URL as sole `WebPage` `@id` **removed**. |
+| `/ai-seo-services` | same | Covered by helper. |
+| `/ai-visibility` | same | Covered by helper. |
+| `/ai-website-design` | same | Covered by helper. |
+| `/answer-engine-optimisation` | same | Covered by helper. |
+| `/schema-markup` | same | Covered by helper. |
+| `/llm-brain` | `generateWebPageSchema` + product | Breadcrumb + `WebPage` via updated helper. |
+
+**Auto-fixes applied:** `generateWebPageFAQPageSchema`: `WebPage` `@id` was the bare page URL; now `${pageUrl}/#webpage` with matching `breadcrumb` ref. Aligns with `Service` `@id` `…/#service` and `BreadcrumbList`.
+
+**Flag-only:** MCP image / completeness suggestions on spot checks.
+
+---
+
+## Gate C — Batch 4 summary
+
+- **Routes:** `/ai-seo-agency` … `/llm-brain` (7 national landings).
+- **Commits:** **0** additional (included in `91048b6` with Batch 3).
+- **Live verification:** `/terms-and-conditions` and `/ai-seo-agency` fetched post-deploy; new `@id` patterns confirmed.
+
+---
+
 ## Next
 
-- **Batch 3** (legal + blog index): `/terms-and-conditions`, `/privacy-policy`, `/accessibility-statement`, `/blog` — continue same cycle unless CONFIRM-FIX / CRITICAL.
+- **Batch 5** (`/web-design` + local `web-design-*` hub): continue same cycle unless CONFIRM-FIX / CRITICAL.
