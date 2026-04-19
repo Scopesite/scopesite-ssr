@@ -145,7 +145,7 @@ export function generateOrganizationSchema() {
       'https://www.gov.uk/armed-forces-covenant-businesses/scopesite-digital-studios-scopesite-digital-ltd',
       'https://www.approvedbusiness.co.uk/companies/scopesite-ltd',
       'https://www.threads.com/@aiseo_experts',
-      'https://uk.pinterest.com/web_graphic_design',
+      'https://www.pinterest.com/scopesitedigitalstudios',
       'https://bsky.app/profile/webdesignsomerset.bsky.social',
       'https://www.tiktok.com/@dan_the_webdesigner',
       'https://frome.cylex-uk.co.uk/company/scopesite-digital-studios-28469047.html',
