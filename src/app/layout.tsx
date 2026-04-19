@@ -121,6 +121,9 @@ export const metadata: Metadata = {
   },
   category: 'technology',
   classification: 'Web Design Agency',
+  other: {
+    'p:domain_verify': 'c0bc8507e736642b13b269c380fa6aac',
+  },
 };
 
 export default function RootLayout({
