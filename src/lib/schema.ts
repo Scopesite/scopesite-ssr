@@ -131,7 +131,7 @@ export function generateOrganizationSchema() {
       'https://www.linkedin.com/in/scopesite',
       'https://www.linkedin.com/company/106028304',
       'https://www.facebook.com/scopesite',
-      'https://www.instagram.com/aiseo_experts',
+      'https://www.instagram.com/scopesitedigitalstudios',
       'https://x.com/DlgltaI',
       'https://find-and-update.company-information.service.gov.uk/company/16130355',
       // TEMP REMOVED 2026-04-18: Wikidata entity Q138866631 deleted 6 April 2026 (spam/advertising). Awaiting admin review. Restore if entity is reinstated.
