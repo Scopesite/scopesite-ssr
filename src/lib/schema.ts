@@ -570,9 +570,10 @@ export function generateWebsiteSchema() {
 // ============================================
 
 export function generateBreadcrumbSchema(items: BreadcrumbItem[]) {
+  const pageUrl = (items[items.length - 1]?.url || BASE_URL).replace(/\/$/, '');
   return {
     '@type': 'BreadcrumbList',
-    '@id': `${items[items.length - 1]?.url || BASE_URL}#breadcrumb`,
+    '@id': `${pageUrl}/#breadcrumb`,
     itemListElement: items.map((item, index) => ({
       '@type': 'ListItem',
       position: index + 1,
@@ -815,15 +816,16 @@ export function generateWebPageSchema(
   description: string,
   url: string
 ) {
+  const pageUrl = url.replace(/\/$/, '');
   return {
     '@type': 'WebPage',
-    '@id': `${url}/#webpage`,
+    '@id': `${pageUrl}/#webpage`,
     name: title,
     description,
     url,
     isPartOf: { '@id': `${BASE_URL}/#website` },
     publisher: { '@id': `${BASE_URL}/#organization` },
-    breadcrumb: { '@id': `${url}#breadcrumb` },
+    breadcrumb: { '@id': `${pageUrl}/#breadcrumb` },
     inLanguage: 'en-GB',
   };
 }
@@ -1660,16 +1662,17 @@ export function generateWebPageFAQPageSchema(
   serviceId?: string,
   speakableCssSelectors?: string[]
 ) {
+  const pageUrl = url.replace(/\/$/, '');
   const schema: Record<string, unknown> = {
     '@type': 'WebPage',
-    '@id': url,
+    '@id': `${pageUrl}/#webpage`,
     url,
     name,
     description,
     inLanguage: 'en-GB',
     isPartOf: { '@id': `${BASE_URL}/#website` },
     about: serviceId ? { '@id': serviceId } : { '@id': `${BASE_URL}/#organization` },
-    breadcrumb: { '@id': `${url}#breadcrumb` },
+    breadcrumb: { '@id': `${pageUrl}/#breadcrumb` },
   };
 
   if (speakableCssSelectors && speakableCssSelectors.length > 0) {
