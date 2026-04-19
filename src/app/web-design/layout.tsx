@@ -153,16 +153,27 @@ export default function WebDesignLayout({
     { name: 'SSR Web Design', url: PAGE_URL },
   ]);
 
+  const {
+    telephone,
+    priceRange,
+    address,
+    ...serviceBase
+  } = generateProfessionalServiceSchema(
+    'SSR Web Design - Server-Side Rendered Websites',
+    'Professional SSR web design services using Next.js and Vercel. Server-side rendered websites optimized for both traditional search engines and AI assistants like ChatGPT, Claude, and Perplexity. 100/100 Lighthouse scores, auto-generated schema, mobile-first design.',
+    PAGE_URL,
+    serviceOfferings
+  );
+  void telephone;
+  void priceRange;
+  void address;
+
   const serviceSchema = {
-    ...generateProfessionalServiceSchema(
-      'SSR Web Design - Server-Side Rendered Websites',
-      'Professional SSR web design services using Next.js and Vercel. Server-side rendered websites optimized for both traditional search engines and AI assistants like ChatGPT, Claude, and Perplexity. 100/100 Lighthouse scores, auto-generated schema, mobile-first design.',
-      PAGE_URL,
-      serviceOfferings
-    ),
+    ...serviceBase,
+    '@type': 'Service',
     isRelatedTo: [
-      { '@id': `${BASE_URL}/ai-seo-services/#service` },
-      { '@id': `${BASE_URL}/schema-markup/#service` },
+      { '@type': 'Service', '@id': `${BASE_URL}/ai-seo-services/#service` },
+      { '@type': 'Service', '@id': `${BASE_URL}/schema-markup/#service` },
     ],
     availableChannel: generateServiceChannels(),
   };
@@ -204,7 +215,7 @@ export default function WebDesignLayout({
       PAGE_URL
     ),
     mainEntity: { '@id': `${PAGE_URL}/#service` },
-    speakable: generateSpeakableSchema(['h1', '.hero-description', '.faq-answer', 'h2']),
+    speakable: generateSpeakableSchema(['h1', '.faq-answer', 'h2']),
   };
 
   return (
