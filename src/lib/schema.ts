@@ -304,6 +304,31 @@ export function generateOrganizationSchema() {
       'Google Lighthouse Optimisation',
       'Web Design',
       'SEO',
+      // SSR web-design service lines (Thing); valid on Organization, not on Service
+      {
+        '@type': 'Thing',
+        name: 'SSR Brochure Websites',
+        description:
+          'Server-side rendered 5-10 page websites perfect for small businesses and professionals. AI-visible from day one.',
+      },
+      {
+        '@type': 'Thing',
+        name: 'SSR E-commerce Websites',
+        description:
+          'Fast, AI-optimised online stores with product management, payment processing, and blazing-fast page loads.',
+      },
+      {
+        '@type': 'Thing',
+        name: 'Website Redesign & Migration',
+        description:
+          'Migrate from WordPress, Wix, or Squarespace to a modern SSR architecture with improved AI visibility.',
+      },
+      {
+        '@type': 'Thing',
+        name: 'SSR Landing Pages',
+        description:
+          'High-converting single pages built with Next.js for campaigns, products, or lead generation.',
+      },
     ],
     slogan: 'Making UK Businesses Visible to AI',
     potentialAction: {
@@ -710,12 +735,6 @@ export function generateProfessionalServiceSchema(
     },
     // List service types as text (avoids Offer validation issues)
     serviceType: services.map((service) => service.name),
-    // Additional service details in knowsAbout
-    knowsAbout: services.map((service) => ({
-      '@type': 'Thing',
-      name: service.name,
-      description: service.description,
-    })),
   };
 }
 
