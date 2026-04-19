@@ -13,6 +13,7 @@ import { BlogCard } from '@/components/blog';
 import { JsonLd } from '@/components/JsonLd';
 import {
   generateBreadcrumbSchema,
+  generateWebPageSchema,
   generateBlogPostingSchema,
   generateBlogFAQSchema,
   generateBlogHowToSchema,
@@ -108,6 +109,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       { name: post.title, url: pageUrl },
     ]);
 
+    const description =
+      post.meta_description || post.excerpt || post.custom_excerpt || `Read ${post.title} on the ScopeSite blog.`;
+
+    const webPageSchema = {
+      ...generateWebPageSchema(post.meta_title || post.title, description, pageUrl),
+      mainEntity: { '@id': `${pageUrl}/#article` },
+    };
+
     const blogPostingSchema = generateBlogPostingSchema(post, pageUrl);
     blogPostingSchema.speakable = generateSpeakableSchema([
       'h1',
@@ -115,7 +124,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       '.prose-scopesite h2',
     ]);
 
-    schemas = [breadcrumbSchema, blogPostingSchema];
+    schemas = [webPageSchema, breadcrumbSchema, blogPostingSchema];
 
     const faqSchema = generateBlogFAQSchema(post);
     if (faqSchema) schemas.push(faqSchema);
