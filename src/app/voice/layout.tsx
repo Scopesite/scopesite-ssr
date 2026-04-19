@@ -112,6 +112,7 @@ export default function VoiceLayout({
     description: 'V.O.I.C.E. AI visibility scanning tool by ScopeSite Digital Studios',
     width: 600,
     height: 120,
+    id: `${PAGE_URL}/#voice-logo`,
   });
 
   const webPageSchema = {
