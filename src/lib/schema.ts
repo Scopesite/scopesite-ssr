@@ -1895,6 +1895,10 @@ export function generateLandingPageSchema(
     )
   );
 
+  if (faqs.length > 0) {
+    schemas.push(generateFAQSchema(faqs));
+  }
+
   // 2. Service schema (local or national)
   const serviceExtras: Record<string, unknown> = {};
   if (serviceOptions?.isRelatedTo) serviceExtras.isRelatedTo = serviceOptions.isRelatedTo;

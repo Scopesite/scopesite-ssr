@@ -6,11 +6,11 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/ai-visibility`;
 
 export const metadata: Metadata = {
-  title: 'AI Visibility Agency UK | LLM Visibility Experts | ScopeSite',
+  title: 'AI Visibility Agency UK | ScopeSite Digital Studios',
   description: 'AI visibility agency that makes your business visible to ChatGPT, Claude, Gemini and Perplexity. Scanner, audit, and optimisation. V.O.I.C.E. methodology.',
   keywords: ['ai visibility', 'llm visibility', 'llm visibility tool', 'llm visibility tracking'],
   openGraph: {
-    title: 'AI Visibility Agency UK | LLM Visibility Experts | ScopeSite',
+    title: 'AI Visibility Agency UK | ScopeSite Digital Studios',
     description: 'AI visibility agency that makes your business visible to ChatGPT, Claude, Gemini and Perplexity. Scanner, audit, and optimisation. V.O.I.C.E. methodology.',
     url: PAGE_URL,
     images: [
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AI Visibility Agency UK | LLM Visibility Experts | ScopeSite',
+    title: 'AI Visibility Agency UK | ScopeSite Digital Studios',
     description: 'AI visibility agency that makes your business visible to ChatGPT, Claude, Gemini and Perplexity. Scanner, audit, and optimisation.',
     images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
   },
@@ -77,7 +77,7 @@ const faqs: FAQItem[] = [
 const pageSchema = generateLandingPageSchema(
   PAGE_URL,
   'AI Visibility',
-  'AI Visibility Agency UK | LLM Visibility Experts | ScopeSite',
+  'AI Visibility Agency UK | ScopeSite Digital Studios',
   'AI visibility agency that makes your business visible to ChatGPT, Claude, Gemini and Perplexity. Scanner, audit, and optimisation. V.O.I.C.E. methodology.',
   faqs,
   {

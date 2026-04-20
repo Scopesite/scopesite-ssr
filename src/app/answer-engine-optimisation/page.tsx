@@ -165,7 +165,7 @@ export default function AEOPage() {
               Answer Engine Optimisation (AEO) is the technical and content strategy required to ensure your business is the one these AI platforms cite. It requires a completely different approach to traditional SEO: focusing on structured data, entity relationships, and factual extraction rather than keyword density.
             </p>
             <p>
-              ScopeSite is a specialist AEO and <Link href="/ai-seo-agency" className="text-brand-gold hover:underline">AI SEO agency</Link>. Measure your answer engine visibility with a free <Link href="/voice" className="text-brand-gold hover:underline">V.O.I.C.E. scan</Link>, or explore our specific <Link href="/ai-seo-services" className="text-brand-gold hover:underline">AI SEO services</Link>.
+              ScopeSite is a specialist AEO and <Link href="/ai-seo-agency" className="text-brand-gold hover:underline">AI SEO agency</Link>. Check your current <Link href="/ai-visibility" className="text-brand-gold hover:underline">AI visibility</Link> with a free <Link href="/voice" className="text-brand-gold hover:underline">V.O.I.C.E. scan</Link>, or explore our specific <Link href="/ai-seo-services" className="text-brand-gold hover:underline">AI SEO services</Link>.
             </p>
           </>
         }
