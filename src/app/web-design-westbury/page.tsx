@@ -193,6 +193,11 @@ export default function WebDesignWestburyPage() {
             description: "Web design for businesses in neighbouring Trowbridge.",
             href: "/web-design-trowbridge"
           },
+          {
+            title: "Generative Engine Optimisation",
+            description: "Get cited by ChatGPT, Claude, Gemini and Perplexity, not just ranked on Google.",
+            href: "/generative-engine-optimisation"
+          },
         ]}
         theme="light"
       />

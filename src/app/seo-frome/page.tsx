@@ -200,6 +200,11 @@ export default function SEOFromePage() {
             description: "AI-first websites built by your local Frome studio",
             href: "/web-design-frome"
           },
+          {
+            title: "Generative Engine Optimisation",
+            description: "Get cited by ChatGPT, Claude, Gemini and Perplexity, not just ranked on Google.",
+            href: "/generative-engine-optimisation"
+          },
         ]}
         theme="light"
       />

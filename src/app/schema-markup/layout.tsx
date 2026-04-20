@@ -133,6 +133,7 @@ const pageSchema = generateLandingPageSchema(
     isRelatedTo: [
       { '@id': `${BASE_URL}/web-design/#service` },
       { '@id': `${BASE_URL}/ai-seo-services/#service` },
+      { '@id': `${BASE_URL}/generative-engine-optimisation/#service` },
     ],
     availableChannel: generateServiceChannels(),
   }

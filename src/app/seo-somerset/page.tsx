@@ -208,6 +208,11 @@ export default function SEOSomersetPage() {
             description: "National AI search optimisation services",
             href: "/ai-seo-services"
           },
+          {
+            title: "Generative Engine Optimisation",
+            description: "Get cited by ChatGPT, Claude, Gemini and Perplexity, not just ranked on Google.",
+            href: "/generative-engine-optimisation"
+          },
         ]}
         theme="light"
       />

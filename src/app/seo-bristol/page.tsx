@@ -205,6 +205,11 @@ export default function SEOBristolPage() {
             description: "National AI search optimisation",
             href: "/ai-seo-services"
           },
+          {
+            title: "Generative Engine Optimisation",
+            description: "Get cited by ChatGPT, Claude, Gemini and Perplexity, not just ranked on Google.",
+            href: "/generative-engine-optimisation"
+          },
         ]}
         theme="light"
       />

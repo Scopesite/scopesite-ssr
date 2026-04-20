@@ -193,6 +193,11 @@ export default function WebDesignTrowbridgePage() {
             description: "Websites built from the ground up for AI search visibility.",
             href: "/ai-website-design"
           },
+          {
+            title: "Generative Engine Optimisation",
+            description: "Get cited by ChatGPT, Claude, Gemini and Perplexity, not just ranked on Google.",
+            href: "/generative-engine-optimisation"
+          },
         ]}
         theme="light"
       />

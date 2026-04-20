@@ -198,6 +198,11 @@ export default function WebDesignBurnhamOnSeaPage() {
             description: "Serving businesses across Bristol",
             href: "/web-design-bristol"
           },
+          {
+            title: "Generative Engine Optimisation",
+            description: "Get cited by ChatGPT, Claude, Gemini and Perplexity, not just ranked on Google.",
+            href: "/generative-engine-optimisation"
+          },
         ]}
         theme="light"
       />

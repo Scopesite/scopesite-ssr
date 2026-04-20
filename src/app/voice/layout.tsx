@@ -97,6 +97,7 @@ export default function VoiceLayout({
       { '@id': `${BASE_URL}/ai-seo-services/#service` },
       { '@id': `${BASE_URL}/schema-markup/#service` },
       { '@id': `${BASE_URL}/#voice-scanner` },
+      { '@id': `${BASE_URL}/generative-engine-optimisation/#service` },
     ],
   };
 

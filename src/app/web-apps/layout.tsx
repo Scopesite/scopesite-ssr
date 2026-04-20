@@ -59,6 +59,7 @@ export default function WebAppsLayout({
     {
       isRelatedTo: [
         { '@id': `${BASE_URL}/web-design/#service` },
+        { '@id': `${BASE_URL}/generative-engine-optimisation/#service` },
       ],
       availableChannel: generateServiceChannels(),
     }

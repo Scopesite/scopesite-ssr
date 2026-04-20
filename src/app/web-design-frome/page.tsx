@@ -195,6 +195,11 @@ export default function WebDesignFromePage() {
             description: "How we got a business from invisible to #1 AI-recommended in 6 weeks",
             href: "/case-studies/h4tlt"
           },
+          {
+            title: "Generative Engine Optimisation",
+            description: "Get cited by ChatGPT, Claude, Gemini and Perplexity, not just ranked on Google.",
+            href: "/generative-engine-optimisation"
+          },
         ]}
         theme="light"
       />

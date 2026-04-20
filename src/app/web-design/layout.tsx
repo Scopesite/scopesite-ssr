@@ -166,6 +166,7 @@ export default function WebDesignLayout({
     isRelatedTo: [
       { '@type': 'Service', '@id': `${BASE_URL}/ai-seo-services/#service` },
       { '@type': 'Service', '@id': `${BASE_URL}/schema-markup/#service` },
+      { '@type': 'Service', '@id': `${BASE_URL}/generative-engine-optimisation/#service` },
     ],
     availableChannel: generateServiceChannels(),
   };

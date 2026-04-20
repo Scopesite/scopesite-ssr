@@ -193,6 +193,11 @@ export default function WebDesignSheptonMalletPage() {
             description: "Our county-wide web design service for Somerset businesses.",
             href: "/web-design-somerset"
           },
+          {
+            title: "Generative Engine Optimisation",
+            description: "Get cited by ChatGPT, Claude, Gemini and Perplexity, not just ranked on Google.",
+            href: "/generative-engine-optimisation"
+          },
         ]}
         theme="light"
       />
