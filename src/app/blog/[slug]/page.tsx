@@ -22,6 +22,8 @@ import {
 
 const BASE_URL = 'https://scopesite.co.uk';
 
+export const revalidate = 3600;
+
 interface BlogPostPageProps {
   params: Promise<{
     slug: string;

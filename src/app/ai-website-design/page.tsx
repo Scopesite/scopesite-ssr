@@ -220,7 +220,7 @@ export default function AIWebsiteDesignPage() {
       {/* Solution Section */}
       <LandingSolution
         title="AI-FIRST DESIGN THAT MACHINES UNDERSTAND"
-        intro="We don't just build websites. We engineer them for AI comprehension using our V.O.I.C.E™ methodology - Voice Optimisation for Intelligent Conversational Engines."
+        intro="We don't just build websites. We engineer them for AI comprehension using our V.O.I.C.E™ methodology - Visibility, Optimisation, for Intelligent, Crawler, Engines."
         features={solutionFeatures}
         columns={4}
       />

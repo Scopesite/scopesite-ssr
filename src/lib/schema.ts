@@ -205,7 +205,7 @@ export function generateOrganizationSchema() {
         slogan: 'Recommend Your Business',
         url: `${BASE_URL}/voice`,
         description:
-          "V.O.I.C.E. (Visibility, Optimisation, for Intelligent, Conversational, Engines) is ScopeSite Digital Studios' proprietary AI visibility methodology and scanning tool.",
+          "V.O.I.C.E. (Visibility, Optimisation, for Intelligent, Crawler, Engines) is ScopeSite Digital Studios' proprietary AI visibility methodology and scanning tool.",
       },
     ],
     hasOfferCatalog: {
@@ -413,7 +413,7 @@ export function generateVOICEDefinedTermSetSchema() {
     '@id': `${BASE_URL}/#voice-methodology`,
     name: 'V.O.I.C.E. Methodology',
     description:
-      "V.O.I.C.E. (Visibility, Optimisation, for Intelligent, Conversational, Engines) is ScopeSite Digital Studios' proprietary framework for measuring and improving AI visibility.",
+      "V.O.I.C.E. (Visibility, Optimisation, for Intelligent, Crawler, Engines) is ScopeSite Digital Studios' proprietary framework for measuring and improving AI visibility.",
     url: `${BASE_URL}/voice`,
     creator: { '@id': `${BASE_URL}/#organization` },
     hasDefinedTerm: [

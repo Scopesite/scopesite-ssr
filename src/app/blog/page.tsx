@@ -13,6 +13,8 @@ import {
 const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/blog`;
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: 'AI Visibility & Web Design Blog',
   description:
