@@ -14,8 +14,30 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/web-design-shepton-mallet`;
 
 export const metadata: Metadata = {
-  title: 'Web Design Shepton Mallet | AI-Ready Websites for Local Businesses',
+  title: 'Web Design Shepton Mallet | AI-Ready',
   description: 'Web design for Shepton Mallet businesses. AI-optimised websites by ScopeSite, based 15 minutes away in Frome. 100/100 Lighthouse scores, fair pricing.',
+  openGraph: {
+    title: 'Web Design Shepton Mallet | AI-Ready Websites for Local Businesses',
+    description: 'Web design for Shepton Mallet businesses. AI-optimised websites by ScopeSite, based 15 minutes away in Frome. 100/100 Lighthouse scores, fair pricing.',
+    url: PAGE_URL,
+    siteName: 'ScopeSite Digital Studios',
+    images: [
+      {
+        url: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
+        width: 1200,
+        height: 630,
+        alt: 'Web Design Shepton Mallet | AI-Ready Websites for Local Businesses',
+      },
+    ],
+    locale: 'en_GB',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Web Design Shepton Mallet | AI-Ready Websites for Local Businesses',
+    description: 'Web design for Shepton Mallet businesses. AI-optimised websites by ScopeSite, based 15 minutes away in Frome. 100/100 Lighthouse scores, fair pricing.',
+    images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
+  },
   keywords: ['web design shepton mallet', 'web designer shepton mallet', 'website design shepton mallet', 'shepton mallet web design'],
   alternates: {
     canonical: PAGE_URL,

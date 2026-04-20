@@ -6,7 +6,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/generative-engine-optimisation`;
 
 export const metadata: Metadata = {
-  title: 'Generative Engine Optimisation Agency | ScopeSite',
+  title: 'Generative Engine Optimisation Agency',
   description: 'Generative engine optimisation agency getting UK businesses cited by ChatGPT, Claude, Gemini and Perplexity. V.O.I.C.E. methodology. Start with a free scan.',
   keywords: ['generative engine optimisation', 'generative engine optimisation agency', 'geo agency', 'generative engine optimisation services', 'what is generative engine optimisation'],
   openGraph: {

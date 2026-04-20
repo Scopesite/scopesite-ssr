@@ -6,7 +6,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/answer-engine-optimisation`;
 
 export const metadata: Metadata = {
-  title: 'Answer Engine Optimisation (AEO) Agency UK | ScopeSite',
+  title: 'Answer Engine Optimisation (AEO) Agency UK',
   description: 'AEO agency specialising in answer engine optimisation. Get your business cited by ChatGPT, Claude, Gemini and Perplexity as the answer.',
   keywords: ['answer engine optimisation', 'aeo agency', 'aeo seo agency', 'what is answer engine optimisation'],
   openGraph: {
@@ -21,6 +21,7 @@ export const metadata: Metadata = {
         alt: 'ScopeSite Answer Engine Optimisation',
       },
     ],
+    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',

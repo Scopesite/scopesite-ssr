@@ -73,7 +73,7 @@ export const metadata: Metadata = {
     canonical: PAGE_URL,
     languages: {
       'en-GB': PAGE_URL,
-      'en-US': `${BASE_URL}/us/quote`,
+      'en-US': `${BASE_URL}/us/pricing`,
       'x-default': PAGE_URL,
     },
   },

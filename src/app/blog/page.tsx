@@ -32,6 +32,7 @@ export const metadata: Metadata = {
         alt: 'ScopeSite Blog - AI Visibility & Web Design Insights',
       },
     ],
+    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',

@@ -11,7 +11,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/us/quote`;
 
 export const metadata: Metadata = {
-  title: 'Instant Quote | US Pricing | ScopeSite',
+  title: 'Instant Quote | US Pricing',
   description:
     'Get an instant quote for AI-ready web design, AI visibility services, and custom development. All prices in USD.',
   alternates: {

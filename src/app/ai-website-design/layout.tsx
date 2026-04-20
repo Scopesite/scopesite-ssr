@@ -6,7 +6,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/ai-website-design`;
 
 export const metadata: Metadata = {
-  title: 'AI Website Design | Websites Built for ChatGPT & Voice Search',
+  title: 'AI Website Design | Built for ChatGPT',
   description: 'AI website design that gets your business recommended by ChatGPT, not just indexed. UK agency specialising in AI-first web design with V.O.I.C.E™ methodology.',
   keywords: ['ai website design', 'ai web design', 'ai powered website design', 'chatgpt website optimisation'],
   openGraph: {

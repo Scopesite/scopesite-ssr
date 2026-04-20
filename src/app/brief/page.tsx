@@ -17,13 +17,22 @@ export const metadata: Metadata = {
     description:
       'Submit your web design or AI visibility project brief. Tell us what you need and we\'ll respond within 2 business days. No obligation, honest advice.',
     url: PAGE_URL,
+    images: [
+      {
+        url: `${BASE_URL}/images/og/og-home.png`,
+        width: 1200,
+        height: 630,
+        alt: 'Send Us Your Project Brief | ScopeSite Digital Studios',
+      },
+    ],
     type: 'website',
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'Send Us Your Project Brief | ScopeSite Digital Studios',
     description:
       'Submit your web design or AI visibility project brief. We\'ll respond within 2 business days. No obligation.',
+    images: [`${BASE_URL}/images/og/og-home.png`],
   },
   alternates: {
     canonical: PAGE_URL,

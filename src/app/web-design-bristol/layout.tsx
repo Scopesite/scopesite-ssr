@@ -17,6 +17,28 @@ const PAGE_URL = `${BASE_URL}/web-design-bristol`;
 export const metadata: Metadata = {
   title: 'Web Design Bristol | AI-First SSR Websites',
   description: 'Bristol web design that gets your business recommended by ChatGPT and Google. 100/100 Lighthouse scores, SSR builds, fair pricing. Free AI visibility audit.',
+  openGraph: {
+    title: 'Web Design Bristol | AI-First SSR Websites',
+    description: 'Bristol web design that gets your business recommended by ChatGPT and Google. 100/100 Lighthouse scores, SSR builds, fair pricing. Free AI visibility audit.',
+    url: PAGE_URL,
+    siteName: 'ScopeSite Digital Studios',
+    images: [
+      {
+        url: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
+        width: 1200,
+        height: 630,
+        alt: 'Web Design Bristol | AI-First SSR Websites',
+      },
+    ],
+    locale: 'en_GB',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Web Design Bristol | AI-First SSR Websites',
+    description: 'Bristol web design that gets your business recommended by ChatGPT and Google. 100/100 Lighthouse scores, SSR builds, fair pricing. Free AI visibility audit.',
+    images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
+  },
   keywords: ['web design bristol', 'web designer bristol', 'website design bristol', 'bristol web design agency', 'website design company bristol', 'bristol website designers', 'website designers bristol', 'ai optimisation bristol'],
   alternates: {
     canonical: PAGE_URL,

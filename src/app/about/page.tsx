@@ -21,11 +21,11 @@ const PAGE_URL = `${BASE_URL}/about`;
 export const metadata: Metadata = {
   title: 'About Us | Veteran-Owned',
   description:
-    'Founded by British Army veteran Dan Cartwright. Website designers with military precision, based in Somerset, serving UK-wide. No corporate bullshit, just results.',
+    'Founded by British Army veteran Dan Cartwright. Website designers with military precision. Somerset-based, UK-wide service. No corporate bullshit.',
   openGraph: {
     title: 'About Us | Veteran-Owned Website Designers | ScopeSite Digital Studios',
     description:
-      'Founded by British Army veteran Dan Cartwright. Website designers with military precision, based in Somerset, serving UK-wide. No corporate bullshit, just results.',
+      'Founded by British Army veteran Dan Cartwright. Website designers with military precision. Somerset-based, UK-wide service. No corporate bullshit.',
     url: PAGE_URL,
     siteName: 'ScopeSite Digital Studios',
     images: [

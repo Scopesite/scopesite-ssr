@@ -20,11 +20,11 @@ const VOICE_SCAN_URL = 'https://voice.scopesite.co.uk';
 export const metadata: Metadata = {
   title: 'AI-Visible Websites That Get Recommended',
   description:
-    'When someone asks ChatGPT or Perplexity for a business like yours, whose name comes up? We build sites AI can read, trust, and recommend. Veteran-owned, Somerset.',
+    'When someone asks ChatGPT for a business like yours, whose name comes up? We build sites AI can read, trust, and recommend. Veteran-owned, Somerset.',
   openGraph: {
     title: 'AI-Visible Websites That Get Recommended | ScopeSite Digital Studios',
     description:
-      'When someone asks ChatGPT or Perplexity for a business like yours, whose name comes up? We build sites AI can read, trust, and recommend.',
+      'When someone asks ChatGPT for a business like yours, whose name comes up? We build sites AI can read, trust, and recommend. Veteran-owned, Somerset.',
     url: BASE_URL,
     siteName: 'ScopeSite Digital Studios',
     images: [
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'AI-Visible Websites That Get Recommended | ScopeSite',
     description:
-      'When someone asks ChatGPT for a business like yours, whose name comes up? We build sites AI can read and recommend.',
+      'When someone asks ChatGPT for a business like yours, whose name comes up? We build sites AI can read, trust, and recommend. Veteran-owned, Somerset.',
     images: [`${BASE_URL}/images/og/og-home.png`],
   },
   alternates: {

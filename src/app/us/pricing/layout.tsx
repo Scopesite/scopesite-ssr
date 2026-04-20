@@ -39,7 +39,7 @@ const faqs: FAQItem[] = [
 export const metadata: Metadata = {
   title: 'US Pricing: AI-Ready Websites and Visibility Packages',
   description:
-    'Transparent USD pricing for AI visibility services. Three clear tiers: AI Visibility Audit ($2,500), AI-Ready Website (from $8,000), and AI Visibility Retainer ($2,000/month). No hidden fees.',
+    'Transparent USD pricing for AI visibility. Three tiers: Audit ($2,500), AI-Ready Website (from $8,000), Retainer ($2,000/month). No hidden fees.',
   alternates: {
     canonical: PAGE_URL,
     languages: {

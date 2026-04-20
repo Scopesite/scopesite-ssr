@@ -12,7 +12,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/case-studies`;
 
 export const metadata: Metadata = {
-  title: 'Case Studies | AI Visibility Results | ScopeSite',
+  title: 'Case Studies | AI Visibility Results',
   description:
     'Real results from our AI-first web design and V.O.I.C.E.™ methodology. See how we get UK businesses recommended by ChatGPT, Claude, and Perplexity.',
   openGraph: {

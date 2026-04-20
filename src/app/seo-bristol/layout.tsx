@@ -16,6 +16,28 @@ const PAGE_URL = `${BASE_URL}/seo-bristol`;
 export const metadata: Metadata = {
   title: 'SEO Bristol | AI Search Optimisation',
   description: 'Bristol SEO services that go beyond Google rankings. Get your business recommended by ChatGPT, Perplexity, and AI search engines. V.O.I.C.E methodology.',
+  openGraph: {
+    title: 'SEO Bristol | AI Search Optimisation',
+    description: 'Bristol SEO services that go beyond Google rankings. Get your business recommended by ChatGPT, Perplexity, and AI search engines. V.O.I.C.E methodology.',
+    url: PAGE_URL,
+    siteName: 'ScopeSite Digital Studios',
+    images: [
+      {
+        url: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
+        width: 1200,
+        height: 630,
+        alt: 'SEO Bristol | AI Search Optimisation',
+      },
+    ],
+    locale: 'en_GB',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'SEO Bristol | AI Search Optimisation',
+    description: 'Bristol SEO services that go beyond Google rankings. Get your business recommended by ChatGPT, Perplexity, and AI search engines. V.O.I.C.E methodology.',
+    images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
+  },
   keywords: ['seo bristol', 'bristol seo', 'search engine optimisation bristol', 'seo services bristol', 'ai seo bristol'],
   alternates: {
     canonical: PAGE_URL,

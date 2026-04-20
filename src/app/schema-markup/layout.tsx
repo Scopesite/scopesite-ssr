@@ -6,7 +6,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/schema-markup`;
 
 export const metadata: Metadata = {
-  title: 'Schema Markup Services | Professional JSON-LD Implementation UK',
+  title: 'Schema Markup Services | JSON-LD UK',
   description: 'Expert schema markup implementation that makes your business visible to AI. 100% validation guarantee. Professional structured data services for UK businesses.',
   keywords: ['schema markup services', 'structured data implementation', 'json-ld services', 'schema markup agency'],
   openGraph: {

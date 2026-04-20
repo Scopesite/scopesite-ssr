@@ -324,7 +324,7 @@ export function resolveResultKey(
 // ---------------------------------------------------------------------------
 
 export const PAGE_META = {
-  title: 'Territory Command - Exclusive AI Visibility Representation by Postcode',
+  title: 'Territory Command: AI Visibility by Postcode',
   description:
     'One firm per postcode per sector. Exclusive AI visibility engineering with an outcome guarantee. Check whether your territory is available.',
   ogImage: '/images/territory/territory-command-og.png',

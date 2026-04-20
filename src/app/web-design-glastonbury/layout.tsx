@@ -16,6 +16,28 @@ const PAGE_URL = `${BASE_URL}/web-design-glastonbury`;
 export const metadata: Metadata = {
   title: 'Web Design Glastonbury | AI-First Websites',
   description: 'Glastonbury web design for independent businesses, tourism operators, and creative studios. AI-optimised websites with 100/100 Lighthouse scores.',
+  openGraph: {
+    title: 'Web Design Glastonbury | AI-First Websites',
+    description: 'Glastonbury web design for independent businesses, tourism operators, and creative studios. AI-optimised websites with 100/100 Lighthouse scores.',
+    url: PAGE_URL,
+    siteName: 'ScopeSite Digital Studios',
+    images: [
+      {
+        url: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
+        width: 1200,
+        height: 630,
+        alt: 'Web Design Glastonbury | AI-First Websites',
+      },
+    ],
+    locale: 'en_GB',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Web Design Glastonbury | AI-First Websites',
+    description: 'Glastonbury web design for independent businesses, tourism operators, and creative studios. AI-optimised websites with 100/100 Lighthouse scores.',
+    images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
+  },
   keywords: ['web design glastonbury', 'web designer glastonbury', 'website design glastonbury', 'glastonbury web design'],
   alternates: {
     canonical: PAGE_URL,

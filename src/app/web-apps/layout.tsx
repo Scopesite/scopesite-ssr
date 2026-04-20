@@ -27,6 +27,7 @@ export const metadata: Metadata = {
         alt: 'Custom Web Apps UK - Bespoke Business Applications by ScopeSite',
       },
     ],
+    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',

@@ -40,6 +40,7 @@ export const metadata: Metadata = {
         alt: 'Web Design Somerset - AI-Optimised SSR Websites by ScopeSite',
       },
     ],
+    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',

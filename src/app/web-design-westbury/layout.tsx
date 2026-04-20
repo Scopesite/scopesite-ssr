@@ -14,8 +14,30 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/web-design-westbury`;
 
 export const metadata: Metadata = {
-  title: 'Web Design Westbury | Professional Websites for Wiltshire Businesses',
+  title: 'Web Design Westbury | AI-Ready Sites',
   description: 'Web design for Westbury businesses. AI-optimised websites by ScopeSite, based 15 minutes away in Frome. Next.js, schema markup, veteran-owned.',
+  openGraph: {
+    title: 'Web Design Westbury | Professional Websites for Wiltshire Businesses',
+    description: 'Web design for Westbury businesses. AI-optimised websites by ScopeSite, based 15 minutes away in Frome. Next.js, schema markup, veteran-owned.',
+    url: PAGE_URL,
+    siteName: 'ScopeSite Digital Studios',
+    images: [
+      {
+        url: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
+        width: 1200,
+        height: 630,
+        alt: 'Web Design Westbury | Professional Websites for Wiltshire Businesses',
+      },
+    ],
+    locale: 'en_GB',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Web Design Westbury | Professional Websites for Wiltshire Businesses',
+    description: 'Web design for Westbury businesses. AI-optimised websites by ScopeSite, based 15 minutes away in Frome. Next.js, schema markup, veteran-owned.',
+    images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
+  },
   keywords: ['web design westbury', 'web designer westbury', 'website design westbury', 'westbury web design'],
   alternates: {
     canonical: PAGE_URL,

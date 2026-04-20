@@ -21,13 +21,22 @@ export const metadata: Metadata = {
     description:
       'How ScopeSite Digital Studios collects, uses and protects your personal data. UK GDPR compliant. Your data rights explained clearly.',
     url: PAGE_URL,
+    images: [
+      {
+        url: `${BASE_URL}/images/og/og-home.png`,
+        width: 1200,
+        height: 630,
+        alt: 'Privacy Policy | ScopeSite Digital Studios',
+      },
+    ],
     type: 'website',
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'Privacy Policy | ScopeSite Digital Studios',
     description:
       'How ScopeSite Digital Studios collects, uses and protects your personal data. UK GDPR compliant.',
+    images: [`${BASE_URL}/images/og/og-home.png`],
   },
   alternates: {
     canonical: PAGE_URL,

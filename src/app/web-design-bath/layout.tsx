@@ -14,8 +14,30 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/web-design-bath`;
 
 export const metadata: Metadata = {
-  title: 'Web Design Bath | AI-Optimised Websites for Bath Businesses',
+  title: 'Web Design Bath | AI-Optimised Sites',
   description: 'Bath web design agency building AI-optimised websites that get recommended by ChatGPT. Premium quality without premium agency prices. Based in nearby Somerset.',
+  openGraph: {
+    title: 'Web Design Bath | AI-Optimised Websites for Bath Businesses',
+    description: 'Bath web design agency building AI-optimised websites that get recommended by ChatGPT. Premium quality without premium agency prices. Based in nearby Somerset.',
+    url: PAGE_URL,
+    siteName: 'ScopeSite Digital Studios',
+    images: [
+      {
+        url: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
+        width: 1200,
+        height: 630,
+        alt: 'Web Design Bath | AI-Optimised Websites for Bath Businesses',
+      },
+    ],
+    locale: 'en_GB',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Web Design Bath | AI-Optimised Websites for Bath Businesses',
+    description: 'Bath web design agency building AI-optimised websites that get recommended by ChatGPT. Premium quality without premium agency prices. Based in nearby Somerset.',
+    images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
+  },
   keywords: ['web design bath', 'web designer bath', 'website design bath', 'bath web design agency'],
   alternates: {
     canonical: PAGE_URL,

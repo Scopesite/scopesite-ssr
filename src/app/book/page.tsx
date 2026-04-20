@@ -1,6 +1,7 @@
 'use client';
 
 import Script from 'next/script';
+import { useEffect } from 'react';
 
 const CAL_LINK = 'scopesite/30min';
 const CAL_URL = `https://cal.com/${CAL_LINK}`;
@@ -46,6 +47,28 @@ Cal.ns["30min"]("ui", {
 `;
 
 export default function BookPage() {
+  useEffect(() => {
+    const target = document.getElementById('cal-embed');
+    if (!target) return;
+
+    const demote = () => {
+      target.querySelectorAll('h1').forEach((el) => {
+        const h2 = document.createElement('h2');
+        for (const attr of Array.from(el.attributes)) {
+          h2.setAttribute(attr.name, attr.value);
+        }
+        h2.innerHTML = el.innerHTML;
+        el.replaceWith(h2);
+      });
+    };
+
+    demote();
+    const observer = new MutationObserver(demote);
+    observer.observe(target, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <>
       {/* Hero Section */}

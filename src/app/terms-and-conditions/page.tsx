@@ -21,13 +21,22 @@ export const metadata: Metadata = {
     description:
       'Full terms and conditions for ScopeSite Digital Studios. Covers pricing, deliverables, IP rights, data protection and change request procedures.',
     url: PAGE_URL,
+    images: [
+      {
+        url: `${BASE_URL}/images/og/og-home.png`,
+        width: 1200,
+        height: 630,
+        alt: 'Terms & Conditions | ScopeSite Digital Studios',
+      },
+    ],
     type: 'website',
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'Terms & Conditions | ScopeSite Digital Studios',
     description:
       'Full terms and conditions for ScopeSite Digital Studios. Covers pricing, deliverables, IP rights, data protection.',
+    images: [`${BASE_URL}/images/og/og-home.png`],
   },
   alternates: {
     canonical: PAGE_URL,

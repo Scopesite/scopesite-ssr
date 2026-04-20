@@ -16,19 +16,18 @@ const PAGE_URL = `${BASE_URL}/us/services`;
 export const metadata: Metadata = {
   title: 'Web Design and AI Visibility Services for US Businesses',
   description:
-    'AI-first web design and visibility services for American businesses. Server-side rendered websites, schema markup, answer engine optimization, and V.O.I.C.E. methodology. USD pricing.',
+    'AI-first web design and visibility for US businesses. Server-side rendered websites, schema markup, and answer engine optimization. USD pricing.',
   alternates: {
     canonical: PAGE_URL,
     languages: {
       'en-US': PAGE_URL,
-      'en-GB': BASE_URL,
       'x-default': BASE_URL,
     },
   },
   openGraph: {
     title: 'Web Design and AI Visibility Services for US Businesses | ScopeSite',
     description:
-      'AI-first web design and visibility services for American businesses. Server-side rendered websites, schema markup, and answer engine optimization.',
+      'AI-first web design and visibility for US businesses. Server-side rendered websites, schema markup, and answer engine optimization. USD pricing.',
     url: PAGE_URL,
     siteName: 'ScopeSite Digital Studios',
     images: [
@@ -46,7 +45,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Web Design and AI Visibility Services for US Businesses | ScopeSite',
     description:
-      'AI-first web design and visibility services for American businesses. Server-side rendered websites, schema markup, and answer engine optimization.',
+      'AI-first web design and visibility for US businesses. Server-side rendered websites, schema markup, and answer engine optimization. USD pricing.',
     images: [`${BASE_URL}/images/og/og-us-services.png`],
   },
 };

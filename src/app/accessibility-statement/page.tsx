@@ -16,13 +16,22 @@ export const metadata: Metadata = {
     description:
       'Our commitment to digital accessibility at ScopeSite. Learn about accessibility features on our website and how to report any issues you encounter.',
     url: PAGE_URL,
+    images: [
+      {
+        url: `${BASE_URL}/images/og/og-home.png`,
+        width: 1200,
+        height: 630,
+        alt: 'Accessibility Statement | ScopeSite Digital Studios',
+      },
+    ],
     type: 'website',
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: 'Accessibility Statement | ScopeSite Digital Studios',
     description:
       'Our commitment to digital accessibility at ScopeSite. Learn about accessibility features and how to report issues.',
+    images: [`${BASE_URL}/images/og/og-home.png`],
   },
   alternates: {
     canonical: PAGE_URL,
@@ -175,7 +184,7 @@ export default function AccessibilityPage() {
               <p className="text-brand-navy/80 leading-relaxed mb-4">
                 We strive to conform to the{' '}
                 <a
-                  href="https://www.w3.org/WAI/WCAG21/quickref/"
+                  href="https://www.w3.org/WAI/WCAG22/quickref/?versions=2.1"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="link-navy text-brand-navy font-semibold underline hover:opacity-70 transition-opacity"

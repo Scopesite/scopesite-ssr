@@ -16,6 +16,28 @@ const PAGE_URL = `${BASE_URL}/web-design-burnham-on-sea`;
 export const metadata: Metadata = {
   title: 'Web Design Burnham-on-Sea | AI-First Websites',
   description: 'Burnham-on-Sea web design for tourism, hospitality, and local businesses. AI-optimised SSR websites that get recommended by ChatGPT and Google.',
+  openGraph: {
+    title: 'Web Design Burnham-on-Sea | AI-First Websites',
+    description: 'Burnham-on-Sea web design for tourism, hospitality, and local businesses. AI-optimised SSR websites that get recommended by ChatGPT and Google.',
+    url: PAGE_URL,
+    siteName: 'ScopeSite Digital Studios',
+    images: [
+      {
+        url: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
+        width: 1200,
+        height: 630,
+        alt: 'Web Design Burnham-on-Sea | AI-First Websites',
+      },
+    ],
+    locale: 'en_GB',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Web Design Burnham-on-Sea | AI-First Websites',
+    description: 'Burnham-on-Sea web design for tourism, hospitality, and local businesses. AI-optimised SSR websites that get recommended by ChatGPT and Google.',
+    images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
+  },
   keywords: ['web design burnham-on-sea', 'web designer burnham-on-sea', 'website design burnham-on-sea', 'burnham-on-sea web design'],
   alternates: {
     canonical: PAGE_URL,

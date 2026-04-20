@@ -6,9 +6,9 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/case-studies/h4tlt`;
 
 export const metadata: Metadata = {
-  title: 'Case Study: H4TLT | From Invisible to National #1 in 4 Months | V.O.I.C.E.™ | ScopeSite',
+  title: 'H4TLT: Invisible to #1 AI-Recommended in 4 Months',
   description:
-    'How V.O.I.C.E.™ methodology took a Somerset audiologist from 7 visitors/week to nationally recommended by Google AI Overview, ChatGPT and Perplexity. No ad spend. No backlinks.',
+    'How V.O.I.C.E.™ methodology took a Somerset audiologist from 7 visitors a week to nationally cited by Google AI Overview, ChatGPT and Perplexity.',
   keywords: [
     'case study',
     'V.O.I.C.E methodology',
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Case Study: H4TLT | From Invisible to National #1 in 4 Months | V.O.I.C.E.™ | ScopeSite',
     description:
-      'How V.O.I.C.E.™ methodology took a Somerset audiologist from 7 visitors/week to nationally recommended by Google AI Overview, ChatGPT and Perplexity. No ad spend. No backlinks.',
+      'How V.O.I.C.E.™ methodology took a Somerset audiologist from 7 visitors a week to nationally cited by Google AI Overview, ChatGPT and Perplexity.',
     url: PAGE_URL,
     siteName: 'ScopeSite Digital Studios',
     images: [
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Case Study: H4TLT | From Invisible to National #1 in 4 Months | V.O.I.C.E.™ | ScopeSite',
     description:
-      'How V.O.I.C.E.™ methodology took a Somerset audiologist from 7 visitors/week to nationally recommended by Google AI Overview, ChatGPT and Perplexity. No ad spend. No backlinks.',
+      'How V.O.I.C.E.™ methodology took a Somerset audiologist from 7 visitors a week to nationally cited by Google AI Overview, ChatGPT and Perplexity.',
     images: [`${BASE_URL}/images/og/og-case-study-h4tlt.png`],
   },
   alternates: {

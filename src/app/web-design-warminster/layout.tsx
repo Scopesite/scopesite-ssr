@@ -16,6 +16,28 @@ const PAGE_URL = `${BASE_URL}/web-design-warminster`;
 export const metadata: Metadata = {
   title: 'Web Design Warminster | Websites Built for AI Visibility',
   description: 'Web design for Warminster businesses. AI-optimised websites by ScopeSite, based 20 minutes away in Frome. Next.js, schema markup, transparent pricing.',
+  openGraph: {
+    title: 'Web Design Warminster | Websites Built for AI Visibility',
+    description: 'Web design for Warminster businesses. AI-optimised websites by ScopeSite, based 20 minutes away in Frome. Next.js, schema markup, transparent pricing.',
+    url: PAGE_URL,
+    siteName: 'ScopeSite Digital Studios',
+    images: [
+      {
+        url: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
+        width: 1200,
+        height: 630,
+        alt: 'Web Design Warminster | Websites Built for AI Visibility',
+      },
+    ],
+    locale: 'en_GB',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Web Design Warminster | Websites Built for AI Visibility',
+    description: 'Web design for Warminster businesses. AI-optimised websites by ScopeSite, based 20 minutes away in Frome. Next.js, schema markup, transparent pricing.',
+    images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
+  },
   keywords: ['web design warminster', 'web designer warminster', 'website design warminster', 'warminster web design'],
   alternates: {
     canonical: PAGE_URL,
