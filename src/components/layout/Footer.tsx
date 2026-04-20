@@ -10,6 +10,7 @@ const FOOTER_LINKS = {
     { label: 'AI SEO Agency', href: '/ai-seo-agency' },
     { label: 'AI SEO Services', href: '/ai-seo-services' },
     { label: 'Answer Engine Optimisation', href: '/answer-engine-optimisation' },
+    { label: 'Generative Engine Optimisation', href: '/generative-engine-optimisation' },
     { label: 'AI Visibility', href: '/ai-visibility' },
     { label: 'Schema Markup', href: '/schema-markup' },
     { label: 'V.O.I.C.E™ AI Visibility', href: '/voice' },

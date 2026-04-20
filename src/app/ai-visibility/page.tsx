@@ -165,7 +165,7 @@ export default function AIVisibilityPage() {
               The technical reality is that most websites are completely invisible to AI crawlers. They rely on client-side rendered JavaScript that ChatGPT-User, ClaudeBot, and PerplexityBot simply cannot execute. If they can't read your site, they can't recommend your business.
             </p>
             <p>
-              We fix this. As a specialist <Link href="/ai-seo-agency" className="text-brand-gold hover:underline">AI SEO agency</Link>, we use our proprietary V.O.I.C.E. methodology to measure and improve your LLM visibility. Explore our <Link href="/ai-seo-services" className="text-brand-gold hover:underline">AI SEO services</Link> to learn how we rebuild your technical foundation for the AI era.
+              We fix this. As a specialist <Link href="/ai-seo-agency" className="text-brand-gold hover:underline">AI SEO agency</Link> and <Link href="/generative-engine-optimisation" className="text-brand-gold hover:underline">generative engine optimisation</Link> specialist, we use our proprietary V.O.I.C.E. methodology to measure and improve your LLM visibility. Explore our <Link href="/ai-seo-services" className="text-brand-gold hover:underline">AI SEO services</Link> to learn how we rebuild your technical foundation for the AI era.
             </p>
           </>
         }

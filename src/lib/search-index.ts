@@ -36,6 +36,13 @@ export const staticSearchIndex: SearchEntry[] = [
     keywords: ['ai seo services', 'ai seo agency uk', 'chatgpt seo', 'ai search optimisation'],
   },
   {
+    title: 'Generative Engine Optimisation Agency | ScopeSite',
+    description: 'Generative engine optimisation agency getting UK businesses cited by ChatGPT, Claude, Gemini and Perplexity.',
+    url: '/generative-engine-optimisation',
+    category: 'Service',
+    keywords: ['generative engine optimisation', 'geo agency', 'generative engine optimisation agency', 'generative engine optimisation services', 'geo', 'what is generative engine optimisation'],
+  },
+  {
     title: 'Web Design Somerset | SSR Websites',
     description: 'Professional web design in Somerset. Server-side rendered sites AI crawlers can see. 100/100 Lighthouse scores, auto-generated schema. Next.js experts.',
     url: '/web-design',

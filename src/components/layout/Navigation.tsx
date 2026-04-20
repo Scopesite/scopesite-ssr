@@ -15,6 +15,7 @@ export const SERVICES_LINKS: NavLink[] = [
   { label: 'AI SEO Agency', href: '/ai-seo-agency' },
   { label: 'AI SEO Services', href: '/ai-seo-services' },
   { label: 'Answer Engine Optimisation', href: '/answer-engine-optimisation' },
+  { label: 'Generative Engine Optimisation', href: '/generative-engine-optimisation' },
   { label: 'AI Visibility', href: '/ai-visibility' },
   { label: 'LLM Brain', href: '/llm-brain' },
   { label: 'Web Design', href: '/web-design' },

@@ -4,6 +4,7 @@
 ## Core Services
 - [AI SEO Agency](https://scopesite.co.uk/ai-seo-agency): UK AI SEO agency that gets your business recommended by ChatGPT, Claude, Gemini and Perplexity.
 - [Answer Engine Optimisation](https://scopesite.co.uk/answer-engine-optimisation): AEO agency specialising in answer engine optimisation.
+- [Generative Engine Optimisation](https://scopesite.co.uk/generative-engine-optimisation): GEO agency that gets your business cited by ChatGPT, Claude, Gemini and Perplexity.
 - [AI Visibility](https://scopesite.co.uk/ai-visibility): AI visibility agency that makes your business visible to ChatGPT, Claude, Gemini and Perplexity.
 - [AI SEO Services](https://scopesite.co.uk/ai-seo-services): AI search optimisation services including SSR builds, schema engineering, and entity optimisation.
 - [AI-First Web Design](https://scopesite.co.uk/ai-website-design): Websites built to be recommended by AI platforms, not just indexed by Google.

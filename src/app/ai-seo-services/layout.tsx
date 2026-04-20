@@ -87,6 +87,7 @@ const pageSchema = generateLandingPageSchema(
       { '@id': `${BASE_URL}/ai-seo-agency/#service` },
       { '@id': `${BASE_URL}/answer-engine-optimisation/#service` },
       { '@id': `${BASE_URL}/ai-visibility/#service` },
+      { '@id': `${BASE_URL}/generative-engine-optimisation/#service` },
     ],
     availableChannel: generateServiceChannels(),
   },

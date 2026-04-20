@@ -161,7 +161,7 @@ export default function AISEOServicesPage() {
               Our AI SEO services cover the entire stack: from auditing your current visibility with our V.O.I.C.E. scanner, to rebuilding your site with Server-Side Rendering (SSR), to engineering the JSON-LD schema that teaches AI exactly who you are.
             </p>
             <p>
-              Learn more about our <Link href="/ai-seo-agency" className="text-brand-gold hover:underline">AI SEO agency</Link>, or check your current <Link href="/ai-visibility" className="text-brand-gold hover:underline">AI visibility</Link> with a free scan.
+              Learn more about our <Link href="/ai-seo-agency" className="text-brand-gold hover:underline">AI SEO agency</Link>, our specialist <Link href="/generative-engine-optimisation" className="text-brand-gold hover:underline">generative engine optimisation</Link> service, or check your current <Link href="/ai-visibility" className="text-brand-gold hover:underline">AI visibility</Link> with a free scan.
             </p>
           </>
         }
