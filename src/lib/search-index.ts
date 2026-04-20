@@ -43,6 +43,13 @@ export const staticSearchIndex: SearchEntry[] = [
     keywords: ['generative engine optimisation', 'geo agency', 'generative engine optimisation agency', 'generative engine optimisation services', 'geo', 'what is generative engine optimisation'],
   },
   {
+    title: 'Generative Engine Optimization Agency | ScopeSite US',
+    description: 'Generative engine optimization agency getting US businesses cited by ChatGPT, Claude, Gemini and Perplexity.',
+    url: '/us/generative-engine-optimization',
+    category: 'Service',
+    keywords: ['generative engine optimization', 'geo agency', 'generative engine optimization agency', 'generative engine optimization services', 'geo', 'what is generative engine optimization', 'us', 'usa'],
+  },
+  {
     title: 'Web Design Somerset | SSR Websites',
     description: 'Professional web design in Somerset. Server-side rendered sites AI crawlers can see. 100/100 Lighthouse scores, auto-generated schema. Next.js experts.',
     url: '/web-design',

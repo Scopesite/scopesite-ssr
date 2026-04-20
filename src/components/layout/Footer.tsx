@@ -47,6 +47,7 @@ const FOOTER_LINKS = {
     { label: 'Get US Quote', href: '/us/quote' },
     { label: 'US Services', href: '/us/services' },
     { label: 'AI Visibility (US)', href: '/us/ai-visibility' },
+    { label: 'Generative Engine Optimization (US)', href: '/us/generative-engine-optimization' },
   ],
   legal: [
     { label: 'Privacy Policy', href: '/privacy-policy' },

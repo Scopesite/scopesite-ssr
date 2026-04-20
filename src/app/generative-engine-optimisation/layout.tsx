@@ -30,6 +30,11 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: PAGE_URL,
+    languages: {
+      'en-GB': PAGE_URL,
+      'en-US': `${BASE_URL}/us/generative-engine-optimization`,
+      'x-default': PAGE_URL,
+    },
   },
 };
 
