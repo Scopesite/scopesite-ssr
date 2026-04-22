@@ -23,44 +23,14 @@ const nextConfig: NextConfig = {
     ],
   },
 
-  // 301 redirects for old/changed URLs (legacy Wix site)
+  // www-to-non-www redirect stays here because it needs a host matcher.
+  // All path-based 301s live in vercel.json as the single source of truth.
   async redirects() {
     return [
-      // www to non-www redirect (faster than Vercel-level redirect)
       {
         source: '/:path*',
         has: [{ type: 'host', value: 'www.scopesite.co.uk' }],
         destination: 'https://scopesite.co.uk/:path*',
-        permanent: true,
-      },
-      {
-        source: '/affordable-web-design-uk',
-        destination: '/web-design',
-        permanent: true,
-      },
-      {
-        source: '/faq',
-        destination: '/',
-        permanent: true,
-      },
-      {
-        source: '/strategy-meeting-uk-web-design',
-        destination: '/book',
-        permanent: true,
-      },
-      {
-        source: '/cookie-policy',
-        destination: '/privacy-policy#8-cookies-and-tracking',
-        permanent: true,
-      },
-      {
-        source: '/how-to-get-listed-brave-search',
-        destination: '/',
-        permanent: true,
-      },
-      {
-        source: '/reviews',
-        destination: '/about',
         permanent: true,
       },
     ];
