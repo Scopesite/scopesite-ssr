@@ -43,6 +43,12 @@ export interface StoredQuote {
     phone: string;
     company: string;
     message: string;
+    /**
+     * Optional prospect website URL captured in the email capture modal.
+     * Dan uses this to run a free Pro Scan for the warm lead.
+     * Stored in the existing contact JSONB — no DB migration required.
+     */
+    websiteUrl?: string;
   };
   createdAt: string;
   updatedAt: string;
@@ -68,6 +74,7 @@ function rowToStoredQuote(row: QuoteRow): StoredQuote {
       phone: '',
       company: '',
       message: '',
+      websiteUrl: '',
     },
     createdAt: new Date(row.created_at).toISOString(),
     updatedAt: new Date(row.updated_at).toISOString(),
@@ -133,6 +140,7 @@ function getDefaultContact(): StoredQuote['contact'] {
     phone: '',
     company: '',
     message: '',
+    websiteUrl: '',
   };
 }
 
@@ -147,6 +155,12 @@ export interface CreateQuoteResult {
   quote: StoredQuote | null;
   limitExceeded: boolean;
   quotesUsed: number;
+  /**
+   * True when this call created a brand-new quote row.
+   * False when an in-progress quote already existed for this email and was returned.
+   * Used upstream to gate warm-lead email dispatch so it only fires once per lead.
+   */
+  isNew: boolean;
 }
 
 /**
@@ -172,39 +186,42 @@ export async function createQuote(email: string): Promise<CreateQuoteResult> {
         quote: rowToStoredQuote(existingRow),
         limitExceeded: false,
         quotesUsed: submittedCount,
+        isNew: false,
       };
     }
-    
+
     // Count how many quotes this email has already submitted
     const submittedCount = await countSubmittedQuotes(email);
-    
+
     if (submittedCount >= MAX_QUOTES_PER_EMAIL) {
       console.log(`[Quote] Email ${email} has exceeded quote limit (${submittedCount}/${MAX_QUOTES_PER_EMAIL})`);
       return {
         quote: null,
         limitExceeded: true,
         quotesUsed: submittedCount,
+        isNew: false,
       };
     }
-    
+
     // Create new quote
     const token = generateQuoteToken();
     const selections = getDefaultSelections();
     const contact = getDefaultContact();
-    
+
     const row = await createQuoteRow(
       token,
       email,
       selections as Record<string, unknown>,
       contact as Record<string, unknown>
     );
-    
+
     console.log(`[Quote] Created new quote ${token} for ${email} (${submittedCount + 1}/${MAX_QUOTES_PER_EMAIL} quotes used)`);
-    
+
     return {
       quote: rowToStoredQuote(row),
       limitExceeded: false,
       quotesUsed: submittedCount,
+      isNew: true,
     };
   } catch (error) {
     console.error('[Quote] Error creating quote:', error);

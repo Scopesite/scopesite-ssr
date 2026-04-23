@@ -10,6 +10,7 @@
 import {
   PRICING_CONFIG,
   UK_MARKET_AVERAGES,
+  VOICE_SPEC,
   getPackageForPageCount,
   getAdditionalPages,
   calculateSSRPrice,
@@ -347,13 +348,22 @@ export function calculateQuote(request: Partial<QuoteRequest>): QuoteBreakdown {
       isIncluded: true,
     });
   } else if (request.addOns?.voice || request.projectType === 'visibility') {
-    // For non-SSR projects, V.O.I.C.E is an optional add-on
+    // For non-SSR projects, V.O.I.C.E is an optional add-on.
+    // For V.O.I.C.E-only (projectType === 'visibility'), the monthly rate depends
+    // on the selected commitment (6-mo = £562, 12-mo = £500). Defaults to £562.
+    const voiceMonthly =
+      request.projectType === 'visibility'
+        ? request.voiceCommitment === 'twelve'
+          ? VOICE_SPEC.commitmentOptions.twelve.monthlyPrice
+          : VOICE_SPEC.commitmentOptions.six.monthlyPrice
+        : PRICING_CONFIG.addOns.voice;
+
     monthlyItems.push({
       id: 'voice',
       label: 'V.O.I.C.E™ AI Visibility',
       quantity: 1,
-      unitPrice: PRICING_CONFIG.addOns.voice,
-      total: PRICING_CONFIG.addOns.voice,
+      unitPrice: voiceMonthly,
+      total: voiceMonthly,
       isMonthly: true,
       isRequired: request.projectType === 'visibility',
     });
@@ -456,6 +466,28 @@ export function calculateQuote(request: Partial<QuoteRequest>): QuoteBreakdown {
   const isSSR = request.projectType === 'ssr' || 
     (request.projectType === 'upgrade' && request.upgradeTargetType === 'ssr');
 
+  // V.O.I.C.E-only flows get a dedicated totals block read straight from VOICE_SPEC,
+  // NOT the generic 4-option contracts table. Build flows never read this.
+  const voiceTotals =
+    request.projectType === 'visibility'
+      ? {
+          six: {
+            monthlyPrice: VOICE_SPEC.commitmentOptions.six.monthlyPrice,
+            months: 6 as const,
+            totalCost: VOICE_SPEC.commitmentOptions.six.totalCost,
+          },
+          twelve: {
+            monthlyPrice: VOICE_SPEC.commitmentOptions.twelve.monthlyPrice,
+            months: 12 as const,
+            totalCost: VOICE_SPEC.commitmentOptions.twelve.totalCost,
+            savingsVsSixMonth:
+              VOICE_SPEC.commitmentOptions.twelve.savingsVsSixMonth,
+          },
+          setupFee: VOICE_SPEC.setupFee,
+          ukMarketAverage: VOICE_SPEC.ukMarketAverage,
+        }
+      : undefined;
+
   return {
     oneOffItems,
     oneOffSubtotal,
@@ -489,6 +521,7 @@ export function calculateQuote(request: Partial<QuoteRequest>): QuoteBreakdown {
         ongoingAfter: thirtySixOngoing,
       },
     },
+    voiceTotals,
   };
 }
 
@@ -519,9 +552,33 @@ export function createQuoteResult(
   paymentPreference: PaymentPreference
 ): QuoteResult {
   const breakdown = calculateQuote(request);
-  
+
   let selected: QuoteResult['selected'];
-  
+
+  // V.O.I.C.E-only flows short-circuit the generic contract totals and use
+  // VOICE_SPEC directly via breakdown.voiceTotals.
+  if (request.projectType === 'visibility' && breakdown.voiceTotals) {
+    const commitment =
+      request.voiceCommitment === 'twelve'
+        ? breakdown.voiceTotals.twelve
+        : breakdown.voiceTotals.six;
+
+    return {
+      id: generateQuoteId(),
+      createdAt: new Date(),
+      request,
+      breakdown,
+      selectedPayment: paymentPreference,
+      selected: {
+        monthly: commitment.monthlyPrice,
+        totalOverTerm: commitment.totalCost,
+        // No ongoing-after concept for V.O.I.C.E — it's a rolling retainer with a
+        // minimum commitment, not a build contract with a post-contract tail.
+        ongoingMonthly: commitment.monthlyPrice,
+      },
+    };
+  }
+
   switch (paymentPreference) {
     case 'oneOff':
       selected = {

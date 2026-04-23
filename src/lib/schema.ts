@@ -6,6 +6,7 @@
  */
 
 import { GhostPost } from './ghost';
+import { PRICING_CONFIG, VOICE_SPEC } from './pricing-config';
 
 const BASE_URL = 'https://scopesite.co.uk';
 
@@ -1980,5 +1981,238 @@ export function wrapInGraph(schemas: Record<string, unknown>[]) {
     '@context': 'https://schema.org',
     '@graph': schemas,
   };
+}
+
+// ============================================
+// SCHEMA-DRIVEN PUBLIC PRICING
+// ============================================
+//
+// `generatePricingSchema()` publishes the full UK service pricing in a single
+// Service + Offer[] JSON-LD graph. All prices are read FROM THE CONFIG
+// (PRICING_CONFIG and VOICE_SPEC) — never hardcoded here. This keeps the
+// published prices in lockstep with the quote wizard; one source of truth.
+//
+// What IS published:
+//   - Client-Managed (Wix) tier prices: Starter, Professional, Enterprise
+//   - SSR AI-First base price
+//   - V.O.I.C.E retainer monthly rates (6-month + 12-month) with the
+//     80 Score Guarantee as a WarrantyPromise on each offer
+//   - LLM Brain setup one-time + managed monthly
+//
+// What is NOT published (internal calculator inputs / commercial tools):
+//   - Contract markup percentages (3/6/12/18%)
+//   - SSR minimum monthly floors
+//   - Per-additional-page rates beyond the tier
+//   - 5% pay-in-full discount
+//   - 36-month contract option
+//   - Upgrade 40% discount multiplier
+
+interface OfferGbpOptions {
+  /** Optional short identifier for @id disambiguation */
+  id?: string;
+  /** Availability URL; defaults to InStock */
+  availability?: string;
+}
+
+/**
+ * Build a one-time-price GBP Offer. Price is a single number, never a range.
+ */
+function offerGbp(
+  name: string,
+  price: number,
+  description: string,
+  options: OfferGbpOptions = {}
+): Record<string, unknown> {
+  return {
+    '@type': 'Offer',
+    ...(options.id ? { '@id': `${BASE_URL}/pricing#offer-${options.id}` } : {}),
+    name,
+    description,
+    price: String(price),
+    priceCurrency: 'GBP',
+    availability: options.availability ?? 'https://schema.org/InStock',
+    seller: { '@id': `${BASE_URL}/#organization` },
+  };
+}
+
+interface OfferMonthlyOptions extends OfferGbpOptions {
+  /**
+   * Minimum-term commitment as ISO 8601 duration, e.g. 'P6M' or 'P12M'.
+   * When set, produces an `eligibleDuration` QuantitativeValue in months.
+   */
+  minimumTerm?: 'P6M' | 'P12M';
+  /** Optional warranty/guarantee description — rendered as WarrantyPromise */
+  warranty?: string;
+}
+
+/**
+ * Build a recurring-monthly GBP Offer with proper UnitPriceSpecification.
+ * Used for V.O.I.C.E retainer tiers and LLM Brain managed subscription.
+ */
+function offerMonthlyGbp(
+  name: string,
+  monthlyPrice: number,
+  description: string,
+  options: OfferMonthlyOptions = {}
+): Record<string, unknown> {
+  const offer: Record<string, unknown> = {
+    '@type': 'Offer',
+    ...(options.id ? { '@id': `${BASE_URL}/pricing#offer-${options.id}` } : {}),
+    name,
+    description,
+    price: String(monthlyPrice),
+    priceCurrency: 'GBP',
+    availability: options.availability ?? 'https://schema.org/InStock',
+    priceSpecification: {
+      '@type': 'UnitPriceSpecification',
+      price: String(monthlyPrice),
+      priceCurrency: 'GBP',
+      billingDuration: 'P1M',
+      unitCode: 'MON',
+      referenceQuantity: {
+        '@type': 'QuantitativeValue',
+        value: 1,
+        unitCode: 'MON',
+      },
+    },
+    seller: { '@id': `${BASE_URL}/#organization` },
+  };
+
+  if (options.minimumTerm) {
+    const months = options.minimumTerm === 'P12M' ? 12 : 6;
+    offer.eligibleDuration = {
+      '@type': 'QuantitativeValue',
+      value: months,
+      unitCode: 'MON',
+      minValue: months,
+    };
+  }
+
+  if (options.warranty) {
+    offer.warranty = {
+      '@type': 'WarrantyPromise',
+      durationOfWarranty: {
+        '@type': 'QuantitativeValue',
+        value: options.minimumTerm === 'P12M' ? 12 : 6,
+        unitCode: 'MON',
+      },
+      description: options.warranty,
+    };
+  }
+
+  return offer;
+}
+
+// LLM Brain prices live outside PRICING_CONFIG for historical reasons; they
+// are currently only exposed via Stripe price IDs in the LLM Brain checkout
+// route. Keep them as module-local constants here, flagged for future
+// consolidation into a shared config.
+// TODO: move LLM_BRAIN_SETUP_PRICE / LLM_BRAIN_MANAGED_PRICE into a central
+// config once LLM Brain has its own pricing module.
+const LLM_BRAIN_SETUP_PRICE = 250;
+const LLM_BRAIN_MANAGED_PRICE = 85;
+
+/**
+ * Build a complete Service + Offer[] JSON-LD for the /pricing page.
+ *
+ * Every offer has an exact numeric price (no ranges), a currency, and an
+ * availability field. V.O.I.C.E offers include a WarrantyPromise carrying
+ * the 80 Score Guarantee text so AI assistants can quote it verbatim.
+ */
+export function generatePricingSchema(): Record<string, unknown> {
+  const {
+    baseWebsite: { starter, professional, enterprise },
+    ssrWebsite: { base: ssrBase },
+  } = PRICING_CONFIG;
+
+  const voiceSix = VOICE_SPEC.commitmentOptions.six;
+  const voiceTwelve = VOICE_SPEC.commitmentOptions.twelve;
+
+  const offers: Record<string, unknown>[] = [
+    // Client-Managed (Wix) tiers — exact prices
+    offerGbp(
+      'Client-Managed Website — Starter (5 pages)',
+      starter,
+      'Built on Wix Studio. Up to 5 pages, mobile responsive, contact form, basic SEO setup, GA4, Wix CMS access, 1 month free support. 25% below UK market average.',
+      { id: 'wix-starter' }
+    ),
+    offerGbp(
+      'Client-Managed Website — Professional (10 pages)',
+      professional,
+      'Built on Wix Studio. Up to 10 pages, animations, blog/CMS, e-commerce up to 50 products, advanced SEO, up to 3 integrations, 3 months free support.',
+      { id: 'wix-professional' }
+    ),
+    offerGbp(
+      'Client-Managed Website — Enterprise (unlimited pages)',
+      enterprise,
+      'Built on Wix Studio. Unlimited pages, unlimited integrations, e-commerce up to 700 products, AI chatbot, 4x SEO blog posts per month, custom graphics, 6 months free support.',
+      { id: 'wix-enterprise' }
+    ),
+    // SSR AI-First — single exact base price (per-page extras are internal)
+    offerGbp(
+      'SSR AI-First Website',
+      ssrBase,
+      'Custom Next.js 16 server-side rendered website on Vercel Edge. Includes V.O.I.C.E™ AI Visibility (worth £562/mo), Ghost CMS, auto-generated JSON-LD schema, 100/100 Lighthouse scores, SSL, and 30 days post-launch support. Starting price for up to 5 pages.',
+      { id: 'ssr-ai-first' }
+    ),
+    // V.O.I.C.E — 6-Month Commitment
+    offerMonthlyGbp(
+      'V.O.I.C.E™ AI Visibility — 6-Month Commitment',
+      voiceSix.monthlyPrice,
+      `Monthly AI visibility retainer. ${voiceSix.description} No setup fee. Minimum commitment: ${voiceSix.months} months (total ${formatGbpStatic(voiceSix.totalCost)}), ${VOICE_SPEC.noticePeriodDays}-day notice period after that. Includes monthly AI visibility audits across ChatGPT, Claude, Perplexity, Gemini, and Google AI Overviews; tracked AI Visibility Score with month-on-month reporting; schema markup updates; AEO content recommendations; and competitor monitoring.`,
+      {
+        id: 'voice-6mo',
+        minimumTerm: 'P6M',
+        warranty: VOICE_SPEC.guarantee.summary,
+      }
+    ),
+    // V.O.I.C.E — 12-Month Commitment
+    offerMonthlyGbp(
+      'V.O.I.C.E™ AI Visibility — 12-Month Commitment',
+      voiceTwelve.monthlyPrice,
+      `Monthly AI visibility retainer at a reduced rate. ${voiceTwelve.description} No setup fee. Minimum commitment: ${voiceTwelve.months} months (total ${formatGbpStatic(voiceTwelve.totalCost)}, saves ${formatGbpStatic(voiceTwelve.savingsVsSixMonth)} vs 6-month commitment). Includes everything in the 6-month plan.`,
+      {
+        id: 'voice-12mo',
+        minimumTerm: 'P12M',
+        warranty: VOICE_SPEC.guarantee.summary,
+      }
+    ),
+    // LLM Brain
+    offerGbp(
+      'LLM Brain — Done-for-You Setup',
+      LLM_BRAIN_SETUP_PRICE,
+      'One-time setup of your LLM Brain — a structured data layer that makes your business answerable by AI assistants. Paid through Stripe, promo codes accepted at checkout.',
+      { id: 'llm-brain-setup' }
+    ),
+    offerMonthlyGbp(
+      'LLM Brain — Managed',
+      LLM_BRAIN_MANAGED_PRICE,
+      'Monthly LLM Brain management subscription. Ongoing updates, monitoring, and content refreshes so your AI-citable data layer stays current.',
+      { id: 'llm-brain-managed' }
+    ),
+  ];
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${BASE_URL}/pricing#service`,
+    name: 'AI Visibility and Web Design Services',
+    description:
+      'Transparent, schema-first pricing for AI-visibility retainers (V.O.I.C.E™), SSR AI-first websites, Client-Managed Wix Studio websites, and the LLM Brain data-layer service. UK-based agency serving businesses across the United Kingdom.',
+    provider: { '@id': `${BASE_URL}/#organization` },
+    areaServed: {
+      '@type': 'Country',
+      name: 'United Kingdom',
+    },
+    offers,
+  };
+}
+
+// Simple GBP formatter that works at module evaluation time (the public
+// `formatCurrency` helper in calculate-quote.ts depends on Intl, which is
+// fine but we want to keep schema.ts lean). Non-breaking space between £ and
+// digits matches how GBP is typically written in marketing copy.
+function formatGbpStatic(amount: number): string {
+  return `£${amount.toLocaleString('en-GB')}`;
 }
 

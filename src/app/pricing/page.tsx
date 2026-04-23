@@ -6,10 +6,10 @@ import { JsonLd } from '@/components/JsonLd';
 import {
   generateBreadcrumbSchema,
   generateServiceSchema,
-  generateOfferSchema,
   generateWebPageSchema,
-  generateItemListSchema,
+  generatePricingSchema,
 } from '@/lib/schema';
+import { PRICING_CONFIG } from '@/lib/pricing-config';
 
 const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/pricing`;
@@ -18,7 +18,7 @@ const PAGE_URL = `${BASE_URL}/pricing`;
 const pricingFAQs = [
   {
     question: 'How much does a website cost with ScopeSite?',
-    answer: 'Our websites start from £1,500 for a professional 1-5 page site. Use our instant quote calculator to get an exact price based on your specific requirements - page count, e-commerce, custom features, and more.',
+    answer: `Our websites start from £${PRICING_CONFIG.baseWebsite.starter.toLocaleString('en-GB')} for a professional 1-5 page site. Use our instant quote calculator to get an exact price based on your specific requirements - page count, e-commerce, custom features, and more.`,
   },
   {
     question: 'Do you offer payment plans?',
@@ -101,29 +101,11 @@ export default function PricingPage() {
     PAGE_URL
   );
 
-  const starterOffer = generateOfferSchema(
-    'Starter Website Package',
-    'Professional 1-5 page website with AI visibility optimization',
-    '1500-3000'
-  );
-
-  const professionalOffer = generateOfferSchema(
-    'Professional Website Package',
-    'Comprehensive 6-10 page website with e-commerce capabilities',
-    '3000-8000'
-  );
-
-  const enterpriseOffer = generateOfferSchema(
-    'Enterprise Website Package',
-    'Large-scale websites and custom web applications',
-    '8000+'
-  );
-
-  const offerListSchema = generateItemListSchema(
-    `${PAGE_URL}/#offer-list`,
-    'ScopeSite Web Design Packages',
-    [starterOffer, professionalOffer, enterpriseOffer]
-  );
+  // Comprehensive Service + Offer[] schema for the pricing page. Reads every
+  // price from PRICING_CONFIG + VOICE_SPEC so published prices cannot drift
+  // from the quote wizard. See generatePricingSchema JSDoc for what is /
+  // is not published.
+  const pricingSchema = generatePricingSchema();
 
   const webPageSchema = {
     ...generateWebPageSchema(
@@ -131,7 +113,7 @@ export default function PricingPage() {
       'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Flexible 6, 12 or 24-month payment plans. Somerset-based, UK-wide service.',
       PAGE_URL
     ),
-    mainEntity: { '@id': `${PAGE_URL}/#offer-list` },
+    mainEntity: { '@id': `${PAGE_URL}#service` },
   };
 
   return (
@@ -142,10 +124,7 @@ export default function PricingPage() {
           webPageSchema,
           breadcrumbSchema,
           serviceSchema,
-          offerListSchema,
-          starterOffer,
-          professionalOffer,
-          enterpriseOffer,
+          pricingSchema,
         ]}
       />
 

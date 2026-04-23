@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Check, ChevronLeft, ChevronRight, ChevronDown, Loader2, Calendar, Rocket, Globe, Zap, Star, Sparkles } from 'lucide-react';
+import { Check, ChevronLeft, ChevronRight, ChevronDown, Loader2, Calendar, Rocket, Globe, Zap, Star, Sparkles, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -21,10 +21,14 @@ import {
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 import { calculateQuote, createQuoteResult, formatCurrency, getMarketAverage } from '@/lib/calculate-quote';
-import { PRICING_LABELS, PRICING_CONFIG, SSR_INCLUDED_FEATURES, calculateSSRPrice } from '@/lib/pricing-config';
+import { PRICING_LABELS, PRICING_CONFIG, SSR_INCLUDED_FEATURES, VOICE_SPEC, calculateSSRPrice } from '@/lib/pricing-config';
+import { VoiceCommitmentPicker } from './VoiceCommitmentPicker';
+import { VoiceGuaranteeCallout } from './VoiceGuaranteeCallout';
+import { QuoteEmailCaptureModal } from '@/components/quote/QuoteEmailCaptureModal';
 import type {
   ProjectType,
   PaymentPreference,
+  VoiceCommitment,
   EcommerceSize,
   HeadlessEcommerceType,
   WebAppSize,
@@ -36,17 +40,42 @@ import type {
 } from '@/types/pricing';
 
 // ============================================
-// STEP DEFINITIONS
+// STEP DEFINITIONS — dynamic based on project type
 // ============================================
+//
+// Build flows (clientManaged / ssr / upgrade / webapp) use the 6-step flow.
+// V.O.I.C.E-only (visibility) uses a 4-step flow that swaps the contract
+// picker for a commitment picker and skips scope/add-ons entirely.
+//
+// The email capture modal is an INTERSTITIAL that fires on the Next click
+// from the Project Type page. It is NOT counted as a step.
+//
 
-const STEPS = [
-  { id: 1, title: 'Get Started', description: 'Enter your email to begin' },
+interface StepDef {
+  id: number;
+  title: string;
+  description: string;
+}
+
+const STEPS_BUILD: StepDef[] = [
+  { id: 1, title: 'Get Started', description: 'Build your instant quote' },
   { id: 2, title: 'Project Type', description: 'What are you looking for?' },
-  { id: 3, title: 'What is the Scope?', description: 'Tell us about your project' },
+  { id: 3, title: 'Scope', description: 'Tell us about your project' },
   { id: 4, title: 'Add-ons', description: 'Enhance your project' },
-  { id: 5, title: 'Payment', description: 'Choose your payment plan' },
+  { id: 5, title: 'Payment Plan', description: 'Choose your payment plan' },
   { id: 6, title: 'Summary', description: 'Review and submit' },
 ];
+
+const STEPS_VOICE: StepDef[] = [
+  { id: 1, title: 'Get Started', description: 'Build your instant quote' },
+  { id: 2, title: 'Project Type', description: 'What are you looking for?' },
+  { id: 3, title: 'Commitment', description: 'Choose your V.O.I.C.E retainer' },
+  { id: 4, title: 'Summary', description: 'Review and submit' },
+];
+
+function getSteps(projectType?: ProjectType): StepDef[] {
+  return projectType === 'visibility' ? STEPS_VOICE : STEPS_BUILD;
+}
 
 // ============================================
 // INITIAL STATE
@@ -82,6 +111,7 @@ const initialRequest: Partial<QuoteRequest> = {
     ssrScalability: false,
   },
   paymentPreference: 'twelve',
+  voiceCommitment: 'six', // default V.O.I.C.E-only commitment
 };
 
 // ============================================
@@ -102,19 +132,28 @@ export function QuoteCalculator() {
     company: '',
     message: '',
   });
+  // Optional website URL captured in the email modal. Persisted via the quote
+  // record's contact JSONB (no new DB column).
+  const [websiteUrl, setWebsiteUrl] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [quoteId, setQuoteId] = useState<string | null>(null);
   const [quoteToken, setQuoteToken] = useState<string | null>(null);
   const [isLoadingQuote, setIsLoadingQuote] = useState(false);
   const [quoteLimitExceeded, setQuoteLimitExceeded] = useState(false);
-  const [browseMode, setBrowseMode] = useState(false);
+  // Email-capture interstitial (hard gate) state
+  const [emailModalOpen, setEmailModalOpen] = useState(false);
 
   // Calculate breakdown in real-time
   const breakdown = useMemo(() => calculateQuote(request), [request]);
 
+  // Current steps depend on project type (visibility = 4 steps, everything else = 6)
+  const steps = useMemo(() => getSteps(request.projectType), [request.projectType]);
+  const totalSteps = steps.length;
+
   // Check if SSR project
   const isSSR = request.projectType === 'ssr';
+  const isVoiceOnly = request.projectType === 'visibility';
 
   // Load saved quote from URL token on mount
   useEffect(() => {
@@ -138,7 +177,11 @@ export function QuoteCalculator() {
           email: data.quote.email,
           ...data.quote.contact,
         }));
-        
+        // Restore websiteUrl from contact JSONB (if present)
+        if (data.quote.contact?.websiteUrl) {
+          setWebsiteUrl(data.quote.contact.websiteUrl);
+        }
+
         if (data.quote.selections) {
           setRequest(prev => ({
             ...prev,
@@ -168,7 +211,11 @@ export function QuoteCalculator() {
     router.replace(url.pathname + url.search, { scroll: false });
   };
 
-  const saveProgress = async (step: number, updatedRequest?: Partial<QuoteRequest>, updatedContact?: Partial<ContactInfo>) => {
+  const saveProgress = async (
+    step: number,
+    updatedRequest?: Partial<QuoteRequest>,
+    updatedContact?: Partial<ContactInfo & { websiteUrl?: string }>
+  ) => {
     if (!quoteToken) return;
 
     try {
@@ -182,12 +229,14 @@ export function QuoteCalculator() {
             scope: updatedRequest?.scope ?? request.scope,
             addOns: updatedRequest?.addOns ?? request.addOns,
             paymentPreference: updatedRequest?.paymentPreference ?? request.paymentPreference,
+            voiceCommitment: updatedRequest?.voiceCommitment ?? request.voiceCommitment,
           },
           contact: {
             name: updatedContact?.name ?? contact.name,
             phone: updatedContact?.phone ?? contact.phone,
             company: updatedContact?.company ?? contact.company,
             message: updatedContact?.message ?? contact.message,
+            websiteUrl: updatedContact?.websiteUrl ?? websiteUrl,
           },
         }),
       });
@@ -196,7 +245,7 @@ export function QuoteCalculator() {
     }
   };
 
-  const progress = (currentStep / STEPS.length) * 100;
+  const progress = (currentStep / totalSteps) * 100;
 
   const updateRequest = useCallback((updates: Partial<QuoteRequest>) => {
     setRequest(prev => ({ ...prev, ...updates }));
@@ -216,34 +265,41 @@ export function QuoteCalculator() {
     }));
   }, []);
 
-  const isValidEmail = (email: string) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
-
   const canGoNext = useCallback(() => {
+    // Welcome page: always passable — it's a frictionless click-through
+    if (currentStep === 1) return true;
+
+    // Project Type: must have a choice, and Upgrade requires a sub-choice
+    if (currentStep === 2) {
+      if (request.projectType === 'upgrade') {
+        return !!request.upgradeTargetType;
+      }
+      return !!request.projectType;
+    }
+
+    // V.O.I.C.E-only flow (4 steps):
+    //   3 = Commitment picker, 4 = Summary
+    if (isVoiceOnly) {
+      if (currentStep === 3) return !!request.voiceCommitment;
+      if (currentStep === 4) return contact.name.trim() !== '';
+      return false;
+    }
+
+    // Build flow (6 steps):
+    //   3 = Scope, 4 = Add-ons, 5 = Payment, 6 = Summary
     switch (currentStep) {
-      case 1:
-        return browseMode || (contact.email.trim() !== '' && isValidEmail(contact.email));
-      case 2:
-        if (request.projectType === 'upgrade') {
-          return !!request.upgradeTargetType;
-        }
-        return !!request.projectType;
       case 3:
         return true;
       case 4:
-        if (browseMode && !quoteToken) return false;
         return true;
       case 5:
-        if (browseMode && !quoteToken) return false;
         return !!request.paymentPreference;
       case 6:
-        if (browseMode && !quoteToken) return false;
         return contact.name.trim() !== '';
       default:
         return false;
     }
-  }, [currentStep, request, contact, browseMode, quoteToken]);
+  }, [currentStep, request, contact, isVoiceOnly]);
 
   // Scroll to top of component when step changes
   const scrollToTop = useCallback(() => {
@@ -252,89 +308,167 @@ export function QuoteCalculator() {
     }, 100);
   }, []);
 
-  const startQuoteWithEmail = useCallback(async (email: string) => {
-    try {
-      const response = await fetch('/api/quote/start', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
-      const data = await response.json();
+  /**
+   * Create (or resume) a quote record for this email.
+   *
+   * Called from the email-capture modal with the optional website URL and the
+   * already-chosen projectType. On the server side, /api/quote/start:
+   *   - If no in-progress quote exists for the email, creates one, persists
+   *     projectType + websiteUrl, and fires warm-lead emails (prospect + dan@).
+   *   - If an existing in-progress quote is found, returns its token without
+   *     re-sending emails (idempotent).
+   */
+  const startQuoteWithEmail = useCallback(
+    async (email: string, url: string, projectType?: ProjectType) => {
+      try {
+        const response = await fetch('/api/quote/start', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email,
+            websiteUrl: url || undefined,
+            projectType,
+          }),
+        });
+        const data = await response.json();
 
-      if (data.success) {
-        setQuoteToken(data.quoteId);
-        updateUrlWithToken(data.quoteId);
-        setBrowseMode(false);
+        if (data.success) {
+          setQuoteToken(data.quoteId);
+          updateUrlWithToken(data.quoteId);
 
-        if (data.isExisting && data.selections) {
-          setRequest(prev => ({ ...prev, ...data.selections }));
-          if (data.contact) {
-            setContact(prev => ({ ...prev, ...data.contact }));
+          if (data.isExisting && data.selections) {
+            setRequest(prev => ({ ...prev, ...data.selections }));
+            if (data.contact) {
+              setContact(prev => ({ ...prev, ...data.contact }));
+              if (data.contact.websiteUrl) {
+                setWebsiteUrl(data.contact.websiteUrl);
+              }
+            }
           }
+          return { success: true as const, data };
+        } else if (data.limitExceeded) {
+          setQuoteLimitExceeded(true);
+          return { success: false as const, limitExceeded: true };
         }
-        return { success: true, data };
-      } else if (data.limitExceeded) {
-        setQuoteLimitExceeded(true);
-        return { success: false, limitExceeded: true };
+        return { success: false as const };
+      } catch (error) {
+        console.error('Failed to start quote:', error);
+        return { success: false as const };
       }
-      return { success: false };
-    } catch (error) {
-      console.error('Failed to start quote:', error);
-      return { success: false };
-    }
-  }, []);
+    },
+    []
+  );
 
   const goNext = async () => {
-    if (currentStep < STEPS.length && canGoNext()) {
-      let nextStep = currentStep + 1;
+    if (!canGoNext() || currentStep >= totalSteps) return;
 
-      if (currentStep === 3 && request.projectType === 'visibility') {
-        nextStep = 5;
-      }
-
-      if (currentStep === 1 && browseMode && !contact.email.trim()) {
-        setCurrentStep(nextStep);
-        scrollToTop();
-        return;
-      }
-
-      if (currentStep === 1 && !quoteToken) {
-        const result = await startQuoteWithEmail(contact.email);
-        if (!result.success) {
-          if (result.limitExceeded) return;
-          // If API fails, still allow browsing
-        } else if (result.data?.isExisting && result.data.currentStep > 2) {
-          setCurrentStep(result.data.currentStep);
-          scrollToTop();
-          return;
-        }
-      } else if (quoteToken) {
-        saveProgress(nextStep);
-      }
-
-      setCurrentStep(nextStep);
-      scrollToTop();
+    // On the Next click from Project Type (step 2), fire the email-capture modal
+    // unless we already have a quote token (i.e. the user came back via ?q=…
+    // or has already submitted the modal earlier in this session). The modal is
+    // a HARD GATE — advancement only happens inside handleEmailModalSubmit.
+    if (currentStep === 2 && !quoteToken) {
+      setEmailModalOpen(true);
+      return;
     }
+
+    const nextStep = currentStep + 1;
+
+    if (quoteToken) {
+      saveProgress(nextStep);
+    }
+
+    setCurrentStep(nextStep);
+    scrollToTop();
   };
 
   const goBack = () => {
-    if (currentStep > 1) {
-      let prevStep = currentStep - 1;
-
-      if (currentStep === 5 && request.projectType === 'visibility') {
-        prevStep = 3;
-      }
-
-      if (prevStep === 1 && quoteToken && !browseMode) {
-        return;
-      }
-      if (quoteToken) {
-        saveProgress(prevStep);
-      }
-      setCurrentStep(prevStep);
-      scrollToTop();
+    if (currentStep <= 1) return;
+    const prevStep = currentStep - 1;
+    if (quoteToken) {
+      saveProgress(prevStep);
     }
+    setCurrentStep(prevStep);
+    scrollToTop();
   };
+
+  /**
+   * Handle submission of the email capture modal.
+   * Called with the email and optional website URL from the modal.
+   * Hard gate: returns an error object to keep the modal open on failure.
+   */
+  const handleEmailModalSubmit = useCallback(
+    async (submittedEmail: string, submittedUrl: string) => {
+      setContact(prev => ({ ...prev, email: submittedEmail }));
+      setWebsiteUrl(submittedUrl);
+
+      const result = await startQuoteWithEmail(
+        submittedEmail,
+        submittedUrl,
+        request.projectType
+      );
+
+      if (!result.success) {
+        if (result.limitExceeded) {
+          // quoteLimitExceeded state is set inside startQuoteWithEmail — the
+          // parent component will switch to the limit-exceeded screen.
+          // Close the modal so the limit-exceeded screen is visible.
+          setEmailModalOpen(false);
+          return { ok: true as const };
+        }
+        return {
+          ok: false as const,
+          error: 'We couldn\'t start your quote. Please try again or contact us.',
+        };
+      }
+
+      // Resume case: if the server resumed an existing in-progress quote
+      // further ahead in the flow, jump straight there.
+      if (result.data?.isExisting && result.data.currentStep > 2) {
+        setEmailModalOpen(false);
+        setCurrentStep(result.data.currentStep);
+        scrollToTop();
+        return { ok: true as const };
+      }
+
+      // Fresh quote: advance to step 3 (Scope for builds, Commitment for V.O.I.C.E-only).
+      // Persist step 3 on the server too so a resume link lands on the page the
+      // user was about to see, not back on project type.
+      const newToken = result.data?.quoteId;
+      if (newToken) {
+        fetch(`/api/quote/${newToken}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            currentStep: 3,
+            selections: {
+              projectType: request.projectType,
+              scope: request.scope,
+              addOns: request.addOns,
+              paymentPreference: request.paymentPreference,
+              voiceCommitment: request.voiceCommitment,
+            },
+            contact: {
+              websiteUrl: submittedUrl,
+            },
+          }),
+        }).catch((err) => console.error('Failed to save step 3:', err));
+      }
+
+      setEmailModalOpen(false);
+      setCurrentStep(3);
+      scrollToTop();
+      return { ok: true as const };
+    },
+    [
+      request.projectType,
+      request.scope,
+      request.addOns,
+      request.paymentPreference,
+      request.voiceCommitment,
+      startQuoteWithEmail,
+      scrollToTop,
+    ]
+  );
 
   const handleSubmit = async () => {
     if (!canGoNext()) return;
@@ -346,6 +480,7 @@ export function QuoteCalculator() {
       scope: request.scope!,
       addOns: request.addOns!,
       paymentPreference: request.paymentPreference!,
+      voiceCommitment: request.voiceCommitment,
       contact,
     };
 
@@ -354,54 +489,84 @@ export function QuoteCalculator() {
     try {
       if (quoteToken) {
         const pageCount = request.scope?.pageCount || 5;
-        let packageType = request.projectType === 'ssr' ? 'SSR AI-First' : 'Client-Managed';
-        if (request.projectType === 'clientManaged') {
+        let packageType: string;
+        if (isVoiceOnly) {
+          packageType = 'V.O.I.C.E™ AI Visibility';
+        } else if (request.projectType === 'ssr') {
+          packageType = 'SSR AI-First';
+        } else if (request.projectType === 'clientManaged') {
           if (pageCount > 10) packageType = 'Enterprise';
           else if (pageCount > 5) packageType = 'Professional';
           else packageType = 'Starter';
+        } else {
+          packageType = 'Client-Managed';
         }
 
         const paymentPref = request.paymentPreference || 'twelve';
         const paymentTypeLabels: Record<string, string> = {
           oneOff: 'One-off',
+          six: '6-month',
           twelve: '12-month',
           twentyFour: '24-month',
+          thirtySix: '36-month',
         };
-        
+
         let selectedTotal: number;
         let monthlyPayment: number | null = null;
-        
-        if (paymentPref === 'oneOff') {
+        let paymentTypeLabel: string;
+
+        if (isVoiceOnly && breakdown.voiceTotals) {
+          // V.O.I.C.E-only: use voiceTotals rather than the generic contract table
+          const commitment =
+            request.voiceCommitment === 'twelve'
+              ? breakdown.voiceTotals.twelve
+              : breakdown.voiceTotals.six;
+          selectedTotal = commitment.totalCost;
+          monthlyPayment = commitment.monthlyPrice;
+          paymentTypeLabel =
+            request.voiceCommitment === 'twelve'
+              ? 'V.O.I.C.E 12-Month Commitment'
+              : 'V.O.I.C.E 6-Month Commitment';
+        } else if (paymentPref === 'oneOff') {
           selectedTotal = breakdown.totals.oneOff.final;
+          paymentTypeLabel = paymentTypeLabels.oneOff;
         } else if (paymentPref === 'twelve') {
           selectedTotal = breakdown.totals.twelve.totalOverTerm;
           monthlyPayment = breakdown.totals.twelve.monthly;
+          paymentTypeLabel = paymentTypeLabels.twelve;
+        } else if (paymentPref === 'six') {
+          selectedTotal = breakdown.totals.six.totalOverTerm;
+          monthlyPayment = breakdown.totals.six.monthly;
+          paymentTypeLabel = paymentTypeLabels.six;
         } else {
           selectedTotal = breakdown.totals.twentyFour.totalOverTerm;
           monthlyPayment = breakdown.totals.twentyFour.monthly;
+          paymentTypeLabel = paymentTypeLabels.twentyFour;
         }
 
         await fetch(`/api/quote/${quoteToken}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            currentStep: 6,
+            currentStep: totalSteps,
             selections: {
               projectType: request.projectType,
               scope: request.scope,
               addOns: request.addOns,
               paymentPreference: request.paymentPreference,
+              voiceCommitment: request.voiceCommitment,
             },
             contact: {
               name: contact.name,
               phone: contact.phone,
               company: contact.company,
               message: contact.message,
+              websiteUrl,
             },
             submit: true,
             pricing: {
               packageType,
-              paymentType: paymentTypeLabels[paymentPref],
+              paymentType: paymentTypeLabel,
               selectedTotal,
               monthlyPayment,
             },
@@ -520,13 +685,49 @@ export function QuoteCalculator() {
     );
   }
 
+  // Page-renderer helpers — driven by project type, not hardcoded step numbers
+  const currentStepDef = steps[currentStep - 1];
+
+  // Map a currentStep to the page ID (keeps the render switch readable for
+  // both 4-step visibility flow and 6-step build flow).
+  type PageId =
+    | 'welcome'
+    | 'projectType'
+    | 'scope'
+    | 'addOns'
+    | 'payment'
+    | 'commitment'
+    | 'summary';
+
+  const pageIdForStep: PageId = (() => {
+    if (currentStep === 1) return 'welcome';
+    if (currentStep === 2) return 'projectType';
+    if (isVoiceOnly) {
+      if (currentStep === 3) return 'commitment';
+      if (currentStep === 4) return 'summary';
+    } else {
+      if (currentStep === 3) return 'scope';
+      if (currentStep === 4) return 'addOns';
+      if (currentStep === 5) return 'payment';
+      if (currentStep === 6) return 'summary';
+    }
+    return 'welcome';
+  })();
+
   return (
     <div ref={quoteRef} className="max-w-4xl mx-auto scroll-mt-4">
       {/* Progress Header */}
       <div className="mb-8">
+        <div className="flex items-center justify-between mb-2 text-caption text-brand-graphite">
+          <span>
+            Step <span className="text-brand-navy font-bold">{currentStep}</span> of{' '}
+            <span className="text-brand-navy font-bold">{totalSteps}</span>
+          </span>
+          <span className="hidden sm:inline font-medium">{currentStepDef?.title}</span>
+        </div>
         <Progress value={progress} className="h-2 mb-6" />
         <div className="flex justify-between">
-          {STEPS.map((step) => (
+          {steps.map((step) => (
             <div
               key={step.id}
               className={cn(
@@ -538,10 +739,10 @@ export function QuoteCalculator() {
             >
               <div className="relative">
                 {step.id <= currentStep && (
-                  <div 
+                  <div
                     className="absolute inset-0 w-7 h-7 sm:w-10 sm:h-10 -m-0.5 sm:-m-1 rounded-full bg-brand-navy animate-scale-in"
-                    style={{ 
-                      animation: step.id === currentStep ? 'pulse 2s ease-in-out infinite' : 'none'
+                    style={{
+                      animation: step.id === currentStep ? 'pulse 2s ease-in-out infinite' : 'none',
                     }}
                   />
                 )}
@@ -556,11 +757,13 @@ export function QuoteCalculator() {
                   {step.id < currentStep ? <Check className="w-3 h-3 sm:w-4 sm:h-4" /> : step.id}
                 </div>
               </div>
-              <span className={cn(
-                "text-caption hidden sm:block mt-1 font-medium",
-                step.id <= currentStep && "text-brand-navy",
-                step.id > currentStep && "text-brand-graphite"
-              )}>
+              <span
+                className={cn(
+                  'text-caption hidden sm:block mt-1 font-medium',
+                  step.id <= currentStep && 'text-brand-navy',
+                  step.id > currentStep && 'text-brand-graphite'
+                )}
+              >
                 {step.title}
               </span>
             </div>
@@ -590,52 +793,18 @@ export function QuoteCalculator() {
       )}>
         <CardHeader className="bg-brand-navy text-white rounded-t-lg">
           <CardTitle className="text-h3 font-headline">
-            {STEPS[currentStep - 1].title}
+            {currentStepDef?.title}
           </CardTitle>
           <CardDescription className="text-white/70">
-            {STEPS[currentStep - 1].description}
+            {currentStepDef?.description}
           </CardDescription>
         </CardHeader>
         <CardContent className="p-6 md:p-8">
-          {browseMode && !quoteToken && currentStep > 1 && (
-            <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg flex flex-col sm:flex-row items-start sm:items-center gap-3">
-              <div className="flex-1">
-                <p className="text-sm font-medium text-amber-900">Enter your email to save your quote and unlock payment options</p>
-              </div>
-              <div className="flex items-center gap-2 w-full sm:w-auto">
-                <Input
-                  type="email"
-                  value={contact.email}
-                  onChange={(e) => setContact({ ...contact, email: e.target.value })}
-                  placeholder="your@email.co.uk"
-                  className="h-9 text-sm w-full sm:w-48"
-                />
-                <Button
-                  size="sm"
-                  disabled={!contact.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email)}
-                  onClick={async () => {
-                    const result = await startQuoteWithEmail(contact.email);
-                    if (result.success) {
-                      setBrowseMode(false);
-                    }
-                  }}
-                  className="bg-brand-gold text-brand-navy hover:bg-brand-navy hover:text-white shrink-0"
-                >
-                  Save
-                </Button>
-              </div>
-            </div>
+          {pageIdForStep === 'welcome' && (
+            <StepWelcome onStart={goNext} />
           )}
 
-          {currentStep === 1 && (
-            <StepGetStarted
-              email={contact.email}
-              onChange={(email) => setContact({ ...contact, email })}
-              onSkip={() => { setBrowseMode(true); setCurrentStep(2); scrollToTop(); }}
-            />
-          )}
-
-          {currentStep === 2 && (
+          {pageIdForStep === 'projectType' && (
             <StepProjectType
               value={request.projectType}
               onChange={(value) => {
@@ -660,7 +829,7 @@ export function QuoteCalculator() {
             />
           )}
 
-          {currentStep === 3 && (
+          {pageIdForStep === 'scope' && (
             <StepScope
               projectType={request.projectType!}
               scope={request.scope!}
@@ -668,7 +837,7 @@ export function QuoteCalculator() {
             />
           )}
 
-          {currentStep === 4 && (
+          {pageIdForStep === 'addOns' && (
             <StepAddOns
               projectType={request.projectType!}
               upgradeTargetType={request.upgradeTargetType}
@@ -677,7 +846,7 @@ export function QuoteCalculator() {
             />
           )}
 
-          {currentStep === 5 && (
+          {pageIdForStep === 'payment' && (
             <StepPayment
               value={request.paymentPreference!}
               onChange={(value) => updateRequest({ paymentPreference: value })}
@@ -686,7 +855,14 @@ export function QuoteCalculator() {
             />
           )}
 
-          {currentStep === 6 && (
+          {pageIdForStep === 'commitment' && (
+            <StepVoiceCommitment
+              value={request.voiceCommitment}
+              onChange={(value) => updateRequest({ voiceCommitment: value })}
+            />
+          )}
+
+          {pageIdForStep === 'summary' && (
             <StepSummary
               request={request}
               breakdown={breakdown}
@@ -699,9 +875,42 @@ export function QuoteCalculator() {
         {/* Navigation Footer */}
         <div className="px-6 pb-6 md:px-8 md:pb-8">
           <Separator className="mb-6" />
-          
-          {/* Live Price Display */}
-          {breakdown.oneOffSubtotal > 0 && currentStep > 1 && currentStep < 6 && (() => {
+
+          {/* Live Price Display — V.O.I.C.E-only variant */}
+          {isVoiceOnly && currentStep > 2 && currentStep < totalSteps && breakdown.voiceTotals && (() => {
+            const commitment =
+              request.voiceCommitment === 'twelve'
+                ? breakdown.voiceTotals.twelve
+                : breakdown.voiceTotals.six;
+            return (
+              <div
+                className="rounded-lg p-5 mb-6 bg-brand-navy"
+                role="status"
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                <div className="flex justify-between items-center">
+                  <span className="text-white font-medium text-body-lg">
+                    V.O.I.C.E™ Retainer:
+                  </span>
+                  <span className="text-h2 text-brand-gold font-headline">
+                    {formatCurrency(commitment.monthlyPrice)}/mo
+                  </span>
+                </div>
+                <div className="flex justify-between items-center text-body-sm text-white/70 mt-2 pt-2 border-t border-white/10">
+                  <span>Total over {commitment.months} months:</span>
+                  <span>{formatCurrency(commitment.totalCost)}</span>
+                </div>
+                <div className="flex justify-between items-center text-body-sm text-white/60 mt-1">
+                  <span>Setup fee:</span>
+                  <span>{formatCurrency(breakdown.voiceTotals.setupFee)}</span>
+                </div>
+              </div>
+            );
+          })()}
+
+          {/* Live Price Display — build flows */}
+          {!isVoiceOnly && breakdown.oneOffSubtotal > 0 && currentStep > 1 && currentStep < totalSteps && (() => {
             const plan = request.paymentPreference || 'twelve';
             const isPaymentStep = currentStep === 5;
             const showContract = isPaymentStep && plan !== 'oneOff';
@@ -795,122 +1004,97 @@ export function QuoteCalculator() {
             );
           })()}
 
-          {/* Navigation Buttons */}
-          <div className="flex justify-between gap-4">
-            <Button
-              variant="outline"
-              onClick={goBack}
-              disabled={currentStep === 1 || (currentStep === 2 && !!quoteToken && !browseMode)}
-              className="border-brand-graphite text-brand-navy hover:bg-brand-navy hover:text-white"
-            >
-              <ChevronLeft className="w-4 h-4 mr-2" />
-              Back
-            </Button>
+          {/* Navigation Buttons. Welcome page (step 1) has its own CTA inside
+              the StepWelcome component, so we hide the footer nav there. */}
+          {currentStep > 1 && (
+            <div className="flex justify-between gap-4">
+              <Button
+                variant="outline"
+                onClick={goBack}
+                disabled={currentStep === 1}
+                className="border-brand-graphite text-brand-navy hover:bg-brand-navy hover:text-white min-h-[44px]"
+              >
+                <ChevronLeft className="w-4 h-4 mr-2" />
+                Back
+              </Button>
 
-            {currentStep < STEPS.length ? (
-              <Button
-                onClick={goNext}
-                disabled={!canGoNext()}
-                className="bg-brand-gold text-brand-navy hover:bg-brand-navy hover:text-white shadow-button"
-              >
-                Next
-                <ChevronRight className="w-4 h-4 ml-2" />
-              </Button>
-            ) : (
-              <Button
-                onClick={handleSubmit}
-                disabled={!canGoNext() || isSubmitting}
-                className="bg-brand-gold text-brand-navy hover:bg-brand-navy hover:text-white shadow-button"
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Submitting...
-                  </>
-                ) : (
-                  'Submit Quote Request'
-                )}
-              </Button>
-            )}
-          </div>
+              {currentStep < totalSteps ? (
+                <Button
+                  onClick={goNext}
+                  disabled={!canGoNext()}
+                  className="bg-brand-gold text-brand-navy hover:bg-brand-navy hover:text-white shadow-button min-h-[44px]"
+                >
+                  Next
+                  <ChevronRight className="w-4 h-4 ml-2" />
+                </Button>
+              ) : (
+                <Button
+                  onClick={handleSubmit}
+                  disabled={!canGoNext() || isSubmitting}
+                  className="bg-brand-gold text-brand-navy hover:bg-brand-navy hover:text-white shadow-button min-h-[44px]"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Submitting...
+                    </>
+                  ) : (
+                    'Submit Quote Request'
+                  )}
+                </Button>
+              )}
+            </div>
+          )}
         </div>
       </Card>
+
+      {/* Email capture modal — hard-gate interstitial on Next from Project Type */}
+      <QuoteEmailCaptureModal
+        open={emailModalOpen}
+        onSubmit={handleEmailModalSubmit}
+      />
     </div>
   );
 }
 
 // ============================================
-// STEP 1: GET STARTED (EMAIL)
+// STEP 1: WELCOME (frictionless click-through, no email form)
 // ============================================
+//
+// The email field is now captured in the interstitial modal that fires on
+// Next from Project Type (step 2). This page is pure intent-signal — one CTA.
 
-interface StepGetStartedProps {
-  email: string;
-  onChange: (email: string) => void;
-  onSkip: () => void;
+interface StepWelcomeProps {
+  onStart: () => void;
 }
 
-function StepGetStarted({ email, onChange, onSkip }: StepGetStartedProps) {
-  const isValidEmail = email.trim() !== '' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const showError = email.trim() !== '' && !isValidEmail;
-
+function StepWelcome({ onStart }: StepWelcomeProps) {
   return (
-    <div className="space-y-6 max-w-md mx-auto py-8">
-      <div className="text-center mb-8">
-        <h3 className="text-h3 text-brand-navy font-headline mb-2">
+    <div className="space-y-8 max-w-xl mx-auto py-8 text-center">
+      <div>
+        <h3 className="text-h2 text-brand-navy font-headline mb-3">
           Build Your Instant Quote
         </h3>
-        <p className="text-brand-graphite" id="email-step-description">
-          Enter your email to get started. We&apos;ll save your quote so you can return to it anytime.
+        <p className="text-body-lg text-brand-graphite">
+          Answer a few quick questions about your business and we&apos;ll show
+          you exactly what it costs. Takes about 2 minutes.
         </p>
       </div>
-      
+
       <div>
-        <Label htmlFor="email" className="text-brand-navy font-bold flex items-center gap-1">
-          Email Address
-          <span className="text-red-500" aria-hidden="true">*</span>
-          <span className="sr-only">(required)</span>
-        </Label>
-        <Input
-          id="email"
-          type="email"
-          value={email}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder="john@company.co.uk"
-          className="mt-2 text-lg py-6"
+        <Button
+          onClick={onStart}
+          className="bg-brand-gold text-brand-navy hover:bg-brand-navy hover:text-white shadow-button text-lg px-10 py-7 min-h-[44px]"
           autoFocus
-          aria-required="true"
-          aria-invalid={showError ? true : undefined}
-          aria-describedby="email-hint email-error"
-        />
-        <p id="email-hint" className="text-body-sm text-brand-graphite mt-2">
-          We&apos;ll send your quote to this address. No spam, ever.
-        </p>
-        {showError && (
-          <p id="email-error" role="alert" className="text-body-sm text-red-500 mt-1">
-            Please enter a valid email address.
-          </p>
-        )}
-      </div>
-
-      <div className="bg-brand-gold/10 rounded-lg p-4 border border-brand-gold/20">
-        <div className="flex items-start gap-3">
-          <Check className="w-5 h-5 text-brand-gold shrink-0 mt-0.5" />
-          <div className="text-body-sm text-brand-navy">
-            <strong>What you&apos;ll get:</strong> A detailed quote with transparent pricing, 
-            UK market comparisons, and flexible payment options.
-          </div>
-        </div>
-      </div>
-
-      <div className="text-center pt-2">
-        <button
-          type="button"
-          onClick={onSkip}
-          className="text-body-sm text-brand-graphite/60 hover:text-brand-graphite underline-offset-2 hover:underline transition-colors"
         >
-          Skip for now and explore pricing
-        </button>
+          Let&apos;s Go
+          <ArrowRight className="w-5 h-5 ml-2" />
+        </Button>
       </div>
+
+      <p className="text-caption text-brand-graphite/70">
+        No sales calls. No hidden fees. Just an honest price.
+      </p>
     </div>
   );
 }
@@ -1798,10 +1982,10 @@ function StepAddOns({ projectType, upgradeTargetType, addOns, onChange }: StepAd
                     {formatCurrency(PRICING_CONFIG.addOns.voice)}/mo
                   </span>
                   <span className="text-body-sm text-brand-graphite line-through">
-                    UK avg: {formatCurrency(750)}/mo
+                    UK avg: {formatCurrency(VOICE_SPEC.ukMarketAverage)}/mo
                   </span>
                   <span className="text-body-sm text-green-600">
-                    Save {formatCurrency(750 - PRICING_CONFIG.addOns.voice)}/mo
+                    Save {formatCurrency(VOICE_SPEC.ukMarketAverage - PRICING_CONFIG.addOns.voice)}/mo
                   </span>
                 </div>
               </div>
@@ -2054,6 +2238,27 @@ function StepPayment({ value, onChange, breakdown, isSSR }: StepPaymentProps) {
 }
 
 // ============================================
+// STEP 3 (V.O.I.C.E-ONLY): COMMITMENT PICKER
+// ============================================
+//
+// Swaps the generic 4-option contract picker for the 2-option V.O.I.C.E
+// commitment picker + 80 Score Guarantee callout. Used when projectType === 'visibility'.
+
+interface StepVoiceCommitmentProps {
+  value?: VoiceCommitment;
+  onChange: (value: VoiceCommitment) => void;
+}
+
+function StepVoiceCommitment({ value, onChange }: StepVoiceCommitmentProps) {
+  return (
+    <div className="space-y-8">
+      <VoiceCommitmentPicker value={value} onChange={onChange} />
+      <VoiceGuaranteeCallout />
+    </div>
+  );
+}
+
+// ============================================
 // STEP 6: SUMMARY (UPDATED)
 // ============================================
 
@@ -2067,8 +2272,9 @@ interface StepSummaryProps {
 function StepSummary({ request, breakdown, contact, onContactChange }: StepSummaryProps) {
   const paymentOption = request.paymentPreference || 'twelve';
   const isSSR = request.projectType === 'ssr';
-  
-  // Helper to get the selected totals based on payment option
+  const isVoiceOnly = request.projectType === 'visibility';
+
+  // Helper to get the selected totals based on payment option (build flows only)
   const getSelectedTotals = () => {
     switch (paymentOption) {
       case 'oneOff':
@@ -2083,23 +2289,32 @@ function StepSummary({ request, breakdown, contact, onContactChange }: StepSumma
         return { type: 'contract' as const, ...breakdown.totals.thirtySix, months: 36 };
     }
   };
-  
+
   const selectedTotals = getSelectedTotals();
+
+  // V.O.I.C.E-only selected commitment data (read from voiceTotals)
+  const voiceCommitmentData =
+    isVoiceOnly && breakdown.voiceTotals
+      ? request.voiceCommitment === 'twelve'
+        ? breakdown.voiceTotals.twelve
+        : breakdown.voiceTotals.six
+      : null;
 
   return (
     <div className="space-y-8">
       {/* Project Type Header */}
       <div className={cn(
         "rounded-lg p-4 flex items-center gap-3",
-        isSSR ? "bg-brand-gold/10 border border-brand-gold/30" : "bg-brand-navy/5"
+        isSSR || isVoiceOnly ? "bg-brand-gold/10 border border-brand-gold/30" : "bg-brand-navy/5"
       )}>
-        {isSSR ? <Rocket className="w-5 h-5 text-brand-gold" /> : <Globe className="w-5 h-5 text-brand-navy" />}
+        {isSSR ? <Rocket className="w-5 h-5 text-brand-gold" /> : isVoiceOnly ? <Sparkles className="w-5 h-5 text-brand-gold" /> : <Globe className="w-5 h-5 text-brand-navy" />}
         <div>
           <span className="font-bold text-brand-navy">
             {PRICING_LABELS.projectTypes[request.projectType!]}
           </span>
           {isSSR && <span className="ml-2 text-xs text-brand-gold">(Next.js)</span>}
           {request.projectType === 'clientManaged' && <span className="ml-2 text-xs text-brand-graphite">(Wix Studio)</span>}
+          {isVoiceOnly && <span className="ml-2 text-xs text-brand-gold">(Monthly retainer)</span>}
         </div>
       </div>
 
@@ -2123,105 +2338,192 @@ function StepSummary({ request, breakdown, contact, onContactChange }: StepSumma
         </div>
       )}
 
-      {/* Quote Breakdown */}
-      <div>
-        <h3 className="text-h4 text-brand-navy mb-4">Your Quote Breakdown</h3>
-        
-        {/* One-off items */}
-        {breakdown.oneOffItems.length > 0 && (
-          <div className="mb-6">
-            <h4 className="text-body-sm font-bold text-brand-graphite uppercase mb-2">
-              {isSSR ? 'Project Costs' : 'One-off Costs'}
-            </h4>
-            <div className="space-y-2">
-              {breakdown.oneOffItems.map((item) => {
-                const marketAvg = getMarketAverage(item.id, item.quantity);
-                return (
-                  <div key={item.id} className="flex justify-between items-center py-2 border-b border-brand-graphite/10">
-                    <div>
-                      <span className="text-brand-navy">{item.label}</span>
-                      {item.quantity > 1 && (
-                        <span className="text-brand-graphite text-body-sm ml-2">
-                          x{item.quantity}
-                        </span>
-                      )}
-                      {item.description && (
-                        <div className="text-body-sm text-brand-graphite">{item.description}</div>
-                      )}
-                      {marketAvg && (
-                        <div className="text-body-sm">
-                          <span className="text-brand-graphite line-through">
-                            UK avg: {formatCurrency(marketAvg)}
-                          </span>
-                          <span className="text-green-600 ml-2">
-                            Save {formatCurrency(marketAvg - item.total)}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                    <span className="font-bold text-brand-navy">{formatCurrency(item.total)}</span>
+      {/* ============================================
+          V.O.I.C.E-only Summary (no Pay-in-Full block, no £0 build line)
+          ============================================ */}
+      {isVoiceOnly && voiceCommitmentData && breakdown.voiceTotals ? (
+        <div className="space-y-6">
+          <div>
+            <h3 className="text-h4 text-brand-navy mb-4">Your Quote Breakdown</h3>
+            <div className="bg-white border-2 border-brand-navy/10 rounded-xl p-5 space-y-3">
+              <div className="flex justify-between items-start pb-3 border-b border-brand-graphite/10">
+                <div>
+                  <div className="font-bold text-brand-navy">V.O.I.C.E™ AI Visibility</div>
+                  <div className="text-body-sm text-brand-graphite mt-1">
+                    Monthly retainer —{' '}
+                    {request.voiceCommitment === 'twelve'
+                      ? `${VOICE_SPEC.commitmentOptions.twelve.label}`
+                      : `${VOICE_SPEC.commitmentOptions.six.label}`}
                   </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
+                </div>
+                <div className="text-right">
+                  <span className="font-bold text-brand-navy text-lg">
+                    {formatCurrency(voiceCommitmentData.monthlyPrice)}
+                  </span>
+                  <span className="text-body-sm text-brand-graphite">/mo</span>
+                </div>
+              </div>
 
-        {/* Monthly items */}
-        {breakdown.monthlyItems.length > 0 && (
-          <div className="mb-6">
-            <h4 className="text-body-sm font-bold text-brand-graphite uppercase mb-2">
-              Monthly Services
-            </h4>
-            <div className="space-y-2">
-              {breakdown.monthlyItems.map((item) => {
-                const marketAvg = getMarketAverage(item.id);
-                return (
-                  <div key={item.id} className="flex justify-between items-center py-2 border-b border-brand-graphite/10">
-                    <div>
-                      <span className="text-brand-navy">{item.label}</span>
-                      {marketAvg && (
-                        <div className="text-body-sm">
-                          <span className="text-brand-graphite line-through">
-                            UK avg: {formatCurrency(marketAvg)}/mo
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                    <span className="font-bold text-brand-navy">{formatCurrency(item.total)}/mo</span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
+              <div className="flex justify-between text-body-sm">
+                <span className="text-brand-navy">Setup fee</span>
+                <span className="font-medium text-brand-navy">
+                  {formatCurrency(breakdown.voiceTotals.setupFee)}
+                </span>
+              </div>
+              <div className="flex justify-between text-body-sm">
+                <span className="text-brand-navy">Minimum commitment</span>
+                <span className="font-medium text-brand-navy">
+                  {voiceCommitmentData.months} months
+                </span>
+              </div>
+              <div className="flex justify-between text-body-sm">
+                <span className="text-brand-navy">Total commitment cost</span>
+                <span className="font-bold text-brand-navy">
+                  {formatCurrency(voiceCommitmentData.totalCost)}
+                </span>
+              </div>
 
-        {/* Total */}
-        <div className={cn(
-          "rounded-lg p-6",
-          isSSR ? "bg-gradient-to-r from-brand-navy to-brand-graphite" : "bg-brand-navy"
-        )}>
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-white/80">Your {PRICING_LABELS.payments[paymentOption]}:</span>
-            <span className="text-h2 text-brand-gold font-headline">
-              {selectedTotals.type === 'oneOff'
-                ? formatCurrency(selectedTotals.final)
-                : `${formatCurrency(selectedTotals.monthly)}/mo`}
-            </span>
+              <div className="pt-3 mt-2 border-t border-brand-graphite/10 space-y-1">
+                <div className="flex justify-between text-body-sm">
+                  <span className="text-brand-graphite">UK market average</span>
+                  <span className="text-brand-graphite line-through">
+                    {formatCurrency(breakdown.voiceTotals.ukMarketAverage)}/mo
+                  </span>
+                </div>
+                <div className="flex justify-between text-body-sm">
+                  <span className="text-green-700 font-medium">You save vs UK avg</span>
+                  <span className="text-green-700 font-bold">
+                    {formatCurrency(
+                      breakdown.voiceTotals.ukMarketAverage - voiceCommitmentData.monthlyPrice
+                    )}
+                    /mo
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
-          {selectedTotals.type === 'oneOff' && breakdown.monthlySubtotal > 0 && (
-            <div className="text-white/60 text-body-sm">
-              + {formatCurrency(breakdown.monthlySubtotal)}/mo for ongoing services
+
+          {/* Monthly headline */}
+          <div className="rounded-lg p-6 bg-brand-navy">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-white/80">Your monthly V.O.I.C.E™ retainer:</span>
+              <span className="text-h2 text-brand-gold font-headline">
+                {formatCurrency(voiceCommitmentData.monthlyPrice)}/mo
+              </span>
             </div>
-          )}
-          {selectedTotals.type === 'contract' && (
             <div className="text-white/60 text-body-sm">
-              Total over {selectedTotals.months} months: {formatCurrency(selectedTotals.totalOverTerm)} • 
-              Then {formatCurrency(selectedTotals.ongoingAfter)}/mo
+              Total over {voiceCommitmentData.months} months:{' '}
+              {formatCurrency(voiceCommitmentData.totalCost)} • No setup fee •{' '}
+              {VOICE_SPEC.noticePeriodDays}-day notice after minimum term
             </div>
-          )}
+          </div>
+
+          {/* 80 Score Guarantee — prominent on V.O.I.C.E-only summary */}
+          <VoiceGuaranteeCallout variant="highlight" />
         </div>
-      </div>
+      ) : (
+        /* ============================================
+           Build flow Summary (existing behaviour)
+           ============================================ */
+        <div>
+          <h3 className="text-h4 text-brand-navy mb-4">Your Quote Breakdown</h3>
+
+          {/* One-off items */}
+          {breakdown.oneOffItems.length > 0 && (
+            <div className="mb-6">
+              <h4 className="text-body-sm font-bold text-brand-graphite uppercase mb-2">
+                {isSSR ? 'Project Costs' : 'One-off Costs'}
+              </h4>
+              <div className="space-y-2">
+                {breakdown.oneOffItems.map((item) => {
+                  const marketAvg = getMarketAverage(item.id, item.quantity);
+                  return (
+                    <div key={item.id} className="flex justify-between items-center py-2 border-b border-brand-graphite/10">
+                      <div>
+                        <span className="text-brand-navy">{item.label}</span>
+                        {item.quantity > 1 && (
+                          <span className="text-brand-graphite text-body-sm ml-2">
+                            x{item.quantity}
+                          </span>
+                        )}
+                        {item.description && (
+                          <div className="text-body-sm text-brand-graphite">{item.description}</div>
+                        )}
+                        {marketAvg && (
+                          <div className="text-body-sm">
+                            <span className="text-brand-graphite line-through">
+                              UK avg: {formatCurrency(marketAvg)}
+                            </span>
+                            <span className="text-green-600 ml-2">
+                              Save {formatCurrency(marketAvg - item.total)}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                      <span className="font-bold text-brand-navy">{formatCurrency(item.total)}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Monthly items */}
+          {breakdown.monthlyItems.length > 0 && (
+            <div className="mb-6">
+              <h4 className="text-body-sm font-bold text-brand-graphite uppercase mb-2">
+                Monthly Services
+              </h4>
+              <div className="space-y-2">
+                {breakdown.monthlyItems.map((item) => {
+                  const marketAvg = getMarketAverage(item.id);
+                  return (
+                    <div key={item.id} className="flex justify-between items-center py-2 border-b border-brand-graphite/10">
+                      <div>
+                        <span className="text-brand-navy">{item.label}</span>
+                        {marketAvg && (
+                          <div className="text-body-sm">
+                            <span className="text-brand-graphite line-through">
+                              UK avg: {formatCurrency(marketAvg)}/mo
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                      <span className="font-bold text-brand-navy">{formatCurrency(item.total)}/mo</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Total */}
+          <div className={cn(
+            "rounded-lg p-6",
+            isSSR ? "bg-gradient-to-r from-brand-navy to-brand-graphite" : "bg-brand-navy"
+          )}>
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-white/80">Your {PRICING_LABELS.payments[paymentOption]}:</span>
+              <span className="text-h2 text-brand-gold font-headline">
+                {selectedTotals!.type === 'oneOff'
+                  ? formatCurrency(selectedTotals!.final)
+                  : `${formatCurrency(selectedTotals!.monthly)}/mo`}
+              </span>
+            </div>
+            {selectedTotals!.type === 'oneOff' && breakdown.monthlySubtotal > 0 && (
+              <div className="text-white/60 text-body-sm">
+                + {formatCurrency(breakdown.monthlySubtotal)}/mo for ongoing services
+              </div>
+            )}
+            {selectedTotals!.type === 'contract' && (
+              <div className="text-white/60 text-body-sm">
+                Total over {selectedTotals!.months} months: {formatCurrency(selectedTotals!.totalOverTerm)} •
+                Then {formatCurrency(selectedTotals!.ongoingAfter)}/mo
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       <Separator />
 

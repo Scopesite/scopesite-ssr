@@ -446,6 +446,103 @@ export const VOICE_FEATURES = [
 ];
 
 /**
+ * V.O.I.C.E™ STANDALONE RETAINER SPEC
+ *
+ * Used specifically for the standalone V.O.I.C.E flow (projectType === 'visibility')
+ * and the marketing copy on the /voice page. Additive to PRICING_CONFIG.addOns.voice,
+ * which remains the source of truth for the SSR-bundle and Wix-add-on paths.
+ *
+ * Source of truth for:
+ *   - /pricing V.O.I.C.E-only quote wizard
+ *   - /voice page FAQ copy (visible + JSON-LD)
+ *   - /pricing JSON-LD schema offers (generatePricingSchema)
+ */
+export const VOICE_SPEC = {
+  monthlyPrice: 562,
+  setupFee: 0,
+  ukMarketAverage: 750,
+
+  commitmentOptions: {
+    six: {
+      months: 6,
+      monthlyPrice: 562,
+      label: '6-Month Commitment',
+      badge: 'RECOMMENDED',
+      description: 'Minimum commitment, cancel anytime after that.',
+      totalCost: 562 * 6, // £3,372 over 6 months
+    },
+    twelve: {
+      months: 12,
+      monthlyPrice: 500,
+      label: '12-Month Commitment',
+      badge: 'BEST VALUE',
+      description: 'Lock in a reduced rate for the year.',
+      totalCost: 500 * 12, // £6,000 over 12 months
+      savingsVsSixMonth: (562 - 500) * 12, // £744 saved over 12 months
+    },
+  },
+
+  minimumCommitmentMonths: 6,
+  noticePeriodDays: 30,
+
+  guarantee: {
+    enabled: true,
+    name: '80 Score Guarantee',
+    activateAfterMonths: 3,
+    targetScore: 80,
+    sustainedDays: 30,
+    summary:
+      'After 3 months on the retainer, if your AI Visibility Score is below 80 and you have followed our direction, you pay nothing more until your score hits 80 and holds there for 30 consecutive days.',
+    conditions: [
+      'Client must be 3+ months into the retainer',
+      'Client must have followed ScopeSite direction and recommendations',
+      'Score measured on ScopeSite AI Visibility Score methodology',
+      'Pause on billing continues until score hits 80+ and holds for 30 consecutive days',
+    ],
+  },
+
+  included: {
+    monthlyDeliverables: [
+      'Monthly AI visibility audit across ChatGPT, Claude, Perplexity, Gemini, and Google AI Overviews',
+      'Tracked AI Visibility Score with month-on-month progress reporting',
+      'Competitor AI visibility monitoring (up to 3 named competitors)',
+      'Schema markup updates and JSON-LD optimisation as your content grows',
+      'AEO content recommendations based on what your audience is asking AI',
+      'GEO ongoing refinements',
+      'Monthly written report with findings, wins, and next moves',
+      'One monthly 30-minute review call',
+    ],
+    technicalOptimisation: [
+      'robots.txt and llms.txt maintenance',
+      'Speakable schema for voice search',
+      '.well-known/ai-context.json management',
+      'Internal linking structure monitoring',
+      'FAQ schema optimisation',
+      'Author, Organization, and Person schema maintenance',
+    ],
+    contentSupport: [
+      'Content gap identification against competitors',
+      'Quarterly review of target AI-search questions',
+      'Alerts if AI visibility drops',
+    ],
+    extras: [
+      'Direct access to Dan during UK business hours for urgent visibility queries',
+      'Shareable reports you can use in your own marketing',
+      'Priority access to new V.O.I.C.E features',
+      'No bolt-on fees for schema updates or technical changes within scope',
+    ],
+  },
+
+  notIncluded: [
+    'Content writing or copywriting (separate service)',
+    'New page builds (charged as standard dev work)',
+    'Video production, image creation, or branding',
+    'Paid advertising management',
+    'Social media management',
+  ],
+} as const;
+
+/**
  * WEB APP FEATURES
  */
 export const WEB_APP_FEATURES = {

@@ -252,6 +252,8 @@ export interface QuoteEmailData {
   monthlyPayment?: number | null;
   quoteUrl: string;
   locale?: 'uk' | 'us';
+  /** Optional prospect website URL (captured in the email capture modal). */
+  websiteUrl?: string;
 }
 
 function formatCurrency(amount: number, locale?: 'uk' | 'us'): string {
@@ -312,8 +314,9 @@ export async function sendQuoteAdminNotification(quote: QuoteEmailData): Promise
             <p style="margin: 4px 0; color: #333;"><strong>Email:</strong> <a href="mailto:${quote.email}" style="color: #ECB615;">${quote.email}</a></p>
             ${quote.company ? `<p style="margin: 4px 0; color: #333;"><strong>Company:</strong> ${quote.company}</p>` : ''}
             ${quote.phone ? `<p style="margin: 4px 0; color: #333;"><strong>Phone:</strong> <a href="tel:${quote.phone}" style="color: #ECB615;">${quote.phone}</a></p>` : ''}
+            ${quote.websiteUrl ? `<p style="margin: 8px 0 4px 0; padding: 8px; background-color: #ECB615; border-radius: 4px; color: #0A1B36;"><strong>🎯 Free Pro Scan requested for:</strong> <a href="${quote.websiteUrl.startsWith('http') ? quote.websiteUrl : `https://${quote.websiteUrl}`}" style="color: #0A1B36; text-decoration: underline;" target="_blank" rel="noopener">${quote.websiteUrl}</a></p>` : ''}
           </div>
-          
+
           <!-- Project Details -->
           <div style="margin-bottom: 24px; padding: 16px; background-color: #f8f9fa; border-radius: 8px;">
             <h2 style="color: #0A1B36; margin: 0 0 12px 0; font-size: 18px;">Project Details</h2>
@@ -560,6 +563,211 @@ export async function sendQuoteClientConfirmation(quote: QuoteEmailData): Promis
     return true;
   } catch (error) {
     console.error('Failed to send quote client confirmation:', error);
+    return false;
+  }
+}
+
+// ============================================
+// WARM-LEAD EMAILS (fire on INITIAL quote creation)
+// ============================================
+//
+// These fire when a prospect submits the email capture modal (after picking
+// project type on page 2). They give Dan eyes on warm leads even if the
+// prospect bails before reaching the summary page. They ONLY fire once per
+// quote row — callers must check `createQuote(...).isNew === true` before
+// calling these, which is the server-side dedupe guard.
+
+export interface QuoteStartedData {
+  quoteId: string;
+  email: string;
+  websiteUrl?: string;
+  projectType?: string;
+  quoteUrl: string;
+}
+
+/**
+ * Send warm-lead notification to Dan when a prospect submits the email
+ * capture modal. Fires on fresh quote creation only (not on email reuse).
+ */
+export async function sendQuoteStartedAdminNotification(
+  data: QuoteStartedData
+): Promise<boolean> {
+  const projectTypeLabel = data.projectType || 'Not yet specified';
+  const subject = `New warm lead: ${data.email} — ${projectTypeLabel}`;
+
+  const normalizedUrl = data.websiteUrl
+    ? data.websiteUrl.startsWith('http')
+      ? data.websiteUrl
+      : `https://${data.websiteUrl}`
+    : null;
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f5f5f5; margin: 0; padding: 20px;">
+      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+
+        <!-- Header -->
+        <div style="background-color: #0A1B36; padding: 24px; text-align: center;">
+          <h1 style="color: #ECB615; margin: 0; font-size: 22px; font-weight: bold;">NEW WARM LEAD</h1>
+          <p style="color: #ffffff; margin: 8px 0 0 0; font-size: 14px; opacity: 0.8;">Quote started · ${data.quoteId}</p>
+        </div>
+
+        <!-- Content -->
+        <div style="padding: 24px;">
+
+          <p style="color: #333; font-size: 15px; line-height: 1.6; margin: 0 0 16px 0;">
+            Someone has just started building a quote. They may or may not finish —
+            reach out if it's worth a nudge.
+          </p>
+
+          <!-- Lead Details -->
+          <div style="margin-bottom: 24px; padding: 16px; background-color: #f8f9fa; border-radius: 8px;">
+            <p style="margin: 4px 0; color: #333;"><strong>Email:</strong> <a href="mailto:${data.email}" style="color: #ECB615;">${data.email}</a></p>
+            <p style="margin: 4px 0; color: #333;"><strong>Project Type:</strong> ${projectTypeLabel}</p>
+            ${normalizedUrl ? `<p style="margin: 8px 0 4px 0; padding: 8px; background-color: #ECB615; border-radius: 4px; color: #0A1B36;"><strong>🎯 Free Pro Scan requested for:</strong> <a href="${normalizedUrl}" style="color: #0A1B36; text-decoration: underline;" target="_blank" rel="noopener">${data.websiteUrl}</a></p>` : '<p style="margin: 4px 0; color: #666; font-style: italic;">No website URL provided — no Pro Scan to run.</p>'}
+          </div>
+
+          ${normalizedUrl ? `
+          <div style="margin-bottom: 24px; padding: 12px 16px; background-color: #FFF9E6; border-left: 4px solid #ECB615; border-radius: 4px;">
+            <p style="margin: 0; color: #333; font-size: 14px; line-height: 1.5;">
+              <strong>Action:</strong> Run a Pro Scan on <a href="https://voice.scopesite.co.uk/" style="color: #ECB615;" target="_blank" rel="noopener">voice.scopesite.co.uk</a>
+              and email the results to the prospect within 24 hours.
+            </p>
+          </div>
+          ` : ''}
+
+          <!-- Action Buttons -->
+          <div style="text-align: center; margin-top: 24px;">
+            <a href="${data.quoteUrl}"
+               style="display: inline-block; padding: 12px 24px; background-color: #0A1B36; color: #ffffff; text-decoration: none; border-radius: 8px; font-weight: bold; margin-right: 8px;">
+              Resume Quote
+            </a>
+            <a href="mailto:${data.email}?subject=Your ScopeSite quote"
+               style="display: inline-block; padding: 12px 24px; background-color: #ECB615; color: #0A1B36; text-decoration: none; border-radius: 8px; font-weight: bold;">
+              Email Them
+            </a>
+          </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div style="background-color: #0A1B36; padding: 16px; text-align: center;">
+          <p style="margin: 0; color: #ffffff; font-size: 12px; opacity: 0.8;">
+            Warm lead captured via scopesite.co.uk/pricing email gate
+          </p>
+        </div>
+
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+    sendSmtpEmail.subject = subject;
+    sendSmtpEmail.htmlContent = htmlContent;
+    sendSmtpEmail.sender = { name: FROM_NAME, email: FROM_EMAIL };
+    sendSmtpEmail.to = [{ email: ADMIN_EMAIL, name: 'Dan Cartwright' }];
+    sendSmtpEmail.replyTo = { email: data.email, name: data.email };
+
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    console.log(`[Email] Warm-lead admin notification sent for quote ${data.quoteId}`);
+    return true;
+  } catch (error) {
+    console.error('Failed to send warm-lead admin notification:', error);
+    return false;
+  }
+}
+
+/**
+ * Send "your quote is being built" confirmation to the prospect when they
+ * submit the email capture modal. Promises Pro Scan results within 24 hours
+ * if a website URL was provided.
+ */
+export async function sendQuoteStartedConfirmation(
+  data: QuoteStartedData
+): Promise<boolean> {
+  const subject = `Your ScopeSite quote is being built`;
+
+  const scanLine = data.websiteUrl
+    ? `We'll also run a free Pro Scan on <strong>${data.websiteUrl}</strong> and email you the AI visibility results within 24 hours.`
+    : `If you want a free Pro Scan of your website, reply to this email with your URL — we'll run one and send the results across.`;
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f5f5f5; margin: 0; padding: 20px;">
+      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+
+        <div style="background-color: #0A1B36; padding: 32px; text-align: center;">
+          <h1 style="color: #ECB615; margin: 0; font-size: 26px; font-weight: bold;">Your quote is being built</h1>
+        </div>
+
+        <div style="padding: 32px;">
+          <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">
+            Hi there,
+          </p>
+
+          <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0;">
+            Thanks for starting a quote with ScopeSite. Once you've finished building it,
+            we'll email you a PDF copy so you can come back to it any time.
+          </p>
+
+          <div style="margin: 24px 0; padding: 16px; background-color: #FFF9E6; border-left: 4px solid #ECB615; border-radius: 4px;">
+            <p style="color: #333; font-size: 15px; line-height: 1.6; margin: 0;">
+              ${scanLine}
+            </p>
+          </div>
+
+          <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 16px 0;">
+            Your quote is saved — you can resume it any time from this link:
+          </p>
+
+          <div style="text-align: center; margin: 24px 0;">
+            <a href="${data.quoteUrl}"
+               style="display: inline-block; padding: 14px 32px; background-color: #ECB615; color: #0A1B36; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px;">
+              Resume My Quote
+            </a>
+          </div>
+
+          <p style="color: #666; font-size: 14px; line-height: 1.6; margin: 24px 0 0 0;">
+            Any questions, just reply to this email. — Dan Cartwright, ScopeSite Digital Studios
+          </p>
+        </div>
+
+        <div style="background-color: #0A1B36; padding: 16px; text-align: center;">
+          <p style="margin: 0; color: #ffffff; font-size: 12px; opacity: 0.8;">
+            No spam. Just your quote and your scan.
+          </p>
+        </div>
+
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+    sendSmtpEmail.subject = subject;
+    sendSmtpEmail.htmlContent = htmlContent;
+    sendSmtpEmail.sender = { name: FROM_NAME, email: FROM_EMAIL };
+    sendSmtpEmail.to = [{ email: data.email }];
+    sendSmtpEmail.replyTo = { email: ADMIN_EMAIL, name: 'Dan Cartwright' };
+
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    console.log(`[Email] Warm-lead confirmation sent for quote ${data.quoteId} to ${data.email}`);
+    return true;
+  } catch (error) {
+    console.error('Failed to send warm-lead confirmation:', error);
     return false;
   }
 }

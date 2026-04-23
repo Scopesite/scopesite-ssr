@@ -136,6 +136,12 @@ export interface PricingConfig {
 export type ProjectType = 'clientManaged' | 'ssr' | 'upgrade' | 'visibility' | 'webapp';
 export type WebsiteType = 'clientManaged' | 'ssr';
 export type PaymentPreference = 'oneOff' | 'six' | 'twelve' | 'twentyFour' | 'thirtySix';
+/**
+ * V.O.I.C.E-only commitment picker values.
+ * Used when projectType === 'visibility'. Sits alongside PaymentPreference — build
+ * flows continue to use PaymentPreference (oneOff/six/twelve/twentyFour/thirtySix).
+ */
+export type VoiceCommitment = 'six' | 'twelve';
 export type EcommerceSize = 'none' | 'small' | 'medium' | 'large';
 export type HeadlessEcommerceType = 'none' | 'shopify' | 'snipcart' | 'custom';
 export type WebAppSize = 'none' | 'simple' | 'standard' | 'complex';
@@ -185,9 +191,12 @@ export interface QuoteRequest {
     ssrScalability: boolean;
   };
   
-  /** Step 4: Payment */
+  /** Step 4: Payment (build flows only) */
   paymentPreference: PaymentPreference;
-  
+
+  /** V.O.I.C.E-only commitment selection (when projectType === 'visibility') */
+  voiceCommitment?: VoiceCommitment;
+
   /** Contact Info (captured at submission) */
   contact?: ContactInfo;
 }
@@ -255,6 +264,22 @@ export interface QuoteBreakdown {
       totalOverTerm: number;
       ongoingAfter: number;
     };
+  };
+
+  /**
+   * V.O.I.C.E-only totals (present when projectType === 'visibility').
+   * Read from VOICE_SPEC rather than the generic contracts table.
+   */
+  voiceTotals?: {
+    six: { monthlyPrice: number; months: 6; totalCost: number };
+    twelve: {
+      monthlyPrice: number;
+      months: 12;
+      totalCost: number;
+      savingsVsSixMonth: number;
+    };
+    setupFee: number;
+    ukMarketAverage: number;
   };
 }
 
