@@ -1,20 +1,35 @@
 /**
- * Territory Command - map pin builder.
+ * Territory Command - map data builder.
  *
- * Produces MapDataPoint[] by joining static pin metadata from
- * pin-coordinates.ts with live aggregate state from the seats table.
+ * Two producers:
+ *   - buildAreaAvailability(): the /territory page consumer. Returns a
+ *     per-postcode-area status map driving the region-zoom polygon fill
+ *     colours.
+ *   - buildMapPoints(): LEGACY pin-based builder, retained for the
+ *     /api/territory/map-data endpoint. The /territory map no longer
+ *     renders pins.
  *
- * Used by both:
- *   - the /territory server component (direct call, renders into first HTML)
- *   - GET /api/territory/map-data (HTTP route for programmatic access)
+ * LEGACY: pilot terminology retained in code (PILOT_PINS, AREA_PINS),
+ * not user-facing.
  */
 
 import 'server-only';
+// LEGACY: PILOT_PINS/AREA_PINS feed the map-data API route only; the
+// /territory map stopped rendering pins in the UX rework.
 import { PILOT_PINS } from './pin-coordinates';
 import { AREA_PINS } from './area-pins';
-import { getMapData } from './queries';
-import type { MapDataPoint } from './types';
+import { getAreaAvailability, getMapData } from './queries';
+import type { AreaStatus, MapDataPoint } from './types';
 
+/** Per-area availability keyed by postcode area. */
+export async function buildAreaAvailability(): Promise<Record<string, AreaStatus>> {
+  const rows = await getAreaAvailability();
+  const out: Record<string, AreaStatus> = {};
+  for (const r of rows) out[r.area] = r;
+  return out;
+}
+
+/** LEGACY pin-based map data. Retained for /api/territory/map-data. */
 export async function buildMapPoints(): Promise<MapDataPoint[]> {
   const dbRows = await getMapData();
   const byDistrict = new Map(dbRows.map((r) => [r.postcodeDistrict, r]));

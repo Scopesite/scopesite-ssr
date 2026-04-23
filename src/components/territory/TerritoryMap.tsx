@@ -1,31 +1,34 @@
 'use client';
 
+/**
+ * Territory Command - interactive UK map.
+ *
+ * Two-level interaction:
+ *   1. UK view: 12 regions, hoverable + clickable. No pins, no areas.
+ *   2. Region zoom: the clicked region fills the viewport, adjacent regions
+ *      hidden. Postcode-area polygons render inside with fill colour driven
+ *      by aggregated seat availability. Click an area -> existing industry
+ *      picker modal.
+ *
+ * LEGACY: pilot terminology retained in code (emitOpenPilotChecker,
+ * OPEN_PILOT_CHECKER_EVENT), not user-facing.
+ */
+
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { MAP_REGIONS, type RegionKey } from '@/lib/territory/map-regions';
 import { REGION_PATHS, REGION_VIEWBOX } from '@/lib/territory/region-paths';
-import type { MapDataPoint } from '@/lib/territory/types';
-import { emitOpenAreaWaitlist, emitOpenPilotChecker } from '@/lib/territory/events';
+import type { AreaStatus } from '@/lib/territory/types';
+import { emitOpenPilotChecker } from '@/lib/territory/events';
+import { aspectCorrect, type BBox } from '@/lib/territory/pin-layout';
 import {
-  getRegionZoomBounds,
-  aspectCorrect,
-  postcodeToRegion,
-  type BBox,
-} from '@/lib/territory/pin-layout';
-import {
-  POSTCODE_BOUNDARIES,
-  POSTCODE_CENTROIDS,
-  ALL_BOUNDS_UNION,
-  PILOT_POSTCODES,
-  type PilotPostcode,
-} from '@/lib/territory/postcode-boundaries';
-import { isActivePilotPostcode } from '@/lib/territory/pilot-postcodes';
-
-// Stable set lookup - avoid Array.includes inside render loops over ~80 paths.
-const PILOT_POSTCODE_SET: ReadonlySet<string> = new Set(PILOT_POSTCODES);
+  AREA_BOUNDARIES,
+  AREA_BOUNDARY_CENTROIDS,
+} from '@/lib/territory/area-boundaries';
+import { UK_POSTCODE_AREA_TO_REGION } from '@/lib/territory/uk-postcode-area-regions';
 
 interface Props {
-  /** Server-rendered pin data. Pre-fetched by /territory/page.tsx. */
-  points: MapDataPoint[];
+  /** Server-rendered area-availability map keyed by postcode area. */
+  areas: Record<string, AreaStatus>;
 }
 
 // ---------------------------------------------------------------------------
@@ -42,57 +45,54 @@ const FULL_VIEWBOX: BBox = {
 
 const FULL_ASPECT = REGION_VIEWBOX.width / REGION_VIEWBOX.height;
 
-// Active-region label at UK view (gold, centred inside outline).
-const ACTIVE_LABEL_COORDS: Partial<Record<RegionKey, { x: number; y: number }>> = {
-  south_west: { x: 300, y: 880 },
-};
-
-// State colour palette - traffic-light + purple, plus gold home accent.
-const COLOUR = {
+// Status palette - traffic-light + purple for premium.
+const STATUS_FILL: Record<AreaStatus['status'], string> = {
   available: '#22C55E',
+  premium:   '#A855F7',
   pending:   '#3B82F6',
   claimed:   '#B91C1C',
-  inactive:  '#64748B',
-  premium:   '#A855F7',
-  home:      '#F5B700',
-} as const;
+  none:      '#64748B',
+};
 
-// Pin visual dimensions (screen px at natural 1.0 size).
-const PIN_W_SCREEN = 16;
-const PIN_H_SCREEN = 22;
-
-// Pin visual dimensions when zoomed (natural * 1.4 emphasis multiplier).
-const PIN_W_ZOOMED_SCREEN = PIN_W_SCREEN * 1.4;
-const PIN_H_ZOOMED_SCREEN = PIN_H_SCREEN * 1.4;
+const STATUS_LABEL: Record<AreaStatus['status'], string> = {
+  available: 'Seats available',
+  premium:   'Premium tier, seats available',
+  pending:   'Application pending',
+  claimed:   'All sectors claimed',
+  none:      'Register interest',
+};
 
 // Pan clamp buffer - keep at least this fraction of the region bbox visible.
 const PAN_BUFFER = 0.1;
-// Arrow-button pan nudge as a fraction of the current animated viewBox size.
 const PAN_ARROW_STEP = 0.15;
 const PAN_ARROW_DURATION_MS = 200;
 
-// Zoom-factor bounds applied on top of region-level zoom.
 const ZOOM_MIN = 1;
 const ZOOM_MAX = 4;
 const ZOOM_STEP = 1.2;
 
-// Label anchor (screen px) when zoomed. Labels sit 12px from the pin tip,
-// vertically centred on the tip. Default is to the right; edge pins can
-// flip to the left to avoid viewBox clipping.
-const LABEL_GAP_PX = 12;
+// BT (Belfast / Northern Ireland) is not in the missinglink upstream dataset.
+// Fall back to the NI region outline since BT covers all of Northern Ireland.
+const BT_FALLBACK_D = REGION_PATHS.northern_ireland;
 
-const LABEL_POSITION_OVERRIDES: Record<string, 'left' | 'right'> = {
-  BS1: 'left',
+// London area labels pack into a small slice of the SVG when zoomed into
+// London. Nudge each label off its centroid so they don't stack on top of
+// each other. Values are SVG units; applied ONLY to labels, never to the
+// polygon d-string (polygons keep their true geography).
+const LONDON_LABEL_FANOUT: Record<string, [number, number]> = {
+  EC: [ 4,  0],
+  WC: [ 0,  0],
+  W:  [-6,  0],
+  SW: [-3,  6],
+  SE: [ 4,  5],
+  E:  [ 7,  1],
+  N:  [ 0, -6],
+  NW: [-4, -4],
 };
 
 // ---------------------------------------------------------------------------
-// Pan maths - pure, module-level so it's accessible from effects and handlers
-// without closing over component state.
+// Pan maths
 // ---------------------------------------------------------------------------
-
-// Returns a pan offset (dx, dy) clamped so the shown viewBox
-// (targetX + dx, targetY + dy, targetW, targetH) keeps at least PAN_BUFFER
-// worth of the region bbox visible on each side.
 function clampPanPure(
   region: BBox,
   targetX: number,
@@ -117,29 +117,6 @@ function clampPanPure(
   const clampedDy =
     minDy <= maxDy ? Math.max(minDy, Math.min(maxDy, requestedDy)) : 0;
   return { dx: clampedDx, dy: clampedDy };
-}
-
-// ---------------------------------------------------------------------------
-// Zoom bounds helpers
-// ---------------------------------------------------------------------------
-function southWestZoomBounds(targetAspect: number): BBox {
-  // Frame the UNION bbox of every rendered postcode district (pilot AND
-  // non-pilot). This gives users a full south-west view on first zoom: pilot
-  // districts in prominent styling plus every neighbouring BS/BA/TA district
-  // they can click to join a waitlist. Pad 10% per axis, aspect-correct to
-  // match the container.
-  const { x, y, w, h } = ALL_BOUNDS_UNION;
-  const padX = w * 0.1;
-  const padY = h * 0.1;
-  const raw: BBox = {
-    x: x - padX,
-    y: y - padY,
-    w: w + padX * 2,
-    h: h + padY * 2,
-    cx: x + w / 2,
-    cy: y + h / 2,
-  };
-  return aspectCorrect(raw, targetAspect);
 }
 
 // ---------------------------------------------------------------------------
@@ -172,7 +149,7 @@ function computeRegionBBox(d: string): BBox {
 }
 
 // ---------------------------------------------------------------------------
-// ViewBox animation hook
+// ViewBox animation
 // ---------------------------------------------------------------------------
 interface ViewBoxState {
   x: number;
@@ -239,60 +216,15 @@ function useAnimatedViewBox(
 }
 
 // ---------------------------------------------------------------------------
-// Pin helpers
-// ---------------------------------------------------------------------------
-function pinColour(p: MapDataPoint): string {
-  if (p.isReserve) return COLOUR.inactive;
-  switch (p.aggregateState) {
-    case 'claimed':   return COLOUR.claimed;
-    case 'pending':   return COLOUR.pending;
-    case 'available': return p.tier === 'premium' ? COLOUR.premium : COLOUR.available;
-    case 'reserve':   return COLOUR.inactive;
-    default: {
-      if (process.env.NODE_ENV !== 'production') {
-        console.error('[TerritoryMap] unresolved pin state', p);
-      }
-      return COLOUR.inactive;
-    }
-  }
-}
-
-/**
- * Teardrop path for a map pin. Tip is at (0,0). Head is centred at
- * (0, -height). The sharp bottom point sits exactly at the translated
- * coordinate.
- */
-function pinPath(isReserve: boolean): string {
-  if (isReserve) return 'M0,0 L-6,-16 A6,6 0 1,1 6,-16 Z';
-  return 'M0,0 L-8,-22 A8,8 0 1,1 8,-22 Z';
-}
-
-function sectorSummary(p: MapDataPoint): string {
-  if (p.isReserve) return 'Reserve territory, not yet live';
-  return `${p.availableSectorCount} of ${p.totalSectorCount} sectors available`;
-}
-
-// ---------------------------------------------------------------------------
 // Component
 // ---------------------------------------------------------------------------
-// Pan UX: arrow buttons + keyboard arrow keys only. Drag-to-pan
-// was removed because discriminating click-vs-drag on SVG child
-// elements with pointer capture fought with native click dispatch
-// in ways that burned a full build session. Arrow buttons are
-// simpler, more accessible, and work on touch devices without
-// competing with browser scroll gestures.
-export function TerritoryMap({ points }: Props) {
+export function TerritoryMap({ areas }: Props) {
   const [hoverRegion, setHoverRegion] = useState<RegionKey | null>(null);
-  const [hoverPin, setHoverPin] = useState<string | null>(null);
-  const [hoverBoundary, setHoverBoundary] = useState<string | null>(null);
+  const [hoverArea, setHoverArea] = useState<string | null>(null);
   const [zoomedRegion, setZoomedRegion] = useState<RegionKey | null>(null);
-
-  // Extra zoom factor applied on top of region-level zoom (+/- buttons).
   const [zoomFactor, setZoomFactor] = useState(1);
-
-  // Pan state - offset applied ON TOP of the animated zoom viewBox.
   const [pan, setPan] = useState({ dx: 0, dy: 0 });
-  /** Pan clamp limits for the current zoom state only — recomputed only when region or targetBBox changes. */
+
   const panLimitsRef = useRef<{
     region: BBox;
     baseVB: { x: number; y: number; w: number; h: number };
@@ -318,31 +250,8 @@ export function TerritoryMap({ points }: Props) {
 
   const targetBBox = useMemo<BBox>(() => {
     if (!zoomedRegion) return FULL_VIEWBOX;
-    let base: BBox;
-    if (zoomedRegion === 'south_west') {
-      // South West pilot: frame the UNION of the 10 pilot boundary bboxes.
-      // Regions SVG is hidden at this zoom, so boundaries and centroid-
-      // positioned pins are the only things visible. The same projected
-      // coordinate system backs both, so framing is trivially correct.
-      base = southWestZoomBounds(FULL_ASPECT);
-    } else {
-      // Non-pilot regions: frame the calibrated pin cluster or region bbox.
-      const pinsInRegion = points.filter(
-        (p) => postcodeToRegion(p.postcode) === zoomedRegion,
-      );
-      base = getRegionZoomBounds(
-        zoomedRegion,
-        pinsInRegion,
-        bboxes[zoomedRegion],
-        FULL_ASPECT,
-      );
-    }
+    const base = aspectCorrect(bboxes[zoomedRegion], FULL_ASPECT);
     if (zoomFactor <= 1.0001) return base;
-    // Shrink around the base bbox centre. Pan is PRESERVED across zoom
-    // changes, so the user's current view centre (= base.cx + pan.dx, which
-    // stays constant as vb.w shrinks) becomes the zoom focal point. Any
-    // stale pan that no longer fits the shrunk/grown viewBox is clamped by
-    // the reclampPanOnTargetChange effect below.
     const w = base.w / zoomFactor;
     const h = base.h / zoomFactor;
     return {
@@ -353,13 +262,10 @@ export function TerritoryMap({ points }: Props) {
       cx: base.cx,
       cy: base.cy,
     };
-  }, [zoomedRegion, zoomFactor, points, bboxes]);
+  }, [zoomedRegion, zoomFactor, bboxes]);
 
   const vb = useAnimatedViewBox(targetBBox.x, targetBBox.y, targetBBox.w, targetBBox.h);
 
-  // Freeze pan clamp inputs to one snapshot per zoom-state change (region
-  // switch or +/- zoom). Handlers read panLimitsRef — never recompute these
-  // limits during an active pan gesture.
   const panLimitsForZoom = useMemo(() => {
     if (!zoomedRegion) return null;
     const region = bboxes[zoomedRegion];
@@ -395,8 +301,6 @@ export function TerritoryMap({ points }: Props) {
     };
   }, [zoomedRegion, pan.dx, pan.dy, panLimitsForZoom]);
 
-  // `zoomScale` tracks the animated viewBox in real time so CSS transforms
-  // that should stay pixel-constant can be counter-scaled.
   const zoomScale = FULL_VIEWBOX.w / vb.w;
 
   const runPanArrow = useCallback(
@@ -448,7 +352,6 @@ export function TerritoryMap({ points }: Props) {
     [zoomedRegion, vb.w, vb.h, pan.dx, pan.dy],
   );
 
-  // Escape key resets zoom + pan + zoomFactor.
   useEffect(() => {
     if (!zoomedRegion) return;
     const onKey = (e: KeyboardEvent) => {
@@ -462,14 +365,6 @@ export function TerritoryMap({ points }: Props) {
     return () => window.removeEventListener('keydown', onKey);
   }, [zoomedRegion]);
 
-  // Reclamp pan whenever targetBBox changes.
-  //
-  // Zooming IN shrinks the viewBox, which INCREASES pan range - any existing
-  // pan is still valid. Zooming OUT grows the viewBox, which shrinks the pan
-  // range, so an existing pan may exceed the new limits. Rather than resetting
-  // pan to (0, 0) on every zoom change (which would snap the focus back to
-  // the base centre), we preserve pan and only correct it when the new
-  // target actually puts it out of range.
   useEffect(() => {
     if (!zoomedRegion) return;
     const region = bboxes[zoomedRegion];
@@ -485,9 +380,6 @@ export function TerritoryMap({ points }: Props) {
     if (clamped.dx !== pan.dx || clamped.dy !== pan.dy) {
       setPan(clamped);
     }
-    // Intentionally omit `pan` from deps: we only want to run this effect
-    // when the target viewBox changes (zoom in/out or region switch), not
-    // while the user is actively panning.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetBBox.x, targetBBox.y, targetBBox.w, targetBBox.h, zoomedRegion, bboxes]);
 
@@ -495,72 +387,31 @@ export function TerritoryMap({ points }: Props) {
     setZoomedRegion(null);
     setPan({ dx: 0, dy: 0 });
     setZoomFactor(1);
+    setHoverArea(null);
   };
 
   const onRegionClick = (key: RegionKey) => {
     setZoomedRegion(key);
     setPan({ dx: 0, dy: 0 });
     setZoomFactor(1);
-    if (!MAP_REGIONS[key].active) {
-      emitOpenAreaWaitlist({
-        entrySource: 'region_click',
-        regionKey: key,
-        regionLabel: MAP_REGIONS[key].label,
-      });
-    }
+    setHoverRegion(null);
   };
 
-  // Unified click rule (applies to BOTH pin and boundary clicks):
-  //
-  //   - ACTIVE PILOT (BS1, BS8, BS22, BA1, BA11, BA20, TA1):
-  //       open the PilotCheckerModal qualification gate. User confirms
-  //       the postcode and picks an industry; modal then navigates to
-  //       /territory/apply?postcode=X&sector=Y.
-  //
-  //   - EVERYTHING ELSE:
-  //       open the AreaWaitlistForm directly with the postcode prefilled
-  //       and entry_source='postcode_not_in_pilot'. This covers reserve
-  //       pilot districts (BA2, BA3, BA4) as well as any non-pilot
-  //       district inside the SW (TA7, BS40, BA16, ...) and beyond.
-  //       The form differentiates copy between "reserve" and "not in
-  //       pilot zone yet" but both feed the same waitlist queue.
-  const routeDistrictClick = (postcode: string) => {
-    const activePilot = isActivePilotPostcode(postcode);
-    console.log('[TerritoryMap] routeDistrictClick', { postcode, activePilot });
-    if (activePilot) {
-      const pinMeta = points.find((p) => p.postcode === postcode);
-      emitOpenPilotChecker({ postcode, town: pinMeta?.town });
-      return;
-    }
-    emitOpenAreaWaitlist({
-      entrySource: 'postcode_not_in_pilot',
-      postcode,
+  const onAreaClick = (area: string) => {
+    const status = areas[area];
+    emitOpenPilotChecker({
+      postcode: area,
+      town: status?.townName ?? undefined,
     });
-  };
-
-  const onPinClick = (p: MapDataPoint) => {
-    routeDistrictClick(p.postcode);
-  };
-
-  const onBoundaryClick = (code: string) => {
-    routeDistrictClick(code);
   };
 
   const onZoomIn = () => {
     if (!zoomedRegion) return;
-    // DO NOT reset pan. Preserving (dx, dy) means the current view centre
-    // (= base.cx + pan.dx, base.cy + pan.dy) stays fixed as vb.w shrinks,
-    // which is the behaviour users expect: "zoom in on what I'm looking at,
-    // not back to the base centre".
     setZoomFactor((z) => Math.min(ZOOM_MAX, z * ZOOM_STEP));
   };
 
   const onZoomOut = () => {
     if (!zoomedRegion) return;
-    // Same behaviour as zoom-in: preserve pan so the user keeps their
-    // focal point. If the shrunk viewBox no longer lets that pan stay
-    // within the outer region bounds, reclampPanOnTargetChange snaps it
-    // back to the nearest legal offset.
     setZoomFactor((z) => Math.max(ZOOM_MIN, z / ZOOM_STEP));
   };
 
@@ -587,100 +438,27 @@ export function TerritoryMap({ points }: Props) {
     }
   };
 
-  const showPinLabels = zoomedRegion !== null && MAP_REGIONS[zoomedRegion].active;
+  // Areas to render at current zoom. UK view renders none; region zoom
+  // renders just the areas belonging to the zoomed region.
+  const visibleAreas = useMemo(() => {
+    if (!zoomedRegion) return [] as string[];
+    const out: string[] = [];
+    for (const area of Object.keys(AREA_BOUNDARIES)) {
+      if (UK_POSTCODE_AREA_TO_REGION[area] === zoomedRegion) out.push(area);
+    }
+    // Include BT if NI is the zoomed region (upstream boundary data is missing).
+    if (
+      zoomedRegion === 'northern_ireland' &&
+      UK_POSTCODE_AREA_TO_REGION['BT'] === 'northern_ireland' &&
+      !AREA_BOUNDARIES['BT']
+    ) {
+      out.push('BT');
+    }
+    return out.sort();
+  }, [zoomedRegion]);
 
-  // Resolve each pin's rendered position.
-  //
-  //   - At UK-wide view or zoomed into a non-pilot region we use the
-  //     hand-calibrated (svgX, svgY) from pin-coordinates.ts.
-  //   - At zoom === 'south_west' we switch to the postcode polygon centroid
-  //     so pins sit inside their matching district automatically. Boundaries
-  //     and pins then share a single source of truth.
-  //
-  // `source` is kept on each row for the debug instrumentation below.
-  const renderedPins = useMemo(() => {
-    const useCentroids = zoomedRegion === 'south_west';
-    return points.map((p) => {
-      if (useCentroids) {
-        const c = POSTCODE_CENTROIDS[p.postcode as PilotPostcode];
-        if (c) {
-          return {
-            p,
-            renderedX: c.x,
-            renderedY: c.y,
-            source: 'centroid' as const,
-          };
-        }
-      }
-      return {
-        p,
-        renderedX: p.svgX,
-        renderedY: p.svgY,
-        source: 'calibrated' as const,
-      };
-    });
-  }, [points, zoomedRegion]);
-
-  // Effective viewBox: zoom target plus pan offset.
   const viewBoxStr = `${vb.x + pan.dx} ${vb.y + pan.dy} ${vb.w} ${vb.h}`;
-
-  // Debug instrumentation. Logs the full pin set for BOTH states:
-  //   - zoomedRegion === null       -> source = 'calibrated' (svgX/svgY)
-  //   - zoomedRegion === 'south_west' -> source = 'centroid' (postcode polygon)
-  //
-  // Runs once per zoom-state change so console noise stays minimal.
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const rows = renderedPins.map(({ p, renderedX, renderedY, source }) => {
-      const heightPx = 20;
-      const { offsetX, offsetY } = labelOffsetPx(heightPx);
-      const labelX = renderedX + offsetX / zoomScale;
-      const labelY = renderedY + offsetY / zoomScale;
-      const insideViewBox =
-        renderedX >= vb.x + pan.dx &&
-        renderedX <= vb.x + pan.dx + vb.w &&
-        renderedY >= vb.y + pan.dy &&
-        renderedY <= vb.y + pan.dy + vb.h;
-      return {
-        postcode: p.postcode,
-        source,
-        renderedX: +renderedX.toFixed(2),
-        renderedY: +renderedY.toFixed(2),
-        labelX: +labelX.toFixed(2),
-        labelY: +labelY.toFixed(2),
-        insideViewBox,
-      };
-    });
-    console.log(
-      '[TerritoryMap] zoomedRegion =',
-      zoomedRegion,
-      'viewBox=',
-      {
-        x: +(vb.x + pan.dx).toFixed(2),
-        y: +(vb.y + pan.dy).toFixed(2),
-        w: +vb.w.toFixed(2),
-        h: +vb.h.toFixed(2),
-      },
-      'zoomScale=',
-      +zoomScale.toFixed(3),
-    );
-    console.table(rows);
-    // Intentionally depend only on zoomedRegion + renderedPins identity so
-    // we don't spam logs during the viewBox animation frames.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [zoomedRegion, renderedPins]);
-
-  // Cursor class for the wrapper. Arrow buttons are the sole pan UI
-  // so the wrapper no longer flips to grab/grabbing.
   const wrapperCursor = zoomedRegion ? 'cursor-default' : '';
-
-  // Labels always sit LABEL_GAP_PX right of the pin tip, vertically centred
-  // on the tip. Screen-px values - the consumer counter-scales via
-  // `1 / zoomScale` when placing the group inside the SVG.
-  const labelOffsetPx = (heightPx: number) => ({
-    offsetX: PIN_W_ZOOMED_SCREEN / 2 + LABEL_GAP_PX,
-    offsetY: -heightPx / 2,
-  });
 
   return (
     <section className="bg-white py-16 sm:py-20 lg:py-24">
@@ -690,8 +468,8 @@ export function TerritoryMap({ points }: Props) {
             Where Territory Command is live
           </h2>
           <p className="mt-3 text-base sm:text-lg text-slate-700 max-w-2xl mx-auto leading-relaxed">
-            Territory Command is live across the UK. Click a region to zoom
-            in, or click a pin to check availability for that postcode.
+            Territory Command is live across the UK. Click your region to zoom
+            in, then click a postcode area to check what&rsquo;s available.
           </p>
         </div>
 
@@ -701,7 +479,6 @@ export function TerritoryMap({ points }: Props) {
             tabIndex={0}
             onKeyDown={onWrapperKeyDown}
           >
-            {/* Back-to-UK button (shown only when zoomed) */}
             {zoomedRegion ? (
               <button
                 type="button"
@@ -726,7 +503,6 @@ export function TerritoryMap({ points }: Props) {
               </button>
             ) : null}
 
-            {/* Zoomed-region header chip */}
             {zoomedRegion ? (
               <div
                 className="pointer-events-none absolute left-1/2 top-5 z-10 -translate-x-1/2 rounded-full bg-white px-4 py-1.5 text-sm font-semibold text-brand-navy shadow-md ring-1 ring-slate-200 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-top-2 motion-safe:duration-200"
@@ -737,11 +513,8 @@ export function TerritoryMap({ points }: Props) {
               </div>
             ) : null}
 
-            {/* Zoom in/out controls (zoomed views only). */}
             {zoomedRegion ? (
-              <div
-                className="absolute right-5 top-5 z-10 flex flex-col gap-1 motion-safe:animate-in motion-safe:fade-in motion-safe:duration-200"
-              >
+              <div className="absolute right-5 top-5 z-10 flex flex-col gap-1 motion-safe:animate-in motion-safe:fade-in motion-safe:duration-200">
                 <button
                   type="button"
                   aria-label="Zoom in"
@@ -810,10 +583,7 @@ export function TerritoryMap({ points }: Props) {
                     <polyline points="14 6 8 12 14 18" />
                   </svg>
                 </button>
-                <div
-                  className="col-start-2 row-start-2 h-10 w-10"
-                  aria-hidden="true"
-                />
+                <div className="col-start-2 row-start-2 h-10 w-10" aria-hidden="true" />
                 <button
                   type="button"
                   aria-label="Pan map right"
@@ -863,7 +633,7 @@ export function TerritoryMap({ points }: Props) {
               viewBox={viewBoxStr}
               xmlns="http://www.w3.org/2000/svg"
               role="img"
-              aria-label="Map of the United Kingdom with Territory Command postcode area pins by region"
+              aria-label="Map of the United Kingdom with Territory Command postcode areas by region"
               preserveAspectRatio="xMidYMid meet"
               className="territory-map-root w-full h-auto max-h-[70vh] mx-auto block"
             >
@@ -876,13 +646,6 @@ export function TerritoryMap({ points }: Props) {
                   </feComponentTransfer>
                   <feMerge>
                     <feMergeNode />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-                <filter id="pin-glow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation="2" result="coloredBlur" />
-                  <feMerge>
-                    <feMergeNode in="coloredBlur" />
                     <feMergeNode in="SourceGraphic" />
                   </feMerge>
                 </filter>
@@ -910,76 +673,55 @@ export function TerritoryMap({ points }: Props) {
                 </filter>
               </defs>
 
-              {/* UK regions. Hidden while zoomed into the South West pilot
-                  so postcode boundaries become the only map surface (they
-                  share a coordinate system with centroid-positioned pins,
-                  which avoids any projection mismatch between the regions
-                  SVG and the postcode-district GeoJSON). Wrapped in a
-                  single <g> with display toggle so the DOM is stable and
-                  zoom-in/zoom-out transitions don't rebuild the paths. */}
-              <g
-                id="uk-regions"
-                style={{ display: zoomedRegion === 'south_west' ? 'none' : undefined }}
-              >
+              {/* UK regions. Adjacent regions hidden when zoomed so no map
+                  geography outside the selected region bleeds into the view.
+                  Selected region stays visible as the backdrop under the
+                  area polygons so its outline silhouettes through the gaps
+                  between polygon groups (Shetland, offshore islands etc). */}
+              <g id="uk-regions">
                 {(Object.keys(MAP_REGIONS) as RegionKey[]).map((key) => {
-                  const isActive = MAP_REGIONS[key].active;
-                  const isHover = hoverRegion === key;
-                  const fill = isActive ? '#0A1B36' : '#64748B';
-                  const opacity = isActive ? 1 : isHover ? 0.45 : 0.25;
+                  const isHover = hoverRegion === key && !zoomedRegion;
+                  const isSelected = zoomedRegion === key;
+                  const hidden = zoomedRegion !== null && !isSelected;
+                  const fill = isSelected ? '#0A1B36' : '#0A1B36';
+                  const opacity = isSelected ? 0.35 : isHover ? 0.9 : 0.75;
                   return (
                     <path
                       key={key}
                       data-region-key={key}
                       d={REGION_PATHS[key]}
                       fill={fill}
-                      stroke={isActive ? '#ECB615' : '#94A3B8'}
-                      strokeWidth={isActive ? 1.5 : 0.5}
+                      stroke="#ECB615"
+                      strokeWidth={1.5}
                       vectorEffect="non-scaling-stroke"
                       opacity={opacity}
-                      filter={isActive ? 'url(#active-region-shadow)' : undefined}
+                      filter={!zoomedRegion ? 'url(#active-region-shadow)' : undefined}
                       style={{
-                        cursor: 'pointer',
+                        cursor: zoomedRegion ? 'default' : 'pointer',
+                        display: hidden ? 'none' : undefined,
+                        pointerEvents: zoomedRegion ? 'none' : 'auto',
                         transition: 'opacity 150ms ease, fill 150ms ease',
                       }}
-                      onMouseEnter={() => !isActive && setHoverRegion(key)}
-                      onMouseLeave={() => !isActive && setHoverRegion(null)}
-                      onClick={() => onRegionClick(key)}
+                      onMouseEnter={() => {
+                        if (!zoomedRegion) setHoverRegion(key);
+                      }}
+                      onMouseLeave={() => {
+                        if (!zoomedRegion) setHoverRegion(null);
+                      }}
+                      onClick={() => !zoomedRegion && onRegionClick(key)}
                     >
                       <title>
-                        {isActive
-                          ? `${MAP_REGIONS[key].label} — live, click to zoom in`
-                          : `${MAP_REGIONS[key].label}: not yet active, click to register interest`}
+                        {`${MAP_REGIONS[key].label} \u2014 click to zoom in`}
                       </title>
                     </path>
                   );
                 })}
               </g>
 
-              {/* Active-region label (UK view only; header chip takes over when
-                  zoomed). */}
-              {!zoomedRegion
-                ? (Object.keys(ACTIVE_LABEL_COORDS) as RegionKey[]).map((key) => {
-                    const coord = ACTIVE_LABEL_COORDS[key];
-                    if (!coord) return null;
-                    return (
-                      <text
-                        key={`label-${key}`}
-                        x={coord.x}
-                        y={coord.y}
-                        textAnchor="middle"
-                        fontSize="13"
-                        fontWeight="700"
-                        fill={COLOUR.home}
-                        style={{ pointerEvents: 'none', fontFamily: 'system-ui, sans-serif' }}
-                      >
-                        {MAP_REGIONS[key].label}
-                      </text>
-                    );
-                  })
-                : null}
-
-              {/* Hover pill for inactive regions at UK view. */}
-              {!zoomedRegion && hoverRegion && !MAP_REGIONS[hoverRegion].active ? (
+              {/* Hover pill for regions at UK view. Shows the region label
+                  at its centroid so users confirm what they are about to
+                  click. */}
+              {!zoomedRegion && hoverRegion ? (
                 (() => {
                   const label = MAP_REGIONS[hoverRegion].label;
                   const bb = bboxes[hoverRegion];
@@ -990,14 +732,7 @@ export function TerritoryMap({ points }: Props) {
                   const py = bb.cy - pillH / 2;
                   return (
                     <g style={{ pointerEvents: 'none' }} filter="url(#hover-pill-shadow)">
-                      <rect
-                        x={px}
-                        y={py}
-                        width={pillW}
-                        height={pillH}
-                        rx={4}
-                        fill="#FFFFFF"
-                      />
+                      <rect x={px} y={py} width={pillW} height={pillH} rx={4} fill="#FFFFFF" />
                       <text
                         x={bb.cx}
                         y={bb.cy + 4}
@@ -1014,53 +749,40 @@ export function TerritoryMap({ points }: Props) {
                 })()
               ) : null}
 
-              {/* Postcode district boundaries - visible only when zoomed into
-                  the South West. Every BS/BA/TA district we have data for is
-                  rendered so prospects in non-pilot areas can still click to
-                  prefill the checker and join the waitlist (first-come-
-                  first-served). Pilot districts get prominent gold+navy
-                  styling; non-pilot get a subtle slate outline so the pilot
-                  coverage reads clearly but every district is clickable.
-                  Rendered AFTER regions and BEFORE pins so pins stay on top. */}
-              {zoomedRegion === 'south_west' ? (
-                <g id="postcode-boundaries" aria-label="Postcode district boundaries">
-                  {Object.keys(POSTCODE_BOUNDARIES).map((code) => {
-                    const d = POSTCODE_BOUNDARIES[code];
-                    const isPilot = PILOT_POSTCODE_SET.has(code);
-                    const isHover = hoverBoundary === code;
-                    const fill = isPilot ? '#0A1B36' : '#64748B';
-                    const fillOpacity = isPilot
-                      ? isHover ? 0.6 : 0.4
-                      : isHover ? 0.25 : 0.1;
-                    const stroke = isPilot ? '#F5B700' : '#94A3B8';
-                    const strokeOpacity = isPilot
-                      ? isHover ? 0.8 : 0.4
-                      : isHover ? 0.7 : 0.35;
-                    const strokeWidth = isPilot ? 0.8 : 0.4;
-                    const title = isPilot
-                      ? `${code} - pilot live, click to check sector availability`
-                      : `${code} - coming soon, click to join the waitlist`;
+              {/* Postcode-area polygons. Rendered only at region zoom,
+                  filtered to areas that belong to the zoomed region.
+                  Fill colour driven by per-area seat availability. */}
+              {zoomedRegion ? (
+                <g id="postcode-areas" aria-label="Postcode areas">
+                  {visibleAreas.map((area) => {
+                    const d = AREA_BOUNDARIES[area] ?? BT_FALLBACK_D;
+                    const status = areas[area];
+                    const key = status?.status ?? 'none';
+                    const fill = STATUS_FILL[key];
+                    const isHover = hoverArea === area;
+                    const fillOpacity = isHover ? 0.85 : 0.65;
+                    const title = status
+                      ? `${area}${status.townName ? ' \u2014 ' + status.townName : ''}: ${STATUS_LABEL[key]}`
+                      : `${area}: ${STATUS_LABEL.none}`;
                     return (
                       <path
-                        key={`boundary-${code}`}
+                        key={`area-${area}`}
                         d={d}
-                        data-postcode={code}
-                        data-district-postcode={code}
-                        data-pilot={isPilot ? 'true' : 'false'}
+                        data-postcode-area={area}
                         fill={fill}
                         fillOpacity={fillOpacity}
-                        stroke={stroke}
-                        strokeOpacity={strokeOpacity}
-                        strokeWidth={strokeWidth}
+                        stroke="#0A1B36"
+                        strokeOpacity={isHover ? 0.9 : 0.7}
+                        strokeWidth={0.7}
                         vectorEffect="non-scaling-stroke"
                         style={{
                           cursor: 'pointer',
                           transition:
                             'fill-opacity 150ms ease-out, stroke-opacity 150ms ease-out',
                         }}
-                        onMouseEnter={() => setHoverBoundary(code)}
-                        onMouseLeave={() => setHoverBoundary(null)}
-                        onClick={() => onBoundaryClick(code)}
+                        onMouseEnter={() => setHoverArea(area)}
+                        onMouseLeave={() => setHoverArea(null)}
+                        onClick={() => onAreaClick(area)}
                       >
                         <title>{title}</title>
                       </path>
@@ -1069,156 +791,48 @@ export function TerritoryMap({ points }: Props) {
                 </g>
               ) : null}
 
-              {/* Pins.
-                  Rendering contract (so labels + pins stay in lockstep with
-                  the polygon centroids):
-                    - OUTER group: translate to (renderedX, renderedY). This
-                      point is the pin TIP.
-                    - INNER group: SVG-attribute scale(...) only. Because SVG
-                      attribute transforms pivot around the parent origin,
-                      the scale pivots at the pin tip by definition - no
-                      fill-box / transform-origin games, no drift between
-                      pin geometry and renderedX/Y.
-                  The previous implementation used CSS `transform: scale(...)`
-                  with `transformBox: 'fill-box'` + `transformOrigin: '0 0'`,
-                  which pivots at the top-left of the pin's fill bounding box.
-                  That shifts the visible tip by (~-7, ~-19) SVG units per
-                  scale pass and was the root cause of pins floating away
-                  from the polygon centroids at zoom. */}
-              {renderedPins.map(({ p, renderedX, renderedY }) => {
-                const colour = pinColour(p);
-                const isHover = hoverPin === p.postcode;
-                const clickable = !p.isReserve;
-                const baseScale = zoomedRegion ? 1.4 / zoomScale : 1;
-                const hoverMul = isHover ? 1.15 : 1;
-                const pinScale = baseScale * hoverMul;
-                return (
-                  <g
-                    key={`pin-${p.postcode}`}
-                    data-pin-postcode={p.postcode}
-                    transform={`translate(${renderedX} ${renderedY})`}
-                    style={{ cursor: clickable ? 'pointer' : 'default' }}
-                    onMouseEnter={() => setHoverPin(p.postcode)}
-                    onMouseLeave={() => setHoverPin(null)}
-                    onClick={() => onPinClick(p)}
-                  >
-                    {/* Invisible hit area: ~44px iOS HIG minimum. Kept OUT of
-                        the pin-scale group so hit area stays constant at the
-                        same screen px regardless of zoom or hover. */}
-                    <rect
-                      x={-22 / zoomScale}
-                      y={-48 / zoomScale}
-                      width={44 / zoomScale}
-                      height={52 / zoomScale}
-                      fill="transparent"
-                      style={{ pointerEvents: 'all' }}
-                    />
-                    <g
-                      transform={`scale(${pinScale})`}
-                      filter={isHover ? 'url(#pin-glow)' : undefined}
-                    >
-                      {p.isHome ? (
-                        <circle
-                          cx={0}
-                          cy={-22}
-                          r={12}
-                          fill="none"
-                          stroke={COLOUR.home}
-                          strokeWidth={2}
-                          vectorEffect="non-scaling-stroke"
-                          opacity={0.95}
-                        />
-                      ) : null}
-                      <path
-                        d={pinPath(p.isReserve)}
-                        fill={colour}
-                        stroke="#FFFFFF"
-                        strokeWidth={1.5}
-                        vectorEffect="non-scaling-stroke"
-                      >
-                        <title>{`${p.postcode} ${p.town} - ${sectorSummary(p)}`}</title>
-                      </path>
-                    </g>
-                  </g>
-                );
-              })}
-
-              {/* Static postcode + town labels (zoomed active regions only).
-                  Anchored 12px right of the pin tip, vertically centred.
-                  Counter-scaled so each chip stays at constant screen px. */}
-              {showPinLabels
-                ? renderedPins.map(({ p, renderedX, renderedY }) => {
-                    const text = `${p.postcode} ${p.town}`;
-                    const widthPx = text.length * 6.6 + 16;
-                    const heightPx = 20;
-                    const side = LABEL_POSITION_OVERRIDES[p.postcode] ?? 'right';
-                    const pinHalfGap = PIN_W_ZOOMED_SCREEN / 2 + LABEL_GAP_PX;
-                    const offsetX =
-                      side === 'right' ? pinHalfGap : -(widthPx + pinHalfGap);
-                    const offsetY = -heightPx / 2;
+              {/* Area labels. Anchored at each area's boundary centroid.
+                  Font size counter-scaled so labels stay pixel-constant
+                  regardless of zoomFactor. London areas get a small nudge
+                  off their centroid so labels don't stack. */}
+              {zoomedRegion ? (
+                <g id="area-labels" style={{ pointerEvents: 'none' }}>
+                  {visibleAreas.map((area) => {
+                    let c = AREA_BOUNDARY_CENTROIDS[area];
+                    if (!c && area === 'BT') {
+                      const bb = bboxes.northern_ireland;
+                      c = { x: bb.cx, y: bb.cy };
+                    }
+                    if (!c) return null;
+                    const nudge = LONDON_LABEL_FANOUT[area] ?? [0, 0];
+                    const status = areas[area];
+                    const town = status?.townName ?? '';
+                    const text = town ? `${area} \u2014 ${town}` : area;
+                    const widthPx = text.length * 6.4 + 14;
+                    const heightPx = 18;
                     return (
                       <g
-                        key={`label-${p.postcode}`}
-                        transform={`translate(${renderedX} ${renderedY}) scale(${1 / zoomScale})`}
-                        style={{ pointerEvents: 'none' }}
+                        key={`label-${area}`}
+                        transform={`translate(${c.x + nudge[0]} ${c.y + nudge[1]}) scale(${1 / zoomScale})`}
                       >
                         <g
-                          transform={`translate(${offsetX} ${offsetY})`}
+                          transform={`translate(${-widthPx / 2} ${-heightPx / 2})`}
                           filter="url(#label-shadow)"
                         >
                           <rect
-                            x={0}
-                            y={0}
                             width={widthPx}
                             height={heightPx}
                             rx={4}
                             fill="#FFFFFF"
-                          />
-                          <text
-                            x={8}
-                            y={heightPx / 2 + 4}
-                            fontSize={11}
-                            fontWeight={600}
-                            fill="#0A1B36"
-                            style={{ fontFamily: 'system-ui, sans-serif' }}
-                          >
-                            {text}
-                          </text>
-                        </g>
-                      </g>
-                    );
-                  })
-                : null}
-
-              {/* Hover tooltip. */}
-              {hoverPin
-                ? (() => {
-                    const found = renderedPins.find((r) => r.p.postcode === hoverPin);
-                    if (!found) return null;
-                    const { p, renderedX, renderedY } = found;
-                    const text = `${p.postcode} ${p.town} - ${sectorSummary(p)}`;
-                    const widthPx = text.length * 6.4 + 20;
-                    const heightPx = 24;
-                    return (
-                      <g
-                        transform={`translate(${renderedX} ${renderedY}) scale(${1 / zoomScale})`}
-                        style={{ pointerEvents: 'none' }}
-                      >
-                        <g transform={`translate(${-widthPx / 2} ${-PIN_H_ZOOMED_SCREEN - heightPx - 6})`}>
-                          <rect
-                            width={widthPx}
-                            height={heightPx}
-                            rx={4}
-                            fill="#0A1B36"
-                            opacity={0.96}
+                            opacity={0.95}
                           />
                           <text
                             x={widthPx / 2}
                             y={heightPx / 2 + 4}
                             textAnchor="middle"
-                            fill="#FFFFFF"
                             fontSize={11}
                             fontWeight={600}
+                            fill="#0A1B36"
                             style={{ fontFamily: 'system-ui, sans-serif' }}
                           >
                             {text}
@@ -1226,8 +840,9 @@ export function TerritoryMap({ points }: Props) {
                         </g>
                       </g>
                     );
-                  })()
-                : null}
+                  })}
+                </g>
+              ) : null}
             </svg>
           </div>
 
@@ -1235,34 +850,43 @@ export function TerritoryMap({ points }: Props) {
             <h3 className="font-headline text-lg text-brand-navy">Legend</h3>
             <ul className="space-y-2 text-sm text-slate-700">
               <li className="flex items-center gap-2">
-                <span className="inline-block h-3 w-3 rounded-full bg-territory-available" aria-hidden="true" />
-                Available (standard tier)
+                <span
+                  className="inline-block h-3 w-3 rounded-sm"
+                  style={{ backgroundColor: STATUS_FILL.available }}
+                  aria-hidden="true"
+                />
+                Seats available (standard)
               </li>
               <li className="flex items-center gap-2">
-                <span className="inline-block h-3 w-3 rounded-full bg-territory-premium" aria-hidden="true" />
-                Available (premium tier)
+                <span
+                  className="inline-block h-3 w-3 rounded-sm"
+                  style={{ backgroundColor: STATUS_FILL.premium }}
+                  aria-hidden="true"
+                />
+                Seats available (premium)
               </li>
               <li className="flex items-center gap-2">
-                <span className="inline-block h-3 w-3 rounded-full bg-territory-pending" aria-hidden="true" />
-                Pending application
+                <span
+                  className="inline-block h-3 w-3 rounded-sm"
+                  style={{ backgroundColor: STATUS_FILL.pending }}
+                  aria-hidden="true"
+                />
+                Application pending
               </li>
               <li className="flex items-center gap-2">
-                <span className="inline-block h-3 w-3 rounded-full bg-territory-claimed" aria-hidden="true" />
+                <span
+                  className="inline-block h-3 w-3 rounded-sm"
+                  style={{ backgroundColor: STATUS_FILL.claimed }}
+                  aria-hidden="true"
+                />
                 All sectors claimed
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="inline-block h-3 w-3 rounded-full bg-territory-inactive" aria-hidden="true" />
-                Reserve / not yet live
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="inline-block h-3 w-3 rounded-full border-2 border-territory-home" aria-hidden="true" />
-                ScopeSite home postcode
               </li>
             </ul>
             <p className="text-xs text-slate-500 leading-relaxed">
               Live state refreshes every 60 seconds from the territory
-              database. Click a region to zoom in, use the arrow buttons to
-              pan, press Escape or the Back to UK button to reset.
+              database. Click a region to zoom in, then click a postcode
+              area to check sector availability. Use the arrow buttons to
+              pan, press Escape or Back to UK to reset.
             </p>
             <p className="mt-2 text-xs leading-relaxed text-slate-400">
               Postcode boundaries &copy; Wikipedia contributors,{' '}

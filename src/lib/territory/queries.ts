@@ -15,6 +15,8 @@ import type {
   AvailabilityResult,
   ApplicationEntryType,
   ApplicationStatus,
+  AreaStatus,
+  AreaAvailabilityStatus,
   MapDataPoint,
   SectorTile,
   Sector,
@@ -363,6 +365,67 @@ export async function getMapData(): Promise<
     claimedSectorCount: r.claimed_count,
     totalSectorCount: r.total_count,
   }));
+}
+
+/**
+ * Per-area availability for the region-zoom polygon colouring.
+ *
+ * Aggregates seats belonging to AREA-LEVEL territory rows (postcode_area
+ * = postcode, i.e. the rows seeded by scripts/territory-expand-uk.mjs)
+ * across the four active sector slugs. District-level pilot territories
+ * (BS1, BA1...) are excluded - their availability is not what a user
+ * clicking the BS or BA polygon is asking about.
+ */
+export async function getAreaAvailability(): Promise<AreaStatus[]> {
+  const sql = getDb();
+  const rows = (await sql`
+    SELECT
+      t.postcode_area,
+      t.town_name,
+      t.tier,
+      COUNT(s.id) FILTER (WHERE s.state = 'available')::int AS available_count,
+      COUNT(s.id) FILTER (WHERE s.state = 'pending')::int   AS pending_count,
+      COUNT(s.id) FILTER (WHERE s.state = 'claimed')::int   AS claimed_count,
+      COUNT(s.id)::int                                       AS total_count
+    FROM territory.territories t
+    LEFT JOIN territory.seats s ON s.territory_id = t.id
+    LEFT JOIN territory.sectors sec ON sec.id = s.sector_id
+    WHERE t.postcode = t.postcode_area
+      AND (
+        sec.slug IS NULL
+        OR sec.slug IN ('accountants', 'solicitors', 'estate-agents', 'dental-practices')
+      )
+    GROUP BY t.postcode_area, t.town_name, t.tier
+    ORDER BY t.postcode_area
+  `) as Array<{
+    postcode_area: string;
+    town_name: string | null;
+    tier: 'standard' | 'premium';
+    available_count: number;
+    pending_count: number;
+    claimed_count: number;
+    total_count: number;
+  }>;
+
+  return rows.map((r) => {
+    let status: AreaAvailabilityStatus;
+    if (r.total_count === 0) status = 'none';
+    else if (r.claimed_count === r.total_count) status = 'claimed';
+    else if (r.pending_count > 0 && r.available_count === 0) status = 'pending';
+    else if (r.available_count > 0 && r.tier === 'premium') status = 'premium';
+    else if (r.available_count > 0) status = 'available';
+    else status = 'none';
+    return {
+      area: r.postcode_area,
+      tier: r.tier,
+      townName: r.town_name,
+      status,
+      availableCount: r.available_count,
+      pendingCount: r.pending_count,
+      claimedCount: r.claimed_count,
+      totalCount: r.total_count,
+    } satisfies AreaStatus;
+  });
 }
 
 // ---------------------------------------------------------------------------

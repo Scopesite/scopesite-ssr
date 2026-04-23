@@ -59,7 +59,7 @@ export default async function TerritoryAdminWaitlistPage({ searchParams }: Props
           Area waitlist
         </h1>
         <p className="mt-1 text-sm text-slate-600">
-          Contacts who registered interest in non-pilot regions, postcodes outside the pilot zone, or inactive sectors.
+          Contacts who registered interest in regions, postcodes or sectors outside the seeded coverage.
         </p>
       </header>
 

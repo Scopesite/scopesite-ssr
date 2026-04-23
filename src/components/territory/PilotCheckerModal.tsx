@@ -1,17 +1,19 @@
 'use client';
 
 /**
- * Territory Command - active-pilot qualification gate.
+ * Territory Command - area industry picker.
  *
- * Opens when the user clicks an active-pilot postcode on the map (BS1, BS8,
- * BS22, BA1, BA11, BA20, TA1). The user confirms they meant this postcode,
- * picks or types their industry via the shared IndustrySearch combobox, and
- * is routed to /territory/apply.
+ * Opens when the user clicks a postcode area on the map. The user confirms
+ * they meant this area, picks or types their industry via the shared
+ * IndustrySearch combobox, and is routed to /territory/apply.
  *
  * We serve every industry. The modal does not branch on `is_active` - both
  * known-sector picks and freeform entries funnel to the application page.
  * Sectors outside the pre-configured launch set are handled downstream by
  * the freeform industry path on /territory/apply.
+ *
+ * LEGACY: pilot terminology retained in code (component name, event name,
+ * input IDs). Not user-facing.
  */
 
 import { useEffect, useMemo, useState } from 'react';

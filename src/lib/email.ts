@@ -1173,8 +1173,11 @@ export async function sendTerritoryWaitlistConfirmation(
 }
 
 /**
- * Area waitlist confirmation for inactive regions or postcodes outside the
- * current pilot zone.
+ * Area waitlist confirmation for regions or postcodes where the user
+ * registered interest rather than applying directly.
+ *
+ * LEGACY: `entry_source='region_click'` and `'postcode_not_in_pilot'`
+ * kept in the data layer; copy has been updated for national coverage.
  */
 export async function sendAreaWaitlistConfirmation(
   ctx: TerritoryAreaWaitlistEmailContext,
@@ -1187,8 +1190,8 @@ export async function sendAreaWaitlistConfirmation(
 
   const intro =
     ctx.entrySource === 'region_click'
-      ? `Thanks for registering interest in <strong>${ctx.regionLabel || areaLabel}</strong>. This region is not yet in the Territory Command pilot.`
-      : `Thanks for registering <strong>${ctx.requestedPostcode || areaLabel}</strong>. This postcode is valid but not yet in the Territory Command pilot zone.`;
+      ? `Thanks for registering interest in <strong>${ctx.regionLabel || areaLabel}</strong>. We will be in touch with live availability for your area.`
+      : `Thanks for registering <strong>${ctx.requestedPostcode || areaLabel}</strong>. This postcode is valid. We will be in touch when it is your turn in the queue.`;
 
   const htmlContent = `
     <!DOCTYPE html>

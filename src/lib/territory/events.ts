@@ -4,6 +4,10 @@
  * Used to cross-link the TerritoryMap and TerritoryChecker into the single
  * shared AreaWaitlistForm modal without prop drilling through the page tree.
  * Runs only in the browser.
+ *
+ * LEGACY: OPEN_PILOT_CHECKER_EVENT / OpenPilotCheckerDetail /
+ * emitOpenPilotChecker / entrySource='postcode_not_in_pilot' retain
+ * pilot terminology in code. Not user-facing.
  */
 
 export interface OpenAreaWaitlistDetail {

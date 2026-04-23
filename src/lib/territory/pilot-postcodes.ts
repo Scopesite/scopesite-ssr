@@ -1,23 +1,13 @@
 /**
- * Territory Command - canonical pilot postcode classifications.
+ * Territory Command - district-level postcode classifications from the
+ * original South West launch. Retained for code that still differentiates
+ * hero-checker postcode submissions (TerritoryChecker) between the three
+ * sets. The /territory map no longer uses these - it renders every UK
+ * postcode area uniformly.
  *
- * Two distinct sets share the same "pilot" umbrella but route to different
- * UX flows on the public landing page:
- *
- *   - ACTIVE_PILOT  - a postcode in the live pilot whose seats are
- *                      bookable today. Map clicks route into the
- *                      TerritoryChecker -> sector -> apply / book flow.
- *
- *   - RESERVE_PILOT - a postcode in the pilot data set but with
- *                      `is_active = false` in the database. Not yet
- *                      bookable. Map clicks route into the
- *                      AreaWaitlistForm so prospects can register
- *                      first-come-first-served interest.
- *
- * Any postcode (district or full) NOT in either set is treated as
- * non-pilot and also routes through AreaWaitlistForm with the same
- * entry_source, but with different copy ("not in pilot zone yet" vs
- * "reserve territory").
+ * LEGACY: pilot terminology retained in code (ACTIVE_PILOT_POSTCODES,
+ * RESERVE_PILOT_POSTCODES, isActivePilotPostcode, isReservePilotPostcode).
+ * Not user-facing.
  */
 
 export const ACTIVE_PILOT_POSTCODES = [

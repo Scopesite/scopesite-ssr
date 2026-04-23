@@ -15,7 +15,7 @@ import {
   getFeaturedSectors,
   getAllSectorsForBrowse,
 } from '@/lib/territory/queries';
-import { buildMapPoints } from '@/lib/territory/map-builder';
+import { buildAreaAvailability } from '@/lib/territory/map-builder';
 
 const BASE_URL = 'https://scopesite.co.uk';
 
@@ -54,10 +54,10 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function TerritoryPage() {
-  const [featuredSectors, allSectorsByCategory, mapPoints] = await Promise.all([
+  const [featuredSectors, allSectorsByCategory, areas] = await Promise.all([
     getFeaturedSectors(),
     getAllSectorsForBrowse(),
-    buildMapPoints(),
+    buildAreaAvailability(),
   ]);
 
   return (
@@ -67,7 +67,7 @@ export default async function TerritoryPage() {
         featuredSectors={featuredSectors}
         allSectorsByCategory={allSectorsByCategory}
       />
-      <TerritoryMap points={mapPoints} />
+      <TerritoryMap areas={areas} />
       <MechanismSection />
       <WhatYouGetSection />
       <ProofSection />

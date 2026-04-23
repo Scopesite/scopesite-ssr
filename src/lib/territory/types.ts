@@ -221,7 +221,10 @@ export type AvailabilityResult =
   | { state: 'territory_not_found' }
   | { state: 'sector_not_found' };
 
-/** Aggregated per-postcode map pin state (for the UK map view). */
+/** Aggregated per-postcode map pin state (for the UK map view).
+ *  LEGACY: pin-based map shape, retained for the /api/territory/map-data
+ *  endpoint and any external callers. The /territory page itself now uses
+ *  AreaStatus (below), driven by buildAreaAvailability(). */
 export interface MapDataPoint {
   postcode: string;
   postcodeDistrict: string;
@@ -238,6 +241,25 @@ export interface MapDataPoint {
   pendingSectorCount: number;
   claimedSectorCount: number;
   totalSectorCount: number;
+}
+
+/** Aggregated per-area availability for the /territory region-zoom polygons. */
+export type AreaAvailabilityStatus =
+  | 'available'
+  | 'premium'
+  | 'pending'
+  | 'claimed'
+  | 'none';
+
+export interface AreaStatus {
+  area: string;
+  tier: Tier;
+  townName: string | null;
+  status: AreaAvailabilityStatus;
+  availableCount: number;
+  pendingCount: number;
+  claimedCount: number;
+  totalCount: number;
 }
 
 /** Public-facing sector tile. */

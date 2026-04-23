@@ -218,19 +218,23 @@ export const WAITLIST_CONFIRMED = {
   secondaryCta: { label: 'Return to Territory Command', href: '/territory' },
 } as const;
 
+// LEGACY: `nonPilot*` / `reserve*` / `postcodeHeadlinePrefix` keys retain
+// their original names for code compatibility, but the copy has been
+// updated for national coverage - all regions are live and every area has
+// seeded seats.
 export const AREA_WAITLIST = {
   regionHeadlinePrefix: 'Register interest in ',
-  postcodeHeadlinePrefix: 'is a valid UK postcode but not in our pilot zone yet',
+  postcodeHeadlinePrefix: 'is a valid UK postcode',
   regionSubHeadline:
-    'This region is coming soon. Register and we will notify you the moment your area goes live.',
+    'Tell us your firm and we will confirm what is available in this region.',
   postcodeSubHeadline:
-    'Register your interest and we will notify you when your area goes live. First-come, first-served queue.',
-  reserveHeadlineSuffix: 'is a reserve territory',
+    'Register your interest and we will come back with live availability for your area. First-come, first-served queue.',
+  reserveHeadlineSuffix: 'is open for applications',
   reserveSubHeadline: (postcode: string) =>
-    `Register your interest and we will notify you when ${postcode} opens for applications. First-come, first-served queue.`,
-  nonPilotHeadlineSuffix: 'is valid. Not in the pilot zone yet.',
+    `Register your interest and we will confirm live availability for ${postcode}. First-come, first-served queue.`,
+  nonPilotHeadlineSuffix: 'is open for applications.',
   nonPilotSubHeadline:
-    'Register your interest and we will notify you when your area goes live. First-come, first-served queue.',
+    'Pick your industry and we will confirm live availability for this postcode. First-come, first-served queue.',
   queue: {
     loading: 'Checking queue position...',
     first: (postcode: string) =>
