@@ -104,7 +104,7 @@
 
   /* Typography defaults */
   h1, h2, h3, h4, h5, h6 {
-    @apply font-headline;
+    @apply font-headline font-black;
     text-wrap: balance;
   }
 
@@ -117,11 +117,11 @@
   }
 
   h3 {
-    @apply text-h3 font-body font-black;
+    @apply text-h3;
   }
 
   h4 {
-    @apply text-h4 font-body font-black;
+    @apply text-h4;
   }
 
   p {
@@ -164,7 +164,23 @@ main a:not(.btn):not(.btn-primary):not(.btn-secondary):not(.btn-secondary-light)
 }
 
 @layer components {
-  /* 
+  /*
+   * TYPOGRAPHY — font-family/weight rules
+   *
+   * `font-headline` is Inter (repointed from Paytone One). Paytone is
+   * reserved exclusively for the ScopeSite wordmark and is accessible via
+   * the `font-brand` class on Header, Footer, MobileMenu, and PortalNav.
+   *
+   * This rule sets a default weight of 900 (Inter Black) on any element
+   * using `font-headline`. It lives in @layer components so that explicit
+   * utility classes like `font-bold`, `font-semibold`, or `font-normal`
+   * applied at the call site still win via @layer utilities precedence.
+   */
+  .font-headline {
+    font-weight: 900;
+  }
+
+  /*
    * BUTTON VARIANTS
    * Following brand guidelines exactly
    */

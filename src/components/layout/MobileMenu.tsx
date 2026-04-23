@@ -36,7 +36,7 @@ export default function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
               width={60}
               height={60}
             />
-            <span className="font-headline text-brand-gold text-2xl tracking-tight">
+            <span className="font-brand text-brand-gold text-2xl tracking-tight">
               SCOPESITE
             </span>
           </div>

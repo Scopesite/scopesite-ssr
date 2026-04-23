@@ -56,7 +56,7 @@ export function VoiceGuaranteeCallout({
           <h3
             id="voice-guarantee-heading"
             className={cn(
-              'font-headline font-bold text-sm uppercase tracking-wider mb-2',
+              'font-headline font-black text-sm uppercase tracking-wider mb-2',
               variant === 'highlight' ? 'text-brand-gold' : 'text-brand-navy'
             )}
           >

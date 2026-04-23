@@ -77,9 +77,23 @@ const config: Config = {
   			}
   		},
   		fontFamily: {
-  			headline: [
+  			// Brand wordmark ONLY. Reserved for the "ScopeSite" / "ScopeSite
+  			// Digital Studios" display text (header, footer, mobile menu,
+  			// portal nav). Paytone One is hard to read at heading sizes,
+  			// so it is not used anywhere else.
+  			brand: [
   				'var(--font-paytone)',
   				'Paytone One',
+  				'sans-serif'
+  			],
+  			// All headings (H1-H6, card titles, modal titles, step headers,
+  			// section headings, etc.) — Inter at weight 900 for heavy,
+  			// readable display. `.font-headline` defaults to weight 900 via
+  			// the globals.css rule so existing call sites don't need to add
+  			// `font-black` manually.
+  			headline: [
+  				'var(--font-inter)',
+  				'Inter',
   				'sans-serif'
   			],
   			body: [

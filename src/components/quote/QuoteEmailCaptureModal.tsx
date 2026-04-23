@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { Loader2, Mail, Gift } from 'lucide-react';
+import { Loader2, Mail } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -102,7 +102,7 @@ export function QuoteEmailCaptureModal({
                 <Mail className="w-5 h-5 text-brand-navy" />
               </div>
               <div>
-                <DialogPrimitive.Title className="text-xl md:text-2xl font-headline font-bold text-white">
+                <DialogPrimitive.Title className="text-xl md:text-2xl font-headline font-black text-white">
                   Let&apos;s get your quote started
                 </DialogPrimitive.Title>
                 <p id="quote-email-modal-desc" className="sr-only">
@@ -117,25 +117,18 @@ export function QuoteEmailCaptureModal({
           <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-5">
             <div>
               <p className="text-brand-navy font-medium mb-3">
-                Pop your email in and we&apos;ll send you two things:
+                Pop your email in and we&apos;ll send you:
               </p>
               <ul className="space-y-2 text-body-sm text-brand-navy/80">
                 <li className="flex items-start gap-2">
                   <span className="text-brand-gold font-bold">✓</span>
-                  <span>A PDF copy of your full quote once you&apos;ve finished building it</span>
+                  <span>A PDF copy of your full quote</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <Gift className="w-4 h-4 text-brand-gold shrink-0 mt-0.5" />
-                  <span>
-                    A <strong>FREE</strong> professional AI visibility scan of your current
-                    website (worth £5, one of our paid Pro Scans on the house)
-                  </span>
+                  <span className="text-brand-gold font-bold">✓</span>
+                  <span>A <strong>FREE</strong> professional AI visibility scan of your website</span>
                 </li>
               </ul>
-              <p className="text-caption text-brand-graphite mt-3">
-                You&apos;ll still see the full quote on screen as you build it. The email
-                is so you can come back to it and so we can send your free scan.
-              </p>
             </div>
 
             {/* Email field */}
@@ -190,10 +183,6 @@ export function QuoteEmailCaptureModal({
                 inputMode="url"
                 disabled={isSubmitting}
               />
-              <p className="text-caption text-brand-graphite mt-1">
-                If you give us your website, we&apos;ll run your free Pro Scan automatically
-                and email the results.
-              </p>
             </div>
 
             {error && (

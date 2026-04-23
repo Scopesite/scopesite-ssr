@@ -792,7 +792,7 @@ export function QuoteCalculator() {
         isSSR && currentStep > 2 && "ring-2 ring-brand-gold/30"
       )}>
         <CardHeader className="bg-brand-navy text-white rounded-t-lg">
-          <CardTitle className="text-h3 font-headline">
+          <CardTitle className="text-h3 font-headline font-black">
             {currentStepDef?.title}
           </CardTitle>
           <CardDescription className="text-white/70">

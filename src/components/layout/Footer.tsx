@@ -121,7 +121,7 @@ export function Footer() {
                 className="transition-transform group-hover:scale-105"
                 loading="lazy"
               />
-              <span className="font-headline text-white text-2xl tracking-tight">
+              <span className="font-brand text-white text-2xl tracking-tight">
                 SCOPESITE
               </span>
             </Link>

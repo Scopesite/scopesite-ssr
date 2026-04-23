@@ -56,7 +56,7 @@ export function Header() {
               priority
             />
             <span className={cn(
-              "font-headline text-[50px] leading-none tracking-tight hidden sm:block whitespace-nowrap transition-colors",
+              "font-brand text-[50px] leading-none tracking-tight hidden sm:block whitespace-nowrap transition-colors",
               isHome ? "text-brand-gold" : "text-white group-hover:text-brand-gold"
             )}>
               SCOPESITE

@@ -33,7 +33,7 @@ export function PortalNav({ userName, isAdmin, companyName }: PortalNavProps) {
 
             {/* Logo - links back to main website */}
             <a href="https://scopesite.co.uk" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3">
-              <span className="font-headline text-lg text-white">SCOPESITE</span>
+              <span className="font-brand text-lg text-white">SCOPESITE</span>
               <span className="hidden sm:inline text-white/50 text-sm">|</span>
               <span className="hidden sm:inline text-white/70 text-sm">Portal</span>
             </a>
