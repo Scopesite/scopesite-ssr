@@ -35,12 +35,12 @@ interface Props {
 // Constants
 // ---------------------------------------------------------------------------
 const FULL_VIEWBOX: BBox = {
-  x: 0,
-  y: 0,
+  x: REGION_VIEWBOX.x,
+  y: REGION_VIEWBOX.y,
   w: REGION_VIEWBOX.width,
   h: REGION_VIEWBOX.height,
-  cx: REGION_VIEWBOX.width / 2,
-  cy: REGION_VIEWBOX.height / 2,
+  cx: REGION_VIEWBOX.x + REGION_VIEWBOX.width / 2,
+  cy: REGION_VIEWBOX.y + REGION_VIEWBOX.height / 2,
 };
 
 const FULL_ASPECT = REGION_VIEWBOX.width / REGION_VIEWBOX.height;
@@ -70,10 +70,6 @@ const PAN_ARROW_DURATION_MS = 200;
 const ZOOM_MIN = 1;
 const ZOOM_MAX = 4;
 const ZOOM_STEP = 1.2;
-
-// BT (Belfast / Northern Ireland) is not in the missinglink upstream dataset.
-// Fall back to the NI region outline since BT covers all of Northern Ireland.
-const BT_FALLBACK_D = REGION_PATHS.northern_ireland;
 
 // London area labels pack into a small slice of the SVG when zoomed into
 // London. Nudge each label off its centroid so they don't stack on top of
@@ -446,14 +442,6 @@ export function TerritoryMap({ areas }: Props) {
     for (const area of Object.keys(AREA_BOUNDARIES)) {
       if (UK_POSTCODE_AREA_TO_REGION[area] === zoomedRegion) out.push(area);
     }
-    // Include BT if NI is the zoomed region (upstream boundary data is missing).
-    if (
-      zoomedRegion === 'northern_ireland' &&
-      UK_POSTCODE_AREA_TO_REGION['BT'] === 'northern_ireland' &&
-      !AREA_BOUNDARIES['BT']
-    ) {
-      out.push('BT');
-    }
     return out.sort();
   }, [zoomedRegion]);
 
@@ -755,7 +743,8 @@ export function TerritoryMap({ areas }: Props) {
               {zoomedRegion ? (
                 <g id="postcode-areas" aria-label="Postcode areas">
                   {visibleAreas.map((area) => {
-                    const d = AREA_BOUNDARIES[area] ?? BT_FALLBACK_D;
+                    const d = AREA_BOUNDARIES[area];
+                    if (!d) return null;
                     const status = areas[area];
                     const key = status?.status ?? 'none';
                     const fill = STATUS_FILL[key];
@@ -798,11 +787,7 @@ export function TerritoryMap({ areas }: Props) {
               {zoomedRegion ? (
                 <g id="area-labels" style={{ pointerEvents: 'none' }}>
                   {visibleAreas.map((area) => {
-                    let c = AREA_BOUNDARY_CENTROIDS[area];
-                    if (!c && area === 'BT') {
-                      const bb = bboxes.northern_ireland;
-                      c = { x: bb.cx, y: bb.cy };
-                    }
+                    const c = AREA_BOUNDARY_CENTROIDS[area];
                     if (!c) return null;
                     const nudge = LONDON_LABEL_FANOUT[area] ?? [0, 0];
                     const status = areas[area];
@@ -889,7 +874,7 @@ export function TerritoryMap({ areas }: Props) {
               pan, press Escape or Back to UK to reset.
             </p>
             <p className="mt-2 text-xs leading-relaxed text-slate-400">
-              Postcode boundaries &copy; Wikipedia contributors,{' '}
+              Postcode areas &copy; Wikipedia contributors,{' '}
               <a
                 href="https://creativecommons.org/licenses/by-sa/3.0/"
                 target="_blank"
@@ -897,6 +882,16 @@ export function TerritoryMap({ areas }: Props) {
                 className="underline underline-offset-2 hover:text-slate-600"
               >
                 CC BY-SA 3.0
+              </a>
+              . Northern Ireland outline &copy; OSNI / martinjc
+              UK-GeoJSON under the{' '}
+              <a
+                href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+                target="_blank"
+                rel="noreferrer noopener"
+                className="underline underline-offset-2 hover:text-slate-600"
+              >
+                Open Government Licence
               </a>
               .
             </p>

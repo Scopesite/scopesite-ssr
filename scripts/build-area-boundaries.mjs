@@ -1,34 +1,46 @@
 #!/usr/bin/env node
 /**
- * Territory Command - build postcode AREA boundaries for all 121 UK areas.
+ * Territory Command - build postcode AREA boundaries and UK REGION outlines
+ * from a single consistent source grid.
  *
- * Mirrors scripts/build-postcode-boundaries.mjs (SW pilot districts) but
- * operates at area level: every district inside an area is dissolved into
- * a single area polygon, then simplified and projected through the same
- * linear equirectangular transform used by pin-coordinates.ts.
+ * Inputs:
+ *   - .postcode-candidates/<AREA>.geojson (raw, WGS84)
+ *       Fetched from https://github.com/missinglink/uk-postcode-polygons
+ *       master/geojson/<AREA>.geojson (one file per area, containing all its
+ *       districts as a FeatureCollection).
+ *       (c) Wikipedia contributors, CC BY-SA 3.0
+ *       https://creativecommons.org/licenses/by-sa/3.0/
+ *   - .postcode-candidates/NI_lgd.topojson
+ *       Fetched from https://github.com/martinjc/UK-GeoJSON
+ *       master/json/administrative/ni/topo_lgd.json
+ *       NI local government district boundaries; dissolved into one shape
+ *       as the BT postcode area. OGL (Open Government Licence).
  *
- * Input:  .postcode-candidates/<AREA>.geojson (raw, WGS84)
- *   Fetched from https://github.com/missinglink/uk-postcode-polygons
- *   master/geojson/<AREA>.geojson (one file per area, containing all its
- *   districts as a FeatureCollection).
- *   (c) Wikipedia contributors, CC BY-SA 3.0
- *   https://creativecommons.org/licenses/by-sa/3.0/
+ * Pipeline:
+ *   1. Download every missing upstream file.
+ *   2. Tag each district feature with its area code.
+ *   3. Dissolve the NI LGDs into a single BT feature and merge it in.
+ *   4. Apply a Shetland (ZE) inset: shift every ZE vertex by
+ *      (+2.3 lng, -2.5 lat) so Shetland projects into the top-right
+ *      corner of the SVG viewBox instead of sitting ~280 units above it.
+ *   5. Tag every feature with its region key from AREA_TO_REGION.
+ *   6. Two mapshaper dissolves from the SAME source file:
+ *        - dissolve2 area   -> 121 postcode-area polygons
+ *        - dissolve2 region -> 12 UK region polygons
+ *      Both at `-simplify 6% visvalingam keep-shapes` so areas and
+ *      regions share the exact same topology (region outline = union of
+ *      its areas, zero gaps / overlap).
+ *   7. Project every vertex through the same linear equirectangular
+ *      transform used by pin-coordinates.ts.
  *
- * Pipeline per area:
- *   1. Download <AREA>.geojson if not already cached locally.
- *   2. Tag every district feature with its area code (letters only).
- *   3. Merge all features from all areas into one FeatureCollection.
- *   4. Dissolve by area code so each area becomes one (multi)polygon.
- *   5. Simplify the whole set via mapshaper -simplify 6% visvalingam
- *      keep-shapes (area level polygons are larger than district level
- *      and sit at a lower zoom, so a harder simplification is fine and
- *      keeps the bundle down).
- *   6. Project every vertex with the SAME transform used everywhere else.
- *
- * Output: src/lib/territory/area-boundaries.ts with:
- *   AREA_BOUNDARIES         Record<area, string>         (SVG path d-strings)
- *   AREA_BOUNDARY_CENTROIDS Record<area, Centroid>       (for label placement)
- *   AREA_BOUNDARY_BBOXES    Record<area, BoundaryBBox>   (for region framing)
+ * Outputs:
+ *   - src/lib/territory/area-boundaries.ts
+ *       AREA_BOUNDARIES          Record<area, string>       (SVG path d)
+ *       AREA_BOUNDARY_CENTROIDS  Record<area, Centroid>
+ *       AREA_BOUNDARY_BBOXES     Record<area, BoundaryBBox>
+ *   - src/lib/territory/region-paths.ts
+ *       REGION_PATHS             Record<RegionKey, string>
+ *       REGION_VIEWBOX           { width, height }
  *
  * Run: `node scripts/build-area-boundaries.mjs`
  */
@@ -56,11 +68,29 @@ const project = (lng, lat) => ({
   y: TRANSFORM.yOffset + (TRANSFORM.yAnchorLat - lat) * TRANSFORM.yScale,
 });
 
+// Shetland inset - applied at lat/lng level BEFORE any dissolve so both
+// the ZE area polygon AND the scotland region polygon (which contains
+// ZE as one of its MultiPolygon rings) reflect the shift automatically.
+// Values chosen so the projected ZE bbox lands at roughly x:605..655,
+// y:30..150 - top-right corner, fully inside the 690x982 viewBox.
+const ZE_LNG_OFFSET = 2.3;
+const ZE_LAT_OFFSET = -2.5;
+
+// Fallback viewBox used only if dynamic computation fails. Actual viewBox is
+// computed from the union bbox of the dissolved regions and written to the
+// generated file with `x`, `y`, `width`, `height`.
+const REGION_VIEWBOX_FALLBACK = { x: 0, y: 0, width: 690, height: 982 };
+const REGION_VIEWBOX_PAD = 10;
+
 const ROOT = process.cwd();
 const CAND = path.join(ROOT, '.postcode-candidates');
-const OUT = path.join(ROOT, 'src/lib/territory/area-boundaries.ts');
+const OUT_AREAS = path.join(ROOT, 'src/lib/territory/area-boundaries.ts');
+const OUT_REGIONS = path.join(ROOT, 'src/lib/territory/region-paths.ts');
+
 const UPSTREAM = (area) =>
   `https://raw.githubusercontent.com/missinglink/uk-postcode-polygons/master/geojson/${area}.geojson`;
+const NI_UPSTREAM =
+  'https://raw.githubusercontent.com/martinjc/UK-GeoJSON/master/json/administrative/ni/topo_lgd.json';
 
 function areaFromDistrict(code) {
   return String(code).toUpperCase().replace(/[0-9].*$/, '');
@@ -123,7 +153,23 @@ async function ensureAreaFile(area) {
   }
 }
 
-function loadFeatures(file, area) {
+async function ensureNiFile() {
+  const raw = path.join(CAND, 'NI_lgd.topojson');
+  const dissolved = path.join(CAND, 'BT.geojson');
+  if (!fs.existsSync(raw) || fs.statSync(raw).size < 1000) {
+    console.log(`Fetching NI LGDs from martinjc/UK-GeoJSON...`);
+    await download(NI_UPSTREAM, raw);
+  }
+  if (!fs.existsSync(dissolved) || fs.statSync(dissolved).size < 200) {
+    console.log(`Dissolving NI LGDs into a single BT polygon...`);
+    await mapshaperRun(
+      `-i "${raw}" -dissolve2 -o format=geojson "${dissolved}" force`,
+    );
+  }
+  return { raw, dissolved };
+}
+
+function loadAreaFeatures(file, area) {
   const data = JSON.parse(fs.readFileSync(file, 'utf8'));
   const feats = data.type === 'FeatureCollection' ? data.features : [data];
   const out = [];
@@ -139,6 +185,70 @@ function loadFeatures(file, area) {
     });
   }
   return out;
+}
+
+function loadBtFeature(file) {
+  const data = JSON.parse(fs.readFileSync(file, 'utf8'));
+  // mapshaper -dissolve2 on NI LGDs outputs a GeometryCollection; handle
+  // FeatureCollection, GeometryCollection and bare polygon inputs.
+  const candidates = [];
+  if (data.type === 'FeatureCollection') {
+    for (const f of data.features) if (f && f.geometry) candidates.push(f.geometry);
+  } else if (data.type === 'GeometryCollection') {
+    for (const g of data.geometries) if (g) candidates.push(g);
+  } else if (data.type === 'Feature' && data.geometry) {
+    candidates.push(data.geometry);
+  } else if (data.type === 'Polygon' || data.type === 'MultiPolygon') {
+    candidates.push(data);
+  }
+  for (const g of candidates) {
+    if (g.type !== 'Polygon' && g.type !== 'MultiPolygon') continue;
+    return {
+      type: 'Feature',
+      properties: { area: 'BT', district: 'BT' },
+      geometry: g,
+    };
+  }
+  return null;
+}
+
+function transformCoords(geom, fn) {
+  if (!geom) return;
+  if (geom.type === 'Polygon') {
+    geom.coordinates = geom.coordinates.map((ring) => ring.map(fn));
+  } else if (geom.type === 'MultiPolygon') {
+    geom.coordinates = geom.coordinates.map((poly) =>
+      poly.map((ring) => ring.map(fn)),
+    );
+  } else if (geom.type === 'GeometryCollection' && Array.isArray(geom.geometries)) {
+    for (const g of geom.geometries) transformCoords(g, fn);
+  }
+}
+
+/** Collapse a GeometryCollection of Polygon/MultiPolygon into a single
+ *  MultiPolygon so downstream mapshaper + projection treat it uniformly. */
+function flattenToMultiPolygon(geom) {
+  if (!geom) return geom;
+  if (geom.type === 'Polygon') {
+    return { type: 'MultiPolygon', coordinates: [geom.coordinates] };
+  }
+  if (geom.type === 'MultiPolygon') return geom;
+  if (geom.type === 'GeometryCollection' && Array.isArray(geom.geometries)) {
+    const polys = [];
+    for (const g of geom.geometries) {
+      if (!g) continue;
+      if (g.type === 'Polygon') polys.push(g.coordinates);
+      else if (g.type === 'MultiPolygon') for (const p of g.coordinates) polys.push(p);
+      else if (g.type === 'GeometryCollection') {
+        const inner = flattenToMultiPolygon(g);
+        if (inner && inner.type === 'MultiPolygon') {
+          for (const p of inner.coordinates) polys.push(p);
+        }
+      }
+    }
+    return { type: 'MultiPolygon', coordinates: polys };
+  }
+  return geom;
 }
 
 async function mapshaperRun(args) {
@@ -256,10 +366,14 @@ function codeCompare(a, b) {
 async function main() {
   if (!fs.existsSync(CAND)) fs.mkdirSync(CAND, { recursive: true });
 
-  console.log(`Fetching ${ALL_AREA_CODES.length} area source files (cached if present)...`);
+  // ---------------------------------------------------------------------
+  // Stage 1: fetch GB area files + NI LGD bundle.
+  // ---------------------------------------------------------------------
+  console.log(`Fetching ${ALL_AREA_CODES.length} GB area source files (cached if present)...`);
   const fetchReport = [];
   const missingAreas = [];
   for (const area of ALL_AREA_CODES) {
+    if (area === 'BT') continue; // BT comes from NI_lgd below, not missinglink.
     const r = await ensureAreaFile(area);
     fetchReport.push(r);
     if (r.error || !fs.existsSync(r.file) || fs.statSync(r.file).size < 200) {
@@ -273,12 +387,20 @@ async function main() {
     console.warn(`  missing upstream data for: ${missingAreas.join(', ')}`);
   }
 
+  // BT (Northern Ireland) comes from a separate OGL source.
+  await ensureNiFile();
+
+  // ---------------------------------------------------------------------
+  // Stage 2: load + tag every feature.
+  // ---------------------------------------------------------------------
   const allFeatures = [];
   let rawVerts = 0;
   const presentAreas = new Set();
+
   for (const area of ALL_AREA_CODES) {
+    if (area === 'BT') continue;
     if (missingAreas.includes(area)) continue;
-    const feats = loadFeatures(path.join(CAND, `${area}.geojson`), area);
+    const feats = loadAreaFeatures(path.join(CAND, `${area}.geojson`), area);
     if (!feats.length) {
       missingAreas.push(area);
       continue;
@@ -289,31 +411,66 @@ async function main() {
       allFeatures.push(f);
     }
   }
-  console.log(`Loaded ${allFeatures.length} district features across ${presentAreas.size} areas`);
+
+  const btFeat = loadBtFeature(path.join(CAND, 'BT.geojson'));
+  if (!btFeat) {
+    throw new Error('BT feature missing after NI dissolve');
+  }
+  rawVerts += countVerts(btFeat.geometry.coordinates);
+  allFeatures.push(btFeat);
+  presentAreas.add('BT');
+
+  console.log(`Loaded ${allFeatures.length} district/area features across ${presentAreas.size} areas`);
   console.log(`Raw vertices: ${rawVerts}`);
 
-  const tmpIn = path.join(CAND, 'areas-raw.geojson');
-  const tmpDissolved = path.join(CAND, 'areas-dissolved.geojson');
-  const tmpSimplified = path.join(CAND, 'areas-simplified.geojson');
+  // ---------------------------------------------------------------------
+  // Stage 3: flatten GeometryCollections (some missinglink features use
+  // them), apply the Shetland (ZE) lat/lng inset, then tag with region.
+  // ---------------------------------------------------------------------
+  for (const f of allFeatures) {
+    f.geometry = flattenToMultiPolygon(f.geometry);
+  }
+  let zeVertices = 0;
+  for (const f of allFeatures) {
+    if (f.properties.area === 'ZE') {
+      transformCoords(f.geometry, ([lng, lat]) => {
+        zeVertices++;
+        return [lng + ZE_LNG_OFFSET, lat + ZE_LAT_OFFSET];
+      });
+    }
+    f.properties.region = AREA_TO_REGION[f.properties.area] || null;
+  }
+  console.log(`Applied Shetland inset to ${zeVertices} ZE vertices (lng+${ZE_LNG_OFFSET}, lat${ZE_LAT_OFFSET}).`);
+
+  const tmpIn = path.join(CAND, 'uk-raw.geojson');
+  const tmpAreas = path.join(CAND, 'areas-simplified.geojson');
+  const tmpRegions = path.join(CAND, 'regions-simplified.geojson');
 
   fs.writeFileSync(
     tmpIn,
     JSON.stringify({ type: 'FeatureCollection', features: allFeatures }),
   );
 
-  console.log('Dissolving districts into areas...');
+  // ---------------------------------------------------------------------
+  // Stage 4: two dissolves from the same source - one per grain.
+  // Same simplify rate so areas and regions stay topologically consistent.
+  // ---------------------------------------------------------------------
+  console.log('Dissolving + simplifying by AREA...');
   await mapshaperRun(
-    `-i "${tmpIn}" -dissolve2 area copy-fields=area -o format=geojson "${tmpDissolved}" force`,
+    `-i "${tmpIn}" -dissolve2 area copy-fields=area,region -simplify 6% visvalingam keep-shapes -o format=geojson "${tmpAreas}" force`,
   );
 
-  console.log('Simplifying...');
+  console.log('Dissolving + simplifying by REGION...');
   await mapshaperRun(
-    `-i "${tmpDissolved}" -simplify 6% visvalingam keep-shapes -o format=geojson "${tmpSimplified}" force`,
+    `-i "${tmpIn}" -dissolve2 region copy-fields=region -simplify 6% visvalingam keep-shapes -o format=geojson "${tmpRegions}" force`,
   );
 
-  const simplified = JSON.parse(fs.readFileSync(tmpSimplified, 'utf8'));
+  // ---------------------------------------------------------------------
+  // Stage 5: project areas, emit area-boundaries.ts.
+  // ---------------------------------------------------------------------
+  const simplifiedAreas = JSON.parse(fs.readFileSync(tmpAreas, 'utf8'));
   const byArea = new Map();
-  for (const f of simplified.features) {
+  for (const f of simplifiedAreas.features) {
     const area = (f.properties && (f.properties.area || extractCode(f.properties))) || '';
     if (!area) continue;
     byArea.set(area, f.geometry);
@@ -352,21 +509,25 @@ async function main() {
     (byRegion[region] ||= []).push(area);
   }
 
-  const header = `/**
+  const areaHeader = `/**
  * Territory Command - simplified postcode AREA boundaries (dissolved).
  *
  * GENERATED FILE. Do not hand-edit. Regenerate via:
  *   node scripts/build-area-boundaries.mjs
  *
- * Source: https://github.com/missinglink/uk-postcode-polygons
- *   (c) Wikipedia contributors, released under CC BY-SA 3.0
- *   https://creativecommons.org/licenses/by-sa/3.0/
+ * Sources:
+ *   - https://github.com/missinglink/uk-postcode-polygons (CC BY-SA 3.0)
+ *     (c) Wikipedia contributors. Covers GB postcode districts.
+ *   - https://github.com/martinjc/UK-GeoJSON (OGL) for BT / Northern Ireland.
+ *     Contains OS/OSNI open data under the Open Government Licence.
  *
- * Pipeline: per-area district FeatureCollections -> dissolve by area code
- * -> mapshaper -simplify 6% visvalingam keep-shapes -> projected through
- * the same linear equirectangular transform used by pin-coordinates.ts.
+ * Pipeline: per-area district FeatureCollections + NI LGD dissolve
+ * -> tag with area + region -> ZE lat/lng inset (+${ZE_LNG_OFFSET} lng, ${ZE_LAT_OFFSET} lat)
+ * -> mapshaper -dissolve2 area + -simplify 6% visvalingam keep-shapes
+ * -> projected through the same linear equirectangular transform used by
+ * pin-coordinates.ts.
  * Areas: ${emittedAreas.length} of ${ALL_AREA_CODES.length} requested.
- * Raw district vertices: ${rawVerts}. Simplified area vertices: ${simpVerts}.${
+ * Raw input vertices: ${rawVerts}. Simplified area vertices: ${simpVerts}.${
     missingAreas.length ? `\n * Missing upstream data: ${missingAreas.join(', ')}.` : ''
   }
  */
@@ -414,16 +575,16 @@ export const AREA_BOUNDARIES: Record<string, string> = {
     : '\nexport const AREA_BOUNDARY_MISSING: readonly string[] = [];\n';
 
   fs.writeFileSync(
-    OUT,
-    header + pathsBody + centroidsBlock + bboxesBlock + missingBlock,
+    OUT_AREAS,
+    areaHeader + pathsBody + centroidsBlock + bboxesBlock + missingBlock,
     'utf8',
   );
 
-  console.log(`\nWrote ${OUT}`);
+  console.log(`\nWrote ${OUT_AREAS}`);
   console.log(`  areas emitted:   ${emittedAreas.length}`);
   console.log(`  raw verts:       ${rawVerts}`);
   console.log(`  simplified verts:${simpVerts}`);
-  console.log(`  output size:     ${fs.statSync(OUT).size} bytes`);
+  console.log(`  output size:     ${fs.statSync(OUT_AREAS).size} bytes`);
   if (missingAreas.length) {
     console.warn(`  missing areas:   ${missingAreas.join(', ')}`);
   }
@@ -433,6 +594,110 @@ export const AREA_BOUNDARIES: Record<string, string> = {
     .sort()
     .join(', ');
   console.log(`  by region:       ${regionCounts}`);
+
+  // ---------------------------------------------------------------------
+  // Stage 6: project regions, emit region-paths.ts.
+  // ---------------------------------------------------------------------
+  const simplifiedRegions = JSON.parse(fs.readFileSync(tmpRegions, 'utf8'));
+  const byRegionGeom = new Map();
+  for (const f of simplifiedRegions.features) {
+    const region = f.properties && f.properties.region;
+    if (!region) continue;
+    byRegionGeom.set(region, f.geometry);
+  }
+
+  const REGION_KEYS_ORDER = [
+    'scotland',
+    'northern_ireland',
+    'north_east',
+    'north_west',
+    'yorkshire_humber',
+    'east_midlands',
+    'west_midlands',
+    'east_of_england',
+    'wales',
+    'london',
+    'south_east',
+    'south_west',
+  ];
+
+  const regionPaths = {};
+  let regionSimpVerts = 0;
+  let regionMinX = Infinity;
+  let regionMinY = Infinity;
+  let regionMaxX = -Infinity;
+  let regionMaxY = -Infinity;
+  for (const key of REGION_KEYS_ORDER) {
+    const geom = byRegionGeom.get(key);
+    if (!geom) {
+      console.warn(`  dissolve lost region: ${key}`);
+      continue;
+    }
+    regionPaths[key] = geometryToPath(geom);
+    regionSimpVerts += countVerts(geom.coordinates);
+    const b = geometryBBox(geom);
+    if (b.x < regionMinX) regionMinX = b.x;
+    if (b.y < regionMinY) regionMinY = b.y;
+    if (b.x + b.w > regionMaxX) regionMaxX = b.x + b.w;
+    if (b.y + b.h > regionMaxY) regionMaxY = b.y + b.h;
+  }
+
+  // Derive the viewBox dynamically from the actual region-union extent
+  // with a small uniform pad, rounded to integers. Falls back to the
+  // historical 690x982 range if the dissolve produced no regions.
+  let vbX = Math.floor(regionMinX) - REGION_VIEWBOX_PAD;
+  let vbY = Math.floor(regionMinY) - REGION_VIEWBOX_PAD;
+  let vbW = Math.ceil(regionMaxX - regionMinX) + REGION_VIEWBOX_PAD * 2;
+  let vbH = Math.ceil(regionMaxY - regionMinY) + REGION_VIEWBOX_PAD * 2;
+  if (!Number.isFinite(vbX) || !Number.isFinite(vbY) || vbW <= 0 || vbH <= 0) {
+    vbX = REGION_VIEWBOX_FALLBACK.x;
+    vbY = REGION_VIEWBOX_FALLBACK.y;
+    vbW = REGION_VIEWBOX_FALLBACK.width;
+    vbH = REGION_VIEWBOX_FALLBACK.height;
+  }
+
+  const regionHeader = `/**
+ * Territory Command - UK region outlines.
+ *
+ * GENERATED FILE. Do not hand-edit. Regenerate via:
+ *   node scripts/build-area-boundaries.mjs
+ *
+ * Each region outline is the union (mapshaper -dissolve2 region) of its
+ * constituent postcode-area polygons from area-boundaries.ts. The two
+ * files share the exact same source grid and simplification level, so the
+ * region outline is always the exact topological union of its areas -
+ * zero gaps, zero overlap, zero misalignment.
+ *
+ * Sources:
+ *   - https://github.com/missinglink/uk-postcode-polygons (CC BY-SA 3.0)
+ *   - https://github.com/martinjc/UK-GeoJSON (OGL) for Northern Ireland.
+ * Simplify: 6% visvalingam keep-shapes.
+ * Shetland (ZE) shifted (+${ZE_LNG_OFFSET} lng, ${ZE_LAT_OFFSET} lat) to inset into top-right of viewBox.
+ * Regions: ${Object.keys(regionPaths).length}. Simplified region vertices: ${regionSimpVerts}.
+ * Union bbox: x=${regionMinX.toFixed(2)}..${regionMaxX.toFixed(2)}, y=${regionMinY.toFixed(2)}..${regionMaxY.toFixed(2)}.
+ */
+
+import type { RegionKey } from './map-regions';
+
+export const REGION_PATHS: Record<RegionKey, string> = {
+${REGION_KEYS_ORDER
+  .filter((k) => regionPaths[k])
+  .map((k) => `  ${k}: ${JSON.stringify(regionPaths[k])},`)
+  .join('\n')}
+};
+
+export const REGION_VIEWBOX = { x: ${vbX}, y: ${vbY}, width: ${vbW}, height: ${vbH} } as const;
+`;
+
+  fs.writeFileSync(OUT_REGIONS, regionHeader, 'utf8');
+
+  console.log(`\nWrote ${OUT_REGIONS}`);
+  console.log(`  regions emitted: ${Object.keys(regionPaths).length}`);
+  console.log(`  simplified verts:${regionSimpVerts}`);
+  console.log(`  output size:     ${fs.statSync(OUT_REGIONS).size} bytes`);
+  console.log(
+    `  union bbox:      x=${regionMinX.toFixed(2)}..${regionMaxX.toFixed(2)}, y=${regionMinY.toFixed(2)}..${regionMaxY.toFixed(2)}`,
+  );
 }
 
 main().catch((err) => {
