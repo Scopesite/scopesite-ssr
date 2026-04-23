@@ -129,24 +129,13 @@ export const PIN_LABEL_SIDE: Record<string, LabelSide> = {
 // ---------------------------------------------------------------------------
 // Postcode -> region mapping
 // ---------------------------------------------------------------------------
-/**
- * Map a postcode (or postcode district) to its NUTS 1 region. Only the
- * pilot regions are implemented; everything else falls through to null.
- */
-const POSTCODE_AREA_REGION: Record<string, RegionKey> = {
-  BA: 'south_west',
-  BS: 'south_west',
-  TA: 'south_west',
-  DT: 'south_west',
-  EX: 'south_west',
-  PL: 'south_west',
-  TQ: 'south_west',
-  TR: 'south_west',
-  GL: 'south_west',
-  SN: 'south_west',
-};
+import { UK_POSTCODE_AREA_TO_REGION } from './uk-postcode-area-regions';
 
+/**
+ * Map a postcode (or postcode district) to its NUTS 1 region
+ * (first letters of the outward code = geographic postcode area).
+ */
 export function postcodeToRegion(postcode: string): RegionKey | null {
   const area = postcode.replace(/\d.*$/, '').toUpperCase();
-  return POSTCODE_AREA_REGION[area] ?? null;
+  return UK_POSTCODE_AREA_TO_REGION[area] ?? null;
 }

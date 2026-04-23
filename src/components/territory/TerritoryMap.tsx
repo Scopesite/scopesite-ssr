@@ -690,9 +690,8 @@ export function TerritoryMap({ points }: Props) {
             Where Territory Command is live
           </h2>
           <p className="mt-3 text-base sm:text-lg text-slate-700 max-w-2xl mx-auto leading-relaxed">
-            The South West pilot launches first. Other UK regions are coming.
-            Click a region to zoom in, or click a pin to check availability for
-            that postcode.
+            Territory Command is live across the UK. Click a region to zoom
+            in, or click a pin to check availability for that postcode.
           </p>
         </div>
 
@@ -735,15 +734,6 @@ export function TerritoryMap({ points }: Props) {
                 aria-live="polite"
               >
                 {MAP_REGIONS[zoomedRegion].label}
-                {MAP_REGIONS[zoomedRegion].active ? (
-                  <span className="ml-2 rounded-full bg-brand-gold/20 px-2 py-0.5 text-xs text-brand-gold-accessible">
-                    Pilot live
-                  </span>
-                ) : (
-                  <span className="ml-2 rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600">
-                    Coming soon
-                  </span>
-                )}
               </div>
             ) : null}
 
@@ -873,7 +863,7 @@ export function TerritoryMap({ points }: Props) {
               viewBox={viewBoxStr}
               xmlns="http://www.w3.org/2000/svg"
               role="img"
-              aria-label="Map of the United Kingdom regions showing the South West Territory Command pilot area"
+              aria-label="Map of the United Kingdom with Territory Command postcode area pins by region"
               preserveAspectRatio="xMidYMid meet"
               className="territory-map-root w-full h-auto max-h-[70vh] mx-auto block"
             >
@@ -957,8 +947,8 @@ export function TerritoryMap({ points }: Props) {
                     >
                       <title>
                         {isActive
-                          ? `${MAP_REGIONS[key].label}: pilot live, click to zoom in`
-                          : `${MAP_REGIONS[key].label}: coming soon, click to register interest`}
+                          ? `${MAP_REGIONS[key].label} — live, click to zoom in`
+                          : `${MAP_REGIONS[key].label}: not yet active, click to register interest`}
                       </title>
                     </path>
                   );

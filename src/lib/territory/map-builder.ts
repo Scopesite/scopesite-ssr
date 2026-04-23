@@ -11,6 +11,7 @@
 
 import 'server-only';
 import { PILOT_PINS } from './pin-coordinates';
+import { AREA_PINS } from './area-pins';
 import { getMapData } from './queries';
 import type { MapDataPoint } from './types';
 
@@ -18,7 +19,7 @@ export async function buildMapPoints(): Promise<MapDataPoint[]> {
   const dbRows = await getMapData();
   const byDistrict = new Map(dbRows.map((r) => [r.postcodeDistrict, r]));
 
-  return PILOT_PINS.map((pin) => {
+  return [...PILOT_PINS, ...AREA_PINS].map((pin) => {
     const row = byDistrict.get(pin.postcode);
     const available = row?.availableSectorCount ?? 0;
     const pending = row?.pendingSectorCount ?? 0;

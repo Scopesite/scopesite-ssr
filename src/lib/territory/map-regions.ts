@@ -7,17 +7,17 @@
 
 export const MAP_REGIONS = {
   south_west:        { active: true,  label: 'South West' },
-  north_west:        { active: false, label: 'North West' },
-  north_east:        { active: false, label: 'North East' },
-  yorkshire_humber:  { active: false, label: 'Yorkshire and the Humber' },
-  east_midlands:     { active: false, label: 'East Midlands' },
-  west_midlands:     { active: false, label: 'West Midlands' },
-  east_of_england:   { active: false, label: 'East of England' },
-  london:            { active: false, label: 'London' },
-  south_east:        { active: false, label: 'South East' },
-  wales:             { active: false, label: 'Wales' },
-  scotland:          { active: false, label: 'Scotland' },
-  northern_ireland:  { active: false, label: 'Northern Ireland' },
+  north_west:        { active: true,  label: 'North West' },
+  north_east:        { active: true,  label: 'North East' },
+  yorkshire_humber:  { active: true,  label: 'Yorkshire and the Humber' },
+  east_midlands:     { active: true,  label: 'East Midlands' },
+  west_midlands:     { active: true,  label: 'West Midlands' },
+  east_of_england:   { active: true,  label: 'East of England' },
+  london:            { active: true,  label: 'London' },
+  south_east:        { active: true,  label: 'South East' },
+  wales:             { active: true,  label: 'Wales' },
+  scotland:          { active: true,  label: 'Scotland' },
+  northern_ireland:  { active: true,  label: 'Northern Ireland' },
 } as const;
 
 export type RegionKey = keyof typeof MAP_REGIONS;
