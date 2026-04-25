@@ -155,10 +155,21 @@ export default function GenerativeEngineOptimisationPage() {
         bodyCopy={
           <>
             <p className="mb-4">
-              Search changed. People ask ChatGPT, Claude, Gemini and Perplexity for answers, and the model picks a handful of sources to cite. Generative engine optimisation is the technical discipline of being one of them.
+              Search changed. People ask ChatGPT, Claude, Gemini and Perplexity for answers, and the model picks a handful of sources to cite. Generative engine optimisation is the technical discipline of being one of them. If you are still untangling the vocabulary, start with{' '}
+              <Link href="/blog/geo-vs-seo-vs-aeo" className="text-brand-gold hover:underline">
+                the difference between GEO, SEO, and AEO
+              </Link>
+              — three related disciplines with different success metrics.
             </p>
             <p className="mb-4">
-              As a specialist generative engine optimisation agency, we engineer the structured data, entity signals and server-rendered HTML that AI models actually read. Rankings are not citations. You do not want a blue link on page one. You want the recommendation.
+              As a specialist generative engine optimisation agency, we engineer the structured data, entity signals and server-rendered HTML that AI models actually read. Rankings are not citations. You do not want a blue link on page one. You want the recommendation — the outcome we unpack in{' '}
+              <Link
+                href="/blog/how-to-get-recommended-by-chatgpt"
+                className="text-brand-gold hover:underline"
+              >
+                how to get recommended by ChatGPT in 2026
+              </Link>
+              , alongside what it takes to earn the same on other generative engines.
             </p>
             <p>
               We also run the closely related disciplines: our <Link href="/ai-seo-agency" className="text-brand-gold hover:underline">AI SEO agency</Link> work covers the broader stack, our <Link href="/ai-seo-services" className="text-brand-gold hover:underline">AI SEO services</Link> page lists each deliverable, <Link href="/answer-engine-optimisation" className="text-brand-gold hover:underline">answer engine optimisation</Link> is the content-side sibling of GEO, and our <Link href="/ai-visibility" className="text-brand-gold hover:underline">AI visibility</Link> scanner measures the lot.

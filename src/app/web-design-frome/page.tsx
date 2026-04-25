@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { MapPin, Palette, Server, Brain, Map } from 'lucide-react';
 import {
   LandingHero,
@@ -124,13 +125,25 @@ export default function WebDesignFromePage() {
         bodyCopy={
           <>
             <p className="mb-4">
-              This is our home town. ScopeSite Digital Studios is based in Beckington, Frome. We know Catherine Hill, the independent market, the creative community, and the businesses that make this town what it is.
+              This is our home town. ScopeSite Digital Studios is based in Beckington, Frome. We know Catherine Hill, the independent market, the creative community, and the businesses that make this town what it is. For a straight read on local search in the year ahead, we published a dedicated guide to{' '}
+              <Link href="/blog/seo-frome-businesses-2026" className="text-brand-gold hover:underline">
+                SEO for Frome businesses in 2026
+              </Link>
+              — what changed, and what still matters on the ground.
             </p>
             <p className="mb-4">
               Frome deserves better than generic templates built by agencies who&apos;ve never set foot here.
             </p>
             <p>
-              We build AI-optimised websites on Next.js that score 100/100 on Google Lighthouse, get your business recommended by ChatGPT, and actually reflect what makes Frome special. Veteran-owned, transparent pricing, and always available for a face-to-face meeting in town.
+              We build AI-optimised websites on Next.js that score 100/100 on Google Lighthouse, get your business recommended by ChatGPT, and actually reflect what makes Frome special. Veteran-owned, transparent pricing, and always available for a face-to-face meeting in town. If you are tired of mystery quotes, our write-up on{' '}
+              <Link
+                href="/blog/how-much-should-a-website-cost-in-frome-and-why-most-quotes-are-either-a-rip-off-or-a-waste-of-money"
+                className="text-brand-gold hover:underline"
+              >
+                what a Frome website should actually cost
+              </Link>
+              {' '}
+              walks through the numbers in plain English.
             </p>
           </>
         }

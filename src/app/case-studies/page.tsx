@@ -99,6 +99,32 @@ export default function CaseStudiesPage() {
         </div>
       </section>
 
+      <section className="section-white border-b border-brand-navy/10" aria-label="Methodology and market context">
+        <div className="container-content max-w-3xl mx-auto">
+          <p className="text-muted text-lg leading-relaxed mb-6">
+            The work behind these results is not guesswork. We draw on large-scale technical audits
+            of real sites in the wild — for example,{' '}
+            <Link
+              href="/blog/we-audited-500-personal-injury-law-firm-websites"
+              className="text-brand-gold hover:underline"
+            >
+              our 500-firm audit of personal injury law websites
+            </Link>
+            , which shows how small structural issues repeat across an entire sector until someone
+            fixes the foundation.
+          </p>
+          <p className="text-muted text-lg leading-relaxed">
+            We also track how UK agencies and in-house teams compare in AI visibility, which is why
+            we publish{' '}
+            <Link href="/blog/2026-uk-ai-visibility-index" className="text-brand-gold hover:underline">
+              the 2026 UK AI Visibility Index
+            </Link>
+            — a market snapshot, not a league table for its own sake, but context for what
+            &quot;good&quot; looks like in 2026.
+          </p>
+        </div>
+      </section>
+
       {/* Case Studies Grid */}
       <section className="section-white">
         <div className="container-content">

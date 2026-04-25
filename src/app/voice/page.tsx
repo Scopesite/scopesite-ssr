@@ -218,7 +218,12 @@ export default function VoicePage() {
                 and Claude. Created by Dan Cartwright, a British Army veteran and web developer,
                 V.O.I.C.E™ is the only systemised methodology in the UK that combines server-side
                 rendering, structured data engineering, and content architecture specifically
-                designed for generative AI citation.
+                designed for generative AI citation.{' '}
+                Before you run a scan, it helps to understand{' '}
+                <Link href="/blog/ai-visibility-checker" className="text-brand-gold hover:underline">
+                  what an AI visibility checker actually measures
+                </Link>
+                — the inputs, the scoring, and what each signal tells you about your site.
               </p>
             </div>
           </div>
@@ -233,27 +238,37 @@ export default function VoicePage() {
             <div className="grid md:grid-cols-2 gap-8 mb-8">
               <div>
                 <p className="text-muted mb-4">
-                  Your business might rank well on Google, but when someone asks ChatGPT or Claude 
-                  for recommendations in your industry, you're nowhere to be found. That's because 
-                  AI assistants don't crawl websites like Google does - they need structured data, 
+                  Your business might rank well on Google, but when someone asks ChatGPT or Claude
+                  for recommendations in your industry, you&apos;re nowhere to be found. That&apos;s because
+                  AI assistants don&apos;t crawl websites like Google does - they need structured data,
                   clear context, and trust signals that traditional SEO ignores.
                 </p>
                 <p className="text-muted">
-                  Most UK businesses are completely invisible to AI search. When potential customers 
-                  ask AI assistants for local recommendations, your competitors show up while you don't. 
-                  Not because they're better - because their websites speak the language AI understands.
+                  Most UK businesses are completely invisible to AI search. When potential customers
+                  ask AI assistants for local recommendations, your competitors show up while you
+                  don&apos;t. Not because they&apos;re better - because their websites speak the language AI
+                  understands.
                 </p>
               </div>
               <div>
                 <p className="text-muted mb-4">
-                  V.O.I.C.E™ is our proprietary methodology for fixing this. We audit your website's 
-                  AI visibility, identify exactly where you're losing ground, and implement the technical 
-                  changes that make AI assistants recognise, understand, and recommend your business.
+                  V.O.I.C.E™ is our proprietary methodology for fixing this. We audit your website&apos;s
+                  AI visibility, identify exactly where you&apos;re losing ground, and implement the technical
+                  changes that make AI assistants recognise, understand, and recommend your business. The
+                  practical end goal is{' '}
+                  <Link
+                    href="/blog/how-to-get-recommended-by-chatgpt"
+                    className="text-brand-gold hover:underline"
+                  >
+                    how to get recommended by ChatGPT in 2026
+                  </Link>
+                  — and the same technical foundation supports Perplexity, Claude, and Gemini.
                 </p>
                 <p className="text-muted">
-                  This isn't about gaming algorithms or chasing trends. It's about fundamentally restructuring 
-                  how your website communicates what you do, where you operate, and why you're trustworthy. 
-                  The same signals that help AI also improve your traditional SEO - it's not either/or.
+                  This isn&apos;t about gaming algorithms or chasing trends. It&apos;s about fundamentally
+                  restructuring how your website communicates what you do, where you operate, and why
+                  you&apos;re trustworthy. The same signals that help AI also improve your traditional SEO -
+                  it&apos;s not either/or.
                 </p>
               </div>
             </div>
@@ -356,7 +371,14 @@ export default function VoicePage() {
         <div className="container-content">
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">What&apos;s Included in Your Free Scan?</h2>
-            <p className="text-muted max-w-2xl mx-auto">No fluff, no sales pitch - just actionable insights</p>
+            <p className="text-muted max-w-2xl mx-auto">
+              No fluff, no sales pitch — just actionable insights. If you are comparing free options
+              first, we also published our take on the{' '}
+              <Link href="/blog/free-ai-visibility-tools" className="text-brand-gold hover:underline">
+                free AI visibility tools we tested
+              </Link>
+              , and how they stack up before you pay for anything.
+            </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">

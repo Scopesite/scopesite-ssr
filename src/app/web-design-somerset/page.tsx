@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { MapPin, Palette, Server, Brain, Map } from 'lucide-react';
 import {
   LandingHero,
@@ -142,13 +143,27 @@ export default function WebDesignSomersetPage() {
         bodyCopy={
           <>
             <p className="mb-4">
-              Most Somerset web designers are still building websites for 2019. Pretty designs that load slowly, rank nowhere, and are completely invisible to AI.
+              Most Somerset web designers are still building websites for 2019. Pretty designs that load slowly, rank nowhere, and are completely invisible to AI. The same shortfall shows up in local search: we break down what it really takes to reach the{' '}
+              <Link
+                href="/blog/first-page-google-somerset"
+                className="text-brand-gold hover:underline"
+              >
+                first page of Google for Somerset businesses
+              </Link>
+              , and why design alone is not enough.
             </p>
             <p className="mb-4">
               We&apos;re doing something different.
             </p>
             <p>
-              ScopeSite is a Somerset web design agency that builds websites for the AI era. When someone asks ChatGPT &quot;Who&apos;s the best [your service] in Somerset?&quot;, our clients are the ones getting mentioned. We&apos;re based in Frome, veteran-owned, and we&apos;ve been in your shoes - running a local business in Somerset where every customer matters.
+              ScopeSite is a Somerset web design agency that builds websites for the AI era. When someone asks ChatGPT &quot;Who&apos;s the best [your service] in Somerset?&quot;, our clients are the ones getting mentioned. We&apos;re based in Frome, veteran-owned, and we&apos;ve been in your shoes - running a local business in Somerset where every customer matters. We also see the same three patterns on repeat, which is why we wrote up{' '}
+              <Link
+                href="/blog/3-seo-mistakes-somerset-businesses-make-and-how-to-fix-them"
+                className="text-brand-gold hover:underline"
+              >
+                the 3 SEO mistakes Somerset businesses make
+              </Link>
+              — and how to fix them before you pour more budget into the wrong things.
             </p>
           </>
         }
