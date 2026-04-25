@@ -3,7 +3,6 @@ import {
   generateBreadcrumbSchema,
   generateServiceSchema,
   generateUSOrganizationSchema,
-  generateSpeakableSchema,
   wrapInGraph,
   type FAQItem,
 } from '@/lib/schema';
@@ -56,7 +55,6 @@ const serviceSchema = {
     PAGE_URL
   ),
   areaServed: { '@type': 'Country', name: 'United States' },
-  speakable: generateSpeakableSchema(['h1', 'section:first-of-type p:first-of-type']),
 };
 
 const pageSchema = wrapInGraph([
