@@ -13,11 +13,11 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/llm-brain`;
 
 export const metadata: Metadata = {
-  title: 'LLM Brain | Persistent AI Memory for Your Business | ScopeSite',
+  title: 'LLM Brain: Persistent AI Memory for Business | ScopeSite',
   description:
     'Stop re-briefing AI every conversation. LLM Brain gives Claude and ChatGPT a permanent database that remembers your business. £250 one-time setup.',
   openGraph: {
-    title: 'LLM Brain | Persistent AI Memory for Your Business | ScopeSite',
+    title: 'LLM Brain: Persistent AI Memory for Business | ScopeSite',
     description:
       'Stop re-briefing AI every conversation. LLM Brain gives Claude and ChatGPT a permanent database that remembers your business. £250 one-time setup.',
     url: PAGE_URL,
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'LLM Brain | Persistent AI Memory for Your Business | ScopeSite',
+    title: 'LLM Brain: Persistent AI Memory for Business | ScopeSite',
     description:
       'Stop re-briefing AI every conversation. LLM Brain gives Claude and ChatGPT a permanent database that remembers your business.',
     images: [`${BASE_URL}/images/og/og-llm-brain.png`],

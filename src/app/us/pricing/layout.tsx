@@ -37,7 +37,7 @@ const faqs: FAQItem[] = [
 ];
 
 export const metadata: Metadata = {
-  title: 'US Pricing: AI-Ready Websites and Visibility Packages | ScopeSite',
+  title: 'US Pricing: AI-Ready Websites | ScopeSite',
   description:
     'Transparent USD pricing for AI visibility. Three tiers: Audit ($2,500), AI-Ready Website (from $8,000), Retainer ($2,000/month). No hidden fees.',
   alternates: {
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     // it stays self-canonical only until it has a true UK equivalent.
   },
   openGraph: {
-    title: 'US Pricing: AI-Ready Websites and Visibility Packages | ScopeSite',
+    title: 'US Pricing: AI-Ready Websites | ScopeSite',
     description:
       'Transparent USD pricing for AI visibility services. Three clear tiers from $2,500. No hidden fees, no surprises.',
     url: PAGE_URL,
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'US Pricing: AI-Ready Websites and Visibility Packages | ScopeSite',
+    title: 'US Pricing: AI-Ready Websites | ScopeSite',
     description:
       'Transparent USD pricing for AI visibility services. Three clear tiers from $2,500. No hidden fees, no surprises.',
     images: [`${BASE_URL}/images/og/og-us-pricing.png`],

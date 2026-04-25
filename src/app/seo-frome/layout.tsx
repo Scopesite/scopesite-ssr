@@ -15,11 +15,11 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/seo-frome`;
 
 export const metadata: Metadata = {
-  title: 'SEO Frome | Get Your Business Found on Google and AI | ScopeSite',
+  title: 'SEO Frome: Get Found on Google and AI | ScopeSite',
   description: 'SEO services based in Frome, Somerset. Local SEO and AI visibility for Frome businesses. V.O.I.C.E methodology. Free AI audit available.',
   keywords: ['seo frome', 'frome seo', 'search engine optimisation frome', 'local seo frome'],
   openGraph: {
-    title: 'SEO Frome | Get Your Business Found on Google and AI',
+    title: 'SEO Frome: Get Found on Google and AI | ScopeSite',
     description: 'SEO services based in Frome, Somerset. Local SEO and AI visibility for Frome businesses. V.O.I.C.E methodology. Free AI audit available.',
     url: PAGE_URL,
     siteName: 'ScopeSite Digital Studios',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'SEO Frome | Get Your Business Found on Google and AI',
+    title: 'SEO Frome: Get Found on Google and AI | ScopeSite',
     description: 'SEO services based in Frome, Somerset. Local SEO and AI visibility for Frome businesses. V.O.I.C.E methodology.',
     images: [`${BASE_URL}/images/og/og-seo-frome.png`],
   },
