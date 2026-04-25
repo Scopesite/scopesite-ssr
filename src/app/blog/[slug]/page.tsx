@@ -107,9 +107,21 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   const pageUrl = `${BASE_URL}/blog/${slug}`;
 
-  // Get related posts (same tag, excluding current post)
-  const { posts: allPosts } = await getPosts({ limit: 4 });
-  const relatedPosts = allPosts.filter((p) => p.id !== post.id).slice(0, 3);
+  // Prefer same-tag related posts so older topical articles keep receiving
+  // internal links. Fall back to latest posts for untagged Ghost content.
+  const tagSlug = post.primary_tag?.slug;
+  const { posts: taggedPosts } = tagSlug
+    ? await getPosts({ filter: `tag:${tagSlug}`, limit: 4 })
+    : { posts: [] };
+  let relatedPosts = taggedPosts.filter((p) => p.id !== post.id).slice(0, 3);
+
+  if (relatedPosts.length < 3) {
+    const { posts: latestPosts } = await getPosts({ limit: 6 });
+    const fillers = latestPosts.filter(
+      (p) => p.id !== post.id && !relatedPosts.some((related) => related.id === p.id)
+    );
+    relatedPosts = [...relatedPosts, ...fillers].slice(0, 3);
+  }
 
   // Generate schemas — wrapped in try/catch so a schema failure never
   // prevents the page from rendering (degrades gracefully without JSON-LD)

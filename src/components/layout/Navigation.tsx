@@ -23,9 +23,10 @@ export const SERVICES_LINKS: NavLink[] = [
 
 export const NAV_LINKS: NavLink[] = [
   { label: 'V.O.I.C.E™', href: '/voice' },
-  { label: 'Territory', href: '/territory' },
   { label: 'Pricing', href: '/pricing' },
   { label: 'Blog', href: '/blog' },
+  { label: 'Case Studies', href: '/case-studies' },
+  { label: 'Territory', href: '/territory' },
 ];
 
 const HOME_LINK: NavLink = { label: 'Home', href: '/' };

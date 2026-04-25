@@ -386,6 +386,22 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="bg-brand-navy/5 border-t border-brand-navy/10 py-section">
+        <div className="container-content max-w-3xl mx-auto text-center">
+          <h2 className="text-brand-navy text-2xl sm:text-3xl font-bold mb-4">
+            Real results, named clients
+          </h2>
+          <p className="text-muted text-lg mb-6">
+            We don&apos;t do testimonials with first-name-only initials. See
+            full case studies with named clients, AI citation results, and the
+            V.O.I.C.E. work behind the wins.
+          </p>
+          <Link href="/case-studies" className="btn-primary inline-block">
+            Read the case studies
+          </Link>
+        </div>
+      </section>
+
       <HomeBelowFoldWrapper reviews={googleReviews} />
     </>
   );

@@ -35,7 +35,7 @@ const FOOTER_LINKS = {
   ],
   company: [
     { label: 'About Us', href: '/about' },
-    { label: 'Case Studies', href: '/case-studies/h4tlt' },
+    { label: 'Case Studies', href: '/case-studies' },
     { label: 'Blog', href: '/blog' },
     { label: 'Book a Call', href: '/book' },
     { label: 'Client Login', href: 'https://accounts.scopesite.co.uk/sign-in' },
