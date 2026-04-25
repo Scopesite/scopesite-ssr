@@ -6,6 +6,40 @@ import { useEffect } from 'react';
 const CAL_LINK = 'scopesite/30min';
 const CAL_URL = `https://cal.com/${CAL_LINK}`;
 
+const CAL_H1_DEMOTE_SCRIPT = `
+(function () {
+  function demoteCalHeadings(target) {
+    target.querySelectorAll("h1").forEach(function (el) {
+      var h2 = document.createElement("h2");
+      Array.prototype.forEach.call(el.attributes, function (attr) {
+        h2.setAttribute(attr.name, attr.value);
+      });
+      h2.innerHTML = el.innerHTML;
+      el.replaceWith(h2);
+    });
+  }
+
+  function observeCalEmbed() {
+    var target = document.getElementById("cal-embed");
+    if (!target) {
+      window.requestAnimationFrame(observeCalEmbed);
+      return;
+    }
+
+    demoteCalHeadings(target);
+    new MutationObserver(function () {
+      demoteCalHeadings(target);
+    }).observe(target, { childList: true, subtree: true });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", observeCalEmbed, { once: true });
+  } else {
+    observeCalEmbed();
+  }
+})();
+`;
+
 const CAL_INIT_SCRIPT = `
 (function (C, A, L) {
   let p = function (a, ar) { a.q.push(ar); };
@@ -143,6 +177,11 @@ export default function BookPage() {
             <div
               id="cal-embed"
               style={{ width: '100%', minHeight: '600px', overflow: 'auto' }}
+            />
+            <Script
+              id="cal-h1-demote"
+              strategy="beforeInteractive"
+              dangerouslySetInnerHTML={{ __html: CAL_H1_DEMOTE_SCRIPT }}
             />
             <Script
               id="cal-embed-init"

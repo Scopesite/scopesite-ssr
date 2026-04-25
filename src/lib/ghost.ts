@@ -457,9 +457,20 @@ export function stripGhostTrackingParams(html: string): string {
     .replace(/&(?=["'<>\s])/g, '');
 }
 
+/**
+ * Ghost post titles already render as the page-level <h1>.
+ * Any <h1> inside the body competes with that canonical heading, so demote
+ * body headings to <h2> while preserving attributes and inner HTML.
+ */
+export function demoteBodyH1s(html: string): string {
+  return html
+    .replace(/<h1(\s[^>]*)?>/gi, '<h2$1>')
+    .replace(/<\/h1>/gi, '</h2>');
+}
+
 function cleanPost(post: GhostPost): GhostPost {
   if (post.html) {
-    return { ...post, html: stripGhostTrackingParams(post.html) };
+    return { ...post, html: demoteBodyH1s(stripGhostTrackingParams(post.html)) };
   }
   return post;
 }
