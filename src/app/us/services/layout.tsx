@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import {
   generateWebPageFAQPageSchema,
   generateLocalServiceSchema,
-  generateUSLocalBusinessSchema,
+  generateUSOrganizationSchema,
   generateBreadcrumbSchema,
   wrapInGraph,
   type FAQItem,
@@ -94,7 +94,7 @@ const pageSchema = wrapInGraph([
     'Web Design',
     'USD'
   ),
-  generateUSLocalBusinessSchema(PAGE_URL),
+  generateUSOrganizationSchema(),
   generateBreadcrumbSchema([
     { name: 'Home', url: BASE_URL },
     { name: 'United States', url: `${BASE_URL}/us` },

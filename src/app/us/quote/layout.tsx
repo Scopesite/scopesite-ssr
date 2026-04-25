@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import {
   generateBreadcrumbSchema,
   generateWebPageSchema,
-  generateUSLocalBusinessSchema,
+  generateUSOrganizationSchema,
   wrapInGraph,
 } from '@/lib/schema';
 import { JsonLd } from '@/components/JsonLd';
@@ -48,7 +48,7 @@ const pageSchema = wrapInGraph([
     'Get an instant quote for AI-ready web design, AI visibility services, and custom development. All prices in USD.',
     PAGE_URL
   ),
-  generateUSLocalBusinessSchema(PAGE_URL),
+  generateUSOrganizationSchema(),
   generateBreadcrumbSchema([
     { name: 'Home', url: BASE_URL },
     { name: 'United States', url: `${BASE_URL}/us` },

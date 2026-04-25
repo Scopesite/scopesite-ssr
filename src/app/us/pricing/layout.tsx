@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import {
   generateWebPageFAQPageSchema,
   generateOfferSchema,
-  generateUSLocalBusinessSchema,
+  generateUSOrganizationSchema,
   generateBreadcrumbSchema,
   generateItemListSchema,
   wrapInGraph,
@@ -100,7 +100,7 @@ const retainerOffer = generateOfferSchema(
   'USD'
 );
 
-const usLocalBusiness = generateUSLocalBusinessSchema(PAGE_URL);
+const usOrganization = generateUSOrganizationSchema();
 
 const breadcrumbSchema = generateBreadcrumbSchema([
   { name: 'Home', url: BASE_URL },
@@ -120,7 +120,7 @@ const pageSchema = wrapInGraph([
   auditOffer,
   websiteOffer,
   retainerOffer,
-  usLocalBusiness,
+  usOrganization,
   breadcrumbSchema,
 ]);
 

@@ -1809,25 +1809,35 @@ export function generateLocalBusinessSchema(
 }
 
 /**
- * Generates a LocalBusiness schema for the US market (page-scoped @id/url).
- * The business is UK-based but serves the US remotely.
+ * Generates an Organization reference for US-market pages.
+ * ScopeSite has a UK office and serves US clients remotely, so these pages
+ * should not claim a separate US LocalBusiness location.
  */
-export function generateUSLocalBusinessSchema(pageUrl: string) {
-  const pageBase = pageUrl.replace(/\/$/, '');
+export function generateUSOrganizationSchema() {
   return {
-    '@type': 'LocalBusiness',
-    '@id': `${pageBase}/#local-business`,
+    '@type': 'Organization',
+    '@id': `${BASE_URL}/#organization`,
     name: 'ScopeSite Digital Studios',
-    description: 'AI-first web design agency based in the UK, serving businesses across the United States.',
-    parentOrganization: { '@id': `${BASE_URL}/#organization` },
+    legalName: 'ScopeSite Digital Studios Ltd',
+    description:
+      'AI-first web design agency based in the UK, serving businesses across the United States.',
     telephone: '+441373311339',
     email: 'dan@scopesite.co.uk',
-    url: pageBase,
-    priceRange: '$$-$$$',
+    url: BASE_URL,
+    logo: {
+      '@type': 'ImageObject',
+      '@id': `${BASE_URL}/#logo`,
+      url: `${BASE_URL}/images/logo-icon.svg`,
+      contentUrl: `${BASE_URL}/images/logo-icon.svg`,
+      name: 'ScopeSite Digital Studios Logo',
+      width: 512,
+      height: 512,
+    },
     currenciesAccepted: 'USD',
     paymentAccepted: 'Bank Transfer, Credit Card',
     address: {
       '@type': 'PostalAddress',
+      streetAddress: '4 Horse Close',
       addressLocality: 'Frome',
       addressRegion: 'Somerset',
       postalCode: 'BA11',
@@ -1841,12 +1851,6 @@ export function generateUSLocalBusinessSchema(pageUrl: string) {
     areaServed: {
       '@type': 'Country',
       name: 'United States',
-    },
-    openingHoursSpecification: {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-      opens: '09:00',
-      closes: '17:00',
     },
   };
 }
