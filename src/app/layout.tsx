@@ -5,6 +5,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FooterVisibility } from '@/components/layout/FooterVisibility';
 import { JsonLd } from '@/components/JsonLd';
+import { AhrefsAnalytics } from '@/components/AhrefsAnalytics';
 import { SkipLink, RouteAnnouncer } from '@/components/a11y';
 import {
   generateOrganizationSchema,
@@ -143,6 +144,7 @@ export default function RootLayout({
         <meta name="color-scheme" content="light" />
         <meta name="supported-color-schemes" content="light" />
         <JsonLd schema={[organizationSchema, websiteSchema, voiceTermSetSchema, audienceSchema, scheduleActionSchema]} />
+        <AhrefsAnalytics />
       </head>
       <body
         suppressHydrationWarning
