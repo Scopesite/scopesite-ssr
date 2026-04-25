@@ -15,7 +15,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/web-design-somerset`;
 
 export const metadata: Metadata = {
-  title: 'Web Design Somerset | AI-First Websites That Get Found',
+  title: 'Web Design Somerset | AI-First Websites That Get Found | ScopeSite',
   description: 'Somerset web design agency building AI-optimised websites that get recommended by ChatGPT. Based in Frome, serving all of Somerset. Veteran-owned, premium built.',
   keywords: ['web design somerset', 'web designer somerset', 'website design somerset', 'web design frome'],
   openGraph: {

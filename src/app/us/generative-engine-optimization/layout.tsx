@@ -13,7 +13,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/us/generative-engine-optimization`;
 
 export const metadata: Metadata = {
-  title: 'Generative Engine Optimization Agency',
+  title: 'Generative Engine Optimization Agency | ScopeSite',
   description:
     'Generative engine optimization agency for US businesses. Get cited by ChatGPT, Claude, Gemini and Perplexity. V.O.I.C.E. methodology. Free scan.',
   keywords: [

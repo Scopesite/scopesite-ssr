@@ -14,7 +14,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/web-design-glastonbury`;
 
 export const metadata: Metadata = {
-  title: 'Web Design Glastonbury | AI-First Websites',
+  title: 'Web Design Glastonbury | AI-First Websites | ScopeSite',
   description: 'Glastonbury web design for independent businesses, tourism operators, and creative studios. AI-optimised websites with 100/100 Lighthouse scores.',
   openGraph: {
     title: 'Web Design Glastonbury | AI-First Websites',

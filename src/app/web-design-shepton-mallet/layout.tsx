@@ -14,7 +14,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/web-design-shepton-mallet`;
 
 export const metadata: Metadata = {
-  title: 'Web Design Shepton Mallet | AI-Ready',
+  title: 'Web Design Shepton Mallet | AI-Ready | ScopeSite',
   description: 'Web design for Shepton Mallet businesses. AI-optimised websites by ScopeSite, based 15 minutes away in Frome. 100/100 Lighthouse scores, fair pricing.',
   openGraph: {
     title: 'Web Design Shepton Mallet | AI-Ready Websites for Local Businesses',

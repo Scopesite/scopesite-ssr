@@ -37,7 +37,7 @@ const faqs: FAQItem[] = [
 ];
 
 export const metadata: Metadata = {
-  title: 'US Pricing: AI-Ready Websites and Visibility Packages',
+  title: 'US Pricing: AI-Ready Websites and Visibility Packages | ScopeSite',
   description:
     'Transparent USD pricing for AI visibility. Three tiers: Audit ($2,500), AI-Ready Website (from $8,000), Retainer ($2,000/month). No hidden fees.',
   alternates: {

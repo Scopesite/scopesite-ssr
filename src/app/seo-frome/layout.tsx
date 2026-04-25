@@ -15,7 +15,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/seo-frome`;
 
 export const metadata: Metadata = {
-  title: 'SEO Frome | Get Your Business Found on Google and AI',
+  title: 'SEO Frome | Get Your Business Found on Google and AI | ScopeSite',
   description: 'SEO services based in Frome, Somerset. Local SEO and AI visibility for Frome businesses. V.O.I.C.E methodology. Free AI audit available.',
   keywords: ['seo frome', 'frome seo', 'search engine optimisation frome', 'local seo frome'],
   openGraph: {

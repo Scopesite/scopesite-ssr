@@ -15,7 +15,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/web-design-bristol`;
 
 export const metadata: Metadata = {
-  title: 'Web Design Bristol | AI-First SSR Websites',
+  title: 'Web Design Bristol | AI-First SSR Websites | ScopeSite',
   description: 'Bristol web design that gets your business recommended by ChatGPT and Google. 100/100 Lighthouse scores, SSR builds, fair pricing. Free AI visibility audit.',
   openGraph: {
     title: 'Web Design Bristol | AI-First SSR Websites',

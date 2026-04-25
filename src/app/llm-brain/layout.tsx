@@ -13,7 +13,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/llm-brain`;
 
 export const metadata: Metadata = {
-  title: 'LLM Brain | Persistent AI Memory for Your Business',
+  title: 'LLM Brain | Persistent AI Memory for Your Business | ScopeSite',
   description:
     'Stop re-briefing AI every conversation. LLM Brain gives Claude and ChatGPT a permanent database that remembers your business. £250 one-time setup.',
   openGraph: {

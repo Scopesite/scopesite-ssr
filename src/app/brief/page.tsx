@@ -9,7 +9,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/brief`;
 
 export const metadata: Metadata = {
-  title: 'Send Us Your Project Brief',
+  title: 'Send Us Your Project Brief | ScopeSite',
   description:
     'Submit your web design or AI visibility project brief. Tell us what you need and we\'ll respond within 2 business days. No obligation, honest advice.',
   openGraph: {

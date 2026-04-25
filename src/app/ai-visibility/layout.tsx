@@ -6,7 +6,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/ai-visibility`;
 
 export const metadata: Metadata = {
-  title: 'AI Visibility Agency UK',
+  title: 'AI Visibility Agency UK | ScopeSite',
   description: 'AI visibility agency that makes your business visible to ChatGPT, Claude, Gemini and Perplexity. Scanner, audit, and optimisation. V.O.I.C.E. methodology.',
   keywords: ['ai visibility', 'llm visibility', 'llm visibility tool', 'llm visibility tracking'],
   openGraph: {

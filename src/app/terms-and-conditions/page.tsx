@@ -13,7 +13,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/terms-and-conditions`;
 
 export const metadata: Metadata = {
-  title: 'Terms & Conditions',
+  title: 'Terms & Conditions | ScopeSite',
   description:
     'Full terms and conditions for ScopeSite Digital Studios. Covers pricing, deliverables, IP rights, data protection and change request procedures.',
   openGraph: {

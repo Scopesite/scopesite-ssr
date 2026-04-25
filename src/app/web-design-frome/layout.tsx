@@ -15,7 +15,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/web-design-frome`;
 
 export const metadata: Metadata = {
-  title: 'Web Design Frome | AI-First Websites for Local Businesses',
+  title: 'Web Design Frome | AI-First Websites for Local Businesses | ScopeSite',
   description: 'Web design agency based in Beckington, Frome, Somerset. AI-optimised websites with 100/100 Lighthouse scores. Veteran-owned, transparent pricing.',
   keywords: ['web design frome', 'web designer frome', 'website design frome', 'frome web design'],
   openGraph: {

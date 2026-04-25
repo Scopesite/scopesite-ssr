@@ -43,7 +43,7 @@ const pricingFAQs = [
 ];
 
 export const metadata: Metadata = {
-  title: 'Web Design Pricing UK',
+  title: 'Web Design Pricing UK | ScopeSite',
   description:
     'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Flexible 6, 12 or 24-month payment plans. Somerset-based, UK-wide service.',
   openGraph: {

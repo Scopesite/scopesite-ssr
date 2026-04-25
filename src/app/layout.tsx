@@ -44,10 +44,7 @@ export const viewport: Viewport = {
 // Site-wide metadata defaults
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
-  title: {
-    default: 'AI-Visible Web Design Somerset | ScopeSite Digital Studios',
-    template: '%s | ScopeSite',
-  },
+  title: 'AI-Visible Web Design Somerset | ScopeSite Digital Studios',
   description:
     'Veteran-owned web design studio in Somerset. We build server-side rendered websites that show up in Google, ChatGPT, Claude and Perplexity.',
   keywords: [

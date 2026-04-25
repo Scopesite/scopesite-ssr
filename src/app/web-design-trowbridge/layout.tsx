@@ -14,7 +14,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/web-design-trowbridge`;
 
 export const metadata: Metadata = {
-  title: 'Web Design Trowbridge | Modern Websites Built Near You',
+  title: 'Web Design Trowbridge | Modern Websites Built Near You | ScopeSite',
   description: 'Web design for Trowbridge businesses. AI-optimised websites built by ScopeSite, just 12 miles away in Frome. Next.js, 100/100 Lighthouse scores, transparent pricing.',
   openGraph: {
     title: 'Web Design Trowbridge | Modern Websites Built Near You',

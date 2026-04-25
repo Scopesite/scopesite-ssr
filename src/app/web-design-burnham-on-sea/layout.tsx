@@ -14,7 +14,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/web-design-burnham-on-sea`;
 
 export const metadata: Metadata = {
-  title: 'Web Design Burnham-on-Sea | AI-First Websites',
+  title: 'Web Design Burnham-on-Sea | AI-First Websites | ScopeSite',
   description: 'Burnham-on-Sea web design for tourism, hospitality, and local businesses. AI-optimised SSR websites that get recommended by ChatGPT and Google.',
   openGraph: {
     title: 'Web Design Burnham-on-Sea | AI-First Websites',

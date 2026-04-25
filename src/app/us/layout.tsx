@@ -13,7 +13,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/us`;
 
 export const metadata: Metadata = {
-  title: 'AI-First Web Design for US Businesses',
+  title: 'AI-First Web Design for US Businesses | ScopeSite',
   description: 'UK-based web design agency serving US businesses. Server-side rendered websites optimized for AI visibility. V.O.I.C.E. methodology. USD pricing available.',
   keywords: ['web design for US businesses', 'AI web design USA', 'AI visibility US', 'web design agency for American businesses', 'SSR websites US'],
   alternates: {

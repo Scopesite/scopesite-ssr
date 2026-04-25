@@ -45,7 +45,7 @@ export async function generateMetadata({
 
   if (!post) {
     return {
-      title: 'Post Not Found',
+      title: { absolute: 'Post Not Found' },
     };
   }
 
@@ -55,11 +55,21 @@ export async function generateMetadata({
   const ogImage = post.og_image || post.feature_image;
   const twitterImage = post.twitter_image || post.feature_image;
 
+  // Blog posts opt out of the root layout's `%s | ScopeSite` title template.
+  // Editorial control of the SEO title lives in Ghost (post.meta_title); fall
+  // back to the visible post title when no meta_title is set. We never append
+  // brand text automatically — if the brand should appear, it must be written
+  // into Ghost.
+  const ghostMetaTitle = post.meta_title?.trim();
+  const seoTitle = ghostMetaTitle || post.title;
+
   return {
-    title: post.meta_title || post.title,
+    title: {
+      absolute: seoTitle,
+    },
     description,
     openGraph: {
-      title: post.og_title || post.meta_title || `${post.title} | ScopeSite Blog`,
+      title: post.og_title || ghostMetaTitle || post.title,
       description: post.og_description || description,
       type: 'article',
       url: pageUrl,
@@ -77,7 +87,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: 'summary_large_image',
-      title: post.twitter_title || post.meta_title || post.title,
+      title: post.twitter_title || ghostMetaTitle || post.title,
       description: post.twitter_description || description,
       images: twitterImage ? [twitterImage] : undefined,
     },
@@ -114,8 +124,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     const description =
       post.meta_description || post.excerpt || post.custom_excerpt || `Read ${post.title} on the ScopeSite blog.`;
 
+    const schemaTitle = post.meta_title?.trim() || post.title;
     const webPageSchema = {
-      ...generateWebPageSchema(post.meta_title || post.title, description, pageUrl),
+      ...generateWebPageSchema(schemaTitle, description, pageUrl),
       mainEntity: { '@id': `${pageUrl}/#article` },
     };
 

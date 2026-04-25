@@ -6,7 +6,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/ai-seo-agency`;
 
 export const metadata: Metadata = {
-  title: 'AI SEO Agency UK',
+  title: 'AI SEO Agency UK | ScopeSite',
   description: 'UK AI SEO agency that gets your business recommended by ChatGPT, Claude, Gemini and Perplexity. Not just ranked. Recommended.',
   keywords: ['ai seo agency', 'ai seo company', 'seo ai agency', 'ai search optimisation'],
   openGraph: {

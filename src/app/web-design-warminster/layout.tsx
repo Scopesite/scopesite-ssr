@@ -14,7 +14,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/web-design-warminster`;
 
 export const metadata: Metadata = {
-  title: 'Web Design Warminster | Websites Built for AI Visibility',
+  title: 'Web Design Warminster | Websites Built for AI Visibility | ScopeSite',
   description: 'Web design for Warminster businesses. AI-optimised websites by ScopeSite, based 20 minutes away in Frome. Next.js, schema markup, transparent pricing.',
   openGraph: {
     title: 'Web Design Warminster | Websites Built for AI Visibility',

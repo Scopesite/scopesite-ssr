@@ -18,7 +18,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const VOICE_SCAN_URL = 'https://voice.scopesite.co.uk';
 
 export const metadata: Metadata = {
-  title: 'AI-Visible Websites That Get Recommended',
+  title: 'AI-Visible Websites That Get Recommended | ScopeSite',
   description:
     'When someone asks ChatGPT for a business like yours, whose name comes up? We build sites AI can read, trust, and recommend. Veteran-owned, Somerset.',
   openGraph: {

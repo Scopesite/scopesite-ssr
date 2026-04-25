@@ -14,7 +14,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/us/ai-visibility`;
 
 export const metadata: Metadata = {
-  title: 'Is Your Business Visible to AI? Check for Free',
+  title: 'Is Your Business Visible to AI? Check for Free | ScopeSite',
   description:
     'Free AI visibility scanner for US businesses. Check if ChatGPT, Perplexity, Google AI Overviews, and Claude can find and recommend your business. Instant results.',
   keywords: [

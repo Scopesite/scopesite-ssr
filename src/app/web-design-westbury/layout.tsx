@@ -14,7 +14,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/web-design-westbury`;
 
 export const metadata: Metadata = {
-  title: 'Web Design Westbury | AI-Ready Sites',
+  title: 'Web Design Westbury | AI-Ready Sites | ScopeSite',
   description: 'Web design for Westbury businesses. AI-optimised websites by ScopeSite, based 15 minutes away in Frome. Next.js, schema markup, veteran-owned.',
   openGraph: {
     title: 'Web Design Westbury | Professional Websites for Wiltshire Businesses',

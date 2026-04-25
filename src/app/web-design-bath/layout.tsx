@@ -14,7 +14,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/web-design-bath`;
 
 export const metadata: Metadata = {
-  title: 'Web Design Bath | AI-Optimised Sites',
+  title: 'Web Design Bath | AI-Optimised Sites | ScopeSite',
   description: 'Bath web design agency building AI-optimised websites that get recommended by ChatGPT. Premium quality without premium agency prices. Based in nearby Somerset.',
   openGraph: {
     title: 'Web Design Bath | AI-Optimised Websites for Bath Businesses',

@@ -17,7 +17,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/voice`;
 
 export const metadata: Metadata = {
-  title: 'AI Visibility Checker | V.O.I.C.E. AI SEO Software',
+  title: 'AI Visibility Checker | V.O.I.C.E. AI SEO Software | ScopeSite',
   description:
     'Free AI visibility checker. V.O.I.C.E. is the AI SEO software that scores how visible you are to ChatGPT, Claude, Gemini and Perplexity. Scan in 2 minutes.',
   openGraph: {

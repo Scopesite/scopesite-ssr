@@ -6,7 +6,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/case-studies/h4tlt`;
 
 export const metadata: Metadata = {
-  title: 'H4TLT: Invisible to #1 AI-Recommended in 4 Months',
+  title: 'H4TLT: Invisible to #1 AI-Recommended in 4 Months | ScopeSite',
   description:
     'How V.O.I.C.E.™ methodology took a Somerset audiologist from 7 visitors a week to nationally cited by Google AI Overview, ChatGPT and Perplexity.',
   keywords: [

@@ -16,7 +16,7 @@ const PAGE_URL = `${BASE_URL}/blog`;
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'AI Visibility & Web Design Blog',
+  title: 'AI Visibility & Web Design Blog | ScopeSite',
   description:
     "AI visibility strategies, GEO optimisation tips & web design insights for UK businesses. No-bullshit advice from Somerset's AI-first web design experts.",
   openGraph: {
