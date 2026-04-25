@@ -9,6 +9,7 @@ import {
   generateWebPageSchema,
   generatePricingSchema,
 } from '@/lib/schema';
+import { getAlternates } from '@/lib/hreflang-map';
 import { PRICING_CONFIG } from '@/lib/pricing-config';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -69,14 +70,7 @@ export const metadata: Metadata = {
     description: 'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Flexible payment plans available.',
     images: [`${BASE_URL}/images/og/og-pricing.png`],
   },
-  alternates: {
-    canonical: PAGE_URL,
-    languages: {
-      'en-GB': PAGE_URL,
-      'en-US': `${BASE_URL}/us/pricing`,
-      'x-default': PAGE_URL,
-    },
-  },
+  alternates: getAlternates('/pricing', BASE_URL),
 };
 
 function QuoteCalculatorFallback() {

@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { generateLandingPageSchema, generateServiceChannels, type FAQItem } from '@/lib/schema';
+import { getAlternates } from '@/lib/hreflang-map';
 import { JsonLd } from '@/components/JsonLd';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -28,14 +29,7 @@ export const metadata: Metadata = {
     description: 'Generative engine optimisation agency getting UK businesses cited by ChatGPT, Claude, Gemini and Perplexity. V.O.I.C.E. methodology. Start with a free scan.',
     images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
   },
-  alternates: {
-    canonical: PAGE_URL,
-    languages: {
-      'en-GB': PAGE_URL,
-      'en-US': `${BASE_URL}/us/generative-engine-optimization`,
-      'x-default': PAGE_URL,
-    },
-  },
+  alternates: getAlternates('/generative-engine-optimisation', BASE_URL),
 };
 
 // FAQ data for schema

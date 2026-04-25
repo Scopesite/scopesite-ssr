@@ -6,6 +6,7 @@ import {
   wrapInGraph,
 } from '@/lib/schema';
 import { JsonLd } from '@/components/JsonLd';
+import { getAlternates } from '@/lib/hreflang-map';
 
 const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/us/quote`;
@@ -14,14 +15,7 @@ export const metadata: Metadata = {
   title: 'Instant Quote | US Pricing | ScopeSite',
   description:
     'Get an instant quote for AI-ready web design, AI visibility services, and custom development. All prices in USD.',
-  alternates: {
-    canonical: PAGE_URL,
-    languages: {
-      'en-US': PAGE_URL,
-      'en-GB': `${BASE_URL}/pricing`,
-      'x-default': `${BASE_URL}/pricing`,
-    },
-  },
+  alternates: getAlternates('/us/quote', BASE_URL),
   openGraph: {
     title: 'Instant Quote | US Pricing | ScopeSite Digital Studios',
     description:

@@ -8,6 +8,7 @@ import {
   type FAQItem,
 } from '@/lib/schema';
 import { JsonLd } from '@/components/JsonLd';
+import { getAlternates } from '@/lib/hreflang-map';
 
 const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/us`;
@@ -16,14 +17,7 @@ export const metadata: Metadata = {
   title: 'AI-First Web Design for US Businesses | ScopeSite',
   description: 'UK-based web design agency serving US businesses. Server-side rendered websites optimized for AI visibility. V.O.I.C.E. methodology. USD pricing available.',
   keywords: ['web design for US businesses', 'AI web design USA', 'AI visibility US', 'web design agency for American businesses', 'SSR websites US'],
-  alternates: {
-    canonical: PAGE_URL,
-    languages: {
-      'en-US': PAGE_URL,
-      'en-GB': BASE_URL,
-      'x-default': BASE_URL,
-    },
-  },
+  alternates: getAlternates('/us', BASE_URL),
   openGraph: {
     title: 'AI-First Web Design for US Businesses | ScopeSite Digital Studios',
     description: 'UK-based web design agency serving US businesses. Server-side rendered websites optimized for AI visibility.',

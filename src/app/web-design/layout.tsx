@@ -8,6 +8,7 @@ import {
   generateServiceChannels,
   generateSpeakableSchema,
 } from '@/lib/schema';
+import { getAlternates } from '@/lib/hreflang-map';
 
 const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/web-design`;
@@ -49,9 +50,7 @@ export const metadata: Metadata = {
       'Professional web design in Somerset. Server-side rendered sites AI crawlers can see. 100/100 Lighthouse scores.',
     images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
   },
-  alternates: {
-    canonical: PAGE_URL,
-  },
+  alternates: getAlternates('/web-design', BASE_URL),
 };
 
 // FAQ data for schema - buyer anxiety first, tech last

@@ -9,6 +9,7 @@ import {
   type AreaServedItem,
 } from '@/lib/schema';
 import { JsonLd } from '@/components/JsonLd';
+import { getAlternates } from '@/lib/hreflang-map';
 
 const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/us/services`;
@@ -17,13 +18,7 @@ export const metadata: Metadata = {
   title: 'Web Design and AI Visibility Services for US Businesses | ScopeSite',
   description:
     'AI-first web design and visibility for US businesses. Server-side rendered websites, schema markup, and answer engine optimization. USD pricing.',
-  alternates: {
-    canonical: PAGE_URL,
-    languages: {
-      'en-US': PAGE_URL,
-      'x-default': BASE_URL,
-    },
-  },
+  alternates: getAlternates('/us/services', BASE_URL),
   openGraph: {
     title: 'Web Design and AI Visibility Services for US Businesses | ScopeSite',
     description:

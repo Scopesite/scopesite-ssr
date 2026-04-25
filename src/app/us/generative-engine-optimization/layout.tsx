@@ -8,6 +8,7 @@ import {
   type FAQItem,
 } from '@/lib/schema';
 import { JsonLd } from '@/components/JsonLd';
+import { getAlternates } from '@/lib/hreflang-map';
 
 const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/us/generative-engine-optimization`;
@@ -23,14 +24,7 @@ export const metadata: Metadata = {
     'generative engine optimization services',
     'what is generative engine optimization',
   ],
-  alternates: {
-    canonical: PAGE_URL,
-    languages: {
-      'en-US': PAGE_URL,
-      'en-GB': `${BASE_URL}/generative-engine-optimisation`,
-      'x-default': `${BASE_URL}/generative-engine-optimisation`,
-    },
-  },
+  alternates: getAlternates('/us/generative-engine-optimization', BASE_URL),
   openGraph: {
     title: 'Generative Engine Optimization Agency | ScopeSite US',
     description:

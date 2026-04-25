@@ -12,6 +12,7 @@ import {
   generateFAQSchema,
   type FAQItem,
 } from '@/lib/schema';
+import { getAlternates } from '@/lib/hreflang-map';
 
 const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/voice`;
@@ -44,14 +45,7 @@ export const metadata: Metadata = {
       'Free AI visibility checker. V.O.I.C.E. is the AI SEO software that scores how visible you are to ChatGPT, Claude, Gemini and Perplexity. Scan in 2 minutes.',
     images: [`${BASE_URL}/images/og/og-voice.png`],
   },
-  alternates: {
-    canonical: PAGE_URL,
-    languages: {
-      'en-GB': PAGE_URL,
-      'en-US': `${BASE_URL}/us/ai-visibility`,
-      'x-default': PAGE_URL,
-    },
-  },
+  alternates: getAlternates('/voice', BASE_URL),
 };
 
 // HowTo steps for V.O.I.C.E methodology

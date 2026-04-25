@@ -42,11 +42,9 @@ export const metadata: Metadata = {
     'Transparent USD pricing for AI visibility. Three tiers: Audit ($2,500), AI-Ready Website (from $8,000), Retainer ($2,000/month). No hidden fees.',
   alternates: {
     canonical: PAGE_URL,
-    languages: {
-      'en-US': PAGE_URL,
-      'en-GB': `${BASE_URL}/pricing`,
-      'x-default': `${BASE_URL}/pricing`,
-    },
+    // /pricing reciprocates with /us/quote because that page contains the
+    // comparable quote workflow. /us/pricing is a separate US package page, so
+    // it stays self-canonical only until it has a true UK equivalent.
   },
   openGraph: {
     title: 'US Pricing: AI-Ready Websites and Visibility Packages | ScopeSite',

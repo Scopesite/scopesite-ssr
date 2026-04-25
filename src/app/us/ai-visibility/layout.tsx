@@ -9,6 +9,7 @@ import {
   type FAQItem,
 } from '@/lib/schema';
 import { JsonLd } from '@/components/JsonLd';
+import { getAlternates } from '@/lib/hreflang-map';
 
 const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/us/ai-visibility`;
@@ -26,14 +27,7 @@ export const metadata: Metadata = {
     'AI search optimization',
     'V.O.I.C.E. scanner',
   ],
-  alternates: {
-    canonical: PAGE_URL,
-    languages: {
-      'en-US': PAGE_URL,
-      'en-GB': `${BASE_URL}/voice`,
-      'x-default': `${BASE_URL}/voice`,
-    },
-  },
+  alternates: getAlternates('/us/ai-visibility', BASE_URL),
   openGraph: {
     title: 'Is Your Business Visible to AI? Check for Free | ScopeSite',
     description:

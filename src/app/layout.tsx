@@ -7,6 +7,7 @@ import { FooterVisibility } from '@/components/layout/FooterVisibility';
 import { JsonLd } from '@/components/JsonLd';
 import { AhrefsAnalytics } from '@/components/AhrefsAnalytics';
 import { SkipLink, RouteAnnouncer } from '@/components/a11y';
+import { getAlternates } from '@/lib/hreflang-map';
 import {
   generateOrganizationSchema,
   generateWebsiteSchema,
@@ -109,14 +110,7 @@ export const metadata: Metadata = {
     apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
   },
   manifest: '/site.webmanifest',
-  alternates: {
-    canonical: BASE_URL,
-    languages: {
-      'en-GB': BASE_URL,
-      'en-US': `${BASE_URL}/us`,
-      'x-default': BASE_URL,
-    },
-  },
+  alternates: getAlternates('/', BASE_URL),
   category: 'technology',
   classification: 'Web Design Agency',
   other: {

@@ -11,6 +11,7 @@ import {
   generateItemListSchema,
   type FAQItem,
 } from '@/lib/schema';
+import { getAlternates } from '@/lib/hreflang-map';
 import { ChevronDown } from 'lucide-react';
 import { HomeBelowFoldWrapper } from './HomeBelowFoldWrapper';
 
@@ -45,9 +46,7 @@ export const metadata: Metadata = {
       'When someone asks ChatGPT for a business like yours, whose name comes up? We build sites AI can read, trust, and recommend. Veteran-owned, Somerset.',
     images: [`${BASE_URL}/images/og/og-home.png`],
   },
-  alternates: {
-    canonical: BASE_URL,
-  },
+  alternates: getAlternates('/', BASE_URL),
 };
 
 const googleReviews = [
