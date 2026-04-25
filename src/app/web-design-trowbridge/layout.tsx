@@ -15,10 +15,10 @@ const PAGE_URL = `${BASE_URL}/web-design-trowbridge`;
 
 export const metadata: Metadata = {
   title: 'Web Design Trowbridge | Modern Websites Built Near You | ScopeSite',
-  description: 'Web design for Trowbridge businesses. AI-optimised websites built by ScopeSite, just 12 miles away in Frome. Next.js, 100/100 Lighthouse scores, transparent pricing.',
+  description: 'Web design for Trowbridge businesses. AI-optimised sites built by ScopeSite, 12 miles away in Frome. Next.js, 100/100 Lighthouse, transparent pricing.',
   openGraph: {
     title: 'Web Design Trowbridge | Modern Websites Built Near You',
-    description: 'Web design for Trowbridge businesses. AI-optimised websites built by ScopeSite, just 12 miles away in Frome. Next.js, 100/100 Lighthouse scores, transparent pricing.',
+    description: 'Web design for Trowbridge businesses. AI-optimised sites built by ScopeSite, 12 miles away in Frome. Next.js, 100/100 Lighthouse, transparent pricing.',
     url: PAGE_URL,
     siteName: 'ScopeSite Digital Studios',
     images: [
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Web Design Trowbridge | Modern Websites Built Near You',
-    description: 'Web design for Trowbridge businesses. AI-optimised websites built by ScopeSite, just 12 miles away in Frome. Next.js, 100/100 Lighthouse scores, transparent pricing.',
+    description: 'Web design for Trowbridge businesses. AI-optimised sites built by ScopeSite, 12 miles away in Frome. Next.js, 100/100 Lighthouse, transparent pricing.',
     images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
   },
   keywords: ['web design trowbridge', 'web designer trowbridge', 'website design trowbridge', 'trowbridge web design'],

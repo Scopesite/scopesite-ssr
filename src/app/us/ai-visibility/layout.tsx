@@ -16,7 +16,7 @@ const PAGE_URL = `${BASE_URL}/us/ai-visibility`;
 export const metadata: Metadata = {
   title: 'Is Your Business Visible to AI? Check for Free | ScopeSite',
   description:
-    'Free AI visibility scanner for US businesses. Check if ChatGPT, Perplexity, Google AI Overviews, and Claude can find and recommend your business. Instant results.',
+    'Free AI visibility scanner for US businesses. Check if ChatGPT, Perplexity, and Google AI can find your business. Instant results.',
   keywords: [
     'AI visibility scanner',
     'AI visibility check',
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Is Your Business Visible to AI? Check for Free | ScopeSite',
     description:
-      'Free AI visibility scanner for US businesses. Check if ChatGPT, Perplexity, and Claude can find and recommend your business.',
+      'Free AI visibility scanner for US businesses. Check if ChatGPT, Perplexity, and Google AI can find your business. Instant results.',
     url: PAGE_URL,
     siteName: 'ScopeSite Digital Studios',
     images: [
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Is Your Business Visible to AI? Check for Free | ScopeSite',
     description:
-      'Free AI visibility scanner for US businesses. Check if ChatGPT, Perplexity, and Claude can find and recommend your business.',
+      'Free AI visibility scanner for US businesses. Check if ChatGPT, Perplexity, and Google AI can find your business. Instant results.',
     images: [`${BASE_URL}/images/og/og-us-ai-visibility.png`],
   },
 };

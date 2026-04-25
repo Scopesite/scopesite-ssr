@@ -16,11 +16,11 @@ const PAGE_URL = `${BASE_URL}/web-design-somerset`;
 
 export const metadata: Metadata = {
   title: 'Web Design Somerset | AI-First Websites That Get Found | ScopeSite',
-  description: 'Somerset web design agency building AI-optimised websites that get recommended by ChatGPT. Based in Frome, serving all of Somerset. Veteran-owned, premium built.',
+  description: 'Somerset web design agency building AI-optimised sites recommended by ChatGPT. Based in Frome, serving Somerset. Veteran-owned.',
   keywords: ['web design somerset', 'web designer somerset', 'website design somerset', 'web design frome'],
   openGraph: {
     title: 'Web Design Somerset | AI-First Websites That Get Found',
-    description: 'Somerset web design agency building AI-optimised websites that get recommended by ChatGPT. Based in Frome, serving all of Somerset. Veteran-owned, premium built.',
+    description: 'Somerset web design agency building AI-optimised sites recommended by ChatGPT. Based in Frome, serving Somerset. Veteran-owned.',
     url: PAGE_URL,
     siteName: 'ScopeSite Digital Studios',
     images: [
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Web Design Somerset | AI-First Websites That Get Found',
-    description: 'Somerset web design agency building AI-optimised websites that get recommended by ChatGPT. Based in Frome, serving all of Somerset.',
+    description: 'Somerset web design agency building AI-optimised sites recommended by ChatGPT. Based in Frome, serving Somerset. Veteran-owned.',
     images: [`${BASE_URL}/images/og/og-web-design-somerset.png`],
   },
   alternates: {
