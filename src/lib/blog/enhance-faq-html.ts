@@ -1,5 +1,14 @@
-const FAQ_SECTION_PATTERN =
-  /(<h2[^>]*>[\s\S]*?(?:FAQ|FAQs|Frequently Asked Questions?)[\s\S]*?<\/h2>)([\s\S]*?)(?=<h2\b|$)/gi;
+const H2_PATTERN = /<h2\b[^>]*>[\s\S]*?<\/h2>/gi;
+const FAQ_HEADING_PATTERN = /\b(?:faq|faqs|frequently asked questions?)\b/i;
+
+function stripHtmlToText(markup: string): string {
+  return markup
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
 
 function addClassToOpeningTags(markup: string, tagName: string, className: string): string {
   const tagPattern = new RegExp(`<${tagName}([^>]*)>`, 'gi');
@@ -23,15 +32,57 @@ function addClassToOpeningTags(markup: string, tagName: string, className: strin
 }
 
 export function enhanceFaqHtml(html: string): string {
-  return html.replace(FAQ_SECTION_PATTERN, (sectionMatch: string) => {
-    if (sectionMatch.includes('blog-faq-section')) {
-      return sectionMatch;
+  const h2Matches = Array.from(html.matchAll(H2_PATTERN));
+
+  if (h2Matches.length === 0) {
+    return html;
+  }
+
+  let output = '';
+  let cursor = 0;
+  let hasFaqSection = false;
+
+  for (let index = 0; index < h2Matches.length; index += 1) {
+    const currentHeading = h2Matches[index];
+    const headingMarkup = currentHeading[0];
+    const headingIndex = currentHeading.index ?? -1;
+
+    if (headingIndex < 0) {
+      continue;
     }
 
-    let enhancedSection = addClassToOpeningTags(sectionMatch, 'h3', 'blog-faq-question');
-    enhancedSection = addClassToOpeningTags(enhancedSection, 'h4', 'blog-faq-question');
-    enhancedSection = addClassToOpeningTags(enhancedSection, 'p', 'faq-answer');
+    const headingText = stripHtmlToText(headingMarkup);
+    const isFaqHeading = FAQ_HEADING_PATTERN.test(headingText);
 
-    return `<section class="blog-faq-section">${enhancedSection}</section>`;
-  });
+    if (!isFaqHeading) {
+      continue;
+    }
+
+    const sectionEnd = h2Matches[index + 1]?.index ?? html.length;
+    const sectionHtml = html.slice(headingIndex, sectionEnd);
+
+    output += html.slice(cursor, headingIndex);
+
+    if (sectionHtml.includes('class="faq-section"') || sectionHtml.includes("class='faq-section'")) {
+      output += sectionHtml;
+    } else {
+      let enhancedSection = addClassToOpeningTags(sectionHtml, 'h3', 'blog-faq-question');
+      enhancedSection = addClassToOpeningTags(enhancedSection, 'h4', 'blog-faq-question');
+      enhancedSection = addClassToOpeningTags(enhancedSection, 'p', 'faq-answer');
+      enhancedSection = addClassToOpeningTags(enhancedSection, 'ul', 'faq-answer');
+      enhancedSection = addClassToOpeningTags(enhancedSection, 'ol', 'faq-answer');
+
+      output += `<div class="faq-section">${enhancedSection}</div>`;
+    }
+
+    hasFaqSection = true;
+    cursor = sectionEnd;
+  }
+
+  if (!hasFaqSection) {
+    return html;
+  }
+
+  output += html.slice(cursor);
+  return output;
 }

@@ -459,19 +459,21 @@ main a:not(.btn):not(.btn-primary):not(.btn-secondary):not(.btn-secondary-light)
     scroll-margin-top: 7rem;
   }
 
-  .prose-scopesite .blog-faq-section {
+  .prose-scopesite .faq-section {
     @apply my-12 rounded-2xl border border-brand-gold/30 bg-brand-navy/[0.03] p-6;
   }
 
-  .prose-scopesite .blog-faq-section > h2:first-child {
+  .prose-scopesite .faq-section > h2:first-child {
     @apply mt-0 border-b border-brand-gold/30 pb-4;
   }
 
-  .prose-scopesite .blog-faq-question {
+  .prose-scopesite .faq-section h3,
+  .prose-scopesite .faq-section h4,
+  .prose-scopesite .faq-section .blog-faq-question {
     @apply border-l-4 border-brand-gold pl-4;
   }
 
-  .prose-scopesite .blog-faq-section .faq-answer {
+  .prose-scopesite .faq-section .faq-answer {
     @apply rounded-xl bg-white px-4 py-3 text-brand-navy/80;
   }
 }

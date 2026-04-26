@@ -281,24 +281,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <div
             className={
               showTableOfContents
-                ? 'grid grid-cols-1 gap-10 lg:grid-cols-[16rem_minmax(0,48rem)] lg:items-start lg:justify-center xl:grid-cols-[16rem_minmax(0,48rem)_16rem]'
+                ? 'grid grid-cols-1 gap-10 lg:grid-cols-[17.5rem_minmax(0,1fr)] lg:items-start lg:justify-center lg:gap-12'
                 : ''
             }
           >
             {showTableOfContents && <TableOfContents headings={blogHeadings} />}
-            <article className={showTableOfContents ? 'max-w-3xl lg:col-start-2' : 'max-w-3xl mx-auto'}>
-            {(post.excerpt || post.custom_excerpt) && (
-              <div
-                className="key-takeaway mb-8 p-6 rounded-xl border-l-4 border-brand-gold bg-brand-navy/[0.03]"
-                role="note"
-                aria-label="Key Takeaway"
-              >
-                <p className="font-bold text-brand-navy mb-1 text-sm uppercase tracking-wide">Key Takeaway</p>
-                <p className="text-brand-navy/80 leading-relaxed">
-                  {post.custom_excerpt || post.excerpt}
-                </p>
-              </div>
-            )}
+            <article className={showTableOfContents ? 'w-full max-w-[48rem] lg:col-start-2' : 'max-w-3xl mx-auto'}>
             {post.html ? (
               <div
                 className="prose-scopesite"
