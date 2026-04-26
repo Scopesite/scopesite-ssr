@@ -19,6 +19,9 @@ import {
   generateBlogHowToSchema,
   generateSpeakableSchema,
 } from '@/lib/schema';
+import { TableOfContents } from '@/components/blog/TableOfContents';
+import { extractHeadingsFromHtml } from '@/lib/blog/extract-headings';
+import { injectHeadingIds } from '@/lib/blog/inject-heading-ids';
 
 const BASE_URL = 'https://scopesite.co.uk';
 
@@ -173,6 +176,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     console.error('[BlogPost] Schema generation failed for', slug, e);
   }
 
+  const rawPostHtml = post.html || '';
+  const blogHeadings = extractHeadingsFromHtml(rawPostHtml);
+  const showTableOfContents = blogHeadings.filter((heading) => heading.level === 2).length >= 3;
+  const renderedPostHtml = showTableOfContents ? injectHeadingIds(rawPostHtml) : rawPostHtml;
+
   return (
     <>
       {schemas.length > 0 && <JsonLd schema={schemas} />}
@@ -265,7 +273,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       {/* Post Content */}
       <section className="section-white">
         <div className="container-content">
-          <article className="max-w-3xl mx-auto">
+          <div
+            className={
+              showTableOfContents
+                ? 'grid grid-cols-1 gap-10 lg:grid-cols-[16rem_minmax(0,48rem)] lg:items-start lg:justify-center xl:grid-cols-[16rem_minmax(0,48rem)_16rem]'
+                : ''
+            }
+          >
+            {showTableOfContents && <TableOfContents headings={blogHeadings} />}
+            <article className={showTableOfContents ? 'max-w-3xl lg:col-start-2' : 'max-w-3xl mx-auto'}>
             {(post.excerpt || post.custom_excerpt) && (
               <div
                 className="key-takeaway mb-8 p-6 rounded-xl border-l-4 border-brand-gold bg-brand-navy/[0.03]"
@@ -281,14 +297,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             {post.html ? (
               <div
                 className="prose-scopesite"
-                dangerouslySetInnerHTML={{ __html: post.html }}
+                dangerouslySetInnerHTML={{ __html: renderedPostHtml }}
               />
             ) : (
               <p className="text-brand-navy/70">
                 {post.excerpt || 'Content coming soon...'}
               </p>
             )}
-          </article>
+            </article>
+          </div>
         </div>
       </section>
 

@@ -453,6 +453,11 @@ main a:not(.btn):not(.btn-primary):not(.btn-secondary):not(.btn-secondary-light)
     color: var(--brand-gold-accessible);
     @apply bg-brand-navy/5 px-1 rounded;
   }
+
+  .prose-scopesite h2[id],
+  .prose-scopesite h3[id] {
+    scroll-margin-top: 7rem;
+  }
 }
 
 /*
