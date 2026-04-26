@@ -11,6 +11,7 @@ import {
 } from '@/lib/ghost';
 import { BlogCard } from '@/components/blog';
 import { AuthorBio } from '@/components/blog/AuthorBio';
+import { BlogSubscribeForm } from '@/components/blog/BlogSubscribeForm';
 import { JsonLd } from '@/components/JsonLd';
 import {
   generateBreadcrumbSchema,
@@ -325,6 +326,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
       {/* Author Bio */}
       {post.primary_author && <AuthorBio author={post.primary_author} />}
+
+      {/* Blog Subscribe */}
+      <BlogSubscribeForm />
 
       {/* Related Posts */}
       {relatedPosts.length > 0 && (

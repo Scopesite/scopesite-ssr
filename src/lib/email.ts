@@ -17,6 +17,15 @@ const FROM_EMAIL = 'noreply@scopesite.co.uk';
 const FROM_NAME = 'ScopeSite Digital Studios';
 const ADMIN_EMAIL = 'dan@scopesite.co.uk';
 
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 export interface BriefEmailData {
   name: string;
   email: string;
@@ -28,6 +37,62 @@ export interface BriefEmailData {
   description: string;
   file_urls?: string[];
   referral_source?: string;
+}
+
+export interface BlogSubscriptionEmailData {
+  email: string;
+}
+
+/**
+ * Send notification email to admin when someone subscribes to blog updates
+ */
+export async function sendBlogSubscriptionNotification(
+  subscription: BlogSubscriptionEmailData
+): Promise<boolean> {
+  const subscriberEmail = escapeHtml(subscription.email);
+  const subject = 'New Blog Subscriber';
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f5f5f5; margin: 0; padding: 20px;">
+      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <div style="background-color: #0A1B36; padding: 24px; text-align: center;">
+          <h1 style="color: #ECB615; margin: 0; font-size: 24px; font-weight: bold;">NEW BLOG SUBSCRIBER</h1>
+        </div>
+        <div style="padding: 24px;">
+          <p style="margin: 0 0 16px 0; color: #333; font-size: 16px; line-height: 1.6;">
+            <a href="mailto:${subscriberEmail}" style="color: #996D00;">${subscriberEmail}</a> has signed up for the ScopeSite blog.
+          </p>
+        </div>
+        <div style="background-color: #0A1B36; padding: 16px; text-align: center;">
+          <p style="margin: 0; color: #ffffff; font-size: 12px;">
+            Submitted via scopesite.co.uk/blog
+          </p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+    sendSmtpEmail.subject = subject;
+    sendSmtpEmail.htmlContent = htmlContent;
+    sendSmtpEmail.sender = { name: FROM_NAME, email: FROM_EMAIL };
+    sendSmtpEmail.to = [{ email: ADMIN_EMAIL, name: 'Dan Cartwright' }];
+    sendSmtpEmail.replyTo = { email: subscription.email };
+
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    return true;
+  } catch (error) {
+    console.error('Failed to send blog subscription notification:', error);
+    return false;
+  }
 }
 
 /**
