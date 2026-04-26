@@ -3,6 +3,8 @@ import Link from 'next/link';
 import type { GhostAuthor } from '@/lib/ghost';
 import { generateFounderPersonSchema } from '@/lib/schema';
 
+const DAN_LINKEDIN_URL = 'https://www.linkedin.com/in/scopesite/';
+
 interface AuthorBioProps {
   author: GhostAuthor;
 }
@@ -24,8 +26,7 @@ function getLinkedInUrl(author: GhostAuthor): string | null {
 export function AuthorBio({ author }: AuthorBioProps) {
   const founderSchema = generateFounderPersonSchema();
   const isDan = isDanCartwright(author);
-  const founderLinkedIn = founderSchema.sameAs.find((url) => url.includes('linkedin.com')) || null;
-  const linkedInUrl = getLinkedInUrl(author) || (isDan ? founderLinkedIn : null);
+  const linkedInUrl = isDan ? DAN_LINKEDIN_URL : getLinkedInUrl(author);
   const bio = author.bio || (isDan ? founderSchema.description : '');
   const credentialLine = isDan
     ? 'British Army veteran (REME) | V.O.I.C.E methodology creator'
@@ -92,7 +93,7 @@ export function AuthorBio({ author }: AuthorBioProps) {
                     href={linkedInUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn-secondary"
+                    className="btn bg-brand-navy text-brand-gold border-2 border-brand-gold hover:bg-brand-gold hover:text-brand-navy"
                   >
                     Connect on LinkedIn
                   </a>
