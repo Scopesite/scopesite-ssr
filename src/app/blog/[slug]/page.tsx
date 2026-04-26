@@ -165,6 +165,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       'h1',
       '.key-takeaway',
       '.prose-scopesite h2',
+      '.prose-scopesite h3',
+      '.prose-scopesite .faq-answer',
     ]);
 
     schemas = [webPageSchema, breadcrumbSchema, blogPostingSchema];
