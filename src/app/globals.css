@@ -458,6 +458,22 @@ main a:not(.btn):not(.btn-primary):not(.btn-secondary):not(.btn-secondary-light)
   .prose-scopesite h3[id] {
     scroll-margin-top: 7rem;
   }
+
+  .prose-scopesite .blog-faq-section {
+    @apply my-12 rounded-2xl border border-brand-gold/30 bg-brand-navy/[0.03] p-6;
+  }
+
+  .prose-scopesite .blog-faq-section > h2:first-child {
+    @apply mt-0 border-b border-brand-gold/30 pb-4;
+  }
+
+  .prose-scopesite .blog-faq-question {
+    @apply border-l-4 border-brand-gold pl-4;
+  }
+
+  .prose-scopesite .blog-faq-section .faq-answer {
+    @apply rounded-xl bg-white px-4 py-3 text-brand-navy/80;
+  }
 }
 
 /*

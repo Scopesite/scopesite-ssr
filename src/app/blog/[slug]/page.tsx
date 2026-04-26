@@ -23,6 +23,7 @@ import {
 import { TableOfContents } from '@/components/blog/TableOfContents';
 import { extractHeadingsFromHtml } from '@/lib/blog/extract-headings';
 import { injectHeadingIds } from '@/lib/blog/inject-heading-ids';
+import { enhanceFaqHtml } from '@/lib/blog/enhance-faq-html';
 
 const BASE_URL = 'https://scopesite.co.uk';
 
@@ -181,6 +182,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const blogHeadings = extractHeadingsFromHtml(rawPostHtml);
   const showTableOfContents = blogHeadings.filter((heading) => heading.level === 2).length >= 3;
   const renderedPostHtml = showTableOfContents ? injectHeadingIds(rawPostHtml) : rawPostHtml;
+  const enhancedPostHtml = enhanceFaqHtml(renderedPostHtml);
 
   return (
     <>
@@ -298,7 +300,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             {post.html ? (
               <div
                 className="prose-scopesite"
-                dangerouslySetInnerHTML={{ __html: renderedPostHtml }}
+                dangerouslySetInnerHTML={{ __html: enhancedPostHtml }}
               />
             ) : (
               <p className="text-brand-navy/70">
