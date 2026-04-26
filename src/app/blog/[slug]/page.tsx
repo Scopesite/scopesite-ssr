@@ -332,6 +332,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <Link href="/book" className="btn-secondary-light">
               Book a Strategy Call
             </Link>
+            <Link href="/voice" className="btn-secondary-light">
+              Get Your Free V.O.I.C.E Report
+            </Link>
           </div>
         </div>
       </section>
