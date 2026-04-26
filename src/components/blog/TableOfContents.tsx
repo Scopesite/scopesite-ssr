@@ -7,6 +7,18 @@ interface TableOfContentsProps {
   headings: BlogHeading[];
 }
 
+const ACTIVE_SECTION_ROOT_MARGIN = '0px 0px -75% 0px';
+const ROOT_MARGIN_PART_PATTERN = /^-?(?:\d+|\d*\.\d+)(px|%)$/;
+
+function isValidRootMargin(rootMargin: string): boolean {
+  const parts = rootMargin.trim().split(/\s+/);
+
+  return (
+    (parts.length === 1 || parts.length === 4) &&
+    parts.every((part) => ROOT_MARGIN_PART_PATTERN.test(part))
+  );
+}
+
 function getHeadingClass(level: 2 | 3, isActive: boolean): string {
   const levelClass = level === 3 ? 'pl-5 text-sm' : 'pl-3 text-sm font-medium';
   const stateClass = isActive
@@ -37,25 +49,35 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
       return;
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visibleEntries = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+    if (!isValidRootMargin(ACTIVE_SECTION_ROOT_MARGIN)) {
+      console.warn('[TOC] Invalid IntersectionObserver rootMargin:', ACTIVE_SECTION_ROOT_MARGIN);
+      return;
+    }
 
-        if (visibleEntries[0]?.target.id) {
-          setActiveId(visibleEntries[0].target.id);
-        }
-      },
-      {
-        rootMargin: '-6rem 0px -65% 0px',
-        threshold: [0, 1],
+    let observer: IntersectionObserver | null = null;
+    const handleIntersect: IntersectionObserverCallback = (entries) => {
+      const visibleEntries = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+      if (visibleEntries[0]?.target.id) {
+        setActiveId(visibleEntries[0].target.id);
       }
-    );
+    };
+
+    try {
+      observer = new IntersectionObserver(handleIntersect, {
+        rootMargin: ACTIVE_SECTION_ROOT_MARGIN,
+        threshold: 0,
+      });
+    } catch (err) {
+      console.warn('[TOC] IntersectionObserver failed to initialise:', err);
+      return;
+    }
 
     headingElements.forEach((element) => observer.observe(element));
 
-    return () => observer.disconnect();
+    return () => observer?.disconnect();
   }, [headingIds]);
 
   const handleClick = (id: string) => (event: MouseEvent<HTMLAnchorElement>) => {
