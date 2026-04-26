@@ -22,6 +22,10 @@ export interface GhostAuthor {
   slug: string;
   profile_image?: string;
   bio?: string;
+  website?: string;
+  facebook?: string;
+  twitter?: string;
+  linkedin?: string;
 }
 
 export interface GhostPost {
