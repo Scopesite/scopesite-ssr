@@ -30,6 +30,19 @@ interface BlogPostPageProps {
   }>;
 }
 
+function truncateAuthorBio(bio: string, maxLength = 80): string {
+  const trimmedBio = bio.trim();
+
+  if (trimmedBio.length <= maxLength) {
+    return trimmedBio;
+  }
+
+  const cutPoint = trimmedBio.slice(0, maxLength + 1).lastIndexOf(' ');
+  const safeLength = cutPoint > 0 ? cutPoint : maxLength;
+
+  return `${trimmedBio.slice(0, safeLength).trimEnd()}...`;
+}
+
 // Generate static params for all posts
 export async function generateStaticParams() {
   const slugs = await getAllPostSlugs();
@@ -192,31 +205,38 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </h1>
 
             {/* Meta */}
-            <div className="flex flex-wrap items-center gap-6 text-white/60">
-              {post.primary_author && (
+            <div className="space-y-3">
+              <div className="flex flex-wrap items-center gap-6 text-white/60">
+                {post.primary_author && (
+                  <div className="flex items-center gap-2">
+                    {post.primary_author.profile_image && (
+                      <Image
+                        src={post.primary_author.profile_image}
+                        alt={post.primary_author.name}
+                        width={32}
+                        height={32}
+                        className="rounded-full"
+                      />
+                    )}
+                    <span>{post.primary_author.name}</span>
+                  </div>
+                )}
                 <div className="flex items-center gap-2">
-                  {post.primary_author.profile_image && (
-                    <Image
-                      src={post.primary_author.profile_image}
-                      alt={post.primary_author.name}
-                      width={32}
-                      height={32}
-                      className="rounded-full"
-                    />
-                  )}
-                  <span>{post.primary_author.name}</span>
+                  <Calendar className="w-4 h-4" />
+                  <time dateTime={post.published_at}>
+                    {formatPostDate(post.published_at)}
+                  </time>
                 </div>
+                <div className="flex items-center gap-2">
+                  <Clock className="w-4 h-4" />
+                  <span>{post.reading_time || 1} min read</span>
+                </div>
+              </div>
+              {post.primary_author?.bio && (
+                <p className="max-w-2xl text-sm leading-relaxed text-white/70">
+                  {truncateAuthorBio(post.primary_author.bio)}
+                </p>
               )}
-              <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
-                <time dateTime={post.published_at}>
-                  {formatPostDate(post.published_at)}
-                </time>
-              </div>
-              <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4" />
-                <span>{post.reading_time || 1} min read</span>
-              </div>
             </div>
           </div>
         </div>
