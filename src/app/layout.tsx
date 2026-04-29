@@ -6,6 +6,7 @@ import { Footer } from '@/components/layout/Footer';
 import { FooterVisibility } from '@/components/layout/FooterVisibility';
 import { JsonLd } from '@/components/JsonLd';
 import { AhrefsAnalytics } from '@/components/AhrefsAnalytics';
+import { BrevoTracker } from '@/components/BrevoTracker';
 import { SkipLink, RouteAnnouncer } from '@/components/a11y';
 import { getAlternates } from '@/lib/hreflang-map';
 import {
@@ -136,6 +137,7 @@ export default function RootLayout({
         <meta name="supported-color-schemes" content="light" />
         <JsonLd schema={[organizationSchema, websiteSchema, voiceTermSetSchema, audienceSchema, scheduleActionSchema]} />
         <AhrefsAnalytics />
+        <BrevoTracker />
       </head>
       <body
         suppressHydrationWarning

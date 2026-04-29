@@ -2,6 +2,7 @@ import { ClerkProvider } from '@clerk/nextjs';
 import { auth, currentUser } from '@clerk/nextjs/server';
 import { PortalNav } from '@/components/portal/PortalNav';
 import { PortalSidebar } from '@/components/portal/PortalSidebar';
+import { BrevoIdentifyPortal } from '@/components/BrevoIdentifyPortal';
 import { getClientByClerkId } from '@/lib/portal-db';
 
 export const metadata = {
@@ -23,6 +24,7 @@ export default async function PortalLayout({
   if (!userId) {
     return (
       <ClerkProvider>
+        <BrevoIdentifyPortal />
         <div className="-mt-32">{children}</div>
       </ClerkProvider>
     );
@@ -35,6 +37,7 @@ export default async function PortalLayout({
 
   return (
     <ClerkProvider>
+      <BrevoIdentifyPortal />
       <div className="-mt-32 min-h-screen bg-gray-50">
         <PortalNav
           userName={user?.firstName || user?.emailAddresses[0]?.emailAddress || 'User'}
