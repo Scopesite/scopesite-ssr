@@ -133,6 +133,9 @@ export default function RootLayout({
   return (
     <html lang="en-GB">
       <head>
+        {/* Brevo SDK + automation API (Lighthouse preconnect): cap at 2 origins */}
+        <link rel="preconnect" href="https://cdn.brevo.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://sibautomation.com" crossOrigin="anonymous" />
         <meta name="color-scheme" content="light" />
         <meta name="supported-color-schemes" content="light" />
         <JsonLd schema={[organizationSchema, websiteSchema, voiceTermSetSchema, audienceSchema, scheduleActionSchema]} />
