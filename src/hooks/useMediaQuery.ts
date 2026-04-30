@@ -11,7 +11,7 @@ export function useMediaQuery(query: string): boolean {
 
   useEffect(() => {
     const mediaQuery = window.matchMedia(query);
-    setMatches(mediaQuery.matches);
+    queueMicrotask(() => setMatches(mediaQuery.matches));
 
     const handleChange = (event: MediaQueryListEvent) => {
       setMatches(event.matches);
@@ -36,8 +36,8 @@ export function useIsMobile(): boolean {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
-    checkMobile();
+
+    queueMicrotask(checkMobile);
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);

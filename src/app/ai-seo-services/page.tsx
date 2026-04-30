@@ -155,7 +155,7 @@ export default function AISEOServicesPage() {
         bodyCopy={
           <>
             <p className="mb-4">
-              Being recommended by AI doesn't happen by accident. It requires a specific technical architecture, deep structured data, and content engineered for machine extraction.
+              Being recommended by AI doesn&apos;t happen by accident. It requires a specific technical architecture, deep structured data, and content engineered for machine extraction.
             </p>
             <p className="mb-4">
               Our AI SEO services cover the entire stack: from auditing your current visibility with our V.O.I.C.E. scanner, to rebuilding your site with Server-Side Rendering (SSR), to engineering the JSON-LD schema that teaches AI exactly who you are.
@@ -187,7 +187,7 @@ export default function AISEOServicesPage() {
           <div className="text-center mb-12">
             <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">THE FULL STACK</h2>
             <p className="text-white/70 max-w-2xl mx-auto">
-              We don't just tweak meta tags. We rebuild your technical foundation for <Link href="/answer-engine-optimisation" className="text-brand-gold hover:underline">Answer Engine Optimisation</Link>.
+              We don&apos;t just tweak meta tags. We rebuild your technical foundation for <Link href="/answer-engine-optimisation" className="text-brand-gold hover:underline">Answer Engine Optimisation</Link>.
             </p>
           </div>
           

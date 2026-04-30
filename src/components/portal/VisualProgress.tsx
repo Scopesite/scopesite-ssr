@@ -30,7 +30,7 @@ export function VisualProgress({
       }, 100);
       return () => clearTimeout(timer);
     } else {
-      setDisplayProgress(actualProgress);
+      queueMicrotask(() => setDisplayProgress(actualProgress));
     }
   }, [actualProgress, animated]);
 

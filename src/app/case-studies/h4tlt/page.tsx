@@ -771,7 +771,7 @@ export default function H4TLTCaseStudyPage() {
               <StaggerItem>
                 <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-start gap-4">
                   <div className="w-2 h-2 bg-brand-gold rounded-full mt-2 flex-shrink-0" />
-                  <p className="text-brand-navy font-medium">Aggarwal et al. (2024) — Princeton GEO paper, published at KDD '24</p>
+                  <p className="text-brand-navy font-medium">Aggarwal et al. (2024) — Princeton GEO paper, published at KDD &apos;24</p>
                 </div>
               </StaggerItem>
               <StaggerItem>
@@ -857,7 +857,7 @@ export default function H4TLTCaseStudyPage() {
             
             <FadeInOnScroll delay={0.15}>
               <p className="text-slate-400 text-xl mb-12">
-                Most aren't. Mark is.
+                Most aren&apos;t. Mark is.
               </p>
             </FadeInOnScroll>
 

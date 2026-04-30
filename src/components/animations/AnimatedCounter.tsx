@@ -41,7 +41,7 @@ export function AnimatedCounter({
       }, delay * 1000);
       return () => clearTimeout(timeout);
     } else if (isInView && prefersReducedMotion) {
-      setDisplayValue(value);
+      queueMicrotask(() => setDisplayValue(value));
     }
   }, [isInView, value, motionValue, delay, prefersReducedMotion]);
 

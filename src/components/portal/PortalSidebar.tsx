@@ -2,16 +2,16 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { 
-  LayoutDashboard, 
-  FileText, 
-  Plus, 
-  Palette, 
+import {
+  LayoutDashboard,
+  FileText,
+  Plus,
+  Palette,
   Receipt,
   Settings,
   Users,
   BarChart3,
-  ChevronRight
+  ChevronRight,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -40,34 +40,36 @@ const adminNavItems: NavItem[] = [
   { name: 'All Requests', href: '/portal/admin/requests', icon: FileText },
 ];
 
+function PortalNavLink({ item, pathname }: { item: NavItem; pathname: string }) {
+  const isActive =
+    pathname === item.href ||
+    (item.href !== '/portal/dashboard' && pathname.startsWith(item.href));
+  const Icon = item.icon;
+
+  return (
+    <Link
+      href={item.href}
+      className={cn(
+        'flex items-center gap-3 px-4 py-3 text-sm font-bold transition-all !text-white !no-underline',
+        isActive
+          ? 'border-2 border-brand-gold rounded-lg shadow-[0_0_10px_rgba(236,182,21,0.5)]'
+          : 'border-2 border-transparent hover:border-white/30 rounded-lg',
+      )}
+    >
+      <Icon size={20} className="!text-white" />
+      <span className="flex-1">{item.name}</span>
+      {item.badge && (
+        <span className="px-2 py-0.5 text-xs rounded-full bg-brand-orange !text-white">
+          {item.badge}
+        </span>
+      )}
+      {isActive && <ChevronRight size={16} className="!text-brand-gold" />}
+    </Link>
+  );
+}
+
 export function PortalSidebar({ isAdmin }: PortalSidebarProps) {
   const pathname = usePathname();
-
-  const NavLink = ({ item }: { item: NavItem }) => {
-    const isActive = pathname === item.href || 
-      (item.href !== '/portal/dashboard' && pathname.startsWith(item.href));
-    
-    return (
-      <Link
-        href={item.href}
-        className={cn(
-          'flex items-center gap-3 px-4 py-3 text-sm font-bold transition-all !text-white !no-underline',
-          isActive
-            ? 'border-2 border-brand-gold rounded-lg shadow-[0_0_10px_rgba(236,182,21,0.5)]'
-            : 'border-2 border-transparent hover:border-white/30 rounded-lg'
-        )}
-      >
-        <item.icon size={20} className="!text-white" />
-        <span className="flex-1">{item.name}</span>
-        {item.badge && (
-          <span className="px-2 py-0.5 text-xs rounded-full bg-brand-orange !text-white">
-            {item.badge}
-          </span>
-        )}
-        {isActive && <ChevronRight size={16} className="!text-brand-gold" />}
-      </Link>
-    );
-  };
 
   return (
     <>
@@ -76,7 +78,7 @@ export function PortalSidebar({ isAdmin }: PortalSidebarProps) {
         {/* Client navigation */}
         <nav className="space-y-1">
           {clientNavItems.map((item) => (
-            <NavLink key={item.href} item={item} />
+            <PortalNavLink key={item.href} item={item} pathname={pathname} />
           ))}
         </nav>
 
@@ -89,7 +91,7 @@ export function PortalSidebar({ isAdmin }: PortalSidebarProps) {
             </p>
             <nav className="space-y-1">
               {adminNavItems.map((item) => (
-                <NavLink key={item.href} item={item} />
+                <PortalNavLink key={item.href} item={item} pathname={pathname} />
               ))}
             </nav>
           </>
@@ -97,8 +99,9 @@ export function PortalSidebar({ isAdmin }: PortalSidebarProps) {
 
         {/* Settings at bottom */}
         <div className="mt-auto pt-4 border-t border-brand-graphite">
-          <NavLink 
-            item={{ name: 'Settings', href: '/portal/settings', icon: Settings }} 
+          <PortalNavLink
+            item={{ name: 'Settings', href: '/portal/settings', icon: Settings }}
+            pathname={pathname}
           />
         </div>
       </aside>
@@ -108,7 +111,7 @@ export function PortalSidebar({ isAdmin }: PortalSidebarProps) {
         {/* Same content as desktop */}
         <nav className="space-y-1">
           {clientNavItems.map((item) => (
-            <NavLink key={item.href} item={item} />
+            <PortalNavLink key={item.href} item={item} pathname={pathname} />
           ))}
         </nav>
 
@@ -120,15 +123,16 @@ export function PortalSidebar({ isAdmin }: PortalSidebarProps) {
             </p>
             <nav className="space-y-1">
               {adminNavItems.map((item) => (
-                <NavLink key={item.href} item={item} />
+                <PortalNavLink key={item.href} item={item} pathname={pathname} />
               ))}
             </nav>
           </>
         )}
 
         <div className="mt-auto pt-4 border-t border-brand-graphite">
-          <NavLink 
-            item={{ name: 'Settings', href: '/portal/settings', icon: Settings }} 
+          <PortalNavLink
+            item={{ name: 'Settings', href: '/portal/settings', icon: Settings }}
+            pathname={pathname}
           />
         </div>
       </aside>

@@ -159,10 +159,10 @@ export default function AIVisibilityPage() {
         bodyCopy={
           <>
             <p className="mb-4">
-              AI visibility is the new SEO. It's the measure of how well your business is understood, cited, and recommended by artificial intelligence platforms like ChatGPT, Claude, Perplexity, and Gemini.
+              AI visibility is the new SEO. It&apos;s the measure of how well your business is understood, cited, and recommended by artificial intelligence platforms like ChatGPT, Claude, Perplexity, and Gemini.
             </p>
             <p className="mb-4">
-              The technical reality is that most websites are completely invisible to AI crawlers. They rely on client-side rendered JavaScript that ChatGPT-User, ClaudeBot, and PerplexityBot simply cannot execute. If they can't read your site, they can't recommend your business.
+              The technical reality is that most websites are completely invisible to AI crawlers. They rely on client-side rendered JavaScript that ChatGPT-User, ClaudeBot, and PerplexityBot simply cannot execute. If they can&apos;t read your site, they can&apos;t recommend your business.
             </p>
             <p>
               We fix this. As a specialist <Link href="/ai-seo-agency" className="text-brand-gold hover:underline">AI SEO agency</Link> and <Link href="/generative-engine-optimisation" className="text-brand-gold hover:underline">generative engine optimisation</Link> specialist, we use our proprietary V.O.I.C.E. methodology to measure and improve your LLM visibility. Explore our <Link href="/ai-seo-services" className="text-brand-gold hover:underline">AI SEO services</Link> to learn how we rebuild your technical foundation for the AI era.
@@ -191,7 +191,7 @@ export default function AIVisibilityPage() {
           <div className="text-center mb-12">
             <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">MEASURING THE INVISIBLE</h2>
             <p className="text-white/70 max-w-2xl mx-auto">
-              You can't improve what you can't measure. That's why we built the V.O.I.C.E. scanner.
+              You can&apos;t improve what you can&apos;t measure. That&apos;s why we built the V.O.I.C.E. scanner.
             </p>
           </div>
           
@@ -199,10 +199,10 @@ export default function AIVisibilityPage() {
             <div className="bg-brand-graphite/30 p-8 rounded-2xl border border-white/10">
               <h3 className="text-brand-gold font-bold text-xl mb-4">The V.O.I.C.E. Methodology</h3>
               <p className="text-white/70 mb-4">
-                V.O.I.C.E. stands for Visibility, Optimisation, for Intelligent, Crawler, Engines. It's our proprietary framework for testing and building AI visibility across all major platforms.
+                V.O.I.C.E. stands for Visibility, Optimisation, for Intelligent, Crawler, Engines. It&apos;s our proprietary framework for testing and building AI visibility across all major platforms.
               </p>
               <p className="text-white/70">
-                We don't guess what AI thinks of your business. We systematically test it, identify the technical blockers (like missing schema or client-side rendering), and implement <Link href="/answer-engine-optimisation" className="text-brand-gold hover:underline">Answer Engine Optimisation</Link> to fix them.
+                We don&apos;t guess what AI thinks of your business. We systematically test it, identify the technical blockers (like missing schema or client-side rendering), and implement <Link href="/answer-engine-optimisation" className="text-brand-gold hover:underline">Answer Engine Optimisation</Link> to fix them.
               </p>
             </div>
             <div className="bg-brand-graphite/30 p-8 rounded-2xl border border-brand-gold/30 flex flex-col justify-center items-center text-center">

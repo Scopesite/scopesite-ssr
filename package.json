@@ -14,6 +14,7 @@
     "analyze": "cross-env ANALYZE=true next build --webpack",
     "start": "next start",
     "lint": "eslint",
+    "typecheck": "tsc --noEmit",
     "db:init": "npx tsx scripts/db.ts init",
     "db:init-portal": "npx tsx scripts/db.ts init-portal",
     "db:check": "npx tsx scripts/db.ts check"

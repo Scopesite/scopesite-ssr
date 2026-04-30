@@ -20,7 +20,7 @@ export function FilloutEmbed() {
 
   useEffect(() => {
     // Set key on client-side mount to force fresh iframe
-    setIframeKey(Date.now());
+    queueMicrotask(() => setIframeKey(Date.now()));
   }, []);
 
   // Don't render until client-side to avoid hydration mismatch

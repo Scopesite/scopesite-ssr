@@ -267,20 +267,20 @@ export default function WebAppsPage() {
             <h2 className="text-brand-navy text-2xl font-bold mb-6 text-center">When Off-The-Shelf Software Isn&apos;t Good Enough</h2>
             <div className="space-y-4 text-brand-navy/80">
               <p>
-                You've probably tried Zapier, Monday.com, Notion, Airtable - the usual suspects. They're fine for 
+                You&apos;ve probably tried Zapier, Monday.com, Notion, Airtable - the usual suspects. They&apos;re fine for 
                 generic workflows, but when your business has specific requirements, you end up fighting the tool 
-                instead of using it. You're paying monthly subscriptions for features you don't need while the 
-                one thing you actually want is locked behind their "Enterprise" tier.
+                instead of using it. You&apos;re paying monthly subscriptions for features you don&apos;t need while the 
+                one thing you actually want is locked behind their &quot;Enterprise&quot; tier.
               </p>
               <p>
-                That's where custom web applications make sense. Instead of bending your process to fit someone 
-                else's software, we build tools that fit YOUR exact workflow. No monthly subscriptions. No feature 
+                That&apos;s where custom web applications make sense. Instead of bending your process to fit someone 
+                else&apos;s software, we build tools that fit YOUR exact workflow. No monthly subscriptions. No feature 
                 limitations. No vendor lock-in. You own the code, the data, and the roadmap.
               </p>
               <p>
-                We've built quote calculators for tradespeople, compliance checkers for healthcare practices, 
+                We&apos;ve built quote calculators for tradespeople, compliance checkers for healthcare practices, 
                 client portals for service businesses, and booking systems for venues. Each one is different 
-                because each business is different. That's the point.
+                because each business is different. That&apos;s the point.
               </p>
             </div>
           </div>

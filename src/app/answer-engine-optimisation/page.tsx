@@ -159,7 +159,7 @@ export default function AEOPage() {
         bodyCopy={
           <>
             <p className="mb-4">
-              The shift from search engines to answer engines is already here. People aren't looking for a list of links anymore; they are asking ChatGPT, Claude, and Perplexity for direct answers and recommendations.
+              The shift from search engines to answer engines is already here. People aren&apos;t looking for a list of links anymore; they are asking ChatGPT, Claude, and Perplexity for direct answers and recommendations.
             </p>
             <p className="mb-4">
               Answer Engine Optimisation (AEO) is the technical and content strategy required to ensure your business is the one these AI platforms cite. It requires a completely different approach to traditional SEO: focusing on structured data, entity relationships, and factual extraction rather than keyword density.
@@ -191,7 +191,7 @@ export default function AEOPage() {
           <div className="text-center mb-12">
             <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">AEO VS SEO: THE DIFFERENCE</h2>
             <p className="text-white/70 max-w-2xl mx-auto">
-              AEO is not just "SEO but for AI." It requires a fundamental shift in how you build and structure your digital presence.
+              AEO is not just &quot;SEO but for AI.&quot; It requires a fundamental shift in how you build and structure your digital presence.
             </p>
           </div>
           

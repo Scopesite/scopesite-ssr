@@ -158,7 +158,7 @@ export default function AISEOAgencyPage() {
               Traditional SEO agencies are still chasing Google rankings while your customers are asking ChatGPT for recommendations.
             </p>
             <p className="mb-4">
-              As a specialist AI SEO agency, we understand the difference between ranking for a keyword and being cited as the definitive answer. We engineer your website's architecture, structured data, and content so that AI platforms extract it, trust it, and recommend your business.
+              As a specialist AI SEO agency, we understand the difference between ranking for a keyword and being cited as the definitive answer. We engineer your website&apos;s architecture, structured data, and content so that AI platforms extract it, trust it, and recommend your business.
             </p>
             <p>
               Check your current <Link href="/ai-visibility" className="text-brand-gold hover:underline">AI visibility</Link> with our free V.O.I.C.E. scan, explore our <Link href="/generative-engine-optimisation" className="text-brand-gold hover:underline">generative engine optimisation</Link> work, or see our full range of <Link href="/ai-seo-services" className="text-brand-gold hover:underline">AI SEO services</Link>.

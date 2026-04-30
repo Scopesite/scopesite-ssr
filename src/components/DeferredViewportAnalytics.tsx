@@ -20,9 +20,11 @@ export function DeferredAhrefsAnalytics() {
   const [strategy, setStrategy] = useState<'afterInteractive' | 'lazyOnload' | null>(null);
 
   useLayoutEffect(() => {
-    setStrategy(
-      window.innerWidth < MOBILE_MAX_PX ? 'lazyOnload' : 'afterInteractive',
-    );
+    queueMicrotask(() => {
+      setStrategy(
+        window.innerWidth < MOBILE_MAX_PX ? 'lazyOnload' : 'afterInteractive',
+      );
+    });
   }, []);
 
   if (!key || !strategy) return null;
@@ -44,7 +46,7 @@ export function DeferredVercelAnalytics() {
   useLayoutEffect(() => {
     if (typeof window === 'undefined') return;
     if (window.innerWidth >= MOBILE_MAX_PX) {
-      setMount(true);
+      queueMicrotask(() => setMount(true));
     }
   }, []);
 
@@ -83,7 +85,7 @@ export function DeferredSpeedInsights() {
   useLayoutEffect(() => {
     if (typeof window === 'undefined') return;
     if (window.innerWidth >= MOBILE_MAX_PX) {
-      setMount(true);
+      queueMicrotask(() => setMount(true));
     }
   }, []);
 

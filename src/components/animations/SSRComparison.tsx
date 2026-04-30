@@ -28,8 +28,10 @@ export function SSRComparison({
     if (!isInView || hasAnimated || !autoPlay) return;
 
     if (prefersReducedMotion) {
-      setPhase('loaded');
-      setHasAnimated(true);
+      queueMicrotask(() => {
+        setPhase('loaded');
+        setHasAnimated(true);
+      });
       return;
     }
 
