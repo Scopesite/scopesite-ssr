@@ -1,37 +1,44 @@
-# robots.txt for ScopeSite Digital Studios
-# https://scopesite.co.uk
+# robots.txt — ScopeSite Digital Studios (https://scopesite.co.uk)
+# llms.txt: https://scopesite.co.uk/llms.txt
+# llms-full.txt: https://scopesite.co.uk/llms-full.txt
 
-# Default rule - allow all
 User-agent: *
 Allow: /
 Disallow: /portal/
-Disallow: /api/portal/
-Disallow: /llm-brain/order-confirmed/
-Disallow: /brief/
-Disallow: /search
+Disallow: /api/
+Disallow: /_next/data/
+Disallow: /_next/image
+Disallow: /_next/static/chunks/
 
-# AI Crawlers - Welcome!
-# We're an AI-first agency - we want AI to understand our content
+Allow: /api/og/
+Allow: /_next/static/css/
 
+# AI crawlers — revenue-critical; explicit allow
 User-agent: GPTBot
 Allow: /
 
 User-agent: ChatGPT-User
 Allow: /
 
-User-agent: Claude-Web
-Allow: /
-
 User-agent: ClaudeBot
 Allow: /
 
-User-agent: Anthropic-AI
+User-agent: Claude-Web
 Allow: /
 
 User-agent: PerplexityBot
 Allow: /
 
 User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Anthropic-AI
 Allow: /
 
 User-agent: Applebot-Extended
@@ -46,16 +53,14 @@ Allow: /
 User-agent: Meta-ExternalAgent
 Allow: /
 
-User-agent: OAI-SearchBot
-Allow: /
-
 User-agent: Claude-SearchBot
 Allow: /
 
-# AI/LLM Information Files
-# For AI crawlers and LLMs seeking structured information about ScopeSite:
-# https://scopesite.co.uk/llms.txt (summary)
-# https://scopesite.co.uk/llms-full.txt (detailed)
+Crawl-delay: 10
+User-agent: AhrefsBot
+Crawl-delay: 10
 
-# Sitemap location
+User-agent: SemrushBot
+Crawl-delay: 10
+
 Sitemap: https://scopesite.co.uk/sitemap.xml

@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { Suspense } from 'react';
+import Link from 'next/link';
 import { QuoteCalculator } from '@/components/pricing';
 import { Loader2 } from 'lucide-react';
 import { JsonLd } from '@/components/JsonLd';
@@ -143,6 +144,13 @@ export default function PricingPage() {
           <Suspense fallback={<QuoteCalculatorFallback />}>
             <QuoteCalculator />
           </Suspense>
+          <p className="text-center text-brand-navy/70 text-sm mt-6 max-w-xl mx-auto">
+            Prefer to send a written brief? Use our{' '}
+            <Link href="/brief" className="text-brand-gold underline hover:text-brand-navy">
+              project brief form
+            </Link>
+            .
+          </p>
         </div>
       </section>
 

@@ -10,6 +10,11 @@ const CAL_H1_DEMOTE_SCRIPT = `
 (function () {
   function demoteCalHeadings(target) {
     target.querySelectorAll("h1").forEach(function (el) {
+      var text = (el.textContent || "").trim();
+      if (!text) {
+        el.remove();
+        return;
+      }
       var h2 = document.createElement("h2");
       Array.prototype.forEach.call(el.attributes, function (attr) {
         h2.setAttribute(attr.name, attr.value);
@@ -87,6 +92,11 @@ export default function BookPage() {
 
     const demote = () => {
       target.querySelectorAll('h1').forEach((el) => {
+        const text = (el.textContent || '').trim();
+        if (!text) {
+          el.remove();
+          return;
+        }
         const h2 = document.createElement('h2');
         for (const attr of Array.from(el.attributes)) {
           h2.setAttribute(attr.name, attr.value);
@@ -167,6 +177,39 @@ export default function BookPage() {
               </p>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="bg-brand-navy/95 py-12 border-b border-white/10">
+        <div className="container-content max-w-3xl mx-auto">
+          <h2 className="text-white text-xl sm:text-2xl font-headline mb-4 text-center">
+            What happens on your free strategy call
+          </h2>
+          <ul className="space-y-3 text-white/80 text-body mb-6 list-disc pl-6">
+            <li>
+              We review your current AI visibility live using the V.O.I.C.E.™ framework — schema coverage,
+              crawler access, performance signals, and how clearly machines can read your entity.
+            </li>
+            <li>
+              You leave with the three highest-impact fixes ranked by effort versus outcome, so you know what to
+              tackle first whether you hire us or not.
+            </li>
+            <li>
+              Where it helps, we share the audit-style PDF summary so you have a tangible record of findings — no
+              bait-and-switch to unlock the headline numbers.
+            </li>
+            <li>
+              This is a working session, not a scripted pitch: if we are not the right fit, we will say so and
+              point you in a better direction.
+            </li>
+          </ul>
+          <p className="text-white/70 text-body-sm text-center">
+            Not ready to book? Send a written brief instead via{' '}
+            <a href="/brief" className="text-brand-gold underline hover:text-white">
+              scopesite.co.uk/brief
+            </a>
+            .
+          </p>
         </div>
       </section>
 

@@ -224,7 +224,7 @@ export default function Home() {
               <div className="badge-gold-lg mb-6 mx-auto md:mx-0">Veteran owned. Somerset based.</div>
 
               <h1 className="text-[2rem] xs:text-[2.75rem] sm:text-[3.5rem] md:text-[4rem] lg:text-[4.25rem] text-white mb-6 leading-[1.05] font-headline">
-                <span className="text-brand-gold block sm:inline sm:mr-2">Websites</span>
+                <span className="text-brand-gold block sm:inline sm:mr-2">Websites </span>
                 <span className="block sm:inline">AI Can Actually Recommend</span>
               </h1>
 
@@ -242,6 +242,16 @@ export default function Home() {
                   See How It Works
                 </a>
               </div>
+              <p className="mt-6 text-sm text-white/70 max-w-md lg:max-w-xl mx-auto md:mx-0">
+                <a
+                  href={VOICE_SCAN_URL}
+                  className="text-brand-gold underline underline-offset-2 hover:text-white"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Run a free AI visibility scan with V.O.I.C.E.
+                </a>
+              </p>
             </div>
           </div>
 

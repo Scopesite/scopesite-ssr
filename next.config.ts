@@ -42,6 +42,20 @@ const nextConfig: NextConfig = {
     ];
   },
 
+  async headers() {
+    return [
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
+  },
+
   // Image optimization
   images: {
     // Prefer AVIF for better compression, fallback to WebP

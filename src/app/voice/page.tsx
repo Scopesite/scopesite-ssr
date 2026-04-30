@@ -168,7 +168,10 @@ export default function VoicePage() {
       <section className="bg-brand-navy text-white py-section min-h-[70vh] flex items-center">
         <div className="container-content">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="sr-only">V.O.I.C.E™ AI Visibility Optimisation for UK Businesses</h1>
+            <h1 className="font-headline text-white text-2xl sm:text-3xl md:text-4xl mb-4 leading-tight max-w-3xl mx-auto">
+              <span className="uppercase">V.O.I.C.E.</span>
+              <span className="normal-case"> — AI Visibility Scanner for UK Businesses</span>
+            </h1>
             <Image
               src="/images/voice-ai-aeo-geo-uk-scopesite-top-logo.webp"
               alt="V.O.I.C.E. AI visibility scanning tool by ScopeSite Digital Studios"

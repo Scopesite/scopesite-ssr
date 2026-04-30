@@ -87,6 +87,24 @@ export function AuthorBio({ author }: AuthorBioProps) {
                 </p>
               )}
 
+              {isDan && (
+                <p className="mt-4 text-sm leading-relaxed text-brand-navy/80">
+                  Written by Dan Cartwright, British Army veteran and founder of ScopeSite Digital Studios. See{' '}
+                  <Link href="/about" className="text-brand-gold underline hover:text-brand-navy">
+                    the full bio
+                  </Link>
+                  , proof in the{' '}
+                  <Link href="/case-studies/h4tlt" className="text-brand-gold underline hover:text-brand-navy">
+                    H4TLT case study
+                  </Link>
+                  , and run a free scan with{' '}
+                  <Link href="/voice" className="text-brand-gold underline hover:text-brand-navy">
+                    V.O.I.C.E.
+                  </Link>
+                  .
+                </p>
+              )}
+
               <div className="mt-5 flex flex-col gap-3 sm:flex-row">
                 {linkedInUrl && (
                   <a

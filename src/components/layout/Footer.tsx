@@ -37,6 +37,7 @@ const FOOTER_LINKS = {
     { label: 'About Us', href: '/about' },
     { label: 'Case Studies', href: '/case-studies' },
     { label: 'Blog', href: '/blog' },
+    { label: 'Send us a brief', href: '/brief' },
     { label: 'Book a Call', href: '/book' },
     { label: 'Client Login', href: 'https://accounts.scopesite.co.uk/sign-in' },
     { label: 'Sign Up as Client', href: 'https://accounts.scopesite.co.uk/sign-up' },
@@ -232,6 +233,16 @@ export function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <a
+                  href="https://voice.scopesite.co.uk/"
+                  className="text-white/70 text-body-sm hover:text-brand-gold transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Run a free AI visibility scan with V.O.I.C.E.
+                </a>
+              </li>
             </ul>
           </nav>
 

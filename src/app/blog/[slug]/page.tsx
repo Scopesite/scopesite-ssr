@@ -25,6 +25,7 @@ import { TableOfContents } from '@/components/blog/TableOfContents';
 import { extractHeadingsFromHtml } from '@/lib/blog/extract-headings';
 import { injectHeadingIds } from '@/lib/blog/inject-heading-ids';
 import { enhanceFaqHtml } from '@/lib/blog/enhance-faq-html';
+import { demoteBodyHeadings } from '@/lib/blog/demote-body-headings';
 
 const BASE_URL = 'https://scopesite.co.uk';
 
@@ -182,9 +183,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   }
 
   const rawPostHtml = post.html || '';
-  const blogHeadings = extractHeadingsFromHtml(rawPostHtml);
+  const demotedPostHtml = demoteBodyHeadings(rawPostHtml);
+  const blogHeadings = extractHeadingsFromHtml(demotedPostHtml);
   const showTableOfContents = blogHeadings.filter((heading) => heading.level === 2).length >= 3;
-  const renderedPostHtml = showTableOfContents ? injectHeadingIds(rawPostHtml) : rawPostHtml;
+  const renderedPostHtml = showTableOfContents ? injectHeadingIds(demotedPostHtml) : demotedPostHtml;
   const enhancedPostHtml = enhanceFaqHtml(renderedPostHtml);
 
   return (

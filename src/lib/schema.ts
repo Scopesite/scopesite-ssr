@@ -580,6 +580,13 @@ export function generateWebsiteSchema() {
       '@id': `${BASE_URL}/#organization`,
     },
     inLanguage: 'en-GB',
+    additionalProperty: [
+      {
+        '@type': 'PropertyValue',
+        name: 'llms.txt',
+        value: 'https://scopesite.co.uk/llms.txt',
+      },
+    ],
     potentialAction: {
       '@type': 'SearchAction',
       target: {
