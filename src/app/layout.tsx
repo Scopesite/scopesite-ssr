@@ -5,7 +5,11 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FooterVisibility } from '@/components/layout/FooterVisibility';
 import { JsonLd } from '@/components/JsonLd';
-import { DeferredAhrefsAnalytics, DeferredSpeedInsights } from '@/components/DeferredViewportAnalytics';
+import {
+  DeferredAhrefsAnalytics,
+  DeferredSpeedInsights,
+  DeferredVercelAnalytics,
+} from '@/components/DeferredViewportAnalytics';
 import { SkipLink, RouteAnnouncer } from '@/components/a11y';
 import { getAlternates } from '@/lib/hreflang-map';
 import {
@@ -15,7 +19,6 @@ import {
   generateBusinessAudienceSchema,
   generateScheduleActionSchema,
 } from '@/lib/schema';
-import { Analytics } from '@vercel/analytics/next';
 
 // Fonts
 const paytoneOne = Paytone_One({
@@ -136,6 +139,9 @@ export default function RootLayout({
         <meta name="color-scheme" content="light" />
         <meta name="supported-color-schemes" content="light" />
         <JsonLd schema={[organizationSchema, websiteSchema, voiceTermSetSchema, audienceSchema, scheduleActionSchema]} />
+        {process.env.NEXT_PUBLIC_AHREFS_ANALYTICS_KEY ? (
+          <link rel="preconnect" href="https://analytics.ahrefs.com" crossOrigin="anonymous" />
+        ) : null}
         <DeferredAhrefsAnalytics />
       </head>
       <body
@@ -149,7 +155,7 @@ export default function RootLayout({
         </main>
         <FooterVisibility><Footer /></FooterVisibility>
         <RouteAnnouncer />
-        <Analytics />
+        <DeferredVercelAnalytics />
         <DeferredSpeedInsights />
       </body>
     </html>

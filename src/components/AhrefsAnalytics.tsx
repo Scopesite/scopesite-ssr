@@ -2,7 +2,7 @@
  * Ahrefs Web Analytics
  *
  * **Root layout:** use [`DeferredViewportAnalytics`](./DeferredViewportAnalytics.tsx)
- * (`DeferredAhrefsAnalytics`) — Ahrefs uses **`lazyOnload`** on all viewports for lower main-thread cost.
+ * (`DeferredAhrefsAnalytics`) — **`lazyOnload`** on narrow viewports, **`afterInteractive`** on desktop.
  *
  * This module remains for direct use with an explicit `strategy` when needed.
  *
