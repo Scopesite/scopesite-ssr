@@ -74,3 +74,20 @@ Together these correspond to the large **shared + runtime** slice Lighthouse lab
 
 **Turbopack alternative:** `next experimental-analyze` (see Next.js bundling guide) for webpack-free workflows.
 
+---
+
+## Homepage mobile lab checklist (`/`)
+
+After deploying viewport-aware analytics ([`DeferredViewportAnalytics.tsx`](../../src/components/DeferredViewportAnalytics.tsx)), **`(&lt;768px)`**:
+
+- Ahrefs: **`lazyOnload`** (desktop: **`afterInteractive`** via `useLayoutEffect`).
+- Vercel Speed Insights: mount after **`requestIdleCallback`** (fallback `setTimeout` ~200 ms), desktop mounts before paint as before.
+
+**Validation protocol:** Moto G Power (or equivalent), Slow 4G, single navigation, **median of 3–5 runs** on production `/`. Record **Performance score**, **TBT**, **long tasks**, and **FCP/LCP** — not only the headline number.
+
+**Brevo** ([`BrevoTracker.tsx`](../../src/components/BrevoTracker.tsx)): `beforeInteractive` email bootstrap + init unchanged; **SDK loader** uses `lazyOnload` on mobile, `afterInteractive` on desktop. Re-test Brevo email-link flows if attribution looks off.
+
+### Font fallbacks
+
+Root layout enables **`adjustFontFallback: true`** for **Paytone One** and **Inter** (`next/font/google`) to reduce layout shift and LCP text render delay from font swap.
+

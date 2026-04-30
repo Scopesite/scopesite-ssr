@@ -7,15 +7,20 @@
  * - Loads init + sdk-loader. Client key via NEXT_PUBLIC_BREVO_CLIENT_KEY.
  *
  * Performance note (LCP / main thread): `beforeInteractive` scripts run very early
- * on every route and compete with hydration. The SDK loader stays `afterInteractive`.
- * Changing bootstrap/init timing can break email-link attribution; treat as a
- * product/marketing trade-off, not a blind deferral.
+ * on every route and compete with hydration. The SDK loader uses
+ * `afterInteractive` on desktop; `lazyOnload` on narrow viewports (&lt;768px) to
+ * reduce mobile lab TBT (email bootstrap + init stay early).
  *
  * @see https://help.brevo.com/hc/en-us/articles/4409601214226-Troubleshooting-Implementing-first-party-cookies-on-your-website
  * @see https://developers.brevo.com/docs/getting-started-with-js-implementation
  */
 
+'use client';
+
 import Script from 'next/script';
+import { useLayoutEffect, useState } from 'react';
+
+const MOBILE_MAX_PX = 768;
 
 /** Inline, runs before other scripts so `_sc` / `_se` stay visible for the tracker. */
 const emailLinkBootstrap = `
@@ -67,6 +72,15 @@ const emailLinkBootstrap = `
 
 export function BrevoTracker() {
   const clientKey = process.env.NEXT_PUBLIC_BREVO_CLIENT_KEY;
+  const [sdkStrategy, setSdkStrategy] = useState<'afterInteractive' | 'lazyOnload' | null>(
+    null,
+  );
+
+  useLayoutEffect(() => {
+    setSdkStrategy(
+      window.innerWidth < MOBILE_MAX_PX ? 'lazyOnload' : 'afterInteractive',
+    );
+  }, []);
 
   if (!clientKey) return null;
 
@@ -84,12 +98,14 @@ window.Brevo.push(["init", { client_key: ${JSON.stringify(clientKey)} }]);`;
       <Script id="brevo-init" strategy="beforeInteractive">
         {initSnippet}
       </Script>
-      <Script
-        id="brevo-sdk-loader"
-        src="https://cdn.brevo.com/js/sdk-loader.js"
-        strategy="afterInteractive"
-        async
-      />
+      {sdkStrategy ? (
+        <Script
+          id="brevo-sdk-loader"
+          src="https://cdn.brevo.com/js/sdk-loader.js"
+          strategy={sdkStrategy}
+          async
+        />
+      ) : null}
     </>
   );
 }

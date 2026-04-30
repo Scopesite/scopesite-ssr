@@ -5,7 +5,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FooterVisibility } from '@/components/layout/FooterVisibility';
 import { JsonLd } from '@/components/JsonLd';
-import { AhrefsAnalytics } from '@/components/AhrefsAnalytics';
+import { DeferredAhrefsAnalytics, DeferredSpeedInsights } from '@/components/DeferredViewportAnalytics';
 import { BrevoTracker } from '@/components/BrevoTracker';
 import { SkipLink, RouteAnnouncer } from '@/components/a11y';
 import { getAlternates } from '@/lib/hreflang-map';
@@ -17,7 +17,6 @@ import {
   generateScheduleActionSchema,
 } from '@/lib/schema';
 import { Analytics } from '@vercel/analytics/next';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 
 // Fonts
 const paytoneOne = Paytone_One({
@@ -25,12 +24,14 @@ const paytoneOne = Paytone_One({
   subsets: ['latin'],
   variable: '--font-paytone',
   display: 'swap',
+  adjustFontFallback: true,
 });
 
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
   display: 'swap',
+  adjustFontFallback: true,
 });
 
 // Base URL for canonical URLs and OG images
@@ -139,7 +140,7 @@ export default function RootLayout({
         <meta name="color-scheme" content="light" />
         <meta name="supported-color-schemes" content="light" />
         <JsonLd schema={[organizationSchema, websiteSchema, voiceTermSetSchema, audienceSchema, scheduleActionSchema]} />
-        <AhrefsAnalytics />
+        <DeferredAhrefsAnalytics />
         <BrevoTracker />
       </head>
       <body
@@ -154,7 +155,7 @@ export default function RootLayout({
         <FooterVisibility><Footer /></FooterVisibility>
         <RouteAnnouncer />
         <Analytics />
-        <SpeedInsights />
+        <DeferredSpeedInsights />
       </body>
     </html>
   );
