@@ -351,7 +351,10 @@ export default function Home() {
             <strong className="text-brand-navy">Visibility, Optimisation, for Intelligent, Crawler, Engines.</strong>{' '}
             It scores your site across categories that matter to AI: structure, schema, speed, crawler access,
             and more. If you want the detail behind the categories, we wrote a straight explanation of{' '}
-            <Link href="/blog/ai-visibility-checker" className="text-brand-gold hover:underline">
+            <Link
+              href="/blog/ai-visibility-checker"
+              className="link-navy text-brand-navy font-semibold underline underline-offset-2 decoration-brand-navy hover:decoration-brand-gold hover:text-brand-navy"
+            >
               what an AI visibility checker actually measures
             </Link>
             . Takes minutes. Costs nothing to start.

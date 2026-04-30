@@ -280,16 +280,17 @@ main a:not(.btn):not(.btn-primary):not(.btn-secondary):not(.btn-secondary-light)
     @apply hover:bg-brand-navy hover:text-white hover:shadow-button-hover;
   }
 
+  /* Navy fill: gold-on-white fails WCAG; gold-on-navy passes (incl. hero where fill blends with section). */
   .btn-secondary {
     @apply btn;
-    @apply bg-transparent text-brand-gold;
+    @apply bg-brand-navy text-brand-gold;
     @apply border-2 border-brand-gold;
     @apply hover:bg-brand-gold hover:text-brand-navy;
   }
 
   .btn-secondary-light {
     @apply btn;
-    @apply bg-transparent text-brand-gold;
+    @apply bg-brand-navy text-brand-gold;
     @apply border-2 border-brand-gold;
     @apply hover:bg-brand-gold hover:text-brand-navy;
   }

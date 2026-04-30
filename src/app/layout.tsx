@@ -133,9 +133,9 @@ export default function RootLayout({
   return (
     <html lang="en-GB">
       <head>
-        {/* Brevo SDK + automation API (Lighthouse preconnect): cap at 2 origins */}
+        {/* Brevo SDK (critical path). Omit sibautomation preconnect — loads post-LCP and can trigger Lighthouse unused-preconnect. */}
+        <link rel="dns-prefetch" href="https://sibautomation.com" />
         <link rel="preconnect" href="https://cdn.brevo.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://sibautomation.com" crossOrigin="anonymous" />
         <meta name="color-scheme" content="light" />
         <meta name="supported-color-schemes" content="light" />
         <JsonLd schema={[organizationSchema, websiteSchema, voiceTermSetSchema, audienceSchema, scheduleActionSchema]} />
