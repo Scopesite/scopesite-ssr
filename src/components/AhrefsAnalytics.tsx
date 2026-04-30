@@ -1,7 +1,7 @@
 /**
  * Ahrefs Web Analytics
  *
- * **Root layout:** use [`DeferredViewportAnalytics`](../DeferredViewportAnalytics.tsx)
+ * **Root layout:** use [`DeferredViewportAnalytics`](./DeferredViewportAnalytics.tsx)
  * (`DeferredAhrefsAnalytics`) so mobile lab uses `lazyOnload` and desktop keeps
  * `afterInteractive`.
  *
