@@ -1,5 +1,3 @@
-'use client';
-
 import { MapPin, Code2, Brain, Shield, Map } from 'lucide-react';
 import {
   LandingHero,
@@ -60,7 +58,7 @@ const solutionFeatures = [
 const whatYouGetCards = [
   {
     title: "Modern Development",
-    icon: Code2,
+    iconNode: <Code2 className="w-6 h-6 text-brand-gold" />,
     items: [
       "Next.js 16 server-side rendering",
       "React 19 components",
@@ -71,7 +69,7 @@ const whatYouGetCards = [
   },
   {
     title: "AI Visibility",
-    icon: Brain,
+    iconNode: <Brain className="w-6 h-6 text-brand-gold" />,
     items: [
       "Complete schema markup",
       "V.O.I.C.E™ optimisation",
@@ -82,7 +80,7 @@ const whatYouGetCards = [
   },
   {
     title: "Technical Excellence",
-    icon: Shield,
+    iconNode: <Shield className="w-6 h-6 text-brand-gold" />,
     items: [
       "100% Lighthouse scores",
       "Enterprise-grade security",
@@ -93,7 +91,7 @@ const whatYouGetCards = [
   },
   {
     title: "Local SEO",
-    icon: Map,
+    iconNode: <Map className="w-6 h-6 text-brand-gold" />,
     items: [
       "Google Business Profile optimisation",
       "Bristol-specific local schema",
