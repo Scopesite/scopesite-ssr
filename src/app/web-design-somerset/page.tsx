@@ -1,5 +1,3 @@
-'use client';
-
 import Link from 'next/link';
 import { MapPin, Palette, Server, Brain, Map } from 'lucide-react';
 import {
@@ -64,7 +62,7 @@ const solutionFeatures = [
 const whatYouGetCards = [
   {
     title: "Professional Design",
-    icon: Palette,
+    iconNode: <Palette className="w-6 h-6 text-brand-gold" />,
     items: [
       "Custom design (not templates)",
       "Mobile-first responsive",
@@ -74,7 +72,7 @@ const whatYouGetCards = [
   },
   {
     title: "Technical Excellence",
-    icon: Server,
+    iconNode: <Server className="w-6 h-6 text-brand-gold" />,
     items: [
       "Next.js server-side rendering",
       "Sub-2-second load times",
@@ -84,7 +82,7 @@ const whatYouGetCards = [
   },
   {
     title: "AI Visibility",
-    icon: Brain,
+    iconNode: <Brain className="w-6 h-6 text-brand-gold" />,
     items: [
       "Complete schema markup",
       "V.O.I.C.E™ optimisation",
@@ -94,7 +92,7 @@ const whatYouGetCards = [
   },
   {
     title: "Local SEO",
-    icon: Map,
+    iconNode: <Map className="w-6 h-6 text-brand-gold" />,
     items: [
       "Google Business Profile optimisation",
       "Local schema with Somerset targeting",

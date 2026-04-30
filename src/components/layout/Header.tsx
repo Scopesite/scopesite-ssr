@@ -10,7 +10,10 @@ import { Button } from '@/components/ui/button';
 import { Navigation } from './Navigation';
 import { cn } from '@/lib/utils';
 
-const MobileMenu = dynamic(() => import('./MobileMenu'), { ssr: false });
+const MobileMenu = dynamic(() => import('./MobileMenu'), {
+  ssr: false,
+  loading: () => null,
+});
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);

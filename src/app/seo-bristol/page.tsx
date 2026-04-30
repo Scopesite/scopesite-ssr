@@ -1,5 +1,3 @@
-'use client';
-
 import { MapPin, Search, Brain, Shield, Map } from 'lucide-react';
 import {
   LandingHero,
@@ -52,7 +50,7 @@ const solutionFeatures = [
 const whatYouGetCards = [
   {
     title: "Technical SEO",
-    icon: Search,
+    iconNode: <Search className="w-6 h-6 text-brand-gold" />,
     items: [
       "Complete schema markup validation",
       "Site speed optimisation",
@@ -63,7 +61,7 @@ const whatYouGetCards = [
   },
   {
     title: "AI Visibility (GEO/AEO)",
-    icon: Brain,
+    iconNode: <Brain className="w-6 h-6 text-brand-gold" />,
     items: [
       "ChatGPT recommendation testing",
       "V.O.I.C.E™ optimisation",
@@ -74,7 +72,7 @@ const whatYouGetCards = [
   },
   {
     title: "Content & Authority",
-    icon: Shield,
+    iconNode: <Shield className="w-6 h-6 text-brand-gold" />,
     items: [
       "Content structure for AI",
       "FAQ schema implementation",
@@ -85,7 +83,7 @@ const whatYouGetCards = [
   },
   {
     title: "Local SEO",
-    icon: Map,
+    iconNode: <Map className="w-6 h-6 text-brand-gold" />,
     items: [
       "Google Business Profile optimisation",
       "Bristol-specific local schema",

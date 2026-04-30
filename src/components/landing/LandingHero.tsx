@@ -37,7 +37,7 @@ export function LandingHero({
     <section className="bg-brand-navy text-white py-section min-h-[85vh] flex items-center relative overflow-hidden">
       {/* Animated grid background */}
       <div 
-        className="absolute inset-0 opacity-[0.03] animate-grid-flow"
+        className="absolute inset-0 opacity-[0.03] animate-grid-flow max-md:animate-none motion-reduce:animate-none"
         style={{
           backgroundImage: `linear-gradient(rgba(236,182,21,0.3) 1px, transparent 1px),
                             linear-gradient(90deg, rgba(236,182,21,0.3) 1px, transparent 1px)`,
@@ -46,20 +46,32 @@ export function LandingHero({
       />
       
       {/* Gradient glow */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-brand-gold/10 rounded-full blur-[150px] animate-glow-pulse" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-brand-gold/10 rounded-full blur-[150px] animate-glow-pulse max-md:animate-none motion-reduce:animate-none" />
       
       <div className="container-content relative z-10">
         <div className="max-w-5xl mx-auto text-center">
-          {/* Badge */}
+          {/* Badge: static on mobile (no opacity-0 wait); motion from md up */}
           {badge && (
-            <FadeInOnScroll delay={0.2}>
-              <div className="inline-flex items-center gap-3 bg-brand-gold/10 border border-brand-gold/30 rounded-full px-5 py-2 mb-8">
-                <div className="flex items-center gap-2">
-                  {badgeIcon}
-                  <span className="text-brand-gold font-medium text-sm">{badge}</span>
+            <>
+              <div className="md:hidden mb-8">
+                <div className="inline-flex items-center gap-3 bg-brand-gold/10 border border-brand-gold/30 rounded-full px-5 py-2">
+                  <div className="flex items-center gap-2">
+                    {badgeIcon}
+                    <span className="text-brand-gold font-medium text-sm">{badge}</span>
+                  </div>
                 </div>
               </div>
-            </FadeInOnScroll>
+              <div className="hidden md:block">
+                <FadeInOnScroll delay={0.2}>
+                  <div className="inline-flex items-center gap-3 bg-brand-gold/10 border border-brand-gold/30 rounded-full px-5 py-2 mb-8">
+                    <div className="flex items-center gap-2">
+                      {badgeIcon}
+                      <span className="text-brand-gold font-medium text-sm">{badge}</span>
+                    </div>
+                  </div>
+                </FadeInOnScroll>
+              </div>
+            </>
           )}
           
           <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-headline text-white mb-4">
@@ -93,17 +105,28 @@ export function LandingHero({
             {typeof bodyCopy === 'string' ? <p>{bodyCopy}</p> : bodyCopy}
           </div>
           
-          <FadeInOnScroll delay={1.4}>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href={primaryCTA.href} className="btn-primary inline-flex items-center gap-2 group">
-                {primaryCTA.text}
-                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-              </Link>
-              <Link href={secondaryCTA.href} className="btn-secondary">
-                {secondaryCTA.text}
-              </Link>
-            </div>
-          </FadeInOnScroll>
+          <div className="md:hidden flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href={primaryCTA.href} className="btn-primary inline-flex items-center gap-2 group">
+              {primaryCTA.text}
+              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+            </Link>
+            <Link href={secondaryCTA.href} className="btn-secondary">
+              {secondaryCTA.text}
+            </Link>
+          </div>
+          <div className="hidden md:block">
+            <FadeInOnScroll delay={1.4}>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link href={primaryCTA.href} className="btn-primary inline-flex items-center gap-2 group">
+                  {primaryCTA.text}
+                  <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                </Link>
+                <Link href={secondaryCTA.href} className="btn-secondary">
+                  {secondaryCTA.text}
+                </Link>
+              </div>
+            </FadeInOnScroll>
+          </div>
         </div>
       </div>
     </section>
