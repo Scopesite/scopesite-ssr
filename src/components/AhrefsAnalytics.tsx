@@ -3,7 +3,7 @@
  *
  * Loads the Ahrefs Web Analytics script in the document head using Next.js's
  * <Script> component with `afterInteractive` so it never blocks the initial
- * render or affects LCP.
+ * render or affects LCP (contrast with `beforeInteractive` marketing trackers).
  *
  * The data key is read from `NEXT_PUBLIC_AHREFS_ANALYTICS_KEY` (the
  * `NEXT_PUBLIC_` prefix is required so the value is inlined for the client).

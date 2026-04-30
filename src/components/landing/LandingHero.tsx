@@ -31,7 +31,7 @@ export function LandingHero({
   bodyCopy,
   primaryCTA = { text: 'Get Instant Quote', href: '/pricing' },
   secondaryCTA = { text: 'Book Strategy Call', href: '/book' },
-  useTypewriter = true,
+  useTypewriter = false,
 }: LandingHeroProps) {
   return (
     <section className="bg-brand-navy text-white py-section min-h-[85vh] flex items-center relative overflow-hidden">
@@ -85,17 +85,13 @@ export function LandingHero({
             )}
           </h1>
           
-          <FadeInOnScroll delay={0.8}>
-            <p className="text-xl md:text-2xl text-white/90 font-medium mb-6">
-              {subheadline}
-            </p>
-          </FadeInOnScroll>
-          
-          <FadeInOnScroll delay={1}>
-            <div className="hero-description text-body-lg text-white/70 mb-10 max-w-3xl mx-auto">
-              {typeof bodyCopy === 'string' ? <p>{bodyCopy}</p> : bodyCopy}
-            </div>
-          </FadeInOnScroll>
+          <p className="text-xl md:text-2xl text-white/90 font-medium mb-6">
+            {subheadline}
+          </p>
+
+          <div className="hero-description text-body-lg text-white/70 mb-10 max-w-3xl mx-auto">
+            {typeof bodyCopy === 'string' ? <p>{bodyCopy}</p> : bodyCopy}
+          </div>
           
           <FadeInOnScroll delay={1.4}>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

@@ -6,6 +6,11 @@
  *   `redirect_url`), so the SDK can read them before the bar is cleaned.
  * - Loads init + sdk-loader. Client key via NEXT_PUBLIC_BREVO_CLIENT_KEY.
  *
+ * Performance note (LCP / main thread): `beforeInteractive` scripts run very early
+ * on every route and compete with hydration. The SDK loader stays `afterInteractive`.
+ * Changing bootstrap/init timing can break email-link attribution; treat as a
+ * product/marketing trade-off, not a blind deferral.
+ *
  * @see https://help.brevo.com/hc/en-us/articles/4409601214226-Troubleshooting-Implementing-first-party-cookies-on-your-website
  * @see https://developers.brevo.com/docs/getting-started-with-js-implementation
  */
