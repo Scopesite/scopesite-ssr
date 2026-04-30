@@ -1,16 +1,16 @@
 import { MapPin, Palette, Server, Brain, Map } from 'lucide-react';
+import { LandingHero } from '@/components/landing';
 import {
-  LandingHero,
-  LandingProblem,
-  LandingSolution,
-  LandingWhatYouGet,
-  LandingProof,
-  LandingRelatedServices,
-  LandingCaseStudy,
-  FAQSection,
-  LandingCTA,
-  LandingAreasServed,
-} from '@/components/landing';
+  DynamicLandingProblem as LandingProblem,
+  DynamicLandingSolution as LandingSolution,
+  DynamicLandingWhatYouGet as LandingWhatYouGet,
+  DynamicLandingProof as LandingProof,
+  DynamicLandingRelatedServices as LandingRelatedServices,
+  DynamicLandingCaseStudy as LandingCaseStudy,
+  DynamicFAQSection as FAQSection,
+  DynamicLandingCTA as LandingCTA,
+  DynamicLandingAreasServed as LandingAreasServed,
+} from '@/components/landing/below-fold-dynamic';
 
 const faqItems = [
   { question: "Is there a good web designer near Trowbridge?", answer: "ScopeSite is based just 12 miles away in Frome. We work with businesses across Trowbridge and Wiltshire, offering face-to-face meetings, local knowledge, and transparent pricing from £2,625." },

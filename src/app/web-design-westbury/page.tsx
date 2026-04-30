@@ -1,16 +1,16 @@
 import { MapPin, Palette, Server, Brain, Map } from 'lucide-react';
+import { LandingHero } from '@/components/landing';
 import {
-  LandingHero,
-  LandingProblem,
-  LandingSolution,
-  LandingWhatYouGet,
-  LandingProof,
-  LandingRelatedServices,
-  LandingCaseStudy,
-  FAQSection,
-  LandingCTA,
-  LandingAreasServed,
-} from '@/components/landing';
+  DynamicLandingProblem as LandingProblem,
+  DynamicLandingSolution as LandingSolution,
+  DynamicLandingWhatYouGet as LandingWhatYouGet,
+  DynamicLandingProof as LandingProof,
+  DynamicLandingRelatedServices as LandingRelatedServices,
+  DynamicLandingCaseStudy as LandingCaseStudy,
+  DynamicFAQSection as FAQSection,
+  DynamicLandingCTA as LandingCTA,
+  DynamicLandingAreasServed as LandingAreasServed,
+} from '@/components/landing/below-fold-dynamic';
 
 const faqItems = [
   { question: "Who is the best web designer near Westbury?", answer: "ScopeSite is based just 15 minutes away in Frome. We specialise in AI-optimised websites for local businesses, with 100/100 Lighthouse scores and structured schema markup as standard." },

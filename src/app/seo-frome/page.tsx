@@ -1,16 +1,16 @@
 import { MapPin, Search, Brain, Shield, Map } from 'lucide-react';
+import { LandingHero } from '@/components/landing';
 import {
-  LandingHero,
-  LandingProblem,
-  LandingSolution,
-  LandingWhatYouGet,
-  LandingProof,
-  LandingRelatedServices,
-  LandingCaseStudy,
-  FAQSection,
-  LandingCTA,
-  LandingAreasServed,
-} from '@/components/landing';
+  DynamicLandingProblem as LandingProblem,
+  DynamicLandingSolution as LandingSolution,
+  DynamicLandingWhatYouGet as LandingWhatYouGet,
+  DynamicLandingProof as LandingProof,
+  DynamicLandingRelatedServices as LandingRelatedServices,
+  DynamicLandingCaseStudy as LandingCaseStudy,
+  DynamicFAQSection as FAQSection,
+  DynamicLandingCTA as LandingCTA,
+  DynamicLandingAreasServed as LandingAreasServed,
+} from '@/components/landing/below-fold-dynamic';
 
 const faqItems = [
   { question: "How much does SEO cost in Frome?", answer: "SEO is built into every web design project. Standalone SEO audits start from £500. Ongoing retainers from £300/month. We're based in Frome so there's no travel markup or big-city agency pricing." },

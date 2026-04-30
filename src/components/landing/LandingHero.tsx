@@ -37,7 +37,7 @@ export function LandingHero({
     <section className="bg-brand-navy text-white py-section min-h-[85vh] flex items-center relative overflow-hidden">
       {/* Animated grid background */}
       <div 
-        className="absolute inset-0 opacity-[0.03] animate-grid-flow max-md:animate-none motion-reduce:animate-none"
+        className="absolute inset-0 opacity-[0.03] animate-grid-flow-transform max-md:animate-none motion-reduce:animate-none"
         style={{
           backgroundImage: `linear-gradient(rgba(236,182,21,0.3) 1px, transparent 1px),
                             linear-gradient(90deg, rgba(236,182,21,0.3) 1px, transparent 1px)`,
@@ -45,8 +45,8 @@ export function LandingHero({
         }}
       />
       
-      {/* Gradient glow */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-brand-gold/10 rounded-full blur-[150px] animate-glow-pulse max-md:animate-none motion-reduce:animate-none" />
+      {/* Gradient glow: opacity-only animation; large blur is static to stay off the main thread */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-brand-gold/10 rounded-full blur-[120px] animate-glow-pulse-opacity max-md:animate-none motion-reduce:animate-none" />
       
       <div className="container-content relative z-10">
         <div className="max-w-5xl mx-auto text-center">

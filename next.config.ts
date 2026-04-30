@@ -1,4 +1,10 @@
 import type { NextConfig } from 'next';
+import bundleAnalyzer from '@next/bundle-analyzer';
+
+// Browserslist targets live only in package.json (no .browserslistrc). To trace which
+// modules feed the first-party polyfill/runtime chunk, run `npm run analyze` and inspect
+// the client bundle treemap in the generated report.
+const withBundleAnalyzer = bundleAnalyzer({ enabled: process.env.ANALYZE === 'true' });
 
 const nextConfig: NextConfig = {
   trailingSlash: false,
@@ -67,4 +73,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withBundleAnalyzer(nextConfig);

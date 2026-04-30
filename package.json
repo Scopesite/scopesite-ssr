@@ -11,6 +11,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "analyze": "cross-env ANALYZE=true next build",
     "start": "next start",
     "lint": "eslint",
     "db:init": "npx tsx scripts/db.ts init",
@@ -57,12 +58,14 @@
     "zod": "^4.3.4"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^16.2.4",
     "@tailwindcss/typography": "^0.5.19",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/tryghost__content-api": "^1.3.17",
     "autoprefixer": "^10.4.23",
+    "cross-env": "^10.1.0",
     "eslint": "^9",
     "eslint-config-next": "^16.2.1",
     "mapshaper": "^0.6.120",

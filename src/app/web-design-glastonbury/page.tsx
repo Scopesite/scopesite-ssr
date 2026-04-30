@@ -1,16 +1,16 @@
 import { MapPin, Palette, Server, Brain, Map } from 'lucide-react';
+import { LandingHero } from '@/components/landing';
 import {
-  LandingHero,
-  LandingProblem,
-  LandingSolution,
-  LandingWhatYouGet,
-  LandingProof,
-  LandingRelatedServices,
-  LandingCaseStudy,
-  FAQSection,
-  LandingCTA,
-  LandingAreasServed,
-} from '@/components/landing';
+  DynamicLandingProblem as LandingProblem,
+  DynamicLandingSolution as LandingSolution,
+  DynamicLandingWhatYouGet as LandingWhatYouGet,
+  DynamicLandingProof as LandingProof,
+  DynamicLandingRelatedServices as LandingRelatedServices,
+  DynamicLandingCaseStudy as LandingCaseStudy,
+  DynamicFAQSection as FAQSection,
+  DynamicLandingCTA as LandingCTA,
+  DynamicLandingAreasServed as LandingAreasServed,
+} from '@/components/landing/below-fold-dynamic';
 
 const faqItems = [
   { question: "Why choose a local web designer near Glastonbury?", answer: "We're based in Frome, 25 minutes from Glastonbury. We understand the town's unique mix of tourism, independent retail, and creative businesses. Face-to-face meetings, local knowledge, and fair pricing." },

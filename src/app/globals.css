@@ -524,7 +524,36 @@ main a:not(.btn):not(.btn-primary):not(.btn-secondary):not(.btn-secondary-light)
   animation: scale-in 0.3s ease-out forwards;
 }
 
-/* Grid background animation */
+/* Grid background: translate3d is compositor-friendly; avoid animating background-position. */
+@keyframes grid-flow-transform {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(50px, 50px, 0);
+  }
+}
+
+.animate-grid-flow-transform {
+  animation: grid-flow-transform 20s linear infinite;
+  will-change: transform;
+}
+
+/* Glow pulse: opacity-only on large blurred layers (no scale) to reduce raster/paint work */
+@keyframes glow-pulse-opacity {
+  0%, 100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+.animate-glow-pulse-opacity {
+  animation: glow-pulse-opacity 3s ease-in-out infinite;
+}
+
+/* Legacy names kept for any non-hero usage; hero uses grid-flow-transform + glow-pulse-opacity */
 @keyframes grid-flow {
   0% {
     background-position: 0 0;

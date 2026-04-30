@@ -1,16 +1,16 @@
 import { MapPin, Search, Brain, Shield, Map } from 'lucide-react';
+import { LandingHero } from '@/components/landing';
 import {
-  LandingHero,
-  LandingProblem,
-  LandingSolution,
-  LandingWhatYouGet,
-  LandingProof,
-  LandingRelatedServices,
-  LandingCaseStudy,
-  FAQSection,
-  LandingCTA,
-  LandingAreasServed,
-} from '@/components/landing';
+  DynamicLandingProblem as LandingProblem,
+  DynamicLandingSolution as LandingSolution,
+  DynamicLandingWhatYouGet as LandingWhatYouGet,
+  DynamicLandingProof as LandingProof,
+  DynamicLandingRelatedServices as LandingRelatedServices,
+  DynamicLandingCaseStudy as LandingCaseStudy,
+  DynamicFAQSection as FAQSection,
+  DynamicLandingCTA as LandingCTA,
+  DynamicLandingAreasServed as LandingAreasServed,
+} from '@/components/landing/below-fold-dynamic';
 
 const faqItems = [
   { question: "What does SEO in Somerset actually cost?", answer: "Our SEO work is built into every web design project. Standalone SEO audits start from £500. Ongoing SEO retainers from £300/month. We price based on work, not postcodes." },

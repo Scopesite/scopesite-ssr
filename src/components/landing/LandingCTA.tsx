@@ -57,7 +57,7 @@ export function LandingCTA({
           <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
             <Link 
               href={primaryCTA.href} 
-              className="btn-primary inline-flex items-center gap-2 group animate-counter-glow"
+              className="btn-primary inline-flex items-center gap-2 group animate-pulse-cta"
             >
               {primaryCTA.text}
               <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
