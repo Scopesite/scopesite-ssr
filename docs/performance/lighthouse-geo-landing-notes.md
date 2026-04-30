@@ -23,10 +23,10 @@ Lighthouse attributed ~44 ms forced layout to a hashed main chunk (`0_6x97f80800
 | Area | Role | Files / notes |
 |------|------|----------------|
 | **Motion** | `useInView` uses IntersectionObserver; animating `opacity`/`transform` is compositor-friendly but hook setup runs during hydration of client trees. | [`FadeInOnScroll.tsx`](../../src/components/animations/FadeInOnScroll.tsx), other `motion/react` usage |
-| **Marketing** | [`BrevoTracker`](../../src/components/BrevoTracker.tsx) runs two `beforeInteractive` scripts in `<head>`; competes with early layout/paint. | Root [`layout.tsx`](../../src/app/layout.tsx) |
+| **Marketing** | Ahrefs / Speed Insights deferred via [`DeferredViewportAnalytics`](../../src/components/DeferredViewportAnalytics.tsx). | Root [`layout.tsx`](../../src/app/layout.tsx) |
 | **Hydration** | React commit phase measuring DOM after paint can trigger layout when combined with style reads in dependencies. | Framework + shared layout clients |
 
-**Next step in Chrome:** Record a **Performance** trace on production (source maps on), filter **Layout / Recalculate style**, map stack frames to source (motion vs `BrevoTracker` vs React).
+**Next step in Chrome:** Record a **Performance** trace on production (source maps on), filter **Layout / Recalculate style**, map stack frames to source (motion vs analytics vs React).
 
 ---
 
@@ -78,14 +78,14 @@ Together these correspond to the large **shared + runtime** slice Lighthouse lab
 
 ## Homepage mobile lab checklist (`/`)
 
-After deploying viewport-aware analytics ([`DeferredViewportAnalytics.tsx`](../../src/components/DeferredViewportAnalytics.tsx)), **`(&lt;768px)`**:
+After deploying [`DeferredViewportAnalytics.tsx`](../../src/components/DeferredViewportAnalytics.tsx):
 
-- Ahrefs: **`lazyOnload`** (desktop: **`afterInteractive`** via `useLayoutEffect`).
-- Vercel Speed Insights: mount after **`requestIdleCallback`** (fallback `setTimeout` ~200 ms), desktop mounts before paint as before.
+- Ahrefs: **`lazyOnload`** on all viewports (reduces main-thread contention on desktop; same timing mobile already targeted).
+- Vercel Speed Insights: mount after **`requestIdleCallback`** (fallback `setTimeout` ~200 ms) on narrow viewports only; desktop mounts before paint.
 
 **Validation protocol:** Moto G Power (or equivalent), Slow 4G, single navigation, **median of 3–5 runs** on production `/`. Record **Performance score**, **TBT**, **long tasks**, and **FCP/LCP** — not only the headline number.
 
-**Brevo** ([`BrevoTracker.tsx`](../../src/components/BrevoTracker.tsx)): `beforeInteractive` email bootstrap + init unchanged; **SDK loader** uses `lazyOnload` on mobile, `afterInteractive` on desktop. Re-test Brevo email-link flows if attribution looks off.
+**Brevo** in-browser tracker was **removed** for performance; server-side Brevo (API, contacts) remains in [`lib/brevo.ts`](../../src/lib/brevo.ts) and [`lib/email.ts`](../../src/lib/email.ts).
 
 ### Font fallbacks
 

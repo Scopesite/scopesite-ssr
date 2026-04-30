@@ -254,6 +254,7 @@ export default function Home() {
               sizes="(max-width: 768px) 0vw, (max-width: 1200px) 55vw, 52vw"
               className="absolute bottom-0 right-0 w-full h-full object-contain object-right-bottom"
               priority
+              fetchPriority="high"
             />
           </div>
         </div>

@@ -1,8 +1,8 @@
 'use client';
 
 /**
- * Mobile Lighthouse / TBT: defer non-critical third-party script work on narrow viewports.
- * Desktop keeps prior timing (Ahrefs afterInteractive; Speed Insights mounts before paint).
+ * Ahrefs: always `lazyOnload` — same load timing mobile already used; cuts desktop TBT.
+ * Speed Insights: desktop mounts in useLayoutEffect; mobile after requestIdleCallback.
  */
 
 import Script from 'next/script';
@@ -14,20 +14,15 @@ const MOBILE_MAX_PX = 768;
 
 export function DeferredAhrefsAnalytics() {
   const key = process.env.NEXT_PUBLIC_AHREFS_ANALYTICS_KEY;
-  const [strategy, setStrategy] = useState<'afterInteractive' | 'lazyOnload' | null>(null);
 
-  useLayoutEffect(() => {
-    setStrategy(window.innerWidth < MOBILE_MAX_PX ? 'lazyOnload' : 'afterInteractive');
-  }, []);
-
-  if (!key || !strategy) return null;
+  if (!key) return null;
 
   return (
     <Script
       id="ahrefs-analytics"
       src="https://analytics.ahrefs.com/analytics.js"
       data-key={key}
-      strategy={strategy}
+      strategy="lazyOnload"
     />
   );
 }

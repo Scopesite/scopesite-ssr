@@ -6,7 +6,6 @@ import { Footer } from '@/components/layout/Footer';
 import { FooterVisibility } from '@/components/layout/FooterVisibility';
 import { JsonLd } from '@/components/JsonLd';
 import { DeferredAhrefsAnalytics, DeferredSpeedInsights } from '@/components/DeferredViewportAnalytics';
-import { BrevoTracker } from '@/components/BrevoTracker';
 import { SkipLink, RouteAnnouncer } from '@/components/a11y';
 import { getAlternates } from '@/lib/hreflang-map';
 import {
@@ -134,14 +133,10 @@ export default function RootLayout({
   return (
     <html lang="en-GB">
       <head>
-        {/* Brevo SDK (critical path). Omit sibautomation preconnect — loads post-LCP and can trigger Lighthouse unused-preconnect. */}
-        <link rel="dns-prefetch" href="https://sibautomation.com" />
-        <link rel="preconnect" href="https://cdn.brevo.com" crossOrigin="anonymous" />
         <meta name="color-scheme" content="light" />
         <meta name="supported-color-schemes" content="light" />
         <JsonLd schema={[organizationSchema, websiteSchema, voiceTermSetSchema, audienceSchema, scheduleActionSchema]} />
         <DeferredAhrefsAnalytics />
-        <BrevoTracker />
       </head>
       <body
         suppressHydrationWarning
