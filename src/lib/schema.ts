@@ -153,6 +153,7 @@ export function generateOrganizationSchema() {
       'https://diib.com/featuredmembers/scopesite-digital-studios/',
       'https://www.hotfrog.co.uk/company/ef91c8e5a352cf95b1dd6f23891ed6b6/scopesite-digital-studios/frome/web-design',
       'https://www.crunchbase.com/organization/scopesite-digital-studios',
+      'https://www.designrush.com/agency/profile/scopesite-digital-studios',
       'https://www.bark.com/en/gb/company/scopesite/VVVVPy/',
     ],
     hasCertification: [
