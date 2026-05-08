@@ -28,9 +28,13 @@ import {
 } from '@/lib/territory/area-boundaries';
 import { UK_POSTCODE_AREA_TO_REGION } from '@/lib/territory/uk-postcode-area-regions';
 
+import type { PromotionRegionBadge } from '@/lib/territory/derivePromotionRegionBadges';
+
 interface Props {
   /** Server-rendered area-availability map keyed by postcode area. */
   areas: Record<string, AreaStatus>;
+  /** UK-view-only: one badge per region with an active postcode promotion. */
+  promotionRegionBadges?: PromotionRegionBadge[];
 }
 
 // ---------------------------------------------------------------------------
@@ -218,7 +222,10 @@ function useAnimatedViewBox(
 // ---------------------------------------------------------------------------
 // Component
 // ---------------------------------------------------------------------------
-export function TerritoryMap({ areas }: Props) {
+export function TerritoryMap({
+  areas,
+  promotionRegionBadges = [],
+}: Props) {
   const router = useRouter();
   const [hoverRegion, setHoverRegion] = useState<RegionKey | null>(null);
   const [hoverArea, setHoverArea] = useState<string | null>(null);
@@ -710,6 +717,59 @@ export function TerritoryMap({ areas }: Props) {
                   );
                 })}
               </g>
+
+              {/* UK view: gold offer badges (pointer-events none — clicks hit regions). */}
+              {!zoomedRegion && promotionRegionBadges.length > 0 ? (
+                <g id="uk-promotion-badges" style={{ pointerEvents: 'none' }}>
+                  {promotionRegionBadges.map(({ region, areaCode }) => {
+                    const bb = bboxes[region];
+                    const label = `Offer live · ${areaCode}`;
+                    const charW = 6.2;
+                    const pillW = Math.min(200, Math.max(92, label.length * charW + 24));
+                    const pillH = 22;
+                    const dotR = 4;
+                    const gap = 6;
+                    const totalW = dotR * 2 + gap + pillW;
+                    const px = bb.cx - totalW / 2;
+                    const py = bb.cy - 42;
+                    return (
+                      <g key={`promo-badge-${region}`}>
+                        <circle
+                          cx={px + dotR}
+                          cy={py + pillH / 2}
+                          r={dotR}
+                          fill={STATUS_FILL.promotional}
+                          className="motion-safe:animate-pulse"
+                          opacity={0.95}
+                        />
+                        <rect
+                          x={px + dotR * 2 + gap}
+                          y={py}
+                          width={pillW}
+                          height={pillH}
+                          rx={5}
+                          fill="#FFFFFF"
+                          stroke={STATUS_FILL.promotional}
+                          strokeWidth={1.25}
+                          opacity={0.98}
+                          filter="url(#hover-pill-shadow)"
+                        />
+                        <text
+                          x={px + dotR * 2 + gap + pillW / 2}
+                          y={py + pillH / 2 + 4}
+                          textAnchor="middle"
+                          fontSize="11"
+                          fontWeight="700"
+                          fill="#0A1B36"
+                          style={{ fontFamily: 'system-ui, sans-serif' }}
+                        >
+                          {label}
+                        </text>
+                      </g>
+                    );
+                  })}
+                </g>
+              ) : null}
 
               {/* Hover pill for regions at UK view. Shows the region label
                   at its centroid so users confirm what they are about to

@@ -18,6 +18,7 @@ import {
 } from '@/lib/territory/queries';
 import { getSiteBanner } from '@/lib/territory/siteConfig';
 import { buildAreaAvailability } from '@/lib/territory/map-builder';
+import { derivePromotionRegionBadges } from '@/lib/territory/derivePromotionRegionBadges';
 
 const BASE_URL = 'https://scopesite.co.uk';
 
@@ -63,6 +64,8 @@ export default async function TerritoryPage() {
     getSiteBanner(),
   ]);
 
+  const promotionRegionBadges = derivePromotionRegionBadges(areas);
+
   return (
     <>
       <SchemaOrgMarkup />
@@ -72,7 +75,7 @@ export default async function TerritoryPage() {
         priceStrip={priceStrip}
         siteBanner={siteBanner}
       />
-      <TerritoryMap areas={areas} />
+      <TerritoryMap areas={areas} promotionRegionBadges={promotionRegionBadges} />
       <MechanismSection />
       <WhatYouGetSection />
       <ProofSection />
