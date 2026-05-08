@@ -1512,6 +1512,143 @@ export async function updateSectorFlags(
   return rows.length > 0;
 }
 
+export type BulkSectorScope = 'all' | { category: string };
+
+export type BulkSectorMutationResult = {
+  affectedSlugs: string[];
+  skippedSlugs: string[];
+};
+
+function scopeCategoryParam(scope: BulkSectorScope): string | null {
+  return scope === 'all' ? null : scope.category.trim();
+}
+
+/** Activate every sector in scope (strict). One audit row per updated row. */
+export async function bulkActivateSectors(
+  scope: BulkSectorScope,
+): Promise<BulkSectorMutationResult> {
+  const sql = getDb();
+  const cat = scopeCategoryParam(scope);
+  const rows = (await sql`
+    WITH updated AS (
+      UPDATE territory.sectors s
+      SET is_active = TRUE, updated_at = NOW()
+      WHERE (${cat}::text IS NULL OR TRIM(s.category) = TRIM(${cat}))
+        AND s.is_active = FALSE
+      RETURNING s.slug
+    ),
+    _audit AS (
+      INSERT INTO territory.admin_audit_log (action_type, entity_id, payload, performed_by)
+      SELECT 'sector_toggle_active', u.slug, '{"isActive": true}'::jsonb, 'territory_admin'
+      FROM updated u
+    )
+    SELECT COALESCE((SELECT array_agg(slug ORDER BY slug) FROM updated), ARRAY[]::text[]) AS affected_slugs
+  `) as Array<{ affected_slugs: string[] | null }>;
+  const affected = rows[0]?.affected_slugs ?? [];
+  return { affectedSlugs: Array.isArray(affected) ? affected : [], skippedSlugs: [] };
+}
+
+/** Deactivate sectors without pending/claimed seats; skip the rest. */
+export async function bulkDeactivateSectors(
+  scope: BulkSectorScope,
+): Promise<BulkSectorMutationResult> {
+  const sql = getDb();
+  const cat = scopeCategoryParam(scope);
+  const rows = (await sql`
+    WITH candidates AS (
+      SELECT s.id, s.slug
+      FROM territory.sectors s
+      WHERE (${cat}::text IS NULL OR TRIM(s.category) = TRIM(${cat}))
+    ),
+    eligible AS (
+      SELECT c.id, c.slug
+      FROM candidates c
+      WHERE NOT EXISTS (
+        SELECT 1 FROM territory.seats x
+        WHERE x.sector_id = c.id AND x.state IN ('pending', 'claimed')
+      )
+    ),
+    skipped_slugs AS (
+      SELECT c.slug
+      FROM candidates c
+      WHERE NOT EXISTS (SELECT 1 FROM eligible e WHERE e.id = c.id)
+    ),
+    upd AS (
+      UPDATE territory.sectors s
+      SET is_active = FALSE, updated_at = NOW()
+      FROM eligible e
+      WHERE s.id = e.id
+        AND s.is_active = TRUE
+      RETURNING s.slug
+    ),
+    _audit AS (
+      INSERT INTO territory.admin_audit_log (action_type, entity_id, payload, performed_by)
+      SELECT 'sector_toggle_active', u.slug, '{"isActive": false}'::jsonb, 'territory_admin'
+      FROM upd u
+    )
+    SELECT
+      COALESCE((SELECT array_agg(slug ORDER BY slug) FROM upd), ARRAY[]::text[]) AS affected_slugs,
+      COALESCE((SELECT array_agg(slug ORDER BY slug) FROM skipped_slugs), ARRAY[]::text[]) AS skipped_slugs
+  `) as Array<{ affected_slugs: string[] | null; skipped_slugs: string[] | null }>;
+  const r = rows[0];
+  const affected = r?.affected_slugs ?? [];
+  const skipped = r?.skipped_slugs ?? [];
+  return {
+    affectedSlugs: Array.isArray(affected) ? affected : [],
+    skippedSlugs: Array.isArray(skipped) ? skipped : [],
+  };
+}
+
+/** Feature every sector in scope (strict). */
+export async function bulkFeatureSectors(
+  scope: BulkSectorScope,
+): Promise<BulkSectorMutationResult> {
+  const sql = getDb();
+  const cat = scopeCategoryParam(scope);
+  const rows = (await sql`
+    WITH updated AS (
+      UPDATE territory.sectors s
+      SET is_featured = TRUE, updated_at = NOW()
+      WHERE (${cat}::text IS NULL OR TRIM(s.category) = TRIM(${cat}))
+        AND s.is_featured = FALSE
+      RETURNING s.slug
+    ),
+    _audit AS (
+      INSERT INTO territory.admin_audit_log (action_type, entity_id, payload, performed_by)
+      SELECT 'sector_toggle_featured', u.slug, '{"isFeatured": true}'::jsonb, 'territory_admin'
+      FROM updated u
+    )
+    SELECT COALESCE((SELECT array_agg(slug ORDER BY slug) FROM updated), ARRAY[]::text[]) AS affected_slugs
+  `) as Array<{ affected_slugs: string[] | null }>;
+  const affected = rows[0]?.affected_slugs ?? [];
+  return { affectedSlugs: Array.isArray(affected) ? affected : [], skippedSlugs: [] };
+}
+
+/** Unfeature every sector in scope (strict). */
+export async function bulkUnfeatureSectors(
+  scope: BulkSectorScope,
+): Promise<BulkSectorMutationResult> {
+  const sql = getDb();
+  const cat = scopeCategoryParam(scope);
+  const rows = (await sql`
+    WITH updated AS (
+      UPDATE territory.sectors s
+      SET is_featured = FALSE, updated_at = NOW()
+      WHERE (${cat}::text IS NULL OR TRIM(s.category) = TRIM(${cat}))
+        AND s.is_featured = TRUE
+      RETURNING s.slug
+    ),
+    _audit AS (
+      INSERT INTO territory.admin_audit_log (action_type, entity_id, payload, performed_by)
+      SELECT 'sector_toggle_featured', u.slug, '{"isFeatured": false}'::jsonb, 'territory_admin'
+      FROM updated u
+    )
+    SELECT COALESCE((SELECT array_agg(slug ORDER BY slug) FROM updated), ARRAY[]::text[]) AS affected_slugs
+  `) as Array<{ affected_slugs: string[] | null }>;
+  const affected = rows[0]?.affected_slugs ?? [];
+  return { affectedSlugs: Array.isArray(affected) ? affected : [], skippedSlugs: [] };
+}
+
 export interface AuditLogRow {
   id: string;
   action_type: string;
