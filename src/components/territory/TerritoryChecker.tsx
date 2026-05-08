@@ -257,7 +257,14 @@ export function TerritoryChecker({
                 >
                   <span>{s.label}</span>
                   {s.availableCount > 0 ? (
-                    <span className="ml-2 text-xs text-brand-gold-accessible font-semibold">
+                    <span
+                      className={[
+                        'ml-2 text-xs font-semibold',
+                        featuredChipSlug === s.slug
+                          ? 'text-brand-navy'
+                          : 'text-brand-gold-accessible',
+                      ].join(' ')}
+                    >
                       {s.availableCount} available
                     </span>
                   ) : null}
