@@ -400,26 +400,9 @@ export function TerritoryMap({ areas }: Props) {
 
   const onAreaClick = (area: string) => {
     const status = areas[area];
-    const promotion =
-      status?.status === 'promotional' &&
-      status.promotionExpiresAt &&
-      status.promotionMonthlyPriceGbp != null &&
-      status.promotionOriginMonthlyPriceGbp != null
-        ? {
-            headline: status.promotionHeadline ?? null,
-            description: status.promotionDescription ?? null,
-            promotionalMonthlyPriceGbp: status.promotionMonthlyPriceGbp,
-            originMonthlyPriceGbp: status.promotionOriginMonthlyPriceGbp,
-            expiresAt: status.promotionExpiresAt,
-            originTier: (status.promotionOriginTier ?? 'standard') as
-              | 'standard'
-              | 'premium',
-          }
-        : undefined;
     emitOpenPilotChecker({
       postcode: area,
       town: status?.townName ?? undefined,
-      promotion,
     });
   };
 

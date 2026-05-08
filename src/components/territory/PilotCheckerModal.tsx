@@ -24,10 +24,11 @@ import {
   OPEN_PILOT_CHECKER_EVENT,
   type OpenPilotCheckerDetail,
 } from '@/lib/territory/events';
+import type { PostcodeDisplayState } from '@/lib/territory/postcodePricingLogic';
 import type { SectorTile } from '@/lib/territory/types';
 import { IndustrySearch, type IndustryValue } from './IndustrySearch';
 import { Button } from '@/components/ui/button';
-import { PromotionCountdown } from '@/components/territory/PromotionCountdown';
+import { TerritoryPricingStrip } from '@/components/territory/TerritoryPricingStrip';
 
 interface Props {
   /** All sectors grouped by category, pre-fetched server-side on /territory. */
@@ -40,34 +41,58 @@ export function PilotCheckerModal({ allSectorsByCategory }: Props) {
   const [postcode, setPostcode] = useState('');
   const [town, setTown] = useState<string | undefined>(undefined);
   const [industry, setIndustry] = useState<IndustryValue | null>(null);
-  const [promotion, setPromotion] = useState<
-    NonNullable<OpenPilotCheckerDetail['promotion']> | null
-  >(null);
+  const [priceState, setPriceState] = useState<PostcodeDisplayState | null>(null);
+  const [priceLoading, setPriceLoading] = useState(false);
 
   const allSectors = useMemo<SectorTile[]>(
     () => Object.values(allSectorsByCategory).flat(),
     [allSectorsByCategory],
   );
 
-  // Listen for map clicks on active-pilot postcodes.
   useEffect(() => {
     const handler = (e: Event) => {
       const detail = (e as CustomEvent<OpenPilotCheckerDetail>).detail;
       setPostcode(detail.postcode.toUpperCase());
       setTown(detail.town);
       setIndustry(null);
-      setPromotion(detail.promotion ?? null);
       setOpen(true);
     };
     window.addEventListener(OPEN_PILOT_CHECKER_EVENT, handler);
     return () => window.removeEventListener(OPEN_PILOT_CHECKER_EVENT, handler);
   }, []);
 
+  useEffect(() => {
+    if (!open || !postcode) return;
+    let cancelled = false;
+    setPriceLoading(true);
+    setPriceState(null);
+    void (async () => {
+      try {
+        const res = await fetch(
+          `/api/territory/postcode-state?postcode=${encodeURIComponent(postcode)}`,
+          { cache: 'no-store' },
+        );
+        const data = (await res.json()) as { ok?: boolean; state?: PostcodeDisplayState };
+        if (cancelled) return;
+        if (res.ok && data.ok && data.state) setPriceState(data.state);
+        else setPriceState(null);
+      } catch {
+        if (!cancelled) setPriceState(null);
+      } finally {
+        if (!cancelled) setPriceLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [open, postcode]);
+
   const onOpenChange = (next: boolean) => {
     setOpen(next);
     if (!next) {
       setIndustry(null);
-      setPromotion(null);
+      setPriceState(null);
+      setPriceLoading(false);
     }
   };
 
@@ -117,39 +142,16 @@ export function PilotCheckerModal({ allSectorsByCategory }: Props) {
             </Dialog.Close>
           </div>
 
-          {promotion ? (
-            <div
-              className={`mb-4 rounded-xl border p-4 ${
-                promotion.originTier === 'premium'
-                  ? 'border-purple-300 bg-gradient-to-br from-amber-50 via-amber-50 to-purple-100'
-                  : 'border-amber-200 bg-amber-50/90'
-              }`}
-            >
-              {promotion.headline ? (
-                <p className="font-headline text-lg text-brand-navy">{promotion.headline}</p>
-              ) : (
-                <p className="font-headline text-lg text-brand-navy">Limited-time offer</p>
-              )}
-              {promotion.description ? (
-                <p className="mt-2 text-sm text-slate-700 leading-relaxed">{promotion.description}</p>
-              ) : null}
-              <div className="mt-3 flex flex-wrap items-baseline gap-3">
-                <span className="text-2xl font-black text-brand-navy">
-                  £{promotion.promotionalMonthlyPriceGbp.toFixed(0)}/mo
-                </span>
-                <span className="text-sm text-slate-500 line-through">
-                  £{promotion.originMonthlyPriceGbp.toFixed(0)}/mo
-                </span>
-              </div>
-              <p className="mt-2 text-xs text-slate-600">
-                Ends in{' '}
-                <PromotionCountdown
-                  expiresAt={promotion.expiresAt}
-                  onExpired={() => router.refresh()}
-                />
-              </p>
-            </div>
-          ) : null}
+          {priceLoading ? (
+            <p className="mb-4 text-sm text-slate-600">Loading pricing…</p>
+          ) : priceState ? (
+            <TerritoryPricingStrip state={priceState} onPromoExpired={() => router.refresh()} />
+          ) : (
+            <p className="mb-4 text-sm text-slate-600">
+              We could not load pricing for this area. You can still continue and we will confirm
+              numbers on your call.
+            </p>
+          )}
 
           <div className="space-y-4">
             <div>
