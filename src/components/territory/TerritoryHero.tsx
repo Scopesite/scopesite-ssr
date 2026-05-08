@@ -1,14 +1,22 @@
 import { HERO } from '@/lib/territory/copy';
+import type { SiteBannerRow } from '@/lib/territory/siteConfig';
 import type { SectorTile } from '@/lib/territory/types';
 import { TerritoryChecker } from './TerritoryChecker';
+import { TerritorySiteBanner } from './TerritorySiteBanner';
 
 interface Props {
   featuredSectors: SectorTile[];
   allSectorsByCategory: Record<string, SectorTile[]>;
   priceStrip: string;
+  siteBanner: SiteBannerRow;
 }
 
-export function TerritoryHero({ featuredSectors, allSectorsByCategory, priceStrip }: Props) {
+export function TerritoryHero({
+  featuredSectors,
+  allSectorsByCategory,
+  priceStrip,
+  siteBanner,
+}: Props) {
   return (
     <section
       id="territory-hero"
@@ -24,6 +32,7 @@ export function TerritoryHero({ featuredSectors, allSectorsByCategory, priceStri
         <p className="mt-5 mx-auto max-w-2xl text-lg sm:text-xl text-white/85 leading-relaxed">
           {HERO.subHeadline}
         </p>
+        <TerritorySiteBanner banner={siteBanner} />
         <div className="mt-10 max-w-3xl mx-auto text-left">
           <TerritoryChecker
             featuredSectors={featuredSectors}

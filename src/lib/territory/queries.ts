@@ -11,7 +11,8 @@
 
 import { getDb } from './db';
 import { normalisePostcode, toPostcodeDistrict } from './postcode';
-import { deriveAreaAvailabilityStatus } from './postcodePricingLogic';
+import { deriveAreaAvailabilityStatus, buildPostcodeDisplayState } from './postcodePricingLogic';
+import { getPostcodeDisplayStateUncached } from './postcodePricing';
 import type {
   AvailabilityResult,
   ApplicationEntryType,
@@ -113,6 +114,17 @@ export async function checkAvailability(
   }
 
   const r = rows[0];
+  const displayState = await getPostcodeDisplayStateUncached(r.postcode_district);
+  const postcodeDisplayState =
+    displayState ??
+    buildPostcodeDisplayState({
+      postcode: r.postcode_district,
+      tier: r.tier,
+      monthlyPriceGbp: r.monthly_price_gbp,
+      setupFeeGbp: r.setup_fee_gbp,
+      promotion: null,
+    });
+
   return {
     state: r.state,
     tier: r.tier,
@@ -127,6 +139,7 @@ export async function checkAvailability(
     monthlyPriceGbp: r.monthly_price_gbp,
     setupFeeGbp: r.setup_fee_gbp,
     pendingUntil: r.pending_until,
+    postcodeDisplayState,
     areaIntelligence:
       r.area_firm_count === null
         ? null

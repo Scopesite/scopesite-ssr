@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { listTerritoriesForAdmin } from '@/lib/territory/queries';
+import { getAdminPostcodeRows } from '@/lib/territory/postcodePricing';
 import { PostcodesAdminTable } from '@/components/territory/admin/PostcodesAdminTable';
 
 export const metadata: Metadata = {
@@ -28,7 +28,7 @@ export default async function TerritoryAdminPostcodesPage({ searchParams }: Prop
     p.promotion === 'active' || p.promotion === 'none' ? p.promotion : ('all' as const);
   const offset = Math.max(parseInt(p.offset || '0', 10) || 0, 0);
 
-  const rows = await listTerritoriesForAdmin({
+  const rows = await getAdminPostcodeRows({
     q: q || undefined,
     tier,
     promotion,
