@@ -49,6 +49,24 @@ export default async function TerritoryAdminProtectedLayout({
             >
               Waitlist
             </Link>
+            <Link
+              href="/territory/admin/postcodes"
+              className="text-slate-600 hover:text-brand-navy link-navy"
+            >
+              Postcodes
+            </Link>
+            <Link
+              href="/territory/admin/sectors"
+              className="text-slate-600 hover:text-brand-navy link-navy"
+            >
+              Sectors
+            </Link>
+            <Link
+              href="/territory/admin/activity"
+              className="text-slate-600 hover:text-brand-navy link-navy"
+            >
+              Activity
+            </Link>
           </nav>
           <div className="ml-auto">
             <AdminLogoutButton />

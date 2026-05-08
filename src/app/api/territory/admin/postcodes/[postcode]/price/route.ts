@@ -2,24 +2,27 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { isAdminAuthenticated } from '@/lib/territory/admin-session';
 import { writeAuditLog } from '@/lib/territory/auditLog';
-import { getApplicationStatus, updateApplicationStatus } from '@/lib/territory/queries';
+import { revalidateTerritoryPublicCache } from '@/lib/territory/revalidateTerritory';
+import { updateTerritoryPrices } from '@/lib/territory/queries';
 
 export const runtime = 'nodejs';
 
 const Body = z.object({
-  status: z.enum(['received', 'qualified', 'declined', 'converted', 'expired']),
+  monthlyPriceGbp: z.number().positive(),
+  setupFeeGbp: z.number().nonnegative().nullable().optional(),
 });
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ postcode: string }> },
 ) {
   if (!(await isAdminAuthenticated())) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-  const { id } = await params;
-  if (!/^[0-9a-fA-F-]{36}$/.test(id)) {
-    return NextResponse.json({ error: 'Invalid id' }, { status: 400 });
+  const { postcode: raw } = await params;
+  const postcode = decodeURIComponent(raw ?? '').trim();
+  if (!postcode) {
+    return NextResponse.json({ error: 'Invalid postcode' }, { status: 400 });
   }
   let body: unknown;
   try {
@@ -34,31 +37,30 @@ export async function POST(
       { status: 400 },
     );
   }
-
+  const setupFeeGbp =
+    parsed.data.setupFeeGbp === undefined ? null : parsed.data.setupFeeGbp;
   try {
-    const previousStatus = await getApplicationStatus(id);
-    if (previousStatus === null) {
-      return NextResponse.json({ error: 'Not found' }, { status: 404 });
-    }
-    if (previousStatus === parsed.data.status) {
-      return NextResponse.json({ ok: true, unchanged: true });
-    }
-    const ok = await updateApplicationStatus(id, parsed.data.status);
+    const ok = await updateTerritoryPrices(
+      postcode,
+      parsed.data.monthlyPriceGbp,
+      setupFeeGbp,
+    );
     if (!ok) {
       return NextResponse.json({ error: 'Not found' }, { status: 404 });
     }
     await writeAuditLog({
-      actionType: 'application_status_change',
-      entityId: id,
+      actionType: 'postcode_price_change',
+      entityId: postcode,
       payload: {
-        previousStatus,
-        newStatus: parsed.data.status,
+        monthlyPriceGbp: parsed.data.monthlyPriceGbp,
+        setupFeeGbp: setupFeeGbp,
       },
       performedBy: 'territory_admin',
     });
+    revalidateTerritoryPublicCache();
     return NextResponse.json({ ok: true });
   } catch (err) {
-    console.error('[admin/status] update failed:', err);
+    console.error('[admin/postcodes/price]', err);
     return NextResponse.json({ error: 'Internal error' }, { status: 500 });
   }
 }

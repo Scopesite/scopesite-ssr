@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 import { isAdminAuthenticated } from '@/lib/territory/admin-session';
-import { markAreaWaitlistNotified } from '@/lib/territory/queries';
+import { writeAuditLog } from '@/lib/territory/auditLog';
+import {
+  getAreaWaitlistEntryById,
+  markAreaWaitlistNotified,
+} from '@/lib/territory/queries';
 
 export const runtime = 'nodejs';
 
@@ -16,9 +20,26 @@ export async function POST(
     return NextResponse.json({ error: 'Invalid id' }, { status: 400 });
   }
   try {
+    const entry = await getAreaWaitlistEntryById(id);
+    if (!entry) {
+      return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    }
+    const wasAlreadyNotified = entry.notified_at != null;
     const ok = await markAreaWaitlistNotified(id);
     if (!ok) {
       return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    }
+    if (!wasAlreadyNotified) {
+      await writeAuditLog({
+        actionType: 'waitlist_notify',
+        entityId: id,
+        payload: {
+          requestedPostcode: entry.requested_postcode,
+          requestedRegion: entry.requested_region,
+          contactEmail: entry.contact_email,
+        },
+        performedBy: 'territory_admin',
+      });
     }
     return NextResponse.json({ ok: true });
   } catch (err) {

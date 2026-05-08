@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 import { isAdminAuthenticated } from '@/lib/territory/admin-session';
-import { deleteAreaWaitlistEntry } from '@/lib/territory/queries';
+import { writeAuditLog } from '@/lib/territory/auditLog';
+import {
+  deleteAreaWaitlistEntry,
+  getAreaWaitlistEntryById,
+} from '@/lib/territory/queries';
 
 export const runtime = 'nodejs';
 
@@ -16,10 +20,24 @@ export async function DELETE(
     return NextResponse.json({ error: 'Invalid id' }, { status: 400 });
   }
   try {
+    const entry = await getAreaWaitlistEntryById(id);
+    if (!entry) {
+      return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    }
     const ok = await deleteAreaWaitlistEntry(id);
     if (!ok) {
       return NextResponse.json({ error: 'Not found' }, { status: 404 });
     }
+    await writeAuditLog({
+      actionType: 'waitlist_remove',
+      entityId: id,
+      payload: {
+        requestedPostcode: entry.requested_postcode,
+        requestedRegion: entry.requested_region,
+        contactEmail: entry.contact_email,
+      },
+      performedBy: 'territory_admin',
+    });
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.error('[admin/waitlist DELETE] failed:', err);

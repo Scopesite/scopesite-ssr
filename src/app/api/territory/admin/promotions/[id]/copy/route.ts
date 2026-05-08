@@ -2,12 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { isAdminAuthenticated } from '@/lib/territory/admin-session';
 import { writeAuditLog } from '@/lib/territory/auditLog';
-import { getApplicationStatus, updateApplicationStatus } from '@/lib/territory/queries';
+import { revalidateTerritoryPublicCache } from '@/lib/territory/revalidateTerritory';
+import { updatePromotionCopy } from '@/lib/territory/queries';
 
 export const runtime = 'nodejs';
 
 const Body = z.object({
-  status: z.enum(['received', 'qualified', 'declined', 'converted', 'expired']),
+  headline: z.string().max(80).nullable(),
+  description: z.string().max(280).nullable(),
 });
 
 export async function POST(
@@ -34,31 +36,26 @@ export async function POST(
       { status: 400 },
     );
   }
-
+  const headline = parsed.data.headline;
+  const description = parsed.data.description;
   try {
-    const previousStatus = await getApplicationStatus(id);
-    if (previousStatus === null) {
-      return NextResponse.json({ error: 'Not found' }, { status: 404 });
-    }
-    if (previousStatus === parsed.data.status) {
-      return NextResponse.json({ ok: true, unchanged: true });
-    }
-    const ok = await updateApplicationStatus(id, parsed.data.status);
+    const ok = await updatePromotionCopy(id, headline, description);
     if (!ok) {
-      return NextResponse.json({ error: 'Not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: 'Promotion not found or not editable' },
+        { status: 404 },
+      );
     }
     await writeAuditLog({
-      actionType: 'application_status_change',
+      actionType: 'postcode_promotion_edit_copy',
       entityId: id,
-      payload: {
-        previousStatus,
-        newStatus: parsed.data.status,
-      },
+      payload: { headline, description },
       performedBy: 'territory_admin',
     });
+    revalidateTerritoryPublicCache();
     return NextResponse.json({ ok: true });
   } catch (err) {
-    console.error('[admin/status] update failed:', err);
+    console.error('[admin/promotions/copy]', err);
     return NextResponse.json({ error: 'Internal error' }, { status: 500 });
   }
 }
