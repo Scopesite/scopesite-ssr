@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { RESULT_STATES, resolveResultKey } from '@/lib/territory/copy';
 import type { AvailabilityResult } from '@/lib/territory/types';
 import { Button } from '@/components/ui/button';
-import { PromotionCountdown } from '@/components/territory/PromotionCountdown';
+import { TerritoryPricingStrip } from '@/components/territory/TerritoryPricingStrip';
 
 interface Props {
   result: Extract<
@@ -38,10 +38,6 @@ export function ResultCard({ result, onJoinWaitlist, onReset }: Props) {
   const sector = result.sectorLabel;
 
   const isApply = key === 'available' || key === 'premium';
-  const promo =
-    result.postcodeDisplayState.isPromotional && result.postcodeDisplayState.promotion
-      ? result.postcodeDisplayState.promotion
-      : null;
 
   return (
     <div
@@ -54,36 +50,13 @@ export function ResultCard({ result, onJoinWaitlist, onReset }: Props) {
         <span>{copy.label}</span>
       </div>
 
-      {promo ? (
-        <div
-          className={`mt-4 rounded-xl border p-4 ${
-            promo.originTier === 'premium'
-              ? 'border-purple-300 bg-gradient-to-br from-amber-50 via-amber-50 to-purple-100'
-              : 'border-amber-200 bg-amber-50/90'
-          }`}
-        >
-          {promo.headline ? (
-            <p className="font-headline text-lg text-brand-navy">{promo.headline}</p>
-          ) : (
-            <p className="font-headline text-lg text-brand-navy">Limited-time offer</p>
-          )}
-          {promo.description ? (
-            <p className="mt-2 text-sm text-slate-700 leading-relaxed">{promo.description}</p>
-          ) : null}
-          <div className="mt-3 flex flex-wrap items-baseline gap-3">
-            <span className="text-2xl font-black text-brand-gold-accessible">
-              £{promo.promotionalMonthlyPriceGbp.toFixed(0)}/mo
-            </span>
-            <span className="text-sm text-slate-500 line-through">
-              £{result.postcodeDisplayState.baseMonthlyPriceGbp.toFixed(0)}/mo
-            </span>
-          </div>
-          <p className="mt-2 text-xs text-slate-600">
-            Ends in{' '}
-            <PromotionCountdown expiresAt={promo.expiresAt} onExpired={() => router.refresh()} />
-          </p>
-        </div>
-      ) : null}
+      <div className="mt-4">
+        <TerritoryPricingStrip
+          state={result.postcodeDisplayState}
+          onPromoExpired={() => router.refresh()}
+          promoMonthlyClassName="text-2xl font-black text-brand-gold-accessible"
+        />
+      </div>
 
       <h2 className="mt-4 font-headline text-2xl sm:text-3xl text-brand-navy">
         {copy.headline(postcode, sector)}
