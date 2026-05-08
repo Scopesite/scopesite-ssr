@@ -5,9 +5,10 @@ import { TerritoryChecker } from './TerritoryChecker';
 interface Props {
   featuredSectors: SectorTile[];
   allSectorsByCategory: Record<string, SectorTile[]>;
+  priceStrip: string;
 }
 
-export function TerritoryHero({ featuredSectors, allSectorsByCategory }: Props) {
+export function TerritoryHero({ featuredSectors, allSectorsByCategory, priceStrip }: Props) {
   return (
     <section
       id="territory-hero"
@@ -33,7 +34,7 @@ export function TerritoryHero({ featuredSectors, allSectorsByCategory }: Props) 
           id="territory-price-strip"
           className="mt-6 text-sm sm:text-base text-white/80"
         >
-          {HERO.priceStrip}
+          {priceStrip}
         </p>
       </div>
     </section>

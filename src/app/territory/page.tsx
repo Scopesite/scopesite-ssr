@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { PAGE_META } from '@/lib/territory/copy';
+import { getHeroPriceStrip } from '@/lib/territory/heroCopy';
 import { TerritoryHero } from '@/components/territory/TerritoryHero';
 import { TerritoryMap } from '@/components/territory/TerritoryMap';
 import { MechanismSection } from '@/components/territory/MechanismSection';
@@ -18,6 +19,9 @@ import {
 import { buildAreaAvailability } from '@/lib/territory/map-builder';
 
 const BASE_URL = 'https://scopesite.co.uk';
+
+/** Data depends on Neon; avoid build-time prerender before migrations are applied. */
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: PAGE_META.title,
@@ -49,15 +53,12 @@ export const metadata: Metadata = {
   },
 };
 
-// Revalidate the server-rendered HTML every 60s so pin state, available
-// counts and featured sectors stay fresh without a client round-trip.
-export const revalidate = 60;
-
 export default async function TerritoryPage() {
-  const [featuredSectors, allSectorsByCategory, areas] = await Promise.all([
+  const [featuredSectors, allSectorsByCategory, areas, priceStrip] = await Promise.all([
     getFeaturedSectors(),
     getAllSectorsForBrowse(),
     buildAreaAvailability(),
+    getHeroPriceStrip(),
   ]);
 
   return (
@@ -66,6 +67,7 @@ export default async function TerritoryPage() {
       <TerritoryHero
         featuredSectors={featuredSectors}
         allSectorsByCategory={allSectorsByCategory}
+        priceStrip={priceStrip}
       />
       <TerritoryMap areas={areas} />
       <MechanismSection />
