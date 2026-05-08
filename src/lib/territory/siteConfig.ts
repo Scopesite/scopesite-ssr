@@ -33,6 +33,11 @@ function rowFromDb(r: {
   };
 }
 
+/** Direct read for admin (no request cache). */
+export async function getSiteBannerUncached(): Promise<SiteBannerRow> {
+  return fetchSiteBannerRaw();
+}
+
 async function fetchSiteBannerRaw(): Promise<SiteBannerRow> {
   const sql = getDb();
   const rows = (await sql`

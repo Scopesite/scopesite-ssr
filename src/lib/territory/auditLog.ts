@@ -12,7 +12,9 @@ export type AuditActionType =
   | 'sector_toggle_featured'
   | 'application_status_change'
   | 'waitlist_notify'
-  | 'waitlist_remove';
+  | 'waitlist_remove'
+  | 'site_banner_update'
+  | 'site_banner_toggle';
 
 export async function writeAuditLog(args: {
   actionType: AuditActionType;

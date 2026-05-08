@@ -62,6 +62,12 @@ export default async function TerritoryAdminProtectedLayout({
               Sectors
             </Link>
             <Link
+              href="/territory/admin/banner"
+              className="text-slate-600 hover:text-brand-navy link-navy"
+            >
+              Banner
+            </Link>
+            <Link
               href="/territory/admin/activity"
               className="text-slate-600 hover:text-brand-navy link-navy"
             >
