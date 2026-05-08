@@ -23,7 +23,7 @@ export default async function TerritoryAdminProtectedLayout({
   return (
     <div className="min-h-[60vh]">
       <div className="border-b border-slate-200 bg-white">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 py-4 flex flex-wrap items-center gap-4">
+      <div className="mx-auto max-w-none px-6 lg:px-10 py-4 flex flex-wrap items-center gap-4">
           <Link
             href="/territory/admin"
             className="font-headline text-lg text-brand-navy link-navy"
@@ -79,7 +79,7 @@ export default async function TerritoryAdminProtectedLayout({
           </div>
         </div>
       </div>
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 py-6 sm:py-8">
+      <div className="mx-auto max-w-none px-6 lg:px-10 py-6 sm:py-8">
         {children}
       </div>
     </div>
