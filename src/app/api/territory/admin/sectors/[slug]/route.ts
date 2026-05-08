@@ -4,6 +4,8 @@ import { isAdminAuthenticated } from '@/lib/territory/admin-session';
 import { writeAuditLog } from '@/lib/territory/auditLog';
 import { revalidateTerritoryPublicCache } from '@/lib/territory/revalidateTerritory';
 import {
+  backfillMissingSeatsForSectorSlugs,
+  getSectorBySlug,
   getSectorOccupiedSeatCount,
   updateSectorFlags,
 } from '@/lib/territory/queries';
@@ -45,6 +47,15 @@ export async function POST(
       { status: 400 },
     );
   }
+  const activating = parsed.data.isActive === true;
+  let wasInactive = false;
+  if (activating) {
+    const sector = await getSectorBySlug(slug);
+    if (!sector) {
+      return NextResponse.json({ error: 'Sector not found' }, { status: 404 });
+    }
+    wasInactive = !sector.is_active;
+  }
   if (parsed.data.isActive === false) {
     const occupied = await getSectorOccupiedSeatCount(slug);
     if (!sectorAllowsDeactivation(occupied)) {
@@ -84,8 +95,15 @@ export async function POST(
         performedBy: 'territory_admin',
       });
     }
+    let seatsCreated: number | undefined;
+    if (activating && wasInactive) {
+      seatsCreated = await backfillMissingSeatsForSectorSlugs([slug]);
+    }
     revalidateTerritoryPublicCache();
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({
+      ok: true,
+      ...(seatsCreated !== undefined ? { seatsCreated } : {}),
+    });
   } catch (err) {
     console.error('[admin/sectors]', err);
     return NextResponse.json({ error: 'Internal error' }, { status: 500 });

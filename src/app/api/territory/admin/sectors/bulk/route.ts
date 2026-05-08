@@ -7,6 +7,7 @@ import {
   bulkDeactivateSectors,
   bulkFeatureSectors,
   bulkUnfeatureSectors,
+  backfillMissingSeatsForSectorSlugs,
   type BulkSectorScope,
 } from '@/lib/territory/queries';
 
@@ -47,9 +48,11 @@ export async function POST(request: NextRequest) {
 
   try {
     let result: { affectedSlugs: string[]; skippedSlugs: string[] };
+    let seatsCreated = 0;
     switch (parsed.data.action) {
       case 'activate':
         result = await bulkActivateSectors(scope);
+        seatsCreated = await backfillMissingSeatsForSectorSlugs(result.affectedSlugs);
         break;
       case 'deactivate':
         result = await bulkDeactivateSectors(scope);
@@ -73,6 +76,7 @@ export async function POST(request: NextRequest) {
       ok: true,
       updated,
       skipped,
+      seatsCreated: parsed.data.action === 'activate' ? seatsCreated : undefined,
       affectedSlugs: result.affectedSlugs,
       skippedSlugs: result.skippedSlugs,
     });

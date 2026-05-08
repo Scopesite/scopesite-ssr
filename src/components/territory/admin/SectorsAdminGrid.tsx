@@ -28,6 +28,7 @@ async function parseJson(res: Response): Promise<{
   ok?: boolean;
   updated?: number;
   skipped?: number;
+  seatsCreated?: number;
 }> {
   return (await res.json().catch(() => ({}))) as {
     error?: string;
@@ -35,6 +36,7 @@ async function parseJson(res: Response): Promise<{
     ok?: boolean;
     updated?: number;
     skipped?: number;
+    seatsCreated?: number;
   };
 }
 
@@ -84,7 +86,12 @@ export function SectorsAdminGrid({ grouped }: Props) {
       if (!res.ok) {
         throw new Error(j.error || 'Update failed');
       }
-      setMsg({ kind: 'ok', text: `Updated ${slug}.` });
+      const seats = j.seatsCreated;
+      const seatMsg =
+        typeof seats === 'number' && body.isActive === true
+          ? ` Backfilled ${seats} seat row${seats === 1 ? '' : 's'}.`
+          : '';
+      setMsg({ kind: 'ok', text: `Updated ${slug}.${seatMsg}` });
       router.refresh();
     } catch (e) {
       setMsg({
@@ -111,7 +118,11 @@ export function SectorsAdminGrid({ grouped }: Props) {
       }
       const updated = j.updated ?? 0;
       const skipped = j.skipped ?? 0;
+      const seatsCreated = j.seatsCreated;
       const parts = [`Updated ${updated} sector${updated === 1 ? '' : 's'}.`];
+      if (typeof seatsCreated === 'number' && action === 'activate') {
+        parts.push(`Backfilled ${seatsCreated} seat row${seatsCreated === 1 ? '' : 's'}.`);
+      }
       if (skipped > 0) {
         parts.push(`Skipped ${skipped} with pending or claimed seats.`);
       }

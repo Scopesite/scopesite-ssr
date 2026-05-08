@@ -1523,6 +1523,37 @@ function scopeCategoryParam(scope: BulkSectorScope): string | null {
   return scope === 'all' ? null : scope.category.trim();
 }
 
+/**
+ * Ensures every active territory has an available seat row for the given
+ * sector slugs (typically just-activated sectors). Idempotent via NOT EXISTS.
+ */
+export async function backfillMissingSeatsForSectorSlugs(
+  slugs: string[],
+): Promise<number> {
+  if (slugs.length === 0) return 0;
+  const sql = getDb();
+  const normalized = [...new Set(slugs.map((s) => s.trim().toLowerCase()))];
+  const rows = (await sql`
+    WITH inserted AS (
+      INSERT INTO territory.seats (territory_id, sector_id, state)
+      SELECT t.id, s.id, 'available'
+      FROM territory.sectors s
+      CROSS JOIN territory.territories t
+      WHERE s.is_active = TRUE
+        AND t.is_active = TRUE
+        AND s.slug = ANY(${normalized})
+        AND NOT EXISTS (
+          SELECT 1 FROM territory.seats existing
+          WHERE existing.sector_id = s.id
+            AND existing.territory_id = t.id
+        )
+      RETURNING id
+    )
+    SELECT COUNT(*)::int AS n FROM inserted
+  `) as Array<{ n: number }>;
+  return rows[0]?.n ?? 0;
+}
+
 /** Activate every sector in scope (strict). One audit row per updated row. */
 export async function bulkActivateSectors(
   scope: BulkSectorScope,
