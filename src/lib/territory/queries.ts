@@ -11,12 +11,12 @@
 
 import { getDb } from './db';
 import { normalisePostcode, toPostcodeDistrict } from './postcode';
+import { deriveAreaAvailabilityStatus } from './postcodePricingLogic';
 import type {
   AvailabilityResult,
   ApplicationEntryType,
   ApplicationStatus,
   AreaStatus,
-  AreaAvailabilityStatus,
   MapDataPoint,
   SectorTile,
   Sector,
@@ -370,52 +370,120 @@ export async function getMapData(): Promise<
 /**
  * Per-area availability for the region-zoom polygon colouring.
  *
- * Aggregates seats belonging to AREA-LEVEL territory rows (postcode_area
- * = postcode, i.e. the rows seeded by scripts/territory-expand-uk.mjs)
- * across the four active sector slugs. District-level pilot territories
- * (BS1, BA1...) are excluded - their availability is not what a user
- * clicking the BS or BA polygon is asking about.
+ * Aggregates seats for AREA-LEVEL territory rows (postcode_area = postcode)
+ * across all active sectors. Active postcode-level promotions map to
+ * `promotional` status (see deriveAreaAvailabilityStatus).
  */
 export async function getAreaAvailability(): Promise<AreaStatus[]> {
   const sql = getDb();
   const rows = (await sql`
     SELECT
       t.postcode_area,
+      t.postcode,
       t.town_name,
       t.tier,
       COUNT(s.id) FILTER (WHERE s.state = 'available')::int AS available_count,
       COUNT(s.id) FILTER (WHERE s.state = 'pending')::int   AS pending_count,
       COUNT(s.id) FILTER (WHERE s.state = 'claimed')::int   AS claimed_count,
-      COUNT(s.id)::int                                       AS total_count
+      COUNT(s.id)::int                                       AS total_count,
+      EXISTS (
+        SELECT 1
+        FROM territory.postcode_promotions pr
+        WHERE pr.postcode = t.postcode
+          AND pr.expired = FALSE
+          AND pr.cancelled = FALSE
+          AND pr.expires_at > NOW()
+          AND pr.starts_at <= NOW()
+      ) AS has_promotion,
+      (
+        SELECT pr.expires_at::text
+        FROM territory.postcode_promotions pr
+        WHERE pr.postcode = t.postcode
+          AND pr.expired = FALSE AND pr.cancelled = FALSE
+          AND pr.expires_at > NOW() AND pr.starts_at <= NOW()
+        ORDER BY pr.starts_at DESC
+        LIMIT 1
+      ) AS promotion_expires_at,
+      (
+        SELECT pr.origin_tier::text
+        FROM territory.postcode_promotions pr
+        WHERE pr.postcode = t.postcode
+          AND pr.expired = FALSE AND pr.cancelled = FALSE
+          AND pr.expires_at > NOW() AND pr.starts_at <= NOW()
+        ORDER BY pr.starts_at DESC
+        LIMIT 1
+      ) AS promotion_origin_tier,
+      (
+        SELECT pr.headline
+        FROM territory.postcode_promotions pr
+        WHERE pr.postcode = t.postcode
+          AND pr.expired = FALSE AND pr.cancelled = FALSE
+          AND pr.expires_at > NOW() AND pr.starts_at <= NOW()
+        ORDER BY pr.starts_at DESC
+        LIMIT 1
+      ) AS promotion_headline,
+      (
+        SELECT pr.description
+        FROM territory.postcode_promotions pr
+        WHERE pr.postcode = t.postcode
+          AND pr.expired = FALSE AND pr.cancelled = FALSE
+          AND pr.expires_at > NOW() AND pr.starts_at <= NOW()
+        ORDER BY pr.starts_at DESC
+        LIMIT 1
+      ) AS promotion_description,
+      (
+        SELECT pr.promotional_monthly_price_gbp
+        FROM territory.postcode_promotions pr
+        WHERE pr.postcode = t.postcode
+          AND pr.expired = FALSE AND pr.cancelled = FALSE
+          AND pr.expires_at > NOW() AND pr.starts_at <= NOW()
+        ORDER BY pr.starts_at DESC
+        LIMIT 1
+      ) AS promotion_monthly_price_gbp,
+      (
+        SELECT pr.origin_monthly_price_gbp
+        FROM territory.postcode_promotions pr
+        WHERE pr.postcode = t.postcode
+          AND pr.expired = FALSE AND pr.cancelled = FALSE
+          AND pr.expires_at > NOW() AND pr.starts_at <= NOW()
+        ORDER BY pr.starts_at DESC
+        LIMIT 1
+      ) AS promotion_origin_monthly_price_gbp
     FROM territory.territories t
     LEFT JOIN territory.seats s ON s.territory_id = t.id
     LEFT JOIN territory.sectors sec ON sec.id = s.sector_id
     WHERE t.postcode = t.postcode_area
-      AND (
-        sec.slug IS NULL
-        OR sec.slug IN ('accountants', 'solicitors', 'estate-agents', 'dental-practices')
-      )
-    GROUP BY t.postcode_area, t.town_name, t.tier
+      AND (sec.slug IS NULL OR sec.is_active = TRUE)
+    GROUP BY t.postcode_area, t.postcode, t.town_name, t.tier
     ORDER BY t.postcode_area
   `) as Array<{
     postcode_area: string;
+    postcode: string;
     town_name: string | null;
     tier: 'standard' | 'premium';
     available_count: number;
     pending_count: number;
     claimed_count: number;
     total_count: number;
+    has_promotion: boolean;
+    promotion_expires_at: string | null;
+    promotion_origin_tier: string | null;
+    promotion_headline: string | null;
+    promotion_description: string | null;
+    promotion_monthly_price_gbp: unknown | null;
+    promotion_origin_monthly_price_gbp: unknown | null;
   }>;
 
   return rows.map((r) => {
-    let status: AreaAvailabilityStatus;
-    if (r.total_count === 0) status = 'none';
-    else if (r.claimed_count === r.total_count) status = 'claimed';
-    else if (r.pending_count > 0 && r.available_count === 0) status = 'pending';
-    else if (r.available_count > 0 && r.tier === 'premium') status = 'premium';
-    else if (r.available_count > 0) status = 'available';
-    else status = 'none';
-    return {
+    const status = deriveAreaAvailabilityStatus({
+      totalCount: r.total_count,
+      claimedCount: r.claimed_count,
+      pendingCount: r.pending_count,
+      availableCount: r.available_count,
+      territoryTier: r.tier,
+      hasActivePromotion: r.has_promotion,
+    });
+    const base: AreaStatus = {
       area: r.postcode_area,
       tier: r.tier,
       townName: r.town_name,
@@ -424,7 +492,18 @@ export async function getAreaAvailability(): Promise<AreaStatus[]> {
       pendingCount: r.pending_count,
       claimedCount: r.claimed_count,
       totalCount: r.total_count,
-    } satisfies AreaStatus;
+    };
+    if (status === 'promotional') {
+      base.promotionExpiresAt = r.promotion_expires_at;
+      base.promotionOriginTier =
+        r.promotion_origin_tier === 'premium' ? 'premium' : 'standard';
+      base.promotionHeadline = r.promotion_headline;
+      base.promotionDescription = r.promotion_description;
+      base.promotionMonthlyPriceGbp = Number(r.promotion_monthly_price_gbp ?? 0) || null;
+      base.promotionOriginMonthlyPriceGbp =
+        Number(r.promotion_origin_monthly_price_gbp ?? 0) || null;
+    }
+    return base;
   });
 }
 
@@ -472,13 +551,18 @@ export async function createApplication(
       INSERT INTO territory.applications (
         entry_type, seat_id, firm_name, contact_name, contact_role,
         contact_email, contact_phone, website_url, firm_postcode,
-        sector_slug, ai_visibility_approach, additional_context, status
+        sector_slug, ai_visibility_approach, additional_context, status,
+        locked_monthly_price_gbp, locked_setup_fee_gbp, locked_promotion_id, locked_at
       )
       SELECT
         'seat', ${input.seatId}, ${input.firmName}, ${input.contactName},
         ${input.contactRole}, ${input.contactEmail}, ${input.contactPhone},
         ${input.websiteUrl}, ${input.firmPostcode}, ${input.sectorSlug},
-        ${input.aiVisibilityApproach}, ${input.additionalContext}, 'received'
+        ${input.aiVisibilityApproach}, ${input.additionalContext}, 'received',
+        ${input.lockedMonthlyPriceGbp},
+        ${input.lockedSetupFeeGbp},
+        ${input.lockedPromotionId},
+        NOW()
       FROM checked
       RETURNING id, created_at
     ),
@@ -526,7 +610,8 @@ export async function createFreeformApplication(
       contact_phone, website_url, firm_postcode,
       sector_slug,
       requested_postcode_district, freeform_industry,
-      ai_visibility_approach, additional_context, status
+      ai_visibility_approach, additional_context, status,
+      locked_monthly_price_gbp, locked_setup_fee_gbp, locked_promotion_id, locked_at
     ) VALUES (
       'freeform', NULL,
       ${input.firmName}, ${input.contactName}, ${input.contactRole},
@@ -534,7 +619,11 @@ export async function createFreeformApplication(
       ${input.firmPostcode},
       NULL,
       ${input.requestedPostcodeDistrict}, ${input.freeformIndustry},
-      ${input.aiVisibilityApproach}, ${input.additionalContext}, 'received'
+      ${input.aiVisibilityApproach}, ${input.additionalContext}, 'received',
+      ${input.lockedMonthlyPriceGbp},
+      ${input.lockedSetupFeeGbp},
+      ${input.lockedPromotionId},
+      NOW()
     )
     RETURNING id
   `) as Array<{ id: string }>;
@@ -564,7 +653,8 @@ export async function createSectorApplication(
       contact_phone, website_url, firm_postcode,
       sector_slug,
       requested_postcode_district, freeform_industry,
-      ai_visibility_approach, additional_context, status
+      ai_visibility_approach, additional_context, status,
+      locked_monthly_price_gbp, locked_setup_fee_gbp, locked_promotion_id, locked_at
     ) VALUES (
       'sector', NULL,
       ${input.firmName}, ${input.contactName}, ${input.contactRole},
@@ -572,7 +662,11 @@ export async function createSectorApplication(
       ${input.firmPostcode},
       ${input.sectorSlug},
       ${input.requestedPostcodeDistrict}, NULL,
-      ${input.aiVisibilityApproach}, ${input.additionalContext}, 'received'
+      ${input.aiVisibilityApproach}, ${input.additionalContext}, 'received',
+      ${input.lockedMonthlyPriceGbp},
+      ${input.lockedSetupFeeGbp},
+      ${input.lockedPromotionId},
+      NOW()
     )
     RETURNING id
   `) as Array<{ id: string }>;
@@ -1042,8 +1136,383 @@ export async function expirePendingSeats(): Promise<number> {
   return rows.length;
 }
 
+/** Marks expired postcode promotions and writes audit rows (DB function). */
+export async function expirePromotions(): Promise<number> {
+  const sql = getDb();
+  const rows = (await sql`
+    SELECT territory.expire_promotions()::int AS n
+  `) as Array<{ n: number }>;
+  return rows[0]?.n ?? 0;
+}
+
 // ---------------------------------------------------------------------------
-// UTILITY (used by TerritoryChecker auto-prefill from map pin click)
+// ADMIN: postcodes, sectors, audit log
 // ---------------------------------------------------------------------------
 
-export { normalisePostcode, toPostcodeDistrict };
+export interface AdminTerritoryRow {
+  id: string;
+  postcode: string;
+  postcode_area: string;
+  postcode_district: string;
+  town_name: string | null;
+  county: string | null;
+  tier: 'standard' | 'premium';
+  is_active: boolean;
+  monthly_price_gbp: number | null;
+  setup_fee_gbp: number | null;
+  has_active_promotion: boolean;
+  promotion_expires_at: string | null;
+  active_promotion_id: string | null;
+  promotion_headline: string | null;
+  promotion_description: string | null;
+}
+
+export async function listTerritoriesForAdmin(filters: {
+  q?: string;
+  tier?: 'all' | 'standard' | 'premium';
+  promotion?: 'all' | 'active' | 'none';
+  limit?: number;
+  offset?: number;
+}): Promise<AdminTerritoryRow[]> {
+  const sql = getDb();
+  const limit = Math.min(Math.max(filters.limit ?? 200, 1), 500);
+  const offset = Math.max(filters.offset ?? 0, 0);
+  const q = (filters.q ?? '').trim();
+  const tier = filters.tier ?? 'all';
+  const prom = filters.promotion ?? 'all';
+
+  const rows = (await sql`
+    SELECT
+      t.id,
+      t.postcode,
+      t.postcode_area,
+      t.postcode_district,
+      t.town_name,
+      t.county,
+      t.tier::text AS tier,
+      t.is_active,
+      t.monthly_price_gbp,
+      t.setup_fee_gbp,
+      EXISTS (
+        SELECT 1 FROM territory.postcode_promotions pr
+        WHERE pr.postcode = t.postcode
+          AND pr.expired = FALSE AND pr.cancelled = FALSE
+          AND pr.expires_at > NOW() AND pr.starts_at <= NOW()
+      ) AS has_active_promotion,
+      (
+        SELECT pr.expires_at::text
+        FROM territory.postcode_promotions pr
+        WHERE pr.postcode = t.postcode
+          AND pr.expired = FALSE AND pr.cancelled = FALSE
+          AND pr.expires_at > NOW() AND pr.starts_at <= NOW()
+        ORDER BY pr.starts_at DESC
+        LIMIT 1
+      ) AS promotion_expires_at,
+      (
+        SELECT pr.id::text
+        FROM territory.postcode_promotions pr
+        WHERE pr.postcode = t.postcode
+          AND pr.expired = FALSE AND pr.cancelled = FALSE
+          AND pr.expires_at > NOW() AND pr.starts_at <= NOW()
+        ORDER BY pr.starts_at DESC
+        LIMIT 1
+      ) AS active_promotion_id,
+      (
+        SELECT pr.headline
+        FROM territory.postcode_promotions pr
+        WHERE pr.postcode = t.postcode
+          AND pr.expired = FALSE AND pr.cancelled = FALSE
+          AND pr.expires_at > NOW() AND pr.starts_at <= NOW()
+        ORDER BY pr.starts_at DESC
+        LIMIT 1
+      ) AS promotion_headline,
+      (
+        SELECT pr.description
+        FROM territory.postcode_promotions pr
+        WHERE pr.postcode = t.postcode
+          AND pr.expired = FALSE AND pr.cancelled = FALSE
+          AND pr.expires_at > NOW() AND pr.starts_at <= NOW()
+        ORDER BY pr.starts_at DESC
+        LIMIT 1
+      ) AS promotion_description
+    FROM territory.territories t
+    WHERE t.postcode = t.postcode_area
+      AND (${tier} = 'all' OR t.tier::text = ${tier})
+      AND (
+        ${prom} = 'all'
+        OR (${prom} = 'active' AND EXISTS (
+          SELECT 1 FROM territory.postcode_promotions pr
+          WHERE pr.postcode = t.postcode
+            AND pr.expired = FALSE AND pr.cancelled = FALSE
+            AND pr.expires_at > NOW() AND pr.starts_at <= NOW()
+        ))
+        OR (${prom} = 'none' AND NOT EXISTS (
+          SELECT 1 FROM territory.postcode_promotions pr
+          WHERE pr.postcode = t.postcode
+            AND pr.expired = FALSE AND pr.cancelled = FALSE
+            AND pr.expires_at > NOW() AND pr.starts_at <= NOW()
+        ))
+      )
+      AND (
+        ${q} = ''
+        OR UPPER(t.postcode) LIKE ${'%' + q.toUpperCase().replace(/%/g, '\\%').replace(/_/g, '\\_') + '%'}
+        OR UPPER(COALESCE(t.town_name, '')) LIKE ${'%' + q.toUpperCase().replace(/%/g, '\\%').replace(/_/g, '\\_') + '%'}
+        OR UPPER(COALESCE(t.county, '')) LIKE ${'%' + q.toUpperCase().replace(/%/g, '\\%').replace(/_/g, '\\_') + '%'}
+      )
+    ORDER BY t.postcode ASC
+    LIMIT ${limit}
+    OFFSET ${offset}
+  `) as AdminTerritoryRow[];
+  return rows;
+}
+
+export async function updateTerritoryPrices(
+  postcode: string,
+  monthlyPriceGbp: number,
+  setupFeeGbp: number | null,
+): Promise<boolean> {
+  const sql = getDb();
+  const rows = (await sql`
+    UPDATE territory.territories
+    SET monthly_price_gbp = ${monthlyPriceGbp},
+        setup_fee_gbp = ${setupFeeGbp},
+        updated_at = NOW()
+    WHERE UPPER(postcode) = UPPER(${postcode})
+    RETURNING id
+  `) as Array<{ id: string }>;
+  return rows.length > 0;
+}
+
+export async function updateTerritoryTier(
+  postcode: string,
+  tier: 'standard' | 'premium',
+): Promise<boolean> {
+  const sql = getDb();
+  const rows = (await sql`
+    UPDATE territory.territories
+    SET tier = ${tier}, updated_at = NOW()
+    WHERE UPPER(postcode) = UPPER(${postcode})
+    RETURNING id
+  `) as Array<{ id: string }>;
+  return rows.length > 0;
+}
+
+export async function updateTerritoryActive(
+  postcode: string,
+  isActive: boolean,
+): Promise<boolean> {
+  const sql = getDb();
+  const rows = (await sql`
+    UPDATE territory.territories
+    SET is_active = ${isActive}, updated_at = NOW()
+    WHERE UPPER(postcode) = UPPER(${postcode})
+    RETURNING id
+  `) as Array<{ id: string }>;
+  return rows.length > 0;
+}
+
+export async function getActivePromotionForPostcode(
+  postcode: string,
+): Promise<{ id: string } | null> {
+  const sql = getDb();
+  const rows = (await sql`
+    SELECT id
+    FROM territory.postcode_promotions
+    WHERE UPPER(postcode) = UPPER(${postcode})
+      AND expired = FALSE AND cancelled = FALSE
+      AND expires_at > NOW() AND starts_at <= NOW()
+    LIMIT 1
+  `) as Array<{ id: string }>;
+  return rows[0] ?? null;
+}
+
+export async function insertPostcodePromotion(args: {
+  postcode: string;
+  promotionalMonthlyPriceGbp: number;
+  promotionalSetupFeeGbp: number | null;
+  originTier: 'standard' | 'premium';
+  originMonthlyPriceGbp: number;
+  originSetupFeeGbp: number | null;
+  headline: string | null;
+  description: string | null;
+  durationHours: number;
+  createdBy: string;
+}): Promise<{ id: string } | null> {
+  const sql = getDb();
+  const hours = Math.max(1, Math.floor(args.durationHours));
+  const rows = (await sql`
+    INSERT INTO territory.postcode_promotions (
+      postcode,
+      promotional_monthly_price_gbp,
+      promotional_setup_fee_gbp,
+      origin_tier,
+      origin_monthly_price_gbp,
+      origin_setup_fee_gbp,
+      headline,
+      description,
+      starts_at,
+      expires_at,
+      created_by
+    )
+    VALUES (
+      ${args.postcode},
+      ${args.promotionalMonthlyPriceGbp},
+      ${args.promotionalSetupFeeGbp},
+      ${args.originTier},
+      ${args.originMonthlyPriceGbp},
+      ${args.originSetupFeeGbp},
+      ${args.headline},
+      ${args.description},
+      NOW(),
+      NOW() + (INTERVAL '1 hour' * ${hours}),
+      ${args.createdBy}
+    )
+    RETURNING id
+  `) as Array<{ id: string }>;
+  return rows[0] ?? null;
+}
+
+export async function cancelPostcodePromotion(postcode: string): Promise<string | null> {
+  const sql = getDb();
+  const rows = (await sql`
+    UPDATE territory.postcode_promotions
+    SET cancelled = TRUE
+    WHERE UPPER(postcode) = UPPER(${postcode})
+      AND expired = FALSE AND cancelled = FALSE
+      AND expires_at > NOW()
+    RETURNING id
+  `) as Array<{ id: string }>;
+  return rows[0]?.id ?? null;
+}
+
+export async function updatePromotionCopy(
+  promotionId: string,
+  headline: string | null,
+  description: string | null,
+): Promise<boolean> {
+  const sql = getDb();
+  const rows = (await sql`
+    UPDATE territory.postcode_promotions
+    SET headline = ${headline},
+        description = ${description}
+    WHERE id = ${promotionId}::uuid
+      AND expired = FALSE AND cancelled = FALSE
+    RETURNING id
+  `) as Array<{ id: string }>;
+  return rows.length > 0;
+}
+
+export interface AdminSectorRow {
+  id: string;
+  slug: string;
+  label: string;
+  category: string;
+  is_active: boolean;
+  is_featured: boolean;
+  display_order: number;
+  pending_or_claimed_seats: number;
+}
+
+export async function getSectorOccupiedSeatCount(slug: string): Promise<number> {
+  const sql = getDb();
+  const rows = (await sql`
+    SELECT COUNT(*)::int AS n
+    FROM territory.seats s
+    JOIN territory.sectors sec ON sec.id = s.sector_id
+    WHERE sec.slug = ${slug.trim().toLowerCase()}
+      AND s.state IN ('pending', 'claimed')
+  `) as Array<{ n: number }>;
+  return rows[0]?.n ?? 0;
+}
+
+export async function listSectorsForAdmin(): Promise<AdminSectorRow[]> {
+  const sql = getDb();
+  const rows = (await sql`
+    SELECT
+      s.id,
+      s.slug,
+      s.label,
+      s.category,
+      s.is_active,
+      s.is_featured,
+      s.display_order,
+      COALESCE((
+        SELECT COUNT(*)::int FROM territory.seats x
+        WHERE x.sector_id = s.id AND x.state IN ('pending', 'claimed')
+      ), 0) AS pending_or_claimed_seats
+    FROM territory.sectors s
+    ORDER BY s.category ASC, s.display_order ASC, s.label ASC
+  `) as AdminSectorRow[];
+  return rows;
+}
+
+export async function updateSectorFlags(
+  slug: string,
+  patch: { is_active?: boolean; is_featured?: boolean },
+): Promise<boolean> {
+  const sql = getDb();
+  if (patch.is_active === undefined && patch.is_featured === undefined) {
+    return false;
+  }
+  if (patch.is_active !== undefined && patch.is_featured !== undefined) {
+    const rows = (await sql`
+      UPDATE territory.sectors
+      SET is_active = ${patch.is_active},
+          is_featured = ${patch.is_featured},
+          updated_at = NOW()
+      WHERE slug = ${slug.trim().toLowerCase()}
+      RETURNING id
+    `) as Array<{ id: string }>;
+    return rows.length > 0;
+  }
+  if (patch.is_active !== undefined) {
+    const rows = (await sql`
+      UPDATE territory.sectors
+      SET is_active = ${patch.is_active}, updated_at = NOW()
+      WHERE slug = ${slug.trim().toLowerCase()}
+      RETURNING id
+    `) as Array<{ id: string }>;
+    return rows.length > 0;
+  }
+  const rows = (await sql`
+    UPDATE territory.sectors
+    SET is_featured = ${patch.is_featured!}, updated_at = NOW()
+    WHERE slug = ${slug.trim().toLowerCase()}
+    RETURNING id
+  `) as Array<{ id: string }>;
+  return rows.length > 0;
+}
+
+export interface AuditLogRow {
+  id: string;
+  action_type: string;
+  entity_id: string | null;
+  payload: Record<string, unknown>;
+  performed_by: string;
+  created_at: string;
+}
+
+export async function listAuditLogPage(args: {
+  limit: number;
+  offset: number;
+}): Promise<AuditLogRow[]> {
+  const sql = getDb();
+  const rows = (await sql`
+    SELECT id, action_type, entity_id, payload, performed_by, created_at::text AS created_at
+    FROM territory.admin_audit_log
+    ORDER BY created_at DESC
+    LIMIT ${args.limit}
+    OFFSET ${args.offset}
+  `) as AuditLogRow[];
+  return rows;
+}
+
+export async function getApplicationStatus(
+  id: string,
+): Promise<ApplicationStatus | null> {
+  const sql = getDb();
+  const rows = (await sql`
+    SELECT status::text AS status FROM territory.applications WHERE id = ${id}::uuid LIMIT 1
+  `) as Array<{ status: ApplicationStatus }>;
+  return rows[0]?.status ?? null;
+}

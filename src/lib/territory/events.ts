@@ -23,10 +23,18 @@ export interface PrefillCheckerDetail {
   autoSubmit?: boolean;
 }
 
-/** Active-pilot map click - opens the PilotCheckerModal qualification gate. */
+/** Map click — opens industry picker; includes optional live promotion snapshot. */
 export interface OpenPilotCheckerDetail {
   postcode: string;
   town?: string;
+  promotion?: {
+    headline: string | null;
+    description: string | null;
+    promotionalMonthlyPriceGbp: number;
+    originMonthlyPriceGbp: number;
+    expiresAt: string;
+    originTier: 'standard' | 'premium';
+  };
 }
 
 export const AREA_WAITLIST_EVENT = 'territory:openAreaWaitlist';

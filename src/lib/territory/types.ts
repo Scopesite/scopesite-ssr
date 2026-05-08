@@ -47,8 +47,6 @@ export interface Seat {
   sector_id: string;
   state: SeatState;
   tier: Tier;
-  monthly_price_gbp: number;
-  setup_fee_gbp: number;
   contract_months: number;
   claimed_at: string | null;
   pending_until: string | null;
@@ -93,6 +91,10 @@ export interface Application {
   hubspot_contact_id: string | null;
   hubspot_deal_id: string | null;
   internal_notes: string | null;
+  locked_monthly_price_gbp: number | null;
+  locked_setup_fee_gbp: number | null;
+  locked_promotion_id: string | null;
+  locked_at: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -109,6 +111,9 @@ export interface FreeformApplicationInsert {
   freeformIndustry: string;
   aiVisibilityApproach: string | null;
   additionalContext: string | null;
+  lockedMonthlyPriceGbp: number;
+  lockedSetupFeeGbp: number | null;
+  lockedPromotionId: string | null;
 }
 
 /** Sector-known application (no seat hold). Shape:
@@ -126,6 +131,9 @@ export interface SectorApplicationInsert {
   requestedPostcodeDistrict: string;
   aiVisibilityApproach: string | null;
   additionalContext: string | null;
+  lockedMonthlyPriceGbp: number;
+  lockedSetupFeeGbp: number | null;
+  lockedPromotionId: string | null;
 }
 
 export interface WaitlistEntry {
@@ -249,7 +257,8 @@ export type AreaAvailabilityStatus =
   | 'premium'
   | 'pending'
   | 'claimed'
-  | 'none';
+  | 'none'
+  | 'promotional';
 
 export interface AreaStatus {
   area: string;
@@ -260,6 +269,13 @@ export interface AreaStatus {
   pendingCount: number;
   claimedCount: number;
   totalCount: number;
+  /** Present when status is `promotional` (active postcode promotion). */
+  promotionExpiresAt?: string | null;
+  promotionOriginTier?: Tier | null;
+  promotionHeadline?: string | null;
+  promotionDescription?: string | null;
+  promotionMonthlyPriceGbp?: number | null;
+  promotionOriginMonthlyPriceGbp?: number | null;
 }
 
 /** Public-facing sector tile. */
@@ -285,6 +301,9 @@ export interface ApplicationInsert {
   sectorSlug: string;
   aiVisibilityApproach: string | null;
   additionalContext: string | null;
+  lockedMonthlyPriceGbp: number;
+  lockedSetupFeeGbp: number | null;
+  lockedPromotionId: string | null;
 }
 
 export interface WaitlistInsert {

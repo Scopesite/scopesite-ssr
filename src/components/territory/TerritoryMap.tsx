@@ -15,10 +15,12 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { MAP_REGIONS, type RegionKey } from '@/lib/territory/map-regions';
 import { REGION_PATHS, REGION_VIEWBOX } from '@/lib/territory/region-paths';
 import type { AreaStatus } from '@/lib/territory/types';
 import { emitOpenPilotChecker } from '@/lib/territory/events';
+import { PromotionCountdown } from '@/components/territory/PromotionCountdown';
 import { aspectCorrect, type BBox } from '@/lib/territory/pin-layout';
 import {
   AREA_BOUNDARIES,
@@ -48,18 +50,20 @@ const FULL_ASPECT = REGION_VIEWBOX.width / REGION_VIEWBOX.height;
 // Status palette - traffic-light + purple for premium.
 const STATUS_FILL: Record<AreaStatus['status'], string> = {
   available: '#22C55E',
-  premium:   '#A855F7',
-  pending:   '#3B82F6',
-  claimed:   '#B91C1C',
-  none:      '#64748B',
+  premium: '#A855F7',
+  pending: '#3B82F6',
+  claimed: '#B91C1C',
+  none: '#64748B',
+  promotional: '#D4AF37',
 };
 
 const STATUS_LABEL: Record<AreaStatus['status'], string> = {
   available: 'Seats available',
-  premium:   'Premium tier, seats available',
-  pending:   'Application pending',
-  claimed:   'All sectors claimed',
-  none:      'Register interest',
+  premium: 'Premium tier, seats available',
+  pending: 'Application pending',
+  claimed: 'All sectors claimed',
+  none: 'Register interest',
+  promotional: 'Limited offer',
 };
 
 // Pan clamp buffer - keep at least this fraction of the region bbox visible.
@@ -215,6 +219,7 @@ function useAnimatedViewBox(
 // Component
 // ---------------------------------------------------------------------------
 export function TerritoryMap({ areas }: Props) {
+  const router = useRouter();
   const [hoverRegion, setHoverRegion] = useState<RegionKey | null>(null);
   const [hoverArea, setHoverArea] = useState<string | null>(null);
   const [zoomedRegion, setZoomedRegion] = useState<RegionKey | null>(null);
@@ -395,9 +400,26 @@ export function TerritoryMap({ areas }: Props) {
 
   const onAreaClick = (area: string) => {
     const status = areas[area];
+    const promotion =
+      status?.status === 'promotional' &&
+      status.promotionExpiresAt &&
+      status.promotionMonthlyPriceGbp != null &&
+      status.promotionOriginMonthlyPriceGbp != null
+        ? {
+            headline: status.promotionHeadline ?? null,
+            description: status.promotionDescription ?? null,
+            promotionalMonthlyPriceGbp: status.promotionMonthlyPriceGbp,
+            originMonthlyPriceGbp: status.promotionOriginMonthlyPriceGbp,
+            expiresAt: status.promotionExpiresAt,
+            originTier: (status.promotionOriginTier ?? 'standard') as
+              | 'standard'
+              | 'premium',
+          }
+        : undefined;
     emitOpenPilotChecker({
       postcode: area,
       town: status?.townName ?? undefined,
+      promotion,
     });
   };
 
@@ -753,28 +775,40 @@ export function TerritoryMap({ areas }: Props) {
                     const title = status
                       ? `${area}${status.townName ? ' \u2014 ' + status.townName : ''}: ${STATUS_LABEL[key]}`
                       : `${area}: ${STATUS_LABEL.none}`;
+                    const premiumStripe =
+                      key === 'promotional' && status?.promotionOriginTier === 'premium';
                     return (
-                      <path
-                        key={`area-${area}`}
-                        d={d}
-                        data-postcode-area={area}
-                        fill={fill}
-                        fillOpacity={fillOpacity}
-                        stroke="#0A1B36"
-                        strokeOpacity={isHover ? 0.9 : 0.7}
-                        strokeWidth={0.7}
-                        vectorEffect="non-scaling-stroke"
-                        style={{
-                          cursor: 'pointer',
-                          transition:
-                            'fill-opacity 150ms ease-out, stroke-opacity 150ms ease-out',
-                        }}
-                        onMouseEnter={() => setHoverArea(area)}
-                        onMouseLeave={() => setHoverArea(null)}
-                        onClick={() => onAreaClick(area)}
-                      >
-                        <title>{title}</title>
-                      </path>
+                      <g key={`area-${area}`}>
+                        <path
+                          d={d}
+                          data-postcode-area={area}
+                          fill={fill}
+                          fillOpacity={fillOpacity}
+                          stroke="#0A1B36"
+                          strokeOpacity={isHover ? 0.9 : 0.7}
+                          strokeWidth={0.7}
+                          vectorEffect="non-scaling-stroke"
+                          style={{
+                            cursor: 'pointer',
+                            transition:
+                              'fill-opacity 150ms ease-out, stroke-opacity 150ms ease-out',
+                          }}
+                          onMouseEnter={() => setHoverArea(area)}
+                          onMouseLeave={() => setHoverArea(null)}
+                          onClick={() => onAreaClick(area)}
+                        >
+                          <title>{title}</title>
+                        </path>
+                        {premiumStripe ? (
+                          <path
+                            d={d}
+                            fill="#6D28D9"
+                            fillOpacity={isHover ? 0.35 : 0.28}
+                            stroke="none"
+                            style={{ pointerEvents: 'none' }}
+                          />
+                        ) : null}
+                      </g>
                     );
                   })}
                 </g>
@@ -823,6 +857,23 @@ export function TerritoryMap({ areas }: Props) {
                             {text}
                           </text>
                         </g>
+                        {status?.status === 'promotional' && status.promotionExpiresAt ? (
+                          <foreignObject
+                            x={-56}
+                            y={heightPx / 2 + 4}
+                            width={112}
+                            height={40}
+                          >
+                            <div className="flex justify-center text-[10px] leading-tight text-brand-navy">
+                              <div className="rounded border border-brand-gold/40 bg-white/95 px-1.5 py-0.5 shadow-sm">
+                                <PromotionCountdown
+                                  expiresAt={status.promotionExpiresAt}
+                                  onExpired={() => router.refresh()}
+                                />
+                              </div>
+                            </div>
+                          </foreignObject>
+                        ) : null}
                       </g>
                     );
                   })}
@@ -849,6 +900,14 @@ export function TerritoryMap({ areas }: Props) {
                   aria-hidden="true"
                 />
                 Seats available (premium)
+              </li>
+              <li className="flex items-center gap-2">
+                <span
+                  className="inline-block h-3 w-3 rounded-sm"
+                  style={{ backgroundColor: STATUS_FILL.promotional }}
+                  aria-hidden="true"
+                />
+                Limited-time offer (gold)
               </li>
               <li className="flex items-center gap-2">
                 <span

@@ -164,6 +164,24 @@ export default async function TerritoryAdminApplicationDetailPage({
                   <dd className="text-slate-800">{formatDateTime(seat.pending_until)}</dd>
                 </>
               ) : null}
+              <dt className="text-slate-500">Locked monthly (at submit)</dt>
+              <dd className="text-slate-800">
+                {a.locked_monthly_price_gbp != null
+                  ? `£${Number(a.locked_monthly_price_gbp).toFixed(2)}`
+                  : '—'}
+              </dd>
+              <dt className="text-slate-500">Locked setup fee (at submit)</dt>
+              <dd className="text-slate-800">
+                {a.locked_setup_fee_gbp != null
+                  ? `£${Number(a.locked_setup_fee_gbp).toFixed(2)}`
+                  : '—'}
+              </dd>
+              <dt className="text-slate-500">Locked promotion ID</dt>
+              <dd className="text-slate-800 font-mono text-xs break-all">
+                {a.locked_promotion_id ?? '—'}
+              </dd>
+              <dt className="text-slate-500">Price locked at</dt>
+              <dd className="text-slate-800">{formatDateTime(a.locked_at)}</dd>
             </dl>
           </div>
 

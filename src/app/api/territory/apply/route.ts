@@ -41,6 +41,7 @@ import {
   getSeatFullById,
   hasRecentApplicationByEmail,
 } from '@/lib/territory/queries';
+import { resolvePriceLockForPostcode } from '@/lib/territory/postcodePricing';
 import {
   normalisePostcode,
   isPlausibleUkPostcode,
@@ -138,6 +139,11 @@ export async function POST(request: NextRequest) {
   if (data.entryType === 'seat') {
     let seatResult: { applicationId: string; pendingUntil: string } | null;
     try {
+      const seatPreview = await getSeatFullById(data.seatId);
+      if (!seatPreview || seatPreview.state !== 'available') {
+        return NextResponse.json({ error: 'seat_unavailable' }, { status: 409 });
+      }
+      const priceLock = await resolvePriceLockForPostcode(seatPreview.postcode_district);
       seatResult = await createApplication({
         seatId: data.seatId,
         firmName: data.firmName,
@@ -150,6 +156,9 @@ export async function POST(request: NextRequest) {
         sectorSlug: data.sectorSlug,
         aiVisibilityApproach: data.aiVisibilityApproach ?? null,
         additionalContext: data.additionalContext ?? null,
+        lockedMonthlyPriceGbp: priceLock.lockedMonthlyPriceGbp,
+        lockedSetupFeeGbp: priceLock.lockedSetupFeeGbp,
+        lockedPromotionId: priceLock.lockedPromotionId,
       });
     } catch (err) {
       console.error('[territory/apply] createApplication failed:', err);
@@ -239,6 +248,7 @@ export async function POST(request: NextRequest) {
 
     let sectorResult: { applicationId: string };
     try {
+      const priceLock = await resolvePriceLockForPostcode(requestedPostcodeDistrict);
       sectorResult = await createSectorApplication({
         firmName: data.firmName,
         contactName: data.contactName,
@@ -251,6 +261,9 @@ export async function POST(request: NextRequest) {
         requestedPostcodeDistrict,
         aiVisibilityApproach: data.aiVisibilityApproach ?? null,
         additionalContext: data.additionalContext ?? null,
+        lockedMonthlyPriceGbp: priceLock.lockedMonthlyPriceGbp,
+        lockedSetupFeeGbp: priceLock.lockedSetupFeeGbp,
+        lockedPromotionId: priceLock.lockedPromotionId,
       });
     } catch (err) {
       console.error('[territory/apply] createSectorApplication failed:', err);
@@ -314,6 +327,7 @@ export async function POST(request: NextRequest) {
   // -------------------------------------------------------------------------
   let freeformResult: { applicationId: string };
   try {
+    const priceLock = await resolvePriceLockForPostcode(requestedPostcodeDistrict);
     freeformResult = await createFreeformApplication({
       firmName: data.firmName,
       contactName: data.contactName,
@@ -326,6 +340,9 @@ export async function POST(request: NextRequest) {
       freeformIndustry: data.freeformIndustry,
       aiVisibilityApproach: data.aiVisibilityApproach ?? null,
       additionalContext: data.additionalContext ?? null,
+      lockedMonthlyPriceGbp: priceLock.lockedMonthlyPriceGbp,
+      lockedSetupFeeGbp: priceLock.lockedSetupFeeGbp,
+      lockedPromotionId: priceLock.lockedPromotionId,
     });
   } catch (err) {
     console.error('[territory/apply] createFreeformApplication failed:', err);
