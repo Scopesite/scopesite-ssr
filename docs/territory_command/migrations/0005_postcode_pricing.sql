@@ -54,6 +54,8 @@ WHERE monthly_price_gbp IS NULL
    OR setup_fee_gbp IS NULL;
 
 -- Recreate view: pricing columns come from territories; tier display uses territory tier.
+DROP VIEW IF EXISTS territory.v_seats_full;
+
 CREATE OR REPLACE VIEW territory.v_seats_full AS
 SELECT
   s.id AS seat_id,
