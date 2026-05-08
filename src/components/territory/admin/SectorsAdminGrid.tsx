@@ -249,25 +249,27 @@ export function SectorsAdminGrid({ grouped }: Props) {
                   type="button"
                   variant="outline"
                   size="sm"
-                  className="border-slate-300 text-brand-navy"
+                  className="border-slate-300 text-brand-navy h-auto min-h-9 max-w-full whitespace-normal text-left justify-center sm:max-w-[22rem] py-2 leading-snug"
                   disabled={bulkDisabled}
+                  title={`Activate all sectors in ${category}`}
                   onClick={() =>
                     tryBulk('activate', { category }, nInactive, category)
                   }
                 >
-                  Activate all in category
+                  Activate all in {category}
                 </Button>
                 <Button
                   type="button"
                   variant="outline"
                   size="sm"
-                  className="border-slate-300 text-brand-navy"
+                  className="border-slate-300 text-brand-navy h-auto min-h-9 max-w-full whitespace-normal text-left justify-center sm:max-w-[22rem] py-2 leading-snug"
                   disabled={bulkDisabled}
+                  title={`Deactivate all sectors in ${category}`}
                   onClick={() =>
                     tryBulk('deactivate', { category }, nActive, category)
                   }
                 >
-                  Deactivate all in category
+                  Deactivate all in {category}
                 </Button>
               </div>
             </div>
