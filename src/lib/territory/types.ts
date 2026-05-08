@@ -5,6 +5,8 @@
  * No runtime logic. Pure types only.
  */
 
+import type { PostcodeDisplayState } from './postcodePricingLogic';
+
 export type SeatState = 'available' | 'pending' | 'claimed' | 'not_active';
 export type Tier = 'standard' | 'premium';
 export type ApplicationStatus = 'received' | 'qualified' | 'declined' | 'converted' | 'expired';
@@ -203,7 +205,10 @@ export interface SeatFull {
   area_average_voice_score: number | null;
 }
 
-/** Discriminated union returned by checkAvailability(). */
+/**
+ * Discriminated union returned by checkAvailability().
+ * `postcodeDisplayState` mirrors getPostcodeDisplayState (promo-aware pricing for UI).
+ */
 export type AvailabilityResult =
   | {
       state: 'available' | 'pending' | 'claimed' | 'not_active';
@@ -219,6 +224,7 @@ export type AvailabilityResult =
       monthlyPriceGbp: number;
       setupFeeGbp: number;
       pendingUntil: string | null;
+      postcodeDisplayState: PostcodeDisplayState;
       areaIntelligence: {
         firmCount: number;
         aiVisibleCount: number;

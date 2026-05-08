@@ -12,6 +12,10 @@ import { FinalCTA } from '@/components/territory/FinalCTA';
 import { AreaWaitlistForm } from '@/components/territory/AreaWaitlistForm';
 import { PilotCheckerModal } from '@/components/territory/PilotCheckerModal';
 import { SchemaOrgMarkup } from '@/components/territory/SchemaOrgMarkup';
+import {
+  getFeaturedSectors,
+  getAllSectorsForBrowse,
+} from '@/lib/territory/queries';
 import { getSiteBanner } from '@/lib/territory/siteConfig';
 import { buildAreaAvailability } from '@/lib/territory/map-builder';
 
