@@ -4,12 +4,12 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { HERO } from '@/lib/territory/copy';
 import type { AvailabilityResult, SectorTile } from '@/lib/territory/types';
+import { normalisePostcode, validateUkPostcodeLive } from '@/lib/territory/postcode';
 import {
-  normalisePostcode,
-  isPlausibleUkPostcode,
-  isPostcodeDistrictOnly,
-  validateUkPostcodeLive,
-} from '@/lib/territory/postcode';
+  extractPostcodeArea,
+  isValidUkPostcodeInput,
+  shouldSkipPostcodesIoLiveValidation,
+} from '@/lib/territory/postcodeNormalize';
 import { emitOpenAreaWaitlist } from '@/lib/territory/events';
 import { IndustrySearch, type IndustryValue } from './IndustrySearch';
 import { WaitlistForm } from './WaitlistForm';
@@ -55,7 +55,7 @@ export function TerritoryChecker({
       // Auto-fire Check when the user already has a plausible postcode so
       // the chip acts as a one-tap quick pick.
       const normalised = normalisePostcode(postcode);
-      if (normalised && isPlausibleUkPostcode(normalised)) {
+      if (normalised && isValidUkPostcodeInput(normalised)) {
         window.setTimeout(() => formRef.current?.requestSubmit(), 0);
       }
     },
@@ -68,7 +68,7 @@ export function TerritoryChecker({
     setIndustryError(null);
 
     const normalised = normalisePostcode(postcode);
-    if (!normalised || !isPlausibleUkPostcode(normalised)) {
+    if (!normalised || !isValidUkPostcodeInput(normalised)) {
       setPostcodeError(HERO.invalidPostcode);
       return;
     }
@@ -98,7 +98,7 @@ export function TerritoryChecker({
       // and returns false for district-only inputs like "BS20". Map boundary
       // clicks always prefill a district, so for those we trust our own
       // regex (isPlausibleUkPostcode above) and skip the round-trip.
-      const districtOnly = isPostcodeDistrictOnly(normalised);
+      const skipLiveValidate = shouldSkipPostcodesIoLiveValidation(normalised);
       const [checkRes, postcodeOk] = await Promise.all([
         fetch('/api/territory/check', {
           method: 'POST',
@@ -108,7 +108,7 @@ export function TerritoryChecker({
             sectorSlug: industry.slug,
           }),
         }),
-        districtOnly ? Promise.resolve(true) : validateUkPostcodeLive(normalised),
+        skipLiveValidate ? Promise.resolve(true) : validateUkPostcodeLive(normalised),
       ]);
       const data = (await checkRes.json()) as {
         ok: boolean;
@@ -127,7 +127,7 @@ export function TerritoryChecker({
         if (postcodeOk) {
           emitOpenAreaWaitlist({
             entrySource: 'postcode_not_in_pilot',
-            postcode: normalised,
+            postcode: extractPostcodeArea(normalised) ?? normalised,
             sectorSlug: industry.slug,
           });
           return;

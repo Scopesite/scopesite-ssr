@@ -56,6 +56,7 @@ async function fetchPostcodeDisplayStateRaw(
     ) p ON TRUE
     WHERE UPPER(t.postcode) = ${key}
        OR UPPER(t.postcode_district) = ${key}
+       OR UPPER(t.postcode_area) = ${key}
     ORDER BY LENGTH(t.postcode) ASC
     LIMIT 1
   `) as Array<{

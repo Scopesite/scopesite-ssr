@@ -9,7 +9,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { getAreaWaitlistQueueSize } from '@/lib/territory/queries';
-import { isPlausibleUkPostcode, normalisePostcode } from '@/lib/territory/postcode';
+import { normalisePostcode } from '@/lib/territory/postcode';
+import {
+  extractPostcodeArea,
+  isValidUkPostcodeInput,
+} from '@/lib/territory/postcodeNormalize';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -29,14 +33,16 @@ export async function GET(request: NextRequest) {
   }
 
   const normalised = normalisePostcode(parsed.data.postcode);
-  if (!isPlausibleUkPostcode(normalised)) {
+  if (!isValidUkPostcodeInput(normalised)) {
     return NextResponse.json({ error: 'Invalid postcode' }, { status: 400 });
   }
 
+  const areaKey = extractPostcodeArea(normalised) ?? normalised;
+
   try {
-    const currentQueueSize = await getAreaWaitlistQueueSize(normalised);
+    const currentQueueSize = await getAreaWaitlistQueueSize(areaKey);
     return NextResponse.json(
-      { ok: true, currentQueueSize, postcode: normalised },
+      { ok: true, currentQueueSize, postcode: areaKey },
       {
         headers: {
           'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
