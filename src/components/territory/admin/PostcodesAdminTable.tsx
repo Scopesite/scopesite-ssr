@@ -2,11 +2,11 @@
 
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
-import type { AdminTerritoryRow } from '@/lib/territory/queries';
+import type { AdminPostcodeListRow } from '@/lib/territory/postcodePricing';
 import { PromotionCountdown } from '@/components/territory/PromotionCountdown';
 import { Button } from '@/components/ui/button';
 
-type Row = AdminTerritoryRow;
+type Row = AdminPostcodeListRow;
 
 interface Props {
   rows: Row[];
@@ -243,7 +243,7 @@ export function PostcodesAdminTable({ rows }: Props) {
       ) : null}
 
       <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
-        <table className="min-w-[1100px] w-full text-sm">
+        <table className="min-w-[1280px] w-full text-sm">
           <thead className="bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
             <tr>
               <th className="px-3 py-2 font-medium">Postcode</th>
@@ -251,6 +251,7 @@ export function PostcodesAdminTable({ rows }: Props) {
               <th className="px-3 py-2 font-medium">Tier</th>
               <th className="px-3 py-2 font-medium">Monthly £</th>
               <th className="px-3 py-2 font-medium">Setup £</th>
+              <th className="px-3 py-2 font-medium">Live shown</th>
               <th className="px-3 py-2 font-medium">Active</th>
               <th className="px-3 py-2 font-medium">Promotion</th>
               <th className="px-3 py-2 font-medium">Actions</th>
@@ -274,7 +275,7 @@ export function PostcodesAdminTable({ rows }: Props) {
                     <div>{row.town_name ?? '—'}</div>
                     <div className="text-xs text-slate-500">{row.county ?? ''}</div>
                   </td>
-                  <td className="px-3 py-3" colSpan={6}>
+                  <td className="px-3 py-3" colSpan={7}>
                     <form
                       className="flex flex-col gap-3 lg:flex-row lg:flex-wrap lg:items-end"
                       onSubmit={(ev) => {
@@ -317,6 +318,34 @@ export function PostcodesAdminTable({ rows }: Props) {
                           className="w-28 rounded-md border border-slate-300 px-2 py-1.5 text-sm"
                         />
                       </label>
+                      <div className="flex flex-col gap-1 text-xs text-slate-600">
+                        <span>Live shown</span>
+                        <div className="w-32 rounded-md border border-dashed border-slate-200 bg-slate-50 px-2 py-1.5 text-sm min-h-[2.5rem] flex flex-col justify-center leading-tight">
+                          {row.has_active_promotion && row.promotion_expires_at ? (
+                            <>
+                              <span className="font-bold text-brand-gold-accessible">
+                                £{row.liveDisplayedMonthlyGbp.toFixed(0)}/mo
+                              </span>
+                              {row.monthly_price_gbp != null ? (
+                                <span className="text-[11px] text-slate-500 line-through">
+                                  £{row.monthly_price_gbp.toFixed(0)}/mo
+                                </span>
+                              ) : null}
+                              <span className="text-[11px] text-slate-500 mt-1 tabular-nums">
+                                Ends in{' '}
+                                <PromotionCountdown
+                                  expiresAt={row.promotion_expires_at}
+                                  onExpired={refresh}
+                                />
+                              </span>
+                            </>
+                          ) : (
+                            <span className="text-slate-800">
+                              £{row.liveDisplayedMonthlyGbp.toFixed(0)}/mo
+                            </span>
+                          )}
+                        </div>
+                      </div>
                       <label className="flex items-center gap-2 text-xs text-slate-600 lg:pb-2">
                         <input
                           name="is_active"
@@ -326,56 +355,77 @@ export function PostcodesAdminTable({ rows }: Props) {
                         />
                         Active
                       </label>
-                      <div className="flex flex-1 flex-wrap items-center gap-2 lg:justify-end">
-                        {row.has_active_promotion && row.promotion_expires_at ? (
-                          <span className="inline-flex flex-wrap items-center gap-2 rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-900">
-                            Live ·{' '}
-                            <PromotionCountdown
-                              expiresAt={row.promotion_expires_at}
-                              onExpired={refresh}
-                            />
-                          </span>
-                        ) : (
-                          <span className="text-xs text-slate-500">No promotion</span>
-                        )}
-                        {row.has_active_promotion ? (
-                          <>
+                      <div className="flex flex-1 flex-col gap-2 lg:min-w-[260px] lg:items-end">
+                        <div className="flex w-full flex-col gap-2 lg:items-end">
+                          {row.has_active_promotion &&
+                          row.promotional_monthly_price_gbp != null &&
+                          row.origin_monthly_price_gbp != null ? (
+                            <div className="flex w-full flex-col gap-1 lg:items-end">
+                              <div className="flex flex-wrap items-center justify-end gap-2">
+                                <span className="inline-flex items-center rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-900">
+                                  Live
+                                </span>
+                                <span className="text-sm font-semibold text-brand-navy">
+                                  £{row.promotional_monthly_price_gbp.toFixed(0)}/mo{' '}
+                                  <span className="font-normal text-slate-600">
+                                    (was £{row.origin_monthly_price_gbp.toFixed(0)})
+                                  </span>
+                                </span>
+                              </div>
+                              {row.promotion_expires_at ? (
+                                <p className="text-right text-xs text-slate-500">
+                                  Expires in{' '}
+                                  <PromotionCountdown
+                                    expiresAt={row.promotion_expires_at}
+                                    onExpired={refresh}
+                                  />
+                                </p>
+                              ) : null}
+                            </div>
+                          ) : (
+                            <span className="text-right text-xs text-slate-500">No promotion</span>
+                          )}
+                        </div>
+                        <div className="flex w-full flex-wrap items-center justify-end gap-2">
+                          {row.has_active_promotion ? (
+                            <>
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                disabled={!!busyKey}
+                                onClick={() => setCopyRow(row)}
+                              >
+                                Edit copy
+                              </Button>
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                disabled={busyKey === `cancel-${row.postcode}`}
+                                onClick={() => void onCancelPromo(row)}
+                              >
+                                Cancel promotion
+                              </Button>
+                            </>
+                          ) : (
                             <Button
                               type="button"
                               variant="outline"
                               size="sm"
                               disabled={!!busyKey}
-                              onClick={() => setCopyRow(row)}
+                              onClick={() => {
+                                setPromoHours(24);
+                                setPromoRow(row);
+                              }}
                             >
-                              Edit copy
+                              Start promotion
                             </Button>
-                            <Button
-                              type="button"
-                              variant="outline"
-                              size="sm"
-                              disabled={busyKey === `cancel-${row.postcode}`}
-                              onClick={() => void onCancelPromo(row)}
-                            >
-                              Cancel promotion
-                            </Button>
-                          </>
-                        ) : (
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="sm"
-                            disabled={!!busyKey}
-                            onClick={() => {
-                              setPromoHours(24);
-                              setPromoRow(row);
-                            }}
-                          >
-                            Start promotion
+                          )}
+                          <Button type="submit" variant="brand" size="sm" disabled={busy}>
+                            Save row
                           </Button>
-                        )}
-                        <Button type="submit" variant="brand" size="sm" disabled={busy}>
-                          Save row
-                        </Button>
+                        </div>
                       </div>
                     </form>
                   </td>

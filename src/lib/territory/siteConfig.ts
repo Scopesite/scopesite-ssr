@@ -2,17 +2,14 @@ import 'server-only';
 
 import { unstable_cache } from 'next/cache';
 import { getDb } from './db';
+import {
+  assertValidBannerCtaUrl,
+  DEFAULT_SITE_BANNER_ROW,
+  type SiteBannerRow,
+} from './siteBannerShared';
 
-export type SiteBannerRow = {
-  bannerEnabled: boolean;
-  bannerHeadline: string | null;
-  bannerDescription: string | null;
-  bannerCtaLabel: string | null;
-  bannerCtaUrl: string | null;
-  updatedAt: string;
-  updatedBy: string | null;
-};
-
+export type { SiteBannerRow };
+export { assertValidBannerCtaUrl, DEFAULT_SITE_BANNER_ROW };
 function rowFromDb(r: {
   banner_enabled: boolean;
   banner_headline: string | null;
@@ -63,15 +60,7 @@ async function fetchSiteBannerRaw(): Promise<SiteBannerRow> {
   }>;
   const r = rows[0];
   if (!r) {
-    return {
-      bannerEnabled: false,
-      bannerHeadline: null,
-      bannerDescription: null,
-      bannerCtaLabel: null,
-      bannerCtaUrl: null,
-      updatedAt: new Date(0).toISOString(),
-      updatedBy: null,
-    };
+    return DEFAULT_SITE_BANNER_ROW;
   }
   return rowFromDb(r);
 }
@@ -98,20 +87,6 @@ function normaliseOptionalText(v: string | null | undefined, maxLen: number): st
   const t = (v ?? '').trim();
   if (!t) return null;
   return t.length > maxLen ? t.slice(0, maxLen) : t;
-}
-
-/** Require http(s) URL when non-empty. */
-export function assertValidBannerCtaUrl(url: string | null): void {
-  if (url === null || url.trim() === '') return;
-  let parsed: URL;
-  try {
-    parsed = new URL(url.trim());
-  } catch {
-    throw new Error('CTA URL must be a valid http or https URL.');
-  }
-  if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
-    throw new Error('CTA URL must use http or https.');
-  }
 }
 
 export async function updateSiteBanner(input: SiteBannerUpdateInput): Promise<SiteBannerRow> {

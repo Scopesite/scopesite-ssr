@@ -8,8 +8,15 @@ import {
   type PostcodeDisplayState,
   toNumberGbp,
 } from './postcodePricingLogic';
+import {
+  mapQueryRowToAdminPostcodeListRow,
+  type AdminPostcodeListRow,
+  type AdminPostcodeQueryRow,
+} from './postcodeAdminRows';
 
 export type { PostcodeDisplayState };
+export type { AdminPostcodeListRow, AdminPostcodeQueryRow };
+export { mapQueryRowToAdminPostcodeListRow };
 
 export async function getPostcodeDisplayStateUncached(
   postcode: string,
@@ -161,4 +168,77 @@ export async function resolvePriceLockForPostcode(
     };
   }
   return priceLockFromDisplayState(state);
+}
+
+// ---------------------------------------------------------------------------
+// ADMIN: postcodes list (single query + display-state mapping)
+// ---------------------------------------------------------------------------
+
+export async function getAdminPostcodeRows(filters: {
+  q?: string;
+  tier?: 'all' | 'standard' | 'premium';
+  promotion?: 'all' | 'active' | 'none';
+  limit?: number;
+  offset?: number;
+}): Promise<AdminPostcodeListRow[]> {
+  const sql = getDb();
+  const limit = Math.min(Math.max(filters.limit ?? 200, 1), 500);
+  const offset = Math.max(filters.offset ?? 0, 0);
+  const q = (filters.q ?? '').trim();
+  const tier = filters.tier ?? 'all';
+  const prom = filters.promotion ?? 'all';
+
+  const rows = (await sql`
+    SELECT
+      t.id,
+      t.postcode,
+      t.postcode_area,
+      t.postcode_district,
+      t.town_name,
+      t.county,
+      t.tier::text AS tier,
+      t.is_active,
+      t.monthly_price_gbp,
+      t.setup_fee_gbp,
+      (p.id IS NOT NULL) AS has_active_promotion,
+      p.expires_at::text AS promotion_expires_at,
+      p.id::text AS active_promotion_id,
+      p.headline AS promotion_headline,
+      p.description AS promotion_description,
+      p.promotional_monthly_price_gbp,
+      p.origin_monthly_price_gbp,
+      p.promotional_setup_fee_gbp,
+      p.origin_setup_fee_gbp,
+      p.origin_tier::text AS promotion_origin_tier
+    FROM territory.territories t
+    LEFT JOIN LATERAL (
+      SELECT *
+      FROM territory.postcode_promotions pr
+      WHERE pr.postcode = t.postcode
+        AND pr.expired = FALSE
+        AND pr.cancelled = FALSE
+        AND pr.expires_at > NOW()
+        AND pr.starts_at <= NOW()
+      ORDER BY pr.starts_at DESC
+      LIMIT 1
+    ) p ON TRUE
+    WHERE t.postcode = t.postcode_area
+      AND (${tier} = 'all' OR t.tier::text = ${tier})
+      AND (
+        ${prom} = 'all'
+        OR (${prom} = 'active' AND p.id IS NOT NULL)
+        OR (${prom} = 'none' AND p.id IS NULL)
+      )
+      AND (
+        ${q} = ''
+        OR UPPER(t.postcode) LIKE ${'%' + q.toUpperCase().replace(/%/g, '\\%').replace(/_/g, '\\_') + '%'}
+        OR UPPER(COALESCE(t.town_name, '')) LIKE ${'%' + q.toUpperCase().replace(/%/g, '\\%').replace(/_/g, '\\_') + '%'}
+        OR UPPER(COALESCE(t.county, '')) LIKE ${'%' + q.toUpperCase().replace(/%/g, '\\%').replace(/_/g, '\\_') + '%'}
+      )
+    ORDER BY t.postcode ASC
+    LIMIT ${limit}
+    OFFSET ${offset}
+  `) as AdminPostcodeQueryRow[];
+
+  return rows.map(mapQueryRowToAdminPostcodeListRow);
 }
