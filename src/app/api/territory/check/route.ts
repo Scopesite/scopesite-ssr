@@ -11,7 +11,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { checkAvailability } from '@/lib/territory/queries';
-import { normalisePostcode, isPlausibleUkPostcode } from '@/lib/territory/postcode';
+import { normalisePostcode } from '@/lib/territory/postcode';
+import { isValidUkPostcodeInput } from '@/lib/territory/postcodeNormalize';
 
 export const runtime = 'nodejs';
 
@@ -40,7 +41,7 @@ export async function POST(request: NextRequest) {
   }
 
   const postcode = normalisePostcode(parsed.data.postcode);
-  if (!isPlausibleUkPostcode(postcode)) {
+  if (!isValidUkPostcodeInput(postcode)) {
     return NextResponse.json(
       { ok: false, error: 'invalid_postcode' },
       { status: 400 },

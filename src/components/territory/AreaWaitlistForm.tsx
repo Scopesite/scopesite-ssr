@@ -8,7 +8,6 @@ import {
   AREA_WAITLIST_EVENT,
   type OpenAreaWaitlistDetail,
 } from '@/lib/territory/events';
-import { isReservePilotPostcode } from '@/lib/territory/pilot-postcodes';
 import type { SectorTile } from '@/lib/territory/types';
 import { IndustrySearch, type IndustryValue } from './IndustrySearch';
 import { Spinner } from './Spinner';
@@ -165,20 +164,14 @@ export function AreaWaitlistForm({ allSectorsByCategory }: Props) {
     }
   };
 
-  const isReserve = mode === 'postcode' && !!postcode && isReservePilotPostcode(postcode);
-
   const title =
     mode === 'region'
       ? `${AREA_WAITLIST.regionHeadlinePrefix}${regionLabel}`
-      : isReserve
-        ? `${postcode} ${AREA_WAITLIST.reserveHeadlineSuffix}`
-        : `${postcode} ${AREA_WAITLIST.nonPilotHeadlineSuffix}`;
+      : AREA_WAITLIST.postcodeWaitlistTitle(postcode);
   const subline =
     mode === 'region'
       ? AREA_WAITLIST.regionSubHeadline
-      : isReserve
-        ? AREA_WAITLIST.reserveSubHeadline(postcode)
-        : AREA_WAITLIST.nonPilotSubHeadline;
+      : AREA_WAITLIST.postcodeWaitlistSubline;
 
   // Pre-submit queue position copy.
   const queueLine: string | null = (() => {

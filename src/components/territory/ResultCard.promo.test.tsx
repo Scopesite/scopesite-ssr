@@ -1,8 +1,8 @@
 /**
  * @vitest-environment jsdom
  */
-import { describe, expect, it, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { describe, expect, it, vi, afterEach } from 'vitest';
+import { render, screen, cleanup } from '@testing-library/react';
 import type { AvailabilityResult } from '@/lib/territory/types';
 import { ResultCard } from './ResultCard';
 
@@ -38,6 +38,10 @@ const baseResult: Extract<
 };
 
 describe('ResultCard promotional block', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   it('renders promo headline, strike-through base, gold promo price, countdown when promotional', () => {
     const result: typeof baseResult = {
       ...baseResult,
@@ -70,10 +74,12 @@ describe('ResultCard promotional block', () => {
     expect(screen.getByText(/Ends in/i)).toBeTruthy();
   });
 
-  it('does not render promo block when not promotional', () => {
+  it('renders base monthly and setup when not promotional', () => {
     render(
       <ResultCard result={baseResult} onJoinWaitlist={() => {}} onReset={() => {}} />,
     );
+    expect(screen.getByText(/£500\/mo/)).toBeTruthy();
+    expect(screen.getByText(/£100 setup/)).toBeTruthy();
     expect(screen.queryByText(/Limited-time offer/i)).toBeNull();
   });
 });

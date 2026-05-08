@@ -10,7 +10,7 @@
  */
 
 import { getDb } from './db';
-import { normalisePostcode, toPostcodeDistrict } from './postcode';
+import { extractPostcodeArea } from './postcodeNormalize';
 import { deriveAreaAvailabilityStatus, buildPostcodeDisplayState } from './postcodePricingLogic';
 import { getPostcodeDisplayStateUncached } from './postcodePricing';
 import type {
@@ -45,7 +45,10 @@ export async function checkAvailability(
   sectorSlug: string,
 ): Promise<AvailabilityResult> {
   const sql = getDb();
-  const district = toPostcodeDistrict(postcode);
+  const areaKey = extractPostcodeArea(postcode);
+  if (!areaKey) {
+    return { state: 'territory_not_found' };
+  }
   const slug = sectorSlug.trim().toLowerCase();
 
   const rows = (await sql`
@@ -70,7 +73,13 @@ export async function checkAvailability(
     FROM territory.v_seats_full v
     LEFT JOIN territory.area_intelligence ai
       ON ai.territory_id = v.territory_id AND ai.sector_id = v.sector_id
-    WHERE UPPER(v.postcode_district) = UPPER(${district})
+    WHERE v.territory_id IN (
+        SELECT t2.id
+        FROM territory.territories t2
+        WHERE UPPER(t2.postcode_area) = UPPER(${areaKey})
+           OR UPPER(t2.postcode) = UPPER(${areaKey})
+           OR UPPER(t2.postcode_district) = UPPER(${areaKey})
+      )
       AND v.sector_slug = ${slug}
     LIMIT 1
   `) as Array<{
@@ -97,7 +106,9 @@ export async function checkAvailability(
     // Differentiate territory vs sector misses to inform area-waitlist flow.
     const territoryRows = (await sql`
       SELECT 1 FROM territory.territories
-      WHERE UPPER(postcode_district) = UPPER(${district})
+      WHERE UPPER(postcode_area) = UPPER(${areaKey})
+         OR UPPER(postcode) = UPPER(${areaKey})
+         OR UPPER(postcode_district) = UPPER(${areaKey})
       LIMIT 1
     `) as Array<{ '?column?': number }>;
     if (territoryRows.length === 0) {
@@ -114,11 +125,11 @@ export async function checkAvailability(
   }
 
   const r = rows[0];
-  const displayState = await getPostcodeDisplayStateUncached(r.postcode_district);
+  const displayState = await getPostcodeDisplayStateUncached(r.postcode);
   const postcodeDisplayState =
     displayState ??
     buildPostcodeDisplayState({
-      postcode: r.postcode_district,
+      postcode: r.postcode,
       tier: r.tier,
       monthlyPriceGbp: r.monthly_price_gbp,
       setupFeeGbp: r.setup_fee_gbp,
@@ -951,19 +962,24 @@ export async function createAreaWaitlistEntry(
 }
 
 /**
- * Current queue size for a postcode district (or full postcode), counting
- * only entries that have not yet been notified. Used by the public area
- * waitlist form to show "you will be position #(N+1)" before submission.
+ * Current queue size for a postcode area, counting only entries that have not
+ * yet been notified. Matches rows stored as the canonical area (e.g. `WV`)
+ * or as district / full fragments that resolve to the same area.
  */
-export async function getAreaWaitlistQueueSize(
-  requestedPostcode: string,
-): Promise<number> {
+export async function getAreaWaitlistQueueSize(areaKey: string): Promise<number> {
+  const k = areaKey.trim().toUpperCase();
+  const escaped = k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = `^${escaped}([0-9]|[[:space:]]|$)`;
   const sql = getDb();
   const rows = (await sql`
     SELECT COUNT(*)::int AS n
     FROM territory.area_waitlist
-    WHERE requested_postcode = ${requestedPostcode}
-      AND notified_at IS NULL
+    WHERE notified_at IS NULL
+      AND requested_postcode IS NOT NULL
+      AND (
+        UPPER(TRIM(requested_postcode)) = ${k}
+        OR UPPER(TRIM(requested_postcode)) ~ ${pattern}
+      )
   `) as Array<{ n: number }>;
   return rows[0]?.n ?? 0;
 }

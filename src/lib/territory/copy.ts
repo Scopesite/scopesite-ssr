@@ -225,6 +225,9 @@ export const WAITLIST_CONFIRMED = {
 export const AREA_WAITLIST = {
   regionHeadlinePrefix: 'Register interest in ',
   postcodeHeadlinePrefix: 'is a valid UK postcode',
+  postcodeWaitlistTitle: (area: string) => `Register interest — ${area}`,
+  postcodeWaitlistSubline:
+    'This area is not in our live pilot for your chosen industry yet. Tell us about your firm and we will confirm availability and next steps.',
   regionSubHeadline:
     'Tell us your firm and we will confirm what is available in this region.',
   postcodeSubHeadline:

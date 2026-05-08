@@ -12,7 +12,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createAreaWaitlistEntry, getSectorBySlug } from '@/lib/territory/queries';
-import { normalisePostcode, isPlausibleUkPostcode } from '@/lib/territory/postcode';
+import { normalisePostcode } from '@/lib/territory/postcode';
+import {
+  extractPostcodeArea,
+  isValidUkPostcodeInput,
+} from '@/lib/territory/postcodeNormalize';
 import { MAP_REGIONS } from '@/lib/territory/map-regions';
 import {
   sendAreaWaitlistAdminNotification,
@@ -88,13 +92,15 @@ export async function POST(request: NextRequest) {
   let postcode: string | null = null;
   if (data.postcode) {
     const p = normalisePostcode(data.postcode);
-    if (p && !isPlausibleUkPostcode(p)) {
+    if (p && !isValidUkPostcodeInput(p)) {
       return NextResponse.json(
         { error: 'Invalid postcode' },
         { status: 400 },
       );
     }
-    postcode = p || null;
+    if (p) {
+      postcode = extractPostcodeArea(p) ?? p;
+    }
   }
 
   let region: string | null = null;
