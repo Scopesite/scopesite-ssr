@@ -256,6 +256,11 @@ export function TerritoryMap({
     return out;
   }, []);
 
+  const promoRegionKeys = useMemo(
+    () => new Set(promotionRegionBadges.map((b) => b.region)),
+    [promotionRegionBadges],
+  );
+
   const targetBBox = useMemo<BBox>(() => {
     if (!zoomedRegion) return FULL_VIEWBOX;
     const base = aspectCorrect(bboxes[zoomedRegion], FULL_ASPECT);
@@ -479,11 +484,25 @@ export function TerritoryMap({
             tabIndex={0}
             onKeyDown={onWrapperKeyDown}
           >
+            <div
+              className="pointer-events-none absolute left-3 top-3 z-20 flex items-center gap-2 rounded-full border border-brand-gold bg-white px-2.5 py-1 shadow-md sm:left-4 sm:top-4"
+              role="status"
+              aria-label="Live territory data"
+            >
+              <span
+                className="h-2 w-2 shrink-0 rounded-full bg-[#22C55E] motion-safe:animate-live-map-dot-pulse motion-reduce:opacity-90"
+                aria-hidden
+              />
+              <span className="text-[10px] font-semibold uppercase tracking-wide text-brand-navy">
+                Live
+              </span>
+            </div>
+
             {zoomedRegion ? (
               <button
                 type="button"
                 onClick={resetToUK}
-                className="absolute left-5 top-5 z-10 inline-flex items-center gap-1.5 rounded-lg bg-brand-gold px-3 py-2 text-sm font-semibold text-brand-navy shadow-md hover:bg-brand-gold/90 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-left-2 motion-safe:duration-200"
+                className="absolute left-5 top-12 z-10 inline-flex items-center gap-1.5 rounded-lg bg-brand-gold px-3 py-2 text-sm font-semibold text-brand-navy shadow-md hover:bg-brand-gold/90 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-left-2 motion-safe:duration-200"
                 aria-label="Back to full UK view"
               >
                 <svg
@@ -683,8 +702,19 @@ export function TerritoryMap({
                   const isHover = hoverRegion === key && !zoomedRegion;
                   const isSelected = zoomedRegion === key;
                   const hidden = zoomedRegion !== null && !isSelected;
-                  const fill = isSelected ? '#0A1B36' : '#0A1B36';
-                  const opacity = isSelected ? 0.35 : isHover ? 0.9 : 0.75;
+                  const hasPromoAtUk =
+                    !zoomedRegion && promoRegionKeys.has(key);
+                  const fill = hasPromoAtUk ? '#D4AF37' : '#0A1B36';
+                  const showPromoPulse = hasPromoAtUk && !isHover;
+                  const pathOpacity = isSelected
+                    ? 0.35
+                    : isHover && hasPromoAtUk
+                      ? 0.95
+                      : isHover
+                        ? 0.9
+                        : showPromoPulse
+                          ? undefined
+                          : 0.75;
                   return (
                     <path
                       key={key}
@@ -694,13 +724,20 @@ export function TerritoryMap({
                       stroke="#ECB615"
                       strokeWidth={1.5}
                       vectorEffect="non-scaling-stroke"
-                      opacity={opacity}
+                      opacity={pathOpacity}
                       filter={!zoomedRegion ? 'url(#active-region-shadow)' : undefined}
+                      className={
+                        showPromoPulse
+                          ? 'motion-safe:animate-territory-promo-region-pulse motion-reduce:opacity-90'
+                          : undefined
+                      }
                       style={{
                         cursor: zoomedRegion ? 'default' : 'pointer',
                         display: hidden ? 'none' : undefined,
                         pointerEvents: zoomedRegion ? 'none' : 'auto',
-                        transition: 'opacity 150ms ease, fill 150ms ease',
+                        transition: showPromoPulse
+                          ? 'fill 150ms ease'
+                          : 'opacity 150ms ease, fill 150ms ease',
                       }}
                       onMouseEnter={() => {
                         if (!zoomedRegion) setHoverRegion(key);

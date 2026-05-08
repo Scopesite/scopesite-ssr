@@ -235,13 +235,24 @@ const config: Config = {
   					opacity: '1',
   					transform: 'translateX(0)'
   				}
-  			}
+  			},
+  			'territory-promo-region-pulse': {
+  				'0%, 100%': { opacity: '0.85' },
+  				'50%': { opacity: '1' },
+  			},
+  			'live-map-dot-pulse': {
+  				'0%, 100%': { opacity: '1' },
+  				'50%': { opacity: '0.65' },
+  			},
   		},
   		animation: {
   			'fade-in': 'fade-in 0.3s ease-out',
   			'slide-up': 'slide-up 0.4s ease-out',
   			'slide-down': 'slide-down 0.4s ease-out',
-  			'slide-in-right': 'slide-in-right 0.6s ease-out 0.2s both'
+  			'slide-in-right': 'slide-in-right 0.6s ease-out 0.2s both',
+  			'territory-promo-region-pulse':
+  				'territory-promo-region-pulse 2.5s ease-in-out infinite',
+  			'live-map-dot-pulse': 'live-map-dot-pulse 2s ease-in-out infinite',
   		}
   	}
   },
