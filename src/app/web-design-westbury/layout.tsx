@@ -46,7 +46,7 @@ export const metadata: Metadata = {
 
 const faqs: FAQItem[] = [
   { question: "Who is the best web designer near Westbury?", answer: "ScopeSite is based just 15 minutes away in Frome. We specialise in AI-optimised websites for local businesses, with 100/100 Lighthouse scores and structured schema markup as standard." },
-  { question: "How much does a website cost for a small business in Westbury?", answer: "Our packages start from £2,625 for a simple site. Most Westbury businesses invest between £5,000 and £9,000 depending on complexity. That's well below what Bath or Salisbury agencies charge." },
+  { question: "How much does a website cost for a small business in Westbury?", answer: "Published pricing starts at £1,875 or £2,000. Most Westbury projects land around £4,000 to £8,000. That is well below typical Bath or Salisbury quotes. Use our calculator for an exact figure." },
   { question: "Do you serve Wiltshire as well as Somerset?", answer: "Yes. Westbury sits right on the Somerset/Wiltshire border, and we serve businesses across both counties. We're based in Frome, which is just 15 minutes from Westbury along the A362." },
   { question: "What technology do you use?", answer: "We build on Next.js with server-side rendering. No WordPress, no page builders. This gives you sub-2-second load times, 100/100 Lighthouse scores, and proper AI visibility." },
   { question: "What is AI-optimised web design?", answer: "AI-optimised means your site is built with structured schema markup, server-side rendering, and content designed to be understood by AI platforms like ChatGPT and Google AI Overviews. It's how local businesses get found in 2026." },
@@ -78,7 +78,7 @@ const pageSchema = wrapInGraph([
     PAGE_URL,
     areasServed,
     [
-      { name: 'Simple Website', price: '2625' },
+      { name: 'Simple Website', price: '1875' },
       { name: 'Standard Website', price: '5625' },
       { name: 'Complex Website', price: '9375' },
     ]

@@ -14,11 +14,11 @@ import {
 
 const faqItems = [
   { question: "How is your SEO different from Bristol SEO agencies?", answer: "Most Bristol SEO agencies focus exclusively on Google rankings. We optimise for Google, ChatGPT, Perplexity, Claude, and voice assistants. Bristol's tech scene is competitive - AI visibility is the differentiator." },
-  { question: "What does SEO in Bristol cost?", answer: "Standalone SEO audits from £500. Ongoing SEO retainers from £300/month. We don't have Bristol office rent, so our rates are significantly below city agencies for the same (or better) work." },
-  { question: "Why hire a Somerset agency for Bristol SEO?", answer: "Because we deliver better technology at fairer rates. We're 40 minutes from Bristol, regularly in the city for meetings, and our V.O.I.C.E™ methodology is more advanced than what Bristol agencies offer." },
+  { question: "What does SEO in Bristol cost?", answer: "Standalone AI SEO uses a £750 setup and £500 per month on a 6- or 12-month commitment. We do not carry Bristol office rent, so you see fair numbers for the same work." },
+  { question: "Why hire a Somerset agency for Bristol SEO?", answer: "Because we deliver better technology at fairer rates. We're 40 minutes from Bristol, regularly in the city for meetings, and our AI visibility methodology is more advanced than what Bristol agencies offer." },
   { question: "Do you understand Bristol's market?", answer: "Yes. Bristol is a tech hub, creative capital, and competitive digital market. Startups, scale-ups, professional services, and creative agencies all need different SEO approaches. We've worked across all of them." },
   { question: "Can you help Bristol startups with SEO?", answer: "Absolutely. Startups need to build visibility fast without burning through their runway. AI SEO is often less competitive than traditional SEO, giving startups an edge established competitors haven't exploited yet." },
-  { question: "What's V.O.I.C.E. methodology?", answer: "V.O.I.C.E. stands for Visibility, Optimisation, for Intelligent, Crawler, Engines. It's our proprietary framework for making businesses visible to both traditional search engines and AI platforms." },
+  { question: "What's AI visibility methodology?", answer: "It is ScopeSite's practical framework for making businesses visible to Google and to AI platforms such as ChatGPT and Perplexity." },
   { question: "How long until I see results?", answer: "Technical SEO improvements show impact within weeks. Content-driven ranking improvements take 3-6 months. AI visibility improvements can happen within 4-8 weeks because the field is less competitive." },
   { question: "Do you guarantee rankings?", answer: "No. Anyone who guarantees rankings is lying. We guarantee technically sound implementation: validated schema, fast load times, proper site structure, and AI-readable content." },
   { question: "Will you meet Bristol clients in person?", answer: "Yes. We're in Bristol regularly and happy to meet at your office or a coffee shop. 40 minutes is nothing." },
@@ -42,7 +42,7 @@ const problemPoints = [
 
 const solutionFeatures = [
   { title: "Google + AI + Voice", description: "We optimise for every way Bristol customers search" },
-  { title: "V.O.I.C.E™ Methodology", description: "Proprietary framework for AI search visibility" },
+  { title: "AI visibility methodology", description: "Proprietary framework for AI search visibility" },
   { title: "Technical Foundation", description: "Schema markup, SSR, Core Web Vitals" },
   { title: "Transparent Reporting", description: "AI mention tracking, not just keyword positions" },
 ];
@@ -64,7 +64,7 @@ const whatYouGetCards = [
     iconNode: <Brain className="w-6 h-6 text-brand-gold" />,
     items: [
       "ChatGPT recommendation testing",
-      "V.O.I.C.E™ optimisation",
+      "AI SEO tuning",
       "AI crawler configuration",
       "Structured data engineering",
       "Voice search optimisation",
@@ -134,7 +134,7 @@ export default function SEOBristolPage() {
               But search has changed fundamentally.
             </p>
             <p>
-              ChatGPT handles over 100 million queries daily. Voice assistants field 58% of local searches. AI search platforms are deciding which Bristol businesses get recommended. ScopeSite delivers SEO services that cover the full picture: Google, AI platforms, and voice search. Based in Somerset, 40 minutes from Bristol, with V.O.I.C.E™ methodology that Bristol agencies can&apos;t match.
+              ChatGPT handles over 100 million queries daily. Voice assistants field 58% of local searches. AI search platforms are deciding which Bristol businesses get recommended. ScopeSite delivers SEO services that cover the full picture: Google, AI platforms, and voice search. Based in Somerset, 40 minutes from Bristol, with AI visibility methodology that Bristol agencies can&apos;t match.
             </p>
           </>
         }
@@ -152,7 +152,7 @@ export default function SEOBristolPage() {
 
       <LandingSolution
         title="SEO THAT MATCHES BRISTOL'S AMBITION"
-        intro="Our V.O.I.C.E™ methodology covers every search channel Bristol businesses need:"
+        intro="Our AI visibility methodology covers every search channel Bristol businesses need:"
         features={solutionFeatures}
         layout="table"
       />
@@ -180,7 +180,7 @@ export default function SEOBristolPage() {
       />
 
       <LandingCaseStudy 
-        title="V.O.I.C.E™ Gets Bristol Results"
+        title="AI visibility gets Bristol Results"
         quote="From invisible to #1 AI-recommended in 6 weeks - the approach Bristol's tech scene has been waiting for"
         theme="dark" 
       />
@@ -194,7 +194,7 @@ export default function SEOBristolPage() {
             href: "/web-design-bristol"
           },
           {
-            title: "V.O.I.C.E™ Methodology",
+            title: "AI visibility methodology",
             description: "Our AI visibility framework explained",
             href: "/voice"
           },

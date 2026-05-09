@@ -10,45 +10,49 @@ import {
   schemaAggregateOfferLowOnly,
 } from '@/lib/schema';
 import { getAlternates } from '@/lib/hreflang-map';
+import { PRICING_CONFIG } from '@/lib/pricing-config';
 
 const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/web-design`;
 
+const ULTRA_FAST_FROM = PRICING_CONFIG.ssrWebsite.base;
+const WIX_FROM = PRICING_CONFIG.baseWebsite.starter;
+
 export const metadata: Metadata = {
-  title: 'Web Design Somerset | SSR Websites | ScopeSite',
+  title: 'Web Design Somerset | Ultra Fast AI Visible Sites | ScopeSite',
   description:
-    'Professional web design in Somerset. Server-side rendered sites AI crawlers can see. 100/100 Lighthouse scores, auto-generated schema. Next.js experts.',
+    'Professional web design in Somerset. Sites built for speed and AI visibility, with top Google speed scores and facts auto-formatted for AI to read.',
   keywords: [
     'web design Somerset',
-    'SSR web design UK',
+    'AI visible website UK',
     'AI-optimised web design',
     'Next.js web design',
-    'server-side rendered websites',
+    'fast business websites',
     'GEO optimised websites',
     'websites visible to ChatGPT',
     'website designer Somerset',
     'AI crawler compatible websites',
   ],
   openGraph: {
-    title: 'Web Design Somerset | AI-Optimised SSR Websites | ScopeSite Digital Studios',
+    title: 'Web Design Somerset | Ultra Fast AI Visible Websites | ScopeSite Digital Studios',
     description:
-      'Professional web design in Somerset. Server-side rendered sites AI crawlers can see. 100/100 Lighthouse scores, auto-generated schema. Next.js experts.',
+      'Professional web design in Somerset. Sites built for speed and AI visibility, with strong speed scores and structured data.',
     url: PAGE_URL,
     images: [
       {
         url: `${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`,
         width: 1200,
         height: 630,
-        alt: 'Web Design Somerset - AI-Optimised SSR Websites by ScopeSite',
+        alt: 'Web Design Somerset, Ultra Fast AI visible websites by ScopeSite',
       },
     ],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Web Design Somerset | AI-Optimised SSR Websites | ScopeSite',
+    title: 'Web Design Somerset | Ultra Fast AI Visible Websites | ScopeSite',
     description:
-      'Professional web design in Somerset. Server-side rendered sites AI crawlers can see. 100/100 Lighthouse scores.',
+      'Professional web design in Somerset. Sites built for speed and AI visibility.',
     images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
   },
   alternates: getAlternates('/web-design', BASE_URL),
@@ -59,87 +63,88 @@ const faqItems = [
   {
     question: 'How long does it take to build a website?',
     answer:
-      "Most projects take 4-8 weeks from kickoff to launch. Simple brochure sites are faster; complex builds with custom features take longer. We'll give you an accurate timeline in your quote — and we stick to it.",
+      "Most projects take 4-8 weeks from kickoff to launch. Simple brochure sites are faster. Complex builds with custom features take longer. We give you an accurate timeline in your quote, and we stick to it.",
   },
   {
     question: 'How much does a website cost?',
     answer:
-      "Our websites start from £8,000 for established businesses. We also offer monthly payment plans with no credit checks and no interest — spreading the cost over 6, 12, or 24 months. You'll get an instant quote in under 2 minutes on our pricing page.",
+      `Client-managed Wix builds start from £${WIX_FROM.toLocaleString('en-GB')} (up to 5 pages, you manage content after launch). Our Ultra Fast AI visible premium builds start from £${ULTRA_FAST_FROM.toLocaleString('en-GB')} for up to 5 pages, with a published cap of £8,000 before we scope enterprise separately. Payment plans run over 6, 12, 24, or 36 months when you qualify, with no credit checks and no interest. You get an instant quote on our pricing page in under two minutes.`,
   },
   {
     question: "What if I'm not happy with the design?",
     answer:
-      "We build in stages with feedback checkpoints, so you're never surprised by a finished product you hate. If something's not right, we fix it. We're not done until you're genuinely happy — that's not a slogan, it's how we work.",
+      "We build in stages with feedback checkpoints, so you're never surprised by a finished product you hate. If something is not right, we fix it. We are not done until you are genuinely happy. That is how we work.",
   },
   {
     question: 'What happens after my website launches?',
     answer:
-      "We don't disappear. All packages include ongoing maintenance, security patches, performance monitoring, and support when you need changes. You focus on your business; we keep your site running perfectly.",
+      "We do not disappear. All packages include ongoing maintenance, security patches, performance monitoring, and support when you need changes. You focus on your business. We keep your site running.",
   },
   {
     question: 'Do I need to provide all the content?',
     answer:
-      "We work with whatever you've got. Content ready? Great. Nothing prepared? We offer copywriting services or can guide you through exactly what's needed. Most clients land somewhere in the middle.",
+      "We work with whatever you have got. Content ready? Great. Nothing prepared? We offer copywriting services or can guide you through exactly what is needed. Most clients land somewhere in the middle.",
   },
   {
     question: 'Will my website work on mobile?',
     answer:
-      "We design mobile-first — over 60% of traffic is on phones now. Your site will look and perform brilliantly on everything from an iPhone SE to a 4K monitor.",
+      "We design mobile-first. Over 60% of traffic is on phones now. Your site will look and perform well on everything from an iPhone SE to a 4K monitor.",
   },
   {
     question: 'What about hosting and domains?',
     answer:
-      "Included. Your site runs on Vercel's global edge network — the same infrastructure behind Stripe, Notion, and Nike. We handle domains, SSL certificates, and ongoing maintenance. No hidden hosting fees.",
+      "Included. Your site runs on Vercel's global edge network, the same infrastructure behind Stripe, Notion, and Nike. We handle domains, SSL certificates, and ongoing maintenance. No hidden hosting fees.",
   },
   {
     question: 'Can you help with SEO and AI visibility?',
     answer:
-      "Every site has bulletproof technical SEO built in — proper meta tags, structured data, XML sitemaps, optimised images, fast load times. For ongoing content strategy and getting recommended by ChatGPT, Claude, and Perplexity, check out our V.O.I.C.E™ service.",
+      "Every site has strong technical SEO built in: meta tags, structured data, XML sitemaps, optimised images, fast load times. For ongoing AI SEO and getting recommended by ChatGPT, Claude, and Perplexity, see our AI SEO retainer and scan tools.",
   },
   {
     question: 'What technology do you use and why does it matter?',
     answer:
-      "We build with Next.js and deploy on Vercel's edge network. Unlike WordPress or Wix sites, ours are Server-Side Rendered, meaning AI crawlers can actually read your content. This is why our clients show up when someone asks ChatGPT for recommendations. The tech matters, but only because of what it delivers: speed, visibility, and results.",
+      "We build with Next.js and deploy on Vercel's edge network. Your full page is built for speed and AI visibility, so crawlers get readable HTML without fighting through empty shells. That is why our clients show up when someone asks an AI for recommendations.",
   },
   {
     question: 'How much should a website cost in the UK in 2026?',
     answer:
-      'It depends on what you need. Template sites (Wix, Squarespace) cost £500-£2,000. Custom WordPress builds run £3,000-£10,000. Server-side rendered Next.js sites (what ScopeSite builds) range from £2,625-£15,000+. The price difference reflects the technology. SSR sites score 100/100 on Lighthouse, load in under a second, and are readable by AI crawlers. Template sites cannot match this. The investment in SSR pays back through better search rankings and AI recommendations.',
+      `It depends what you need. DIY template sites often land around £500 to £2,000. Custom WordPress builds often run £3,000 to £10,000. Our published ScopeSite range starts at £${WIX_FROM.toLocaleString('en-GB')} for small client-managed sites and £${ULTRA_FAST_FROM.toLocaleString('en-GB')} for Ultra Fast AI visible premium builds (up to £8,000 on standard pricing before enterprise scoping). Use the calculator for an exact figure.`,
   },
   {
     question: 'What is the difference between a template website and a custom website?',
     answer:
-      'Template sites (Wix, Squarespace, WordPress themes) use pre-built layouts with limited customisation. They rely on client-side JavaScript that AI crawlers cannot read. Custom SSR websites are built from scratch using Next.js, delivering complete HTML to every visitor and crawler. This means faster load times, full control over schema markup, and genuine AI visibility. Template sites work for hobby projects. Businesses that want to be found by AI need custom builds.',
+      'Template sites use pre-built layouts with limited customisation. Many lean on client-side JavaScript that AI crawlers struggle to read. Our Ultra Fast builds deliver complete HTML to visitors and crawlers, with structured facts and fast load times. Templates can work for hobbies. If you want AI and Google to trust you, you want a proper build.',
   },
   {
-    question: 'Why is SSR (server-side rendering) better for SEO?',
+    question: 'Why is an Ultra Fast build better for SEO and AI visibility?',
     answer:
-      'When Google or an AI crawler visits a client-side rendered site (React SPA, most WordPress themes), they receive an empty HTML shell and must execute JavaScript to see content. Many crawlers skip this step entirely. SSR delivers complete HTML on every request. Google can read it immediately. AI crawlers like GPTBot and PerplexityBot can parse it without executing scripts. The result: faster indexing, better rankings, and AI recommendations.',
+      'When a crawler hits a thin client-side page, it often sees an empty shell. Our builds send full HTML on each request. Google can read it fast. AI crawlers can parse it without running heavy scripts. That means faster indexing, stronger rankings, and more chances to be cited.',
   },
   {
     question: 'Do I need a website if I have social media?',
     answer:
-      'Yes. AI chatbots cannot recommend your Instagram page or Facebook profile. When someone asks ChatGPT "Who is the best plumber near me?", it pulls from websites with structured data, not social media posts. Your social presence supports your brand, but your website is what AI systems reference. Without a website with proper schema markup, you are invisible to the fastest-growing search channel.',
+      'Yes. AI chatbots cannot recommend your Instagram page or Facebook profile the same way they cite a website. When someone asks for the best plumber nearby, they pull from sites with structured facts, not social posts. Your social channels support your brand. Your website is what AI systems reference.',
   },
 ];
 
-// Service offerings - updated for SSR focus
 const serviceOfferings = [
   {
-    name: 'SSR Brochure Websites',
-    description: 'Server-side rendered 5-10 page websites perfect for small businesses and professionals. AI-visible from day one.',
+    name: 'Ultra Fast brochure websites',
+    description:
+      'Fast multi-page sites for small businesses and professionals, built for speed and AI visibility from day one.',
   },
   {
-    name: 'SSR E-commerce Websites',
-    description: 'Fast, AI-optimised online stores with product management, payment processing, and blazing-fast page loads.',
+    name: 'Ultra Fast e-commerce websites',
+    description: 'Fast online stores with product management, payments, and quick page loads.',
   },
   {
-    name: 'Website Redesign & Migration',
-    description: 'Migrate from WordPress, Wix, or Squarespace to a modern SSR architecture with improved AI visibility.',
+    name: 'Website redesign and migration',
+    description:
+      'Move from WordPress, Wix, or Squarespace to a modern stack with better speed and AI visibility.',
   },
   {
-    name: 'SSR Landing Pages',
-    description: 'High-converting single pages built with Next.js for campaigns, products, or lead generation.',
+    name: 'Campaign landing pages',
+    description: 'High-converting single pages for campaigns, products, or lead generation.',
   },
 ];
 
@@ -151,12 +156,12 @@ export default function WebDesignLayout({
   // Generate schemas
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: BASE_URL },
-    { name: 'SSR Web Design', url: PAGE_URL },
+    { name: 'Web design', url: PAGE_URL },
   ]);
 
   const serviceBase = generateProfessionalServiceSchema(
-    'SSR Web Design - Server-Side Rendered Websites',
-    'Professional SSR web design services using Next.js and Vercel. Server-side rendered websites optimized for both traditional search engines and AI assistants like ChatGPT, Claude, and Perplexity. 100/100 Lighthouse scores, auto-generated schema, mobile-first design.',
+    'Ultra Fast AI visible premium web design',
+    'Professional web design on Next.js and Vercel. Sites built for speed and AI visibility for search engines and assistants like ChatGPT, Claude, and Perplexity. Strong Google speed scores, structured data, mobile-first design.',
     PAGE_URL,
     serviceOfferings
   );
@@ -172,7 +177,7 @@ export default function WebDesignLayout({
     availableChannel: generateServiceChannels(),
     serviceType: 'Web design',
     category: 'Web design',
-    offers: schemaAggregateOfferLowOnly('8000'),
+    offers: schemaAggregateOfferLowOnly(String(ULTRA_FAST_FROM)),
   };
 
   const faqSchema = generateFAQSchema(faqItems);
@@ -207,8 +212,8 @@ export default function WebDesignLayout({
 
   const webPageSchema = {
     ...generateWebPageSchema(
-      'Web Design Somerset | SSR Websites',
-      'Professional web design in Somerset. Server-side rendered sites AI crawlers can see. 100/100 Lighthouse scores, auto-generated schema. Next.js experts.',
+      'Web Design Somerset | Ultra Fast AI visible websites',
+      'Professional web design in Somerset. Sites built for speed and AI visibility, with structured data and Next.js on Vercel.',
       PAGE_URL
     ),
     mainEntity: { '@id': `${PAGE_URL}/#service` },

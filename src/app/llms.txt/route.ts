@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 const BODY = `# ScopeSite Digital Studios
 
-> Veteran-owned UK web-design and AI-visibility agency. V.O.I.C.E. methodology. Server-side-rendered Next.js 16 sites optimised for ChatGPT, Claude, Gemini and Perplexity citation.
+> Veteran-owned UK web-design and AI-visibility agency. AI visibility methodology. Server-side-rendered Next.js 16 sites optimised for ChatGPT, Claude, Gemini and Perplexity citation.
 
 ## Core pages
 

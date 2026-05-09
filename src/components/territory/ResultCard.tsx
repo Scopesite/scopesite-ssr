@@ -74,7 +74,7 @@ export function ResultCard({ result, onJoinWaitlist, onReset }: Props) {
             <dd className="font-headline text-lg text-brand-navy">{result.areaIntelligence.aiVisibleCount}</dd>
           </div>
           <div>
-            <dt className="text-xs uppercase tracking-wide text-slate-500">Avg V.O.I.C.E.</dt>
+            <dt className="text-xs uppercase tracking-wide text-slate-500">Avg AI score</dt>
             <dd className="font-headline text-lg text-brand-navy">
               {result.areaIntelligence.averageVoiceScore ?? '—'}
             </dd>

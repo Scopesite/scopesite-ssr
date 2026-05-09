@@ -7,11 +7,11 @@ const PAGE_URL = `${BASE_URL}/ai-website-design`;
 
 export const metadata: Metadata = {
   title: 'AI Website Design | Built for ChatGPT | ScopeSite',
-  description: 'AI website design that gets your business recommended by ChatGPT, not just indexed. UK agency specialising in AI-first web design with V.O.I.C.E™ methodology.',
+  description: 'AI website design that gets your business recommended by ChatGPT, not just indexed. UK agency specialising in AI-first web design with AI visibility methodology.',
   keywords: ['ai website design', 'ai web design', 'ai powered website design', 'chatgpt website optimisation'],
   openGraph: {
     title: 'AI Website Design | Websites Built for ChatGPT & Voice Search',
-    description: 'AI website design that gets your business recommended by ChatGPT, not just indexed. UK agency specialising in AI-first web design with V.O.I.C.E™ methodology.',
+    description: 'AI website design that gets your business recommended by ChatGPT, not just indexed. UK agency specialising in AI-first web design with AI visibility methodology.',
     url: PAGE_URL,
     siteName: 'ScopeSite Digital Studios',
     images: [
@@ -64,11 +64,11 @@ const faqs: FAQItem[] = [
   },
   {
     question: "How much does AI website design cost?",
-    answer: "Our AI website design packages start from £2,625 for a simple site. Most businesses invest between £5,000-£9,000 for a full AI-optimised website with all the bells and whistles. Use our instant quote calculator for a specific price based on your requirements."
+    answer: "Published pricing starts at £1,875 for a small client-managed build, or £2,000 for our Ultra Fast AI visible build. Most fuller builds land around £4,000 to £8,000 after pages and add-ons. Use our instant quote calculator for a specific figure."
   },
   {
     question: "Can you add AI optimisation to my existing website?",
-    answer: "Yes, if your platform supports custom code. We offer V.O.I.C.E™ optimisation as a standalone service for existing websites. This adds schema markup, entity relationships, and AI crawler configuration without rebuilding your entire site."
+    answer: "Yes, if your platform supports custom code. We offer AI SEO tuning as a standalone service for existing websites. This adds schema markup, entity relationships, and AI crawler configuration without rebuilding your entire site."
   },
   {
     question: "What CMS do you use for AI websites?",
@@ -113,7 +113,7 @@ const pageSchema = generateLandingPageSchema(
   PAGE_URL,
   'AI Website Design',
   'AI Website Design | Websites Built for ChatGPT & Voice Search',
-  'AI website design that gets your business recommended by ChatGPT, not just indexed. UK agency specialising in AI-first web design with V.O.I.C.E™ methodology.',
+  'AI website design that gets your business recommended by ChatGPT, not just indexed. UK agency specialising in AI-first web design with AI visibility methodology.',
   faqs,
   {
     name: 'AI Website Design',
@@ -124,7 +124,7 @@ const pageSchema = generateLandingPageSchema(
   {
     serviceType: 'AI website design',
     category: 'Web design',
-    offers: schemaAggregateOfferRange('2625', '9000'),
+    offers: schemaAggregateOfferRange('1875', '8000'),
   },
   ['h1', '.hero-description', '.faq-answer', 'h2']
 );

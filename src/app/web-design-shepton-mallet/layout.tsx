@@ -46,7 +46,7 @@ export const metadata: Metadata = {
 
 const faqs: FAQItem[] = [
   { question: "Is there a web designer near Shepton Mallet?", answer: "Yes. ScopeSite is based just 15 minutes away in Frome. We work with businesses across Shepton Mallet and the surrounding Somerset area. Face-to-face meetings are easy to arrange." },
-  { question: "How much does web design cost for a small business?", answer: "Our packages start from £2,625 for a simple site. Most Shepton Mallet businesses invest between £5,000 and £9,000 depending on complexity. That's well below what Bristol or Bath agencies charge." },
+  { question: "How much does web design cost for a small business?", answer: "Published pricing starts at £1,875 or £2,000 depending on track. Most Shepton Mallet projects land around £4,000 to £8,000. That is well below typical Bristol or Bath quotes. Use our calculator for an exact figure." },
   { question: "What is AI-ready web design?", answer: "AI-ready means your site is built with server-side rendering, structured schema markup, and content designed to be understood by AI platforms like ChatGPT and Google AI Overviews. It's how businesses get found in 2026." },
   { question: "Do you work with small businesses in Shepton Mallet?", answer: "Yes. Most of our clients are small and medium businesses. We understand the Shepton Mallet market, from independent shops to businesses connected to the Royal Bath and West Showground." },
   { question: "What technology do you use?", answer: "We build on Next.js with server-side rendering. No WordPress, no page builders. This gives you sub-2-second load times, 100/100 Lighthouse scores, and proper AI visibility." },
@@ -78,7 +78,7 @@ const pageSchema = wrapInGraph([
     PAGE_URL,
     areasServed,
     [
-      { name: 'Simple Website', price: '2625' },
+      { name: 'Simple Website', price: '1875' },
       { name: 'Standard Website', price: '5625' },
       { name: 'Complex Website', price: '9375' },
     ]

@@ -29,7 +29,7 @@ export function AuthorBio({ author }: AuthorBioProps) {
   const linkedInUrl = isDan ? DAN_LINKEDIN_URL : getLinkedInUrl(author);
   const bio = author.bio || (isDan ? founderSchema.description : '');
   const credentialLine = isDan
-    ? 'British Army veteran (REME) | V.O.I.C.E methodology creator'
+    ? 'British Army veteran (REME) | AI visibility methodology lead'
     : null;
 
   if (!bio && !author.name) {
@@ -99,7 +99,7 @@ export function AuthorBio({ author }: AuthorBioProps) {
                   </Link>
                   , and run a free scan with{' '}
                   <Link href="/voice" className="text-brand-gold underline hover:text-brand-navy">
-                    V.O.I.C.E.
+                    AI visibility scan
                   </Link>
                   .
                 </p>

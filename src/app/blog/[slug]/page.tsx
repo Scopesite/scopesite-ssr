@@ -372,7 +372,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               Book a Strategy Call
             </Link>
             <Link href="/voice" className="btn-secondary-light">
-              Get Your Free V.O.I.C.E Report
+              Get your free AI visibility report
             </Link>
           </div>
         </div>

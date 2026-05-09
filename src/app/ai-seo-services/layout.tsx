@@ -7,11 +7,13 @@ const PAGE_URL = `${BASE_URL}/ai-seo-services`;
 
 export const metadata: Metadata = {
   title: 'AI SEO Services UK | Get Recommended by AI | ScopeSite',
-  description: 'AI SEO services that make your business visible to ChatGPT, Claude, Gemini and Perplexity. SSR builds, schema engineering, entity optimisation.',
+  description:
+    'AI SEO services for ChatGPT, Claude, Gemini, and Perplexity. Ultra Fast builds, structured data, entity signals, and ongoing retainers from £750 setup and £500 per month.',
   keywords: ['ai seo services', 'ai seo software', 'ai search optimisation services'],
   openGraph: {
     title: 'AI SEO Services UK | Get Recommended by AI | ScopeSite',
-    description: 'AI SEO services that make your business visible to ChatGPT, Claude, Gemini and Perplexity. SSR builds, schema engineering, entity optimisation.',
+    description:
+      'AI SEO services for ChatGPT, Claude, Gemini, and Perplexity. Ultra Fast sites, structured facts, crawler access, retainers from £750 setup and £500 per month.',
     url: PAGE_URL,
     images: [
       {
@@ -26,7 +28,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'AI SEO Services UK | ScopeSite',
-    description: 'AI SEO services that make your business visible to ChatGPT, Claude, Gemini and Perplexity.',
+    description:
+      'AI SEO for ChatGPT, Claude, Gemini, and Perplexity. Ultra Fast builds and structured data.',
     images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
   },
   alternates: {
@@ -37,37 +40,45 @@ export const metadata: Metadata = {
 // FAQ data for schema
 const faqs: FAQItem[] = [
   {
-    question: "What AI SEO services do you offer?",
-    answer: "We offer a comprehensive suite of AI SEO services including V.O.I.C.E. AI visibility audits, AI-first website builds using server-side rendering (SSR), JSON-LD schema engineering, entity building across Knowledge Graphs, content architecture for AI extraction, and AI crawler configuration (robots.txt, llms.txt, ai-context.json)."
+    question: 'What AI SEO services do you offer?',
+    answer:
+      'We cover the full stack: AI visibility scans, Ultra Fast website rebuilds when needed, structured data so facts are auto-formatted for AI to read, entity signals, content layout for AI extraction, and crawler access files such as robots.txt, llms.txt, and ai-context.json.',
   },
   {
-    question: "Do I need a new website for AI SEO?",
-    answer: "Not always, but often yes. If your current website relies heavily on client-side JavaScript (like many Wix, Squarespace, or basic React sites), AI crawlers cannot read your content. In these cases, an AI-first website build using Next.js SSR is required. If your site is already server-side rendered, we can often implement schema and content architecture over the top."
+    question: 'Do I need a new website for AI SEO?',
+    answer:
+      'Not always. If your site leans on heavy client-side JavaScript, AI crawlers may see an empty page. Then we usually recommend an Ultra Fast rebuild. If your pages already ship full HTML, we can often layer structured data and content fixes on top.',
   },
   {
-    question: "What is a V.O.I.C.E. audit?",
-    answer: "A V.O.I.C.E. audit is our proprietary diagnostic scan that tests your business's visibility across 4 major AI platforms: ChatGPT, Claude, Gemini, and Perplexity. It identifies whether AI can see you, how it describes you, and what technical blockers are preventing you from being recommended."
+    question: 'What is an AI visibility scan?',
+    answer:
+      'It is our diagnostic run across ChatGPT, Claude, Gemini, and Perplexity. You see whether AI can read you, how it describes you, and which technical blocks stop recommendations.',
   },
   {
-    question: "How does schema markup help AI find my business?",
-    answer: "Schema markup (JSON-LD) is the structured data language that AI platforms use to understand facts about your business. Instead of forcing AI to guess what your website is about by reading paragraphs of text, schema explicitly states your services, prices, location, and credentials in a machine-readable format."
+    question: 'How does structured data help AI find my business?',
+    answer:
+      'Structured data spells out services, prices, locations, and credentials in a machine-friendly way. That cuts guesswork for AI and search engines.',
   },
   {
-    question: "What is entity building and why does it matter?",
-    answer: "Entity building is the process of establishing your business as a recognised 'thing' (entity) in databases like Wikidata and the Google Knowledge Graph. AI models rely on these entity databases to verify facts. If you aren't an established entity, AI is less likely to trust and recommend you."
+    question: 'What is entity building and why does it matter?',
+    answer:
+      'Entity building is how we strengthen your business as a recognised thing in sources such as Wikidata and the Google Knowledge Graph. Stronger entities mean AI can verify facts instead of guessing.',
   },
   {
-    question: "Can you optimise my existing Wix/WordPress/Squarespace site for AI?",
-    answer: "We can implement basic schema and content changes on WordPress, but platforms like Wix and Squarespace are fundamentally limited for true AI SEO because of how they render code and restrict server access. For serious AI visibility, we strongly recommend a custom SSR build."
+    question: 'Can you improve my existing Wix, WordPress, or Squarespace site?',
+    answer:
+      'We can make limited fixes on WordPress. Wix and Squarespace usually block the server access we need. For serious AI SEO we normally recommend an Ultra Fast build.',
   },
   {
-    question: "What is an AI visibility retainer?",
-    answer: "An AI visibility retainer is our ongoing service where we monitor your AI citations, update your schema as your business changes, add new content structured for AI extraction, and adapt to the rapidly changing algorithms of ChatGPT, Claude, and Perplexity."
+    question: 'What is an AI visibility retainer?',
+    answer:
+      'It is ongoing AI SEO: we watch citations, refresh structured data, add AI-friendly content, and adjust as models change. Standalone pricing is a £750 setup and £500 per month on a 6- or 12-month commitment.',
   },
   {
-    question: "How quickly will I see results from AI SEO services?",
-    answer: "Once an AI-first website is launched with proper schema and crawler access, we typically see initial citations in Perplexity within 2-4 weeks. Consistent recommendations in ChatGPT and Claude usually take 6-12 weeks as the models update their underlying data and entity confidence grows."
-  }
+    question: 'How quickly will I see results?',
+    answer:
+      'After an Ultra Fast launch with solid structured data and crawler access, we often see early Perplexity citations in 2 to 4 weeks. ChatGPT and Claude usually need 6 to 12 weeks as confidence builds.',
+  },
 ];
 
 // Generate page schema
@@ -75,12 +86,13 @@ const pageSchema = generateLandingPageSchema(
   PAGE_URL,
   'AI SEO Services',
   'AI SEO Services UK | Get Recommended by AI | ScopeSite',
-  'AI SEO services that make your business visible to ChatGPT, Claude, Gemini and Perplexity. SSR builds, schema engineering, entity optimisation.',
+  'AI SEO services for ChatGPT, Claude, Gemini, and Perplexity. Ultra Fast builds, structured data, entity signals, retainers from £750 setup and £500 per month.',
   faqs,
   {
     name: 'AI SEO Services',
     alternateNames: ['AI Search Optimisation Services', 'AI SEO Software'],
-    description: 'Comprehensive AI SEO services including SSR website builds, schema engineering, and entity optimisation.',
+    description:
+      'AI SEO programmes with Ultra Fast builds, structured data engineering, entity signals, and optional retainers.',
   },
   undefined,
   {

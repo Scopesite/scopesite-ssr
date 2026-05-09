@@ -120,7 +120,7 @@ export function calculateUSQuote(request: Partial<USQuoteRequest>): QuoteBreakdo
     oneOffItems.push({
       id: 'website-migration',
       label: 'Website Migration to SSR',
-      description: 'Full migration to Next.js with V.O.I.C.E. AI visibility',
+      description: 'Full migration to Next.js with AI visibility baked in',
       quantity: 1,
       unitPrice: price,
       total: price,
@@ -149,7 +149,7 @@ export function calculateUSQuote(request: Partial<USQuoteRequest>): QuoteBreakdo
     const price = US_PRICING.aiVisibility.aiRetainer.monthlyPrice;
     monthlyItems.push({
       id: 'ai-retainer',
-      label: 'AI Visibility Retainer (V.O.I.C.E.)',
+      label: 'AI visibility retainer',
       description: 'Monthly optimization, monitoring, and reporting',
       quantity: 1,
       unitPrice: price,
@@ -281,7 +281,7 @@ export function calculateUSQuote(request: Partial<USQuoteRequest>): QuoteBreakdo
 
 function addSSRIncludedItems(includedItems: QuoteLineItem[]) {
   includedItems.push(
-    { id: 'ssr-voice', label: 'V.O.I.C.E. AI Visibility', description: 'Included with SSR (worth $2,000/mo)', quantity: 1, unitPrice: 0, total: 0, isMonthly: true, isRequired: true, isIncluded: true },
+    { id: 'ssr-voice', label: 'AI visibility', description: 'Included with SSR (worth $2,000/mo)', quantity: 1, unitPrice: 0, total: 0, isMonthly: true, isRequired: true, isIncluded: true },
     { id: 'ssr-ghost', label: 'Ghost CMS Blog', quantity: 1, unitPrice: 0, total: 0, isMonthly: false, isRequired: true, isIncluded: true },
     { id: 'ssr-schema', label: 'Auto JSON-LD Schema', quantity: 1, unitPrice: 0, total: 0, isMonthly: false, isRequired: true, isIncluded: true },
     { id: 'ssr-vercel', label: 'Vercel Edge Deployment', quantity: 1, unitPrice: 0, total: 0, isMonthly: false, isRequired: true, isIncluded: true },

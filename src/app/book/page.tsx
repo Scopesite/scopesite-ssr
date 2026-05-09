@@ -187,7 +187,7 @@ export default function BookPage() {
           </h2>
           <ul className="space-y-3 text-white/80 text-body mb-6 list-disc pl-6">
             <li>
-              We review your current AI visibility live using the V.O.I.C.E.™ framework — schema coverage,
+              We review your current AI visibility live using the AI visibility framework — schema coverage,
               crawler access, performance signals, and how clearly machines can read your entity.
             </li>
             <li>

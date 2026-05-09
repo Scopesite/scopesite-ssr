@@ -14,9 +14,12 @@ import {
 import { getAlternates } from '@/lib/hreflang-map';
 import { ChevronDown } from 'lucide-react';
 import { HomeBelowFoldWrapper } from './HomeBelowFoldWrapper';
+import { PRICING_CONFIG } from '@/lib/pricing-config';
 
 const BASE_URL = 'https://scopesite.co.uk';
 const VOICE_SCAN_URL = 'https://voice.scopesite.co.uk';
+const WIX_FROM = PRICING_CONFIG.baseWebsite.starter;
+const ULTRA_FROM = PRICING_CONFIG.ssrWebsite.base;
 
 export const metadata: Metadata = {
   title: 'AI-Visible Websites That Get Recommended | ScopeSite',
@@ -109,14 +112,13 @@ const homeFaqs: FAQItem[] = [
       'Classic SEO chases rankings in Google’s list of blue links. AI visibility is about being cited and recommended inside ChatGPT, Perplexity, Google AI Overviews, and similar. You want both, but they are not the same game.',
   },
   {
-    question: 'What is V.O.I.C.E.™?',
+    question: 'What is the free AI visibility scan?',
     answer:
-      'V.O.I.C.E. stands for Visibility, Optimisation, for Intelligent, Crawler, Engines. It is our way of scoring and improving how visible your site is to AI systems. The free scan at voice.scopesite.co.uk shows where you stand across several categories.',
+      'It is our quick check that scores how well AI systems can read and trust your site. The free scan at voice.scopesite.co.uk shows where you stand today across the categories we track.',
   },
   {
     question: 'How much does a website cost?',
-    answer:
-      'Straight numbers: from £2,625 for a simple build, £5,625 for a typical business site, £9,375 and up for heavier projects. Payment plans with no interest. Instant quote on our pricing page in a couple of minutes. Every build includes structured data and fast, server-rendered pages.',
+    answer: `Straight numbers: client-managed sites start from £${WIX_FROM.toLocaleString('en-GB')} for up to five pages. Ultra Fast AI visible premium builds start from £${ULTRA_FROM.toLocaleString('en-GB')} for up to five pages, with a published £8,000 cap before enterprise scoping. Payment plans with no interest. Instant quote on our pricing page in a couple of minutes. Every build includes structured data and pages built for speed and AI visibility.`,
   },
   {
     question: 'Do you only work in Somerset?',
@@ -148,7 +150,7 @@ export default function Home() {
       serviceType: 'AI-Visible Web Design',
       name: 'Web Design by ScopeSite',
       description:
-        'Server-side rendered websites built so AI systems can read, trust, and recommend your business. Structured data, fast load, built for solicitors, accountants, and professional services.',
+        'Websites built for speed and AI visibility. Structured data, fast load, built for solicitors, accountants, and professional services.',
       provider: { '@id': `${BASE_URL}/#organization` },
       areaServed: { '@type': 'Place', name: 'Somerset, United Kingdom' },
       url: `${BASE_URL}/web-design`,
@@ -157,9 +159,9 @@ export default function Home() {
       '@type': 'Service',
       '@id': `${BASE_URL}/voice/#service`,
       serviceType: 'AI Visibility Optimisation',
-      name: 'V.O.I.C.E. by ScopeSite',
+      name: 'AI SEO and AI visibility by ScopeSite',
       description:
-        'AI visibility audits and optimisation using the V.O.I.C.E. methodology. Free scan and paid implementation.',
+        'AI SEO retainers, AI visibility audits, and ongoing optimisation. Free scan and paid programmes.',
       provider: { '@id': `${BASE_URL}/#organization` },
       areaServed: { '@type': 'Place', name: 'United Kingdom' },
       url: `${BASE_URL}/voice`,
@@ -170,7 +172,7 @@ export default function Home() {
       serviceType: 'Structured Data Implementation',
       name: 'Schema Markup by ScopeSite',
       description:
-        'Hand-built JSON-LD so AI and search engines know exactly what you do, where you are, and why you are credible.',
+        'Hand-built structured data so AI and search engines know exactly what you do, where you are, and why you are credible.',
       provider: { '@id': `${BASE_URL}/#organization` },
       areaServed: { '@type': 'Place', name: 'United Kingdom' },
       url: `${BASE_URL}/schema-markup`,
@@ -180,7 +182,7 @@ export default function Home() {
       '@id': `${BASE_URL}/web-apps/#service`,
       serviceType: 'Custom Web Application Development',
       name: 'Custom Web Apps by ScopeSite',
-      description: 'Bespoke tools and web applications for workflows, quotes, portals, and automation.',
+      description: 'Custom tools and web applications for workflows, quotes, portals, and automation.',
       provider: { '@id': `${BASE_URL}/#organization` },
       areaServed: { '@type': 'Place', name: 'United Kingdom' },
       url: `${BASE_URL}/web-apps`,
@@ -236,7 +238,7 @@ export default function Home() {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                 <a href={VOICE_SCAN_URL} className="btn-primary text-center" target="_blank" rel="noopener noreferrer">
-                  Get a Free V.O.I.C.E. Scan
+                  Get a free AI visibility scan
                 </a>
                 <a href="#how-it-works" className="btn-secondary text-center">
                   See How It Works
@@ -249,7 +251,7 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Run a free AI visibility scan with V.O.I.C.E.
+                  Run a free AI visibility scan
                 </a>
               </p>
             </div>
@@ -283,13 +285,13 @@ export default function Home() {
               <span className="text-brand-gold" aria-hidden>
                 ✓
               </span>
-              V.O.I.C.E.™ scanner — 100+ sites audited
+              AI visibility scans, 100+ sites audited
             </li>
             <li className="flex items-center justify-center gap-2">
               <span className="text-brand-gold" aria-hidden>
                 ✓
               </span>
-              Next.js SSR, 100/100 Lighthouse
+              Ultra Fast builds, top Google speed scores
             </li>
             <li className="flex items-center justify-center gap-2">
               <span className="text-brand-gold" aria-hidden>
@@ -329,19 +331,19 @@ export default function Home() {
           </h2>
           <div className="space-y-8 text-white/85 text-lg leading-relaxed">
             <p>
-              We build with <strong className="text-white">server-side rendering</strong>. The full page
+              We build for <strong className="text-white">speed and AI visibility</strong>. The full page
               arrives as ready-to-read HTML, not a pile of JavaScript the crawler has to untangle. Think of
               it like handing someone a printed letter instead of a flat-pack with instructions in Swedish.
               AI wants the letter.
             </p>
             <p>
-              We add <strong className="text-white">structured data</strong> (schema) that spells out what
+              We add <strong className="text-white">structured data</strong> that spells out what
               you do, where you are, who you are, and what makes you credible. Less guesswork for the
               machine, more chance you get cited.
             </p>
             <p>
               We run everything through{' '}
-              <strong className="text-white">V.O.I.C.E.</strong>, our scanner, so you are not guessing
+              <strong className="text-white">our AI visibility scan</strong>, so you are not guessing
               whether you are visible or just hoping. You get a score and a priority list.
             </p>
           </div>
@@ -356,12 +358,11 @@ export default function Home() {
       <section className="section-white border-b border-brand-navy/10" aria-labelledby="voice-band-heading">
         <div className="container-content max-w-4xl mx-auto text-center">
           <h2 id="voice-band-heading" className="text-brand-navy text-2xl sm:text-3xl font-bold mb-4">
-            V.O.I.C.E.™ — our flagship check
+            AI visibility scan, flagship check
           </h2>
           <p className="text-muted text-lg mb-4 max-w-2xl mx-auto">
-            <strong className="text-brand-navy">Visibility, Optimisation, for Intelligent, Crawler, Engines.</strong>{' '}
-            It scores your site across categories that matter to AI: structure, schema, speed, crawler access,
-            and more. If you want the detail behind the categories, we wrote a straight explanation of{' '}
+            We score your site on structure, structured data, speed, crawler access, and more. If you want
+            the detail, read our straight explanation of{' '}
             <Link
               href="/blog/ai-visibility-checker"
               className="link-navy text-brand-navy font-semibold underline underline-offset-2 decoration-brand-navy hover:decoration-brand-gold hover:text-brand-navy"
@@ -379,7 +380,7 @@ export default function Home() {
               Scan your site free
             </a>
             <Link href="/voice" className="btn-secondary text-center">
-              Read how V.O.I.C.E. works
+              Read how AI SEO and scans work
             </Link>
           </div>
         </div>
@@ -412,7 +413,7 @@ export default function Home() {
           <p className="text-muted text-lg mb-6">
             We don&apos;t do testimonials with first-name-only initials. See
             full case studies with named clients, AI citation results, and the
-            V.O.I.C.E. work behind the wins.
+            AI visibility work behind the wins.
           </p>
           <Link href="/case-studies" className="btn-primary inline-block">
             Read the case studies

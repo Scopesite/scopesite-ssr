@@ -58,36 +58,36 @@ function FAQItem({ question, answer, isOpen, onClick }: {
   );
 }
 
-// V.O.I.C.E Acronym Data
-const acronymCards = [
+// Five pillars we use to explain AI visibility work to customers
+const pillarCards = [
   {
-    letter: 'V',
-    title: 'VOICE-OPTIMISED',
-    description: 'Content structured for voice search, AI assistants, and conversational queries',
+    step: '1',
+    title: 'MEASURE',
+    description: 'We score how AI platforms read you today, not how your brochure reads to humans.',
     icon: Eye,
   },
   {
-    letter: 'O',
-    title: 'ORGANISED',
-    description: 'Schema markup, JSON-LD structured data, and semantic HTML that AI crawlers can parse',
+    step: '2',
+    title: 'STRUCTURE',
+    description: 'Facts are auto-formatted for AI to read, with clean HTML and structured data.',
     icon: Settings,
   },
   {
-    letter: 'I',
-    title: 'INTELLIGENT',
-    description: 'AI-aware content strategy targeting the questions real users ask AI chatbots',
+    step: '3',
+    title: 'CONTENT',
+    description: 'We shape pages around the questions buyers ask ChatGPT and Perplexity.',
     icon: Brain,
   },
   {
-    letter: 'C',
-    title: 'CONTENT ENGINEERING',
-    description: 'Technical content architecture (not just copywriting) built on SSR foundations',
+    step: '4',
+    title: 'SPEED',
+    description: 'Ultra Fast Next.js delivery so crawlers get full pages, not empty shells.',
     icon: MessageCircle,
   },
   {
-    letter: 'E',
-    title: 'ENGINEERED',
-    description: 'Server-side rendered Next.js websites with 100/100 Lighthouse scores and sub-second load times',
+    step: '5',
+    title: 'REPORT',
+    description: 'You get plain-English fixes, tracked scores, and a plan you can act on.',
     icon: Cpu,
   },
 ];
@@ -134,29 +134,34 @@ const benefits = [
 // FAQ Data
 const faqItems = [
   {
-    question: 'What is V.O.I.C.E™ methodology?',
-    answer: 'V.O.I.C.E.™ stands for Visibility, Optimisation, for Intelligent, Crawler, Engines. It\'s a proprietary methodology developed by ScopeSite Digital Studios that combines server-side rendering, structured data engineering, and content architecture specifically designed for generative AI citation. It makes your website visible and recommendable by ChatGPT, Perplexity, Gemini, and Claude.',
-  },
-  {
-    question: 'Who created V.O.I.C.E™?',
-    answer: 'V.O.I.C.E™ was created by Dan Cartwright, founder and director of ScopeSite Digital Studios. Dan is a British Army veteran who built V.O.I.C.E™ to solve a specific problem: most UK businesses are invisible to AI search engines despite having perfectly good websites.',
-  },
-  {
-    question: 'How does V.O.I.C.E™ differ from traditional SEO?',
-    answer: 'Traditional SEO targets Google rankings through keywords and backlinks. V.O.I.C.E™ targets AI chatbot recommendations through structured data, entity graphs, and content engineering. SEO gets you ranked. V.O.I.C.E™ gets you recommended. This is the difference between Generative Engine Optimisation (GEO) and traditional search engine optimisation. You need both.',
-  },
-  {
-    question: 'What results has V.O.I.C.E™ achieved?',
-    answer: 'V.O.I.C.E™ achieved #1 AI recommendations for client H4TLT (Hearing 4 The Long Term) across ChatGPT, Perplexity, Claude, and Gemini. This made H4TLT the first UK hearing compliance business to be recommended by all four major AI platforms.',
-  },
-  {
-    question: 'How much does V.O.I.C.E™ cost?',
+    question: 'What is the AI visibility methodology?',
     answer:
-      'A free AI visibility scan is available to assess your current position. V.O.I.C.E™ on our standard tier is £500 per month with a £750 one-time setup (minimum commitment applies — see our pricing page). After 3 months on the retainer, our 80 Score Guarantee kicks in — if your AI Visibility Score is below 80 and you have followed our direction, you pay nothing more until your score hits 80 and holds there for 30 consecutive days.',
+      'It is our ScopeSite framework for AI SEO: fast HTML, structured facts, crawler access, and content laid out for AI extraction. It helps ChatGPT, Perplexity, Gemini, and Claude cite you accurately.',
   },
   {
-    question: 'Is V.O.I.C.E™ only for businesses in Somerset?',
-    answer: 'No. V.O.I.C.E™ is location-agnostic. The methodology works for any business, anywhere. ScopeSite is based in Somerset and serves clients across the UK, but the technical principles behind V.O.I.C.E™ apply regardless of where your business operates.',
+    question: 'Who built it?',
+    answer:
+      'Dan Cartwright, founder of ScopeSite Digital Studios. Dan is a British Army veteran who focused on a simple problem: good-looking sites that AI still cannot read.',
+  },
+  {
+    question: 'How is this different from traditional SEO?',
+    answer:
+      'Classic SEO chases rankings. AI SEO chases citations inside AI answers. You usually want both. Generative engine optimisation covers the AI side, search SEO covers the blue links.',
+  },
+  {
+    question: 'What results have you proven?',
+    answer:
+      'Client H4TLT (Hearing 4 The Long Term) reached number one AI recommendations across ChatGPT, Perplexity, Claude, and Gemini. That made them a standout UK case in their sector.',
+  },
+  {
+    question: 'How much does the AI SEO retainer cost?',
+    answer:
+      'The scan is free. The standard AI SEO retainer is £500 per month with a £750 one-time setup on a 6- or 12-month commitment. See our pricing page for detail. After three months on the retainer, our 80 Score Guarantee applies. If your AI visibility score stays below 80 while you follow our direction, you pay nothing more until the score reaches 80 and holds for 30 consecutive days.',
+  },
+  {
+    question: 'Is this only for Somerset businesses?',
+    answer:
+      'No. ScopeSite is based in Somerset and works UK-wide. The technical approach is the same wherever you operate.',
   },
 ];
 
@@ -170,19 +175,18 @@ export default function VoicePage() {
         <div className="container-content">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="font-headline text-white text-2xl sm:text-3xl md:text-4xl mb-4 leading-tight max-w-3xl mx-auto">
-              <span className="uppercase">V.O.I.C.E.</span>
-              <span className="normal-case"> — AI Visibility Scanner for UK Businesses</span>
+              <span className="normal-case">AI visibility scan and AI SEO for UK businesses</span>
             </h1>
             <Image
               src="/images/voice-ai-aeo-geo-uk-scopesite-top-logo.webp"
-              alt="V.O.I.C.E. AI visibility scanning tool by ScopeSite Digital Studios"
+              alt="AI visibility scanning tool by ScopeSite Digital Studios"
               width={600}
               height={120}
               className="mx-auto mb-4"
               priority
             />
             <p className="text-xl md:text-2xl text-white/90 font-medium mb-8">
-              Visibility, Optimisation, for Intelligent, Crawler, Engines
+              Measure, fix, and track how AI cites you
             </p>
             <p className="text-body-lg text-white/70 mb-6 max-w-3xl mx-auto">
               UK businesses are already being found by AI assistants as often as traditional search. 
@@ -191,10 +195,9 @@ export default function VoicePage() {
               technical performance and trust signals - not just pretty pages.
             </p>
             <p className="text-body text-white/60 mb-10 max-w-3xl mx-auto">
-              That&apos;s where our V.O.I.C.E™ system comes in. We specialise in making AI tools 
-              actually understand your services, coverage area and credibility. You&apos;ll get a 
-              free AI Visibility Score, a proper action plan in plain English, and if you want 
-              it - hands-on implementation support.
+              That is where our AI visibility system helps. We make sure assistants understand your services,
+              areas, and proof. You get a free AI visibility score, a plain-English action plan, and optional
+              hands-on implementation.
             </p>
             <a
               href="https://voice.scopesite.co.uk/"
@@ -209,25 +212,22 @@ export default function VoicePage() {
         </div>
       </section>
 
-      {/* V.O.I.C.E Definition Block */}
+      {/* AI visibility definition */}
       <section id="voice-definition" className="voice-definition bg-white py-12 border-b border-brand-navy/10">
         <div className="container-content">
           <div className="max-w-4xl mx-auto">
             <div className="p-8 rounded-2xl bg-brand-navy/[0.03] border border-brand-navy/10">
-              <h2 className="text-brand-navy text-2xl font-bold mb-4">What is V.O.I.C.E™?</h2>
+              <h2 className="text-brand-navy text-2xl font-bold mb-4">What is the AI visibility system?</h2>
               <p className="text-brand-navy/80 leading-relaxed text-lg">
-                V.O.I.C.E.™ (Visibility, Optimisation, for Intelligent, Crawler, Engines) is a proprietary
-                methodology developed by ScopeSite Digital Studios for optimising websites to be
-                visible and recommended by AI search engines including ChatGPT, Perplexity, Gemini,
-                and Claude. Created by Dan Cartwright, a British Army veteran and web developer,
-                V.O.I.C.E™ is the only systemised methodology in the UK that combines server-side
-                rendering, structured data engineering, and content architecture specifically
-                designed for generative AI citation.{' '}
-                Before you run a scan, it helps to understand{' '}
+                It is how ScopeSite turns your website into something AI can read, trust, and cite. We combine
+                Ultra Fast delivery, structured facts, crawler access, and content layout built for AI answers.
+                Dan Cartwright, a British Army veteran, designed the workflow around one goal: stop losing
+                enquiries to competitors who simply publish clearer machine-readable facts. Before you run a
+                scan, read{' '}
                 <Link href="/blog/ai-visibility-checker" className="text-brand-gold hover:underline">
                   what an AI visibility checker actually measures
                 </Link>
-                — the inputs, the scoring, and what each signal tells you about your site.
+                , including inputs, scoring, and what each signal means for your site.
               </p>
             </div>
           </div>
@@ -256,17 +256,15 @@ export default function VoicePage() {
               </div>
               <div>
                 <p className="text-muted mb-4">
-                  V.O.I.C.E™ is our proprietary methodology for fixing this. We audit your website&apos;s
-                  AI visibility, identify exactly where you&apos;re losing ground, and implement the technical
-                  changes that make AI assistants recognise, understand, and recommend your business. The
-                  practical end goal is{' '}
+                  Our AI visibility programme fixes this. We audit how AI reads you, show the gaps, then ship
+                  the technical work so assistants recognise and recommend your business. The practical goal is{' '}
                   <Link
                     href="/blog/how-to-get-recommended-by-chatgpt"
                     className="text-brand-gold hover:underline"
                   >
                     how to get recommended by ChatGPT in 2026
                   </Link>
-                  — and the same technical foundation supports Perplexity, Claude, and Gemini.
+                  . The same foundation supports Perplexity, Claude, and Gemini.
                 </p>
                 <p className="text-muted">
                   This isn&apos;t about gaming algorithms or chasing trends. It&apos;s about fundamentally
@@ -280,21 +278,21 @@ export default function VoicePage() {
         </div>
       </section>
 
-      {/* What is V.O.I.C.E™ Section */}
+      {/* Five pillars */}
       <section className="section-white relative overflow-hidden border-t border-brand-navy/10">
         <div className="absolute inset-0 opacity-[0.03] bg-grid" aria-hidden="true" />
         
         <div className="container-content relative z-10">
           <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">What is V.O.I.C.E™?</h2>
-            <p className="text-muted max-w-2xl mx-auto">Our AI-first visibility system broken down</p>
+            <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">How we structure AI visibility work</h2>
+            <p className="text-muted max-w-2xl mx-auto">Five pillars you can scan in seconds</p>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-            {acronymCards.map((card) => (
-              <div key={card.letter} className="group card-hover card-hover-tall text-center">
+            {pillarCards.map((card) => (
+              <div key={card.step} className="group card-hover card-hover-tall text-center">
                 <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-brand-gold text-brand-navy font-headline text-2xl mb-4 group-hover:scale-110 transition-transform">
-                  {card.letter}
+                  {card.step}
                 </div>
                 <div className="mb-4 icon-box-md mx-auto">
                   <card.icon className="w-6 h-6 icon-brand" />
@@ -313,7 +311,7 @@ export default function VoicePage() {
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-brand-navy text-2xl font-bold mb-4">Proven Results</h2>
             <p className="text-brand-navy/80 leading-relaxed text-lg max-w-3xl mx-auto mb-6">
-              V.O.I.C.E™ has been proven in practice. ScopeSite achieved #1 AI recommendations
+              Our AI SEO work has been proven in practice. ScopeSite delivered number one AI recommendations
               for client H4TLT (Hearing 4 The Long Term) across ChatGPT, Perplexity, Claude,
               and Gemini. This made it the first UK hearing compliance business to be recommended
               by all four major AI platforms.
@@ -376,8 +374,8 @@ export default function VoicePage() {
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">What&apos;s Included in Your Free Scan?</h2>
             <p className="text-muted max-w-2xl mx-auto">
-              No fluff, no sales pitch — just actionable insights. If you are comparing free options
-              first, we also published our take on the{' '}
+              No fluff, no sales pitch, just actionable insight. If you are comparing free tools first, read our
+              take on the{' '}
               <Link href="/blog/free-ai-visibility-tools" className="text-brand-gold hover:underline">
                 free AI visibility tools we tested
               </Link>
@@ -413,11 +411,11 @@ export default function VoicePage() {
         </div>
       </section>
 
-      {/* V.O.I.C.E. Interactive Demo */}
+      {/* AI visibility interactive demo */}
       <section className="bg-[#1a1a2e] py-section">
         <div className="container-content">
           <h2 className="text-white text-center mb-2 text-xl sm:text-2xl md:text-h2">
-            See V.O.I.C.E. in Action
+            See AI visibility in action
           </h2>
           <p className="text-white/50 text-center mb-10 max-w-xl mx-auto text-sm">
             From publish to AI recommendation in seconds
@@ -462,7 +460,7 @@ export default function VoicePage() {
         <div className="container-content">
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">Frequently Asked Questions</h2>
-            <p className="text-white-muted max-w-2xl mx-auto">Everything you need to know about V.O.I.C.E™ and AI visibility</p>
+            <p className="text-white-muted max-w-2xl mx-auto">Everything you need to know about AI visibility scans and AI SEO</p>
           </div>
           
           <div className="max-w-3xl mx-auto">

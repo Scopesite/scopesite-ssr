@@ -19,11 +19,12 @@ const PAGE_URL = `${BASE_URL}/pricing`;
 const pricingFAQs = [
   {
     question: 'How much does a website cost with ScopeSite?',
-    answer: `Our websites start from £${PRICING_CONFIG.baseWebsite.starter.toLocaleString('en-GB')} for a professional 1-5 page site. Use our instant quote calculator to get an exact price based on your specific requirements - page count, e-commerce, custom features, and more.`,
+    answer: `Client-managed sites start from £${PRICING_CONFIG.baseWebsite.starter.toLocaleString('en-GB')} for up to five pages. Ultra Fast AI visible premium builds start from £${PRICING_CONFIG.ssrWebsite.base.toLocaleString('en-GB')} for up to five pages. Use the instant quote calculator for an exact price based on pages, e-commerce, custom features, and add-ons.`,
   },
   {
     question: 'Do you offer payment plans?',
-    answer: 'Yes! We offer flexible 12-month and 24-month payment plans with no credit checks and no interest. This lets you spread the cost while getting your website built immediately.',
+    answer:
+      'Yes. We offer 6, 12, and 24-month payment plans as standard, and 36-month plans when your quote qualifies. No credit checks and no interest. This lets you spread the cost while getting your website built immediately.',
   },
   {
     question: 'What\'s included in the price?',
@@ -46,11 +47,11 @@ const pricingFAQs = [
 export const metadata: Metadata = {
   title: 'Web Design Pricing UK | ScopeSite',
   description:
-    'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Flexible 6, 12 or 24-month payment plans. Somerset-based, UK-wide service.',
+    'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Flexible 6, 12, 24, or 36-month payment plans when you qualify. Somerset-based, UK-wide service.',
   openGraph: {
     title: 'Web Design Pricing UK | Transparent Costs | ScopeSite Digital Studios',
     description:
-      'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Flexible 6, 12 or 24-month payment plans. Somerset-based, UK-wide service.',
+      'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Flexible 6, 12, 24, or 36-month payment plans when you qualify. Somerset-based, UK-wide service.',
     url: PAGE_URL,
     siteName: 'ScopeSite Digital Studios',
     images: [
@@ -67,7 +68,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Web Design Pricing UK | Transparent Costs | ScopeSite',
-    description: 'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Flexible payment plans available.',
+    description: 'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Flexible payment plans including 6, 12, 24, or 36 months when you qualify.',
     images: [`${BASE_URL}/images/og/og-pricing.png`],
   },
   alternates: getAlternates('/pricing', BASE_URL),
@@ -98,7 +99,7 @@ export default function PricingPage() {
   const webPageSchema = {
     ...generateWebPageSchema(
       'Web Design Pricing UK',
-      'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Flexible 6, 12 or 24-month payment plans. Somerset-based, UK-wide service.',
+      'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Flexible 6, 12, 24, or 36-month payment plans when you qualify. Somerset-based, UK-wide service.',
       PAGE_URL
     ),
     mainEntity: { '@id': `${BASE_URL}/pricing/#service` },

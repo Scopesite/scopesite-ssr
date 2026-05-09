@@ -14,11 +14,11 @@ const PAGE_URL = `${BASE_URL}/case-studies`;
 export const metadata: Metadata = {
   title: 'Case Studies | AI Visibility Results | ScopeSite',
   description:
-    'Real results from our AI-first web design and V.O.I.C.E.™ methodology. See how we get UK businesses recommended by ChatGPT, Claude, and Perplexity.',
+    'Real results from our AI-first web design and AI visibility methodology. See how we get UK businesses recommended by ChatGPT, Claude, and Perplexity.',
   openGraph: {
     title: 'Case Studies | AI Visibility Results | ScopeSite Digital Studios',
     description:
-      'Real results from our AI-first web design and V.O.I.C.E.™ methodology. See how we get UK businesses recommended by ChatGPT, Claude, and Perplexity.',
+      'Real results from our AI-first web design and AI visibility methodology. See how we get UK businesses recommended by ChatGPT, Claude, and Perplexity.',
     url: PAGE_URL,
     siteName: 'ScopeSite Digital Studios',
     images: [
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Case Studies | AI Visibility Results | ScopeSite',
     description:
-      'Real results from our AI-first web design and V.O.I.C.E.™ methodology.',
+      'Real results from our AI-first web design and AI visibility methodology.',
     images: [`${BASE_URL}/images/og/og-case-study-h4tlt.png`],
   },
   alternates: {
@@ -49,7 +49,7 @@ const caseStudies = [
     title: 'From Invisible to National #1 in 4 Months',
     client: 'Hear 4 The Long Term (H4TLT)',
     slug: 'h4tlt',
-    description: 'How V.O.I.C.E.™ methodology took a Somerset audiologist from 7 visitors a week to nationally recommended by Google AI Overview, ChatGPT and Perplexity. No ad spend.',
+    description: 'How AI visibility methodology took a Somerset audiologist from 7 visitors a week to nationally recommended by Google AI Overview, ChatGPT and Perplexity. No ad spend.',
     metrics: [
       { label: 'AI Bot Crawls', value: '2,169' },
       { label: 'AI Platforms', value: '#1 on 3' },
@@ -93,7 +93,7 @@ export default function CaseStudiesPage() {
             CASE <span className="text-brand-gold">STUDIES</span>
           </h1>
           <p className="text-body-lg text-white/80 max-w-2xl mx-auto">
-            Real results from our AI-first web design and V.O.I.C.E.™ methodology. 
+            Real results from our AI-first web design and AI visibility methodology. 
             See how we get businesses recommended by ChatGPT, Claude, and Perplexity.
           </p>
         </div>

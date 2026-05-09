@@ -31,7 +31,7 @@ const faqItems = [
   },
   {
     question: "How do I know if my business appears in AI answers?",
-    answer: "You can manually test by asking ChatGPT or Perplexity questions related to your services in your area. However, AI responses can vary. We use our proprietary V.O.I.C.E. scanner to systematically test and benchmark your visibility across multiple AI platforms to give you a clear, objective baseline."
+    answer: "You can manually test by asking ChatGPT or Perplexity questions related to your services in your area. However, AI responses can vary. We use our AI visibility scan to systematically test and benchmark your visibility across multiple AI platforms to give you a clear, objective baseline."
   },
   {
     question: "Can AEO work alongside traditional SEO?",
@@ -166,11 +166,11 @@ export default function AEOPage() {
               Answer Engine Optimisation (AEO) is the technical and content strategy required to ensure your business is the one these AI platforms cite. It requires a completely different approach to traditional SEO: focusing on structured data, entity relationships, and factual extraction rather than keyword density.
             </p>
             <p>
-              ScopeSite is a specialist AEO, <Link href="/generative-engine-optimisation" className="text-brand-gold hover:underline">generative engine optimisation</Link> and <Link href="/ai-seo-agency" className="text-brand-gold hover:underline">AI SEO agency</Link>. Check your current <Link href="/ai-visibility" className="text-brand-gold hover:underline">AI visibility</Link> with a free <Link href="/voice" className="text-brand-gold hover:underline">V.O.I.C.E. scan</Link>, or explore our specific <Link href="/ai-seo-services" className="text-brand-gold hover:underline">AI SEO services</Link>.
+              ScopeSite is a specialist AEO, <Link href="/generative-engine-optimisation" className="text-brand-gold hover:underline">generative engine optimisation</Link> and <Link href="/ai-seo-agency" className="text-brand-gold hover:underline">AI SEO agency</Link>. Check your current <Link href="/ai-visibility" className="text-brand-gold hover:underline">AI visibility</Link> with a free <Link href="/voice" className="text-brand-gold hover:underline">AI visibility scan</Link>, or explore our specific <Link href="/ai-seo-services" className="text-brand-gold hover:underline">AI SEO services</Link>.
             </p>
           </>
         }
-        primaryCTA={{ text: 'Free V.O.I.C.E. Scan', href: '/voice' }}
+        primaryCTA={{ text: 'Free AI visibility scan', href: '/voice' }}
         secondaryCTA={{ text: 'Get a Quote', href: '/pricing' }}
       />
 
@@ -254,7 +254,7 @@ export default function AEOPage() {
 
       <LandingCaseStudy 
         title="From Invisible to AI Recommended"
-        quote="See how we used our V.O.I.C.E. methodology to get H4TLT recommended by Google AI Overviews, ChatGPT, and Perplexity."
+        quote="See how we used our AI visibility methodology to get H4TLT recommended by Google AI Overviews, ChatGPT, and Perplexity."
         theme="light" 
       />
 
@@ -266,8 +266,8 @@ export default function AEOPage() {
 
       <LandingCTA
         title="READY TO BE THE ANSWER?"
-        description="Stop fighting for blue links while your competitors get recommended by AI. Run a free V.O.I.C.E. scan today to see your current AI visibility, or get an instant quote."
-        primaryCTA={{ text: 'Free V.O.I.C.E. Scan', href: '/voice' }}
+        description="Stop fighting for blue links while your competitors get recommended by AI. Run a free AI visibility scan today to see your current AI visibility, or get an instant quote."
+        primaryCTA={{ text: 'Free AI visibility scan', href: '/voice' }}
         secondaryCTA={{ text: 'Get Instant Quote', href: '/pricing' }}
         footnote="No corporate waffle • Real results • Read our latest insights on the blog"
       />

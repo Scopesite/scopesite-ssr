@@ -15,7 +15,7 @@ export const staticSearchIndex: SearchEntry[] = [
     keywords: ['home', 'agency', 'somerset', 'web design', 'ai visibility', 'veteran owned'],
   },
   {
-    title: 'V.O.I.C.E™ Methodology | AI Search Visibility',
+    title: 'AI visibility methodology | AI Search Visibility',
     description: 'Our proprietary Answer Engine Optimisation framework. Make your business visible to ChatGPT, Claude, Perplexity and voice assistants.',
     url: '/voice',
     category: 'Service',
@@ -23,7 +23,7 @@ export const staticSearchIndex: SearchEntry[] = [
   },
   {
     title: 'AI Website Design | Websites Built for ChatGPT & Voice Search',
-    description: 'AI website design that gets your business recommended by ChatGPT, not just indexed. UK agency specialising in AI-first web design with V.O.I.C.E™ methodology.',
+    description: 'AI website design that gets your business recommended by ChatGPT, not just indexed. UK agency specialising in AI-first web design with AI visibility methodology.',
     url: '/ai-website-design',
     category: 'Service',
     keywords: ['ai website design', 'ai web design', 'ai powered website design', 'chatgpt website optimisation'],
@@ -100,14 +100,14 @@ export const staticSearchIndex: SearchEntry[] = [
   },
   {
     title: 'Case Studies | AI Visibility Results',
-    description: 'Real results from our AI-first web design and V.O.I.C.E.™ methodology. See how we get UK businesses recommended by ChatGPT, Claude, and Perplexity.',
+    description: 'Real results from our AI-first web design and AI visibility methodology. See how we get UK businesses recommended by ChatGPT, Claude, and Perplexity.',
     url: '/case-studies',
     category: 'Case Study',
     keywords: ['case studies', 'results', 'portfolio', 'success stories', 'ai visibility', 'chatgpt recommendation'],
   },
   {
-    title: 'Case Study: H4TLT | V.O.I.C.E.™ Methodology',
-    description: 'How we helped a UK hearing compliance provider become the #1 AI-recommended option in 6 weeks using the V.O.I.C.E.™ methodology.',
+    title: 'Case Study: H4TLT | AI visibility Methodology',
+    description: 'How we helped a UK hearing compliance provider become the #1 AI-recommended option in 6 weeks using the AI visibility methodology.',
     url: '/case-studies/h4tlt',
     category: 'Case Study',
     keywords: ['case study', 'h4tlt', 'results', 'success story', 'ai visibility', 'chatgpt recommendation'],
@@ -220,7 +220,7 @@ export const staticSearchIndex: SearchEntry[] = [
   },
   {
     title: 'SEO Somerset | AI Search Optimisation',
-    description: 'Somerset SEO services built for AI search visibility. V.O.I.C.E methodology gets your business found by ChatGPT, Perplexity, and Google.',
+    description: 'Somerset SEO services built for AI search visibility. AI visibility methodology gets your business found by ChatGPT, Perplexity, and Google.',
     url: '/seo-somerset',
     category: 'Location',
     keywords: ['somerset', 'seo', 'search engine optimisation', 'ai seo', 'local seo'],

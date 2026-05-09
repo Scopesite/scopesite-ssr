@@ -27,7 +27,7 @@ const faqItems = [
   },
   {
     question: "How do AI models decide which businesses to recommend?",
-    answer: "Generative models blend training data, real-time retrieval and entity confidence scoring. If your business is an established entity in Wikidata and the Google Knowledge Graph, has deep JSON-LD schema and is reachable via server-rendered HTML, you are more likely to be cited. If your site is a JavaScript shell with no structured data, the model has nothing to work with and picks a competitor."
+    answer: "Generative models blend training data, real-time retrieval and entity confidence scoring. If your business is an established entity in Wikidata and the Google Knowledge Graph, has rich structured data and is reachable via fast, server-rendered HTML, you are more likely to be cited. If your site is a JavaScript shell with no structured facts, the model has nothing to work with and picks a competitor."
   },
   {
     question: "Do I need GEO if I already have SEO?",
@@ -76,8 +76,8 @@ const solutionFeatures = [
     iconNode: <MessageSquare className="w-6 h-6 text-brand-gold" />,
   },
   {
-    title: "Schema & Structured Data",
-    description: "Deep JSON-LD covering every service, price, review, FAQ and credential on your site.",
+    title: 'Structured data & facts',
+    description: 'Deep structured data covering every service, price, review, FAQ and credential on your site.',
     iconNode: <FileCode className="w-6 h-6 text-brand-gold" />,
   },
   {
@@ -95,7 +95,7 @@ const solutionFeatures = [
 // What you get cards
 const whatYouGetCards = [
   {
-    title: "V.O.I.C.E. GEO Audit",
+    title: 'AI visibility GEO audit',
     iconNode: <Eye className="w-6 h-6 text-brand-gold" />,
     items: [
       "Citation baseline across 4 AI platforms",
@@ -108,18 +108,18 @@ const whatYouGetCards = [
     title: "Technical Foundation",
     iconNode: <Code2 className="w-6 h-6 text-brand-gold" />,
     items: [
-      "Server-side rendered (SSR) delivery",
+      "Server-rendered HTML delivery",
       "Optimised robots.txt and llms.txt",
       ".well-known/ai-context.json setup",
-      "100/100 Lighthouse performance",
+      "Strong Core Web Vitals and speed scores",
     ],
   },
   {
     title: "Entity & Schema Work",
     iconNode: <FileCode className="w-6 h-6 text-brand-gold" />,
     items: [
-      "Deep JSON-LD structured data",
-      "Speakable schema for voice search",
+      "Deep structured data for services and FAQs",
+      "Speakable markup for voice assistants",
       "Wikidata and Knowledge Graph signals",
       "sameAs and NAP consistency",
     ],
@@ -138,7 +138,7 @@ const whatYouGetCards = [
 
 // Proof stats
 const proofStats = [
-  { value: 100, suffix: "%", label: "Lighthouse Scores", description: "Perfect technical performance on every build" },
+  { value: 100, suffix: "%", label: "Speed scores", description: "Strong technical performance on every build" },
   { value: 4, suffix: "x", label: "AI Platforms", description: "Optimised for ChatGPT, Claude, Gemini & Perplexity" },
   { value: 800, suffix: "M+", label: "Weekly AI Users", description: "The audience you are currently missing" },
   { value: 1, suffix: "st", label: "AI Recommendation", description: "Our goal for your business" },
@@ -177,7 +177,7 @@ export default function GenerativeEngineOptimisationPage() {
             </p>
           </>
         }
-        primaryCTA={{ text: 'Free V.O.I.C.E. Scan', href: '/voice' }}
+        primaryCTA={{ text: 'Free AI visibility scan', href: '/voice' }}
         secondaryCTA={{ text: 'Get a Quote', href: '/pricing' }}
       />
 
@@ -207,12 +207,12 @@ export default function GenerativeEngineOptimisationPage() {
             <div className="bg-brand-graphite/30 p-8 rounded-2xl border border-white/10">
               <div className="text-brand-gold font-headline text-4xl mb-4">01</div>
               <h3 className="text-white font-bold text-xl mb-3">Measure</h3>
-              <p className="text-white/70">We start with a V.O.I.C.E. scan across ChatGPT, Claude, Gemini and Perplexity to see exactly how the models describe you, which competitors they cite instead, and which technical blockers are getting in the way.</p>
+              <p className="text-white/70">We start with an AI visibility scan across ChatGPT, Claude, Gemini and Perplexity to see exactly how the models describe you, which competitors they cite instead, and which technical blockers are getting in the way.</p>
             </div>
             <div className="bg-brand-graphite/30 p-8 rounded-2xl border border-white/10">
               <div className="text-brand-gold font-headline text-4xl mb-4">02</div>
               <h3 className="text-white font-bold text-xl mb-3">Re-engineer</h3>
-              <p className="text-white/70">We rebuild your technical foundation where needed: server-side rendered HTML, deep JSON-LD schema, robots.txt and llms.txt, entity profiles in Wikidata and Knowledge Graph, and content restructured for citation eligibility.</p>
+              <p className="text-white/70">We rebuild your technical foundation where needed: server-rendered HTML, deep structured data, robots.txt and llms.txt, entity profiles in Wikidata and Knowledge Graph, and content restructured for citation eligibility.</p>
             </div>
             <div className="bg-brand-graphite/30 p-8 rounded-2xl border border-white/10">
               <div className="text-brand-gold font-headline text-4xl mb-4">03</div>
@@ -242,7 +242,7 @@ export default function GenerativeEngineOptimisationPage() {
 
       <LandingCaseStudy 
         title="From Invisible to AI Recommended"
-        quote="See how we used our V.O.I.C.E. methodology to get H4TLT recommended by Google AI Overviews, ChatGPT, and Perplexity."
+        quote="See how we used our AI visibility methodology to get H4TLT recommended by Google AI Overviews, ChatGPT, and Perplexity."
         theme="light" 
       />
 
@@ -254,8 +254,8 @@ export default function GenerativeEngineOptimisationPage() {
 
       <LandingCTA
         title="READY TO BE CITED?"
-        description="Stop being invisible to generative AI. Run a free V.O.I.C.E. scan today and see exactly how ChatGPT, Claude, Gemini and Perplexity describe your business right now."
-        primaryCTA={{ text: 'Free V.O.I.C.E. Scan', href: '/voice' }}
+        description="Stop being invisible to generative AI. Run a free AI visibility scan today and see exactly how ChatGPT, Claude, Gemini and Perplexity describe your business right now."
+        primaryCTA={{ text: 'Free AI visibility scan', href: '/voice' }}
         secondaryCTA={{ text: 'Get Instant Quote', href: '/pricing' }}
         footnote="No corporate waffle • Real results • Read our latest insights on the blog"
       />

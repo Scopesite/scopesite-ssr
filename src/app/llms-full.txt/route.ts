@@ -4,10 +4,10 @@ import { NextResponse } from 'next/server';
 const BODY = `# ScopeSite Digital Studios — full context
 
 ## Home (/)
-ScopeSite builds server-side rendered websites for UK businesses so Google and AI assistants (ChatGPT, Claude, Perplexity, Gemini) can read, trust, and cite them. Veteran-owned, Somerset-based. Core offer: web design, AI visibility audits (V.O.I.C.E.), schema engineering, and GEO/AEO consulting.
+ScopeSite builds server-side rendered websites for UK businesses so Google and AI assistants (ChatGPT, Claude, Perplexity, Gemini) can read, trust, and cite them. Veteran-owned, Somerset-based. Core offer: web design, AI visibility audits and scans, structured data engineering, and GEO/AEO consulting.
 
-## V.O.I.C.E. scanner (/voice)
-V.O.I.C.E. (Visibility, Optimisation, for Intelligent, Crawler, Engines) is the methodology and tooling stack for measuring AI visibility: schema quality, Core Web Vitals, crawler access, domain authority signals, and content structure. Paid scans from low per-scan pricing; credits-based model.
+## AI visibility scanner (/voice)
+The AI visibility scanner is our methodology and tooling stack for measuring AI visibility: structured data quality, Core Web Vitals, crawler access, authority signals, and content structure. Paid scans from low per-scan pricing; credits-based model.
 
 ## Web design (/web-design)
 AI-first brochure and marketing sites using Next.js SSR, JSON-LD, performance budgets targeting strong Lighthouse scores, and copy structured for machine extraction—not keyword stuffing.

@@ -8,7 +8,7 @@ const faqs = [
   { question: "Why should I hire a UK web agency instead of a US one?", answer: "Because AI visibility is a global challenge and the technology doesn\u2019t change based on geography. ScopeSite specializes in server-side rendered websites with full schema markup and AI optimization, a combination most US agencies aren\u2019t offering yet. You get a specialist, not a generalist who\u2019s bolted \u2018AI\u2019 onto their existing services." },
   { question: "What time zone do you work in?", answer: "ScopeSite is based in the UK (GMT/BST). That gives us 5-8 hours of overlap with US East Coast business hours and full overlap with US West Coast mornings. All communication is async-friendly, and we schedule calls at times that work for both sides." },
   { question: "Do you accept payment in USD?", answer: "Yes. All US pricing is in USD. We invoice in dollars and accept payment via bank transfer or card." },
-  { question: "Can I see the V.O.I.C.E. tool before committing to anything?", answer: "Absolutely. Run a free scan at scopesite.co.uk/voice on any URL. No signup required. You\u2019ll get an instant AI visibility report showing where your site stands." },
+  { question: "Can I see the AI visibility scanner before committing to anything?", answer: "Absolutely. Run a free scan at scopesite.co.uk/voice on any URL. No signup required. You\u2019ll get an instant AI visibility report showing where your site stands." },
 ];
 
 function FAQItem({ question, answer }: { question: string; answer: string }) {
@@ -99,7 +99,7 @@ export default function USPage() {
               AI visibility means your website is built so that AI platforms, including ChatGPT, Perplexity, Claude, Google&apos;s AI Overviews, and voice assistants like Siri and Alexa, can read your content, understand what your business does, and recommend you when someone asks a relevant question. That requires server-side rendering, structured schema markup, entity relationships, and proper crawler configuration. It&apos;s a different discipline entirely from traditional web design.
             </p>
             <p className="text-brand-navy/80">
-              We&apos;ve been building this way from day one. It&apos;s not something we bolted onto an existing service. Our entire methodology, called V.O.I.C.E. (Visibility, Optimisation, for Intelligent, Crawler, Engines), was designed for this exact problem. And because the technology behind AI crawlers and schema markup is universal, it works the same whether your business is in Austin, Texas or Frome, Somerset.
+              We&apos;ve been building this way from day one. It&apos;s not something we bolted onto an existing service. Our AI visibility methodology was designed for this exact problem. And because the technology behind AI crawlers and structured data is universal, it works the same whether your business is in Austin, Texas or Frome, Somerset.
             </p>
           </div>
         </div>
@@ -119,7 +119,7 @@ export default function USPage() {
               On top of server-side rendering, we implement structured data using JSON-LD schema markup. This is the language AI platforms use to understand what your business is, what services you offer, where you operate, and what your customers say about you. Without it, AI is guessing. With it, AI knows.
             </p>
             <p className="text-white/80 mb-6">
-              Our <Link href="/voice" className="text-brand-gold hover:text-brand-orange transition-colors underline underline-offset-2">V.O.I.C.E. methodology</Link> is the framework that ties this together. It covers five layers of optimization: making your site visible to AI crawlers, optimizing the content structure for extraction, building intelligent entity relationships, configuring crawler access, and engineering the content itself for answer-engine compatibility.
+              Our <Link href="/voice" className="text-brand-gold hover:text-brand-orange transition-colors underline underline-offset-2">AI visibility methodology</Link> is the framework that ties this together. It covers five layers of optimization: making your site visible to AI crawlers, optimizing the content structure for extraction, building intelligent entity relationships, configuring crawler access, and engineering the content itself for answer-engine compatibility.
             </p>
             <p className="text-white/80">
               The results speak for themselves. Our client <Link href="/case-studies/h4tlt" className="text-brand-gold hover:text-brand-orange transition-colors underline underline-offset-2">H4TLT</Link>, a UK-based training provider, went from zero AI visibility to being actively recommended by ChatGPT within six weeks of launch. The same approach works for US businesses because the underlying technology is global.

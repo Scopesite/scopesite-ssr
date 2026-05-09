@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     'web design Somerset',
     'ChatGPT SEO',
     'AI search optimization',
-    'V.O.I.C.E methodology',
+    'AI visibility methodology',
     'Somerset web design',
     'veteran owned business UK',
     'GEO optimization',

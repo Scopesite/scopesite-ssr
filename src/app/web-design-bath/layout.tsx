@@ -47,13 +47,13 @@ export const metadata: Metadata = {
 // FAQ data
 const faqs: FAQItem[] = [
   { question: "Why choose a Somerset agency for Bath web design?", answer: "Because you get Bath-quality work without Bath-agency prices. We're 25 minutes away in Frome - close enough for face-to-face meetings, but without the overheads that Bath agencies bake into their quotes. Same expertise, better value." },
-  { question: "How do your prices compare to Bath web design agencies?", answer: "Our packages start from £2,625. That's typically 40-60% less than comparable Bath agencies charge for similar (often inferior) work. We can charge less because we don't have Bath city centre rent built into our quotes." },
+  { question: "How do your prices compare to Bath web design agencies?", answer: "Published pricing starts from £1,875 or £2,000. That is often 40% to 60% less than comparable Bath quotes for similar work, without city-centre rent baked in." },
   { question: "Will you meet clients in Bath?", answer: "Absolutely. We're happy to meet anywhere in Bath - your office, a coffee shop, wherever works. We're just 25 minutes away and regularly meet Bath clients in person for consultations, design reviews, and training sessions." },
   { question: "What makes your web design different from Bath agencies?", answer: "Two things: AI optimisation and honest pricing. We build for ChatGPT and voice search visibility - something most Bath agencies don't understand. And we price based on actual work, not Bath postcode premiums." },
   { question: "Can you help Bath tourism businesses?", answer: "Yes. Tourism is a significant part of Bath's economy and we understand its specific needs - booking integration, seasonal content, multilingual considerations, and visibility for 'things to do in Bath' type searches." },
   { question: "How long does a Bath web design project take?", answer: "Typically 4-6 weeks from brief to launch. We give you a specific timeline upfront and we stick to it. No Bath agency vagueness about 'sometime next quarter'." },
   { question: "Do you understand Bath's business market?", answer: "Yes. Bath has a unique mix of heritage tourism, professional services (especially legal and financial), independent retail, and hospitality. We've worked with businesses across these sectors and understand what works locally." },
-  { question: "What about ongoing support after launch?", answer: "30 days post-launch support is included with every project. After that, monthly maintenance packages start from £150/month. You're never abandoned after launch." },
+  { question: "What about ongoing support after launch?", answer: "30 days post-launch support is included with every project. After that we agree a simple care plan if you want ongoing help, priced to match the work. You are never abandoned after launch." },
   { question: "Can you help with existing Bath business websites?", answer: "Yes. We can either rebuild from scratch or add AI optimisation to existing sites if they're on compatible platforms. We'll assess your current site honestly and recommend the most cost-effective approach." },
   { question: "Do you offer payment plans?", answer: "Yes. Standard terms are 50% upfront, 50% on completion. For larger projects, we can arrange monthly payment plans that work for your cash flow." },
   { question: "What CMS do you use?", answer: "We build on Next.js with headless CMS options, not WordPress. This means faster sites, better security, and proper AI optimisation that WordPress simply can't achieve." },
@@ -91,7 +91,7 @@ const pageSchema = wrapInGraph([
     PAGE_URL,
     areasServed,
     [
-      { name: 'Simple Website', price: '2625' },
+      { name: 'Simple Website', price: '1875' },
       { name: 'Standard Website', price: '5625' },
       { name: 'Complex Website', price: '9375' },
     ]

@@ -47,7 +47,7 @@ export const metadata: Metadata = {
 
 const faqs: FAQItem[] = [
   { question: "Who is the best web designer in Frome?", answer: "ScopeSite Digital Studios is based right here in Beckington, Frome. We build AI-optimised websites on Next.js that score 100/100 on Google Lighthouse. Veteran-owned, transparent pricing, and we actually live here." },
-  { question: "How much does web design cost in Frome?", answer: "Our packages start from £2,625 for a simple site. Most Frome businesses invest between £5,000 and £9,000 depending on complexity. That includes AI optimisation, schema markup, and local SEO. No hidden costs." },
+  { question: "How much does web design cost in Frome?", answer: "Published pricing starts at £1,875 (client-managed) or £2,000 (Ultra Fast). Most Frome projects land around £4,000 to £8,000 after pages and add-ons, including structured data and local SEO. No hidden costs. Use our calculator for an exact figure." },
   { question: "Does ScopeSite work with Frome businesses?", answer: "We're based in Frome. This is our home town. We work with independent retailers, creative businesses, food and drink establishments, and service providers across the town. Face-to-face meetings any time." },
   { question: "What kind of businesses in Frome do you work with?", answer: "Independent shops on Catherine Hill, creative studios, food and drink businesses, wellness practitioners, professional services, and tradespeople. If you run a business in Frome, we can build you a website that works." },
   { question: "How long does a Frome web design project take?", answer: "Typically 4-6 weeks from brief to launch. Because we're local, we can meet in person to speed up the process. We set a specific timeline and stick to it." },
@@ -81,7 +81,7 @@ const pageSchema = wrapInGraph([
     PAGE_URL,
     areasServed,
     [
-      { name: 'Simple Website', price: '2625' },
+      { name: 'Simple Website', price: '1875' },
       { name: 'Standard Website', price: '5625' },
       { name: 'Complex Website', price: '9375' },
     ]

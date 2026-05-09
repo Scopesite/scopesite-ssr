@@ -203,7 +203,7 @@ export const US_SERVICE_CATEGORIES: {
         label: 'AI-First SSR Website (Brochure)',
         tagline: 'Maximum AI visibility',
         description:
-          'Server-Side Rendered on Next.js. 5-10 pages with full V.O.I.C.E. implementation. Auto-generated schema, 100/100 Lighthouse scores.',
+          'Server-Side Rendered on Next.js. 5-10 pages with full AI visibility implementation. Auto-generated schema, 100/100 Lighthouse scores.',
         badge: '99+ Lighthouse Mobile',
         recommended: true,
       },
@@ -257,7 +257,7 @@ export const US_SERVICE_CATEGORIES: {
         label: 'AI Visibility Retainer',
         tagline: 'Ongoing optimization',
         description:
-          'Monthly V.O.I.C.E. optimization: schema updates, content strategy, AI citation monitoring, and competitor tracking.',
+          'Monthly AI visibility optimization: schema updates, content strategy, AI citation monitoring, and competitor tracking.',
         isMonthly: true,
       },
       {
@@ -307,7 +307,7 @@ export const US_SERVICE_CATEGORIES: {
         label: 'Website Migration to SSR',
         tagline: 'Move from WordPress, Squarespace, or Wix',
         description:
-          'Full migration of your existing site to a server-side rendered Next.js build with V.O.I.C.E. AI visibility baked in.',
+          'Full migration of your existing site to a server-side rendered Next.js build with AI visibility baked in.',
       },
     ],
   },
@@ -375,7 +375,7 @@ export const US_PRICING_LABELS = {
  * SSR INCLUDED FEATURES (American English)
  */
 export const US_SSR_INCLUDED_FEATURES = [
-  'V.O.I.C.E. AI Visibility (worth $2,000/mo)',
+  'AI visibility (worth $2,000/mo)',
   'Server-Side Rendering (Next.js 16)',
   'Ghost CMS Integration (headless blog)',
   'Auto-generated JSON-LD Schema',

@@ -45,8 +45,8 @@ export const metadata: Metadata = {
 };
 
 const faqs: FAQItem[] = [
-  { question: "Is there a good web designer near Trowbridge?", answer: "ScopeSite is based just 12 miles away in Frome. We work with businesses across Trowbridge and Wiltshire, offering face-to-face meetings, local knowledge, and transparent pricing from £2,625." },
-  { question: "How much does a website cost in Trowbridge?", answer: "Our packages start from £2,625 for a simple site. Most Trowbridge businesses invest between £5,000 and £9,000 depending on complexity. That's well below what Bath and Bristol agencies charge." },
+  { question: "Is there a good web designer near Trowbridge?", answer: "ScopeSite is based just 12 miles away in Frome. We work with businesses across Trowbridge and Wiltshire, offering face-to-face meetings, local knowledge, and transparent published pricing from £1,875 (client-managed) or £2,000 (Ultra Fast)." },
+  { question: "How much does a website cost in Trowbridge?", answer: "Published pricing starts at £1,875 or £2,000. Most Trowbridge projects land around £4,000 to £8,000. That is well below typical Bath and Bristol quotes. Use our calculator for an exact figure." },
   { question: "Do you work with Wiltshire businesses?", answer: "Yes. Trowbridge is the county town of Wiltshire, and we serve businesses across the whole county. From Trowbridge itself to Melksham, Devizes, Bradford-on-Avon, and beyond." },
   { question: "What makes your websites different from WordPress?", answer: "We build on Next.js, not WordPress. That means sub-2-second load times, 100/100 Lighthouse scores, and proper AI optimisation. Most Trowbridge businesses are still running slow WordPress sites that AI platforms can't read properly." },
   { question: "Can you help my Trowbridge business get found on AI search?", answer: "Yes. We build every site with structured schema markup and content designed for AI platforms like ChatGPT, Perplexity, and voice assistants. When someone asks 'Who does web design near Trowbridge?', your business should be the answer." },
@@ -78,7 +78,7 @@ const pageSchema = wrapInGraph([
     PAGE_URL,
     areasServed,
     [
-      { name: 'Simple Website', price: '2625' },
+      { name: 'Simple Website', price: '1875' },
       { name: 'Standard Website', price: '5625' },
       { name: 'Complex Website', price: '9375' },
     ]

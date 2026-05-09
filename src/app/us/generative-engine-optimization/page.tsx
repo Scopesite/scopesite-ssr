@@ -185,7 +185,7 @@ export default function USGenerativeEngineOptimizationPage() {
             <p className="text-muted text-center">
               The good news: all of these problems are fixable. The{' '}
               <Link href="/us/ai-visibility" className="text-brand-gold font-medium hover:underline">
-                V.O.I.C.E. scanner
+                AI visibility scanner
               </Link>{' '}
               identifies exactly which issues affect your site.
             </p>
@@ -210,7 +210,7 @@ export default function USGenerativeEngineOptimizationPage() {
                 { icon: FileCode, label: 'Schema & Structured Data - deep JSON-LD implementation' },
                 { icon: Globe, label: 'Entity Disambiguation - Wikidata and Knowledge Graph' },
                 { icon: FileText, label: 'Content Architecture - extractable factual statements' },
-                { icon: Eye, label: 'V.O.I.C.E. GEO Audit - measuring baseline visibility' },
+                { icon: Eye, label: 'AI visibility GEO audit — measuring baseline visibility' },
                 { icon: Code2, label: 'Technical Foundation - SSR delivery and fast load times' },
                 { icon: TrendingUp, label: 'Citation Monitoring - monthly tracking' }
               ].map((item) => (
@@ -248,7 +248,7 @@ export default function USGenerativeEngineOptimizationPage() {
               It Works. Here Is the Proof.
             </h2>
             <p className="text-muted max-w-3xl mx-auto mb-6">
-              ScopeSite used the V.O.I.C.E. methodology to make H4TLT the first UK hearing compliance business recommended by
+              ScopeSite used the AI visibility methodology to make H4TLT the first UK hearing compliance business recommended by
               all four major AI platforms: ChatGPT, Claude, Perplexity, and Gemini.
               That result came from the exact generative engine optimization process we use for US businesses.
             </p>

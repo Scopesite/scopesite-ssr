@@ -16,7 +16,7 @@ import {
 import { FadeInOnScroll, StaggerContainer, StaggerItem, AnimatedCounter } from '@/components/animations';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 
-// V.O.I.C.E. methodology data
+// AI visibility methodology data
 const voiceSteps = [
   {
     letter: 'V',
@@ -264,24 +264,24 @@ export default function H4TLTCaseStudyPage() {
           <FadeInOnScroll>
             <p className="text-white text-2xl font-medium mb-8">Worried your own site has the same problem?</p>
             <Link href="https://voice.scopesite.co.uk" className="btn-primary text-lg px-8 py-4 rounded-lg animate-pulse-cta inline-block mb-4">
-              Run a free V.O.I.C.E.™ scan →
+              Run a free AI visibility scan →
             </Link>
             <p className="text-slate-400 text-sm">Takes 60 seconds. No email required.</p>
           </FadeInOnScroll>
         </div>
       </section>
 
-      {/* Section 5: What We Built — V.O.I.C.E.™ Methodology */}
+      {/* Section 5: What We Built — AI visibility Methodology */}
       <section className="bg-white py-section">
         <div className="container-content">
           <div className="max-w-4xl mx-auto">
             <FadeInOnScroll>
               <div className="text-center mb-16">
-                <h2 className="text-brand-navy text-3xl sm:text-4xl mb-4">What we built: V.O.I.C.E.™</h2>
+                <h2 className="text-brand-navy text-3xl sm:text-4xl mb-4">What we built: AI visibility</h2>
                 <p className="text-slate-400 italic text-lg mb-8">Visibility, Optimisation, for Intelligent, Crawler, Engines.</p>
                 <div className="prose-scopesite text-left">
                   <p>
-                    Every letter of V.O.I.C.E. is grounded in peer-reviewed research from Princeton, Toronto, and the SSRN. The full 19-page evidence review is available at scopesite.co.uk/evidence. Here is what each letter does and why it matters.
+                    Each pillar in our framework is grounded in peer-reviewed research from Princeton, Toronto, and the SSRN. The full 19-page evidence review is available at scopesite.co.uk/evidence. Here is what each letter does and why it matters.
                   </p>
                 </div>
               </div>
@@ -320,7 +320,7 @@ export default function H4TLTCaseStudyPage() {
       <section className="bg-brand-graphite py-16">
         <div className="container-content text-center">
           <FadeInOnScroll>
-            <p className="text-white text-2xl font-medium mb-8">Want to see which V.O.I.C.E. pillars your site is missing?</p>
+            <p className="text-white text-2xl font-medium mb-8">Want to see which AI visibility pillars your site is missing?</p>
             <Link href="https://voice.scopesite.co.uk" className="btn-primary text-lg px-8 py-4 rounded-lg inline-block">
               Check your site for free →
             </Link>
@@ -734,7 +734,7 @@ export default function H4TLTCaseStudyPage() {
       <section className="bg-brand-graphite py-16">
         <div className="container-content text-center">
           <FadeInOnScroll>
-            <p className="text-white text-2xl font-medium mb-8">Curious what your V.O.I.C.E. score would be?</p>
+            <p className="text-white text-2xl font-medium mb-8">Curious what your AI visibility score would be?</p>
             <Link href="https://voice.scopesite.co.uk" className="btn-primary text-lg px-8 py-4 rounded-lg inline-block">
               Free scan, 60 seconds →
             </Link>
@@ -753,7 +753,7 @@ export default function H4TLTCaseStudyPage() {
             <FadeInOnScroll delay={0.1}>
               <div className="prose-scopesite mb-10">
                 <p>
-                  Every component of V.O.I.C.E. maps to published, peer-reviewed research. This is not a methodology we invented and then looked for evidence to support. The evidence came first, the methodology was built from it.
+                  Each part of our framework maps to published, peer-reviewed research. This is not a methodology we invented and then looked for evidence to support. The evidence came first, the methodology was built from it.
                 </p>
                 <p>
                   The full evidence review pulls together nine sources including:
@@ -817,20 +817,20 @@ export default function H4TLTCaseStudyPage() {
                 </StaggerItem>
                 <StaggerItem>
                   <div>
-                    <h3 className="text-brand-navy text-xl font-bold mb-3">What is the V.O.I.C.E. methodology?</h3>
-                    <p className="text-slate-600 leading-relaxed">V.O.I.C.E. stands for Visibility, Optimisation, for Intelligent, Crawler, Engines. It is a research-backed methodology developed by ScopeSite Digital Studios for making businesses visible to AI assistants like ChatGPT, Claude, Gemini and Perplexity.</p>
+                    <h3 className="text-brand-navy text-xl font-bold mb-3">What is the AI visibility methodology?</h3>
+                    <p className="text-slate-600 leading-relaxed">Our AI visibility methodology is a research-backed framework developed by ScopeSite Digital Studios for making businesses visible to AI assistants like ChatGPT, Claude, Gemini and Perplexity.</p>
                   </div>
                 </StaggerItem>
                 <StaggerItem>
                   <div>
                     <h3 className="text-brand-navy text-xl font-bold mb-3">Does AI visibility work for small businesses?</h3>
-                    <p className="text-slate-600 leading-relaxed">H4TLT is a single-operator audiology business. Within 4 months of implementing V.O.I.C.E., it was recommended nationally alongside firms that have operated for decades with significantly larger marketing budgets. The methodology is designed to level the playing field.</p>
+                    <p className="text-slate-600 leading-relaxed">H4TLT is a single-operator audiology business. Within 4 months of implementing our AI visibility stack, it was recommended nationally alongside firms that have operated for decades with significantly larger marketing budgets. The methodology is designed to level the playing field.</p>
                   </div>
                 </StaggerItem>
                 <StaggerItem>
                   <div>
                     <h3 className="text-brand-navy text-xl font-bold mb-3">How much does AI visibility optimisation cost?</h3>
-                    <p className="text-slate-600 leading-relaxed">The H4TLT project was delivered for under £5,000 including website build, schema implementation, entity building, and content architecture. Start with a free V.O.I.C.E. scan at voice.scopesite.co.uk to see where your site currently stands.</p>
+                    <p className="text-slate-600 leading-relaxed">The H4TLT project combined a full Ultra Fast build, structured data, entity work, and content architecture. Pricing moves with our published calculator; this engagement was scoped under the Ultra Fast ladder at the time. Start with a free AI visibility scan at voice.scopesite.co.uk to see where your site currently stands.</p>
                   </div>
                 </StaggerItem>
                 <StaggerItem>

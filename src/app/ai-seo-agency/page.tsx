@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Search, Brain, Code2, Globe, Shield, Zap, TrendingUp, Eye, FileCode, FileText } from 'lucide-react';
+import { Brain, Code2, Globe, TrendingUp, Eye, FileCode } from 'lucide-react';
 import {
   LandingHero,
   LandingProblem,
@@ -23,7 +23,7 @@ const faqItems = [
   },
   {
     question: "Can my current website be optimised for AI search?",
-    answer: "It depends on how it's built. If your site relies heavily on client-side JavaScript (like many Wix or basic React sites), AI crawlers like GPTBot might see a blank page. We start with a V.O.I.C.E. scan to see what AI currently sees. In many cases, we need to implement server-side rendering (SSR) and rebuild your schema architecture to make you visible."
+    answer: "It depends on how it's built. If your site relies heavily on client-side JavaScript (like many Wix or basic React sites), AI crawlers like GPTBot might see a blank page. We start with an AI visibility scan to see what AI currently sees. In many cases, we need to implement server-side rendering (SSR) and rebuild your schema architecture to make you visible."
   },
   {
     question: "How long does it take to appear in AI recommendations?",
@@ -40,7 +40,7 @@ const faqItems = [
   },
   {
     question: "How do you measure AI SEO results?",
-    answer: "We don't just track Google rankings. We track direct AI citations, brand mentions in LLM outputs, schema validation scores, and AI crawler access logs. We use our proprietary V.O.I.C.E. scanner to benchmark your visibility across ChatGPT, Claude, Gemini, and Perplexity over time."
+    answer: "We don't just track Google rankings. We track direct AI citations, brand mentions in LLM outputs, schema validation scores, and AI crawler access logs. We use our proprietary AI visibility scanner to benchmark your visibility across ChatGPT, Claude, Gemini, and Perplexity over time."
   },
   {
     question: "What AI platforms do you optimise for?",
@@ -71,7 +71,7 @@ const problemPoints = [
 // Solution features
 const solutionFeatures = [
   {
-    title: "V.O.I.C.E. Methodology",
+    title: 'AI visibility methodology',
     description: "Our proprietary framework for testing and building AI visibility across all major platforms.",
     iconNode: <Brain className="w-6 h-6 text-brand-gold" />,
   },
@@ -98,7 +98,7 @@ const whatYouGetCards = [
     title: "AI Visibility Audit",
     iconNode: <Eye className="w-6 h-6 text-brand-gold" />,
     items: [
-      "V.O.I.C.E. scanner diagnostic",
+      "AI visibility scanner diagnostic",
       "ChatGPT & Claude visibility check",
       "Perplexity citation analysis",
       "Technical crawler access review",
@@ -162,11 +162,11 @@ export default function AISEOAgencyPage() {
               As a specialist AI SEO agency, we understand the difference between ranking for a keyword and being cited as the definitive answer. We engineer your website&apos;s architecture, structured data, and content so that AI platforms extract it, trust it, and recommend your business.
             </p>
             <p>
-              Check your current <Link href="/ai-visibility" className="text-brand-gold hover:underline">AI visibility</Link> with our free V.O.I.C.E. scan, explore our <Link href="/generative-engine-optimisation" className="text-brand-gold hover:underline">generative engine optimisation</Link> work, or see our full range of <Link href="/ai-seo-services" className="text-brand-gold hover:underline">AI SEO services</Link>.
+              Check your current <Link href="/ai-visibility" className="text-brand-gold hover:underline">AI visibility</Link> with our free AI visibility scan, explore our <Link href="/generative-engine-optimisation" className="text-brand-gold hover:underline">generative engine optimisation</Link> work, or see our full range of <Link href="/ai-seo-services" className="text-brand-gold hover:underline">AI SEO services</Link>.
             </p>
           </>
         }
-        primaryCTA={{ text: 'Free V.O.I.C.E. Scan', href: '/voice' }}
+        primaryCTA={{ text: 'Free AI visibility scan', href: '/voice' }}
         secondaryCTA={{ text: 'Get a Quote', href: '/pricing' }}
       />
 
@@ -196,7 +196,7 @@ export default function AISEOAgencyPage() {
             <div className="bg-brand-graphite/30 p-8 rounded-2xl border border-white/10">
               <div className="text-brand-gold font-headline text-4xl mb-4">01</div>
               <h3 className="text-white font-bold text-xl mb-3">Audit & Architecture</h3>
-              <p className="text-white/70">We run a deep V.O.I.C.E. scan to see how AI views you now, then build a server-side rendered foundation that crawlers can actually read.</p>
+              <p className="text-white/70">We run a deep AI visibility scan to see how AI views you now, then build a server-side rendered foundation that crawlers can actually read.</p>
             </div>
             <div className="bg-brand-graphite/30 p-8 rounded-2xl border border-white/10">
               <div className="text-brand-gold font-headline text-4xl mb-4">02</div>
@@ -231,7 +231,7 @@ export default function AISEOAgencyPage() {
 
       <LandingCaseStudy 
         title="From Invisible to AI Recommended"
-        quote="See how we used our V.O.I.C.E. methodology to get H4TLT recommended by Google AI Overviews, ChatGPT, and Perplexity."
+        quote="See how we used our AI visibility methodology to get H4TLT recommended by Google AI Overviews, ChatGPT, and Perplexity."
         theme="light" 
       />
 
@@ -243,8 +243,8 @@ export default function AISEOAgencyPage() {
 
       <LandingCTA
         title="READY TO BE RECOMMENDED?"
-        description="Stop fighting for blue links while your competitors get recommended by AI. Run a free V.O.I.C.E. scan today to see your current AI visibility, or get an instant quote."
-        primaryCTA={{ text: 'Free V.O.I.C.E. Scan', href: '/voice' }}
+        description="Stop fighting for blue links while your competitors get recommended by AI. Run a free AI visibility scan today to see your current AI visibility, or get an instant quote."
+        primaryCTA={{ text: 'Free AI visibility scan', href: '/voice' }}
         secondaryCTA={{ text: 'Get Instant Quote', href: '/pricing' }}
         footnote="No corporate waffle • Real results • Read our latest insights on the blog"
       />

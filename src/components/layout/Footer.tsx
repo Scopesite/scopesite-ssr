@@ -239,7 +239,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Run a free AI visibility scan with V.O.I.C.E.
+                  Run a free AI visibility scan
                 </a>
               </li>
             </ul>

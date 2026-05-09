@@ -16,14 +16,14 @@ import {
 // FAQ Data
 const faqItems = [
   { question: "Why choose a Somerset-based web designer?", answer: "Local matters. We understand Somerset's business landscape, we're available for face-to-face meetings, and we're invested in the local economy. When you call, a real person in Frome answers." },
-  { question: "How much does web design in Somerset cost?", answer: "Our packages start from £2,625 for a simple site. Most local businesses invest £5,000-£9,000. That's 25% below typical agency rates." },
+  { question: "How much does web design in Somerset cost?", answer: "Published pricing starts at £1,875 for a small client-managed build, or £2,000 for our Ultra Fast AI visible build (both up to five pages). Most local projects land around £4,000 to £8,000 after pages and add-ons. Use our calculator for an exact figure." },
   { question: "Do you only work with Somerset businesses?", answer: "No, we work UK-wide. But Somerset is home, and we enjoy working with local businesses where we can meet face-to-face." },
   { question: "Can you help with Google Business Profile?", answer: "Yes. Local SEO is part of every Somerset web design package including GBP optimisation, NAP consistency, and local schema markup." },
-  { question: "What makes you different from other Somerset agencies?", answer: "We build for AI visibility using V.O.I.C.E™ methodology. Most Somerset web designers haven't heard of AI SEO. Plus, we build on Next.js, not WordPress." },
+  { question: "What makes you different from other Somerset agencies?", answer: "We build for AI visibility with plain-English AI SEO. Most Somerset web designers are not focused on how ChatGPT cites you. We ship on Next.js, not WordPress." },
   { question: "How long does a project take?", answer: "Typically 4-6 weeks from brief to launch. Military precision means deadlines are deadlines." },
   { question: "Will you meet in person?", answer: "Absolutely. We're based in Frome and happy to meet anywhere in Somerset." },
   { question: "Do you work with specific industries?", answer: "We work across all industries but have experience with Somerset tourism, trades, professional services, and retail." },
-  { question: "What ongoing support do you offer?", answer: "30 days post-launch support included. Monthly maintenance packages from £150/month after that." },
+  { question: "What ongoing support do you offer?", answer: "30 days post-launch support included. After that we agree a simple care plan if you want ongoing help, priced to match the work." },
   { question: "What if I already have a website?", answer: "We can rebuild or optimise existing sites. We'll assess honestly and recommend the most cost-effective path." },
   { question: "Do you offer payment plans?", answer: "Yes. 50% upfront, 50% on completion. Monthly plans available for larger projects." },
   { question: "What's included in training?", answer: "Every project includes a recorded training session on content updates and enquiry management." },
@@ -85,7 +85,7 @@ const whatYouGetCards = [
     iconNode: <Brain className="w-6 h-6 text-brand-gold" />,
     items: [
       "Complete schema markup",
-      "V.O.I.C.E™ optimisation",
+      "AI SEO tuning",
       "Voice search configuration",
       "ChatGPT recommendation testing",
     ],
@@ -210,7 +210,7 @@ export default function WebDesignSomersetPage() {
       {/* Case Study Section */}
       <LandingCaseStudy 
         title="See What AI-First Design Delivers"
-        quote="A UK business went from invisible to #1 AI-recommended in 6 weeks using our V.O.I.C.E™ methodology"
+        quote="A UK business went from invisible to #1 AI-recommended in 6 weeks using our AI visibility methodology"
         theme="dark" 
       />
 
@@ -239,7 +239,7 @@ export default function WebDesignSomersetPage() {
             href: "/web-design-bristol"
           },
           {
-            title: "V.O.I.C.E™ AI Visibility",
+            title: "AI visibility",
             description: "Get recommended by ChatGPT, Perplexity, and AI assistants using our proprietary methodology.",
             href: "/voice"
           },

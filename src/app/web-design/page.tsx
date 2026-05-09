@@ -42,6 +42,10 @@ import {
   SchemaVisualization
 } from '@/components/animations';
 import { SpeedTestComparison } from '@/components/SpeedTestComparison';
+import { PRICING_CONFIG } from '@/lib/pricing-config';
+
+const WIX_START_GBP = PRICING_CONFIG.baseWebsite.starter;
+const ULTRA_FAST_START_GBP = PRICING_CONFIG.ssrWebsite.base;
 
 // FAQ Accordion Component for light background
 function FAQItem({ question, answer, isOpen, onClick }: { 
@@ -85,14 +89,16 @@ const features = [
   },
   {
     title: 'VISIBLE TO AI ASSISTANTS',
-    description: 'AEO (Answer Engine Optimisation) built in from day one. When someone asks ChatGPT, Siri, or Perplexity for a recommendation in your industry, your site is readable and citable. Most of your competitors\' sites aren\'t.',
+    description:
+      'Answer-engine friendly structure built in from day one. When someone asks ChatGPT, Siri, or Perplexity for a recommendation in your industry, your site is readable and citable. Most of your competitors\' sites are not.',
     icon: Brain,
     stat: '4+',
     statLabel: 'AI platforms',
   },
   {
     title: 'SEARCH ENGINES UNDERSTAND YOU',
-    description: 'AI SEO that actually works. Your business name, services, opening hours, reviews, location - all structured so Google and AI assistants get it right. No wrong phone numbers. No outdated info. Automatically.',
+    description:
+      'AI SEO that works in practice. Your business name, services, opening hours, reviews, and location are structured so Google and AI assistants get it right. Fewer wrong numbers. Fewer stale facts. Handled automatically.',
     icon: Code2,
   },
   {
@@ -102,7 +108,8 @@ const features = [
   },
   {
     title: 'FAST FROM ANYWHERE',
-    description: 'AEO-focused websites need speed. Your site loads at the same speed whether your customer is in Somerset, central London, or checking on their phone in a bad signal area. Same speed. Every time.',
+    description:
+      'Fast sites matter for AI answers. Your site loads at the same speed whether your customer is in Somerset, central London, or on a weak phone signal. Same speed, every time.',
     icon: Globe,
     stat: '300+',
     statLabel: 'edge locations',
@@ -143,7 +150,8 @@ const processSteps = [
   {
     number: '04',
     title: 'OPTIMISATION & TESTING',
-    description: 'Lighthouse audits, mobile checks, schema validation, AI crawler tests. We don\'t launch until every metric hits our quality threshold.',
+    description:
+      'Google speed score checks, mobile checks, structured data validation, AI crawler tests. We do not launch until every metric hits our quality threshold.',
     duration: '1 week',
     icon: CheckCircle,
     animation: 'check' as const,
@@ -225,11 +233,12 @@ const faqItems = [
   },
   {
     question: 'How much does a website cost?',
-    answer: 'Our websites start from £8,000 for established businesses. We also offer monthly payment plans with no credit checks and no interest — spreading the cost over 6, 12, or 24 months. You\'ll get an instant quote in under 2 minutes on our pricing page.',
+    answer: `Client-managed builds start from £${WIX_START_GBP.toLocaleString('en-GB')} for up to five pages. Ultra Fast AI visible premium builds start from £${ULTRA_FAST_START_GBP.toLocaleString('en-GB')} for up to five pages, capped at £8,000 on standard pricing before we scope enterprise separately. Spread payments over 6, 12, 24, or 36 months when you qualify, with no credit checks and no interest. Get an instant quote on our pricing page in under two minutes.`,
   },
   {
     question: 'What if I\'m not happy with the design?',
-    answer: 'We build in stages with feedback checkpoints, so you\'re never surprised by a finished product you hate. If something\'s not right, we fix it. We\'re not done until you\'re genuinely happy — that\'s not a slogan, it\'s how we work.',
+    answer:
+      'We build in stages with feedback checkpoints, so you are never surprised by a finished product you hate. If something is not right, we fix it. We are not done until you are genuinely happy. That is how we work.',
   },
   {
     question: 'What happens after my website launches?',
@@ -251,22 +260,24 @@ const faqItems = [
     question: 'Can you help with SEO and AI visibility?',
     answer: (
       <>
-        Every site has bulletproof technical SEO built in: proper meta tags, structured data, XML sitemaps, optimised images, fast load times. For ongoing content strategy and getting recommended by ChatGPT, Claude, and Perplexity, check out our{' '}
+        Every site has strong technical SEO built in: meta tags, structured data, XML sitemaps, optimised images, fast load times. For ongoing AI SEO and recommendations from ChatGPT, Claude, and Perplexity, see our{' '}
         <Link href="/voice" className="text-brand-gold hover:text-brand-gold/80 font-medium underline underline-offset-2">
-          V.O.I.C.E™ service
-        </Link>.
+          AI visibility and AI SEO programmes
+        </Link>
+        .
       </>
     ),
   },
   {
     question: 'What technology do you use and why does it matter?',
-    answer: 'We build with Next.js and deploy on Vercel\'s edge network. Unlike WordPress or Wix sites, ours are Server-Side Rendered — meaning AI crawlers can actually read your content. This is why our clients show up when someone asks ChatGPT for recommendations. The tech matters, but only because of what it delivers: speed, visibility, and results.',
+    answer:
+      'We build with Next.js on Vercel\'s edge network. Pages are built for speed and AI visibility, so crawlers get full HTML instead of empty shells. That is why our clients show up when someone asks ChatGPT for recommendations.',
   },
 ];
 
 // Payment Plan Features
 const paymentFeatures = [
-  '6, 12, or 24 month payment plans',
+  '6, 12, 24, or 36 month payment plans when you qualify',
   'Fixed monthly payments - no surprises',
   'Includes ongoing maintenance and support',
   'Start building now, pay as you grow',
@@ -380,7 +391,7 @@ export default function WebDesignPage() {
             <div className="text-center mb-8 md:mb-12">
               <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">Built for Businesses Like Yours</h2>
               <p className="text-brand-navy/70 max-w-2xl mx-auto">
-                Established UK businesses investing £8-15K in a website that actually works
+                Established UK businesses who want published pricing, not mystery quotes
               </p>
             </div>
           </FadeInOnScroll>
@@ -495,15 +506,15 @@ export default function WebDesignPage() {
                 </summary>
                 <div className="p-6 pt-0 border-t border-brand-navy/10">
                   <p className="text-brand-navy/70 mb-6 text-center">
-                    The technical difference: Server-Side Rendering vs Client-Side Rendering
+                    The technical difference: thin client pages versus full HTML from the server
                   </p>
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <p className="text-sm text-brand-navy/60 mb-3 text-center">❌ Client-Side Rendered (Wix/WordPress)</p>
+                      <p className="text-sm text-brand-navy/60 mb-3 text-center">Thin client shell (many templates)</p>
                       <CSRCodeBlock className="h-full" />
                     </div>
                     <div>
-                      <p className="text-sm text-brand-navy/60 mb-3 text-center">✅ Server-Side Rendered (Next.js)</p>
+                      <p className="text-sm text-brand-navy/60 mb-3 text-center">Ultra Fast full HTML (our Next.js builds)</p>
                       <SSRCodeBlock className="h-full" delay={500} />
                     </div>
                   </div>
@@ -565,12 +576,12 @@ export default function WebDesignPage() {
             </div>
           </FadeInOnScroll>
           
-          {/* Lighthouse Gauges */}
+          {/* Google speed score gauges */}
           <FadeInOnScroll delay={0.2}>
             <div className="bg-brand-navy rounded-2xl p-8 md:p-12 mb-12">
-              <h3 className="text-white text-center font-bold mb-2">Lighthouse Scores</h3>
+              <h3 className="text-white text-center font-bold mb-2">Google speed scores</h3>
               <p className="text-white/60 text-center text-sm mb-8">
-                Lighthouse is Google&apos;s own website quality test. 100 is the maximum score. Most UK business websites score between 30 and 60.
+                These are Google&apos;s own speed and quality scores. 100 is the maximum. Most UK business websites score between 30 and 60.
               </p>
               <div className="flex flex-wrap justify-center gap-8 md:gap-12">
                 <LighthouseGauge score={100} label="Performance" delay={0} />
@@ -618,7 +629,7 @@ export default function WebDesignPage() {
           <FadeInOnScroll delay={0.3}>
             <div className="bg-brand-navy rounded-2xl p-8 md:p-12">
               <p className="text-white/60 text-center text-sm mb-6">
-                This is how Google and AI assistants understand your business — every entity connected and validated.
+                This is how Google and AI assistants read your business, with every key fact connected and checked.
               </p>
               <SchemaVisualization />
             </div>
@@ -631,7 +642,7 @@ export default function WebDesignPage() {
         <div className="container-content relative z-10">
           <FadeInOnScroll>
             <div className="text-center mb-8">
-              <h3 className="text-white font-bold mb-2">Built With Industry-Leading Technology</h3>
+              <h3 className="text-white font-bold mb-2">Built on the same stack as serious product teams</h3>
               <p className="text-white/50 text-sm mb-4">The same stack trusted by</p>
               {/* Trusted By Logos */}
               <div className="flex justify-center items-center gap-8 md:gap-12">
@@ -753,7 +764,7 @@ export default function WebDesignPage() {
         <div className="container-content">
           <FadeInOnScroll>
             <div className="text-center mb-8 md:mb-16">
-              <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">How We Build Your SSR Website</h2>
+              <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">How we build your Ultra Fast site</h2>
               <p className="text-brand-navy/70 max-w-2xl mx-auto">
                 From first call to launch - no surprises
               </p>
@@ -849,7 +860,7 @@ export default function WebDesignPage() {
               <div className="text-center mb-8 md:mb-10">
                 <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">Pay Monthly, Spread the Cost</h2>
                 <p className="text-white/70">
-                  Premium SSR web design without the upfront hit
+                  Ultra Fast web design without the full upfront hit
                 </p>
               </div>
             </FadeInOnScroll>
@@ -860,7 +871,7 @@ export default function WebDesignPage() {
                   <p className="text-body-lg text-white/80 mb-6">
                     We know dropping thousands upfront isn&apos;t always realistic - especially when 
                     you&apos;re investing in your business growth. That&apos;s why we offer flexible 
-                    payment plans that let you spread the cost over 6, 12, or 24 months.
+                    payment plans that let you spread the cost over 6, 12, 24, or 36 months when you qualify.
                   </p>
                   <p className="text-white/60 mb-8">
                     No credit checks, no finance companies, no interest. Just straightforward 
@@ -939,7 +950,7 @@ export default function WebDesignPage() {
         
         <div className="container-content relative z-10 text-center">
           <FadeInOnScroll>
-            <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">Ready for an SSR Website That AI Can See?</h2>
+            <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">Ready for an Ultra Fast site AI can read?</h2>
           </FadeInOnScroll>
           
           <FadeInOnScroll delay={0.2}>

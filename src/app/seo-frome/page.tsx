@@ -13,11 +13,11 @@ import {
 } from '@/components/landing/below-fold-dynamic';
 
 const faqItems = [
-  { question: "How much does SEO cost in Frome?", answer: "SEO is built into every web design project. Standalone SEO audits start from £500. Ongoing retainers from £300/month. We're based in Frome so there's no travel markup or big-city agency pricing." },
-  { question: "Can SEO help my Frome business get on ChatGPT?", answer: "Yes. Our V.O.I.C.E methodology is specifically designed to get businesses recommended by AI platforms like ChatGPT, Perplexity, and Claude. We proved it works with our client H4TLT, who went from invisible to #1 AI-recommended in 6 weeks." },
+  { question: "How much does SEO cost in Frome?", answer: "Technical SEO is built into every web build. Standalone AI SEO uses a £750 setup and £500 per month on a 6- or 12-month commitment. We are based in Frome, so there is no travel markup or big-city agency padding." },
+  { question: "Can SEO help my Frome business get on ChatGPT?", answer: "Yes. Our AI visibility methodology is specifically designed to get businesses recommended by AI platforms like ChatGPT, Perplexity, and Claude. We proved it works with our client H4TLT, who went from invisible to #1 AI-recommended in 6 weeks." },
   { question: "What is local SEO?", answer: "Local SEO targets people searching for services in a specific area. When someone searches 'plumber in Frome' or asks Alexa for a local recommendation, local SEO determines whether your business shows up. It involves Google Business Profile optimisation, local schema markup, citation building, and location-specific content." },
   { question: "How long does SEO take to show results?", answer: "Technical SEO improvements like speed, schema, and site structure show impact within weeks. Content-driven ranking improvements typically take 3-6 months. AI visibility improvements can happen faster because the field is less competitive." },
-  { question: "What is V.O.I.C.E. methodology?", answer: "V.O.I.C.E. stands for Visibility, Optimisation, for Intelligent, Crawler, Engines. It's our proprietary framework for making businesses visible to both traditional search engines and AI platforms like ChatGPT and Perplexity." },
+  { question: "What is ScopeSite's AI visibility approach?", answer: "It is ScopeSite's practical framework for making businesses visible to Google and to AI platforms such as ChatGPT and Perplexity." },
   { question: "Do you guarantee first page rankings?", answer: "No. Anyone who guarantees rankings is lying. What we guarantee is technically sound implementation: validated schema, fast load times, proper site structure, and AI-readable content. The results speak for themselves." },
   { question: "Can you help with Google Business Profile?", answer: "Yes. GBP optimisation is part of every local SEO engagement. We optimise your profile, manage citations, and ensure NAP consistency across the web. Being in Frome means we can photograph your premises too." },
   { question: "What's the difference between SEO and AI optimisation?", answer: "Traditional SEO focuses on Google rankings. AI optimisation (what we call GEO and AEO) ensures your business gets recommended by ChatGPT, Perplexity, Claude, and voice assistants. We do both." },
@@ -41,7 +41,7 @@ const problemPoints = [
 ];
 
 const solutionFeatures = [
-  { title: "V.O.I.C.E™ AI Methodology", description: "Get recommended by ChatGPT, not just indexed by Google" },
+  { title: "AI visibility methodology", description: "Get recommended by ChatGPT, not just indexed by Google" },
   { title: "Technical SEO Foundation", description: "Schema markup, SSR, sub-2-second load times" },
   { title: "Local Search Dominance", description: "Google Business Profile, local citations, Frome-specific targeting" },
   { title: "Transparent Reporting", description: "Metrics that matter, not vanity dashboards" },
@@ -64,7 +64,7 @@ const whatYouGetCards = [
     iconNode: <Brain className="w-6 h-6 text-brand-gold" />,
     items: [
       "ChatGPT recommendation testing",
-      "V.O.I.C.E™ optimisation",
+      "AI SEO tuning",
       "AI crawler configuration",
       "Structured data engineering",
       "Voice search optimisation",
@@ -132,7 +132,7 @@ export default function SEOFromePage() {
               Search has changed. Google is only part of the picture now.
             </p>
             <p>
-              ScopeSite is based right here in Beckington, Frome. We deliver SEO that covers Google rankings, AI recommendations from ChatGPT and Perplexity, and voice search visibility. Our V.O.I.C.E™ methodology is proven. Veteran-owned, transparent about everything we do, and always available for a coffee and a chat in town.
+              ScopeSite is based right here in Beckington, Frome. We deliver SEO that covers Google rankings, AI recommendations from ChatGPT and Perplexity, and voice search visibility. Our AI visibility methodology is proven. Veteran-owned, transparent about everything we do, and always available for a coffee and a chat in town.
             </p>
           </>
         }
@@ -144,13 +144,13 @@ export default function SEOFromePage() {
         problems={problemPoints}
         conclusion={{
           title: "The Bottom Line:",
-          text: "Frome businesses need SEO that covers Google, AI platforms, and voice search. That's what V.O.I.C.E™ delivers."
+          text: "Frome businesses need SEO that covers Google, AI platforms, and voice search. That is what our AI visibility work delivers."
         }}
       />
 
       <LandingSolution
         title="SEO THAT ACTUALLY WORKS IN 2026"
-        intro="Our V.O.I.C.E™ methodology covers every way your customers search for businesses like yours:"
+        intro="Our AI visibility methodology covers every way your customers search for businesses like yours:"
         features={solutionFeatures}
         layout="table"
       />
@@ -175,7 +175,7 @@ export default function SEOFromePage() {
       />
 
       <LandingCaseStudy 
-        title="V.O.I.C.E™ Gets Results"
+        title="AI visibility gets Results"
         quote="From invisible to #1 AI-recommended in 6 weeks using our proprietary methodology"
         theme="dark" 
       />
@@ -184,7 +184,7 @@ export default function SEOFromePage() {
         title="MORE SERVICES FROM SCOPESITE"
         services={[
           {
-            title: "V.O.I.C.E™ Methodology",
+            title: "AI visibility methodology",
             description: "Our AI visibility framework explained in full",
             href: "/voice"
           },

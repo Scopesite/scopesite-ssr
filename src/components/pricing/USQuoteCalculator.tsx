@@ -1186,7 +1186,7 @@ function StepConfigure({ serviceType, scope, onChange }: StepConfigureProps) {
           <div className="space-y-3">
             <label className="flex items-center gap-3 opacity-60 cursor-not-allowed">
               <Checkbox checked disabled />
-              <span className="text-brand-navy">V.O.I.C.E. AI Visibility</span>
+              <span className="text-brand-navy">AI visibility</span>
               <span className="text-body-sm bg-green-100 text-green-700 px-2 py-0.5 rounded">
                 Included
               </span>
@@ -1349,7 +1349,7 @@ function StepAddOns({ serviceType, addOns, onChange }: StepAddOnsProps) {
           <div className="flex items-center gap-3">
             <Sparkles className="w-5 h-5 text-brand-gold" />
             <div>
-              <span className="font-bold text-brand-navy">V.O.I.C.E. AI Visibility</span>
+              <span className="font-bold text-brand-navy">AI visibility</span>
               <span className="text-brand-gold ml-2 text-sm font-medium">Included with your SSR website</span>
             </div>
           </div>

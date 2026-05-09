@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Search, Brain, Code2, Globe, Shield, Zap, TrendingUp, Eye, FileCode, FileText, Settings, Database } from 'lucide-react';
+import { Code2, Shield, TrendingUp, Eye, FileCode, FileText, Settings, Database } from 'lucide-react';
 import {
   LandingHero,
   LandingProblem,
@@ -10,142 +10,156 @@ import {
   FAQSection,
   LandingCTA,
 } from '@/components/landing';
+import { QuoteRedirectNotice } from '@/components/quote/QuoteRedirectNotice';
 
-// FAQ Data
 const faqItems = [
   {
-    question: "What AI SEO services do you offer?",
-    answer: "We offer a comprehensive suite of AI SEO services including V.O.I.C.E. AI visibility audits, AI-first website builds using server-side rendering (SSR), JSON-LD schema engineering, entity building across Knowledge Graphs, content architecture for AI extraction, and AI crawler configuration (robots.txt, llms.txt, ai-context.json)."
+    question: 'What AI SEO services do you offer?',
+    answer:
+      'We cover the full stack: AI visibility scans, Ultra Fast website rebuilds when needed, structured data so facts are auto-formatted for AI to read, entity signals, content layout for AI extraction, and crawler access files such as robots.txt, llms.txt, and ai-context.json.',
   },
   {
-    question: "Do I need a new website for AI SEO?",
-    answer: "Not always, but often yes. If your current website relies heavily on client-side JavaScript (like many Wix, Squarespace, or basic React sites), AI crawlers cannot read your content. In these cases, an AI-first website build using Next.js SSR is required. If your site is already server-side rendered, we can often implement schema and content architecture over the top."
+    question: 'Do I need a new website for AI SEO?',
+    answer:
+      'Not always. If your site leans on heavy client-side JavaScript, AI crawlers may see an empty page. Then we usually recommend an Ultra Fast rebuild. If your pages already ship full HTML, we can often layer structured data and content fixes on top.',
   },
   {
-    question: "What is a V.O.I.C.E. audit?",
-    answer: "A V.O.I.C.E. audit is our proprietary diagnostic scan that tests your business's visibility across 4 major AI platforms: ChatGPT, Claude, Gemini, and Perplexity. It identifies whether AI can see you, how it describes you, and what technical blockers are preventing you from being recommended."
+    question: 'What is an AI visibility scan?',
+    answer:
+      'It is our diagnostic run across ChatGPT, Claude, Gemini, and Perplexity. You see whether AI can read you, how it describes you, and which technical blocks stop recommendations.',
   },
   {
-    question: "How does schema markup help AI find my business?",
-    answer: "Schema markup (JSON-LD) is the structured data language that AI platforms use to understand facts about your business. Instead of forcing AI to guess what your website is about by reading paragraphs of text, schema explicitly states your services, prices, location, and credentials in a machine-readable format."
+    question: 'How does structured data help AI find my business?',
+    answer:
+      'Structured data spells out services, prices, locations, and credentials in a machine-friendly way. That cuts guesswork for AI and search engines.',
   },
   {
-    question: "What is entity building and why does it matter?",
-    answer: "Entity building is the process of establishing your business as a recognised 'thing' (entity) in databases like Wikidata and the Google Knowledge Graph. AI models rely on these entity databases to verify facts. If you aren't an established entity, AI is less likely to trust and recommend you."
+    question: 'What is entity building and why does it matter?',
+    answer:
+      'Entity building is how we strengthen your business as a recognised thing in sources such as Wikidata and the Google Knowledge Graph. Stronger entities mean AI can verify facts instead of guessing.',
   },
   {
-    question: "Can you optimise my existing Wix/WordPress/Squarespace site for AI?",
-    answer: "We can implement basic schema and content changes on WordPress, but platforms like Wix and Squarespace are fundamentally limited for true AI SEO because of how they render code and restrict server access. For serious AI visibility, we strongly recommend a custom SSR build."
+    question: 'Can you improve my existing Wix, WordPress, or Squarespace site?',
+    answer:
+      'We can make limited fixes on WordPress. Wix and Squarespace usually block the server access we need. For serious AI SEO we normally recommend an Ultra Fast build.',
   },
   {
-    question: "What is an AI visibility retainer?",
-    answer: "An AI visibility retainer is our ongoing service where we monitor your AI citations, update your schema as your business changes, add new content structured for AI extraction, and adapt to the rapidly changing algorithms of ChatGPT, Claude, and Perplexity."
+    question: 'What is an AI visibility retainer?',
+    answer:
+      'It is ongoing AI SEO: we watch citations, refresh structured data, add AI-friendly content, and adjust as models change. Standalone pricing is a £750 setup and £500 per month on a 6- or 12-month commitment.',
   },
   {
-    question: "How quickly will I see results from AI SEO services?",
-    answer: "Once an AI-first website is launched with proper schema and crawler access, we typically see initial citations in Perplexity within 2-4 weeks. Consistent recommendations in ChatGPT and Claude usually take 6-12 weeks as the models update their underlying data and entity confidence grows."
-  }
+    question: 'How quickly will I see results?',
+    answer:
+      'After an Ultra Fast launch with solid structured data and crawler access, we often see early Perplexity citations in 2 to 4 weeks. ChatGPT and Claude usually need 6 to 12 weeks as confidence builds.',
+  },
 ];
 
-// Problem points
 const problemPoints = [
   {
-    title: "Client-Side Rendering Blockers",
-    description: "Most modern websites load a blank page and use JavaScript to fill in the content. AI crawlers don't run JavaScript. They see nothing."
+    title: 'Thin client pages',
+    description:
+      'Many sites load an empty shell and fill it with JavaScript. AI crawlers often skip that work. They see nothing.',
   },
   {
-    title: "Unstructured Data",
-    description: "Without JSON-LD schema, AI has to guess what your business does. Guessing leads to hallucinations or being ignored entirely."
+    title: 'Unstructured facts',
+    description:
+      'Without structured data, AI has to guess what you do. Guessing leads to wrong answers or silence.',
   },
   {
-    title: "Blocked Crawlers",
-    description: "Many standard robots.txt configurations accidentally block GPTBot, ClaudeBot, and PerplexityBot. You are locking the door on AI."
+    title: 'Blocked crawlers',
+    description:
+      'robots.txt files sometimes block GPTBot, ClaudeBot, or PerplexityBot. You lock the door on AI.',
   },
   {
-    title: "Poor Content Architecture",
-    description: "Long, rambling paragraphs are hard for AI to extract facts from. Content must be structured for machine reading, not just human reading."
+    title: 'Weak content layout',
+    description:
+      'Long unstructured paragraphs are hard for AI to parse. Facts need clear layout for machines and humans.',
   },
 ];
 
-// Solution features
 const solutionFeatures = [
   {
-    title: "V.O.I.C.E. Audit",
-    description: "Diagnostic scan across 4 AI platforms to establish your baseline visibility.",
+    title: 'AI visibility scan',
+    description: 'Baseline read across four AI platforms before we change anything.',
     iconNode: <Eye className="w-6 h-6 text-brand-gold" />,
   },
   {
-    title: "AI-First Builds",
-    description: "Next.js SSR architecture delivering server-rendered HTML that AI crawlers can read.",
+    title: 'Ultra Fast builds',
+    description: 'Next.js pages that ship full HTML AI crawlers can read.',
     iconNode: <Code2 className="w-6 h-6 text-brand-gold" />,
   },
   {
-    title: "Schema Engineering",
-    description: "JSON-LD structured data that explicitly teaches AI what your business is.",
+    title: 'Structured data',
+    description: 'Facts auto-formatted for AI to read, mapped to your services and credentials.',
     iconNode: <FileCode className="w-6 h-6 text-brand-gold" />,
   },
   {
-    title: "Entity Building",
-    description: "Wikidata, Google Knowledge Graph, directory submissions, and sameAs signals.",
+    title: 'Entity building',
+    description: 'Wikidata, Knowledge Graph signals, directories, and sameAs links that build trust.',
     iconNode: <Database className="w-6 h-6 text-brand-gold" />,
   },
 ];
 
-// What you get cards
 const whatYouGetCards = [
   {
-    title: "Content Architecture",
+    title: 'Content architecture',
     iconNode: <FileText className="w-6 h-6 text-brand-gold" />,
     items: [
-      "Content structured for AI extraction",
-      "FAQ-first content design",
-      "Clear entity relationships",
-      "Speakable schema for voice",
+      'Content structured for AI extraction',
+      'FAQ-first layouts where they help',
+      'Clear entity relationships',
+      'Speakable markup for voice surfaces',
     ],
   },
   {
-    title: "Crawler Configuration",
+    title: 'Crawler configuration',
     iconNode: <Settings className="w-6 h-6 text-brand-gold" />,
     items: [
-      "Optimised robots.txt",
-      "llms.txt implementation",
-      ".well-known/ai-context.json",
-      "Crawler access monitoring",
+      'robots.txt tuned for AI bots',
+      'llms.txt where it helps',
+      '.well-known/ai-context.json',
+      'Crawler access checks',
     ],
   },
   {
-    title: "AI Visibility Retainer",
+    title: 'AI SEO retainer',
     iconNode: <TrendingUp className="w-6 h-6 text-brand-gold" />,
     items: [
-      "Ongoing AI citation monitoring",
-      "Schema maintenance",
-      "Content updates",
-      "Algorithm adaptation",
+      'AI citation monitoring',
+      'Structured data maintenance',
+      'Content updates for AI',
+      'Model and algorithm shifts',
     ],
   },
   {
-    title: "Technical Foundation",
+    title: 'Technical foundation',
     iconNode: <Shield className="w-6 h-6 text-brand-gold" />,
     items: [
-      "Server-Side Rendering (SSR)",
-      "100/100 Lighthouse scores",
-      "Core Web Vitals optimisation",
-      "Fast global edge delivery",
+      'Ultra Fast HTML delivery',
+      'Top Google speed scores on our builds',
+      'Core Web Vitals work',
+      'Fast global edge hosting',
     ],
   },
 ];
 
-// Proof stats
 const proofStats = [
-  { value: 100, suffix: "%", label: "Lighthouse Scores", description: "Perfect technical performance on every build" },
-  { value: 4, suffix: "x", label: "AI Platforms", description: "Optimised for ChatGPT, Claude, Gemini & Perplexity" },
-  { value: 800, suffix: "M+", label: "Weekly AI Users", description: "The audience you are currently missing" },
-  { value: 1, suffix: "st", label: "AI Recommendation", description: "Our goal for your business" },
+  {
+    value: 100,
+    suffix: '%',
+    label: 'Speed scores',
+    description: 'Strong technical performance on every Ultra Fast build',
+  },
+  { value: 4, suffix: 'x', label: 'AI platforms', description: 'ChatGPT, Claude, Gemini, Perplexity' },
+  { value: 800, suffix: 'M+', label: 'Weekly AI users', description: 'The audience you are missing today' },
+  { value: 1, suffix: 'st', label: 'AI recommendation', description: 'The outcome we engineer for' },
 ];
 
 export default function AISEOServicesPage() {
   return (
     <>
+      <QuoteRedirectNotice />
       <LandingHero
         badge="AI SEO Services"
         badgeIcon={<Code2 className="w-4 h-4 text-brand-gold" />}
@@ -155,78 +169,103 @@ export default function AISEOServicesPage() {
         bodyCopy={
           <>
             <p className="mb-4">
-              Being recommended by AI doesn&apos;t happen by accident. It requires a specific technical architecture, deep structured data, and content engineered for machine extraction.
+              Being recommended by AI does not happen by accident. You need fast HTML, structured facts, and
+              content laid out for machine reading.
             </p>
             <p className="mb-4">
-              Our AI SEO services cover the entire stack: from auditing your current visibility with our V.O.I.C.E. scanner, to rebuilding your site with Server-Side Rendering (SSR), to engineering the JSON-LD schema that teaches AI exactly who you are.
+              Our AI SEO work runs from the free scan through Ultra Fast rebuilds when needed, plus structured
+              data that tells AI exactly who you are.
             </p>
             <p>
-              Learn more about our <Link href="/ai-seo-agency" className="text-brand-gold hover:underline">AI SEO agency</Link>, our specialist <Link href="/generative-engine-optimisation" className="text-brand-gold hover:underline">generative engine optimisation</Link> service, or check your current <Link href="/ai-visibility" className="text-brand-gold hover:underline">AI visibility</Link> with a free scan.
+              Learn more about our{' '}
+              <Link href="/ai-seo-agency" className="text-brand-gold hover:underline">
+                AI SEO agency
+              </Link>
+              , our{' '}
+              <Link href="/generative-engine-optimisation" className="text-brand-gold hover:underline">
+                generative engine optimisation
+              </Link>{' '}
+              service, or check your{' '}
+              <Link href="/ai-visibility" className="text-brand-gold hover:underline">
+                AI visibility
+              </Link>{' '}
+              with a free scan.
             </p>
           </>
         }
-        primaryCTA={{ text: 'Free V.O.I.C.E. Scan', href: '/voice' }}
+        primaryCTA={{ text: 'Free AI visibility scan', href: '/voice' }}
         secondaryCTA={{ text: 'Get a Quote', href: '/pricing' }}
       />
 
       <LandingProblem
         title="WHY YOUR CURRENT SITE IS INVISIBLE"
-        intro="Most websites are built for humans to look at, not for AI to read. Here are the technical blockers preventing you from being recommended."
+        intro="Most websites are built for humans to look at, not for AI to read. Here are the usual blockers."
         problems={problemPoints}
       />
 
-      <LandingSolution
-        title="OUR AI SEO SERVICES"
-        features={solutionFeatures}
-        columns={4}
-      />
+      <LandingSolution title="OUR AI SEO SERVICES" features={solutionFeatures} columns={4} />
 
-      {/* Service Breakdown */}
       <section className="bg-brand-navy py-section">
         <div className="container-content">
           <div className="text-center mb-12">
             <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">THE FULL STACK</h2>
             <p className="text-white/70 max-w-2xl mx-auto">
-              We don&apos;t just tweak meta tags. We rebuild your technical foundation for <Link href="/answer-engine-optimisation" className="text-brand-gold hover:underline">Answer Engine Optimisation</Link>.
+              We do not stop at meta tags. We rebuild your technical foundation for{' '}
+              <Link href="/answer-engine-optimisation" className="text-brand-gold hover:underline">
+                answer engine optimisation
+              </Link>
+              .
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             <div className="bg-brand-graphite/30 p-8 rounded-2xl border border-white/10">
               <h3 className="text-brand-gold font-bold text-xl mb-3 flex items-center gap-2">
-                <Eye className="w-5 h-5" /> V.O.I.C.E. AI Visibility Audit
+                <Eye className="w-5 h-5" /> AI visibility audit
               </h3>
-              <p className="text-white/70">A diagnostic scan across 4 AI platforms to establish your baseline visibility and identify technical blockers.</p>
+              <p className="text-white/70">
+                A diagnostic scan across four AI platforms to show your baseline and blockers.
+              </p>
             </div>
             <div className="bg-brand-graphite/30 p-8 rounded-2xl border border-white/10">
               <h3 className="text-brand-gold font-bold text-xl mb-3 flex items-center gap-2">
-                <Code2 className="w-5 h-5" /> AI-First Website Build
+                <Code2 className="w-5 h-5" /> Ultra Fast website build
               </h3>
-              <p className="text-white/70">Next.js SSR architecture delivering server-rendered HTML that AI crawlers can read instantly, without relying on JavaScript execution.</p>
+              <p className="text-white/70">
+                Next.js delivery with full HTML so AI crawlers can read you without running heavy JavaScript.
+              </p>
             </div>
             <div className="bg-brand-graphite/30 p-8 rounded-2xl border border-white/10">
               <h3 className="text-brand-gold font-bold text-xl mb-3 flex items-center gap-2">
-                <FileCode className="w-5 h-5" /> Schema Engineering
+                <FileCode className="w-5 h-5" /> Structured data engineering
               </h3>
-              <p className="text-white/70">Deep JSON-LD structured data that explicitly teaches AI what your business is, mapping your services, pricing, and credentials.</p>
+              <p className="text-white/70">
+                Deep structured markup that maps services, pricing, locations, and proof points.
+              </p>
             </div>
             <div className="bg-brand-graphite/30 p-8 rounded-2xl border border-white/10">
               <h3 className="text-brand-gold font-bold text-xl mb-3 flex items-center gap-2">
-                <Database className="w-5 h-5" /> Entity Building
+                <Database className="w-5 h-5" /> Entity building
               </h3>
-              <p className="text-white/70">Establishing your business in Wikidata, Google Knowledge Graph, and directories with strong sameAs signals.</p>
+              <p className="text-white/70">
+                Signals across Wikidata, Knowledge Graph, and directories with strong sameAs links.
+              </p>
             </div>
             <div className="bg-brand-graphite/30 p-8 rounded-2xl border border-white/10">
               <h3 className="text-brand-gold font-bold text-xl mb-3 flex items-center gap-2">
-                <FileText className="w-5 h-5" /> Content Architecture
+                <FileText className="w-5 h-5" /> Content architecture
               </h3>
-              <p className="text-white/70">Content structured for AI extraction, not just human reading. FAQ-first design and clear factual statements.</p>
+              <p className="text-white/70">
+                Layout that surfaces facts for AI extraction, not just long prose blocks.
+              </p>
             </div>
             <div className="bg-brand-graphite/30 p-8 rounded-2xl border border-white/10">
               <h3 className="text-brand-gold font-bold text-xl mb-3 flex items-center gap-2">
-                <Settings className="w-5 h-5" /> AI Crawler Configuration
+                <Settings className="w-5 h-5" /> AI crawler configuration
               </h3>
-              <p className="text-white/70">Optimised robots.txt, llms.txt, .well-known/ai-context.json, and speakable schema to ensure AI has full access.</p>
+              <p className="text-white/70">
+                robots.txt, llms.txt, ai-context.json, and speakable markup so AI can reach your pages.
+              </p>
             </div>
           </div>
         </div>
@@ -234,7 +273,7 @@ export default function AISEOServicesPage() {
 
       <LandingWhatYouGet
         title="BEYOND THE BUILD"
-        intro="What happens after your AI-first site goes live."
+        intro="What happens after your Ultra Fast site goes live."
         cards={whatYouGetCards}
         columns={4}
       />
@@ -243,28 +282,24 @@ export default function AISEOServicesPage() {
         title="PROVEN AI VISIBILITY"
         stats={proofStats}
         quote={{
-          text: "ScopeSite took us from being completely invisible to ChatGPT, to being the number one recommended provider in our sector nationally in under 4 months.",
-          author: "Hear 4 The Long Term"
+          text: 'ScopeSite took us from being completely invisible to ChatGPT, to being the number one recommended provider in our sector nationally in under 4 months.',
+          author: 'Hear 4 The Long Term',
         }}
         theme="dark"
       />
 
-      <LandingCaseStudy 
+      <LandingCaseStudy
         title="From Invisible to AI Recommended"
-        quote="See how we used our V.O.I.C.E. methodology to get H4TLT recommended by Google AI Overviews, ChatGPT, and Perplexity."
-        theme="light" 
-      />
-
-      <FAQSection
-        title="AI SEO SERVICES FAQS"
-        items={faqItems}
+        quote="See how our AI SEO programme put H4TLT in Google AI Overviews, ChatGPT, and Perplexity."
         theme="light"
       />
 
+      <FAQSection title="AI SEO SERVICES FAQS" items={faqItems} theme="light" />
+
       <LandingCTA
         title="READY FOR AI VISIBILITY?"
-        description="Stop fighting for blue links while your competitors get recommended by AI. Run a free V.O.I.C.E. scan today, or get an instant quote for our AI SEO services."
-        primaryCTA={{ text: 'Free V.O.I.C.E. Scan', href: '/voice' }}
+        description="Stop fighting for blue links while competitors get recommended. Run a free AI visibility scan today, or get an instant quote for AI SEO."
+        primaryCTA={{ text: 'Free AI visibility scan', href: '/voice' }}
         secondaryCTA={{ text: 'Get Instant Quote', href: '/pricing' }}
         footnote="No corporate waffle • Real results • Read our latest insights on the blog"
       />

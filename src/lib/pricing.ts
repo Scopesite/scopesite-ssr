@@ -37,7 +37,7 @@ export interface PricingConfig {
   
   /** Add-on services */
   addOns: {
-    voice: number;              // V.O.I.C.E™ AI Visibility (monthly)
+    voice: number;              // AI visibility (monthly)
     branding: number;           // Full branding package (one-off)
     research: number;           // Market research + persona (one-off)
     videoLong: number;          // Long-form video (per video)

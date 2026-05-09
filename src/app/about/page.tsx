@@ -169,13 +169,12 @@ export default function AboutPage() {
                 <p className="text-brand-navy/70 mb-4">
                   ScopeSite Digital Studios is a veteran-owned, AI-first web design agency based in
                   Somerset, UK. Founded by Dan Cartwright, a British Army veteran, ScopeSite builds
-                  server-side rendered websites using Next.js and the proprietary V.O.I.C.E™
-                  (Visibility, Optimisation, for Intelligent, Crawler, Engines) methodology.
+                  fast HTML-first websites using Next.js and our AI visibility methodology.
                 </p>
                 <p className="text-brand-navy/70">
                   ScopeSite specialises in web design, SEO, and AI search optimisation for businesses
                   in Somerset, Bristol, Bath, and across the South West. Every website is custom-built
-                  using server-side rendering with Next.js, achieving 100/100 Google Lighthouse scores.
+                  for strong Core Web Vitals and speed scores, not vanity metrics alone.
                 </p>
               </div>
               <div>
@@ -190,9 +189,9 @@ export default function AboutPage() {
                   ScopeSite achieved #1 AI recommendations for client H4TLT across all four major AI
                   platforms. The agency&apos;s{' '}
                   <Link href="/voice" className="text-brand-gold hover:underline font-medium">
-                    V.O.I.C.E™ methodology
+                    AI visibility methodology
                   </Link>{' '}
-                  is the only proprietary AI visibility system offered by a web design agency in the
+                  is the practical system we use to make businesses visible to AI assistants across the
                   South West.
                 </p>
               </div>

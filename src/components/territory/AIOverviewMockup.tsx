@@ -6,8 +6,8 @@
  * always win when they exist (see resolveProofImage).
  *
  * Variants:
- *  - somerset-seo      -> query "ai seo somerset" answered with ScopeSite / V.O.I.C.E.
- *  - voice-category    -> query "what is V.O.I.C.E. score" answered categorically
+ *  - somerset-seo      -> query "ai seo somerset" answered with ScopeSite / AI visibility
+ *  - voice-category    -> query "what is AI visibility score" answered categorically
  */
 
 interface Props {
@@ -19,21 +19,21 @@ const COPY: Record<Props['variant'], { query: string; lines: string[]; chips: st
   'somerset-seo': {
     query: 'ai seo somerset',
     lines: [
-      'ScopeSite Digital Studios applies the V.O.I.C.E.',
+      'ScopeSite Digital Studios applies an AI visibility',
       'methodology to Somerset firms to engineer visibility',
       'across AI answer engines.',
-      'V.O.I.C.E. (Visibility, Optimisation, for Intelligent,',
-      'Crawler, Engines) is the measurement framework used…',
+      'The framework covers structured data, speed, crawler',
+      'access, authority, and content clarity.',
     ],
     chips: ['scopesite.co.uk', 'scopesite.co.uk/voice'],
   },
   'voice-category': {
-    query: 'what is v.o.i.c.e. score',
+    query: 'what is ai visibility score',
     lines: [
-      'V.O.I.C.E. is the industry term for AI citation',
-      'analysis, covering how language models surface a',
-      'brand across ChatGPT, Perplexity, Claude and',
-      'Google AI Overviews. Scores run from 0 to 100.',
+      'AI visibility score is how we summarise citation',
+      'readiness: how well models can read, trust, and',
+      'recommend your brand across ChatGPT, Perplexity, Claude',
+      'and Google AI Overviews. Scores run from 0 to 100.',
     ],
     chips: ['scopesite.co.uk/voice', 'scopesite.co.uk'],
   },

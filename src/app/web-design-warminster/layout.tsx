@@ -45,8 +45,8 @@ export const metadata: Metadata = {
 };
 
 const faqs: FAQItem[] = [
-  { question: "Who does web design near Warminster?", answer: "ScopeSite is based 20 minutes away in Frome. We work with businesses across Warminster and Wiltshire, offering face-to-face meetings, local knowledge, and transparent pricing from £2,625." },
-  { question: "How much does a website cost in Warminster?", answer: "Our packages start from £2,625 for a simple site. Most Warminster businesses invest between £5,000 and £9,000 depending on complexity. That's well below Bath and Salisbury agency rates." },
+  { question: "Who does web design near Warminster?", answer: "ScopeSite is based 20 minutes away in Frome. We work with businesses across Warminster and Wiltshire, offering face-to-face meetings, local knowledge, and transparent published pricing from £1,875 (client-managed) or £2,000 (Ultra Fast)." },
+  { question: "How much does a website cost in Warminster?", answer: "Published pricing starts at £1,875 or £2,000. Most Warminster projects land around £4,000 to £8,000. That is well below typical Bath and Salisbury quotes. Use our calculator for an exact figure." },
   { question: "Can you help my Warminster business get found online?", answer: "Yes. We build every site with AI visibility in mind. Structured schema markup, content designed for ChatGPT and voice assistants, plus local SEO so you appear in 'near me' searches around Warminster." },
   { question: "What makes your websites different from WordPress?", answer: "We build on Next.js, not WordPress. That means sub-2-second load times, 100/100 Lighthouse scores, and proper AI optimisation. Most Warminster businesses are still running slow WordPress sites that AI platforms can't read properly." },
   { question: "Do you understand the Warminster area?", answer: "Yes. We're based in Frome, just down the A362. We know Warminster's mix of local businesses, its military community, and the town's position between Bath and Salisbury. We build websites that reflect what makes the area unique." },
@@ -78,7 +78,7 @@ const pageSchema = wrapInGraph([
     PAGE_URL,
     areasServed,
     [
-      { name: 'Simple Website', price: '2625' },
+      { name: 'Simple Website', price: '1875' },
       { name: 'Standard Website', price: '5625' },
       { name: 'Complex Website', price: '9375' },
     ]

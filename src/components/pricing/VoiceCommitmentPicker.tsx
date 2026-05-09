@@ -12,12 +12,11 @@ interface VoiceCommitmentPickerProps {
 }
 
 /**
- * Two-card commitment picker for standalone V.O.I.C.E™ flows.
+ * Two-card commitment picker for standalone AI SEO retainer flows.
  * Reads all pricing, labels, and copy from VOICE_SPEC.commitmentOptions
  * (no hardcoded numbers).
  *
- * Used when projectType === 'visibility'. Replaces the generic 4-option
- * contract picker for this flow.
+ * Used on dedicated AI SEO / retainer paths (not the main pricing calculator).
  */
 export function VoiceCommitmentPicker({ value, onChange }: VoiceCommitmentPickerProps) {
   const { six, twelve } = VOICE_SPEC.commitmentOptions;
@@ -45,9 +44,9 @@ export function VoiceCommitmentPicker({ value, onChange }: VoiceCommitmentPicker
   return (
     <div className="space-y-4">
       <p className="text-brand-graphite">
-        Choose your V.O.I.C.E™ commitment. One-time setup{' '}
-        {formatCurrency(VOICE_SPEC.setupFee)}, then monthly — cancel anytime after the minimum
-        term with {VOICE_SPEC.noticePeriodDays} days notice.
+        Choose your AI SEO commitment. One-time setup{' '}
+        {formatCurrency(VOICE_SPEC.setupFee)}, then monthly. Cancel anytime after the minimum term
+        with {VOICE_SPEC.noticePeriodDays} days notice.
       </p>
 
       <div className="grid md:grid-cols-2 gap-4">

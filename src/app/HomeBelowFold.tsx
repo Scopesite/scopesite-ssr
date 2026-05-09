@@ -19,8 +19,8 @@ const services = [
     cta: 'Web design',
   },
   {
-    title: 'V.O.I.C.E.™ scan',
-    description: 'Free score across the categories that decide whether AI can see you at all.',
+    title: 'AI visibility scan',
+    description: 'Free score across the checks that decide whether AI can see you at all.',
     icon: Sparkles,
     href: '/voice',
     cta: 'Run the scan',
@@ -123,8 +123,8 @@ export function HomeBelowFold({ reviews }: HomeBelowFoldProps) {
           </FadeInOnScroll>
           <FadeInOnScroll delay={0.05}>
             <p className="text-muted text-center max-w-2xl mx-auto mb-10">
-              H4TLT (Hearing 4 The Long Term) had a typical brochure site. After a full rebuild with SSR,
-              schema, and V.O.I.C.E. optimisation, they hit #1 AI recommendations across ChatGPT,
+              H4TLT (Hearing 4 The Long Term) had a typical brochure site. After a full Ultra Fast rebuild with
+              structured data and AI SEO tuning, they reached number one AI recommendations across ChatGPT,
               Perplexity, Claude, and Gemini for their category.
             </p>
           </FadeInOnScroll>
@@ -143,9 +143,9 @@ export function HomeBelowFold({ reviews }: HomeBelowFoldProps) {
               <div className="rounded-2xl border-2 border-brand-gold/30 bg-white p-8 shadow-sm h-full">
                 <h3 className="text-brand-navy font-bold text-lg mb-4">After</h3>
                 <ul className="text-muted text-sm space-y-2 list-disc pl-5">
-                  <li>Next.js SSR, HTML delivered ready to read</li>
-                  <li>Full JSON-LD entity graph, validated</li>
-                  <li>V.O.I.C.E. tuned, #1 mentions on major AI platforms</li>
+                  <li>Ultra Fast Next.js, HTML delivered ready to read</li>
+                  <li>Full structured data graph, validated</li>
+                  <li>AI SEO tuned, number one mentions on major AI platforms</li>
                 </ul>
                 <Link
                   href="/case-studies/h4tlt"
@@ -322,7 +322,7 @@ export function HomeBelowFold({ reviews }: HomeBelowFoldProps) {
           <FadeInOnScroll delay={0.2}>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <a href={VOICE_SCAN_URL} className="btn-primary" target="_blank" rel="noopener noreferrer">
-                Get your free V.O.I.C.E. scan
+                Get your free AI visibility scan
               </a>
               <Link href="/book" className="btn-secondary-light">
                 Book a discovery call

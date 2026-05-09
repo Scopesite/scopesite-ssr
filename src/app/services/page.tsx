@@ -24,13 +24,13 @@ const ALL_SERVICES: readonly { title: string; href: string; description: string 
     title: 'Web Design',
     href: '/web-design',
     description:
-      'SSR brochure and business websites built for humans and AI crawlers alike.',
+      'Ultra Fast AI visible premium sites and client-managed builds, all priced in the open.',
   },
   {
     title: 'AI Website Design',
     href: '/ai-website-design',
     description:
-      'AI-first website builds with structured data and performance baked in.',
+      'AI-first website builds with structured facts and performance baked in.',
   },
   {
     title: 'AI SEO Agency',
@@ -66,19 +66,19 @@ const ALL_SERVICES: readonly { title: string; href: string; description: string 
     title: 'Schema Markup',
     href: '/schema-markup',
     description:
-      'JSON-LD and structured data engineering so machines trust your facts.',
+      'Structured data engineering so machines trust your facts.',
   },
   {
-    title: 'V.O.I.C.E.™ AI Visibility',
+    title: 'AI visibility scan and AI SEO',
     href: '/voice',
     description:
-      'Our V.O.I.C.E. methodology and tooling for measurable AI visibility.',
+      'Free scan plus ongoing AI SEO when you want help fixing the gaps.',
   },
   {
     title: 'Custom Web Apps',
     href: '/web-apps',
     description:
-      'Bespoke tools and internal apps on modern SSR stacks.',
+      'Custom tools and internal apps on modern fast stacks.',
   },
   {
     title: 'LLM Brain',

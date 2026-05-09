@@ -19,13 +19,13 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/voice`;
 
 export const metadata: Metadata = {
-  title: 'AI Visibility Checker: V.O.I.C.E. by ScopeSite',
+  title: 'AI visibility checker and AI SEO | ScopeSite',
   description:
-    'Free AI visibility checker. V.O.I.C.E. is the AI SEO software that scores how visible you are to ChatGPT, Claude, Gemini and Perplexity. Scan in 2 minutes.',
+    'Free AI visibility scan. See how ChatGPT, Claude, Gemini, and Perplexity read your business today. Optional AI SEO retainer from £750 setup and £500 per month.',
   openGraph: {
-    title: 'AI Visibility Checker: V.O.I.C.E. by ScopeSite',
+    title: 'AI visibility checker and AI SEO | ScopeSite',
     description:
-      'Free AI visibility checker. V.O.I.C.E. is the AI SEO software that scores how visible you are to ChatGPT, Claude, Gemini and Perplexity. Scan in 2 minutes.',
+      'Free AI visibility scan for ChatGPT, Claude, Gemini, and Perplexity. Optional AI SEO support from ScopeSite.',
     url: PAGE_URL,
     siteName: 'ScopeSite Digital Studios',
     images: [
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
         url: `${BASE_URL}/images/og/og-voice.png`,
         width: 1200,
         height: 630,
-        alt: 'V.O.I.C.E™ AI Visibility Methodology by ScopeSite Digital Studios',
+        alt: 'AI visibility scan by ScopeSite Digital Studios',
       },
     ],
     locale: 'en_GB',
@@ -41,60 +41,65 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AI Visibility Checker: V.O.I.C.E. by ScopeSite',
+    title: 'AI visibility checker | ScopeSite',
     description:
-      'Free AI visibility checker. V.O.I.C.E. is the AI SEO software that scores how visible you are to ChatGPT, Claude, Gemini and Perplexity. Scan in 2 minutes.',
+      'Free AI visibility scan. See how major AI platforms read your business.',
     images: [`${BASE_URL}/images/og/og-voice.png`],
   },
   alternates: getAlternates('/voice', BASE_URL),
 };
 
-// HowTo steps for V.O.I.C.E methodology
+// HowTo steps for AI visibility methodology
 const howToSteps = [
   {
-    name: 'Get Your Free AI Visibility Score',
-    text: 'Run our free scan to see exactly how visible you are to AI assistants like ChatGPT and Claude.',
+    name: 'Get your free AI visibility score',
+    text: 'Run our free scan to see how assistants like ChatGPT and Claude currently read you.',
   },
   {
-    name: 'Review Your Report',
-    text: 'Receive a comprehensive report showing your structured data health, DA/PA ranking, and AI mentions.',
+    name: 'Review your report',
+    text: 'See structured data health, authority signals, and AI mention checks in plain English.',
   },
   {
-    name: 'Follow the 90-Day Implementation Guide',
-    text: 'Use our detailed PDF roadmap to fix issues yourself or let ScopeSite handle the implementation.',
+    name: 'Follow the 90-day implementation guide',
+    text: 'Use the PDF roadmap to fix issues yourself or ask ScopeSite to implement.',
   },
   {
-    name: 'Monitor Your Progress',
-    text: 'Track improvements in AI visibility as your optimizations take effect.',
+    name: 'Monitor your progress',
+    text: 'Track improvements as structured facts and speed fixes take hold.',
   },
 ];
 
 // FAQ data for schema (mirrors page.tsx faqItems)
 const faqs: FAQItem[] = [
   {
-    question: 'What is V.O.I.C.E™ methodology?',
-    answer: 'V.O.I.C.E.™ stands for Visibility, Optimisation, for Intelligent, Crawler, Engines. It\'s a proprietary methodology developed by ScopeSite Digital Studios that combines server-side rendering, structured data engineering, and content architecture specifically designed for generative AI citation. It makes your website visible and recommendable by ChatGPT, Perplexity, Gemini, and Claude.',
-  },
-  {
-    question: 'Who created V.O.I.C.E™?',
-    answer: 'V.O.I.C.E™ was created by Dan Cartwright, founder and director of ScopeSite Digital Studios. Dan is a British Army veteran who built V.O.I.C.E™ to solve a specific problem: most UK businesses are invisible to AI search engines despite having perfectly good websites.',
-  },
-  {
-    question: 'How does V.O.I.C.E™ differ from traditional SEO?',
-    answer: 'Traditional SEO targets Google rankings through keywords and backlinks. V.O.I.C.E™ targets AI chatbot recommendations through structured data, entity graphs, and content engineering. SEO gets you ranked. V.O.I.C.E™ gets you recommended. This is the difference between Generative Engine Optimisation (GEO) and traditional search engine optimisation. You need both.',
-  },
-  {
-    question: 'What results has V.O.I.C.E™ achieved?',
-    answer: 'V.O.I.C.E™ achieved #1 AI recommendations for client H4TLT (Hearing 4 The Long Term) across ChatGPT, Perplexity, Claude, and Gemini. This made H4TLT the first UK hearing compliance business to be recommended by all four major AI platforms.',
-  },
-  {
-    question: 'How much does V.O.I.C.E™ cost?',
+    question: 'What is the AI visibility methodology?',
     answer:
-      'A free AI visibility scan is available to assess your current position. V.O.I.C.E™ on our standard tier is £500 per month with a £750 one-time setup (minimum commitment applies — see our pricing page). After 3 months on the retainer, our 80 Score Guarantee kicks in — if your AI Visibility Score is below 80 and you have followed our direction, you pay nothing more until your score hits 80 and holds there for 30 consecutive days.',
+      'It is our ScopeSite framework for AI SEO: fast HTML, structured facts, crawler access, and content laid out for AI extraction. It helps ChatGPT, Perplexity, Gemini, and Claude cite you accurately.',
   },
   {
-    question: 'Is V.O.I.C.E™ only for businesses in Somerset?',
-    answer: 'No. V.O.I.C.E™ is location-agnostic. The methodology works for any business, anywhere. ScopeSite is based in Somerset and serves clients across the UK, but the technical principles behind V.O.I.C.E™ apply regardless of where your business operates.',
+    question: 'Who built it?',
+    answer:
+      'Dan Cartwright, founder of ScopeSite Digital Studios. Dan is a British Army veteran who focused on a simple problem: good-looking sites that AI still cannot read.',
+  },
+  {
+    question: 'How is this different from traditional SEO?',
+    answer:
+      'Classic SEO chases rankings. AI SEO chases citations inside AI answers. You usually want both. Generative engine optimisation covers the AI side, search SEO covers the blue links.',
+  },
+  {
+    question: 'What results have you proven?',
+    answer:
+      'Client H4TLT (Hearing 4 The Long Term) reached number one AI recommendations across ChatGPT, Perplexity, Claude, and Gemini. That made them a standout UK case in their sector.',
+  },
+  {
+    question: 'How much does the AI SEO retainer cost?',
+    answer:
+      'The scan is free. The standard AI SEO retainer is £500 per month with a £750 one-time setup on a 6- or 12-month commitment. See our pricing page for detail. After three months on the retainer, our 80 Score Guarantee applies. If your AI visibility score stays below 80 while you follow our direction, you pay nothing more until the score reaches 80 and holds for 30 consecutive days.',
+  },
+  {
+    question: 'Is this only for Somerset businesses?',
+    answer:
+      'No. ScopeSite is based in Somerset and works UK-wide. The technical approach is the same wherever you operate.',
   },
 ];
 
@@ -106,13 +111,13 @@ export default function VoiceLayout({
   // Generate schemas
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: BASE_URL },
-    { name: 'V.O.I.C.E™', url: PAGE_URL },
+    { name: 'AI visibility scan', url: PAGE_URL },
   ]);
 
   const serviceSchema = {
     ...generateServiceSchema(
-      'V.O.I.C.E. — AI Visibility Scanner for UK Businesses',
-      'Proprietary methodology for optimising websites to be visible and recommended by AI search engines including ChatGPT, Perplexity, Gemini, and Claude. Created by Dan Cartwright at ScopeSite Digital Studios.',
+      'AI visibility scan and AI SEO',
+      'ScopeSite methodology for AI SEO: fast HTML, structured facts, crawler access, and content built for AI answers. Helps ChatGPT, Perplexity, Gemini, and Claude cite your business accurately.',
       PAGE_URL,
       undefined,
       {
@@ -131,15 +136,15 @@ export default function VoiceLayout({
   };
 
   const howToSchema = generateHowToSchema(
-    'How to Improve Your AI Visibility with V.O.I.C.E™',
-    'Step-by-step guide to making your business visible to AI assistants using the V.O.I.C.E™ methodology.',
+    'How to improve AI visibility',
+    'Steps to make your business easier for AI assistants to read and recommend.',
     howToSteps
   );
 
   const voiceLogoSchema = generateImageObjectSchema({
     contentUrl: `${BASE_URL}/images/voice-ai-aeo-geo-uk-scopesite-top-logo.webp`,
-    name: 'V.O.I.C.E. AI Visibility Logo',
-    description: 'V.O.I.C.E. AI visibility scanning tool by ScopeSite Digital Studios',
+    name: 'AI visibility scan logo',
+    description: 'AI visibility scanning tool by ScopeSite Digital Studios',
     width: 600,
     height: 120,
     id: `${PAGE_URL}/#voice-logo`,
@@ -147,8 +152,8 @@ export default function VoiceLayout({
 
   const webPageSchema = {
     ...generateWebPageSchema(
-      'AI Visibility | V.O.I.C.E™',
-      'Get your business recommended by ChatGPT, Claude & Perplexity. Our V.O.I.C.E™ methodology makes you visible to AI search. Free AI visibility score.',
+      'AI visibility scan | ScopeSite',
+      'Free AI visibility score plus optional AI SEO retainer. Built for ChatGPT, Claude, Gemini, and Perplexity.',
       PAGE_URL
     ),
     mainEntity: { '@id': `${BASE_URL}/#voice-scanner` },

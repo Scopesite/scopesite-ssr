@@ -16,7 +16,7 @@ interface LandingCaseStudyProps {
 }
 
 export function LandingCaseStudy({
-  title = 'See V.O.I.C.E™ in Action',
+  title = 'See AI SEO in action',
   stat = '#1',
   statLabel = 'AI-recommended in 6 weeks',
   quote = 'From 7 visitors/week to #1 recommended by ChatGPT, Perplexity, Claude, and Gemini',

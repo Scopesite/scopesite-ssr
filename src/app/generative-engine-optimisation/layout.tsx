@@ -13,11 +13,11 @@ const PAGE_URL = `${BASE_URL}/generative-engine-optimisation`;
 
 export const metadata: Metadata = {
   title: 'Generative Engine Optimisation Agency | ScopeSite',
-  description: 'Generative engine optimisation agency getting UK businesses cited by ChatGPT, Claude, Gemini and Perplexity. V.O.I.C.E. methodology. Start with a free scan.',
+  description: 'Generative engine optimisation agency getting UK businesses cited by ChatGPT, Claude, Gemini and Perplexity. AI visibility methodology. Start with a free scan.',
   keywords: ['generative engine optimisation', 'generative engine optimisation agency', 'geo agency', 'generative engine optimisation services', 'what is generative engine optimisation'],
   openGraph: {
     title: 'Generative Engine Optimisation Agency | ScopeSite',
-    description: 'Generative engine optimisation agency getting UK businesses cited by ChatGPT, Claude, Gemini and Perplexity. V.O.I.C.E. methodology. Start with a free scan.',
+    description: 'Generative engine optimisation agency getting UK businesses cited by ChatGPT, Claude, Gemini and Perplexity. AI visibility methodology. Start with a free scan.',
     url: PAGE_URL,
     images: [
       {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Generative Engine Optimisation Agency | ScopeSite',
-    description: 'Generative engine optimisation agency getting UK businesses cited by ChatGPT, Claude, Gemini and Perplexity. V.O.I.C.E. methodology. Start with a free scan.',
+    description: 'Generative engine optimisation agency getting UK businesses cited by ChatGPT, Claude, Gemini and Perplexity. AI visibility methodology. Start with a free scan.',
     images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
   },
   alternates: getAlternates('/generative-engine-optimisation', BASE_URL),
@@ -53,7 +53,7 @@ const faqs: FAQItem[] = [
   },
   {
     question: "How do AI models decide which businesses to recommend?",
-    answer: "Generative models blend training data, real-time retrieval and entity confidence scoring. If your business is an established entity in Wikidata and the Google Knowledge Graph, has deep JSON-LD schema and is reachable via server-rendered HTML, you are more likely to be cited. If your site is a JavaScript shell with no structured data, the model has nothing to work with and picks a competitor."
+    answer: "Generative models blend training data, real-time retrieval and entity confidence scoring. If your business is an established entity in Wikidata and the Google Knowledge Graph, has rich structured data and is reachable via fast, server-rendered HTML, you are more likely to be cited. If your site is a JavaScript shell with no structured facts, the model has nothing to work with and picks a competitor."
   },
   {
     question: "Do I need GEO if I already have SEO?",
@@ -79,7 +79,7 @@ const pageSchema = generateLandingPageSchema(
   PAGE_URL,
   'Generative Engine Optimisation',
   'Generative Engine Optimisation Agency | ScopeSite',
-  'Generative engine optimisation agency getting UK businesses cited by ChatGPT, Claude, Gemini and Perplexity. V.O.I.C.E. methodology. Start with a free scan.',
+  'Generative engine optimisation agency getting UK businesses cited by ChatGPT, Claude, Gemini and Perplexity. AI visibility methodology. Start with a free scan.',
   faqs,
   {
     name: 'Generative Engine Optimisation',

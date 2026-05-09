@@ -51,7 +51,7 @@ const faqs: FAQItem[] = [
   },
   {
     question: "Can my current website be optimised for AI search?",
-    answer: "It depends on how it's built. If your site relies heavily on client-side JavaScript (like many Wix or basic React sites), AI crawlers like GPTBot might see a blank page. We start with a V.O.I.C.E. scan to see what AI currently sees. In many cases, we need to implement server-side rendering (SSR) and rebuild your schema architecture to make you visible."
+    answer: "It depends on how it's built. If your site relies heavily on client-side JavaScript (like many Wix or basic React sites), AI crawlers like GPTBot might see a blank page. We start with an AI visibility scan to see what AI currently sees. In many cases, we need to implement server-side rendering (SSR) and rebuild your schema architecture to make you visible."
   },
   {
     question: "How long does it take to appear in AI recommendations?",
@@ -68,7 +68,7 @@ const faqs: FAQItem[] = [
   },
   {
     question: "How do you measure AI SEO results?",
-    answer: "We don't just track Google rankings. We track direct AI citations, brand mentions in LLM outputs, schema validation scores, and AI crawler access logs. We use our proprietary V.O.I.C.E. scanner to benchmark your visibility across ChatGPT, Claude, Gemini, and Perplexity over time."
+    answer: "We don't just track Google rankings. We track direct AI citations, brand mentions in LLM outputs, schema validation scores, and AI crawler access logs. We use our proprietary AI visibility scanner to benchmark your visibility across ChatGPT, Claude, Gemini, and Perplexity over time."
   },
   {
     question: "What AI platforms do you optimise for?",

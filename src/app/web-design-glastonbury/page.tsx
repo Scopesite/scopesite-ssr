@@ -14,7 +14,7 @@ import {
 
 const faqItems = [
   { question: "Why choose a local web designer near Glastonbury?", answer: "We're based in Frome, 25 minutes from Glastonbury. We understand the town's unique mix of tourism, independent retail, and creative businesses. Face-to-face meetings, local knowledge, and fair pricing." },
-  { question: "How much does web design in Glastonbury cost?", answer: "Our packages start from £2,625 for a simple site. Most Glastonbury businesses invest £5,000-£9,000 depending on complexity. That's significantly below Bristol and Bath agency rates." },
+  { question: "How much does web design in Glastonbury cost?", answer: "Published pricing starts at £1,875 or £2,000. Most Glastonbury projects land around £4,000 to £8,000. That is below typical Bristol and Bath quotes. Use our calculator for an exact figure." },
   { question: "Do you understand Glastonbury's market?", answer: "Yes. Glastonbury has a unique economy driven by tourism, festivals, alternative health, independent retail, and creative industries. We've worked with businesses across these sectors and understand their specific needs." },
   { question: "Can you help tourism businesses in Glastonbury?", answer: "Absolutely. Tourism businesses benefit hugely from AI visibility. When someone asks ChatGPT 'What should I visit in Glastonbury?', proper schema markup and content structure determines whether your business gets mentioned." },
   { question: "What makes your web design different?", answer: "We build on Next.js, not WordPress. Our sites load in under 2 seconds, score 100/100 on Lighthouse, and are optimised for AI search platforms. Most Glastonbury businesses are still on slow WordPress sites." },
@@ -44,7 +44,7 @@ const solutionFeatures = [
   { title: "25 minutes from Glastonbury", description: "Based in Frome, local to Somerset, available for face-to-face meetings" },
   { title: "AI-first approach", description: "Your business gets recommended by ChatGPT and voice assistants" },
   { title: "Tourism-ready design", description: "Structured for the visitors researching before they arrive" },
-  { title: "Fair pricing", description: "From £2,625 - not Bristol agency rates for Glastonbury businesses" },
+  { title: "Fair pricing", description: "From £1,875 or £2,000 Ultra Fast, not Bristol agency rates for Glastonbury businesses" },
 ];
 
 const whatYouGetCards = [
@@ -73,7 +73,7 @@ const whatYouGetCards = [
     iconNode: <Brain className="w-6 h-6 text-brand-gold" />,
     items: [
       "Complete schema markup",
-      "V.O.I.C.E™ optimisation",
+      "AI SEO tuning",
       "Voice search configuration",
       "ChatGPT recommendation testing",
     ],
@@ -169,7 +169,7 @@ export default function WebDesignGlastonburyPage() {
 
       <LandingCaseStudy 
         title="See What AI-First Design Delivers"
-        quote="A UK business went from invisible to #1 AI-recommended in 6 weeks using our V.O.I.C.E™ methodology"
+        quote="A UK business went from invisible to #1 AI-recommended in 6 weeks using our AI visibility methodology"
         theme="dark" 
       />
 
@@ -192,7 +192,7 @@ export default function WebDesignGlastonburyPage() {
             href: "/web-design-bath"
           },
           {
-            title: "V.O.I.C.E™ AI Visibility",
+            title: "AI visibility",
             description: "Get recommended by ChatGPT, Perplexity, and AI assistants using our proprietary methodology.",
             href: "/voice"
           },

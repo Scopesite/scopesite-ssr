@@ -65,7 +65,7 @@ export default function USServicesPage() {
             </p>
 
             <p className="text-white/70 mb-10 max-w-2xl mx-auto">
-              Every site we build includes structured schema markup, V.O.I.C.E. optimization, and the
+              Every site we build includes structured schema markup, AI visibility tuning, and the
               technical foundation that gets American businesses found by ChatGPT, Perplexity, Claude,
               and Google AI Overviews. Built in Britain. Priced in dollars.
             </p>
@@ -162,7 +162,7 @@ export default function USServicesPage() {
                 href="/voice"
                 className="text-brand-gold hover:text-brand-orange transition-colors underline underline-offset-2"
               >
-                V.O.I.C.E. methodology
+                AI visibility methodology
               </Link>{' '}
               (Visibility, Optimization, for Intelligent, Crawler, Engines) is the framework that
               ties it all together. It covers five layers: making your site visible to AI crawlers,
@@ -171,7 +171,7 @@ export default function USServicesPage() {
               for answer-engine compatibility.
             </p>
             <p className="text-white/80">
-              Every project starts with a full AI visibility audit using our V.O.I.C.E. scanner. You
+              Every project starts with a full AI visibility audit using our AI visibility scanner. You
               can{' '}
               <Link
                 href="/us/ai-visibility"

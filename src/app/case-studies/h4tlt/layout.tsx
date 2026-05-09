@@ -8,10 +8,10 @@ const PAGE_URL = `${BASE_URL}/case-studies/h4tlt`;
 export const metadata: Metadata = {
   title: 'H4TLT: Invisible to #1 AI Pick in 4 Months | ScopeSite',
   description:
-    'How V.O.I.C.E.™ methodology took a Somerset audiologist from 7 visitors a week to nationally cited by Google AI Overview, ChatGPT and Perplexity.',
+    'How AI visibility methodology took a Somerset audiologist from 7 visitors a week to nationally cited by Google AI Overview, ChatGPT and Perplexity.',
   keywords: [
     'case study',
-    'V.O.I.C.E methodology',
+    'AI visibility methodology',
     'AI visibility',
     'answer engine optimisation',
     'hearing compliance',
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'H4TLT: Invisible to #1 AI Pick in 4 Months | ScopeSite',
     description:
-      'How V.O.I.C.E.™ methodology took a Somerset audiologist from 7 visitors a week to nationally cited by Google AI Overview, ChatGPT and Perplexity.',
+      'How AI visibility methodology took a Somerset audiologist from 7 visitors a week to nationally cited by Google AI Overview, ChatGPT and Perplexity.',
     url: PAGE_URL,
     siteName: 'ScopeSite Digital Studios',
     images: [
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
         url: `${BASE_URL}/images/og/og-case-study-h4tlt.png`,
         width: 1200,
         height: 630,
-        alt: 'H4TLT Case Study - AI Visibility Results with V.O.I.C.E.™ Methodology',
+        alt: 'H4TLT Case Study - AI Visibility Results with AI visibility Methodology',
       },
     ],
     locale: 'en_GB',
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'H4TLT: Invisible to #1 AI Pick in 4 Months | ScopeSite',
     description:
-      'How V.O.I.C.E.™ methodology took a Somerset audiologist from 7 visitors a week to nationally cited by Google AI Overview, ChatGPT and Perplexity.',
+      'How AI visibility methodology took a Somerset audiologist from 7 visitors a week to nationally cited by Google AI Overview, ChatGPT and Perplexity.',
     images: [`${BASE_URL}/images/og/og-case-study-h4tlt.png`],
   },
   alternates: {
@@ -120,7 +120,7 @@ export default function CaseStudyLayout({
       {
         '@type': 'Service',
         '@id': 'https://scopesite.co.uk/case-studies/h4tlt/#methodology-service',
-        name: 'V.O.I.C.E.™ Methodology',
+        name: 'AI visibility Methodology',
         alternateName: 'Visibility, Optimisation, for Intelligent, Crawler, Engines',
         provider: { '@id': 'https://scopesite.co.uk/#organization' },
         description: 'Answer Engine Optimisation methodology for AI visibility',
@@ -144,7 +144,7 @@ export default function CaseStudyLayout({
         '@type': 'WebPage',
         '@id': 'https://scopesite.co.uk/case-studies/h4tlt/#webpage',
         url: 'https://scopesite.co.uk/case-studies/h4tlt',
-        name: 'Case Study: H4TLT | From Invisible to National #1 in 4 Months | V.O.I.C.E.™ | ScopeSite',
+        name: 'Case Study: H4TLT | From Invisible to National #1 in 4 Months | AI visibility | ScopeSite',
         isPartOf: { '@id': 'https://scopesite.co.uk/#website' },
       },
       {
@@ -153,7 +153,7 @@ export default function CaseStudyLayout({
         isPartOf: { '@id': 'https://scopesite.co.uk/case-studies/h4tlt/#webpage' },
         mainEntityOfPage: { '@id': 'https://scopesite.co.uk/case-studies/h4tlt/#webpage' },
         headline: 'From Invisible to National #1 in 4 Months: H4TLT Case Study',
-        description: 'How V.O.I.C.E. methodology took a Somerset audiologist from zero AI visibility to being recommended nationally by Google AI Overview, ChatGPT and Perplexity in 4 months.',
+        description: 'How AI visibility methodology took a Somerset audiologist from zero AI visibility to being recommended nationally by Google AI Overview, ChatGPT and Perplexity in 4 months.',
         author: { '@id': 'https://scopesite.co.uk/#dan-cartwright' },
         publisher: { '@id': 'https://scopesite.co.uk/#organization' },
         datePublished: '2026-01-15T08:00:00+00:00',
@@ -187,10 +187,10 @@ export default function CaseStudyLayout({
           },
           {
             '@type': 'Question',
-            name: 'What is the V.O.I.C.E. methodology?',
+            name: 'What is the AI visibility methodology?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'V.O.I.C.E. stands for Visibility, Optimisation, for Intelligent, Crawler, Engines. It is a research-backed methodology developed by ScopeSite Digital Studios for making businesses visible to AI assistants like ChatGPT, Claude, Gemini and Perplexity.'
+              text: 'Our AI visibility methodology is a research-backed framework developed by ScopeSite Digital Studios for making businesses visible to AI assistants like ChatGPT, Claude, Gemini and Perplexity.'
             }
           },
           {
@@ -198,7 +198,7 @@ export default function CaseStudyLayout({
             name: 'Does AI visibility work for small businesses?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'H4TLT is a single-operator audiology business. Within 4 months of implementing V.O.I.C.E., it was recommended nationally alongside firms that have operated for decades with significantly larger marketing budgets. The methodology is designed to level the playing field.'
+              text: 'H4TLT is a single-operator audiology business. Within 4 months of implementing our AI visibility stack, it was recommended nationally alongside firms that have operated for decades with significantly larger marketing budgets. The methodology is designed to level the playing field.'
             }
           },
           {
@@ -206,7 +206,7 @@ export default function CaseStudyLayout({
             name: 'How much does AI visibility optimisation cost?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'The H4TLT project was delivered for under £5,000 including website build, schema implementation, entity building, and content architecture. Start with a free V.O.I.C.E. scan at voice.scopesite.co.uk to see where your site currently stands.'
+              text: 'The H4TLT project combined a full Ultra Fast build, structured data, entity work, and content architecture. Pricing moves with our published calculator; this engagement was scoped under the Ultra Fast ladder at the time. Start with a free AI visibility scan at voice.scopesite.co.uk to see where your site currently stands.'
             }
           },
           {

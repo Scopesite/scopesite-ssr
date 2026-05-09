@@ -1,6 +1,6 @@
 'use client';
 
-import { Brain, Code2, Server, Shield, Zap, Bot, FileCode, HeadphonesIcon } from 'lucide-react';
+import { Brain, Code2, Server, Zap, Bot, FileCode, HeadphonesIcon } from 'lucide-react';
 import {
   LandingHero,
   LandingProblem,
@@ -41,11 +41,11 @@ const faqItems = [
   },
   {
     question: "How much does AI website design cost?",
-    answer: "Our AI website design packages start from £2,625 for a simple site. Most businesses invest between £5,000-£9,000 for a full AI-optimised website with all the bells and whistles. Use our instant quote calculator for a specific price based on your requirements."
+    answer: "Published pricing starts at £1,875 for a small client-managed build, or £2,000 for our Ultra Fast AI visible build. Most fuller builds land around £4,000 to £8,000 after pages and add-ons. Use our instant quote calculator for a specific figure."
   },
   {
     question: "Can you add AI optimisation to my existing website?",
-    answer: "Yes, if your platform supports custom code. We offer V.O.I.C.E™ optimisation as a standalone service for existing websites. This adds schema markup, entity relationships, and AI crawler configuration without rebuilding your entire site."
+    answer: "Yes, if your platform supports custom code. We offer AI SEO tuning as a standalone service for existing websites. This adds schema markup, entity relationships, and AI crawler configuration without rebuilding your entire site."
   },
   {
     question: "What CMS do you use for AI websites?",
@@ -220,7 +220,7 @@ export default function AIWebsiteDesignPage() {
       {/* Solution Section */}
       <LandingSolution
         title="AI-FIRST DESIGN THAT MACHINES UNDERSTAND"
-        intro="We don't just build websites. We engineer them for AI comprehension using our V.O.I.C.E™ methodology - Visibility, Optimisation, for Intelligent, Crawler, Engines."
+        intro="We don't just build websites. We engineer them for AI comprehension using our AI visibility methodology - Visibility, Optimisation, for Intelligent, Crawler, Engines."
         features={solutionFeatures}
         columns={4}
       />
@@ -263,7 +263,7 @@ export default function AIWebsiteDesignPage() {
             href: "/ai-seo-services"
           },
           {
-            title: "V.O.I.C.E™ Optimisation",
+            title: 'AI SEO tuning',
             description: "Our proprietary methodology for AI platform visibility",
             href: "/voice"
           },

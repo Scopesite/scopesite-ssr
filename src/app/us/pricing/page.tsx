@@ -34,7 +34,7 @@ const tiers = [
     delivery: '5 business days',
     cta: 'Book Your Audit',
     items: [
-      'Full V.O.I.C.E. scan of your current site',
+      'Full AI visibility scan of your current site',
       'Schema markup audit and validation',
       'AI crawler access check (GPTBot, ClaudeBot, PerplexityBot)',
       'Core Web Vitals and performance review',
@@ -53,7 +53,7 @@ const tiers = [
     items: [
       'Custom Next.js SSR site built for AI visibility',
       'JSON-LD structured data across all pages',
-      'Full V.O.I.C.E. methodology implementation',
+      'Full AI visibility methodology implementation',
       'Lighthouse scores of 90+ on all metrics',
       'Mobile-first responsive design',
       'llms.txt and robots.txt optimized for AI crawlers',
@@ -68,7 +68,7 @@ const tiers = [
     delivery: '3-month minimum',
     cta: 'Start Your Retainer',
     items: [
-      'Monthly V.O.I.C.E. scan and scoring',
+      'Monthly AI visibility scan and scoring',
       'AI citation monitoring across ChatGPT, Perplexity, and Claude',
       'Content strategy aligned to AI search trends',
       'Schema maintenance and updates',
@@ -98,7 +98,7 @@ export default function USPricingPage() {
           <p className="text-white/60 max-w-xl mx-auto mb-8">
             Every package is built on our{' '}
             <Link href="/us/ai-visibility" className="text-brand-gold underline hover:text-brand-gold/80">
-              V.O.I.C.E. methodology
+              AI visibility methodology
             </Link>
             , the same framework used across all{' '}
             <Link href="/us/services" className="text-brand-gold underline hover:text-brand-gold/80">

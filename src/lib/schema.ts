@@ -46,7 +46,7 @@ export function generateOrganizationSchema() {
     name: 'ScopeSite Digital Studios',
     legalName: 'ScopeSite Digital Studios Ltd',
     description:
-      'Veteran-owned AI-first web design agency in Somerset, UK. We build server-side rendered websites optimised for Google, ChatGPT, Claude, Perplexity and Google AI Overviews using the V.O.I.C.E™ methodology.',
+      'Veteran-owned AI-first web design agency in Somerset, UK. We build fast, HTML-first websites optimised for Google, ChatGPT, Claude, Perplexity and Google AI Overviews using our AI visibility methodology.',
     url: BASE_URL,
     logo: {
       '@type': 'ImageObject',
@@ -203,11 +203,11 @@ export function generateOrganizationSchema() {
       {
         '@type': 'Brand',
         '@id': `${BASE_URL}/#brand-voice`,
-        name: 'V.O.I.C.E. by ScopeSite',
+        name: 'AI visibility by ScopeSite',
         slogan: 'Recommend Your Business',
         url: `${BASE_URL}/voice`,
         description:
-          "V.O.I.C.E. (Visibility, Optimisation, for Intelligent, Crawler, Engines) is ScopeSite Digital Studios' proprietary AI visibility methodology and scanning tool.",
+          'AI visibility methodology and scanning tools that measure how well ChatGPT, Claude, Gemini, and Perplexity can read and recommend your business.',
       },
     ],
     hasOfferCatalog: {
@@ -219,18 +219,20 @@ export function generateOrganizationSchema() {
           priceCurrency: 'GBP',
           priceSpecification: {
             '@type': 'PriceSpecification',
-            minPrice: '2625',
-            maxPrice: '9375',
+            minPrice: '1875',
+            maxPrice: '8000',
             priceCurrency: 'GBP',
           },
           availability: 'https://schema.org/InStock',
           url: `${BASE_URL}/pricing`,
-          description: 'AI-visible website design packages including schema markup, SSR, and 100/100 Lighthouse scores.',
+          description:
+            'AI-visible website design from Wix-managed builds to Ultra Fast sites with structured data, strong speed scores, and optimisation for ChatGPT, Claude, and Gemini.',
           itemOffered: {
             '@type': 'Service',
             name: 'AI-First Web Design',
             serviceType: 'Web Design',
-            description: 'Server-side rendered websites built for AI visibility. Includes JSON-LD schema markup, 100/100 Lighthouse scores, and optimisation for ChatGPT, Claude, and Gemini.',
+            description:
+              'Fast HTML-first websites built for AI visibility. Includes structured data, strong Core Web Vitals, and optimisation for ChatGPT, Claude, and Gemini.',
             provider: { '@id': `${BASE_URL}/#organization` },
             areaServed: {
               '@type': 'Place',
@@ -253,11 +255,11 @@ export function generateOrganizationSchema() {
           },
           itemOffered: {
             '@type': 'Service',
-            name: 'V.O.I.C.E. by ScopeSite',
+            name: 'AI visibility by ScopeSite',
             serviceType: 'AI Visibility Optimisation',
-            alternateName: 'Visibility, Optimisation, for Intelligent, Crawler, Engines',
+            alternateName: 'AI visibility scan',
             description:
-              'AI visibility audits and optimisation using the V.O.I.C.E. methodology. Schema validation, Core Web Vitals analysis, AI crawler access checks, and implementation support from £0.58 per scan.',
+              'AI visibility audits and optimisation: structured data checks, Core Web Vitals analysis, AI crawler access checks, and implementation support from £0.58 per scan.',
             provider: { '@id': `${BASE_URL}/#organization` },
             areaServed: {
               '@type': 'Place',
@@ -293,41 +295,39 @@ export function generateOrganizationSchema() {
       ],
     },
     knowsAbout: [
-      'V.O.I.C.E Methodology',
-      'Visibility, Optimisation, for Intelligent, Crawler, Engines',
+      'AI visibility methodology',
       'Generative Engine Optimisation',
       'Answer Engine Optimisation',
       'AI Search Visibility',
       'AI Search Optimization',
       'ChatGPT Business Recommendations',
-      'Server-Side Rendering',
-      'JSON-LD Schema Markup',
+      'Structured data for AI',
       'Next.js Development',
-      'Google Lighthouse Optimisation',
+      'Core Web Vitals',
       'Web Design',
       'SEO',
       // SSR web-design service lines (Thing); valid on Organization, not on Service
       {
         '@type': 'Thing',
-        name: 'SSR Brochure Websites',
+        name: 'Brochure websites',
         description:
-          'Server-side rendered 5-10 page websites perfect for small businesses and professionals. AI-visible from day one.',
+          'Fast HTML-first 5–10 page websites for small businesses and professionals. AI-visible from day one.',
       },
       {
         '@type': 'Thing',
-        name: 'SSR E-commerce Websites',
+        name: 'E-commerce websites',
         description:
-          'Fast, AI-optimised online stores with product management, payment processing, and blazing-fast page loads.',
+          'Fast, AI-optimised online stores with product management, payment processing, and quick page loads.',
       },
       {
         '@type': 'Thing',
         name: 'Website Redesign & Migration',
         description:
-          'Migrate from WordPress, Wix, or Squarespace to a modern SSR architecture with improved AI visibility.',
+          'Migrate from WordPress, Wix, or Squarespace to a modern HTML-first stack with improved AI visibility.',
       },
       {
         '@type': 'Thing',
-        name: 'SSR Landing Pages',
+        name: 'Landing pages',
         description:
           'High-converting single pages built with Next.js for campaigns, products, or lead generation.',
       },
@@ -366,7 +366,8 @@ export function generateFounderPersonSchema() {
     '@id': `${BASE_URL}/#dan-cartwright`,
     name: 'Dan Cartwright',
     jobTitle: 'Founder & Director',
-    description: 'British Army veteran and founder of ScopeSite Digital Studios. Creator of the V.O.I.C.E™ methodology for AI search visibility.',
+    description:
+      'British Army veteran and founder of ScopeSite Digital Studios. Leads our AI visibility methodology for AI search.',
     worksFor: { '@id': `${BASE_URL}/#organization` },
     url: `${BASE_URL}/about`,
     image: `${BASE_URL}/images/dan-headshot.webp`,
@@ -375,16 +376,14 @@ export function generateFounderPersonSchema() {
     ],
     knowsAbout: [
       'AI Search Optimisation',
-      'Server-Side Rendering',
+      'HTML-first web delivery',
       'Next.js',
-      'V.O.I.C.E Methodology',
-      'Schema Markup',
+      'AI visibility methodology',
+      'Structured data',
       'Generative Engine Optimisation',
       'AI Visibility',
-      'Structured Data',
       'Answer Engine Optimisation',
       'Web Design',
-      'JSON-LD',
       'Entity SEO',
     ],
     knowsLanguage: 'en-GB',
@@ -395,7 +394,7 @@ export function generateFounderPersonSchema() {
         '@type': 'Country',
         name: 'United Kingdom',
       },
-      skills: 'AI Visibility, Schema Markup, SSR Web Design, Next.js, Structured Data, Entity SEO',
+      skills: 'AI Visibility, structured data, HTML-first web design, Next.js, entity SEO',
     },
     hasCredential: {
       '@type': 'EducationalOccupationalCredential',
@@ -413,9 +412,9 @@ export function generateVOICEDefinedTermSetSchema() {
   return {
     '@type': 'DefinedTermSet',
     '@id': `${BASE_URL}/#voice-methodology`,
-    name: 'V.O.I.C.E. Methodology',
+    name: 'AI visibility framework',
     description:
-      "V.O.I.C.E. (Visibility, Optimisation, for Intelligent, Crawler, Engines) is ScopeSite Digital Studios' proprietary framework for measuring and improving AI visibility.",
+      "ScopeSite's framework for measuring and improving how AI platforms read, trust, and recommend your business.",
     url: `${BASE_URL}/voice`,
     creator: { '@id': `${BASE_URL}/#organization` },
     hasDefinedTerm: [
@@ -487,9 +486,9 @@ export function generateVOICESoftwareApplicationSchema() {
   return {
     '@type': 'SoftwareApplication',
     '@id': `${BASE_URL}/#voice-scanner`,
-    name: 'V.O.I.C.E. AI Visibility Scanner',
+    name: 'AI visibility scanner',
     description:
-      'AI visibility scoring tool that analyses websites across 7 categories (Schema, On-Page Structure, Performance, AI Crawler Access, Accessibility, Domain Authority, Entity Signals) using a deductive scoring model starting at 100.',
+      'AI visibility scoring that reviews schema health, page structure, speed, AI crawler access, accessibility, authority, and entity signals using a clear deductive model.',
     url: 'https://voice.scopesite.co.uk',
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
@@ -761,7 +760,7 @@ export function schemaAggregateOfferLowOnly(
 
 /**
  * Canonical Standard tier (national SEO/AEO/GEO landing pages): £750 setup + £500/mo.
- * Territory Command tier uses {@link schemaTerritoryCommandServiceOffers} (£750/mo).
+ * Territory Command premium tier uses {@link schemaTerritoryCommandServiceOffers} (£1,250 setup + £750/mo).
  */
 export function schemaStandardTierServiceOffers(pageUrl: string): Record<string, unknown>[] {
   const seller = { '@id': `${BASE_URL}/#organization` };
@@ -794,14 +793,14 @@ export function schemaStandardTierServiceOffers(pageUrl: string): Record<string,
   ];
 }
 
-/** Territory Command premium tier only — £750 setup + £750/mo (Territory Command landing pages). */
+/** Territory Command premium tier — £1,250 setup + £750/mo (high-competition postcodes). */
 export function schemaTerritoryCommandServiceOffers(pageUrl: string): Record<string, unknown>[] {
   const seller = { '@id': `${BASE_URL}/#organization` };
   return [
     {
       '@type': 'Offer',
       name: 'Setup',
-      price: '750',
+      price: '1250',
       priceCurrency: 'GBP',
       availability: 'https://schema.org/InStock',
       url: pageUrl,
@@ -1223,7 +1222,7 @@ const KNOWN_TOOLS: Record<string, { type: string; description: string }> = {
   'Ahrefs': { type: 'Thing', description: 'SEO analysis tool' },
   'Semrush': { type: 'Thing', description: 'SEO and marketing tool' },
   'MOZ': { type: 'Thing', description: 'SEO software' },
-  'V.O.I.C.E': { type: 'Service', description: 'Proprietary AI visibility methodology by ScopeSite Digital Studios' },
+  'V.O.I.C.E': { type: 'Service', description: 'ScopeSite AI visibility methodology and scans' },
   'Google Lighthouse': { type: 'Thing', description: 'Web auditing tool by Google' },
 };
 
@@ -2367,7 +2366,7 @@ const LLM_BRAIN_MANAGED_PRICE = 85;
  * Build a complete Service + Offer[] JSON-LD for the /pricing page.
  *
  * Every offer has an exact numeric price (no ranges), a currency, and an
- * availability field. V.O.I.C.E offers include a WarrantyPromise carrying
+ * availability field. AI SEO offers include a WarrantyPromise carrying
  * the 80 Score Guarantee text so AI assistants can quote it verbatim.
  */
 export function generatePricingSchema(): Record<string, unknown> {
@@ -2388,48 +2387,48 @@ export function generatePricingSchema(): Record<string, unknown> {
       { id: 'wix-starter' }
     ),
     offerGbp(
-      'Client-Managed Website — Professional (10 pages)',
+      'Client-Managed Website — Professional (6–10 pages)',
       professional,
-      'Built on Wix Studio. Up to 10 pages, animations, blog/CMS, e-commerce up to 50 products, advanced SEO, up to 3 integrations, 3 months free support.',
+      'Built on Wix Studio. 6–10 pages flat price, animations, blog/CMS, e-commerce up to 50 products, advanced SEO, up to 3 integrations, 3 months free support.',
       { id: 'wix-professional' }
     ),
     offerGbp(
-      'Client-Managed Website — Enterprise (unlimited pages)',
+      'Client-Managed Website — Enterprise (11+ pages)',
       enterprise,
-      'Built on Wix Studio. Unlimited pages, unlimited integrations, e-commerce up to 700 products, AI chatbot, 4x SEO blog posts per month, custom graphics, 6 months free support.',
+      'Built on Wix Studio. From 11 pages with per-page pricing above 10, unlimited integrations, e-commerce up to 700 products, AI chatbot, 4x SEO blog posts per month, custom graphics, 6 months free support.',
       { id: 'wix-enterprise' }
     ),
-    // SSR AI-First — single exact base price (per-page extras are internal)
+    // Ultra Fast (AI visible premium) — single exact base price (per-page extras are internal)
     offerGbp(
-      'SSR AI-First Website',
+      'Ultra Fast AI Visible Premium Website',
       ssrBase,
-      `Custom Next.js 16 server-side rendered website on Vercel Edge. Includes V.O.I.C.E™ AI Visibility (worth £${PRICING_CONFIG.addOns.voice}/mo), Ghost CMS, auto-generated JSON-LD schema, 100/100 Lighthouse scores, SSL, and 30 days post-launch support. Starting price for up to 5 pages.`,
+      `Custom Next.js 16 site on Vercel Edge, built for speed and AI visibility. Includes AI SEO value worth £${PRICING_CONFIG.addOns.voice}/mo, Ghost CMS, facts auto-formatted for AI to read, top Google speed scores, SSL, and 30 days post-launch support. Starting price for up to 5 pages.`,
       { id: 'ssr-ai-first' }
     ),
     offerGbp(
-      'V.O.I.C.E™ — Setup',
+      'AI SEO — Setup',
       VOICE_SPEC.setupFee,
-      'One-time setup before your V.O.I.C.E™ monthly retainer begins.',
+      'One-time setup before your AI SEO monthly retainer begins.',
       { id: 'voice-setup' }
     ),
-    // V.O.I.C.E — 6-Month Commitment
+    // AI SEO — 6-Month Commitment
     offerMonthlyGbp(
-      'V.O.I.C.E™ AI Visibility — 6-Month Commitment',
+      'AI SEO — 6-Month Commitment',
       voiceSix.monthlyPrice,
-      `Monthly AI visibility retainer. ${voiceSix.description} One-time setup ${formatGbpStatic(VOICE_SPEC.setupFee)}. Minimum commitment: ${voiceSix.months} months (total ${formatGbpStatic(voiceSix.totalCost)}, including setup), ${VOICE_SPEC.noticePeriodDays}-day notice period after that. Includes monthly AI visibility audits across ChatGPT, Claude, Perplexity, Gemini, and Google AI Overviews; tracked AI Visibility Score with month-on-month reporting; schema markup updates; AEO content recommendations; and competitor monitoring.`,
+      `Monthly AI SEO retainer. ${voiceSix.description} One-time setup ${formatGbpStatic(VOICE_SPEC.setupFee)}. Minimum commitment: ${voiceSix.months} months (total ${formatGbpStatic(voiceSix.totalCost)}, including setup), ${VOICE_SPEC.noticePeriodDays}-day notice period after that. Includes monthly AI visibility audits across ChatGPT, Claude, Perplexity, Gemini, and Google AI Overviews; tracked AI Visibility Score with month-on-month reporting; structured data updates; answer-engine content recommendations; and competitor monitoring.`,
       {
         id: 'voice-6mo',
         minimumTerm: 'P6M',
         warranty: VOICE_SPEC.guarantee.summary,
       }
     ),
-    // V.O.I.C.E — 12-Month Commitment
+    // AI SEO — 12-Month Commitment
     offerMonthlyGbp(
-      'V.O.I.C.E™ AI Visibility — 12-Month Commitment',
+      'AI SEO — 12-Month Commitment',
       voiceTwelve.monthlyPrice,
       voiceTwelve.savingsVsSixMonth > 0
-        ? `Monthly AI visibility retainer at a reduced rate. ${voiceTwelve.description} One-time setup ${formatGbpStatic(VOICE_SPEC.setupFee)}. Minimum commitment: ${voiceTwelve.months} months (total ${formatGbpStatic(voiceTwelve.totalCost)}, including setup; saves ${formatGbpStatic(voiceTwelve.savingsVsSixMonth)} vs 6-month commitment). Includes everything in the 6-month plan.`
-        : `Monthly AI visibility retainer. ${voiceTwelve.description} One-time setup ${formatGbpStatic(VOICE_SPEC.setupFee)}. Minimum commitment: ${voiceTwelve.months} months (total ${formatGbpStatic(voiceTwelve.totalCost)}, including setup). Includes everything in the 6-month plan.`,
+        ? `Monthly AI SEO retainer at a reduced rate. ${voiceTwelve.description} One-time setup ${formatGbpStatic(VOICE_SPEC.setupFee)}. Minimum commitment: ${voiceTwelve.months} months (total ${formatGbpStatic(voiceTwelve.totalCost)}, including setup; saves ${formatGbpStatic(voiceTwelve.savingsVsSixMonth)} vs 6-month commitment). Includes everything in the 6-month plan.`
+        : `Monthly AI SEO retainer. ${voiceTwelve.description} One-time setup ${formatGbpStatic(VOICE_SPEC.setupFee)}. Minimum commitment: ${voiceTwelve.months} months (total ${formatGbpStatic(voiceTwelve.totalCost)}, including setup). Includes everything in the 6-month plan.`,
       {
         id: 'voice-12mo',
         minimumTerm: 'P12M',
@@ -2460,7 +2459,7 @@ export function generatePricingSchema(): Record<string, unknown> {
     serviceType: 'Web design and AI visibility pricing',
     category: 'Pricing',
     description:
-      'Transparent, schema-first pricing for AI-visibility retainers (V.O.I.C.E™), SSR AI-first websites, Client-Managed Wix Studio websites, and the LLM Brain data-layer service. UK-based agency serving businesses across the United Kingdom.',
+      'Transparent pricing for AI SEO retainers, Ultra Fast AI visible premium websites, client-managed Wix Studio websites, and the LLM Brain data layer. UK-based agency serving businesses across the United Kingdom.',
     provider: { '@id': `${BASE_URL}/#organization` },
     areaServed: {
       '@type': 'Country',

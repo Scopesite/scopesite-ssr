@@ -16,11 +16,11 @@ const PAGE_URL = `${BASE_URL}/seo-frome`;
 
 export const metadata: Metadata = {
   title: 'SEO Frome: Get Found on Google and AI | ScopeSite',
-  description: 'SEO services based in Frome, Somerset. Local SEO and AI visibility for Frome businesses. V.O.I.C.E methodology. Free AI audit available.',
+  description: 'SEO services based in Frome, Somerset. Local SEO and AI visibility for Frome businesses. AI visibility methodology. Free AI audit available.',
   keywords: ['seo frome', 'frome seo', 'search engine optimisation frome', 'local seo frome'],
   openGraph: {
     title: 'SEO Frome: Get Found on Google and AI | ScopeSite',
-    description: 'SEO services based in Frome, Somerset. Local SEO and AI visibility for Frome businesses. V.O.I.C.E methodology. Free AI audit available.',
+    description: 'SEO services based in Frome, Somerset. Local SEO and AI visibility for Frome businesses. AI visibility methodology. Free AI audit available.',
     url: PAGE_URL,
     siteName: 'ScopeSite Digital Studios',
     images: [
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'SEO Frome: Get Found on Google and AI | ScopeSite',
-    description: 'SEO services based in Frome, Somerset. Local SEO and AI visibility for Frome businesses. V.O.I.C.E methodology.',
+    description: 'SEO services based in Frome, Somerset. Local SEO and AI visibility for Frome businesses. AI visibility methodology.',
     images: [`${BASE_URL}/images/og/og-seo-frome.png`],
   },
   alternates: {
@@ -46,11 +46,11 @@ export const metadata: Metadata = {
 };
 
 const faqs: FAQItem[] = [
-  { question: "How much does SEO cost in Frome?", answer: "SEO is built into every web design project. Standalone SEO audits start from £500. Ongoing retainers from £300/month. We're based in Frome so there's no travel markup or big-city agency pricing." },
-  { question: "Can SEO help my Frome business get on ChatGPT?", answer: "Yes. Our V.O.I.C.E methodology is specifically designed to get businesses recommended by AI platforms like ChatGPT, Perplexity, and Claude. We proved it works with our client H4TLT, who went from invisible to #1 AI-recommended in 6 weeks." },
+  { question: "How much does SEO cost in Frome?", answer: "Technical SEO is built into every web build. Standalone AI SEO uses a £750 setup and £500 per month on a 6- or 12-month commitment. We are based in Frome, so there is no travel markup or big-city agency padding." },
+  { question: "Can SEO help my Frome business get on ChatGPT?", answer: "Yes. Our AI visibility methodology is specifically designed to get businesses recommended by AI platforms like ChatGPT, Perplexity, and Claude. We proved it works with our client H4TLT, who went from invisible to #1 AI-recommended in 6 weeks." },
   { question: "What is local SEO?", answer: "Local SEO targets people searching for services in a specific area. When someone searches 'plumber in Frome' or asks Alexa for a local recommendation, local SEO determines whether your business shows up. It involves Google Business Profile optimisation, local schema markup, citation building, and location-specific content." },
   { question: "How long does SEO take to show results?", answer: "Technical SEO improvements like speed, schema, and site structure show impact within weeks. Content-driven ranking improvements typically take 3-6 months. AI visibility improvements can happen faster because the field is less competitive." },
-  { question: "What is V.O.I.C.E. methodology?", answer: "V.O.I.C.E. stands for Visibility, Optimisation, for Intelligent, Crawler, Engines. It's our proprietary framework for making businesses visible to both traditional search engines and AI platforms like ChatGPT and Perplexity." },
+  { question: "What is ScopeSite's AI visibility approach?", answer: "It is ScopeSite's practical framework for making businesses visible to Google and to AI platforms such as ChatGPT and Perplexity." },
   { question: "Do you guarantee first page rankings?", answer: "No. Anyone who guarantees rankings is lying. What we guarantee is technically sound implementation: validated schema, fast load times, proper site structure, and AI-readable content. The results speak for themselves." },
   { question: "Can you help with Google Business Profile?", answer: "Yes. GBP optimisation is part of every local SEO engagement. We optimise your profile, manage citations, and ensure NAP consistency across the web. Being in Frome means we can photograph your premises too." },
   { question: "What's the difference between SEO and AI optimisation?", answer: "Traditional SEO focuses on Google rankings. AI optimisation (what we call GEO and AEO) ensures your business gets recommended by ChatGPT, Perplexity, Claude, and voice assistants. We do both." },
@@ -68,7 +68,7 @@ const pageSchema = wrapInGraph([
     ...generateWebPageFAQPageSchema(
       PAGE_URL,
       'SEO Frome | Get Your Business Found on Google and AI',
-      'SEO services based in Frome, Somerset. Local SEO and AI visibility for Frome businesses. V.O.I.C.E methodology.',
+      'SEO services based in Frome, Somerset. Local SEO and AI visibility for Frome businesses. AI visibility methodology.',
       faqs,
       `${PAGE_URL}/#service`
     ),

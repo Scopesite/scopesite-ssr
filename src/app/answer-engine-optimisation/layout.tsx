@@ -59,7 +59,7 @@ const faqs: FAQItem[] = [
   },
   {
     question: "How do I know if my business appears in AI answers?",
-    answer: "You can manually test by asking ChatGPT or Perplexity questions related to your services in your area. However, AI responses can vary. We use our proprietary V.O.I.C.E. scanner to systematically test and benchmark your visibility across multiple AI platforms to give you a clear, objective baseline."
+    answer: "You can manually test by asking ChatGPT or Perplexity questions related to your services in your area. However, AI responses can vary. We use our proprietary AI visibility scanner to systematically test and benchmark your visibility across multiple AI platforms to give you a clear, objective baseline."
   },
   {
     question: "Can AEO work alongside traditional SEO?",

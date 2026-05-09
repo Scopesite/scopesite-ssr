@@ -13,6 +13,76 @@ import { FAQ } from './copy';
 const BASE_URL = 'https://scopesite.co.uk';
 const TERRITORY_URL = `${BASE_URL}/territory`;
 
+const territoryOfferSeller = { '@id': `${BASE_URL}/#organization` };
+
+/** Standard (green) and Premium (purple) tiers — published prices match pricing engine v2.1. */
+function territoryTierOffers(): Record<string, unknown>[] {
+  return [
+    {
+      '@type': 'Offer',
+      '@id': `${TERRITORY_URL}/#offer-standard-setup`,
+      name: 'Territory Command Standard (setup)',
+      description: 'One-time setup for standard territories. Includes Ultra Fast build, AI SEO, postcode exclusivity.',
+      price: '750',
+      priceCurrency: 'GBP',
+      availability: 'https://schema.org/LimitedAvailability',
+      eligibleRegion: { '@type': 'Country', name: 'United Kingdom' },
+      eligibleCustomerType: 'https://schema.org/Business',
+      seller: territoryOfferSeller,
+    },
+    {
+      '@type': 'Offer',
+      '@id': `${TERRITORY_URL}/#offer-standard-monthly`,
+      name: 'Territory Command Standard (monthly)',
+      description: 'Monthly representation for standard territories.',
+      price: '500',
+      priceCurrency: 'GBP',
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: '500',
+        priceCurrency: 'GBP',
+        billingDuration: 'P1M',
+        unitCode: 'MON',
+      },
+      availability: 'https://schema.org/LimitedAvailability',
+      eligibleRegion: { '@type': 'Country', name: 'United Kingdom' },
+      eligibleCustomerType: 'https://schema.org/Business',
+      seller: territoryOfferSeller,
+    },
+    {
+      '@type': 'Offer',
+      '@id': `${TERRITORY_URL}/#offer-premium-setup`,
+      name: 'Territory Command Premium (setup)',
+      description: 'One-time setup for premium high-competition territories. Includes Ultra Fast build, AI SEO, postcode exclusivity.',
+      price: '1250',
+      priceCurrency: 'GBP',
+      availability: 'https://schema.org/LimitedAvailability',
+      eligibleRegion: { '@type': 'Country', name: 'United Kingdom' },
+      eligibleCustomerType: 'https://schema.org/Business',
+      seller: territoryOfferSeller,
+    },
+    {
+      '@type': 'Offer',
+      '@id': `${TERRITORY_URL}/#offer-premium-monthly`,
+      name: 'Territory Command Premium (monthly)',
+      description: 'Monthly representation for premium territories.',
+      price: '750',
+      priceCurrency: 'GBP',
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: '750',
+        priceCurrency: 'GBP',
+        billingDuration: 'P1M',
+        unitCode: 'MON',
+      },
+      availability: 'https://schema.org/LimitedAvailability',
+      eligibleRegion: { '@type': 'Country', name: 'United Kingdom' },
+      eligibleCustomerType: 'https://schema.org/Business',
+      seller: territoryOfferSeller,
+    },
+  ];
+}
+
 export function generateTerritoryJsonLd(): Record<string, unknown>[] {
   return [
     {
@@ -57,13 +127,13 @@ export function generateTerritoryJsonLd(): Record<string, unknown>[] {
       serviceType: 'AI Visibility Engineering',
       provider: { '@id': `${BASE_URL}/#organization` },
       description:
-        'Exclusive AI visibility engineering by postcode and sector. One firm holds each territory for 24 months. Includes unlimited PRO V.O.I.C.E. scans, monthly Sit-Rep, continuous visibility engineering, and an outcome guarantee of V.O.I.C.E. score above 80 per 100 or the next month is free.',
+        'Exclusive AI visibility engineering by postcode and sector. One firm holds each territory for 24 months. Includes unlimited PRO AI visibility scans, monthly Sit-Rep, continuous visibility engineering, and an outcome guarantee of AI visibility score above 80 per 100 or the next month is free.',
       areaServed: { '@type': 'Country', name: 'United Kingdom' },
       audience: {
         '@type': 'BusinessAudience',
         audienceType: 'Professional Services Firms',
       },
-      offers: { '@id': `${TERRITORY_URL}/#offer` },
+      offers: territoryTierOffers(),
       termsOfService: `${BASE_URL}/terms-and-conditions`,
       hasOfferCatalog: {
         '@type': 'OfferCatalog',
@@ -81,7 +151,7 @@ export function generateTerritoryJsonLd(): Record<string, unknown>[] {
             '@type': 'Offer',
             itemOffered: {
               '@type': 'Service',
-              name: 'Unlimited PRO V.O.I.C.E. Scans',
+              name: 'Unlimited PRO AI Visibility Scans',
               description:
                 'Full scanner access on the client domain throughout the engagement',
             },
@@ -101,33 +171,11 @@ export function generateTerritoryJsonLd(): Record<string, unknown>[] {
               '@type': 'Service',
               name: 'Outcome Guarantee',
               description:
-                'V.O.I.C.E. score above 80 per 100 monthly, or next month free plus engineering to target',
+                'AI visibility score above 80 per 100 monthly, or next month free plus engineering to target',
             },
           },
         ],
       },
-    },
-    {
-      '@type': 'Offer',
-      '@id': `${TERRITORY_URL}/#offer`,
-      name: 'Territory Command Monthly Representation',
-      price: '500',
-      priceCurrency: 'GBP',
-      priceSpecification: {
-        '@type': 'UnitPriceSpecification',
-        price: '500',
-        priceCurrency: 'GBP',
-        referenceQuantity: {
-          '@type': 'QuantitativeValue',
-          value: '1',
-          unitCode: 'MON',
-        },
-        priceType: 'MinimumPrice',
-      },
-      availability: 'https://schema.org/LimitedAvailability',
-      eligibleRegion: { '@type': 'Country', name: 'United Kingdom' },
-      eligibleCustomerType: 'https://schema.org/Business',
-      seller: { '@id': `${BASE_URL}/#organization` },
     },
     {
       '@type': 'FAQPage',

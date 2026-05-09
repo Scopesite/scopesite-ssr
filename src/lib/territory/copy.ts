@@ -13,7 +13,8 @@ export const HERO = {
   headline: 'One postcode. One sector. Your firm.',
   subHeadline:
     'Exclusive AI visibility representation in your territory. No competitor can claim what you hold.',
-  priceStrip: 'From £500/month. Full pricing discussed on your qualifying call.',
+  priceStrip:
+    'Standard: £750 setup, £500/month. Premium postcodes: £1,250 setup, £750/month. We confirm your tier on the call.',
   postcodePlaceholder: 'e.g. BA11',
   sectorPlaceholder: 'Select your industry',
   cta: 'Check availability',
@@ -50,7 +51,7 @@ export const WHAT_YOU_GET = {
       body: 'One firm per postcode per sector. No competitor in your territory can buy the same representation while you hold it. Claims are contracted for 24 months.',
     },
     {
-      title: 'Unlimited PRO V.O.I.C.E. scans',
+      title: 'Unlimited PRO AI visibility scans',
       body: 'Full access to our PRO AI visibility scanner on your domain. Run it as often as you want. Track every change. See what crawlers see.',
     },
     {
@@ -59,7 +60,7 @@ export const WHAT_YOU_GET = {
     },
     {
       title: 'Outcome Guarantee',
-      body: 'Your V.O.I.C.E. score above 80/100 every month. If it drops below 80 in any calendar month, the next month is free AND we engineer it back to target at no extra cost.',
+      body: 'Your AI visibility score stays above 80/100 every month. If it drops below 80 in any calendar month, the next month is free AND we engineer it back to target at no extra cost.',
     },
   ],
 } as const;
@@ -77,17 +78,18 @@ export const PROOF = {
   cards: [
     {
       imageSlug: 'ai-overview-somerset-seo',
-      imageAlt: 'Google AI Overview naming ScopeSite and V.O.I.C.E. for Somerset AI SEO queries',
+      imageAlt:
+        'Google AI Overview naming ScopeSite and AI SEO for Somerset AI SEO queries',
       mockup: { kind: 'ai-overview', variant: 'somerset-seo' },
       caption:
-        "Google's AI Overview cites ScopeSite and V.O.I.C.E. methodology by name for Somerset AI SEO queries.",
+        "Google's AI Overview cites ScopeSite and our AI SEO approach by name for Somerset AI SEO queries.",
     },
     {
       imageSlug: 'ai-overview-voice-category',
-      imageAlt: 'Google AI Overview listing V.O.I.C.E. as the category term for AI citation analysis',
+      imageAlt: 'Google AI Overview describing AI visibility scoring for professional services',
       mockup: { kind: 'ai-overview', variant: 'voice-category' },
       caption:
-        "Google's AI Overview lists V.O.I.C.E. as the industry term for AI citation analysis.",
+        "Google's AI Overview explains how structured AI visibility scoring helps firms get cited.",
     },
     {
       imageSlug: 'h4tlt-case-study',
@@ -102,7 +104,7 @@ export const PROOF = {
 
 export const GUARANTEE = {
   sectionTitle: 'The guarantee, in writing',
-  body: 'Your V.O.I.C.E. score above 80/100 every month. If it drops below 80 in any calendar month, the next month is free. And we engineer it back to target at no extra cost. Two ways we take responsibility, because your score is our commitment.',
+  body: 'Your AI visibility score stays above 80/100 every month. If it drops below 80 in any calendar month, the next month is free. And we engineer it back to target at no extra cost. Two ways we take responsibility, because your score is our commitment.',
   secondaryBody:
     'This guarantee is written into every Territory Command contract. It is not a marketing claim. It is a service level.',
 } as const;
@@ -115,8 +117,12 @@ export const FAQ = {
       a: 'A Territory is your postcode paired with your sector. For example, BA11 Solicitors is one Territory. BA11 Accountants is a different Territory. One firm holds each Territory exclusively.',
     },
     {
-      q: 'What is V.O.I.C.E.?',
-      a: 'V.O.I.C.E. is our methodology for AI visibility engineering. It stands for Visibility, Optimisation, for Intelligent, Crawler, Engines. The V.O.I.C.E. scanner measures how AI platforms like ChatGPT, Perplexity, Claude and Google AI Overviews see your business. Your score runs from 0 to 100.',
+      q: 'How does pricing work?',
+      a: 'Standard territories are £750 setup and £500 per month. Premium postcodes (high competition) are £1,250 setup and £750 per month. Both include an Ultra Fast site build, AI SEO retainer, and postcode exclusivity. We confirm your tier before you sign.',
+    },
+    {
+      q: 'What is the AI visibility score?',
+      a: 'It is our 0 to 100 measure of how clearly AI platforms see your business. The scanner checks ChatGPT, Perplexity, Claude, Google AI Overviews, and more. Higher means fewer blockers and stronger chances of being cited.',
     },
     {
       q: 'What is a Sit-Rep?',
@@ -127,7 +133,7 @@ export const FAQ = {
       a: 'When you sign, your Territory is marked as claimed in our system for 24 months. We do not take on any other client in your postcode and sector during that period. If a competitor applies for the same Territory, they join the waitlist and are notified only if your Territory is released.',
     },
     {
-      q: 'What happens if my V.O.I.C.E. score drops below 80?',
+      q: 'What happens if my AI visibility score drops below 80?',
       a: "Next month's fee is waived automatically. We then engineer your score back to target at no additional cost. Both responses happen together. Not one or the other.",
     },
     {
@@ -311,7 +317,7 @@ export const RESULT_STATES: Record<
   premium: {
     label: 'Premium territory',
     headline: (p, s) => `${p} ${s} is a premium territory`,
-    body: 'This is a high-density professional services market. Pricing starts above the standard £500 per month based on competitor density and market size. Full pricing is discussed on your qualifying call. The application process is identical to standard territories.',
+    body: 'This is a high-density professional services market. Premium Territory Command is £1,250 setup and £750 per month. Standard territories stay at £750 setup and £500 per month. Both include the same Ultra Fast build, AI SEO, and exclusivity. We confirm your tier on the call. The application steps match standard territories.',
     primaryCta: 'Apply for this territory',
     secondaryCta: 'Check a different territory',
   },

@@ -117,7 +117,8 @@ const faqs: FAQItem[] = [
   },
   {
     question: "How does schema markup help with AI search specifically?",
-    answer: "AI chatbots like ChatGPT and Perplexity need structured context to recommend your business. Schema provides exactly this: your business name, services, location, credentials, and relationships. Without schema, AI sees unstructured text and guesses. With schema, AI receives explicit facts it can confidently cite. This is why ScopeSite's V.O.I.C.E™ methodology puts schema at the centre of every AI visibility project."
+    answer:
+      "AI chatbots like ChatGPT and Perplexity need structured context to recommend your business. Schema provides exactly this: your business name, services, location, credentials, and relationships. Without schema, AI sees unstructured text and guesses. With schema, AI receives explicit facts it can confidently cite. This is why ScopeSite puts structured data at the centre of every AI visibility project.",
   },
 ];
 

@@ -83,7 +83,7 @@ const pageSchema = wrapInGraph([
   generateLocalServiceSchema(
     'Web Design and AI Visibility Services',
     ['US Web Design', 'AI Visibility Services USA'],
-    'AI-first web design and visibility services for businesses in the United States. Server-side rendered websites with schema markup, answer engine optimization, and V.O.I.C.E. methodology.',
+    'AI-first web design and visibility services for businesses in the United States. Server-side rendered websites with schema markup, answer engine optimization, and AI visibility methodology.',
     PAGE_URL,
     areasServed,
     [

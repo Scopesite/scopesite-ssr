@@ -16,7 +16,7 @@ const PAGE_URL = `${BASE_URL}/us/generative-engine-optimization`;
 export const metadata: Metadata = {
   title: 'Generative Engine Optimization Agency | ScopeSite',
   description:
-    'Generative engine optimization agency for US businesses. Get cited by ChatGPT, Claude, Gemini and Perplexity. V.O.I.C.E. methodology. Free scan.',
+    'Generative engine optimization agency for US businesses. Get cited by ChatGPT, Claude, Gemini and Perplexity. AI visibility methodology. Free scan.',
   keywords: [
     'generative engine optimization',
     'generative engine optimization agency',
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Generative Engine Optimization Agency | ScopeSite US',
     description:
-      'Generative engine optimization agency for US businesses. Get cited by ChatGPT, Claude, Gemini and Perplexity. V.O.I.C.E. methodology. Free scan.',
+      'Generative engine optimization agency for US businesses. Get cited by ChatGPT, Claude, Gemini and Perplexity. AI visibility methodology. Free scan.',
     url: PAGE_URL,
     siteName: 'ScopeSite Digital Studios',
     images: [
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Generative Engine Optimization Agency | ScopeSite US',
     description:
-      'Generative engine optimization agency for US businesses. Get cited by ChatGPT, Claude, Gemini and Perplexity. V.O.I.C.E. methodology. Free scan.',
+      'Generative engine optimization agency for US businesses. Get cited by ChatGPT, Claude, Gemini and Perplexity. AI visibility methodology. Free scan.',
     images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
   },
 };

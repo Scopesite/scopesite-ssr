@@ -81,21 +81,21 @@ const webPageFAQSchema = generateWebPageFAQPageSchema(
 
 const auditOffer = generateOfferSchema(
   'AI Visibility Audit',
-  'Full V.O.I.C.E. scan, schema audit, AI crawler analysis, Core Web Vitals review, competitor benchmark, strategy call, and written roadmap. Delivered in 5 business days.',
+  'Full AI visibility scan, schema audit, AI crawler analysis, Core Web Vitals review, competitor benchmark, strategy call, and written roadmap. Delivered in 5 business days.',
   '2500',
   'USD'
 );
 
 const websiteOffer = generateOfferSchema(
   'AI-Ready Website',
-  'Custom Next.js SSR site with JSON-LD schema, V.O.I.C.E. implementation, Lighthouse 90+ scores, mobile-first design, llms.txt, and optimized robots.txt. Includes 90 days post-launch support.',
+  'Custom Next.js site with structured data, AI visibility implementation, strong Lighthouse scores, mobile-first design, llms.txt, and optimized robots.txt. Includes 90 days post-launch support.',
   '8000',
   'USD'
 );
 
 const retainerOffer = generateOfferSchema(
   'AI Visibility Retainer',
-  'Monthly V.O.I.C.E. scan, AI citation monitoring, content strategy, schema maintenance, performance monitoring, and monthly strategy call. 3-month minimum commitment.',
+  'Monthly AI visibility scan, AI citation monitoring, content strategy, schema maintenance, performance monitoring, and monthly strategy call. 3-month minimum commitment.',
   '2000',
   'USD'
 );
