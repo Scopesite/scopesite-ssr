@@ -58,7 +58,7 @@ import type {
 } from '@/types/pricing';
 
 const STORAGE_REDIRECT_NOTICE = 'scopesite_quote_redirect_notice';
-const TOTAL_STEPS = 8;
+const TOTAL_STEPS = 9;
 
 interface StepDef {
   id: number;
@@ -67,14 +67,15 @@ interface StepDef {
 }
 
 const STEPS: StepDef[] = [
-  { id: 1, title: 'Welcome', description: 'Your instant quote' },
-  { id: 2, title: 'Existing site', description: 'Refresh discount eligibility' },
-  { id: 3, title: 'Your goal', description: 'What you want the site to do' },
-  { id: 4, title: 'Build type', description: 'Ultra Fast vs manage yourself' },
-  { id: 5, title: 'Scope', description: 'Pages and features' },
-  { id: 6, title: 'Add-ons', description: 'Optional extras' },
-  { id: 7, title: 'Payment plan', description: 'How you prefer to pay' },
-  { id: 8, title: 'Summary', description: 'Review and send' },
+  { id: 1, title: 'Legal entity', description: 'Who we are contracting with' },
+  { id: 2, title: 'Welcome', description: 'Your instant quote' },
+  { id: 3, title: 'Existing site', description: 'Refresh discount eligibility' },
+  { id: 4, title: 'Your goal', description: 'What you want the site to do' },
+  { id: 5, title: 'Build type', description: 'Ultra Fast vs manage yourself' },
+  { id: 6, title: 'Scope', description: 'Pages and features' },
+  { id: 7, title: 'Add-ons', description: 'Optional extras' },
+  { id: 8, title: 'Payment plan', description: 'How you prefer to pay' },
+  { id: 9, title: 'Summary', description: 'Review and send' },
 ];
 
 const CATEGORY_ORDER: AddOnCategory[] = [
@@ -101,8 +102,11 @@ const initialRequest: Partial<QuoteRequest> = {
     hasAutomation: false,
   },
   addOns: createDefaultAddOns(),
-  paymentPreference: 'twelve',
 };
+
+function isSpreadPlan(p: PaymentPreference | undefined): boolean {
+  return p === 'six' || p === 'twelve' || p === 'twentyFour' || p === 'thirtySix';
+}
 
 function mapLegacySixStepToEight(oldStep: number): number {
   if (oldStep <= 1) return oldStep;
@@ -167,6 +171,8 @@ export function QuoteCalculator() {
   const [quoteLimitExceeded, setQuoteLimitExceeded] = useState(false);
   const [emailModalOpen, setEmailModalOpen] = useState(false);
   const [legacyNotice, setLegacyNotice] = useState<string | null>(null);
+  /** Shown when user switches from Limited to Sole Trader after choosing a spread plan. */
+  const [spreadResetNotice, setSpreadResetNotice] = useState<string | null>(null);
   /** When step body height changes, scroll anchoring can yank the page; lock Y on Next/Back only. */
   const stepNavScrollYRef = useRef<number | null>(null);
 
@@ -180,6 +186,31 @@ export function QuoteCalculator() {
     }
     return PAYMENT_OPTIONS_BASE;
   }, [breakdown.thirtySixAvailable]);
+
+  const waasEligible = useMemo(() => {
+    if (!request.projectType || !request.scope || !request.addOns) return false;
+    try {
+      calculateQuote({
+        ...request,
+        intent: request.intent ?? 'unspecified',
+        paymentPreference: 'waas',
+      } as QuoteRequest);
+      return true;
+    } catch {
+      return false;
+    }
+  }, [request]);
+
+  const selectablePaymentPreferences = useMemo((): PaymentPreference[] => {
+    const tail = waasEligible ? (['waas'] as PaymentPreference[]) : [];
+    if (request.entityType === 'sole_trader') {
+      return ['oneOff', ...tail];
+    }
+    if (request.entityType === 'limited') {
+      return [...paymentPlanOptions, ...tail];
+    }
+    return ['oneOff', ...tail];
+  }, [request.entityType, paymentPlanOptions, waasEligible]);
 
   const { recommended, preTicked } = useMemo(
     () => getIntentAddOnDefaults(request.intent),
@@ -213,12 +244,17 @@ export function QuoteCalculator() {
           body: JSON.stringify({
             currentStep: step,
             selections: {
+              entityType: reqSnapshot.entityType ?? null,
+              companyName:
+                reqSnapshot.entityType === 'limited'
+                  ? (reqSnapshot.companyName?.trim() ?? null)
+                  : null,
               projectType: reqSnapshot.projectType,
               hasExistingSite: reqSnapshot.hasExistingSite ?? false,
               intent: reqSnapshot.intent ?? 'unspecified',
               scope: reqSnapshot.scope ?? initialRequest.scope,
               addOns: reqSnapshot.addOns ?? createDefaultAddOns(),
-              paymentPreference: reqSnapshot.paymentPreference ?? 'twelve',
+              paymentPreference: reqSnapshot.paymentPreference ?? 'oneOff',
             },
             contact: {
               name: contact.name,
@@ -305,6 +341,9 @@ export function QuoteCalculator() {
           setWebsiteUrl(data.quote.contact.websiteUrl);
         }
 
+        const entityKnown =
+          sel.entityType === 'limited' || sel.entityType === 'sole_trader';
+
         setRequest({
           ...initialRequest,
           ...sel,
@@ -313,10 +352,15 @@ export function QuoteCalculator() {
           intent: (sel.intent as QuoteIntent) || 'unspecified',
           scope: scopeRaw,
           addOns: addOnsNorm,
-          paymentPreference: (sel.paymentPreference as PaymentPreference) || 'twelve',
+          paymentPreference: (sel.paymentPreference as PaymentPreference) || 'oneOff',
         });
 
-        setCurrentStep(step > 1 ? step : 2);
+        const oldDisplay = step > 1 ? step : 2;
+        if (!entityKnown) {
+          setCurrentStep(1);
+        } else {
+          setCurrentStep(Math.min(oldDisplay + 1, TOTAL_STEPS));
+        }
       } else if (data.isSubmitted) {
         setIsSubmitted(true);
         setQuoteId(token);
@@ -335,12 +379,33 @@ export function QuoteCalculator() {
   }, []);
 
   useEffect(() => {
-    if (currentStep !== 7 || exceedsTier) return;
+    if (currentStep !== 8 || exceedsTier) return;
     if (breakdown.thirtySixAvailable) return;
+    if (request.entityType !== 'limited') return;
     if (request.paymentPreference === 'thirtySix') {
       updateRequest({ paymentPreference: 'twelve' });
     }
-  }, [currentStep, exceedsTier, breakdown.thirtySixAvailable, request.paymentPreference, updateRequest]);
+  }, [
+    currentStep,
+    exceedsTier,
+    breakdown.thirtySixAvailable,
+    request.entityType,
+    request.paymentPreference,
+    updateRequest,
+  ]);
+
+  useEffect(() => {
+    if (request.entityType !== 'sole_trader') return;
+    if (!request.paymentPreference) return;
+    if (!isSpreadPlan(request.paymentPreference)) return;
+    updateRequest({ paymentPreference: 'oneOff' });
+  }, [request.entityType, request.paymentPreference, updateRequest]);
+
+  useEffect(() => {
+    if (!request.paymentPreference) return;
+    if (selectablePaymentPreferences.includes(request.paymentPreference)) return;
+    updateRequest({ paymentPreference: 'oneOff' });
+  }, [request.paymentPreference, selectablePaymentPreferences, updateRequest]);
 
   useLayoutEffect(() => {
     if (stepNavScrollYRef.current === null) return;
@@ -364,17 +429,22 @@ export function QuoteCalculator() {
   }, []);
 
   const canGoNext = useCallback(() => {
-    if (currentStep === 1) return true;
-    if (currentStep === 2) return typeof request.hasExistingSite === 'boolean';
-    if (currentStep === 3) return !!request.intent;
-    if (currentStep === 4) return request.projectType === 'ssr' || request.projectType === 'clientManaged';
-    if (currentStep === 5) return true;
+    if (currentStep === 1) {
+      if (request.entityType === 'sole_trader') return true;
+      if (request.entityType === 'limited') return !!request.companyName?.trim();
+      return false;
+    }
+    if (currentStep === 2) return true;
+    if (currentStep === 3) return typeof request.hasExistingSite === 'boolean';
+    if (currentStep === 4) return !!request.intent;
+    if (currentStep === 5) return request.projectType === 'ssr' || request.projectType === 'clientManaged';
     if (currentStep === 6) return true;
-    if (currentStep === 7) {
+    if (currentStep === 7) return true;
+    if (currentStep === 8) {
       if (exceedsTier) return true;
       return !!request.paymentPreference;
     }
-    if (currentStep === 8) return contact.name.trim() !== '';
+    if (currentStep === 9) return contact.name.trim() !== '';
     return false;
   }, [currentStep, request, contact.name, exceedsTier]);
 
@@ -431,13 +501,17 @@ export function QuoteCalculator() {
   const goNext = () => {
     if (!canGoNext() || currentStep >= TOTAL_STEPS) return;
 
-    if (currentStep === 4 && !quoteToken) {
+    if (currentStep === 5 && !quoteToken) {
       setEmailModalOpen(true);
       return;
     }
 
+    if (currentStep === 1) {
+      setSpreadResetNotice(null);
+    }
+
     let nextReq = request;
-    if (currentStep === 3) {
+    if (currentStep === 4) {
       nextReq = {
         ...request,
         addOns: mergeAddOnsWithIntentDefaults(
@@ -494,17 +568,23 @@ export function QuoteCalculator() {
 
       if (result.data?.isExisting) {
         const raw = result.data.currentStep as number;
-        const sel = result.data.selections as { scope?: Record<string, unknown> } | undefined;
+        const sel = result.data.selections as { scope?: Record<string, unknown>; entityType?: string } | undefined;
         const legacyScope = sel?.scope && 'headlessEcommerce' in sel.scope;
-        let step: number;
+        const entityKnown = sel?.entityType === 'limited' || sel?.entityType === 'sole_trader';
+        const LEGACY_STEP_MAX = 8;
+        let step8: number;
         if (raw >= 5) {
-          step = Math.min(raw, TOTAL_STEPS);
+          step8 = Math.min(raw, LEGACY_STEP_MAX);
         } else if (raw === 4 && !legacyScope) {
-          step = 5;
+          step8 = 5;
         } else {
-          step = Math.max(mapLegacySixStepToEight(Math.max(raw, 1)), 5);
+          step8 = Math.max(mapLegacySixStepToEight(Math.max(raw, 1)), 5);
         }
-        setCurrentStep(step);
+        if (!entityKnown) {
+          setCurrentStep(1);
+        } else {
+          setCurrentStep(Math.min(step8 + 1, TOTAL_STEPS));
+        }
         setEmailModalOpen(false);
         return { ok: true as const };
       }
@@ -519,14 +599,17 @@ export function QuoteCalculator() {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            currentStep: 5,
+            currentStep: 6,
             selections: {
+              entityType: merged.entityType ?? null,
+              companyName:
+                merged.entityType === 'limited' ? (merged.companyName?.trim() ?? null) : null,
               projectType: merged.projectType,
               hasExistingSite: merged.hasExistingSite ?? false,
               intent: merged.intent ?? 'unspecified',
               scope: merged.scope ?? initialRequest.scope,
               addOns: merged.addOns,
-              paymentPreference: merged.paymentPreference ?? 'twelve',
+              paymentPreference: merged.paymentPreference ?? 'oneOff',
             },
             contact: { websiteUrl: submittedUrl },
           }),
@@ -534,7 +617,7 @@ export function QuoteCalculator() {
       }
 
       setEmailModalOpen(false);
-      setCurrentStep(5);
+      setCurrentStep(6);
       return { ok: true as const };
     },
     [request, startQuoteWithEmail]
@@ -542,12 +625,15 @@ export function QuoteCalculator() {
 
   const handleSubmit = async () => {
     if (!canGoNext()) return;
+    if (request.entityType !== 'limited' && request.entityType !== 'sole_trader') return;
     if (!request.projectType || !request.scope || !request.addOns || !request.paymentPreference) return;
 
     setIsSubmitting(true);
 
     const fullRequest: QuoteRequest = {
       projectType: request.projectType,
+      entityType: request.entityType,
+      companyName: request.entityType === 'limited' ? (request.companyName?.trim() ?? null) : null,
       hasExistingSite: request.hasExistingSite,
       intent: request.intent ?? 'unspecified',
       scope: request.scope,
@@ -586,6 +672,10 @@ export function QuoteCalculator() {
         if (paymentPref === 'oneOff') {
           selectedTotal = breakdown.totals.oneOff.final;
           paymentTypeLabel = paymentTypeLabels.oneOff;
+        } else if (paymentPref === 'waas') {
+          selectedTotal = breakdown.oneOffSubtotal;
+          monthlyPayment = breakdown.monthlySubtotal;
+          paymentTypeLabel = 'Website-as-a-Service';
         } else if (paymentPref === 'twelve') {
           selectedTotal = breakdown.totals.twelve.totalOverTerm;
           monthlyPayment = breakdown.totals.twelve.monthly;
@@ -610,6 +700,9 @@ export function QuoteCalculator() {
           body: JSON.stringify({
             currentStep: TOTAL_STEPS,
             selections: {
+              entityType: request.entityType ?? null,
+              companyName:
+                request.entityType === 'limited' ? (request.companyName?.trim() ?? null) : null,
               projectType: request.projectType,
               hasExistingSite: request.hasExistingSite ?? false,
               intent: request.intent ?? 'unspecified',
@@ -662,6 +755,32 @@ export function QuoteCalculator() {
     }
   };
 
+  const setEntityChoice = useCallback(
+    (t: 'limited' | 'sole_trader') => {
+      if (t === 'limited') {
+        setSpreadResetNotice(null);
+        setRequest((prev) => ({ ...prev, entityType: 'limited' }));
+        return;
+      }
+      const hadSpread =
+        request.entityType === 'limited' && isSpreadPlan(request.paymentPreference);
+      if (hadSpread) {
+        setSpreadResetNotice(
+          'Your payment plan was reset. Spread terms are only available to Limited Companies and LLPs. On the payment step, choose Pay in Full or Website-as-a-Service.'
+        );
+      } else {
+        setSpreadResetNotice(null);
+      }
+      setRequest((prev) => ({
+        ...prev,
+        entityType: 'sole_trader',
+        companyName: null,
+        ...(hadSpread ? { paymentPreference: 'oneOff' as const } : {}),
+      }));
+    },
+    [request.entityType, request.paymentPreference]
+  );
+
   const renderAddonToggle = (key: IntentAddOnKey) => {
     const meta = ADDON_CATALOG[key];
     const visible = addonKeyVisible(key, request.projectType, request.intent);
@@ -703,6 +822,80 @@ export function QuoteCalculator() {
     switch (currentStep) {
       case 1:
         return (
+          <div className="space-y-6">
+            <p className="text-brand-graphite text-center max-w-xl mx-auto">
+              Before we price your build, we need to know how you&apos;re buying — this decides which payment options we
+              can show you.
+            </p>
+            <div className="grid gap-4 md:grid-cols-2">
+              <button
+                type="button"
+                onClick={() => setEntityChoice('limited')}
+                className={cn(
+                  'text-left rounded-2xl border-2 p-6 transition-all hover:border-brand-gold/60 min-h-[180px] flex flex-col',
+                  request.entityType === 'limited'
+                    ? 'border-brand-gold bg-brand-gold/5'
+                    : 'border-brand-graphite/15'
+                )}
+              >
+                <span className="font-headline text-lg font-black text-brand-navy">Limited Company or LLP</span>
+                <p className="text-sm text-brand-graphite mt-3 flex-1">
+                  I&apos;m buying through a registered UK Limited Company or LLP. I have a company number from
+                  Companies House.
+                </p>
+              </button>
+              <button
+                type="button"
+                onClick={() => setEntityChoice('sole_trader')}
+                className={cn(
+                  'text-left rounded-2xl border-2 p-6 transition-all hover:border-brand-gold/60 min-h-[180px] flex flex-col',
+                  request.entityType === 'sole_trader'
+                    ? 'border-brand-gold bg-brand-gold/5'
+                    : 'border-brand-graphite/15'
+                )}
+              >
+                <span className="font-headline text-lg font-black text-brand-navy">
+                  Sole Trader / Self-Employed / Individual
+                </span>
+                <p className="text-sm text-brand-graphite mt-3 flex-1">
+                  I&apos;m buying as a sole trader, self-employed person, or individual. I&apos;ll be paying personally
+                  or from my business bank account in my own name.
+                </p>
+              </button>
+            </div>
+
+            {request.entityType === 'limited' && (
+              <div className="space-y-2 max-w-lg mx-auto">
+                <Label htmlFor="quote-company-legal" className="text-brand-navy font-semibold">
+                  Company name *
+                </Label>
+                <Input
+                  id="quote-company-legal"
+                  value={request.companyName ?? ''}
+                  onChange={(e) => updateRequest({ companyName: e.target.value })}
+                  placeholder="As registered with Companies House"
+                  className="mt-1"
+                  autoComplete="organization"
+                />
+              </div>
+            )}
+
+            {spreadResetNotice && (
+              <p className="text-sm text-amber-900 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+                {spreadResetNotice}
+              </p>
+            )}
+
+            <p className="text-xs text-brand-graphite leading-relaxed max-w-2xl mx-auto text-center">
+              We ask this because UK consumer credit law (CCA 1974, FSMA 2000) restricts spread payment plans to Limited
+              Companies and LLPs only. Sole traders have access to Pay In Full or our Website-as-a-Service monthly
+              subscription. See clause 5.1.2 of our Terms and Conditions.
+            </p>
+          </div>
+        );
+
+      case 2:
+        return (
           <div className="space-y-6 text-center">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand-gold/20 mb-2">
               <Sparkles className="w-8 h-8 text-brand-gold" />
@@ -732,7 +925,7 @@ export function QuoteCalculator() {
           </div>
         );
 
-      case 2:
+      case 3:
         return (
           <div className="space-y-4">
             <p className="text-brand-graphite">
@@ -769,7 +962,7 @@ export function QuoteCalculator() {
           </div>
         );
 
-      case 3:
+      case 4:
         return (
           <div className="grid gap-3 sm:grid-cols-2">
             {(Object.keys(INTENT_PATH_COPY) as QuoteIntent[]).map((intent) => {
@@ -793,7 +986,7 @@ export function QuoteCalculator() {
           </div>
         );
 
-      case 4:
+      case 5:
         return (
           <div className="grid gap-4 md:grid-cols-2">
             {(['ssr', 'clientManaged'] as ProjectType[]).map((pt) => {
@@ -832,7 +1025,7 @@ export function QuoteCalculator() {
           </div>
         );
 
-      case 5: {
+      case 6: {
         const minP = isSSR ? LIMITS.minPagesSSR : LIMITS.minPages;
         const maxP = LIMITS.maxPages;
         const pages = Math.min(maxP, Math.max(minP, request.scope?.pageCount ?? minP));
@@ -933,7 +1126,7 @@ export function QuoteCalculator() {
         );
       }
 
-      case 6:
+      case 7:
         return (
           <div className="space-y-8">
             {suggestedKeys.length > 0 && (
@@ -1013,7 +1206,7 @@ export function QuoteCalculator() {
           </div>
         );
 
-      case 7:
+      case 8:
         if (exceedsTier) {
           return (
             <div className="space-y-6 text-center py-4">
@@ -1033,22 +1226,30 @@ export function QuoteCalculator() {
         }
         return (
           <div className="space-y-4">
-            {!breakdown.thirtySixAvailable && (
+            {!breakdown.thirtySixAvailable && request.entityType === 'limited' && (
               <p className="text-sm text-brand-graphite rounded-lg border border-brand-navy/10 bg-brand-navy/[0.03] px-3 py-2">
                 Builds under £{THIRTY_SIX_MONTH_MIN_SUBTOTAL_GBP.toLocaleString('en-GB')} are available on 6, 12 or
                 24-month terms.
               </p>
             )}
-            <p className="text-xs text-brand-graphite leading-relaxed">
-              Spread payment plans (6, 12, 24, or 36 months) are exclusively available to registered Limited
-              Companies and LLPs. Sole traders and individuals must select Pay In Full.
-            </p>
+            {request.entityType === 'sole_trader' ? (
+              <p className="text-xs text-brand-graphite leading-relaxed">
+                As a sole trader or individual, regulated spread plans are not shown. Choose Pay in Full or, if your
+                build is eligible, Website-as-a-Service (rolling subscription — not a regulated credit product).
+              </p>
+            ) : (
+              <p className="text-xs text-brand-graphite leading-relaxed">
+                Spread payment plans (6, 12, 24, or 36 months) are exclusively available to registered Limited
+                Companies and LLPs. Sole traders and individuals must select Pay In Full or Website-as-a-Service where
+                offered.
+              </p>
+            )}
             <RadioGroup
               value={request.paymentPreference}
               onValueChange={(v) => updateRequest({ paymentPreference: v as PaymentPreference })}
               className="space-y-3"
             >
-              {paymentPlanOptions.map((pref) => (
+              {selectablePaymentPreferences.map((pref) => (
                 <label
                   key={pref}
                   className={cn(
@@ -1068,7 +1269,7 @@ export function QuoteCalculator() {
           </div>
         );
 
-      case 8:
+      case 9:
         return (
           <div className="space-y-6">
             <div className="rounded-xl bg-brand-navy/5 border border-brand-navy/10 p-4 space-y-2">
@@ -1250,6 +1451,7 @@ export function QuoteCalculator() {
               setIsSubmitted(false);
               setQuoteId(null);
               setQuoteToken(null);
+              setSpreadResetNotice(null);
               setCurrentStep(1);
               setRequest({ ...initialRequest, addOns: createDefaultAddOns() });
               setContact({ name: '', email: '', phone: '', company: '', message: '' });
