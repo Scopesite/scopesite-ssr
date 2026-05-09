@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
+import { useState, useCallback, useMemo, useEffect, useLayoutEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
 import {
@@ -149,8 +149,6 @@ function addonKeyVisible(
 export function QuoteCalculator() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const quoteRef = useRef<HTMLDivElement>(null);
-
   const [currentStep, setCurrentStep] = useState(1);
   const [request, setRequest] = useState<Partial<QuoteRequest>>(initialRequest);
   const [contact, setContact] = useState<ContactInfo>({
@@ -169,6 +167,8 @@ export function QuoteCalculator() {
   const [quoteLimitExceeded, setQuoteLimitExceeded] = useState(false);
   const [emailModalOpen, setEmailModalOpen] = useState(false);
   const [legacyNotice, setLegacyNotice] = useState<string | null>(null);
+  /** When step body height changes, scroll anchoring can yank the page; lock Y on Next/Back only. */
+  const stepNavScrollYRef = useRef<number | null>(null);
 
   const breakdown = useMemo(() => calculateQuote(request), [request]);
   const isSSR = request.projectType === 'ssr';
@@ -342,6 +342,13 @@ export function QuoteCalculator() {
     }
   }, [currentStep, exceedsTier, breakdown.thirtySixAvailable, request.paymentPreference, updateRequest]);
 
+  useLayoutEffect(() => {
+    if (stepNavScrollYRef.current === null) return;
+    const y = stepNavScrollYRef.current;
+    stepNavScrollYRef.current = null;
+    window.scrollTo(0, y);
+  }, [currentStep]);
+
   const updateScope = useCallback((updates: Partial<NonNullable<QuoteRequest['scope']>>) => {
     setRequest((prev) => ({
       ...prev,
@@ -354,12 +361,6 @@ export function QuoteCalculator() {
       ...prev,
       addOns: { ...prev.addOns!, ...updates },
     }));
-  }, []);
-
-  const scrollToTop = useCallback(() => {
-    setTimeout(() => {
-      quoteRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
   }, []);
 
   const canGoNext = useCallback(() => {
@@ -451,8 +452,8 @@ export function QuoteCalculator() {
     if (quoteToken) {
       void saveProgress(nextStep, nextReq);
     }
+    stepNavScrollYRef.current = window.scrollY;
     setCurrentStep(nextStep);
-    scrollToTop();
   };
 
   const goBack = () => {
@@ -461,8 +462,8 @@ export function QuoteCalculator() {
     if (quoteToken) {
       void saveProgress(prevStep, request);
     }
+    stepNavScrollYRef.current = window.scrollY;
     setCurrentStep(prevStep);
-    scrollToTop();
   };
 
   const handleEmailModalSubmit = useCallback(
@@ -505,7 +506,6 @@ export function QuoteCalculator() {
         }
         setCurrentStep(step);
         setEmailModalOpen(false);
-        scrollToTop();
         return { ok: true as const };
       }
 
@@ -535,10 +535,9 @@ export function QuoteCalculator() {
 
       setEmailModalOpen(false);
       setCurrentStep(5);
-      scrollToTop();
       return { ok: true as const };
     },
-    [request, startQuoteWithEmail, scrollToTop]
+    [request, startQuoteWithEmail]
   );
 
   const handleSubmit = async () => {
@@ -1243,7 +1242,7 @@ export function QuoteCalculator() {
   const stepMeta = STEPS[currentStep - 1];
 
   return (
-    <div ref={quoteRef}>
+    <div className="[overflow-anchor:none]">
       <QuoteEmailCaptureModal open={emailModalOpen} onSubmit={handleEmailModalSubmit} />
 
       <Card className="max-w-3xl mx-auto bg-white shadow-lg border-brand-navy/10">
