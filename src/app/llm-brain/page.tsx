@@ -219,10 +219,6 @@ export default function LlmBrainPage() {
               Your AI Forgets Everything.{' '}
               <span className="text-brand-gold">Every. Single. Time.</span>
             </h1>
-            <p className="font-headline text-white uppercase tracking-[0.06em] text-3xl sm:text-4xl md:text-[2.75rem] mb-4">
-              LLM Brain
-            </p>
-            <div className="badge-gold mb-8 inline-flex">One Source of Truth</div>
             <div className="w-full max-w-[600px] mx-auto mb-8">
               <Image
                 src="/images/llm-brain-hero.webp"
