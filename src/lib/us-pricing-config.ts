@@ -7,8 +7,6 @@
  * Last Updated: 2026-02-01
  */
 
-import type { PaymentPreference } from '@/types/pricing';
-
 // ============================================
 // US SERVICE TYPES
 // ============================================
@@ -313,6 +311,8 @@ export const US_SERVICE_CATEGORIES: {
   },
 ];
 
+export type USPaymentTerm = 'oneOff' | 'six' | 'twelve' | 'twentyFour' | 'thirtySix';
+
 // ============================================
 // US PRICING LABELS (American English)
 // ============================================
@@ -324,7 +324,7 @@ export const US_PRICING_LABELS = {
     twelve: '12-Month Contract' as const,
     twentyFour: '24-Month Contract' as const,
     thirtySix: '36-Month Contract' as const,
-  } satisfies Record<PaymentPreference, string>,
+  } satisfies Record<USPaymentTerm, string>,
 
   ssrAddOns: {
     animations: 'Premium Animations',

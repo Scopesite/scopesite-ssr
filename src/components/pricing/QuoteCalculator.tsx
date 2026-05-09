@@ -1087,17 +1087,29 @@ export function QuoteCalculator() {
                 <span>
                   {request.paymentPreference === 'oneOff'
                     ? 'Pay in full'
-                    : `${PRICING_LABELS.payments[request.paymentPreference!]}`}
+                    : request.paymentPreference === 'waas'
+                      ? PRICING_LABELS.payments.waas
+                      : `${PRICING_LABELS.payments[request.paymentPreference!]}`}
                 </span>
                 <span>
                   {request.paymentPreference === 'oneOff'
                     ? formatCurrency(breakdown.totals.oneOff.final)
-                    : `${formatCurrency(
-                        breakdown.totals[request.paymentPreference === 'six' ? 'six' : request.paymentPreference === 'twelve' ? 'twelve' : request.paymentPreference === 'twentyFour' ? 'twentyFour' : 'thirtySix'].monthly
-                      )}/mo`}
+                    : request.paymentPreference === 'waas'
+                      ? `${formatCurrency(breakdown.monthlySubtotal)}/mo`
+                      : `${formatCurrency(
+                          breakdown.totals[
+                            request.paymentPreference === 'six'
+                              ? 'six'
+                              : request.paymentPreference === 'twelve'
+                                ? 'twelve'
+                                : request.paymentPreference === 'twentyFour'
+                                  ? 'twentyFour'
+                                  : 'thirtySix'
+                          ].monthly
+                        )}/mo`}
                 </span>
               </div>
-              {request.paymentPreference !== 'oneOff' && (
+              {request.paymentPreference !== 'oneOff' && request.paymentPreference !== 'waas' && (
                 <p className="text-xs text-brand-graphite">
                   Total over term:{' '}
                   {formatCurrency(
@@ -1110,6 +1122,19 @@ export function QuoteCalculator() {
                             ? 'twentyFour'
                             : 'thirtySix'
                     ].totalOverTerm
+                  )}
+                </p>
+              )}
+              {request.paymentPreference === 'waas' && (
+                <p className="text-xs text-brand-graphite">
+                  Setup due today: {formatCurrency(breakdown.oneOffSubtotal)}. Indicative year 1:{' '}
+                  {formatCurrency(breakdown.oneOffSubtotal + breakdown.monthlySubtotal * 12)} (then{' '}
+                  {formatCurrency(breakdown.monthlySubtotal)}/mo rolling).
+                  {breakdown.waasDetails && (
+                    <>
+                      {' '}
+                      Buyout fee if you take full ownership: {formatCurrency(breakdown.waasDetails.buyoutFee)}.
+                    </>
                   )}
                 </p>
               )}

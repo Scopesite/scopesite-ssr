@@ -63,12 +63,16 @@ export interface StoredQuote {
  * Convert database row to StoredQuote format
  */
 function rowToStoredQuote(row: QuoteRow): StoredQuote {
+  const rawSelections = (row.selections && typeof row.selections === 'object'
+    ? row.selections
+    : {}) as Record<string, unknown>;
+
   return {
     id: row.id,
     email: row.email,
     status: row.status as QuoteStatus,
     currentStep: row.current_step,
-    selections: row.selections as StoredQuote['selections'],
+    selections: migrateLegacyQuoteSelections(rawSelections),
     contact: (row.contact as StoredQuote['contact']) || {
       name: '',
       phone: '',
@@ -95,10 +99,39 @@ function generateQuoteToken(): string {
 }
 
 /**
+ * Legacy rows without entityType: infer `limited` when a payment term is already set
+ * (spread and one-off were always LTD/LLP-only in the product). Step 0 reconfirmation is Phase 2 UI.
+ */
+function migrateLegacyQuoteSelections(
+  raw: Record<string, unknown>
+): StoredQuote['selections'] {
+  const s: Record<string, unknown> = { ...raw };
+  const entityMissing = s.entityType === undefined || s.entityType === null;
+  if (entityMissing) {
+    const pp = s.paymentPreference as string | undefined;
+    if (
+      pp === 'oneOff' ||
+      pp === 'six' ||
+      pp === 'twelve' ||
+      pp === 'twentyFour' ||
+      pp === 'thirtySix'
+    ) {
+      s.entityType = 'limited';
+    }
+  }
+  if (s.companyName === undefined) {
+    s.companyName = null;
+  }
+  return s as StoredQuote['selections'];
+}
+
+/**
  * Default selections for a new quote
  */
 function getDefaultSelections(): StoredQuote['selections'] {
   return {
+    entityType: null,
+    companyName: null,
     scope: {
       websiteType: undefined,
       pageCount: 5,

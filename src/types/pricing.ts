@@ -43,11 +43,11 @@ export interface PricingConfig {
     automationMonthly: number;
   };
   contracts: {
-    oneOff: { discount: number };
-    six: { markup: number; ongoingMonthly: number };
-    twelve: { markup: number; ongoingMonthly: number };
-    twentyFour: { markup: number; ongoingMonthly: number };
-    thirtySix: { markup: number; ongoingMonthly: number };
+    oneOff: { discount: number; requiresLimitedCompany?: false };
+    six: { markup: number; ongoingMonthly: number; requiresLimitedCompany: true };
+    twelve: { markup: number; ongoingMonthly: number; requiresLimitedCompany: true };
+    twentyFour: { markup: number; ongoingMonthly: number; requiresLimitedCompany: true };
+    thirtySix: { markup: number; ongoingMonthly: number; requiresLimitedCompany: true };
   };
   ssrMinimums: {
     six: number;
@@ -55,6 +55,8 @@ export interface PricingConfig {
     twentyFour: number;
     thirtySix: number;
   };
+  /** Website-as-a-Service (Pay-As-You-Go) — not a regulated credit product */
+  waas: WaaSConfig;
 }
 
 // ============================================
@@ -64,7 +66,17 @@ export interface PricingConfig {
 export type ProjectType = 'clientManaged' | 'ssr';
 
 export type WebsiteType = 'clientManaged' | 'ssr';
-export type PaymentPreference = 'oneOff' | 'six' | 'twelve' | 'twentyFour' | 'thirtySix';
+
+/** UK quote payment / subscription term (stored as `paymentPreference` on QuoteRequest for API compatibility). */
+export type PaymentTerm =
+  | 'oneOff'
+  | 'six'
+  | 'twelve'
+  | 'twentyFour'
+  | 'thirtySix'
+  | 'waas';
+
+export type PaymentPreference = PaymentTerm;
 
 export type VoiceCommitment = 'six' | 'twelve';
 export type EcommerceSize = 'none' | 'small' | 'medium' | 'large';
@@ -103,6 +115,21 @@ export type IntentAddOnKey =
   | 'ssrI18n'
   | 'automationSetup';
 
+export interface WaaSConfig {
+  setupFee: number;
+  monthlyFee: number;
+  eligibleBuilds: readonly ('wixStarter' | 'ssr')[];
+  ssrPageCap: number;
+  buyoutFees: {
+    wixStarter: number;
+    ssrBase: number;
+    ssrPlus: number;
+    ssrPremium: number;
+  };
+  /** Add-ons permitted on WaaS (standard catalogue prices) */
+  allowedAddOns: readonly IntentAddOnKey[];
+}
+
 export type QuoteAddOns = {
   [K in IntentAddOnKey]: boolean;
 } & {
@@ -126,6 +153,13 @@ export type QuoteAddOns = {
 
 export interface QuoteRequest {
   projectType: ProjectType;
+  /**
+   * Legal entity for UK compliance (CCA 1974 / FSMA). `null` = not yet confirmed (Step 0).
+   * Omitted on legacy saved quotes → migration assumes `limited` when payment term is present.
+   */
+  entityType?: 'limited' | 'sole_trader' | null;
+  /** Required when `entityType === 'limited'`; otherwise `null`. */
+  companyName?: string | null;
   /** Existing website → 40% discount on core build (and SSR catalog add-ons when SSR) */
   hasExistingSite?: boolean;
   intent?: QuoteIntent;
@@ -142,6 +176,7 @@ export interface QuoteRequest {
     hasAutomation: boolean;
   };
   addOns: QuoteAddOns;
+  /** Payment or subscription term (`PaymentTerm` — field name kept for JSON / DB compatibility). */
   paymentPreference: PaymentPreference;
   voiceCommitment?: VoiceCommitment;
   contact?: ContactInfo;
@@ -182,6 +217,12 @@ export interface QuoteBreakdown {
   includedAddOnKeys?: IntentAddOnKey[];
   /** False when one-off subtotal is below £2,000 — 36-month term hidden in UI */
   thirtySixAvailable?: boolean;
+  /** Populated when `paymentPreference === 'waas'` */
+  waasDetails?: {
+    setupFee: number;
+    monthlyFee: number;
+    buyoutFee: number;
+  };
   totals: {
     oneOff: {
       upfront: number;
@@ -227,7 +268,7 @@ export interface QuoteResult {
   createdAt: Date;
   request: QuoteRequest;
   breakdown: QuoteBreakdown;
-  selectedPayment: PaymentPreference;
+  selectedPayment: PaymentTerm;
   exceedsStandardTier?: boolean;
   /** Mirrors breakdown.thirtySixAvailable */
   thirtySixAvailable?: boolean;
@@ -299,7 +340,7 @@ export interface CalculatorState {
 // US QUOTE TYPES
 // ============================================
 
-import type { USServiceType } from '@/lib/us-pricing-config';
+import type { USServiceType, USPaymentTerm } from '@/lib/us-pricing-config';
 
 export interface USQuoteRequest {
   serviceType: USServiceType;
@@ -326,6 +367,6 @@ export interface USQuoteRequest {
     ssrAnalytics: boolean;
     ssrScalability: boolean;
   };
-  paymentPreference: PaymentPreference;
+  paymentPreference: USPaymentTerm;
   contact?: ContactInfo;
 }

@@ -25,8 +25,8 @@ import {
   supportsContracts,
   getUSServicePrice,
 } from '@/lib/us-pricing-config';
-import type { USServiceType } from '@/lib/us-pricing-config';
-import type { USQuoteRequest, PaymentPreference, ContactInfo, QuoteBreakdown } from '@/types/pricing';
+import type { USServiceType, USPaymentTerm } from '@/lib/us-pricing-config';
+import type { USQuoteRequest, ContactInfo, QuoteBreakdown } from '@/types/pricing';
 
 // ============================================
 // STEP DEFINITIONS
@@ -1527,21 +1527,21 @@ function StepAddOns({ serviceType, addOns, onChange }: StepAddOnsProps) {
 // ============================================
 
 interface StepPaymentProps {
-  value: PaymentPreference;
-  onChange: (value: PaymentPreference) => void;
+  value: USPaymentTerm;
+  onChange: (value: USPaymentTerm) => void;
   breakdown: QuoteBreakdown;
   isSSR: boolean;
 }
 
 function StepPayment({ value, onChange, breakdown, isSSR }: StepPaymentProps) {
-  const options: { value: PaymentPreference; label: string; badge?: string; reassurance?: string }[] = [
+  const options: { value: USPaymentTerm; label: string; badge?: string; reassurance?: string }[] = [
     { value: 'oneOff', label: 'Pay in Full', badge: '5% OFF' },
     { value: 'six', label: '6-Month Contract' },
     { value: 'twelve', label: '12-Month Contract', badge: 'MOST POPULAR' },
     { value: 'twentyFour', label: '24-Month Contract', badge: 'Best Value', reassurance: "Lock in today's prices. No increases during your term." },
   ];
 
-  const getTotals = (optionValue: PaymentPreference) => {
+  const getTotals = (optionValue: USPaymentTerm) => {
     switch (optionValue) {
       case 'oneOff': return breakdown.totals.oneOff;
       case 'six': return breakdown.totals.six;
@@ -1591,7 +1591,7 @@ function StepPayment({ value, onChange, breakdown, isSSR }: StepPaymentProps) {
                   {option.badge}
                 </span>
               )}
-              <RadioGroup value={value} onValueChange={(v) => onChange(v as PaymentPreference)}>
+              <RadioGroup value={value} onValueChange={(v) => onChange(v as USPaymentTerm)}>
                 <div className="flex items-center gap-2 mb-3">
                   <RadioGroupItem value={option.value} />
                   <span className="font-bold text-brand-navy text-sm">{option.label}</span>

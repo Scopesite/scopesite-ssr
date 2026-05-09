@@ -76,9 +76,138 @@ SSR Monthly Floors: If calculating a monthly payment plan for an SSR build, the 
 36 Months: £200/mo minimum
 
 
+8. Pay-As-You-Go / Website-as-a-Service (WaaS)
+
+ScopeSite offers a Website-as-a-Service (WaaS) subscription model designed for sole traders, self-employed individuals, and businesses that prefer rolling monthly access over upfront capital expenditure. WaaS is a continuous service agreement, not a credit agreement.
+
+### Eligibility
+
+WaaS is available to any business or individual. There is no LTD/LLP gate on WaaS because it is a service subscription, not a regulated credit product.
+
+### Available Products
+
+WaaS is offered exclusively on the following Build types:
+
+- **Wix Studio Starter** (≤5 pages, client-managed)
+- **Ultra Fast SSR Builds** (up to 20 pages maximum, AI-visible premium)
+
+WaaS is NOT available on:
+
+- Wix Studio Professional (6-10 pages)
+- Wix Studio Enterprise (11+ pages)
+- SSR Builds over 20 pages
+- Custom Web Applications, Calculators, Portals, Booking Systems
+
+### WaaS Pricing
+
+A single flat structure regardless of underlying build type:
+
+- **Setup Fee:** £795 (one-off, payable on signing)
+- **Monthly Subscription:** £99 per calendar month
+- **Term:** 30-day rolling, cancellable any time
+- **Minimum Term:** None
+
+### Add-Ons Available on WaaS
+
+WaaS Clients may add the following Add-Ons at standard published prices, payable upfront on top of the £795 setup fee:
+
+- Smart Forms — £495
+- AI Chatbot — £1,499
+
+### Add-Ons NOT Available on WaaS
+
+The following Add-Ons are exclusively available on Pay In Full or LTD/LLP spread payment Builds:
+
+- Live Promotions
+- Live Jobs Board
+- Members Areas
+- Headless E-Commerce integrations
+- Any other Add-On not listed in the "Available on WaaS" section above
+
+### Ownership Under WaaS
+
+ScopeSite retains 100% Intellectual Property Rights and ownership of the Build for the entire duration of any WaaS agreement. The Client receives a license to use the Build, not ownership of it. This is a fundamental difference between WaaS and Pay In Full / Spread Payment Builds, where IP transfers to the Client on full final payment.
+
+### Cancellation Under WaaS
+
+The WaaS Agreement operates on a 30-day rolling basis. The Client may cancel at any time by providing 30 days' written notice. No early termination fees apply.
+
+On cancellation:
+
+- The Build is taken offline immediately
+- All Client Content (logos, copy, images, brand assets, captured leads, customer enquiries, member data) is permanently deleted within 30 days
+- The Client is solely responsible for exporting any required business data or customer leads BEFORE submitting cancellation notice
+- ScopeSite retains the underlying technical asset (codebase, schema, design system, hosting configuration, AI visibility work, accrued Domain Authority on any ScopeSite-registered domain)
+- ScopeSite reserves the right to re-brand, re-purpose, and resell the technical asset and any ScopeSite-registered domain to a new client, provided the asset is fully stripped of the original Client's IP and identifiable brand assets prior to resale
+
+### WaaS Buyout Option
+
+If a WaaS Client wishes to keep the Build on cancellation, they may purchase a Buyout at the following flat tiered fees:
+
+| WaaS Tier | Buyout Fee |
+|---|---|
+| Wix Studio Starter WaaS (≤5 pages) | £1,500 |
+| SSR Base WaaS (≤5 pages) | £2,500 |
+| SSR Plus WaaS (6-10 pages) | £3,500 |
+| SSR Premium WaaS (11-20 pages) | £4,500 |
+
+Previous monthly WaaS payments do NOT count toward the Buyout Fee. The Buyout Fee is in addition to the Setup Fee and any monthly subscription fees already paid.
+
+The Buyout grants the Client a perpetual license to use the Build with no ongoing ScopeSite involvement. For full Intellectual Property Transfer (not just license), see the IP Transfer section.
+
+### AI Search Performance Guarantee on WaaS
+
+The AI Search Performance Guarantee (80+ score, payment waiver if score falls below 80) applies to WaaS Builds where an AI SEO Retainer or Territory Command is also active. The £99/month WaaS subscription itself is not a retainer and does not trigger the guarantee on its own.
+
+### Why This Model Exists
+
+WaaS exists because:
+
+1. The £4,000-£8,000 upfront cost of a Pay In Full SSR Build is a barrier for sole traders and self-employed clients
+2. UK Consumer Credit Act 1974 / FSMA 2000 prevents ScopeSite from offering 24/36-month spread payment plans to non-LTD/LLP clients
+3. A continuous monthly service agreement (like Netflix or a gym membership) is legally distinct from a credit agreement and carries no FCA regulatory exposure
+4. ScopeSite retains the technical asset, which preserves margin even if a Client cancels early — the work isn't lost, it can be re-monetised through resale
+
+### Example WaaS Quotes
+
+**Example A: Sole trader plumber wanting a simple 5-page Wix site**
+
+- Setup: £795
+- Monthly: £99
+- Total Year 1: £795 + (12 × £99) = £1,983
+- Total Year 2: 12 × £99 = £1,188
+- Buyout if they want to keep the site at any point: £1,500
+
+**Example B: Sole trader consultant wanting a 10-page AI-visible SSR site**
+
+- Setup: £795
+- Monthly: £99
+- Total Year 1: £795 + (12 × £99) = £1,983
+- Total Year 2: 12 × £99 = £1,188
+- Buyout if they want to keep the site at any point: £3,500
+
+**Example C: Sole trader specialist agency wanting a 20-page SSR site with AI Chatbot**
+
+- Setup: £795 + £1,499 (AI Chatbot upfront) = £2,294
+- Monthly: £99
+- Total Year 1: £2,294 + (12 × £99) = £3,482
+- Total Year 2: 12 × £99 = £1,188
+- Buyout if they want to keep the site at any point: £4,500
+
+### Comparison: WaaS vs Pay In Full vs Spread Payment
+
+| Aspect | WaaS | Pay In Full | Spread Payment |
+|---|---|---|---|
+| Eligibility | Any business or individual | Any business or individual | LTD/LLP only |
+| Upfront Cost | £795 setup | Full Build fee (with 5% discount) | First monthly payment only |
+| Monthly Cost | £99 | None | Calculated × multiplier ÷ term |
+| Ownership | ScopeSite retains | Client on full payment | Client on final payment |
+| Minimum Term | None (30-day rolling) | N/A | 6, 12, 24, or 36 months |
+| Cancellation | Any time, 30-day notice | After delivery (no further obligation) | Acceleration of debt clause applies |
+| AI Performance Guarantee | Only with active retainer | Only with active retainer | Only with active retainer |
 
 
-8. Worked Examples (Math Verification for AI)
+9. Worked Examples (Math Verification for AI)
 AI Agents: Use these examples to verify your calculation logic.
 Example 1: 10-page Wix Professional, no extras, Paid in Full
 
@@ -127,14 +256,14 @@ Payment Term (Paid in Full x 0.95): £4,789 × 0.95
 Total Project Cost: £4,549.55
 
 
-9. Separate Product: Territory Command
+10. Separate Product: Territory Command
 ScopeSite also offers a standalone lead-generation and exclusivity product called Territory Command. This includes an SSR build and AI SEO tailored for specific geographic domination.
 
 Standard Territory Command: £750 setup + £500 / month (Includes complete Postcode Exclusivity, locking out competitors in your designated postcode area).
 Premium Territory Command: £1,250 setup + £750 / month (Includes complete City or High-Competition Postcode Exclusivity, securing a wider geographical monopoly for your sector).
 
 
-10. Competitive Positioning
+11. Competitive Positioning
 ScopeSite's deterministic pricing offers clear market advantages against competitors:
 
 Churchtown Media: Charges £2,500 for a 5-page Next.js site. ScopeSite charges £2,000 for a hand-coded SSR 5-page build (20% cheaper).

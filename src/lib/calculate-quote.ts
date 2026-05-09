@@ -34,14 +34,184 @@ function normalizeAddOns(partial?: Partial<QuoteAddOns>): QuoteAddOns {
   return { ...d, ...partial };
 }
 
+const ALL_CALC_ADDON_KEYS = Object.keys(ADDON_CATALOG) as IntentAddOnKey[];
+
+function isSpreadPayment(p: PaymentPreference): boolean {
+  return p === 'six' || p === 'twelve' || p === 'twentyFour' || p === 'thirtySix';
+}
+
+/**
+ * UK compliance: CCA 1974 / FSMA — spread terms are LTD/LLP only.
+ * Call before persisting or finalising a quote result.
+ */
+export function assertUkQuoteRequestValid(request: QuoteRequest): void {
+  if (request.entityType === 'sole_trader' && isSpreadPayment(request.paymentPreference)) {
+    throw new Error(
+      'Spread payment plans (6, 12, 24, or 36 months) are only available to Limited Companies and LLPs. Sole traders must use Pay in Full or Website-as-a-Service (see T&Cs clause 5.1.2).'
+    );
+  }
+  if (request.entityType === 'limited' && !request.companyName?.trim()) {
+    throw new Error('Company name is required for Limited Company / LLP quotes.');
+  }
+  if (request.paymentPreference === 'waas') {
+    assertWaaSRequest(request);
+  }
+}
+
+function resolveWaaSQuoteContext(request: QuoteRequest): { buyoutFee: number } | null {
+  const cfg = PRICING_CONFIG.waas;
+
+  if (request.projectType === 'clientManaged') {
+    const pages = request.scope.pageCount;
+    if (pages > 5) return null;
+    if (request.scope.ecommerce !== 'none') return null;
+    if (request.scope.webApp !== 'none') return null;
+    return { buyoutFee: cfg.buyoutFees.wixStarter };
+  }
+
+  if (request.projectType === 'ssr') {
+    const pageCount = Math.max(request.scope.pageCount, 5);
+    if (pageCount > cfg.ssrPageCap) return null;
+    const ssr = calculateSSRPrice(pageCount);
+    if (ssr.exceedsStandardTier) return null;
+    let buyoutFee: number;
+    if (pageCount <= 5) buyoutFee = cfg.buyoutFees.ssrBase;
+    else if (pageCount <= 10) buyoutFee = cfg.buyoutFees.ssrPlus;
+    else buyoutFee = cfg.buyoutFees.ssrPremium;
+    return { buyoutFee };
+  }
+
+  return null;
+}
+
+function assertWaaSRequest(request: QuoteRequest): void {
+  const cfg = PRICING_CONFIG.waas;
+  const addOns = normalizeAddOns(request.addOns);
+
+  if (addOns.voice) {
+    throw new Error(
+      'Optional AI SEO retainer is not available on Website-as-a-Service in this calculator — choose Pay in Full or speak to us about a retainer alongside WaaS.'
+    );
+  }
+  if ((addOns.videoLong ?? 0) > 0) {
+    throw new Error('Long-form video packages are not available on Website-as-a-Service plans.');
+  }
+  if (addOns.livePromotions || addOns.livePromotionsShop) {
+    throw new Error('Live Promotions is not available on Website-as-a-Service plans.');
+  }
+  if (addOns.stripeCheckout) {
+    throw new Error('Shop checkout modules are not available on Website-as-a-Service plans.');
+  }
+
+  for (const key of ALL_CALC_ADDON_KEYS) {
+    if (key === 'livePromotions' || key === 'livePromotionsShop' || key === 'stripeCheckout') continue;
+    if (addOns[key] === true && !cfg.allowedAddOns.includes(key)) {
+      throw new Error(
+        'This add-on is not available on Website-as-a-Service plans — only Smart Forms and AI Chatbot are offered at catalogue prices.'
+      );
+    }
+  }
+
+  if (!resolveWaaSQuoteContext(request)) {
+    throw new Error(
+      'This build is not eligible for Website-as-a-Service. Choose Wix Starter (up to 5 pages, no e-commerce or custom app), or Ultra Fast SSR up to 20 pages within our standard published tier.'
+    );
+  }
+}
+
+function calculateWaaSBreakdown(request: QuoteRequest): QuoteBreakdown {
+  assertWaaSRequest(request);
+  const cfg = PRICING_CONFIG.waas;
+  const ctx = resolveWaaSQuoteContext(request)!;
+  const addOns = normalizeAddOns(request.addOns);
+  const um = upgradeMult(request.hasExistingSite);
+
+  const oneOffItems: QuoteLineItem[] = [
+    {
+      id: 'waas-setup',
+      label: 'Website-as-a-Service — setup',
+      quantity: 1,
+      unitPrice: cfg.setupFee,
+      total: cfg.setupFee,
+      isMonthly: false,
+      isRequired: true,
+    },
+  ];
+
+  if (addOns.smartForms) {
+    const meta = ADDON_CATALOG.smartForms;
+    const unit = Math.round(meta.price * um);
+    oneOffItems.push({
+      id: 'addon-smartForms',
+      label: meta.label,
+      quantity: 1,
+      unitPrice: unit,
+      total: unit,
+      isMonthly: false,
+      isRequired: false,
+    });
+  }
+  if (addOns.aiChatbot) {
+    const meta = ADDON_CATALOG.aiChatbot;
+    const unit = Math.round(meta.price * um);
+    oneOffItems.push({
+      id: 'addon-aiChatbot',
+      label: meta.label,
+      quantity: 1,
+      unitPrice: unit,
+      total: unit,
+      isMonthly: false,
+      isRequired: false,
+    });
+  }
+
+  const monthlyItems: QuoteLineItem[] = [
+    {
+      id: 'waas-subscription',
+      label: 'Website-as-a-Service (rolling monthly)',
+      quantity: 1,
+      unitPrice: cfg.monthlyFee,
+      total: cfg.monthlyFee,
+      isMonthly: true,
+      isRequired: true,
+    },
+  ];
+
+  const oneOffSubtotal = oneOffItems.reduce((sum, item) => sum + item.total, 0);
+  const monthlySubtotal = cfg.monthlyFee;
+  const z = { monthly: 0, totalOverTerm: 0, ongoingAfter: 0 };
+
+  return {
+    oneOffItems,
+    oneOffSubtotal,
+    monthlyItems,
+    monthlySubtotal,
+    thirtySixAvailable: false,
+    waasDetails: {
+      setupFee: cfg.setupFee,
+      monthlyFee: cfg.monthlyFee,
+      buyoutFee: ctx.buyoutFee,
+    },
+    totals: {
+      oneOff: {
+        upfront: oneOffSubtotal,
+        discount: 0,
+        final: oneOffSubtotal,
+      },
+      six: z,
+      twelve: z,
+      twentyFour: z,
+      thirtySix: z,
+    },
+  };
+}
+
 /**
  * Apply 40% discount to build (existing site refresh)
  */
 function upgradeMult(hasExistingSite: boolean | undefined): number {
   return hasExistingSite ? 0.6 : 1;
 }
-
-const ALL_CALC_ADDON_KEYS = Object.keys(ADDON_CATALOG) as IntentAddOnKey[];
 
 function pushCatalogAddOns(
   oneOffItems: QuoteLineItem[],
@@ -144,6 +314,10 @@ export function calculateQuote(request: Partial<QuoteRequest>): QuoteBreakdown {
 
   if (!request.projectType) {
     return createEmptyBreakdown();
+  }
+
+  if (request.paymentPreference === 'waas') {
+    return calculateWaaSBreakdown(request as QuoteRequest);
   }
 
   const addOns = normalizeAddOns(request.addOns);
@@ -441,6 +615,8 @@ export function createQuoteResult(
   request: QuoteRequest,
   paymentPreference: PaymentPreference
 ): QuoteResult {
+  assertUkQuoteRequestValid(request);
+
   const breakdown = calculateQuote(request);
   const { recommended, preTicked } = getIntentAddOnDefaults(request.intent);
   const includedAddOns = [...preTicked];
@@ -450,7 +626,8 @@ export function createQuoteResult(
 
   let selected: QuoteResult['selected'];
 
-  switch (paymentPreference) {
+  const term = paymentPreference;
+  switch (term) {
     case 'oneOff':
       selected = {
         upfront: breakdown.totals.oneOff.final,
@@ -485,6 +662,18 @@ export function createQuoteResult(
         ongoingMonthly: breakdown.totals.thirtySix.ongoingAfter,
       };
       break;
+    case 'waas':
+      selected = {
+        upfront: breakdown.oneOffSubtotal,
+        monthly: breakdown.monthlySubtotal,
+        totalOverTerm: breakdown.oneOffSubtotal + breakdown.monthlySubtotal * 12,
+        ongoingMonthly: breakdown.monthlySubtotal,
+      };
+      break;
+    default: {
+      const _exhaustive: never = term;
+      throw new Error(`Unknown payment term: ${_exhaustive}`);
+    }
   }
 
   return {

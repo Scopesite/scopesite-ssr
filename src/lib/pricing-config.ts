@@ -14,7 +14,13 @@
  * Research Status: COMPLETE ✅
  */
 
-import type { IntentAddOnKey, PricingConfig, QuoteAddOns, QuoteIntent } from '@/types/pricing';
+import type {
+  IntentAddOnKey,
+  PricingConfig,
+  QuoteAddOns,
+  QuoteIntent,
+  WaaSConfig,
+} from '@/types/pricing';
 
 /** Cap for standard SSR tier — above this triggers enterprise quote flow */
 export const SSR_PRICE_CEILING = 8000;
@@ -455,23 +461,28 @@ export const PRICING_CONFIG: PricingConfig = {
    */
   contracts: {
     oneOff: {
-      discount: 0.95,  // 5% discount for paying upfront
+      discount: 0.95, // 5% discount for paying upfront
+      requiresLimitedCompany: false,
     },
     six: {
-      markup: 1.03,              // 3% markup for 6 months
-      ongoingMonthly: 125,       // £125/mo after contract
+      markup: 1.03, // 3% markup for 6 months
+      ongoingMonthly: 125, // £125/mo after contract
+      requiresLimitedCompany: true,
     },
     twelve: {
-      markup: 1.06,              // 6% markup (industry is 15-20%)
-      ongoingMonthly: 95,        // £95/mo after contract
+      markup: 1.06, // 6% markup (industry is 15-20%)
+      ongoingMonthly: 95, // £95/mo after contract
+      requiresLimitedCompany: true,
     },
     twentyFour: {
-      markup: 1.12,              // 12% markup (industry is 25-35%)
-      ongoingMonthly: 75,        // £75/mo after contract
+      markup: 1.12, // 12% markup (industry is 25-35%)
+      ongoingMonthly: 75, // £75/mo after contract
+      requiresLimitedCompany: true,
     },
     thirtySix: {
-      markup: 1.18,              // 18% markup for longest term
-      ongoingMonthly: 65,        // £65/mo after contract
+      markup: 1.18, // 18% markup for longest term
+      ongoingMonthly: 65, // £65/mo after contract
+      requiresLimitedCompany: true,
     },
   },
   
@@ -485,6 +496,20 @@ export const PRICING_CONFIG: PricingConfig = {
     twentyFour: 250,
     thirtySix: 200,
   },
+
+  waas: {
+    setupFee: 795,
+    monthlyFee: 99,
+    eligibleBuilds: ['wixStarter', 'ssr'],
+    ssrPageCap: 20,
+    buyoutFees: {
+      wixStarter: 1500,
+      ssrBase: 2500,
+      ssrPlus: 3500,
+      ssrPremium: 4500,
+    },
+    allowedAddOns: ['smartForms', 'aiChatbot'],
+  } satisfies WaaSConfig,
 };
 
 /**
@@ -546,6 +571,7 @@ export const PRICING_LABELS = {
     twelve: '12-Month Contract',
     twentyFour: '24-Month Contract',
     thirtySix: '36-Month Contract',
+    waas: 'Website-as-a-Service (£795 setup + £99/mo)',
   },
 };
 

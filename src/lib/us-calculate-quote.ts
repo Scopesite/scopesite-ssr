@@ -16,12 +16,11 @@ import {
   isUSWebsiteBuild,
   isUSWixService,
 } from './us-pricing-config';
-import type { USServiceType } from './us-pricing-config';
+import type { USServiceType, USPaymentTerm } from './us-pricing-config';
 import type {
   USQuoteRequest,
   QuoteBreakdown,
   QuoteLineItem,
-  PaymentPreference,
 } from '@/types/pricing';
 
 export { formatUSD };
@@ -493,7 +492,7 @@ function generateUSQuoteId(): string {
  */
 export function createUSQuoteResult(
   request: USQuoteRequest,
-  paymentPreference: PaymentPreference
+  paymentPreference: USPaymentTerm
 ) {
   const breakdown = calculateUSQuote(request);
 
@@ -534,6 +533,10 @@ export function createUSQuoteResult(
         ongoingMonthly: breakdown.totals.thirtySix.ongoingAfter,
       };
       break;
+    default: {
+      const _exhaustive: never = paymentPreference;
+      throw new Error(`Unknown US payment term: ${_exhaustive}`);
+    }
   }
 
   return {
