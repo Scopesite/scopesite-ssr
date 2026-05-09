@@ -838,6 +838,88 @@ export async function sendQuoteStartedConfirmation(
 }
 
 // ============================================
+// UK PARTIAL QUOTE — LTD COMPANY NAME CAPTURED (HIGH INTENT)
+// ============================================
+
+export interface LtdPartialQuoteAdminPayload {
+  quoteId: string;
+  email: string;
+  legalCompanyName: string;
+  currentStep: number;
+  stepLabel: string;
+  resumeUrl: string;
+  selectionSnapshotHtml: string;
+}
+
+/**
+ * One-time admin alert when a UK quote has a legal Ltd/LLP company name saved but is not submitted.
+ * Deduped server-side via selections._adminMeta.ltdPartialNotified on the quote row.
+ */
+export async function sendLtdCompanyPartialQuoteAdminEmail(
+  data: LtdPartialQuoteAdminPayload
+): Promise<boolean> {
+  const subject = `Ltd quote in progress: ${data.legalCompanyName} — ${data.email}`;
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f5f5f5; margin: 0; padding: 20px;">
+      <div style="max-width: 640px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <div style="background-color: #0A1B36; padding: 24px; text-align: center;">
+          <h1 style="color: #ECB615; margin: 0; font-size: 22px; font-weight: bold;">Ltd / LLP — quote in progress</h1>
+          <p style="color: #ffffff; margin: 8px 0 0 0; font-size: 14px;">Not submitted yet · high intent</p>
+        </div>
+        <div style="padding: 24px;">
+          <div style="margin-bottom: 20px; padding: 16px; background-color: #FEF3C7; border-radius: 8px;">
+            <p style="margin: 0 0 8px 0; color: #78350F; font-size: 14px;"><strong>Legal company (Companies House):</strong></p>
+            <p style="margin: 0; color: #0A1B36; font-size: 20px; font-weight: bold;">${escapeHtml(data.legalCompanyName)}</p>
+          </div>
+          <div style="margin-bottom: 20px; padding: 16px; background-color: #f8f9fa; border-radius: 8px;">
+            <p style="margin: 4px 0; color: #333;"><strong>Email:</strong> <a href="mailto:${escapeHtml(data.email)}" style="color: #ECB615;">${escapeHtml(data.email)}</a></p>
+            <p style="margin: 4px 0; color: #333;"><strong>Quote ID:</strong> ${escapeHtml(data.quoteId)}</p>
+            <p style="margin: 4px 0; color: #333;"><strong>Last step reached:</strong> ${escapeHtml(data.stepLabel)} (step ${data.currentStep})</p>
+          </div>
+          <div style="margin-bottom: 20px;">
+            <h2 style="color: #0A1B36; margin: 0 0 8px 0; font-size: 16px;">Selections so far</h2>
+            ${data.selectionSnapshotHtml}
+          </div>
+          <div style="text-align: center; margin-top: 24px;">
+            <a href="${data.resumeUrl}"
+               style="display: inline-block; padding: 12px 28px; background-color: #ECB615; color: #0A1B36; text-decoration: none; border-radius: 8px; font-weight: bold;">
+              Open quote in admin context
+            </a>
+          </div>
+        </div>
+        <div style="background-color: #0A1B36; padding: 16px; text-align: center;">
+          <p style="margin: 0; color: #ffffff; font-size: 12px;">UK /pricing · partial progress · one-time ping when legal name first saved</p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+    sendSmtpEmail.subject = subject;
+    sendSmtpEmail.htmlContent = htmlContent;
+    sendSmtpEmail.sender = { name: FROM_NAME, email: FROM_EMAIL };
+    sendSmtpEmail.to = [{ email: ADMIN_EMAIL, name: 'Dan Cartwright' }];
+    sendSmtpEmail.replyTo = { email: data.email };
+
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    console.log(`[Email] Ltd partial-quote admin alert sent for ${data.quoteId}`);
+    return true;
+  } catch (error) {
+    console.error('Failed to send Ltd partial-quote admin email:', error);
+    return false;
+  }
+}
+
+// ============================================
 // ABANDONED QUOTE RECOVERY
 // ============================================
 
@@ -976,8 +1058,16 @@ export interface AbandonedDigestItem {
   email: string;
   serviceType?: string;
   stepReached: number;
+  /** UK 9-step or US — precomputed label */
+  stepLabel: string;
   lastActivity: string;
   locale?: string;
+  quoteId?: string;
+  resumeUrl?: string;
+  /** Companies House–style name when entity is limited */
+  legalCompanyName?: string | null;
+  /** HTML list of selections captured before abandon */
+  selectionSnapshotHtml?: string;
 }
 
 /**
@@ -985,15 +1075,6 @@ export interface AbandonedDigestItem {
  */
 export async function sendAbandonedQuoteDigest(items: AbandonedDigestItem[]): Promise<boolean> {
   if (items.length === 0) return true;
-
-  const stepLabels: Record<number, string> = {
-    1: 'Email Entry',
-    2: 'Project Type',
-    3: 'Scope',
-    4: 'Add-ons',
-    5: 'Payment',
-    6: 'Summary',
-  };
 
   const stepCounts: Record<number, number> = {};
   const serviceCounts: Record<string, number> = {};
@@ -1006,20 +1087,43 @@ export async function sendAbandonedQuoteDigest(items: AbandonedDigestItem[]): Pr
   const mostAbandonedStep = Object.entries(stepCounts).sort((a, b) => b[1] - a[1])[0];
   const mostViewedService = Object.entries(serviceCounts).sort((a, b) => b[1] - a[1])[0];
 
-  const tableRows = items.map(item => {
-    const hoursAgo = Math.round((Date.now() - new Date(item.lastActivity).getTime()) / (1000 * 60 * 60));
-    return `
+  const tableRows = items
+    .map((item) => {
+      const hoursAgo = Math.round((Date.now() - new Date(item.lastActivity).getTime()) / (1000 * 60 * 60));
+      const ltdCell = item.legalCompanyName
+        ? escapeHtml(item.legalCompanyName)
+        : '—';
+      const resume =
+        item.resumeUrl ||
+        (item.locale === 'us'
+          ? `https://scopesite.co.uk/us/quote?q=${item.quoteId || ''}`
+          : `https://scopesite.co.uk/pricing?q=${item.quoteId || ''}`);
+      const snapshot = item.selectionSnapshotHtml || '';
+      return `
       <tr>
         <td style="padding: 8px 12px; border-bottom: 1px solid #eee; color: #333; font-size: 14px;">
           <a href="mailto:${item.email}" style="color: #ECB615;">${item.email}</a>
           ${item.locale === 'us' ? ' <span style="color: #999; font-size: 11px;">[US]</span>' : ''}
         </td>
         <td style="padding: 8px 12px; border-bottom: 1px solid #eee; color: #555; font-size: 14px;">${item.serviceType || 'Not selected'}</td>
-        <td style="padding: 8px 12px; border-bottom: 1px solid #eee; color: #555; font-size: 14px;">${stepLabels[item.stepReached] || `Step ${item.stepReached}`}</td>
+        <td style="padding: 8px 12px; border-bottom: 1px solid #eee; color: #555; font-size: 14px;">${item.stepLabel}</td>
         <td style="padding: 8px 12px; border-bottom: 1px solid #eee; color: #999; font-size: 14px;">${hoursAgo}h ago</td>
+        <td style="padding: 8px 12px; border-bottom: 1px solid #eee; color: #333; font-size: 13px; max-width: 160px;">${ltdCell}</td>
+        <td style="padding: 8px 12px; border-bottom: 1px solid #eee; font-size: 13px;">
+          <a href="${resume}" style="color: #ECB615; font-weight: 600;">Open</a>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="6" style="padding: 0 12px 16px 12px; border-bottom: 1px solid #e5e7eb; background-color: #f9fafb;">
+          <div style="padding: 12px 14px; margin: 0 0 8px 0;">
+            <p style="margin: 0 0 6px 0; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: #64748b; font-weight: bold;">Selections snapshot</p>
+            ${snapshot}
+          </div>
+        </td>
       </tr>
     `;
-  }).join('');
+    })
+    .join('');
 
   const htmlContent = `
     <!DOCTYPE html>
@@ -1046,7 +1150,7 @@ export async function sendAbandonedQuoteDigest(items: AbandonedDigestItem[]): Pr
             </div>
             <div style="flex: 1; padding: 16px; background-color: #FEE2E2; border-radius: 8px; text-align: center;">
               <p style="margin: 0; font-size: 14px; font-weight: bold; color: #991B1B;">Most dropped at</p>
-              <p style="margin: 4px 0 0 0; font-size: 16px; font-weight: bold; color: #991B1B;">${mostAbandonedStep ? stepLabels[parseInt(mostAbandonedStep[0])] || `Step ${mostAbandonedStep[0]}` : 'N/A'}</p>
+              <p style="margin: 4px 0 0 0; font-size: 16px; font-weight: bold; color: #991B1B;">${mostAbandonedStep ? `Step ${mostAbandonedStep[0]}` : 'N/A'}</p>
             </div>
             <div style="flex: 1; padding: 16px; background-color: #D1FAE5; border-radius: 8px; text-align: center;">
               <p style="margin: 0; font-size: 14px; font-weight: bold; color: #065F46;">Top service</p>
@@ -1060,10 +1164,11 @@ export async function sendAbandonedQuoteDigest(items: AbandonedDigestItem[]): Pr
               <tr style="background-color: #0A1B36;">
                 <th style="padding: 10px 12px; text-align: left; color: #ECB615; font-size: 12px; text-transform: uppercase;">Email</th>
                 <th style="padding: 10px 12px; text-align: left; color: #ECB615; font-size: 12px; text-transform: uppercase;">Service</th>
-                <th style="padding: 10px 12px; text-align: left; color: #ECB615; font-size: 12px; text-transform: uppercase;">Dropped At</th>
-                <th style="padding: 10px 12px; text-align: left; color: #ECB615; font-size: 12px; text-transform: uppercase;">Last Active</th>
+                <th style="padding: 10px 12px; text-align: left; color: #ECB615; font-size: 12px; text-transform: uppercase;">Dropped at</th>
+                <th style="padding: 10px 12px; text-align: left; color: #ECB615; font-size: 12px; text-transform: uppercase;">Last active</th>
+                <th style="padding: 10px 12px; text-align: left; color: #ECB615; font-size: 12px; text-transform: uppercase;">Ltd / LLP</th>
+                <th style="padding: 10px 12px; text-align: left; color: #ECB615; font-size: 12px; text-transform: uppercase;">Link</th>
               </tr>
-            </thead>
             <tbody>
               ${tableRows}
             </tbody>

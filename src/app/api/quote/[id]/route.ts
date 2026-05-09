@@ -2,7 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getQuote, updateQuoteProgress, submitQuote } from '@/lib/quote-storage';
 import { addContactToList, removeContactFromList, updateContactAttributes, BREVO_LISTS } from '@/lib/brevo';
 import { updateQuoteInSheet } from '@/lib/google-sheets';
-import { sendQuoteAdminNotification, sendQuoteClientConfirmation } from '@/lib/email';
+import {
+  sendQuoteAdminNotification,
+  sendQuoteClientConfirmation,
+  sendLtdCompanyPartialQuoteAdminEmail,
+} from '@/lib/email';
+import { formatQuoteSelectionsSnapshotHtml, ukPricingStepLabel } from '@/lib/quote-selection-summary';
 
 /**
  * GET /api/quote/[id]
@@ -213,6 +218,46 @@ export async function PATCH(
         { success: false, error: 'Quote not found' },
         { status: 404 }
       );
+    }
+
+    // One-time admin ping: UK quote, legal Ltd/LLP name saved, not yet submitted (high-intent partial lead)
+    if (quote.status !== 'submitted') {
+      const sel = quote.selections as Record<string, unknown>;
+      if (sel.serviceType == null) {
+        const rawMeta = sel._adminMeta;
+        const meta =
+          rawMeta && typeof rawMeta === 'object' && !Array.isArray(rawMeta)
+            ? { ...(rawMeta as Record<string, unknown>) }
+            : {};
+        if (meta.ltdPartialNotified !== true) {
+          const cn = sel.companyName;
+          if (
+            sel.entityType === 'limited' &&
+            typeof cn === 'string' &&
+            cn.trim().length > 0
+          ) {
+            const legalCompanyName = cn.trim();
+            void (async () => {
+              const ok = await sendLtdCompanyPartialQuoteAdminEmail({
+                quoteId: id,
+                email: quote.email,
+                legalCompanyName,
+                currentStep: quote.currentStep,
+                stepLabel: ukPricingStepLabel(quote.currentStep),
+                resumeUrl: `https://scopesite.co.uk/pricing?q=${encodeURIComponent(id)}`,
+                selectionSnapshotHtml: formatQuoteSelectionsSnapshotHtml(sel),
+              });
+              if (ok) {
+                await updateQuoteProgress(id, {
+                  selections: {
+                    _adminMeta: { ...meta, ltdPartialNotified: true },
+                  },
+                });
+              }
+            })();
+          }
+        }
+      }
     }
 
     return NextResponse.json({

@@ -282,7 +282,7 @@ export async function updateQuoteProgress(
   id: string,
   updates: {
     currentStep?: number;
-    selections?: Partial<Omit<QuoteRequest, 'contact'>>;
+    selections?: Partial<Omit<QuoteRequest, 'contact'>> & Record<string, unknown>;
     contact?: Partial<StoredQuote['contact']>;
     status?: QuoteStatus;
   }

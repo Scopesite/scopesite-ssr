@@ -14,6 +14,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getAbandonedQuotes } from '@/lib/quote-storage';
 import { sendAbandonedQuoteDigest } from '@/lib/email';
 import type { AbandonedDigestItem } from '@/lib/email';
+import { formatQuoteSelectionsSnapshotHtml, ukPricingStepLabel } from '@/lib/quote-selection-summary';
 
 function isAuthorized(request: NextRequest): boolean {
   const adminKey = request.headers.get('x-admin-key');
@@ -41,17 +42,29 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const digestItems: AbandonedDigestItem[] = abandonedQuotes.map(quote => {
+    const digestItems: AbandonedDigestItem[] = abandonedQuotes.map((quote) => {
       const selections = quote.selections as Record<string, unknown>;
-      const serviceType = (selections?.serviceType as string) || (selections?.projectType as string) || undefined;
+      const serviceType =
+        (selections?.serviceType as string) || (selections?.projectType as string) || undefined;
       const isUS = !!selections?.serviceType;
+      const legalCompanyName =
+        selections.entityType === 'limited' && typeof selections.companyName === 'string'
+          ? selections.companyName.trim() || null
+          : null;
 
       return {
         email: quote.email,
         serviceType,
         stepReached: quote.currentStep,
+        stepLabel: isUS ? `Step ${quote.currentStep}` : ukPricingStepLabel(quote.currentStep),
         lastActivity: quote.updatedAt,
         locale: isUS ? 'us' : 'uk',
+        quoteId: quote.id,
+        resumeUrl: isUS
+          ? `https://scopesite.co.uk/us/quote?q=${quote.id}`
+          : `https://scopesite.co.uk/pricing?q=${quote.id}`,
+        legalCompanyName,
+        selectionSnapshotHtml: formatQuoteSelectionsSnapshotHtml(selections),
       };
     });
 
