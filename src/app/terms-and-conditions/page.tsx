@@ -47,40 +47,47 @@ export const metadata: Metadata = {
   },
 };
 
-// Table of Contents data - matches actual section numbers in document
+// Table of Contents data — anchor ids match rehype-slug output for ## N. headings
 const tableOfContents = [
   { num: 1, label: 'Introduction and Definitions', href: '#1-introduction-and-definitions' },
   { num: 2, label: 'Company Information', href: '#2-company-information' },
   { num: 3, label: 'Services and Deliverables', href: '#3-services-and-deliverables' },
-  { num: 4, label: 'Payment Terms', href: '#4-payment-terms' },
-  { num: 7, label: 'Intellectual Property Rights', href: '#7-intellectual-property-rights' },
-  { num: 8, label: 'Revisions and Change Requests', href: '#8-revisions-and-change-requests' },
-  { num: 9, label: 'Cancellation and Refunds', href: '#9-cancellation-and-refunds' },
-  { num: 10, label: 'Data Protection and Privacy', href: '#10-data-protection-and-privacy' },
-  { num: 11, label: 'Liability and Indemnity', href: '#11-liability-and-indemnity' },
-  { num: 12, label: 'Subcontracting and Third-Party Services', href: '#12-subcontracting-and-third-party-services' },
-  { num: 13, label: 'Platform Risk Disclaimer', href: '#13-platform-risk-disclaimer' },
-  { num: 14, label: 'Confidentiality', href: '#14-confidentiality' },
-  { num: 15, label: 'Service Level Disclaimer', href: '#15-service-level-disclaimer' },
-  { num: 16, label: 'Client Authority', href: '#16-client-authority' },
-  { num: 17, label: 'Updates to Terms', href: '#17-updates-to-terms' },
-  { num: 18, label: 'Termination', href: '#18-termination' },
-  { num: 19, label: 'Dispute Resolution', href: '#19-dispute-resolution' },
-  { num: 20, label: 'General Provisions', href: '#20-general-provisions' },
+  { num: 4, label: 'Pricing, Quotes and the Quote Calculator', href: '#4-pricing-quotes-and-the-quote-calculator' },
+  { num: 5, label: 'Payment Terms', href: '#5-payment-terms' },
+  { num: 6, label: 'Intellectual Property and Ownership', href: '#6-intellectual-property-and-ownership' },
+  { num: 7, label: 'Revisions and Change Requests', href: '#7-revisions-and-change-requests' },
+  { num: 8, label: 'Cancellation and Refunds', href: '#8-cancellation-and-refunds' },
+  { num: 9, label: 'Data Protection and Privacy', href: '#9-data-protection-and-privacy' },
+  { num: 10, label: 'Liability and Indemnity', href: '#10-liability-and-indemnity' },
+  { num: 11, label: 'Subcontracting and Third-Party Services', href: '#11-subcontracting-and-third-party-services' },
+  { num: 12, label: 'Platform and AI Service Risk Disclaimer', href: '#12-platform-and-ai-service-risk-disclaimer' },
+  { num: 13, label: 'Confidentiality', href: '#13-confidentiality' },
+  {
+    num: 14,
+    label: 'Service Level Disclaimer and the AI Search Performance Guarantee',
+    href: '#14-service-level-disclaimer-and-the-ai-search-performance-guarantee',
+  },
+  { num: 15, label: 'Territory Command Specific Terms', href: '#15-territory-command-specific-terms' },
+  { num: 16, label: 'Promotions, Offers and Time-Limited Pricing', href: '#16-promotions-offers-and-time-limited-pricing' },
+  { num: 17, label: 'Client Authority', href: '#17-client-authority' },
+  { num: 18, label: 'Updates to Terms', href: '#18-updates-to-terms' },
+  { num: 19, label: 'Termination', href: '#19-termination' },
+  { num: 20, label: 'Dispute Resolution', href: '#20-dispute-resolution' },
+  { num: 21, label: 'General Provisions', href: '#21-general-provisions' },
 ];
 
-// Read the markdown file at build time and remove the TOC section
+// Read the markdown file at build time; strip in-file TOC and hero-duplicated lines (hero + nav TOC are rendered in the page shell)
 function getTermsContent(): string {
   const filePath = path.join(process.cwd(), 'public', 'ScopeSite_Terms_and_Conditions_2026.md');
   let content = fs.readFileSync(filePath, 'utf8');
-  
-  // Remove the original TOC section from markdown (we render it separately)
-  // Remove from "## TABLE OF CONTENTS" to the next "---"
-  content = content.replace(/## TABLE OF CONTENTS[\s\S]*?(?=---\n\n##)/m, '');
-  
-  // Also remove the first H1 title since we have it in the hero
-  content = content.replace(/^# TERMS AND CONDITIONS\n\n/, '');
-  
+
+  content = content.replace(/## TABLE OF CONTENTS[\s\S]*?(?=---\n\n## 1\. )/m, '');
+
+  content = content.replace(
+    /^# TERMS AND CONDITIONS\s*\n\n\*\*ScopeSite LTD \(trading as ScopeSite Digital Studios\)\*\*\s*\n\nCompany Registration Number: 16130355 • Effective Date: 10 May 2026 \(supersedes version dated 28 April 2025\)\s*\n\n/m,
+    ''
+  );
+
   return content;
 }
 
@@ -122,7 +129,7 @@ export default function TermsPage() {
               ScopeSite LTD (trading as ScopeSite Digital Studios)
             </p>
             <p className="text-brand-navy text-sm mt-2">
-              Company Registration Number: 16130355 • Effective Date: 28th April 2025
+              Company Registration Number: 16130355 • Effective Date: 10 May 2026
             </p>
           </div>
         </div>
@@ -296,6 +303,12 @@ export default function TermsPage() {
               <div className="bg-brand-navy/5 rounded-xl p-6">
                 <p className="text-brand-navy/70 text-sm mb-4">
                   <strong className="text-brand-navy">Questions about these terms?</strong>
+                </p>
+                <p className="text-brand-navy/60 text-sm mb-2">
+                  Last Updated: 10 May 2026
+                </p>
+                <p className="text-brand-navy/60 text-sm mb-4">
+                  Registered Office: 4 Horse Close Horse Close, Beckington, Frome, England, BA11 6SU
                 </p>
                 <p className="text-brand-navy/60 text-sm mb-4">
                   If you have any questions about these Terms and Conditions, please contact us:

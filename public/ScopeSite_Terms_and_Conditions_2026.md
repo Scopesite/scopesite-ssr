@@ -2,32 +2,37 @@
 
 **ScopeSite LTD (trading as ScopeSite Digital Studios)**
 
-**Company Registration Number:** 16130355
+Company Registration Number: 16130355 • Effective Date: 10 May 2026 (supersedes version dated 28 April 2025)
 
-**Effective Date:** 28th April 2025
+> **Effective:** 10 May 2026 — supersedes the version dated 28 April 2025.
+
+> **NOTICE TO USERS:** These Terms and Conditions reflect ScopeSite's product range as of May 2026, including the Quote Calculator at scopesite.co.uk/pricing, Territory Command postcode-exclusive products, AI SEO retainers, and the four intent-led build paths. By instructing ScopeSite to begin work on a Service, you confirm you have read and accepted these Terms.
 
 ---
 
 ## TABLE OF CONTENTS
 
-1. [Introduction and Definitions](#1-introduction-and-definitions)
-2. [Company Information](#2-company-information)
-3. [Services and Deliverables](#3-services-and-deliverables)
-4. [Payment Terms](#4-payment-terms)
-7. [Intellectual Property Rights](#7-intellectual-property-rights)
-8. [Revisions and Change Requests](#8-revisions-and-change-requests)
-9. [Cancellation and Refunds](#9-cancellation-and-refunds)
-10. [Data Protection and Privacy](#10-data-protection-and-privacy)
-11. [Liability and Indemnity](#11-liability-and-indemnity)
-12. [Subcontracting and Third-Party Services](#12-subcontracting-and-third-party-services)
-13. [Platform Risk Disclaimer](#13-platform-risk-disclaimer)
-14. [Confidentiality](#14-confidentiality)
-15. [Service Level Disclaimer](#15-service-level-disclaimer)
-16. [Client Authority](#16-client-authority)
-17. [Updates to Terms](#17-updates-to-terms)
-18. [Termination](#18-termination)
-19. [Dispute Resolution](#19-dispute-resolution)
-20. [General Provisions](#20-general-provisions)
+1. Introduction and Definitions
+2. Company Information
+3. Services and Deliverables
+4. Pricing, Quotes and the Quote Calculator
+5. Payment Terms
+6. Intellectual Property and Ownership
+7. Revisions and Change Requests
+8. Cancellation and Refunds
+9. Data Protection and Privacy
+10. Liability and Indemnity
+11. Subcontracting and Third-Party Services
+12. Platform and AI Service Risk Disclaimer
+13. Confidentiality
+14. Service Level Disclaimer and the AI Search Performance Guarantee
+15. Territory Command Specific Terms
+16. Promotions, Offers and Time-Limited Pricing
+17. Client Authority
+18. Updates to Terms
+19. Termination
+20. Dispute Resolution
+21. General Provisions
 
 ---
 
@@ -35,39 +40,55 @@
 
 ### 1.1 Company Information
 
-These Terms and Conditions ("Terms") constitute a legally binding agreement between ScopeSite LTD, a company registered in England and Wales, trading as ScopeSite Digital Studios ("we", "us", "our", "ScopeSite", or "the Company") and the client or customer ("you", "your", or "Client") who engages our services.
+These Terms and Conditions ("Terms") constitute a legally binding agreement between ScopeSite LTD, a company registered in England and Wales (company number 16130355), trading as ScopeSite Digital Studios ("we", "us", "our", "ScopeSite", or "the Company") and the client or customer ("you", "your", or "Client") who engages our services.
 
 ### 1.2 Effective Date
 
-These Terms are effective from 28th April 2025 and supersede all previous terms and conditions.
+These Terms are effective from 10 May 2026 and supersede all previous terms and conditions, including the version dated 28 April 2025.
 
 ### 1.3 Definitions
 
 In these Terms, the following definitions apply:
 
-**"Agreement"** means these Terms and Conditions together with any Service Agreement, Statement of Work, or other contractual document agreed between the parties.
+**"Add-On"** means an optional feature, integration, or service that can be added to a Build or retainer at the prices listed in our Quote Calculator and at scopesite.co.uk/pricing.
 
-**"Client"** means the individual, company, or organization that engages ScopeSite LTD to provide Services.
+**"Agreement"** means these Terms together with any Service Agreement, Statement of Work, accepted Quote, or other contractual document agreed between the parties.
 
-**"Client Content"** means any materials, information, data, images, text, or other content provided by the Client to ScopeSite for use in connection with the Services.
+**"AI SEO Retainer"** means our standalone monthly service to improve a Client's visibility in generative AI search engines (ChatGPT, Claude, Perplexity, Google AI Overviews and similar), priced at £750 setup plus £500 per calendar month.
 
-**"Confidential Information"** means any information disclosed by one party to the other which is marked as confidential or which would reasonably be understood to be confidential in nature, including but not limited to business plans, financial information, customer lists, technical specifications, and design concepts.
+**"Build"** means a website project delivered by ScopeSite, in one of two formats: (a) the **Manage Yourself After Build** option using Wix Studio (referred to internally as "clientManaged"), or (b) the **Ultra Fast — AI Visible Premium Site** option using server-side rendering (referred to internally as "SSR").
 
-**"Deliverables"** means the final products, materials, or outputs to be provided to the Client as specified in the Service Agreement.
+**"Client Content"** means any materials, information, data, images, text, brand assets, or other content provided by the Client to ScopeSite for use in connection with the Services.
+
+**"Confidential Information"** has the meaning given in clause 13.1.
+
+**"Deliverable"** means the final products, files, code, designs, or outputs to be provided to the Client as specified in the Service Agreement, excluding any Pre-Existing IP, Reusable Components, or third-party assets.
 
 **"Intellectual Property Rights"** means all patents, rights to inventions, copyright and related rights, trademarks, service marks, trade names, domain names, rights in get-up, rights in goodwill or to sue for passing off, unfair competition rights, rights in designs, rights in computer software, database rights, topography rights, moral rights, rights in confidential information (including know-how and trade secrets) and any other intellectual property rights, in each case whether registered or unregistered and including all applications for and renewals or extensions of such rights, and all similar or equivalent rights or forms of protection in any part of the world.
 
-**"Payment Terms"** means the agreed terms for payment as set out in these Terms and any Service Agreement.
+**"License Buyout Fee"** has the meaning given in clause 6.5.
 
-**"Services"** means the services to be provided by ScopeSite to the Client as specified in the Service Agreement, which may include Pay Monthly Web Design, One-Off Large Website Builds/Projects, Graphic Design, Social Media Management, Brand Creation, SEO Services, SaaS Platform (Ready Set Social), AI Tools (ScopeBot), Freelancer CRM, and any other services agreed between the parties.
+**"Live Promotion"** means any time-limited offer, expiry date, promotional code, or discount-driven mechanism deployed via the Live Promotions add-on (clause 16.3).
 
-**"Service Agreement"** means any proposal, quotation, statement of work, or other document that sets out the specific Services to be provided by ScopeSite to the Client, including any timelines, deliverables, and fees.
+**"Pre-Existing IP"** means any code, methodology, framework, library, design system, AI prompt, schema, integration pattern, or other intellectual property that ScopeSite created, owned, or licensed before commencing the Client's project, OR developed during the project for re-use across multiple clients.
 
-**"SaaS"** means Software as a Service, referring to software that is centrally hosted and licensed on a subscription basis.
+**"Quote Calculator"** means the interactive pricing tool at scopesite.co.uk/pricing that produces guide quotes based on Client inputs.
+
+**"Reusable Component"** means any module, function, schema, integration, calculation logic, or design pattern developed by ScopeSite during a project that is intended to be re-used across multiple clients. Reusable Components remain ScopeSite's Pre-Existing IP.
+
+**"Service Agreement"** means any proposal, written quotation, signed Statement of Work, or other written document that sets out the specific Services to be provided, including timelines, deliverables, fees, payment term, and any agreed Add-Ons.
+
+**"Services"** means the services provided by ScopeSite, which may include Wix Studio Builds, Ultra Fast SSR Builds, AI SEO Retainers, Territory Command, Custom Web Applications, Brand Identity work, Graphic Design, Long-Form Video, and any Add-Ons listed in clause 4 or in the Quote Calculator.
+
+**"Territory Command"** means our postcode-exclusive lead-generation product as described in clause 15.
+
+**"AI Search Performance Score"** means the proprietary AI visibility score generated by ScopeSite's internal scoring methodology (known internally as V.O.I.C.E.), which measures a website's discoverability, citability, and ranking in generative AI search engines including ChatGPT, Claude, Perplexity, and Google AI Overviews. The score is measured on a scale from 0 to 100. The methodology is also accessible via ScopeSite's standalone scanner product at canaifindme.online (CAFMO).
 
 ### 1.4 Acceptance of Terms
 
-By engaging ScopeSite to provide Services, you acknowledge that you have read, understood, and agree to be bound by these Terms. If you are entering into this Agreement on behalf of a company or other legal entity, you represent that you have the authority to bind such entity to these Terms.
+By engaging ScopeSite to provide Services — whether by signing a Service Agreement, accepting a quote in writing, paying a deposit invoice, or instructing work to commence — you acknowledge that you have read, understood, and agree to be bound by these Terms.
+
+If you are entering into this Agreement on behalf of a company or other legal entity, you warrant that you have the authority to bind such entity to these Terms.
 
 ### 1.5 Jurisdiction
 
@@ -79,52 +100,36 @@ These Terms shall be governed by and construed in accordance with the laws of En
 
 ### 2.1 Company Details
 
-ScopeSite LTD is a company registered in England and Wales with company registration number 16130355.
+ScopeSite LTD is a company registered in England and Wales (company number 16130355).
 
 - **Trading Name:** ScopeSite Digital Studios
-- **Registered Address:** 71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ
-- **Business Address:** Based in Frome, Somerset
-- **Email Address:** dan@scopesite.co.uk
-- **Telephone Number:** 01373 311 339
-- **Business Activity:** Business and domestic software development
+- **Registered Office:** 4 Horse Close Horse Close, Beckington, Frome, England, BA11 6SU
+- **Principal Place of Business:** Frome, Somerset, United Kingdom
+- **Email:** dan@scopesite.co.uk
+- **Telephone:** 01373 311 339
+- **Director:** Daniel Cartwright
 
-ScopeSite LTD is not VAT registered.
-
-**Director:** Daniel Cartwright
+ScopeSite LTD is not currently VAT registered.
 
 ### 2.2 Regulatory Compliance
 
-ScopeSite LTD operates in compliance with all applicable UK laws and regulations, including but not limited to:
+ScopeSite operates in compliance with all applicable UK laws and regulations, including but not limited to:
 
 - The Companies Act 2006
 - The Consumer Rights Act 2015
 - The Data Protection Act 2018 and UK GDPR
 - The Electronic Commerce (EC Directive) Regulations 2002
 - The Consumer Contracts (Information, Cancellation and Additional Charges) Regulations 2013
+- The Late Payment of Commercial Debts (Interest) Act 1998
+- The Unfair Contract Terms Act 1977 (in relation to business-to-business contracts)
 
-### 2.3 Professional Memberships
+### 2.3 Communications
 
-ScopeSite LTD is a member of the following professional organizations and trade bodies:
+All notices and formal communications relating to these Terms shall be in writing and delivered by email to the address provided by each party, or by post to the registered office. For routine project communication, email and our designated client portal are deemed sufficient.
 
-Not applicable at this time.
+### 2.4 Business Hours
 
-### 2.4 Communications
-
-All notices and communications relating to these Terms shall be in writing and delivered by email to the address provided by each party, or by post to the registered address of each party.
-
-### 2.5 Business Hours
-
-Our standard business hours are:
-
-- **Monday:** 09:00 - 18:00
-- **Tuesday:** 09:00 - 18:00
-- **Wednesday:** 09:00 - 21:00
-- **Thursday:** 09:00 - 21:00
-- **Friday:** 09:00 - 17:00
-- **Saturday:** 11:00 - 15:00
-- **Sunday:** 11:00 - 15:00
-
-Any Services requiring attention outside these hours may be subject to additional charges unless otherwise specified in the Service Agreement.
+Our standard business hours are 09:00 to 18:00 Monday and Tuesday, 09:00 to 21:00 Wednesday and Thursday, 09:00 to 17:00 Friday, and 11:00 to 15:00 Saturday and Sunday. Services requiring urgent attention outside these hours may be subject to the Priority or Within 24 Hours surcharge set out in clause 7.2.
 
 ---
 
@@ -132,1277 +137,1152 @@ Any Services requiring attention outside these hours may be subject to additiona
 
 ### 3.1 Services Offered
 
-ScopeSite LTD offers the following services to clients:
+ScopeSite offers the following Services:
 
-#### 3.1.1 Pay Monthly Web Design
+#### 3.1.1 Wix Studio Builds (Manage Yourself After Build)
 
-A subscription-based web design and hosting service where clients pay a monthly fee for the design, development, hosting, and maintenance of their website.
+Client-managed websites built on the Wix Studio platform. After delivery and full payment, the Client can update content themselves without a developer. Priced according to the Quote Calculator (Starter, Professional, or Enterprise tier).
 
-#### 3.1.2 One-Off Large Website Builds/Projects
+#### 3.1.2 Ultra Fast SSR Builds (AI Visible Premium Site)
 
-Custom website design and development projects delivered on a project basis with defined scope, deliverables, and timeline.
+Hand-coded server-side rendered websites built on Next.js or equivalent modern frameworks. Includes auto-generated JSON-LD schema, AI SEO methodology bundled at no extra cost, and AI visibility tooling. Priced from £2,000 base with per-page increments to a £8,000 standard ceiling.
 
-#### 3.1.3 Graphic Design
+#### 3.1.3 AI SEO Retainer
 
-Creation of visual content including but not limited to logos, branding materials, marketing collateral, social media graphics, and other design assets.
+Standalone monthly service to improve Client visibility in AI search engines. Includes AI Search Performance scanning, schema optimisation, entity work, and citation development. £750 setup plus £500 per calendar month.
 
-#### 3.1.4 Social Media Management
+#### 3.1.4 Territory Command
 
-Management of client social media accounts including content creation, scheduling, posting, community engagement, and performance reporting.
+Postcode-exclusive lead-generation product. See clause 15 for full terms.
 
-#### 3.1.5 Brand Creation
+#### 3.1.5 Custom Web Applications
 
-Development of comprehensive brand identity including logo design, color palette, typography, brand guidelines, and associated brand assets.
+Bespoke web applications, internal tools, dashboards, calculators, booking systems, and other software with significant business logic. Priced individually, subject to clause 6.4.2.
 
-#### 3.1.6 SEO Services
+#### 3.1.6 Add-Ons
 
-Search engine optimization services to improve client website visibility and ranking in search engine results, including keyword research, on-page optimization, content strategy, and performance reporting.
+Optional features added to a Build or Retainer, priced as published in the Quote Calculator (current as of the date of the Service Agreement). Examples include the Live Jobs Board with auto-schema (£1,999), Live Promotions (£1,500), AI Chatbot (£1,499), Smart Forms (£495), and others listed at scopesite.co.uk/pricing.
 
-#### 3.1.7 SaaS Platform (Ready Set Social)
+#### 3.1.7 Brand Identity, Graphic Design, Long-Form Video
 
-Access to our proprietary social media planning and management software platform on a subscription basis.
+Creative deliverables with their own pricing as quoted at the time.
 
-#### 3.1.8 AI Tools (ScopeBot)
+#### 3.1.8 Other Services
 
-Access to our AI-powered tools for content creation, analysis, and optimization on a subscription or usage basis.
-
-#### 3.1.9 Freelancer CRM
-
-Access to our customer relationship management system designed specifically for freelancers and small businesses.
+Any other service agreed in writing in a Service Agreement.
 
 ### 3.2 Service Standards and Quality
 
 #### 3.2.1 Professional Standards
 
-ScopeSite LTD commits to delivering all services to a professional standard, in accordance with industry best practices, and with reasonable skill and care.
+All Services are delivered to a professional standard, in accordance with industry best practices, with reasonable skill and care.
 
-#### 3.2.2 Quality Assurance
+#### 3.2.2 Best Efforts Basis
 
-All deliverables will undergo internal quality assurance processes before being presented to the Client. However, the Client acknowledges that subjective elements such as design preferences are a matter of taste and may require revisions as outlined in Section 8.
-
-#### 3.2.3 Best Efforts Basis
-
-All services are provided on a "best efforts" basis. While ScopeSite LTD strives to achieve optimal results for all clients, we cannot guarantee specific outcomes, particularly for services dependent on external factors such as search engine algorithms, social media platform performance, or market conditions.
-
-#### 3.2.4 Service Availability
-
-For SaaS platforms and digital tools, ScopeSite LTD aims to maintain 99% uptime, excluding scheduled maintenance windows. However, occasional disruptions may occur due to factors beyond our control, and ScopeSite LTD shall not be liable for any losses resulting from such disruptions.
+All Services are provided on a "best efforts" basis. ScopeSite does not guarantee specific commercial outcomes (lead volume, conversion rates, sales increases) except as expressly stated in the AI Search Performance Guarantee in clause 14.4.
 
 ### 3.3 Delivery Timelines
 
-#### 3.3.1 Project Timelines
+Project timelines provided in any Service Agreement are estimates only. Timelines may be affected by Client feedback delays, scope changes, force majeure events (clause 10.3), or third-party platform issues (clause 12).
 
-For One-Off Large Website Builds/Projects and Brand Creation services, estimated timelines will be provided in the Service Agreement. These timelines are estimates only and may be subject to change based on various factors including Client feedback, revisions, and the timely provision of Client Content.
+### 3.4 Acceptance
 
-#### 3.3.2 Recurring Services
+Deliverables are deemed accepted unless the Client notifies ScopeSite in writing of specific issues within 7 days of delivery. For digital deliverables, "delivery" occurs when the Deliverable is made available for review, whether or not the Client chooses to access it.
 
-For recurring services such as Pay Monthly Web Design, Social Media Management, and SEO Services, work will be performed on an ongoing basis according to agreed schedules outlined in the Service Agreement.
+### 3.5 Client Responsibilities
 
-#### 3.3.3 Delays
+The Client shall:
 
-ScopeSite LTD shall not be liable for delays caused by:
+(a) provide all necessary information, materials, brand assets, and approvals required for ScopeSite to perform the Services in a timely manner;
 
-- Client's failure to provide necessary information, approvals, or Client Content in a timely manner
-- Client's request for changes or revisions beyond those included in the Service Agreement
-- Force majeure events as outlined in Section 11
-- Technical issues with third-party platforms or services
+(b) ensure all Client Content provided is owned by the Client (or properly licensed to the Client), is not unlawful, defamatory, or infringing, and complies with applicable laws including data protection laws;
 
-#### 3.3.4 Delivery and Acceptance
+(c) review Deliverables promptly and provide consolidated written feedback within 5 business days unless an alternative timeframe is agreed;
 
-Deliverables will be deemed accepted unless the Client notifies ScopeSite LTD of any issues within 7 days of delivery. For websites and digital products, final delivery occurs when the deliverable is made available to the Client for review, regardless of whether the Client accesses it.
+(d) cooperate in good faith with ScopeSite throughout the engagement, including attending agreed meetings and responding to written queries;
 
-### 3.4 Client Responsibilities
-
-#### 3.4.1 Provision of Information
-
-The Client shall provide all necessary information, materials, and approvals required for ScopeSite LTD to perform the Services in a timely manner. Delays in providing such information may result in corresponding delays to project timelines.
-
-#### 3.4.2 Client Content
-
-The Client is responsible for ensuring that all Client Content provided to ScopeSite LTD:
-
-- Is owned by the Client or the Client has all necessary rights and licenses to use it
-- Does not infringe any third-party intellectual property rights
-- Is not defamatory, obscene, or otherwise unlawful
-- Complies with all applicable laws and regulations, including data protection laws
-
-#### 3.4.3 Review and Feedback
-
-The Client shall review all deliverables promptly and provide clear feedback within the timeframes specified in the Service Agreement or within 7 days if no timeframe is specified.
-
-#### 3.4.4 Cooperation
-
-The Client shall cooperate with ScopeSite LTD throughout the provision of Services, including attending meetings, responding to queries, and providing approvals as required.
-
-#### 3.4.5 Access to Systems
-
-Where necessary for the provision of Services, the Client shall provide ScopeSite LTD with access to relevant systems, accounts, and platforms. The Client is responsible for revoking such access upon completion of the Services if desired.
-
-### 3.5 Third-Party Services and Integrations
-
-#### 3.5.1 Third-Party Services
-
-ScopeSite LTD may recommend or utilize third-party services, tools, or platforms in the provision of Services. The Client acknowledges that such third-party services are subject to their own terms and conditions, and ScopeSite LTD shall not be liable for any issues arising from these third-party services.
-
-#### 3.5.2 Platform Changes
-
-The Client acknowledges that third-party platforms (such as content management systems, social media platforms, or analytics tools) may change their functionality, terms, or availability at any time. ScopeSite LTD shall not be liable for any impact such changes may have on the Services or Deliverables.
-
-#### 3.5.3 Licenses and Subscriptions
-
-The Client is responsible for maintaining any necessary licenses or subscriptions for third-party services required for the provision of Services, unless explicitly stated otherwise in the Service Agreement.
-
-#### 3.5.4 Third-Party Costs
-
-Any costs associated with third-party services, including but not limited to domain registration, hosting, stock images, fonts, plugins, or software licenses, are the responsibility of the Client unless explicitly included in the Service Agreement.
-
-### 3.6 Service Modifications
-
-#### 3.6.1 Service Evolution
-
-ScopeSite LTD reserves the right to modify, update, or discontinue any Service or feature of a Service, provided that such changes do not materially diminish the overall quality of the Service during a paid subscription period.
-
-#### 3.6.2 Notification of Changes
-
-ScopeSite LTD will make reasonable efforts to notify clients of significant changes to Services, particularly those that may affect the Client's use of the Services.
-
-#### 3.6.3 Scope Changes
-
-Any changes to the scope of Services requested by the Client after the Service Agreement has been agreed may result in additional charges and timeline adjustments as outlined in Section 8.
+(e) revoke ScopeSite's access to Client systems on completion of the Services if no ongoing Retainer or maintenance agreement is in place.
 
 ---
 
-## 4. PAYMENT TERMS
+## 4. PRICING, QUOTES AND THE QUOTE CALCULATOR
 
-### 4.1 Payment Structure for One-Off Projects
+### 4.1 Quote Calculator Output Is a Guide
 
-#### 4.1.1 Deposit Payment
+The Quote Calculator at scopesite.co.uk/pricing produces **guide prices only**. Outputs from the Quote Calculator are not contractual offers. Final pricing is confirmed only in a written Service Agreement signed or otherwise accepted in writing by both parties.
 
-For One-Off Large Website Builds/Projects, Brand Creation, and other one-off services, a non-refundable deposit of 25% of the total project fee is required at the time of signing the Service Agreement. Work will not commence until this deposit has been received and cleared.
+### 4.2 AI-Generated Quotes Are Not Binding
 
-#### 4.1.2 Milestone Payments
+Pricing or quotes produced by third-party AI systems (including ChatGPT, Claude, Perplexity, Google AI Overviews, Microsoft Copilot, or any similar service) reading our /llms.txt or /llms-full.txt files are **not contractual offers from ScopeSite**. AI systems may misinterpret pricing rules, perform calculation errors, or produce out-of-date estimates. Final pricing is confirmed only in writing by ScopeSite.
 
-A further payment of 25% of the total project fee is due upon acceptance of the prototype or initial concept. This payment must be made within 7 days of the prototype being presented to the Client.
+### 4.3 Published Pricing
 
-#### 4.1.3 Final Payment
+Current Build pricing is published at scopesite.co.uk/pricing and is mirrored in machine-readable form at scopesite.co.uk/llms-full.txt. Pricing listed in those documents at the time a Service Agreement is signed forms the basis of the agreed fee, subject to any agreed Add-Ons or scope adjustments.
 
-The remaining 50% of the total project fee is due upon completion of the project and prior to the launch or handover of final deliverables. All final payments must be made before any deliverables are published, made live, or transferred to the Client.
+### 4.4 Pricing Subject to Change
 
-#### 4.1.4 Payment Timeline
+ScopeSite reserves the right to amend published pricing for new Services or new Service Agreements at any time. Any agreed Service Agreement is locked at the prices in effect on the date the Agreement is signed. Pricing changes do not affect existing locked agreements.
 
-All invoices for one-off projects are due within 7 days of the invoice date unless otherwise specified in the Service Agreement.
+### 4.5 Add-On Pricing
 
-### 4.2 Payment Structure for Recurring Services
+Add-Ons selected at the time of contracting are charged at the published price for that Add-On. Add-Ons added retrospectively (after contracting) may be charged at the published price OR at ScopeSite's tiered hourly rate (clause 7.2), whichever ScopeSite determines is appropriate based on the work involved. The Client will receive a written quote for any retrospective Add-On before work commences.
 
-#### 4.2.1 Monthly Billing
+### 4.6 Currency and VAT
 
-For Pay Monthly Web Design, Social Media Management, SEO Services, and subscription access to SaaS platforms or tools, payment is due on a monthly basis on the same calendar day as the service inception date.
-
-#### 4.2.2 Initial Payment
-
-The first payment for recurring services is due immediately upon signing the Service Agreement and before any work commences.
-
-#### 4.2.3 Subscription Billing
-
-Subscription fees for SaaS Platform (Ready Set Social), AI Tools (ScopeBot), and Freelancer CRM will be billed automatically on the agreed billing cycle using the Client's chosen payment method.
-
-#### 4.2.4 Payment Timeline
-
-All invoices for recurring services are due on the invoice date and will be automatically processed using the Client's chosen payment method where applicable.
-
-### 4.3 Accepted Payment Methods
-
-#### 4.3.1 Accepted Methods
-
-ScopeSite LTD accepts the following payment methods:
-
-- Direct Debit
-- Standing Order
-- Bank Transfer
-- Payment Links
-- Credit/Debit Cards
-- Google Pay
-- Apple Pay
-
-#### 4.3.2 Non-Accepted Methods
-
-ScopeSite LTD does not accept the following payment methods:
-
-- Cash
-- Cryptocurrency (e.g., Bitcoin)
-
-#### 4.3.3 Payment Details
-
-Bank transfer details, payment link information, or other payment instructions will be provided on invoices or in separate communications.
-
-#### 4.3.4 Payment Processing
-
-Credit/debit card payments, Google Pay, and Apple Pay are processed through secure third-party payment processors. By using these payment methods, the Client agrees to the terms and conditions of these third-party processors.
-
-### 4.4 Currency and Taxes
-
-#### 4.4.1 Currency
-
-All fees are quoted and payable in British Pounds Sterling (GBP) unless otherwise specified in the Service Agreement.
-
-#### 4.4.2 Value Added Tax (VAT)
-
-All fees are exclusive of VAT, which will be added at the current rate where applicable. VAT registration details will be displayed on all invoices.
-
-#### 4.4.3 International Payments
-
-For international clients, any bank charges or currency conversion fees incurred in making payments are the responsibility of the Client and should not be deducted from the invoiced amount.
-
-### 4.5 Late Payments and Fees
-
-#### 4.5.1 Late Payment Interest
-
-ScopeSite LTD reserves the right to charge interest on late payments at a rate of 8% per annum above the Bank of England base rate, calculated daily from the due date until payment is received, in accordance with the Late Payment of Commercial Debts (Interest) Act 1998.
-
-#### 4.5.2 Administration Fees
-
-An administration fee of £40 may be charged for each late payment in accordance with the Late Payment of Commercial Debts Regulations 2013.
-
-#### 4.5.3 Debt Recovery Costs
-
-ScopeSite LTD reserves the right to claim reasonable costs incurred in recovering late payments, including but not limited to legal fees, court costs, and debt collection agency fees.
-
-### 4.6 Non-Payment Consequences
-
-#### 4.6.1 One-Off Projects
-
-If the 25% prototype payment is not received within the specified timeframe, work on the project will be paused until payment is received. If payment remains outstanding for 30 days with no communication from the Client, ScopeSite LTD reserves the right to invoice for work completed to date and terminate the Agreement.
-
-#### 4.6.2 Pay Monthly Services
-
-For Pay Monthly Services, a grace period of 4 days will be provided for late payments. After this period, if payment has not been received, hosting and services will be suspended. If payment remains outstanding with no communication from the Client for 30 days, ScopeSite LTD reserves the right to:
-
-- Return domain ownership to the Client (where applicable)
-- Erase website content and data
-- Invoice for the remaining minimum term amount if within the minimum contract period
-
-#### 4.6.3 Social Media Management
-
-For Social Media Management services, posting will be suspended after 4 days of non-payment. If payment remains outstanding with no communication from the Client for 30 days, ScopeSite LTD reserves the right to:
-
-- Reclaim intellectual property rights to created content
-- Invoice for the remaining term amount if applicable
-
-#### 4.6.4 SaaS and Subscription Services
-
-For SaaS Platform (Ready Set Social), AI Tools (ScopeBot), and Freelancer CRM, access will be suspended immediately upon failed payment. If payment is not received within 30 days, the account and all associated data may be deleted.
-
-### 4.7 Minimum Contract Periods
-
-#### 4.7.1 Pay Monthly Websites
-
-Pay Monthly Website services have a minimum contract period of 3 months from the service inception date.
-
-#### 4.7.2 SEO Services
-
-SEO Services have a minimum contract period of 6 months from the service inception date.
-
-#### 4.7.3 Social Media Management
-
-Social Media Management services operate on a rolling monthly basis with no minimum contract period.
-
-#### 4.7.4 SaaS and Subscription Services
-
-Minimum contract periods for SaaS Platform (Ready Set Social), AI Tools (ScopeBot), and Freelancer CRM will be as specified in the Service Agreement.
-
-### 4.8 Early Termination Fees
-
-#### 4.8.1 Calculation of Fees
-
-If the Client wishes to terminate services during the minimum contract period, an early termination fee equal to the remaining value of the minimum contract period will be payable immediately.
-
-#### 4.8.2 Non-Refundable Payments
-
-All payments made prior to early termination are non-refundable, including deposits and advance payments.
-
-### 4.9 Invoicing
-
-#### 4.9.1 Invoice Delivery
-
-Invoices will be delivered electronically to the email address provided by the Client. It is the Client's responsibility to ensure that the correct email address is provided and maintained.
-
-#### 4.9.2 Invoice Contents
-
-All invoices will include:
-
-- ScopeSite LTD's company details and VAT registration number
-- Invoice date and number
-- Description of services provided
-- Amount due and payment terms
-- Accepted payment methods and instructions
-
-#### 4.9.3 Invoice Disputes
-
-Any disputes regarding invoices must be raised in writing within 7 days of the invoice date. Failure to raise a dispute within this timeframe will be deemed acceptance of the invoice.
+All fees are quoted and payable in British Pounds Sterling (GBP). ScopeSite is not currently VAT registered; should ScopeSite become VAT registered during a Service Agreement, VAT will be added at the applicable rate going forward and disclosed clearly on invoices.
 
 ---
 
-## 7. INTELLECTUAL PROPERTY RIGHTS
+## 5. PAYMENT TERMS
 
-### 7.1 General Principles
+### 5.1 Build Payment Structures
 
-All Intellectual Property Rights in materials created by ScopeSite LTD prior to or independently of this Agreement shall remain the property of ScopeSite LTD. All Intellectual Property Rights in Client Content shall remain the property of the Client.
+#### 5.1.1 Pay In Full
 
-### 7.2 Ownership Model
+If the Client elects to pay in full at the start of the project, a 5% discount is applied. Full payment is due on signing the Service Agreement and before any work commences.
 
-#### 7.2.1 Fundamental Principle
+#### 5.1.2 Spread Payments (Limited Companies and LLPs Only)
 
-Payment for Services constitutes payment for ScopeSite LTD's time, expertise, and labour in creating Deliverables. Payment for Services does not automatically transfer Intellectual Property Rights in the Deliverables to the Client unless explicitly stated in the Service Agreement.
+Spread payment terms (6, 12, 24, or 36 months) are strictly available only to registered Limited Companies (LTDs) and Limited Liability Partnerships (LLPs). By selecting a spread payment plan, the Client warrants and represents that they are a registered corporate entity acting in the course of business.
 
-#### 7.2.2 Default Position - License to Use
+Spread plans are subject to the following multipliers applied to the subtotal:
 
-Unless the Service Agreement explicitly includes "IP Rights Transfer" or "Intellectual Property Assignment" as a line item, the Client is granted a perpetual, non-exclusive, non-transferable license to use the Deliverables for their intended business purpose. Under this license:
+| Term | Multiplier | Notes |
+|---|---|---|
+| 6 months | × 1.03 | Subtotal × 1.03, divided by 6 |
+| 12 months | × 1.06 | Subtotal × 1.06, divided by 12 |
+| 24 months | × 1.12 | Subtotal × 1.12, divided by 24 |
+| 36 months | × 1.18 | Subtotal × 1.18, divided by 36 |
 
-(a) The Client may use, display, and operate the Deliverables for their own business operations;
+Sole traders, general partnerships, and individuals acting outside a registered corporate structure are legally ineligible for spread payment plans under this Agreement and must elect the Pay In Full option.
 
-(b) The Client may not sell, sublicense, transfer, or assign the Deliverables to any third party;
+#### 5.1.3 36-Month Plan Eligibility
 
-(c) The Client may not claim ownership of, or register any Intellectual Property Rights in, the Deliverables;
+The 36-month payment plan is available only on Builds with a one-off subtotal of £2,000 or more. This protects perceived value on smaller builds and is not negotiable.
 
-(d) The Client may not modify the underlying code, design, or architecture without ScopeSite LTD's written consent;
+#### 5.1.4 Initial Payment for Spread Plans
 
-(e) ScopeSite LTD retains full ownership of all Intellectual Property Rights in the Deliverables.
+The first monthly payment under any spread plan is due immediately on signing the Service Agreement. Work commences upon receipt of the first payment.
 
-#### 7.2.3 License Continuation
+#### 5.1.5 SSR Monthly Floors
 
-The license granted under clause 7.2.2 remains valid for as long as:
+For Ultra Fast SSR Builds on a spread payment plan, monthly payments cannot fall below the following minimum floors:
 
-(a) All invoices related to the original project have been paid in full; and
+- 6 months: £600 per month
+- 12 months: £400 per month
+- 24 months: £250 per month
+- 36 months: £200 per month
 
-(b) Any ongoing retainer, maintenance, or hosting agreements remain in good standing; or
+If a Client's calculated monthly figure falls below the floor for their chosen term, the floor applies.
 
-(c) The Client has paid a License Buyout Fee as agreed with ScopeSite LTD to continue using the Deliverables independently.
+#### 5.1.6 Pay-As-You-Go (PAYG) / Subscription Builds (Website-as-a-Service)
 
-#### 7.2.4 License Revocation
+For certain Builds (as specified in the Quote Calculator or Service Agreement), ScopeSite may offer a Pay-As-You-Go (PAYG) rolling subscription model, designed primarily for sole traders and individuals.
 
-ScopeSite LTD reserves the right to revoke the license granted under clause 7.2.2 if:
+**Available Products:**
 
-(a) The Client fails to pay any invoices within 30 days of the due date;
+WaaS is offered exclusively on:
 
-(b) The Client terminates a maintenance or hosting agreement without purchasing a License Buyout or IP Transfer;
+- Wix Studio Starter (≤5 pages)
+- Ultra Fast SSR Builds (up to 20 pages maximum)
 
-(c) The Client breaches any terms of this Agreement.
+WaaS is NOT available on Wix Studio Professional, Wix Studio Enterprise, SSR Builds over 20 pages, or any Custom Web Application.
 
-Upon revocation, the Client must cease all use of the Deliverables and remove them from any live environments within 14 days.
+**Pricing:**
 
-### 7.3 Intellectual Property Transfer
+A flat WaaS structure applies regardless of underlying build type:
 
-#### 7.3.1 Availability
+- Setup Fee: £795 (one-off, payable on signing)
+- Monthly Subscription: £99 per calendar month
+- Term: 30-day rolling, cancellable any time
 
-Full transfer of Intellectual Property Rights is available as a separate purchase. This must be explicitly included in the Service Agreement as a line item with an associated fee.
+**Add-Ons Available on WaaS:**
 
-#### 7.3.2 IP Transfer Fee
+WaaS Clients may add the following Add-Ons at standard published prices, payable upfront on top of the £795 setup fee:
 
-The fee for Intellectual Property Transfer will be quoted separately and is typically calculated as a percentage of the project build cost, or as a fixed fee, depending on the nature and complexity of the Deliverables. This fee is in addition to the fees charged for Services.
+- Smart Forms (£495)
+- AI Chatbot (£1,499)
 
-#### 7.3.3 What IP Transfer Includes
+WaaS Clients may NOT add: Live Promotions, Live Jobs Board, Members Areas, or any other Add-On not listed above. These remain available exclusively on Pay In Full or LTD/LLP spread payment Builds.
 
-Upon receipt of full payment for both the Services and the IP Transfer Fee, ScopeSite LTD assigns to the Client:
+**Where a Client selects the WaaS model:**
 
-(a) All Intellectual Property Rights in the final, approved Deliverables created specifically for the Client;
+(a) **Nature of Agreement:** This is a continuous month-to-month service agreement, not a credit agreement, hire-purchase agreement, or financing plan.
 
-(b) The right to modify, adapt, and build upon the Deliverables;
+(b) **Ownership:** The Client is paying for a license to use the Build and hosting services. ScopeSite retains 100% of all Intellectual Property Rights and ownership of the Build at all times. Clauses 6.3.1 and 6.3.2 (IP Transfer on full payment) do NOT apply to WaaS agreements.
 
-(c) The right to transfer or assign the Deliverables to third parties;
+(c) **Term and Cancellation:** The Agreement operates on a 30-day rolling basis. The Client may cancel at any time by providing 30 days' written notice. No early termination fees apply.
 
-(d) Full source code and working files (where applicable).
+(d) **Effect of Cancellation:** Upon cancellation or failure to pay the monthly subscription fee, the Client's license to use the Build immediately terminates, and ScopeSite will suspend and take the website offline.
 
-#### 7.3.4 What IP Transfer Excludes
+(e) **Buyout Option:** If the Client wishes to own the Build outright and transfer the IP, they must purchase a License Buyout (as defined in clause 6.5), at the WaaS-specific buyout fee set out in clause 6.5.4. ScopeSite will offer the buyout option at the point of cancellation. Previous monthly WaaS payments do NOT count toward the buyout price.
 
-Even where IP Transfer is purchased, ScopeSite LTD retains ownership of:
+(f) **Site Recovery and Resale Rights:** In the event that a WaaS Client cancels their subscription and declines to purchase a Buyout, ScopeSite reserves the right to:
 
-(a) Pre-existing ScopeSite IP, frameworks, libraries, and code components that existed prior to the project;
+(i) take the Build offline immediately on cancellation;
 
-(b) Reusable methodologies, processes, and know-how developed during the project;
+(ii) permanently delete all Client Content (logos, written copy, images, brand assets, captured leads, customer enquiries, member data) within 30 days of cancellation. The Client acknowledges it is their sole responsibility to export any required business data or customer leads prior to submitting their cancellation notice;
 
-(c) Third-party components, plugins, or assets incorporated into the Deliverables (which remain subject to their respective licenses);
+(iii) retain the underlying technical asset (codebase, schema architecture, design system, hosting configuration, AI visibility work, and any Domain Authority or Page Authority accrued on a domain registered by ScopeSite);
 
-(d) Any ScopeSite proprietary platforms or tools (as defined in clause 7.6).
+(iv) re-brand, re-purpose, and resell the technical asset and any ScopeSite-registered domain to a new client, provided the asset is completely stripped of the original Client's Intellectual Property and identifiable brand assets prior to resale;
 
-#### 7.3.5 Timing of Transfer
+(v) where the original Client supplied their own pre-existing domain, ScopeSite makes no claim to the domain itself. The Client retains that domain and may take it elsewhere.
 
-Intellectual Property Rights transfer only upon receipt of both:
+The Client warrants that they understand and accept the foregoing as a fundamental condition of accessing the WaaS pricing model. The Client acknowledges that the heavily reduced initial fee reflects ScopeSite's retained right to recover and re-monetise the underlying technical asset in the event of Client cancellation.
 
-(a) Full and final payment for all Services; and
+(g) **AI Search Performance Guarantee:** The AI Search Performance Guarantee (clause 14.4) applies to WaaS Builds where an AI SEO Retainer or Territory Command is also active, on the same terms as committed retainer Clients. The WaaS subscription itself is not a retainer.
 
-(b) Full payment of the IP Transfer Fee.
+(h) **Data Protection Roles:** Where Client Content includes Personal Data of the Client's own customers, end users, or contacts (e.g. captured via Smart Forms or AI Chatbot), the Client is the Data Controller and ScopeSite is the Data Processor under UK GDPR. The Client is solely responsible for compliance with their Controller obligations, including data subject access requests, and for exporting all such data prior to cancellation.
 
-No Intellectual Property Rights shall transfer until both conditions are satisfied.
+### 5.2 Retainer Payment Structures
 
-### 7.4 Specific Provisions for Service Types
+#### 5.2.1 AI SEO Retainer
 
-#### 7.4.1 Standard Websites (Brochure, Business, Portfolio)
+Monthly fee of £500, plus a one-off setup fee of £750. Minimum commitment of 6 OR 12 months, agreed at the time of signing. AI SEO is bundled at no monthly cost when included in an SSR Build (the £500/month is waived for the duration of any active SSR retainer or Territory Command).
 
-For standard website projects (informational sites, business websites, portfolios, and similar):
+#### 5.2.2 Territory Command (Standard)
 
-- IP transfers automatically upon receipt of full and final payment for the project
-- Client owns the design, content structure, and custom code created specifically for them
-- ScopeSite LTD retains ownership of pre-existing frameworks, reusable components, and third-party integrations
-- Client may migrate to another developer or host without restriction once IP has transferred
+£750 setup plus £500 per calendar month. See clause 15 for full terms.
 
-This reflects the industry standard expectation that clients own their website once paid for.
+#### 5.2.3 Territory Command (Premium)
 
-#### 7.4.2 Web Applications, Custom Software, and Complex Systems
+£1,250 setup plus £750 per calendar month. See clause 15 for full terms.
 
-For web applications, custom software, automation systems, complex forms with business logic, dashboards, portals, booking systems, calculators, and any deliverable that:
+### 5.3 Minimum Contract Periods
 
-(a) Contains significant conditional logic or business rules;
+Minimum contract periods bind the Client for the full duration of the chosen term:
 
-(b) Processes, calculates, or transforms data beyond simple form submission;
+| Service | Minimum Term |
+|---|---|
+| Pay In Full Build | None (one-off) |
+| 6-Month Spread Build | 6 months |
+| 12-Month Spread Build | 12 months |
+| 24-Month Spread Build | 24 months |
+| 36-Month Spread Build | 36 months |
+| AI SEO Retainer | As selected: 6 or 12 months |
+| Territory Command (either tier) | 12 months |
+| Custom Web Applications | As specified in Service Agreement |
 
-(c) Could feasibly be repurposed, resold, or licensed as a standalone product;
+### 5.4 Accepted Payment Methods
 
-(d) Took more than 10 hours of development time; or
+Direct Debit (preferred for monthly), Standing Order, Bank Transfer, Payment Links, Credit/Debit Cards, Google Pay, and Apple Pay. ScopeSite does not accept cash or cryptocurrency.
 
-(e) Is described in the Service Agreement as an "application", "system", "tool", or "platform"
+### 5.5 Late Payments
 
-The following terms apply:
+#### 5.5.1 Interest
 
-- Client receives a non-exclusive, non-transferable license to use the Deliverables solely for their own internal business operations
-- ScopeSite LTD retains full Intellectual Property Rights in the source code, architecture, logic, and configuration
-- Client may not resell, sublicense, white-label, or commercially distribute the Deliverables
-- Client may not claim to have created, developed, or own the Deliverables
-- Client may not share, disclose, or demonstrate the underlying logic or configuration to third parties for the purpose of replication
-- Client is entitled to their own business data processed by the system, but not the system itself
-- Continued use beyond the original project requires either an active maintenance/retainer agreement or purchase of a License Buyout
+Interest accrues on overdue invoices at 8% per annum above the Bank of England base rate, calculated daily, in accordance with the Late Payment of Commercial Debts (Interest) Act 1998.
 
-IP Transfer is available as a separate purchase if the Client wishes to own the application outright (see clause 7.3).
+#### 5.5.2 Administration Fee
 
-#### 7.4.3 Scope Evolution - Simple to Complex
+A £40 administration fee applies to each late payment in accordance with the Late Payment of Commercial Debts Regulations 2013.
 
-Where a project begins as a simple deliverable (e.g., a basic form, landing page, or minor automation) but evolves during development into a more complex system due to:
+#### 5.5.3 Recovery Costs
 
-(a) Client-requested additions or changes;
+ScopeSite may recover reasonable costs of collection, including legal fees, court costs, and debt collection agency fees.
 
-(b) Discovery of requirements not apparent at project outset; or
+### 5.6 Asset Freeze During Arrears
 
-(c) Scope creep beyond the original Service Agreement
+#### 5.6.1 Notice Before Suspension
 
-The Intellectual Property provisions shall be determined by what the Deliverable has become, not what it started as.
+ScopeSite recognises that minor administrative delays in payment are a normal part of doing business, particularly with BACS clearance windows and accounting cycles. Accordingly, asset suspension is a measure of last resort, not a first response.
 
-If a simple form becomes a complex application with conditional logic, integrations, and significant development time, it shall be treated under clause 7.4.2 (Web Applications and Custom Software), regardless of how it was originally scoped or quoted.
+#### 5.6.2 The Suspension Trigger
 
-ScopeSite LTD will notify the Client in writing if a project has evolved to the point where IP treatment has changed. The Client may at that point:
+If a Client falls **14 days past due** on any payment under this Agreement, ScopeSite will issue a written warning to the Client's primary contact and registered email address, identifying the overdue amount and providing **48 hours** to either:
 
-(a) Continue under the revised IP terms (licensed use, ScopeSite retains ownership);
+(a) settle the overdue payment in full; OR
+(b) propose a written payment plan that ScopeSite agrees in writing to accept.
 
-(b) Purchase IP Transfer at the quoted fee; or
+If, after the 48-hour warning period expires, the Client has neither settled the arrears nor agreed a written payment plan, ScopeSite may suspend access to Services and freeze Client-facing assets, including but not limited to:
 
-(c) Descope the project back to its original simple specification.
+(a) the live website (which may be replaced with a holding page or 503 status);
+(b) the Live Jobs Board and any job listings posted through it;
+(c) Stripe Checkout and Live Promotions integrations (which may be paused, preventing new transactions);
+(d) Smart Forms, AI Chatbots, Members Areas, and Client Portals;
+(e) email captures, lead exports, and analytics dashboards;
+(f) CMS logins and editor access.
 
-For the avoidance of doubt: Selecting option (c) does not waive, reduce, or refund any fees for work already completed. The Client remains liable for all hours worked and costs incurred up to the point of descoping, charged at the applicable hourly rate. Descoping determines only what the Client receives as the final Deliverable and under what IP terms - it is not a mechanism to avoid payment for work performed. Any complex work completed prior to descoping remains the property of ScopeSite LTD and will not be delivered to the Client.
+#### 5.6.3 No Deletion During Freeze
 
-#### 7.4.4 Pay Monthly Websites
+Suspended assets are NOT deleted during the freeze period. The Client retains the right to restore access by paying all outstanding amounts plus any reasonable reactivation fee.
 
-- No Intellectual Property Rights transfer during the pay monthly period
-- Client receives a license to use the website for their business while payments are current
-- Upon completion of 12 months of continuous service and all payments being up to date, the Client may request IP Transfer at a reduced fee (to be quoted upon request)
-- Early termination results in no IP rights and no license continuation unless a Buyout Fee is paid
-- Client data and content remains theirs; the website design and code does not
+#### 5.6.4 Escalation
 
-#### 7.4.5 Brand Creation and Graphic Design
+After 60 days of continuous arrears with no communication or agreed payment plan in place, ScopeSite may proceed under clause 5.7.
 
-**Logos and Core Brand Identity:**
+### 5.7 Long-Term Non-Payment Consequences
 
-- IP automatically transfers upon full payment for the brand creation service
-- Client owns their logo, wordmark, brand guidelines, and core identity assets outright
-- This is an exception to the default position - clients rightly expect to own their brand
+After 60 days of continuous arrears with no agreed remedy, ScopeSite may:
 
-**Marketing Materials and Collateral:**
+(a) terminate the Service Agreement under clause 19;
+(b) invoice the full outstanding minimum-term amount as immediately payable;
+(c) revoke any license granted under clause 6;
+(d) erase website content and Client data after a further 14 days written notice;
+(e) return domain ownership to the Client where the domain is registered in the Client's name (and where outstanding fees are paid);
+(f) cease providing any Services until amounts are settled.
 
-- Licensed for use in the Client's business
-- IP retained by ScopeSite LTD unless IP Transfer purchased
-- Client may use materials freely for their own marketing but may not resell, sublicense, or claim to have created them
+### 5.8 Early Termination and Acceleration of Debt
 
-#### 7.4.6 Projects Intended for Client Commercialisation
+#### 5.8.1 Retainers (AI SEO / Territory Command)
 
-Where the explicit purpose of a project is to create a product, platform, or application that the Client intends to:
+If the Client terminates a recurring Service during a minimum contract period, an early termination fee applies. This fee is calculated as **50% of the remaining value of the minimum contract period**. The Client acknowledges that this represents a genuine pre-estimate of ScopeSite's unrecoverable costs, allocated resources, and lost scheduling capacity, and is not a penalty.
 
-(a) Sell to end users;
+#### 5.8.2 Spread Payment Builds
 
-(b) License to third parties;
+Where a Build has been delivered and the corporate Client is paying via a 6, 12, 24, or 36-month Spread Payment Plan, the Client acknowledges that ScopeSite has already performed the Build work in full at the start of the Agreement.
 
-(c) Offer as a SaaS or subscription product; or
+If the Client terminates the Agreement early, or defaults on payment causing ScopeSite to terminate under Clause 19, the entire remaining balance of the Spread Payment Plan becomes immediately due and payable.
 
-(d) Otherwise commercially exploit beyond their own internal use
+The Client explicitly agrees that this constitutes the **acceleration of an existing corporate debt for services already rendered**, not an early termination penalty. No Intellectual Property rights, licenses, or website assets will be transferred, handed over, or permitted to remain live until this debt is settled in full.
 
-IP Transfer must be agreed and included in the Service Agreement from the outset. The project fee will reflect the commercial nature of the engagement, and may include:
+### 5.9 Refunds
 
-- Higher build fees to reflect the value being created
-- Revenue share or royalty arrangements
-- Equity or profit-sharing agreements
-- Milestone-based IP transfer tied to commercial success
+#### 5.9.1 Deposits and Initial Payments
 
-ScopeSite LTD will not undertake projects intended for Client commercialisation under standard service terms. Any attempt to commercialise Deliverables created under standard terms (without explicit IP Transfer) constitutes a material breach of this Agreement.
+The 25% deposit on one-off projects is non-refundable except where ScopeSite is unable to commence the agreed work due to circumstances solely attributable to ScopeSite.
 
-### 7.5 License Buyout
+#### 5.9.2 Recurring Services
 
-#### 7.5.1 Definition
+Payments for recurring services are non-refundable. No partial-month refunds are issued on cancellation.
 
-A License Buyout is a one-time fee that allows the Client to continue using the Deliverables independently, without an ongoing maintenance or hosting agreement with ScopeSite LTD. A License Buyout does not transfer Intellectual Property Rights.
+#### 5.9.3 Service Non-Performance
 
-#### 7.5.2 What License Buyout Includes
+In the event of Service non-delivery solely attributable to ScopeSite, partial or full refunds may be issued at ScopeSite's discretion, proportionate to services not delivered.
+
+#### 5.9.4 Refund Processing
+
+Approved refunds are processed within 14 business days using the original payment method where possible.
+
+### 5.10 Consumer Cooling-Off (Distance Contracts)
+
+#### 5.10.1 Right to Cancel
+
+Consumers (individuals acting outside their trade, business, craft, or profession) entering into a distance contract have the statutory right to cancel within 14 days under the Consumer Contracts (Information, Cancellation and Additional Charges) Regulations 2013.
+
+#### 5.10.2 Waiver to Commence Work
+
+If a consumer Client requests work to commence before the 14-day Cooling-Off Period expires, ScopeSite will provide a written waiver form which the Client must sign, acknowledging:
+
+(a) the right to cancel within the Cooling-Off Period is **lost** if the service is fully performed within that period;
+(b) if the service is partially performed and the Client cancels within the period, the Client must pay for the value of services provided up to the cancellation date.
+
+No work commences until the waiver is signed and returned.
+
+#### 5.10.3 Exercising Cancellation
+
+To cancel, the consumer must inform ScopeSite by email or post before the 14-day period expires.
+
+---
+
+## 6. INTELLECTUAL PROPERTY AND OWNERSHIP
+
+### 6.1 General Principle
+
+Intellectual Property in Deliverables transfers to the Client only on receipt of full and final payment of all fees due under this Agreement (and any applicable License Buyout Fee or IP Transfer Fee, where required). Until that point, the Client holds a license to use the Deliverables on the terms set out below.
+
+### 6.2 Default Position — License To Use
+
+Unless the Service Agreement explicitly includes "IP Transfer" or "Intellectual Property Assignment" as a line item, the Client receives a perpetual, non-exclusive, non-transferable, revocable license to use the Deliverables for their intended business purpose, conditional on:
+
+(a) payment of all invoices in full;
+(b) compliance with these Terms;
+(c) ongoing maintenance, hosting, or retainer fees being current where applicable.
+
+Under this license, the Client may use, display, and operate the Deliverables for their own business operations. The Client may NOT sell, sublicense, transfer, assign, white-label, or commercially distribute the Deliverables. The Client may NOT claim ownership of, or register any Intellectual Property Rights in, the Deliverables. The Client may NOT modify the underlying code, design, or architecture without ScopeSite's written consent.
+
+ScopeSite retains all Intellectual Property Rights in the Deliverables until paid in full as set out in clause 6.1.
+
+### 6.3 Build-Specific Provisions
+
+#### 6.3.1 Wix Studio Builds (Manage Yourself After Build)
+
+On full final payment of the agreed fee:
+
+(a) IP in the design, structure, copy, and content created specifically for the Client transfers to the Client;
+(b) ScopeSite retains all rights in Pre-Existing IP, Reusable Components, and methodology used in the build;
+(c) the Client may continue using the site, edit content via Wix Studio, and migrate to a new agency or Wix administrator without restriction;
+(d) the Wix subscription itself remains a separate matter between the Client and Wix.
+
+#### 6.3.2 Ultra Fast SSR Builds (AI Visible Premium Site)
+
+On full final payment AND the absence of any active Spread Payment Plan or active Retainer:
+
+(a) IP in the **specific implementation** transfers to the Client (design, content structure, and bespoke logic written for the Client);
+(b) ScopeSite retains all rights in Pre-Existing IP, Reusable Components, framework code, AI SEO methodology, schema generation logic, V.O.I.C.E. methodology, and any code components developed for use across multiple clients;
+(c) the Client may host the site with any provider and engage any developer to maintain it;
+(d) the Client may NOT extract ScopeSite's reusable code, methodology, or schema patterns for resale, sublicense, or commercial distribution.
+
+During an active Spread Payment Plan, the Client receives a license under clause 6.2 only, and IP does NOT transfer until the final payment is made.
+
+#### 6.3.3 Custom Web Applications, Calculators, Portals, Booking Systems
+
+For any Deliverable that:
+
+(a) contains significant conditional logic or business rules;
+(b) processes, calculates, or transforms data beyond simple form submission;
+(c) could feasibly be repurposed, resold, or licensed as a standalone product;
+(d) took more than 10 hours of development time; or
+(e) is described in the Service Agreement as an "application", "system", "tool", "calculator", or "platform" —
+
+the following terms apply on full final payment:
+
+- the Client receives a **non-exclusive, non-transferable license to use the Deliverable solely for their own internal business operations**;
+- ScopeSite retains full Intellectual Property Rights in the source code, architecture, logic, configuration, and any underlying calculation engine;
+- the Client may NOT resell, sublicense, white-label, or commercially distribute the Deliverable;
+- the Client may NOT claim to have created, developed, or own the Deliverable;
+- the Client may NOT share, disclose, or demonstrate the underlying logic or configuration to third parties for the purpose of replication;
+- the Client is entitled to their own business data processed by the system, but not the system itself;
+- continued use beyond the original project requires either an active maintenance/retainer agreement or purchase of a License Buyout Fee or IP Transfer Fee.
+
+#### 6.3.4 Brand Identity and Graphic Design
+
+**Logos and Core Brand Identity:** IP transfers automatically on full payment. The Client owns their logo, wordmark, brand guidelines, and core identity assets outright.
+
+**Marketing Materials and Collateral:** Licensed for use in the Client's business. ScopeSite retains IP unless an IP Transfer is purchased separately. The Client may use materials freely for their own marketing but may not resell, sublicense, or claim to have created them.
+
+#### 6.3.5 Projects Intended for Client Commercialisation
+
+If the explicit purpose of a project is to create a product, platform, or application that the Client intends to sell to end users, license to third parties, offer as a SaaS or subscription product, or otherwise commercially exploit beyond their own internal use:
+
+(a) IP Transfer must be agreed and included in the Service Agreement from the outset;
+(b) the project fee will reflect the commercial nature of the engagement and may include a higher build fee, revenue share, royalty arrangement, or equity component;
+(c) milestone-based IP transfer tied to commercial success may apply;
+(d) ScopeSite will not undertake projects intended for Client commercialisation under standard service terms.
+
+Any attempt to commercialise Deliverables created under standard service terms (without an explicit IP Transfer in the Service Agreement) constitutes a material breach of this Agreement.
+
+### 6.4 Scope Evolution — Simple to Complex
+
+If a project begins as a simple Deliverable (e.g., a basic form, landing page, minor automation) but evolves during development into a more complex system, the Intellectual Property provisions shall be determined by **what the Deliverable has become**, not what it was originally scoped or quoted as.
+
+If a simple form becomes a complex application with conditional logic, integrations, and significant development time, it is treated under clause 6.3.3 (Custom Web Applications), regardless of how it was originally scoped or quoted.
+
+ScopeSite will notify the Client in writing if a project has evolved to the point where IP treatment has changed. The Client may then:
+
+(a) continue under the revised IP terms (licensed use, ScopeSite retains ownership);
+(b) purchase IP Transfer at the quoted fee; or
+(c) descope the project back to the original simple specification.
+
+**Selecting option (c) does not waive, reduce, or refund any fees for work already completed.** The Client remains liable for all hours worked and costs incurred up to the point of descoping. Descoping determines only the final Deliverable and IP terms — it is not a mechanism to avoid payment for work performed. Any complex work completed prior to descoping remains ScopeSite's property and will not be delivered to the Client.
+
+### 6.5 License Buyout Fee
+
+#### 6.5.1 Definition
+
+A License Buyout Fee allows the Client to continue using the Deliverables independently of ScopeSite, without an ongoing maintenance, hosting, or retainer agreement, but **does not transfer Intellectual Property Rights**.
+
+#### 6.5.2 What License Buyout Includes
 
 (a) Perpetual, irrevocable license to use the Deliverables;
-
 (b) Right to host the Deliverables with any provider;
-
 (c) Right to engage third parties to maintain or modify the Deliverables;
+(d) Handover of files required for continued operation.
 
-(d) Handover of relevant files required for continued operation.
+#### 6.5.3 What License Buyout Excludes
 
-#### 7.5.3 What License Buyout Excludes
-
-(a) Ownership of Intellectual Property Rights (ScopeSite LTD retains these);
-
-(b) Right to resell, sublicense, or commercially distribute the Deliverables;
-
+(a) Ownership of Intellectual Property Rights (ScopeSite retains these);
+(b) Right to resell, sublicense, white-label, or commercially distribute the Deliverables;
 (c) Source code or working files beyond what is necessary for operation;
+(d) Any ongoing support, updates, warranty, or AI Search Performance Guarantee from ScopeSite.
 
-(d) Any ongoing support, updates, or warranty from ScopeSite LTD.
+#### 6.5.4 License Buyout Fee Formula
 
-#### 7.5.4 License Buyout Fee
+**For Pay In Full or Spread Payment Builds (committed clients):**
 
-The License Buyout Fee will be quoted on request and is typically less than the full IP Transfer Fee.
+The License Buyout Fee is calculated as the **greater of**:
 
-### 7.6 ScopeSite Proprietary Platforms and Tools
+(a) twelve (12) months of the Client's most recent Retainer monthly fee; OR
+(b) 25% of the original Build fee.
 
-#### 7.6.1 Ownership
+**For WaaS / Subscription Builds (sole trader / PAYG clients):**
 
-ScopeSite LTD retains full ownership and all Intellectual Property Rights in its proprietary SaaS Platform (Ready Set Social), AI Tools (ScopeBot), Freelancer CRM, and any other software, tools, or platforms developed by ScopeSite LTD.
+A flat tiered License Buyout Fee applies, reflecting the embedded value of the technical asset including AI visibility work and any accrued Domain Authority:
 
-#### 7.6.2 License Grant
+| WaaS Tier | Buyout Fee |
+|---|---|
+| Wix Studio Starter WaaS (≤5 pages) | £1,500 |
+| SSR Base WaaS (≤5 pages) | £2,500 |
+| SSR Plus WaaS (6-10 pages) | £3,500 |
+| SSR Premium WaaS (11-20 pages) | £4,500 |
 
-ScopeSite LTD grants the Client a non-exclusive, non-transferable, revocable license to access and use these platforms and tools during the term of the relevant Service Agreement, solely for the Client's internal business purposes and subject to these Terms and any specific usage limitations outlined in the Service Agreement.
+WaaS Buyout Fees are flat fees and do NOT reduce by any monthly subscription fees previously paid. The Buyout Fee is in addition to the Setup Fee and any monthly subscription fees already paid.
 
-#### 7.6.3 Restrictions
+**Common Provisions:**
 
-The Client shall not copy, modify, distribute, sell, lease, sublicense, reverse engineer, or attempt to extract the source code of ScopeSite LTD's proprietary platforms or tools.
+The fee is quoted in writing and payable in full before the buyout takes effect. On receipt of the Buyout Fee in full, the Client receives the rights set out in clause 6.5.2 (Perpetual License). For full transfer of Intellectual Property Rights (not just license), see clause 6.6 (IP Transfer).
 
-### 7.7 Client Content
+### 6.6 IP Transfer (Full Assignment)
 
-#### 7.7.1 License to ScopeSite
+Full transfer of Intellectual Property Rights is available as a separate purchase, included in the Service Agreement as a line item with an associated fee. The IP Transfer Fee is typically 50% of the original Build fee, or as separately quoted.
 
-The Client grants ScopeSite LTD a non-exclusive, worldwide, royalty-free license to use, reproduce, modify, and display the Client Content solely for the purpose of providing the Services under this Agreement.
+#### 6.6.1 What IP Transfer Includes
 
-#### 7.7.2 Client Warranties
+On receipt of the IP Transfer Fee in full plus all Services fees in full:
 
-The Client warrants that they own or have obtained all necessary rights, licenses, and permissions to provide the Client Content to ScopeSite LTD and for ScopeSite LTD to use it in accordance with this Agreement. The Client agrees to indemnify ScopeSite LTD against any claims arising from the use of Client Content.
+(a) all Intellectual Property Rights in the final approved Deliverables created specifically for the Client transfer to the Client;
+(b) the right to modify, adapt, and build upon the Deliverables;
+(c) the right to transfer or assign the Deliverables to third parties;
+(d) full source code and working files (where applicable).
 
-### 7.8 Third-Party Assets and Licenses
+#### 6.6.2 What IP Transfer Excludes
 
-#### 7.8.1 Responsibility
+(a) Pre-Existing IP, frameworks, libraries, code components, AI prompts, schema patterns, V.O.I.C.E. methodology, and any other ScopeSite Reusable Components — these never transfer regardless of any IP Transfer Fee paid;
+(b) Reusable methodologies, processes, and know-how developed during the project;
+(c) Third-party components, plugins, or assets incorporated into the Deliverables (which remain subject to their own licenses);
+(d) Any ScopeSite proprietary platforms (V.O.I.C.E. scanner, ScopeBot, internal tools).
 
-Unless otherwise specified in the Service Agreement, the Client is responsible for obtaining and paying for all necessary licenses for third-party assets, including but not limited to stock images, fonts, software plugins, or other materials incorporated into the Deliverables at the Client's request.
+### 6.7 Pay Monthly Builds
 
-#### 7.8.2 ScopeSite Provided Assets
+Where a Build is paid via a Spread Payment Plan (6, 12, 24, or 36 months):
 
-Where ScopeSite LTD provides third-party assets (e.g., stock images licensed by ScopeSite), the usage rights granted to the Client will be limited by the terms of ScopeSite LTD's license with the third-party provider. ScopeSite LTD will inform the Client of any such limitations.
+(a) NO Intellectual Property Rights transfer during the spread payment period;
+(b) the Client receives a license under clause 6.2 to use the Build while payments are current;
+(c) on completion of all spread payments, IP transfers per the Build-specific provisions in clause 6.3;
+(d) on early termination, no IP rights transfer and no license continues, unless a License Buyout Fee is paid;
+(e) Client data and content (text, images, brand assets) remain the Client's property at all times.
 
-#### 7.8.3 Open Source Software
+### 6.8 ScopeSite Proprietary Platforms
 
-Deliverables may incorporate open-source software components. The use of such components is subject to the terms of the applicable open-source licenses.
+ScopeSite retains full Intellectual Property Rights in its proprietary platforms, including the V.O.I.C.E. scanner, AI SEO methodology, any internal CRM, calculation engines, schema generation systems, and any other software developed by ScopeSite. The Client receives a non-exclusive, non-transferable, revocable license to use these platforms during the term of any active Service Agreement, solely for the Client's internal business purposes.
 
-### 7.9 Portfolio Rights
+### 6.9 Client Content
 
-#### 7.9.1 ScopeSite Portfolio
+The Client grants ScopeSite a non-exclusive, worldwide, royalty-free license to use, reproduce, modify, and display the Client Content solely for the purpose of providing the Services. The Client warrants ownership or proper licensing of all Client Content, and indemnifies ScopeSite against any third-party claims arising from the use of Client Content.
 
-Unless the Client explicitly requests otherwise in writing prior to project commencement, ScopeSite LTD reserves the right to display and showcase the Deliverables (including screenshots, descriptions, and links) in its portfolio, website, marketing materials, and social media channels for promotional purposes after the project is completed or launched.
+### 6.10 Third-Party Assets
 
-#### 7.9.2 Client Trademarks
+The Client is responsible for licenses to third-party assets (stock images, fonts, plugins, third-party software) unless explicitly included in the Service Agreement. Where ScopeSite provides such assets, usage is limited by ScopeSite's license with the third-party provider.
 
-ScopeSite LTD may use the Client's name and logo in its marketing materials to identify the Client as a customer, unless the Client requests otherwise in writing.
+### 6.11 Open-Source Software
 
-### 7.10 Pre-Existing Intellectual Property
+Deliverables may incorporate open-source software components subject to their own licenses (e.g., MIT, Apache 2.0). The Client agrees to comply with these open-source licenses.
 
-Each party retains ownership of its pre-existing Intellectual Property Rights. Nothing in this Agreement shall be construed as transferring ownership of any pre-existing Intellectual Property Rights.
+### 6.12 Portfolio Rights
+
+ScopeSite may showcase Deliverables, screenshots, descriptions, and the Client's name and logo in its portfolio, website, marketing, and social media, unless the Client objects in writing before project commencement.
+
+### 6.13 Pre-Existing IP
+
+Each party retains ownership of its Pre-Existing Intellectual Property. Nothing in this Agreement transfers Pre-Existing IP.
 
 ---
 
-## 8. REVISIONS AND CHANGE REQUESTS
+## 7. REVISIONS AND CHANGE REQUESTS
 
-### 8.1 Included Revisions
+### 7.1 Included Revisions
 
-#### 8.1.1 Website Projects (One-Off and Pay Monthly)
+#### 7.1.1 Builds
 
-Two (2) rounds of revisions are included within the agreed scope and fee for website design and development projects. A "round" consists of a consolidated list of feedback points provided by the Client at a specific stage (e.g., after initial design presentation, after development completion).
+Two (2) rounds of revisions are included within the agreed scope and fee. A "round" is a consolidated list of feedback at a defined stage (e.g., after initial design presentation, after development).
 
-#### 8.1.2 Graphic Design
+#### 7.1.2 Graphic Design
 
-Two (2) minor tweaks (e.g., colour adjustments, text changes) are included per graphic design deliverable (e.g., logo, marketing material) within the agreed scope and fee.
+Two (2) minor tweaks per deliverable.
 
-#### 8.1.3 Social Media Management
+#### 7.1.3 Social Media Management
 
-One (1) tweak or adjustment to the agreed monthly content plan is included per month within the subscription fee.
+One (1) tweak to the agreed monthly content plan per month.
 
-#### 8.1.4 Definition of Revisions/Tweaks
+### 7.2 Additional Revisions and Change Requests
 
-Revisions and tweaks refer to adjustments within the agreed scope of work. They do not include significant changes to the project direction, functionality, structure, or design concept after initial approval.
+#### 7.2.1 Hourly Rate Structure
 
-### 8.2 Additional Revisions and Change Requests
-
-#### 8.2.1 Hourly Rate and Turnaround Pricing
-
-Any revisions, tweaks, or changes requested by the Client beyond those included in clauses 8.1.1, 8.1.2, and 8.1.3 will be considered additional work and charged according to ScopeSite LTD's tiered hourly rate structure, based on the turnaround time requested by the Client:
-
-| Turnaround Required | Hourly Rate (excl. VAT) |
-|---------------------|-------------------------|
-| Within A Week (5+ business days) | £60 per hour |
+| Turnaround | Hourly Rate (excl. VAT) |
+|---|---|
 | Standard (3–5 business days) | £60 per hour |
+| Within a Week (5+ business days) | £60 per hour |
 | Priority (1–2 business days) | £75 per hour (+25% surcharge) |
 | Within 24 Hours | £90 per hour (+50% surcharge) |
 
-By submitting a change request with a Priority or Within 24 Hours turnaround, the Client acknowledges and agrees to the applicable surcharge being applied to all work undertaken for that request.
+By submitting a Priority or Within 24 Hours request, the Client acknowledges and agrees to the surcharge applied.
 
-ScopeSite LTD reserves the right to decline Priority or Within 24 Hours requests where workload or resource availability does not permit expedited delivery.
+#### 7.2.2 Add-On Pricing vs Hourly Rate
 
-#### 8.2.2 Change Request Procedure
+For substantial additions corresponding to a published Add-On (e.g., adding the Live Jobs Board after the Build is complete), ScopeSite will quote the published Add-On price OR the hourly rate, whichever is appropriate, and confirm in writing before work commences.
 
-All requests for additional revisions or changes must be submitted in writing via the designated Change Request system or by email. The Client must specify the required turnaround time at the point of submission.
+#### 7.2.3 Procedure
 
-ScopeSite LTD will provide an estimate of the additional time and cost required to implement the requested changes, calculated at the applicable hourly rate for the requested turnaround. Work on such changes will only commence upon written approval and agreement to the additional costs by the Client.
+All change requests must be submitted in writing. ScopeSite provides an estimate; work begins only on written approval.
 
-#### 8.2.3 Maintenance Retainer Clients
+#### 7.2.4 Maintenance Retainer Clients
 
-Clients on an active Maintenance Retainer receive priority response times and bug fixes as standard within their retainer agreement. The tiered pricing in clause 8.2.1 applies to work outside the scope of the retainer, including but not limited to:
+Active Retainer clients receive priority response and bug fixes within their retainer scope. Tiered pricing applies to work outside the retainer scope. Coverage details vary; clients should request a copy of their agreement from support@scopesite.co.uk.
 
-- Content rewrites or additions
-- Code changes or new functionality
-- Page redesigns or structural changes
-- New feature development
+### 7.3 Scope Changes
 
-Inclusions vary by contract. Clients unsure of their coverage should contact support@scopesite.co.uk to request a copy of their agreement.
+Significant scope changes (new sections, fundamentally different design, new features outside original scope) require a written addendum, revised timeline, and revised fee, agreed in writing before work commences. Scope changes may invoke clause 6.4 (Scope Evolution) where applicable.
 
-### 8.3 Scope Changes
+### 7.4 Client Feedback Timelines
 
-#### 8.3.1 Definition
-
-Changes that significantly alter the agreed scope, objectives, functionality, or deliverables of a project (e.g., adding new website sections, requesting fundamentally different design styles, requiring new features not originally specified) are considered scope changes, not revisions.
-
-#### 8.3.2 Procedure
-
-Scope changes will require a reassessment of the project timeline and fees. ScopeSite LTD will provide a revised Service Agreement or addendum outlining the new scope, timeline, and costs, which must be agreed upon in writing by both parties before work on the changes commences.
-
-### 8.4 Client Feedback Timelines
-
-Clients are requested to provide consolidated feedback for revision rounds within 5 business days of receiving deliverables for review. Delays in providing feedback may impact project timelines.
+Consolidated feedback is requested within 5 business days. Delays may impact project timelines.
 
 ---
 
-## 9. CANCELLATION AND REFUNDS
+## 8. CANCELLATION AND REFUNDS
 
-### 9.1 Cancellation by Client
-
-#### 9.1.1 Notice Requirement
-
-Clients wishing to cancel recurring services (Pay Monthly Websites, SEO Services, Social Media Management, SaaS subscriptions) must provide ScopeSite LTD with a minimum of thirty (30) days written notice prior to the next billing date.
-
-#### 9.1.2 Cancellation Procedure
-
-Notice of cancellation must be sent in writing to the email address specified in Section 2.1. Cancellation requests made via phone or social media will not be considered valid until confirmed in writing.
-
-#### 9.1.3 One-Off Projects
-
-Cancellation of One-Off Large Website Builds/Projects or other one-off services after commencement will result in charges for all work completed to date, calculated at ScopeSite LTD's standard hourly rate (£60 per hour), plus any non-cancellable third-party costs incurred. The initial 25% deposit is non-refundable.
-
-### 9.2 Cancellation by ScopeSite
-
-ScopeSite LTD reserves the right to cancel services or the Agreement in accordance with the termination provisions outlined in Section 18.
-
-### 9.3 Refund Policy
-
-#### 9.3.1 Deposits
-
-All initial deposits (25% for one-off projects) are non-refundable unless explicitly agreed otherwise by ScopeSite LTD on a case-by-case basis, typically only in circumstances where ScopeSite LTD is unable to commence the agreed work.
-
-#### 9.3.2 Recurring Services
-
-Payments made for recurring services are non-refundable. No refunds will be provided for partial months of service upon cancellation.
-
-#### 9.3.3 Work Completed
-
-Upon cancellation by the Client, the Client remains liable for payment for all work completed up to the effective date of cancellation, calculated based on agreed milestones or ScopeSite LTD's standard hourly rate for time spent, whichever is applicable.
-
-#### 9.3.4 Service Non-Performance
-
-In the unlikely event that ScopeSite LTD fails to deliver the agreed Services due to reasons solely attributable to ScopeSite LTD, a partial or full refund may be considered at ScopeSite LTD's discretion, proportionate to the services not delivered.
-
-#### 9.3.5 Refund Processing
-
-Any refunds approved by ScopeSite LTD will be processed within 14 business days using the original payment method where possible.
-
-### 9.4 Consumer Rights (Cooling-Off Period)
-
-#### 9.4.1 Applicability
-
-For consumers (individuals acting outside their trade, business, craft, or profession) entering into distance contracts (e.g., online sign-ups) or off-premises contracts, the Consumer Contracts (Information, Cancellation and Additional Charges) Regulations 2013 provide a statutory right to cancel within 14 days of entering into the contract ("Cooling-Off Period").
-
-#### 9.4.2 Waiver for Service Commencement
-
-If the Client requests that ScopeSite LTD commence the provision of Services before the end of the 14-day Cooling-Off Period, the Client acknowledges that:
-
-(a) They will be required to pay for the value of the service provided up to the point of cancellation.
-
-(b) They will lose the right to cancel and receive a full refund if the service is fully performed within the Cooling-Off Period.
-
-#### 9.4.3 Exercising the Right to Cancel
-
-To exercise the right to cancel within the Cooling-Off Period, the consumer Client must inform ScopeSite LTD of their decision by a clear statement (e.g., a letter sent by post or email) before the Cooling-Off Period has expired. A model cancellation form can be provided upon request.
+This section is consolidated under clauses 5.7, 5.8, 5.9, 5.10, and 19. No standalone cancellation terms apply outside those clauses.
 
 ---
 
-## 10. DATA PROTECTION AND PRIVACY
+## 9. DATA PROTECTION AND PRIVACY
 
-### 10.1 Compliance with Data Protection Laws
+### 9.1 Compliance
 
-#### 10.1.1 Applicable Laws
+Both parties comply with all applicable data protection legislation, including UK GDPR, the Data Protection Act 2018, and the Privacy and Electronic Communications Regulations 2003.
 
-Both parties agree to comply with all applicable data protection and privacy legislation in force from time to time in the UK including the UK General Data Protection Regulation (UK GDPR); the Data Protection Act 2018 (DPA 2018); the Privacy and Electronic Communications Directive 2002/58/EC (as updated by Directive 2009/136/EC) and the Privacy and Electronic Communications Regulations 2003 (SI 2003/2426) as amended (collectively "Data Protection Legislation").
+### 9.2 Roles
 
-#### 10.1.2 Definitions
+ScopeSite is a Data Controller for Personal Data collected directly from Clients (contact details, billing information). ScopeSite is a Data Processor where it processes Personal Data on behalf of the Client (e.g., end-user data on Client websites, social media interactions, data within client portals).
 
-Terms such as "Personal Data", "Data Subject", "Data Controller", "Data Processor", "Processing", and "Personal Data Breach" shall have the meanings given to them in the Data Protection Legislation.
+### 9.3 Sub-Processors and AI Service Providers
 
-### 10.2 Data Processing Roles
+#### 9.3.1 Authorised Sub-Processors
 
-#### 10.2.1 ScopeSite as Data Controller
+The Client provides a general authorisation for ScopeSite to engage third-party sub-processors, including:
 
-ScopeSite LTD acts as a Data Controller for the Personal Data it collects directly from Clients for the purposes of managing the client relationship, billing, and providing the Services (e.g., Client contact details, payment information).
+- Cloud hosting providers (Vercel, Cloudflare, AWS, or equivalent);
+- Database services (Supabase, PostgreSQL hosts, or equivalent);
+- Payment processors (Stripe, GoCardless, or equivalent);
+- Email service providers (Brevo, MailerLite, Resend, or equivalent);
+- AI service providers including OpenAI (ChatGPT/GPT models), Anthropic (Claude), Google (Gemini), Perplexity, and others used for content generation, schema generation, AI SEO services, or chatbot functionality;
+- Analytics tools (Google Analytics, PostHog, or equivalent).
 
-#### 10.2.2 ScopeSite as Data Processor
+ScopeSite maintains a list of current sub-processors and notifies Clients of significant changes.
 
-Where ScopeSite LTD processes Personal Data on behalf of the Client as part of providing the Services (e.g., processing end-user data collected through a Client website, managing social media interactions containing Personal Data, handling data within the Freelancer CRM), ScopeSite LTD acts as a Data Processor and the Client acts as the Data Controller.
+#### 9.3.2 AI Processing of Client Data
 
-#### 10.2.3 Data Processing Agreement
+Client Content may be processed by AI providers (OpenAI, Anthropic, Google) for the purposes of content generation, schema creation, AI SEO analysis, V.O.I.C.E. scoring, and chatbot operation. By engaging ScopeSite, the Client acknowledges:
 
-Where ScopeSite LTD acts as a Data Processor, the terms set out in this Section 10 and any separate Data Processing Agreement (DPA) agreed between the parties shall govern the processing of Personal Data.
+(a) Client Content may be transmitted to these AI providers under their published API terms;
+(b) ScopeSite uses providers offering "no training" data settings where available (e.g., OpenAI API endpoints, Anthropic API endpoints);
+(c) ScopeSite does not knowingly submit Confidential Information to AI providers for training purposes;
+(d) the Client may request a list of which AI services process which categories of data.
 
-### 10.3 Obligations as Data Processor
+### 9.4 Personal Data Breaches
 
-Where ScopeSite LTD acts as a Data Processor, it shall:
+ScopeSite notifies the Client without undue delay on becoming aware of a Personal Data Breach affecting Client data, providing sufficient information for the Client to meet reporting obligations.
 
-(a) only process Personal Data on the documented instructions of the Client (the Data Controller), including with regard to transfers of Personal Data to a third country or an international organisation, unless required to do so by law;
+### 9.5 Data Retention
 
-(b) ensure that persons authorised to process the Personal Data have committed themselves to confidentiality or are under an appropriate statutory obligation of confidentiality;
+Personal Data is retained only for the duration necessary to provide the Services or as required by law. On termination, data is deleted or returned per the Client's instructions, unless legally required to retain.
 
-(c) implement appropriate technical and organisational measures to ensure a level of security appropriate to the risk, taking into account the state of the art, the costs of implementation and the nature, scope, context and purposes of processing as well as the risk of varying likelihood and severity for the rights and freedoms of natural persons;
+### 9.6 Data Transfers
 
-(d) respect the conditions referred to in paragraphs 2 and 4 of Article 28 of the UK GDPR for engaging another processor (sub-processor);
+ScopeSite does not transfer Personal Data outside the UK or EEA without prior written Client consent and appropriate safeguards (Standard Contractual Clauses or equivalent). AI provider transfers (e.g., to OpenAI's US infrastructure) are covered by their respective data processing addenda.
 
-(e) taking into account the nature of the processing, assist the Client by appropriate technical and organisational measures, insofar as this is possible, for the fulfilment of the Client's obligation to respond to requests for exercising the Data Subject's rights laid down in Chapter III of the UK GDPR;
+### 9.7 Privacy Policy
 
-(f) assist the Client in ensuring compliance with the obligations pursuant to Articles 32 to 36 of the UK GDPR, taking into account the nature of processing and the information available to ScopeSite LTD;
-
-(g) at the choice of the Client, delete or return all the Personal Data to the Client after the end of the provision of Services relating to processing, and delete existing copies unless law requires storage of the Personal Data;
-
-(h) make available to the Client all information necessary to demonstrate compliance with the obligations laid down in Article 28 of the UK GDPR and allow for and contribute to audits, including inspections, conducted by the Client or another auditor mandated by the Client.
-
-### 10.4 Sub-Processors
-
-#### 10.4.1 Authorisation
-
-The Client provides a general authorisation for ScopeSite LTD to engage third-party sub-processors to process Personal Data in connection with the provision of the Services (e.g., cloud hosting providers, analytics tools, payment processors). ScopeSite LTD shall maintain a list of its sub-processors and shall inform the Client of any intended changes concerning the addition or replacement of other processors, thereby giving the Client the opportunity to object to such changes.
-
-#### 10.4.2 Sub-Processor Obligations
-
-ScopeSite LTD confirms that it has entered or (as the case may be) will enter with the sub-processor into a written agreement incorporating terms which are substantially similar to those set out in this Section 10.
-
-### 10.5 Data Subject Rights
-
-ScopeSite LTD shall promptly notify the Client if it receives a request from a Data Subject under any Data Protection Legislation in respect of Personal Data processed on behalf of the Client. ScopeSite LTD shall provide the Client with reasonable co-operation and assistance in relation to any Data Subject request.
-
-### 10.6 Personal Data Breaches
-
-ScopeSite LTD shall notify the Client without undue delay upon becoming aware of a Personal Data Breach affecting Personal Data processed on behalf of the Client, providing the Client with sufficient information to allow the Client to meet any obligations to report or inform Data Subjects of the Personal Data Breach under the Data Protection Legislation.
-
-### 10.7 Data Security
-
-ScopeSite LTD shall implement and maintain appropriate technical and organisational security measures to protect Personal Data against accidental or unlawful destruction, loss, alteration, unauthorised disclosure, or access. These measures shall ensure a level of security appropriate to the risks presented by the processing.
-
-### 10.8 Data Transfers
-
-ScopeSite LTD shall not transfer any Personal Data processed on behalf of the Client outside the UK or the European Economic Area (EEA) unless the prior written consent of the Client has been obtained and the following conditions are fulfilled:
-
-(a) appropriate safeguards are in place in relation to the transfer;
-
-(b) the data subject has enforceable rights and effective legal remedies;
-
-(c) ScopeSite LTD complies with its obligations under the Data Protection Legislation by providing an adequate level of protection to any Personal Data that is transferred; and
-
-(d) ScopeSite LTD complies with reasonable instructions notified to it in advance by the Client with respect to the processing of the Personal Data.
-
-### 10.9 Data Retention
-
-ScopeSite LTD will retain Personal Data processed on behalf of the Client only for the duration necessary to provide the Services, or as required by law or the Client's instructions. Upon termination of the Agreement, ScopeSite LTD will delete or return Client Personal Data as instructed by the Client, unless legally required to retain it.
-
-### 10.10 Privacy Policy
-
-ScopeSite LTD's processing of Personal Data as a Data Controller is further described in its Privacy Policy, available on the ScopeSite website.
+Full privacy details at scopesite.co.uk/privacy-policy.
 
 ---
 
-## 11. LIABILITY AND INDEMNITY
+## 10. LIABILITY AND INDEMNITY
 
-### 11.1 Limitation of Liability
+### 10.1 Limitation of Liability
 
-#### 11.1.1 Scope
+#### 10.1.1 Unlimited Liabilities
 
-Nothing in this Agreement shall limit or exclude ScopeSite LTD's liability for:
+Nothing limits or excludes ScopeSite's liability for:
 
-(a) death or personal injury caused by its negligence, or the negligence of its employees, agents or subcontractors;
-
+(a) death or personal injury caused by negligence;
 (b) fraud or fraudulent misrepresentation;
+(c) breach of implied terms under the Sale of Goods Act 1979 or Supply of Goods and Services Act 1982 (title and quiet possession);
+(d) any matter where exclusion or limitation is unlawful.
 
-(c) breach of the terms implied by section 2 of the Supply of Goods and Services Act 1982 (title and quiet possession);
+#### 10.1.2 Financial Cap
 
-(d) breach of the terms implied by section 12 of the Sale of Goods Act 1979 (title and quiet possession); or
+Subject to clause 10.1.1, ScopeSite's total aggregate liability to the Client under or in connection with this Agreement, whether in contract, tort (including negligence), breach of statutory duty, or otherwise, is limited to the **lesser of**:
 
-(e) any matter in respect of which it would be unlawful for ScopeSite LTD to exclude or restrict liability.
+(a) **£10,000** (ten thousand pounds sterling); OR
+(b) 100% of the total fees paid by the Client to ScopeSite in the twelve (12) months preceding the event giving rise to the claim.
 
-#### 11.1.2 Financial Cap
+This cap reflects the SME nature of the Services provided.
 
-Subject to clause 11.1.1, ScopeSite LTD's total liability to the Client, whether in contract, tort (including negligence), breach of statutory duty, or otherwise, arising under or in connection with this Agreement shall be limited to 100% of the total fees paid by the Client under the relevant Service Agreement in the 12 months preceding the event giving rise to the claim.
+#### 10.1.3 Excluded Losses
 
-#### 11.1.3 Exclusion of Certain Losses
-
-Subject to clause 11.1.1, ScopeSite LTD shall not be liable to the Client, whether in contract, tort (including negligence), breach of statutory duty, or otherwise, for any:
+Subject to clause 10.1.1, ScopeSite is not liable for:
 
 (a) loss of profit;
-
-(b) loss of sales or business;
-
+(b) loss of sales, business, or anticipated revenue;
 (c) loss of agreements or contracts;
-
 (d) loss of anticipated savings;
-
-(e) loss of use or corruption of software, data or information;
-
+(e) loss of use or corruption of software, data, or information;
 (f) loss of or damage to goodwill;
+(g) indirect or consequential loss of any kind.
 
-(g) indirect or consequential loss.
+#### 10.1.4 Client Failure
 
-#### 11.1.4 Service Limitations
+ScopeSite is not liable for delays or failures caused by the Client's failure to provide information, approvals, or content.
 
-ScopeSite LTD shall not be liable for any failure or delay in performing its obligations under the Agreement to the extent that such failure or delay is caused by the Client's failure to comply with its obligations under this Agreement, including but not limited to providing necessary information, approvals, or Client Content.
+#### 10.1.5 Third-Party Service Failures
 
-#### 11.1.5 Third-Party Services
+ScopeSite is not liable for losses arising from third-party services, platforms, AI providers, or software, including failures, downtime, or terms changes, except where directly caused by ScopeSite's negligent selection or integration.
 
-ScopeSite LTD shall not be liable for any loss or damage arising from the use of third-party services, platforms, or software, including failures, downtime, or changes in terms, unless such loss or damage is directly caused by ScopeSite LTD's negligence in selecting or integrating such services.
+### 10.2 Indemnification
 
-### 11.2 Indemnification
+The Client shall indemnify ScopeSite against all liabilities, costs, expenses, damages, and losses arising from:
 
-#### 11.2.1 Client Indemnity
+(a) any claim of third-party Intellectual Property infringement arising from ScopeSite's use of Client Content;
+(b) any claim by a third party arising from the Services or Deliverables to the extent caused by Client breach, negligence, or failure;
+(c) any claim by a third party arising from defective Client Content;
+(d) any Client breach of laws or regulations, including data protection laws.
 
-The Client shall indemnify ScopeSite LTD against all liabilities, costs, expenses, damages and losses (including but not limited to any direct, indirect or consequential losses, loss of profit, loss of reputation and all interest, penalties and legal costs (calculated on a full indemnity basis) and all other reasonable professional costs and expenses) suffered or incurred by ScopeSite LTD arising out of or in connection with:
+### 10.3 Force Majeure
 
-(a) any claim made against ScopeSite LTD for actual or alleged infringement of a third party's Intellectual Property Rights arising out of or in connection with ScopeSite LTD's use of the Client Content;
+#### 10.3.1 Definition
 
-(b) any claim made against ScopeSite LTD by a third party arising out of or in connection with the provision of the Services or supply of the Deliverables, to the extent that such claim arises out of the breach, negligent performance or failure or delay in performance of the Agreement by the Client, its employees, agents or subcontractors;
+Neither party is in breach of this Agreement nor liable for delay or failure caused by events beyond reasonable control, including:
 
-(c) any claim made against ScopeSite LTD by a third party for death, personal injury or damage to property arising out of or in connection with defective Client Content;
+- acts of God, flood, drought, earthquake, fire, explosion;
+- epidemic, pandemic, or public health emergency;
+- terrorist attack, civil war, civil commotion, riot, war, armed conflict;
+- government action, sanctions, embargo, export/import restrictions;
+- labour disputes, strikes, industrial action, lockouts;
+- non-performance by suppliers or sub-contractors (other than group companies);
+- **major outages of cloud infrastructure (AWS, Vercel, Cloudflare, Supabase, or equivalent);**
+- **major outages of AI service providers (OpenAI, Anthropic, Google AI, Perplexity, or equivalent);**
+- **major outages of payment processors (Stripe, GoCardless, or equivalent);**
+- internet backbone failure, widespread cyberattacks, DDoS attacks;
+- critical third-party platform terms of service changes that prevent ScopeSite delivering the agreed Services.
 
-(d) the Client's breach of any applicable laws or regulations, including data protection laws.
+#### 10.3.2 Consequences
 
-### 11.3 Force Majeure
+If a force majeure event prevents performance for more than 30 continuous days, the unaffected party may terminate by giving 14 days' written notice.
 
-#### 11.3.1 Definition
+### 10.4 Insurance
 
-Neither party shall be in breach of this Agreement nor liable for delay in performing, or failure to perform, any of its obligations under this Agreement if such delay or failure results from events, circumstances or causes beyond its reasonable control. Such causes include, but are not limited to: acts of God, flood, drought, earthquake or other natural disaster; epidemic or pandemic; terrorist attack, civil war, civil commotion or riots, war, threat of or preparation for war, armed conflict, imposition of sanctions, embargo, or breaking off of diplomatic relations; nuclear, chemical or biological contamination or sonic boom; any law or any action taken by a government or public authority, including without limitation imposing an export or import restriction, quota or prohibition; collapse of buildings, fire, explosion or accident; any labour or trade dispute, strikes, industrial action or lockouts; non-performance by suppliers or subcontractors (other than companies in the same group as the party seeking to rely on this clause); interruption or failure of utility service; major internet backbone failure; widespread cyberattacks; critical third-party platform outages.
-
-#### 11.3.2 Consequences
-
-If a force majeure event prevents, hinders or delays the affected party's performance of its obligations for a continuous period of more than 30 days, the party not affected by the event may terminate this Agreement by giving 14 days' written notice to the affected party.
-
-### 11.4 Insurance
-
-ScopeSite LTD confirms that it holds Professional Indemnity Insurance and Public Liability Insurance cover. Details can be provided upon reasonable request. The Client is advised to consider its own insurance needs.
-
-### 11.5 Warranties and Disclaimers
-
-#### 11.5.1 ScopeSite Warranties
-
-ScopeSite LTD warrants that the Services will be provided with reasonable care and skill, in accordance with industry standards.
-
-#### 11.5.2 Client Warranties
-
-The Client warrants that it has the legal right and authority to enter into this Agreement and to perform its obligations hereunder.
-
-#### 11.5.3 Disclaimers
-
-Except as expressly stated in this Agreement, all warranties, conditions and terms, whether express or implied by statute, common law or otherwise are hereby excluded to the fullest extent permitted by law. ScopeSite LTD does not warrant that the Services or Deliverables will be error-free or uninterrupted, nor does it guarantee any specific results from the use of the Services (such as specific search engine rankings, lead generation, sales increases, or social media engagement levels). All Services are provided on an "as is" and "as available" basis.
+ScopeSite holds Professional Indemnity Insurance and Public Liability Insurance. Details available on reasonable request. The Client should consider its own insurance needs.
 
 ---
 
-## 12. SUBCONTRACTING AND THIRD-PARTY SERVICES
+## 11. SUBCONTRACTING AND THIRD-PARTY SERVICES
 
-### 12.1 Right to Subcontract
+### 11.1 Subcontracting
 
-#### 12.1.1 General Right
+ScopeSite may subcontract any part of the Services to qualified third parties. ScopeSite remains fully responsible for subcontractor work and confidentiality compliance. ScopeSite notifies the Client of significant subcontracting; individual subcontractor approval is not required.
 
-ScopeSite LTD reserves the right to subcontract any part of the Services to appropriately skilled third-party contractors or freelancers as deemed necessary to meet project requirements or deadlines. This may include specialist tasks such as advanced coding, specific design elements, or content creation.
+### 11.2 Third-Party Services
 
-#### 12.1.2 Responsibility
-
-ScopeSite LTD remains fully responsible for the quality of the work performed by its subcontractors and for ensuring that subcontractors comply with all relevant terms of this Agreement, including confidentiality and data protection obligations.
-
-#### 12.1.3 Client Notification
-
-ScopeSite LTD will notify the Client if significant portions of the work are to be subcontracted, although prior approval for individual subcontractors is generally not required.
-
-### 12.2 Third-Party Services and Software
-
-#### 12.2.1 Use of Third-Party Services
-
-The provision of Services may involve the use of third-party services, platforms, software, or tools (e.g., hosting providers, content management systems, analytics tools, payment gateways, social media platforms, stock image libraries).
-
-#### 12.2.2 Third-Party Terms
-
-The Client acknowledges that the use of such third-party services is subject to the terms and conditions, privacy policies, and usage policies of the respective third-party providers. ScopeSite LTD is not responsible for the performance, availability, or policies of these third-party services.
-
-#### 12.2.3 Client Responsibility
-
-The Client is responsible for reviewing and complying with the terms of any third-party services they access or use in connection with the Services provided by ScopeSite LTD. The Client is also responsible for any fees associated with third-party services unless explicitly included in the Service Agreement with ScopeSite LTD.
-
-#### 12.2.4 Integration
-
-While ScopeSite LTD may facilitate the integration of third-party services, ScopeSite LTD does not provide warranties for the functionality or compatibility of these services unless explicitly stated in the Service Agreement.
+The provision of Services may involve third-party services (hosting, CMS, social platforms, analytics, payment, AI APIs). The Client acknowledges these are subject to their own terms; ScopeSite is not responsible for their performance, availability, or policy changes.
 
 ---
 
-## 13. PLATFORM RISK DISCLAIMER
+## 12. PLATFORM AND AI SERVICE RISK DISCLAIMER
 
-### 13.1 Reliance on Third-Party Platforms
+### 12.1 Reliance on Third-Party Platforms
 
-The Client acknowledges that the provision and performance of certain Services may rely on third-party platforms, software, and services, including but not limited to Content Management Systems (e.g., WordPress, Wix), social media platforms (e.g., Facebook, Instagram, LinkedIn), hosting providers, domain registrars, analytics tools (e.g., Google Analytics), advertising platforms (e.g., Google Ads, Meta Ads), and integration tools (e.g., Zapier).
+Services may rely on third-party platforms including Wix, Next.js, Vercel, Cloudflare, AWS, Supabase, WordPress, Stripe, GoCardless, social media platforms, hosting providers, domain registrars, analytics tools, advertising platforms, and AI service providers (OpenAI, Anthropic, Google, Perplexity).
 
-### 13.2 Platform Changes and Failures
+### 12.2 No Control Over Third Parties
 
-ScopeSite LTD has no control over the policies, features, functionality, availability, or terms of service of these third-party platforms. These platforms may change their algorithms, interfaces, terms, pricing, or cease operations with little or no notice.
+ScopeSite has no control over the policies, features, functionality, availability, terms of service, or pricing of these third-party platforms. They may change algorithms, interfaces, terms, pricing, training data policies, or cease operations with little or no notice.
 
-### 13.3 Disclaimer of Liability
+### 12.3 Disclaimer
 
-ScopeSite LTD shall not be liable for any loss, damage, disruption, or failure of Services resulting from:
+ScopeSite is not liable for:
 
-(a) Changes implemented by third-party platforms.
+(a) changes by third-party platforms;
+(b) downtime or technical failures of third-party platforms;
+(c) suspension of Client accounts by third-party platforms (unless directly caused by ScopeSite negligence);
+(d) algorithm changes affecting performance (search rankings, AI citation rates, social reach);
+(e) AI provider model changes, hallucinations, or content errors;
+(f) AI provider data residency, training, or retention policy changes;
+(g) incompatibility from third-party updates.
 
-(b) Downtime, outages, or technical failures of third-party platforms.
+### 12.4 Mitigation
 
-(c) Suspension or termination of Client accounts or access by third-party platforms due to breaches of their terms (unless directly caused by ScopeSite LTD's negligence).
+ScopeSite makes reasonable efforts to mitigate third-party impacts and adapt strategies. ScopeSite cannot guarantee uninterrupted service when reliant on external platforms.
 
-(d) Changes in platform algorithms affecting performance (e.g., search rankings, social media reach).
+### 12.5 Client Responsibility
 
-(e) Incompatibility issues arising from updates to third-party platforms.
-
-### 13.4 Mitigation Efforts
-
-While ScopeSite LTD will use reasonable efforts to mitigate the impact of third-party platform issues and adapt strategies accordingly, ScopeSite LTD cannot guarantee uninterrupted service or consistent performance when reliant on these external platforms.
-
-### 13.5 Client Responsibility
-
-The Client is responsible for adhering to the terms of service of any third-party platforms used in connection with the Services.
+The Client must comply with the terms of all third-party platforms used in connection with the Services.
 
 ---
 
-## 14. CONFIDENTIALITY
+## 13. CONFIDENTIALITY
 
-### 14.1 Definition of Confidential Information
+### 13.1 Definition
 
-"Confidential Information" means all information disclosed by one party (the "Disclosing Party") to the other party (the "Receiving Party"), whether orally or in writing, that is designated as confidential or that reasonably should be understood to be confidential given the nature of the information and the circumstances of disclosure. Confidential Information includes, but is not limited to, business and marketing plans, technology and technical information, product plans and designs, business processes, customer lists, pricing, financial information, and the terms of this Agreement. Confidential Information does not include information that: (a) is or becomes generally known to the public without breach of any obligation owed to the Disclosing Party; (b) was known to the Receiving Party prior to its disclosure by the Disclosing Party without breach of any obligation owed to the Disclosing Party; (c) is received from a third party without breach of any obligation owed to the Disclosing Party; or (d) was independently developed by the Receiving Party.
+"Confidential Information" means all information disclosed by one party (Disclosing Party) to the other party (Receiving Party), orally or in writing, designated as confidential or reasonably understood as confidential. Includes business plans, technical information, product designs, customer lists, pricing, financial information, and the terms of this Agreement.
 
-### 14.2 Obligation of Confidentiality
+Excludes information that:
+(a) is or becomes public without breach;
+(b) was known to the Receiving Party before disclosure without breach;
+(c) is received from a third party without breach;
+(d) is independently developed.
+
+### 13.2 Obligation
 
 The Receiving Party agrees to:
+(a) protect Confidential Information with the same care it uses for its own (no less than reasonable);
+(b) not use Confidential Information outside the scope of this Agreement;
+(c) limit access to staff, contractors, and agents needing it for this Agreement, who are bound by equivalent confidentiality.
 
-(a) protect the Confidential Information of the Disclosing Party using the same degree of care that it uses to protect its own confidential information of like kind (but in no event less than reasonable care);
+### 13.3 Permitted Disclosures
 
-(b) not use any Confidential Information of the Disclosing Party for any purpose outside the scope of this Agreement;
+The Receiving Party may disclose if compelled by law, providing the Disclosing Party prior notice (where legally permitted) and reasonable assistance to contest.
 
-(c) except as otherwise authorized by the Disclosing Party in writing, limit access to Confidential Information of the Disclosing Party to those of its employees, contractors, and agents who need such access for purposes consistent with this Agreement and who have signed confidentiality agreements with the Receiving Party containing protections no less stringent than those herein.
+### 13.4 Duration
 
-### 14.3 Permitted Disclosures
+Confidentiality obligations survive termination and continue for 5 years from disclosure, indefinitely for trade secrets.
 
-The Receiving Party may disclose Confidential Information of the Disclosing Party if it is compelled by law to do so, provided the Receiving Party gives the Disclosing Party prior notice of such compelled disclosure (to the extent legally permitted) and reasonable assistance, at the Disclosing Party's cost, if the Disclosing Party wishes to contest the disclosure.
+### 13.5 Portfolio Exception
 
-### 14.4 Duration of Confidentiality Obligations
-
-The obligations of confidentiality set out in this Section 14 shall survive termination of this Agreement and continue for a period of 5 years from the date of disclosure, except for information qualifying as a trade secret under applicable law, for which the obligations shall continue indefinitely.
-
-### 14.5 Portfolio Rights Exception
-
-Notwithstanding the foregoing, the provisions of Section 7.8 regarding ScopeSite LTD's right to showcase Deliverables in its portfolio shall apply. ScopeSite LTD will not disclose any of the Client's Confidential Information beyond what is reasonably necessary to showcase the work performed, unless otherwise agreed.
+Section 6.12 (Portfolio Rights) applies. ScopeSite will not disclose Confidential Information beyond what is reasonably necessary to showcase work, unless otherwise agreed.
 
 ---
 
-## 15. SERVICE LEVEL DISCLAIMER
+## 14. SERVICE LEVEL DISCLAIMER AND THE AI SEARCH PERFORMANCE GUARANTEE
 
-### 15.1 General Disclaimer
+### 14.1 General Disclaimer
 
-ScopeSite LTD provides Services on a "best efforts" basis and does not guarantee specific results or outcomes. The effectiveness of services such as SEO, social media management, and marketing campaigns can be influenced by numerous factors beyond ScopeSite LTD's control, including market conditions, competitor activities, algorithm changes, and audience behaviour.
+Services are provided on a "best efforts" basis. Effectiveness depends on factors beyond ScopeSite's control, including market conditions, competitor activity, algorithm changes, and audience behaviour.
 
-### 15.2 No Guarantees of Specific Results
+### 14.2 No Guarantees of Specific Outcomes
 
-ScopeSite LTD makes no guarantees regarding:
+ScopeSite does not guarantee:
 
-(a) Specific search engine rankings or positions for SEO Services.
+(a) specific search engine rankings or positions;
+(b) specific website traffic, lead volumes, sales conversions, or ROI;
+(c) specific social media engagement or reach;
+(d) success of any marketing campaign;
 
-(b) Specific levels of website traffic, lead generation, sales conversions, or return on investment.
+EXCEPT as expressly stated in clause 14.4 (AI Search Performance Guarantee).
 
-(c) Specific levels of social media engagement, follower growth, or reach.
+### 14.3 SaaS Service Availability
 
-(d) The success of any marketing or advertising campaign.
+Where ScopeSite provides SaaS access (V.O.I.C.E. scanner, internal tools), uptime target is 99.5% measured monthly excluding scheduled maintenance. No service credits unless agreed in a separate SLA.
 
-### 15.3 Service Availability (SaaS Platforms)
+### 14.4 AI Search Performance Guarantee (AI SEO Retainer Only)
 
-#### 15.3.1 Uptime Target
+#### 14.4.1 The Promise
 
-For SaaS Platform (Ready Set Social), AI Tools (ScopeBot), and Freelancer CRM, ScopeSite LTD aims to achieve an uptime of 99.5% calculated monthly, excluding scheduled maintenance.
+For Clients on an active AI SEO Retainer or Territory Command, ScopeSite guarantees an AI Search Performance Score of 80 or above. After an initial **3-month build-up window** from retainer commencement, if the Client's AI Search Performance Score falls below 80 in any measured month, the Client pays nothing for that month.
 
-#### 15.3.2 Scheduled Maintenance
+#### 14.4.2 Conditions (Failure to Meet Voids the Guarantee)
 
-ScopeSite LTD may perform scheduled maintenance during off-peak hours. Notice of scheduled maintenance expected to cause significant downtime will be provided to Clients at least 24 hours in advance where practicable.
+The guarantee applies only if the Client:
 
-#### 15.3.3 Exclusions
+(a) implements all strategic recommendations issued by ScopeSite in writing;
+(b) makes no unauthorised technical modifications to the site (code, schema, plugins, CMS structure, content templates) without ScopeSite's prior written consent;
+(c) does not modify ScopeSite's published recommendations selectively;
+(d) does not engage another agency or freelancer to modify the site during the retainer period without ScopeSite's written consent;
+(e) provides timely access, content, and approvals required for ScopeSite to maintain the score;
+(f) maintains payment of all other invoices in good standing.
 
-Uptime calculations exclude downtime resulting from:
+#### 14.4.3 Score Measurement
 
-(a) Scheduled maintenance.
+The AI Search Performance Score is measured monthly using ScopeSite's proprietary scoring methodology (known internally as V.O.I.C.E.) on the first business day of each month. The score for that measurement is the score for that month.
 
-(b) Force majeure events (as defined in Section 11.3).
+#### 14.4.4 Refund Mechanism
 
-(c) Issues with Client's internet connectivity or equipment.
+If the score falls below 80 in a measured month and all conditions in clause 14.4.2 are met, the retainer fee for that calendar month is waived. No refund is issued for partial months.
 
-(d) Actions or inactions of the Client or third parties.
+#### 14.4.5 Termination of Guarantee
 
-(e) Failures of third-party services or infrastructure not directly controlled by ScopeSite LTD.
+The guarantee ends on retainer termination, breach of conditions, or 12 consecutive months below 80 (where ScopeSite may terminate the retainer entirely under clause 19).
 
-#### 15.3.4 No Service Credits
+### 14.5 Support Response Times
 
-Unless explicitly stated otherwise in a separate Service Level Agreement (SLA), ScopeSite LTD does not offer service credits or refunds for downtime.
-
-### 15.4 Support Response Times
-
-#### 15.4.1 Support Channels
-
-Support requests should be submitted via email to dan@scopesite.co.uk.
-
-#### 15.4.2 Target Response Times
-
-ScopeSite LTD aims to acknowledge support requests within 24 hours and provide an initial response within 2 business days during standard business hours (as defined in Section 2.5). Resolution times will vary depending on the complexity of the issue.
-
-#### 15.4.3 Exclusions
-
-Response time targets do not apply to issues outside ScopeSite LTD's direct control or requests falling outside the scope of the agreed Services.
-
-### 15.5 Client Responsibility for Results
-
-The Client acknowledges that the success of digital services often requires collaboration and timely input from the Client. ScopeSite LTD is not responsible for outcomes if the Client fails to provide necessary information, approvals, or resources, or fails to implement recommendations provided by ScopeSite LTD.
+Support requests via support@scopesite.co.uk. Acknowledgement target: 24 hours. Initial response target: 2 business days during standard business hours. Resolution times vary by complexity.
 
 ---
 
-## 16. CLIENT AUTHORITY
+## 15. TERRITORY COMMAND SPECIFIC TERMS
 
-### 16.1 Representation of Authority
+### 15.1 Product Description
 
-By entering into this Agreement, the individual accepting these Terms on behalf of the Client represents and warrants that they are at least 18 years of age and have the full legal right and authority to bind the Client (whether an individual, company, partnership, or other legal entity) to the terms and conditions of this Agreement.
+Territory Command is a postcode-exclusive lead-generation product. ScopeSite agrees to deliver an Ultra Fast SSR Build, AI SEO methodology, and ongoing optimisation, in exchange for a setup fee and monthly retainer.
 
-### 16.2 Business Clients
+### 15.2 Tiers
 
-If the Client is a company or other legal entity, the individual accepting these Terms confirms they are duly authorised to act on behalf of that entity.
+| Tier | Setup | Monthly | Coverage |
+|---|---|---|---|
+| Standard | £750 | £500 | Single standard postcode area |
+| Premium | £1,250 | £750 | Single high-competition or city postcode area |
 
-### 16.3 Verification
+### 15.3 Postcode Exclusivity
 
-ScopeSite LTD reserves the right to request reasonable evidence of the individual's authority to bind the Client before commencing or continuing Services.
+#### 15.3.1 Scope
 
-### 16.4 Primary Contact
+ScopeSite grants the Client exclusive Territory Command coverage within the agreed postcode area for the agreed sector. ScopeSite will not sell Territory Command to any direct competitor in the same postcode and sector during the term.
 
-The Client shall designate a primary contact person who is authorised to provide instructions, approvals, and decisions on behalf of the Client in relation to the Services. ScopeSite LTD is entitled to rely on instructions received from this designated contact.
+#### 15.3.2 Sector Definition
 
----
+"Sector" is defined narrowly (e.g., "residential estate agency", "private dental practice", "MOT garage", "criminal solicitor") in the Service Agreement. Adjacent sectors are not excluded.
 
-## 17. UPDATES TO TERMS
+#### 15.3.3 Geographic Scope
 
-### 17.1 Right to Update
+Postcode area is defined precisely in the Service Agreement (e.g., "BA11", "BS1", "central Bristol postcodes BS1-BS8") at the time of signing.
 
-ScopeSite LTD reserves the right to update or modify these Terms and Conditions at any time to reflect changes in our services, legal requirements, or business practices.
+#### 15.3.4 Exclusivity Loss
 
-### 17.2 Notification of Changes
+Exclusivity ends on:
+(a) termination of the Territory Command agreement by either party;
+(b) the Client falling 30+ days into arrears with no agreed remedy;
+(c) breach of clause 14.4.2 conditions by the Client.
 
-ScopeSite LTD will provide notice of significant changes to these Terms. Notice may be provided via email to the Client's registered email address, through a notification on the ScopeSite LTD website, or via the client portal. The updated Terms will specify the date they become effective.
+On exclusivity loss, ScopeSite may sell Territory Command to another firm in the same postcode and sector with no obligation to the original Client.
 
-### 17.3 Continued Use as Acceptance
+### 15.4 Minimum Term
 
-Continued use of ScopeSite LTD's Services after the effective date of the updated Terms constitutes the Client's acceptance of the revised Terms and Conditions.
+Territory Command has a 12-month minimum term from setup completion. Early termination fees apply per clause 5.8.
 
-### 17.4 Review Responsibility
+### 15.5 Ownership
 
-It is the Client's responsibility to review the Terms and Conditions periodically for any updates or changes. The latest version of the Terms and Conditions will always be available on the ScopeSite LTD website.
+Territory Command Builds follow clause 6.3.2 (Ultra Fast SSR Builds). IP transfers only on full final payment of all outstanding fees, including any remaining minimum-term retainer fees.
 
-### 17.5 Material Changes
+### 15.6 Post-Termination
 
-For material changes that may significantly affect the Client's rights or obligations, ScopeSite LTD will endeavour to provide reasonable advance notice before the changes take effect.
+On termination, the Client may:
+(a) license to use the site under clause 6.2 if all fees are paid; OR
+(b) purchase a License Buyout Fee under clause 6.5; OR
+(c) lose all rights to the site under clause 5.7 if in arrears.
 
----
-
-## 18. TERMINATION
-
-### 18.1 Termination by Client
-
-#### 18.1.1 Notice Period
-
-The Client may terminate this Agreement or any specific Service Agreement by providing ScopeSite LTD with 30 days written notice, subject to any minimum contract periods specified in Section 4.7.
-
-#### 18.1.2 Early Termination
-
-If the Client terminates during a minimum contract period, early termination fees as outlined in Section 4.8 will apply.
-
-#### 18.1.3 Termination Procedure
-
-Notice of termination must be sent in writing to the email address specified in Section 2.1.
-
-### 18.2 Termination by ScopeSite
-
-#### 18.2.1 Notice Period
-
-ScopeSite LTD may terminate this Agreement or any specific Service Agreement for convenience by providing the Client with 30 days written notice.
-
-#### 18.2.2 Immediate Termination
-
-ScopeSite LTD may terminate this Agreement immediately by written notice if the Client:
-
-(a) fails to pay any amount due under this Agreement on the due date for payment and remains in default not less than 14 days after being notified in writing to make such payment;
-
-(b) commits a material breach of any other term of this Agreement which breach is irremediable or (if such breach is remediable) fails to remedy that breach within a period of 14 days after being notified in writing to do so;
-
-(c) repeatedly breaches any of the terms of this Agreement in such a manner as to reasonably justify the opinion that its conduct is inconsistent with it having the intention or ability to give effect to the terms of this Agreement;
-
-(d) becomes insolvent, enters into administration, receivership, liquidation, or any similar procedure;
-
-(e) engages in any activity that is illegal, unethical, or may harm ScopeSite LTD's reputation or business;
-
-(f) fails to provide necessary cooperation or communication required for the provision of Services after reasonable requests.
-
-### 18.3 Termination for Breach
-
-Either party may terminate this Agreement immediately by written notice if the other party commits a material breach of this Agreement and (if such breach is remediable) fails to remedy that breach within 14 days of being notified in writing to do so.
-
-### 18.4 Consequences of Termination
-
-#### 18.4.1 Cessation of Services
-
-Upon termination of this Agreement for any reason, ScopeSite LTD shall cease providing all Services.
-
-#### 18.4.2 Outstanding Payments
-
-The Client shall immediately pay all outstanding unpaid invoices and interest due to ScopeSite LTD. For Services supplied but for which no invoice has been submitted, ScopeSite LTD shall submit an invoice, which shall be payable by the Client immediately on receipt.
-
-#### 18.4.3 Return of Property
-
-Each party shall return or, at the other party's request, destroy any property, equipment, documentation, or Confidential Information belonging to the other party.
-
-#### 18.4.4 Data Handling
-
-ScopeSite LTD shall handle any Personal Data processed on behalf of the Client in accordance with Section 10.9 (Data Retention).
-
-#### 18.4.5 Handover of Assets
-
-Subject to full payment of all outstanding fees and the terms regarding Intellectual Property Rights in Section 7, ScopeSite LTD will cooperate reasonably with the Client to facilitate the handover of relevant website files, domain names (where registered by ScopeSite on behalf of the Client), and other assets belonging to the Client.
-
-#### 18.4.6 Accrued Rights
-
-Termination of the Agreement shall not affect any rights, remedies, obligations or liabilities of the parties that have accrued up to the date of termination, including the right to claim damages in respect of any breach of the Agreement which existed at or before the date of termination.
-
-### 18.5 Survival
-
-Any provision of this Agreement that expressly or by implication is intended to come into or continue in force on or after termination shall remain in full force and effect. This includes, but is not limited to, clauses relating to Confidentiality (Section 14), Intellectual Property Rights (Section 7), Liability and Indemnity (Section 11), Data Protection (Section 10), Payment Obligations (Section 4), Dispute Resolution (Section 19), and Governing Law (Section 1.5).
+Postcode exclusivity ends immediately on termination regardless of build ownership.
 
 ---
 
-## 19. DISPUTE RESOLUTION
+## 16. PROMOTIONS, OFFERS AND TIME-LIMITED PRICING
 
-### 19.1 Governing Law and Jurisdiction
+### 16.1 Offers Subject to Change
 
-This Agreement and any dispute or claim (including non-contractual disputes or claims) arising out of or in connection with it or its subject matter or formation shall be governed by and construed in accordance with the law of England and Wales. Each party irrevocably agrees that the courts of England and Wales shall have exclusive jurisdiction to settle any dispute or claim (including non-contractual disputes or claims) arising out of or in connection with this Agreement or its subject matter or formation.
+All ScopeSite promotional pricing, time-limited offers, package discounts, bundle deals, and introductory rates are subject to change or withdrawal without notice. Offers in effect on the date a Service Agreement is signed apply to that Agreement only.
 
-### 19.2 Negotiation
+### 16.2 Intro Pricing for New Clients
 
-If any dispute arises in connection with this Agreement, the parties agree to enter into negotiation in good faith to resolve the dispute. Either party may initiate negotiations by providing written notice to the other party, setting out the details of the dispute. The parties shall use their best endeavours to reach a resolution within 14 days of the notice being served.
+Introductory rates (e.g., first-month-free, reduced setup fees, bundle discounts) apply only to first-time engagements unless explicitly extended in writing.
 
-### 19.3 Mediation
+### 16.3 Live Promotions Add-On (Client-Operated Promotions)
 
-#### 19.3.1 Referral to Mediation
+#### 16.3.1 Description
 
-If the dispute is not resolved through negotiation within 14 days of the notice referred to in clause 19.2, the parties will attempt to settle it by mediation in accordance with the CEDR Model Mediation Procedure.
+The Live Promotions add-on (£1,500) provides Clients with the technical capability to run their own time-limited offers, expiry dates, and promotional codes via Stripe integration on their site.
 
-#### 19.3.2 Procedure
+#### 16.3.2 Client Responsibility
 
-Unless otherwise agreed between the parties, the mediator will be nominated by CEDR. To initiate the mediation, a party must give notice in writing (ADR notice) to the other party, referring the dispute to mediation. A copy of the ADR notice should be sent to CEDR. Unless otherwise agreed, the mediation will start not later than 30 days after the date of the ADR notice.
+The Client is fully responsible for:
+(a) the legality, accuracy, and honouring of any promotional offer they configure;
+(b) compliance with consumer law including Consumer Protection from Unfair Trading Regulations 2008 and Advertising Standards Authority codes;
+(c) honouring all promo codes generated and distributed;
+(d) clearly displaying offer terms, expiry dates, and exclusions;
+(e) any tax, accounting, or commercial consequences of promotional activity.
 
-#### 19.3.3 Costs
+#### 16.3.3 ScopeSite Liability for Live Promotions
 
-The costs of the mediation shall be shared equally between the parties unless otherwise agreed.
+ScopeSite is not liable for:
+(a) Client-misconfigured offers (wrong expiry, wrong discount, oversold quantities);
+(b) Stripe or payment processor disputes arising from Client-run promotions;
+(c) consumer law breaches resulting from Client-promoted offers;
+(d) loss of revenue from Client-applied discounts or promo codes.
 
-#### 19.3.4 Continuation of Obligations
+ScopeSite is responsible only for the **technical functioning** of the Live Promotions infrastructure, not the **content** of promotions run on it.
 
-No party may commence any court proceedings in relation to any dispute arising out of this Agreement until it has attempted to settle the dispute by mediation and either the mediation has terminated or the other party has failed to participate in the mediation, provided that the right to issue proceedings is not prejudiced by a delay. The entire dispute resolution process shall be completed within 45 days from the date of the initial notice, unless the parties agree otherwise in writing.
+### 16.4 Referral and Affiliate Rates
 
-### 19.4 Court Proceedings
+Where ScopeSite operates a referral or affiliate scheme, terms are published separately and may change without notice to the existing referral relationship.
 
-Subject to clauses 19.2 and 19.3, nothing in this Agreement shall prevent either party from seeking interim relief or commencing court proceedings where necessary to protect its rights or property, or where a claim is related to non-payment of fees.
+### 16.5 AI Search Performance Guarantee Modifications
+
+ScopeSite may modify the AI Search Performance Guarantee (clause 14.4) for new Service Agreements at any time. Existing Service Agreements retain the version of the guarantee in effect on signing.
 
 ---
 
-## 20. GENERAL PROVISIONS
+## 17. CLIENT AUTHORITY
 
-### 20.1 Entire Agreement
+### 17.1 Authority
 
-This Agreement, together with any documents referred to in it (including any Service Agreement and Privacy Policy), constitutes the entire agreement between the parties and supersedes and extinguishes all previous agreements, promises, assurances, warranties, representations and understandings between them, whether written or oral, relating to its subject matter.
+The individual accepting these Terms warrants they are at least 18 years of age and have full legal authority to bind the Client (individual, company, or legal entity) to this Agreement.
 
-### 20.2 Severability
+### 17.2 Verification
 
-If any provision or part-provision of this Agreement is or becomes invalid, illegal or unenforceable, it shall be deemed modified to the minimum extent necessary to make it valid, legal and enforceable. If such modification is not possible, the relevant provision or part-provision shall be deemed deleted. Any modification to or deletion of a provision or part-provision under this clause shall not affect the validity and enforceability of the rest of this Agreement.
+ScopeSite may request reasonable evidence of authority before commencing or continuing Services.
 
-### 20.3 No Waiver
+### 17.3 Primary Contact
 
-A waiver of any right or remedy under this Agreement or by law is only effective if given in writing and shall not be deemed a waiver of any subsequent right or remedy. A failure or delay by a party to exercise any right or remedy provided under this Agreement or by law shall not constitute a waiver of that or any other right or remedy, nor shall it prevent or restrict any further exercise of that or any other right or remedy.
+The Client designates a primary contact authorised to provide instructions, approvals, and decisions. ScopeSite is entitled to rely on instructions from this contact.
 
-### 20.4 Assignment
+---
 
-Neither party may assign, transfer, mortgage, charge, subcontract, delegate, declare a trust over or deal in any other manner with any or all of its rights and obligations under this Agreement without the prior written consent of the other party (such consent not to be unreasonably withheld or delayed). However, ScopeSite LTD may assign its rights and obligations under this Agreement to any company acquiring all or substantially all of ScopeSite LTD's assets or business.
+## 18. UPDATES TO TERMS
 
-### 20.5 Notices
+### 18.1 Right to Update
 
-#### 20.5.1 Method
+ScopeSite may update these Terms to reflect product changes, legal updates, or business practice changes.
 
-Any notice or other communication given to a party under or in connection with this Agreement shall be in writing and shall be delivered by hand or by pre-paid first-class post or other next working day delivery service at its registered office (if a company) or its principal place of business (in any other case); or sent by email to the address specified in Section 2.1 (for ScopeSite LTD) or the primary email address provided by the Client. Email is sufficient for general communications, while registered post is required for legal disputes.
+### 18.2 Notification
 
-#### 20.5.2 Deemed Receipt
+Notice of significant changes via email, website notification, or client portal. Updated Terms specify their effective date.
 
-Any notice or communication shall be deemed to have been received: if delivered by hand, on signature of a delivery receipt; if sent by pre-paid first-class post or other next working day delivery service, at 9.00 am on the second business day after posting; or if sent by email, at the time of transmission, or, if this time falls outside business hours in the place of receipt, when business hours resume. Business hours means 9.00am to 5.00pm Monday to Friday on a day that is not a public holiday in the place of receipt.
+### 18.3 Continued Use as Acceptance
 
-#### 20.5.3 Exclusions
+Continued use of Services after the effective date constitutes acceptance of the revised Terms.
 
-This clause does not apply to the service of any proceedings or other documents in any legal action or, where applicable, any arbitration or other method of dispute resolution.
+### 18.4 Locked Service Agreements
 
-### 20.6 Relationship of Parties
+Existing Service Agreements remain governed by the Terms in effect on signing. New Terms apply prospectively.
 
-Nothing in this Agreement is intended to, or shall be deemed to, establish any partnership or joint venture between any of the parties, constitute any party the agent of another party, or authorise any party to make or enter into any commitments for or on behalf of any other party.
+### 18.5 Material Changes
 
-### 20.7 Third-Party Rights
+For material changes affecting Client rights, ScopeSite provides reasonable advance notice.
 
-Unless it expressly states otherwise, this Agreement does not give rise to any rights under the Contracts (Rights of Third Parties) Act 1999 to enforce any term of this Agreement.
+---
 
-### 20.8 Force Majeure
+## 19. TERMINATION
 
-Reference is made to Section 11.3 regarding Force Majeure events and their consequences.
+### 19.1 Termination by Client
 
-### 20.9 Counterparts
+#### 19.1.1 Notice
 
-This Agreement may be executed in any number of counterparts, each of which when executed shall constitute a duplicate original, but all the counterparts shall together constitute the one agreement.
+The Client may terminate by providing 30 days written notice, subject to minimum contract periods (clause 5.3).
+
+#### 19.1.2 Early Termination
+
+Early termination during a minimum contract period invokes early termination fees per clause 5.8.
+
+#### 19.1.3 Procedure
+
+Notice in writing to dan@scopesite.co.uk.
+
+### 19.2 Termination by ScopeSite
+
+#### 19.2.1 For Convenience
+
+ScopeSite may terminate by 30 days written notice (subject to delivering or refunding any committed work).
+
+#### 19.2.2 Immediate Termination
+
+ScopeSite may terminate immediately by written notice if the Client:
+(a) fails to pay any amount and remains in default 14 days after written notice to pay;
+(b) materially breaches these Terms (irremediable, or remediable but uncured within 14 days of written notice);
+(c) repeatedly breaches these Terms;
+(d) becomes insolvent, enters administration, receivership, or liquidation;
+(e) engages in illegal, unethical, or reputation-damaging activity;
+(f) fails to provide necessary cooperation after reasonable requests;
+(g) fundamentally breaches the AI Search Performance Guarantee conditions (clause 14.4.2).
+
+### 19.3 Termination by Either Party for Breach
+
+Either party may terminate immediately for material breach (irremediable, or remediable but uncured within 14 days of written notice).
+
+### 19.4 Consequences of Termination
+
+#### 19.4.1 Cessation
+
+ScopeSite ceases providing Services.
+
+#### 19.4.2 Outstanding Payments
+
+Client immediately pays all outstanding invoices and interest. ScopeSite invoices any unbilled work performed; Client pays immediately.
+
+#### 19.4.3 Property Return
+
+Each party returns or destroys the other party's property and Confidential Information.
+
+#### 19.4.4 Data Handling
+
+Per section 9.5.
+
+#### 19.4.5 Asset Handover (Subject to Full Payment)
+
+On full payment of all outstanding fees and any required License Buyout or IP Transfer Fee, ScopeSite cooperates in handing over website files, domain names (where registered for the Client), and other Client-owned assets.
+
+#### 19.4.6 Asset Retention (Where Fees Outstanding)
+
+Where fees remain outstanding, ScopeSite retains all Deliverables, code, schema, and ScopeSite-controlled assets per clause 6 and clause 5.7. No handover occurs until full settlement.
+
+#### 19.4.7 Accrued Rights
+
+Termination does not affect rights, remedies, or liabilities accrued to the date of termination.
+
+### 19.5 Survival
+
+The following survive termination:
+- Clause 6 (Intellectual Property)
+- Clause 9 (Data Protection)
+- Clause 10 (Liability and Indemnity)
+- Clause 13 (Confidentiality)
+- Clause 5.5 to 5.10 (Payment and Refund obligations)
+- Clause 20 (Dispute Resolution)
+- Clause 1.5 (Governing Law)
+
+---
+
+## 20. DISPUTE RESOLUTION
+
+### 20.1 Governing Law
+
+This Agreement is governed by the laws of England and Wales. Courts of England and Wales have exclusive jurisdiction.
+
+### 20.2 Negotiation
+
+On dispute, parties enter good-faith negotiation. Either party may initiate by written notice. Best endeavours to resolve within 14 days of notice.
+
+### 20.3 Mediation
+
+#### 20.3.1 Referral
+
+Unresolved disputes proceed to mediation per CEDR Model Mediation Procedure.
+
+#### 20.3.2 Procedure
+
+Mediator nominated by CEDR. Initiate by ADR notice. Mediation starts within 30 days of ADR notice.
+
+#### 20.3.3 Costs
+
+Shared equally unless otherwise agreed.
+
+#### 20.3.4 No Court Proceedings Until Mediation Complete
+
+No court proceedings until mediation has terminated or other party has failed to participate. Resolution process should complete within 45 days of initial notice unless agreed otherwise.
+
+### 20.4 Consumer Statutory Rights Preserved
+
+Where the Client is a Consumer (as defined under the Consumer Rights Act 2015), notwithstanding the mediation requirements in clause 20.3, the Consumer's statutory right to bring a claim in the Small Claims Court (or any other statutorily-protected dispute mechanism available to consumers) is **not affected** by the mediation requirement. ScopeSite acknowledges that forcing a Consumer into formal paid mediation as a precondition to accessing the courts would constitute an unfair contract term and is therefore unenforceable.
+
+For clarity: this clause exists for the rare case where ScopeSite contracts with a Consumer despite the B2B-only acceptance warranty in clause 1.4. ScopeSite's standard service offering is B2B only.
+
+### 20.5 Court Proceedings Exception
+
+Either party may seek interim relief or commence court proceedings to protect rights, property, or for non-payment claims, notwithstanding mediation requirements.
+
+---
+
+## 21. GENERAL PROVISIONS
+
+### 21.1 Entire Agreement
+
+This Agreement (with any Service Agreement and Privacy Policy) constitutes the entire agreement, superseding all prior agreements and representations.
+
+### 21.2 Severability
+
+If any provision is invalid, illegal, or unenforceable, it is modified to the minimum extent necessary, or deleted if modification is impossible. Remaining provisions stay in force.
+
+### 21.3 No Waiver
+
+A waiver is effective only in writing. Failure to exercise a right does not waive it.
+
+### 21.4 Assignment
+
+Neither party may assign without written consent (not unreasonably withheld). ScopeSite may assign to a company acquiring substantially all its assets.
+
+### 21.5 Notices
+
+Written notices by hand delivery, pre-paid first-class post, next-working-day delivery, or email. Email sufficient for general notices; registered post required for legal disputes. Deemed received per standard rules (post: 9am second business day; email: time of transmission, or 9am next business day if outside business hours).
+
+### 21.6 Relationship
+
+No partnership, joint venture, or agency between the parties.
+
+### 21.7 Third-Party Rights
+
+No rights under the Contracts (Rights of Third Parties) Act 1999 unless expressly stated.
+
+### 21.8 Counterparts
+
+Executed in any number of counterparts, each constituting a duplicate, all together one agreement.
 
 ---
 
@@ -1410,6 +1290,13 @@ This Agreement may be executed in any number of counterparts, each of which when
 
 Company Registration Number: 16130355
 
-71-75 Shelton Street, Covent Garden, London, United Kingdom, WC2H 9JQ
+Registered Office: 4 Horse Close Horse Close, Beckington, Frome, England, BA11 6SU
 
-**Last Updated:** 28th April 2025
+Principal Place of Business: Frome, Somerset, United Kingdom
+
+**Effective Date:** 10 May 2026
+
+**Questions about these Terms?**
+
+- Email: support@scopesite.co.uk
+- Phone: 01373 311 339
