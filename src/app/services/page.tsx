@@ -94,12 +94,17 @@ const ALL_SERVICES: readonly { title: string; href: string; description: string 
   },
 ];
 
+const ITEM_LIST_ID = `${PAGE_URL}/#services-itemlist`;
+
 export default function ServicesHubPage() {
-  const webPageSchema = generateWebPageSchema(
-    'Every Service ScopeSite Offers',
-    'Browse every ScopeSite service and landing page in one place.',
-    PAGE_URL
-  );
+  const webPageSchema = {
+    ...generateWebPageSchema(
+      'Every Service ScopeSite Offers',
+      'Browse every ScopeSite service and landing page in one place.',
+      PAGE_URL
+    ),
+    mainEntity: { '@id': ITEM_LIST_ID },
+  };
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: BASE_URL },
@@ -108,20 +113,30 @@ export default function ServicesHubPage() {
 
   const itemListSchema: Record<string, unknown> = {
     '@type': 'ItemList',
-    '@id': `${PAGE_URL}/#services-itemlist`,
+    '@id': ITEM_LIST_ID,
     name: 'Every Service ScopeSite Offers',
+    url: PAGE_URL,
     numberOfItems: ALL_SERVICES.length,
-    itemListElement: ALL_SERVICES.map((service, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      item: {
-        '@type': 'Service',
-        name: service.title,
-        description: service.description,
-        url: `${BASE_URL}${service.href}`,
-        provider: { '@id': `${BASE_URL}/#organization` },
-      },
-    })),
+    itemListElement: ALL_SERVICES.map((service, index) => {
+      const servicePageUrl = `${BASE_URL}${service.href}`;
+      return {
+        '@type': 'ListItem',
+        position: index + 1,
+        url: servicePageUrl,
+        item: {
+          '@type': 'Service',
+          '@id': `${servicePageUrl}/#service`,
+          name: service.title,
+          description: service.description,
+          url: servicePageUrl,
+          provider: { '@id': `${BASE_URL}/#organization` },
+          areaServed: {
+            '@type': 'Country',
+            name: 'United Kingdom',
+          },
+        },
+      };
+    }),
   };
 
   return (
