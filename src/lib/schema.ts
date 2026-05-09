@@ -690,21 +690,104 @@ export function generateProductSchema(
   name: string,
   description: string,
   url: string,
-  offers?: Record<string, unknown>[]
+  offers?: Record<string, unknown>[],
+  options?: {
+    image?: string[];
+    brand?: Record<string, unknown>;
+  }
 ) {
   const schema: Record<string, unknown> = {
     '@type': 'Product',
     '@id': `${url}/#product`,
     name,
     description,
-    brand: { '@id': `${BASE_URL}/#organization` },
+    brand: options?.brand ?? { '@id': `${BASE_URL}/#organization` },
   };
+
+  if (options?.image && options.image.length > 0) {
+    schema.image = options.image;
+  }
 
   if (offers && offers.length > 0) {
     schema.offers = offers;
   }
 
   return schema;
+}
+
+const LLM_BRAIN_MERCHANT_RETURN_POLICY = {
+  '@type': 'MerchantReturnPolicy',
+  applicableCountry: 'GB',
+  returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
+};
+
+const LLM_BRAIN_SHIPPING_DETAILS = {
+  '@type': 'OfferShippingDetails',
+  shippingRate: {
+    '@type': 'MonetaryAmount',
+    value: '0',
+    currency: 'GBP',
+  },
+  shippingDestination: {
+    '@type': 'DefinedRegion',
+    addressCountry: 'GB',
+  },
+  deliveryTime: {
+    '@type': 'ShippingDeliveryTime',
+    businessDays: {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    },
+    transitTime: {
+      '@type': 'QuantitativeValue',
+      minValue: 0,
+      maxValue: 1,
+      unitCode: 'DAY',
+    },
+  },
+};
+
+const LLM_BRAIN_OFFER_SELLER = {
+  '@type': 'Organization',
+  name: 'ScopeSite Digital Studios',
+  url: BASE_URL,
+};
+
+/**
+ * Product Offer[] for /llm-brain JSON-LD — includes fields required by Google Product rich results.
+ */
+export function generateLlmBrainProductOffers(): Record<string, unknown>[] {
+  return [
+    {
+      '@type': 'Offer',
+      name: 'LLM Brain done-for-you setup',
+      description:
+        'One-time build, configure, seed your data, Claude MCP and ChatGPT bridge, thirty-minute onboarding.',
+      priceSpecification: {
+        '@type': 'PriceSpecification',
+        priceCurrency: 'GBP',
+        price: '250',
+      },
+      availability: 'https://schema.org/InStock',
+      hasMerchantReturnPolicy: LLM_BRAIN_MERCHANT_RETURN_POLICY,
+      shippingDetails: LLM_BRAIN_SHIPPING_DETAILS,
+      seller: LLM_BRAIN_OFFER_SELLER,
+    },
+    {
+      '@type': 'Offer',
+      name: 'LLM Brain managed hosting',
+      description: 'Hosted, maintained, updates and backups handled by ScopeSite.',
+      priceSpecification: {
+        '@type': 'PriceSpecification',
+        priceCurrency: 'GBP',
+        price: '85',
+      },
+      availability: 'https://schema.org/InStock',
+      hasMerchantReturnPolicy: LLM_BRAIN_MERCHANT_RETURN_POLICY,
+      shippingDetails: LLM_BRAIN_SHIPPING_DETAILS,
+      seller: LLM_BRAIN_OFFER_SELLER,
+    },
+  ];
 }
 
 // ============================================

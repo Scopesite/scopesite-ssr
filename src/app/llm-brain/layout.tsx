@@ -5,8 +5,7 @@ import {
   generateProductSchema,
   generateWebPageSchema,
   generateSpeakableSchema,
-  generateOfferSchema,
-  type FAQItem,
+  generateLlmBrainProductOffers,
 } from '@/lib/schema';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -50,25 +49,18 @@ export default function LlmBrainLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const setupOffer = generateOfferSchema(
-    'LLM Brain done-for-you setup',
-    'One-time build, configure, seed your data, Claude MCP and ChatGPT bridge, thirty-minute onboarding.',
-    '250',
-    'GBP'
-  );
-
-  const managedOffer = generateOfferSchema(
-    'LLM Brain managed hosting',
-    'Hosted, maintained, updates and backups handled by ScopeSite.',
-    '85',
-    'GBP'
-  );
-
   const productSchema = generateProductSchema(
     'LLM Brain',
     'Done-for-you persistent memory for AI assistants. Supabase database connected via MCP and Make.com so Claude and ChatGPT remember tasks, contacts, decisions, and your knowledge base across every conversation.',
     PAGE_URL,
-    [setupOffer, managedOffer]
+    generateLlmBrainProductOffers(),
+    {
+      image: [`${BASE_URL}/images/llm-brain-hero.webp`],
+      brand: {
+        '@type': 'Brand',
+        name: 'ScopeSite Digital Studios',
+      },
+    }
   );
 
   const webPageSchema = {

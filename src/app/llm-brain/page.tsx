@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import {
   ChevronDown,
@@ -218,6 +219,17 @@ export default function LlmBrainPage() {
               Your AI Forgets Everything.{' '}
               <span className="text-brand-gold">Every. Single. Time.</span>
             </h1>
+            <div className="w-full max-w-[600px] mx-auto mb-8">
+              <Image
+                src="/images/llm-brain-hero.webp"
+                alt="LLM Brain — One Source of Truth for Claude, ChatGPT, Notion, Perplexity, DeepSeek and Copilot"
+                width={1240}
+                height={945}
+                priority
+                sizes="(min-width: 768px) 600px, 100vw"
+                className="w-full h-auto rounded-lg"
+              />
+            </div>
             <p className="hero-description text-body-lg text-white/85 mb-8 max-w-2xl">
               You have spent hours briefing Claude or ChatGPT about your business. Tomorrow, it will
               not remember a word. LLM Brain fixes that with a permanent database your assistants read
