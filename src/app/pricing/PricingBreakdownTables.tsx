@@ -383,6 +383,10 @@ export function PricingBreakdownTables() {
             </tbody>
           </table>
         </div>
+        <p className="text-xs text-brand-graphite mt-2 max-w-3xl mx-auto leading-relaxed md:text-center">
+          Spread payment plans (6, 12, 24, 36 months) are available to Limited Companies and LLPs only. Sole
+          traders and individuals must pay in full.
+        </p>
 
         <p className="text-brand-navy/80 text-center max-w-3xl mx-auto mt-10 leading-relaxed">
           Quotes via the calculator are guide prices. Final scope confirmed on a 20-minute call. AI

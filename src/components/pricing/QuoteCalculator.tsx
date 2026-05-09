@@ -1040,6 +1040,10 @@ export function QuoteCalculator() {
                 24-month terms.
               </p>
             )}
+            <p className="text-xs text-brand-graphite leading-relaxed">
+              Spread payment plans (6, 12, 24, or 36 months) are exclusively available to registered Limited
+              Companies and LLPs. Sole traders and individuals must select Pay In Full.
+            </p>
             <RadioGroup
               value={request.paymentPreference}
               onValueChange={(v) => updateRequest({ paymentPreference: v as PaymentPreference })}
