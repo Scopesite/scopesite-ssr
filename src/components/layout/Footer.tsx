@@ -13,7 +13,6 @@ const FOOTER_LINKS = {
     { label: 'Generative Engine Optimisation', href: '/generative-engine-optimisation' },
     { label: 'AI Visibility', href: '/ai-visibility' },
     { label: 'Schema Markup', href: '/schema-markup' },
-    { label: 'V.O.I.C.E™ AI Visibility', href: '/voice' },
     { label: 'Custom Web Apps', href: '/web-apps' },
     { label: 'LLM Brain', href: '/llm-brain' },
     { label: 'Pricing', href: '/pricing' },
