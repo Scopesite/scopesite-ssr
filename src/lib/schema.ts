@@ -6,7 +6,7 @@
  */
 
 import { GhostPost } from './ghost';
-import { PRICING_CONFIG, VOICE_SPEC } from './pricing-config';
+import { ADDON_CATALOG, PRICING_CONFIG, VOICE_SPEC } from './pricing-config';
 
 const BASE_URL = 'https://scopesite.co.uk';
 
@@ -2237,25 +2237,11 @@ export function wrapInGraph(schemas: Record<string, unknown>[]) {
 // SCHEMA-DRIVEN PUBLIC PRICING
 // ============================================
 //
-// `generatePricingSchema()` publishes the full UK service pricing in a single
-// Service + Offer[] JSON-LD graph. All prices are read FROM THE CONFIG
-// (PRICING_CONFIG and VOICE_SPEC) — never hardcoded here. This keeps the
-// published prices in lockstep with the quote wizard; one source of truth.
-//
-// What IS published:
-//   - Client-Managed (Wix) tier prices: Starter, Professional, Enterprise
-//   - SSR AI-First base price
-//   - V.O.I.C.E retainer monthly rates (6-month + 12-month) with the
-//     80 Score Guarantee as a WarrantyPromise on each offer
-//   - LLM Brain setup one-time + managed monthly
-//
-// What is NOT published (internal calculator inputs / commercial tools):
-//   - Contract markup percentages (3/6/12/18%)
-//   - SSR minimum monthly floors
-//   - Per-additional-page rates beyond the tier
-//   - 5% pay-in-full discount
-//   - 36-month contract option
-//   - Upgrade 40% discount multiplier
+// `generatePricingSchema()` and `generatePricingQuoteCalculatorWebApplicationSchema()`
+// publish the same eleven canonical UK offers: Wix Starter/Pro/Enterprise (pay in full),
+// Ultra Fast SSR (from base price), AI SEO standalone retainer, Territory Command
+// Standard & Premium, Wix WaaS & SSR WaaS, Smart Forms, and AI Chatbot.
+// Numeric values are read from PRICING_CONFIG, VOICE_SPEC, and ADDON_CATALOG.
 
 interface OfferGbpOptions {
   /** Optional short identifier for @id disambiguation */
@@ -2353,113 +2339,273 @@ function offerMonthlyGbp(
   return offer;
 }
 
-// LLM Brain prices live outside PRICING_CONFIG for historical reasons; they
-// are currently only exposed via Stripe price IDs in the LLM Brain checkout
-// route. Keep them as module-local constants here, flagged for future
-// consolidation into a shared config.
-// TODO: move LLM_BRAIN_SETUP_PRICE / LLM_BRAIN_MANAGED_PRICE into a central
-// config once LLM Brain has its own pricing module.
-const LLM_BRAIN_SETUP_PRICE = 250;
-const LLM_BRAIN_MANAGED_PRICE = 85;
+/** Customer-facing warranty text for JSON-LD (matches T&Cs v5 clause 14.4; no internal product codenames). */
+const AI_SEARCH_PERFORMANCE_GUARANTEE_WARRANTY =
+  'AI Search Performance Guarantee: for clients on an active AI SEO Retainer or Territory Command, ScopeSite guarantees an AI Search Performance Score of 80 or above. After a 3-month build-up window, if your score falls below 80 in any measured month and you meet the plan conditions, you pay nothing for that month’s retainer fee.';
+
+const UK_PRICING_PAGE_URL = `${BASE_URL}/pricing`;
+
+function pricingMonthlyUnitSpec(price: number, name?: string): Record<string, unknown> {
+  const spec: Record<string, unknown> = {
+    '@type': 'UnitPriceSpecification',
+    price: String(price),
+    priceCurrency: 'GBP',
+    billingDuration: 'P1M',
+    unitCode: 'MON',
+    referenceQuantity: {
+      '@type': 'QuantitativeValue',
+      value: 1,
+      unitCode: 'MON',
+    },
+  };
+  if (name) spec.name = name;
+  return spec;
+}
 
 /**
- * Build a complete Service + Offer[] JSON-LD for the /pricing page.
- *
- * Every offer has an exact numeric price (no ranges), a currency, and an
- * availability field. AI SEO offers include a WarrantyPromise carrying
- * the 80 Score Guarantee text so AI assistants can quote it verbatim.
+ * Eleven canonical UK pricing offers for /pricing — shared by Service JSON-LD and WebApplication JSON-LD.
+ * Numeric values are read from PRICING_CONFIG / VOICE_SPEC / ADDON_CATALOG (not hardcoded).
  */
-export function generatePricingSchema(): Record<string, unknown> {
+export function buildCanonicalUkPricingOffers(pageUrl: string): Record<string, unknown>[] {
+  const seller = { '@id': `${BASE_URL}/#organization` };
   const {
     baseWebsite: { starter, professional, enterprise },
     ssrWebsite: { base: ssrBase },
+    waas,
+    perPageRate,
   } = PRICING_CONFIG;
 
-  const voiceSix = VOICE_SPEC.commitmentOptions.six;
-  const voiceTwelve = VOICE_SPEC.commitmentOptions.twelve;
+  const smartFormsPrice = ADDON_CATALOG.smartForms.price;
+  const aiChatbotPrice = ADDON_CATALOG.aiChatbot.price;
 
-  const offers: Record<string, unknown>[] = [
-    // Client-Managed (Wix) tiers — exact prices
-    offerGbp(
-      'Client-Managed Website — Starter (5 pages)',
-      starter,
-      'Built on Wix Studio. Up to 5 pages, mobile responsive, contact form, basic SEO setup, GA4, Wix CMS access, 1 month free support. 25% below UK market average.',
-      { id: 'wix-starter' }
-    ),
-    offerGbp(
-      'Client-Managed Website — Professional (6–10 pages)',
-      professional,
-      'Built on Wix Studio. 6–10 pages flat price, animations, blog/CMS, e-commerce up to 50 products, advanced SEO, up to 3 integrations, 3 months free support.',
-      { id: 'wix-professional' }
-    ),
-    offerGbp(
-      'Client-Managed Website — Enterprise (11+ pages)',
-      enterprise,
-      'Built on Wix Studio. From 11 pages with per-page pricing above 10, unlimited integrations, e-commerce up to 700 products, AI chatbot, 4x SEO blog posts per month, custom graphics, 6 months free support.',
-      { id: 'wix-enterprise' }
-    ),
-    // Ultra Fast (AI visible premium) — single exact base price (per-page extras are internal)
-    offerGbp(
-      'Ultra Fast AI Visible Premium Website',
-      ssrBase,
-      `Custom Next.js 16 site on Vercel Edge, built for speed and AI visibility. Includes AI SEO value worth £${PRICING_CONFIG.addOns.voice}/mo, Ghost CMS, facts auto-formatted for AI to read, top Google speed scores, SSL, and 30 days post-launch support. Starting price for up to 5 pages.`,
-      { id: 'ssr-ai-first' }
-    ),
-    offerGbp(
-      'AI SEO — Setup',
-      VOICE_SPEC.setupFee,
-      'One-time setup before your AI SEO monthly retainer begins.',
-      { id: 'voice-setup' }
-    ),
-    // AI SEO — 6-Month Commitment
-    offerMonthlyGbp(
-      'AI SEO — 6-Month Commitment',
-      voiceSix.monthlyPrice,
-      `Monthly AI SEO retainer. ${voiceSix.description} One-time setup ${formatGbpStatic(VOICE_SPEC.setupFee)}. Minimum commitment: ${voiceSix.months} months (total ${formatGbpStatic(voiceSix.totalCost)}, including setup), ${VOICE_SPEC.noticePeriodDays}-day notice period after that. Includes monthly AI visibility audits across ChatGPT, Claude, Perplexity, Gemini, and Google AI Overviews; tracked AI Visibility Score with month-on-month reporting; structured data updates; answer-engine content recommendations; and competitor monitoring.`,
-      {
-        id: 'voice-6mo',
-        minimumTerm: 'P6M',
-        warranty: VOICE_SPEC.guarantee.summary,
-      }
-    ),
-    // AI SEO — 12-Month Commitment
-    offerMonthlyGbp(
-      'AI SEO — 12-Month Commitment',
-      voiceTwelve.monthlyPrice,
-      voiceTwelve.savingsVsSixMonth > 0
-        ? `Monthly AI SEO retainer at a reduced rate. ${voiceTwelve.description} One-time setup ${formatGbpStatic(VOICE_SPEC.setupFee)}. Minimum commitment: ${voiceTwelve.months} months (total ${formatGbpStatic(voiceTwelve.totalCost)}, including setup; saves ${formatGbpStatic(voiceTwelve.savingsVsSixMonth)} vs 6-month commitment). Includes everything in the 6-month plan.`
-        : `Monthly AI SEO retainer. ${voiceTwelve.description} One-time setup ${formatGbpStatic(VOICE_SPEC.setupFee)}. Minimum commitment: ${voiceTwelve.months} months (total ${formatGbpStatic(voiceTwelve.totalCost)}, including setup). Includes everything in the 6-month plan.`,
-      {
-        id: 'voice-12mo',
-        minimumTerm: 'P12M',
-        warranty: VOICE_SPEC.guarantee.summary,
-      }
-    ),
-    // LLM Brain
-    offerGbp(
-      'LLM Brain — Done-for-You Setup',
-      LLM_BRAIN_SETUP_PRICE,
-      'One-time setup of your LLM Brain — a structured data layer that makes your business answerable by AI assistants. Paid through Stripe, promo codes accepted at checkout.',
-      { id: 'llm-brain-setup' }
-    ),
-    offerMonthlyGbp(
-      'LLM Brain — Managed',
-      LLM_BRAIN_MANAGED_PRICE,
-      'Monthly LLM Brain management subscription. Ongoing updates, monitoring, and content refreshes so your AI-citable data layer stays current.',
-      { id: 'llm-brain-managed' }
-    ),
+  return [
+    {
+      '@type': 'Offer',
+      '@id': `${BASE_URL}/pricing#offer-wix-starter-pif`,
+      name: 'Wix Studio Starter (Pay In Full)',
+      description:
+        'Wix Studio build, up to 5 pages (Manage Yourself After Build). One-off price before any pay-in-full discount.',
+      price: String(starter),
+      priceCurrency: 'GBP',
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+      seller,
+      eligibleCustomerType: 'Business OR Sole Trader',
+    },
+    {
+      '@type': 'Offer',
+      '@id': `${BASE_URL}/pricing#offer-wix-professional-pif`,
+      name: 'Wix Studio Professional (Pay In Full)',
+      description:
+        'Wix Studio build, 6–10 pages (Manage Yourself After Build). One-off price before any pay-in-full discount.',
+      price: String(professional),
+      priceCurrency: 'GBP',
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+      seller,
+      eligibleCustomerType: 'Business OR Sole Trader',
+    },
+    {
+      '@type': 'Offer',
+      '@id': `${BASE_URL}/pricing#offer-wix-enterprise-pif`,
+      name: 'Wix Studio Enterprise (Pay In Full from £7,500)',
+      description: `Wix Studio build from 11+ pages. Base from £${enterprise.toLocaleString('en-GB')} plus £${perPageRate} per page above 10 (Manage Yourself After Build). One-off price before any pay-in-full discount.`,
+      price: String(enterprise),
+      priceCurrency: 'GBP',
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+      seller,
+      eligibleCustomerType: 'Business OR Sole Trader',
+    },
+    {
+      '@type': 'Offer',
+      '@id': `${BASE_URL}/pricing#offer-ssr-pif`,
+      name: 'Ultra Fast SSR (Pay In Full from £2,000)',
+      description:
+        'Ultra Fast server-side rendered website (AI Visible Premium). From £2,000 for up to 5 pages; per-page increments apply for larger sites up to the standard calculator ceiling. AI SEO methodology bundled on SSR builds.',
+      price: String(ssrBase),
+      priceCurrency: 'GBP',
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+      seller,
+      eligibleCustomerType: 'Business OR Sole Trader',
+    },
+    {
+      '@type': 'Offer',
+      '@id': `${BASE_URL}/pricing#offer-ai-seo-standalone`,
+      name: 'AI SEO Retainer (Standalone)',
+      description: `£${VOICE_SPEC.setupFee} one-off setup fee plus £${VOICE_SPEC.monthlyPrice} per calendar month. Minimum commitment 6 or 12 months (chosen at signup). Includes ongoing AI Search Performance work, schema and entity optimisation, and monthly reporting across major AI assistants and AI Overviews.`,
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+      seller,
+      eligibleCustomerType: 'Business',
+      priceSpecification: [
+        {
+          '@type': 'UnitPriceSpecification',
+          name: 'Setup fee',
+          price: String(VOICE_SPEC.setupFee),
+          priceCurrency: 'GBP',
+        },
+        pricingMonthlyUnitSpec(VOICE_SPEC.monthlyPrice, 'Monthly retainer'),
+      ],
+      warranty: {
+        '@type': 'WarrantyPromise',
+        description: AI_SEARCH_PERFORMANCE_GUARANTEE_WARRANTY,
+      },
+    },
+    {
+      '@type': 'Offer',
+      '@id': `${BASE_URL}/pricing#offer-territory-standard`,
+      name: 'Territory Command Standard',
+      description:
+        'Postcode-exclusive AI SEO and lead-generation product. £750 setup plus £500 per calendar month; 12-month minimum term.',
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+      seller,
+      eligibleCustomerType: 'Business',
+      priceSpecification: [
+        {
+          '@type': 'UnitPriceSpecification',
+          name: 'Setup fee',
+          price: '750',
+          priceCurrency: 'GBP',
+        },
+        pricingMonthlyUnitSpec(500, 'Monthly retainer'),
+      ],
+      warranty: {
+        '@type': 'WarrantyPromise',
+        description: AI_SEARCH_PERFORMANCE_GUARANTEE_WARRANTY,
+      },
+    },
+    {
+      '@type': 'Offer',
+      '@id': `${BASE_URL}/pricing#offer-territory-premium`,
+      name: 'Territory Command Premium',
+      description:
+        'Postcode-exclusive AI SEO and lead-generation product for high-competition areas. £1,250 setup plus £750 per calendar month; 12-month minimum term.',
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+      seller,
+      eligibleCustomerType: 'Business',
+      priceSpecification: [
+        {
+          '@type': 'UnitPriceSpecification',
+          name: 'Setup fee',
+          price: '1250',
+          priceCurrency: 'GBP',
+        },
+        pricingMonthlyUnitSpec(750, 'Monthly retainer'),
+      ],
+      warranty: {
+        '@type': 'WarrantyPromise',
+        description: AI_SEARCH_PERFORMANCE_GUARANTEE_WARRANTY,
+      },
+    },
+    {
+      '@type': 'Offer',
+      '@id': `${BASE_URL}/pricing#offer-waas-wix-starter`,
+      name: 'Wix Studio Starter WaaS (Website-as-a-Service)',
+      description: `Website-as-a-Service on Wix Studio Starter (up to 5 pages). £${waas.setupFee} setup plus £${waas.monthlyFee} per month on a 30-day rolling subscription; no minimum term beyond notice. ScopeSite retains ownership of the build during the subscription; client holds a licence to use the site. Buyout fee £${waas.buyoutFees.wixStarter.toLocaleString('en-GB')} if you later want to own the asset outright.`,
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+      seller: {
+        '@type': 'Organization',
+        name: 'ScopeSite Digital Studios',
+        url: BASE_URL,
+      },
+      eligibleCustomerType: 'Sole Trader OR Business',
+      priceSpecification: [
+        {
+          '@type': 'UnitPriceSpecification',
+          name: 'Setup fee',
+          price: String(waas.setupFee),
+          priceCurrency: 'GBP',
+        },
+        pricingMonthlyUnitSpec(waas.monthlyFee, 'Monthly subscription'),
+      ],
+    },
+    {
+      '@type': 'Offer',
+      '@id': `${BASE_URL}/pricing#offer-waas-ssr`,
+      name: 'Ultra Fast SSR WaaS (Website-as-a-Service)',
+      description: `Website-as-a-Service on Ultra Fast SSR builds up to ${waas.ssrPageCap} pages. £${waas.setupFee} setup plus £${waas.monthlyFee} per month on a 30-day rolling subscription; no minimum term beyond notice. ScopeSite retains ownership of the build during the subscription. Flat buyout tiers: £${waas.buyoutFees.ssrBase.toLocaleString('en-GB')} (≤5 pages), £${waas.buyoutFees.ssrPlus.toLocaleString('en-GB')} (6–10 pages), £${waas.buyoutFees.ssrPremium.toLocaleString('en-GB')} (11–20 pages).`,
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+      seller: {
+        '@type': 'Organization',
+        name: 'ScopeSite Digital Studios',
+        url: BASE_URL,
+      },
+      eligibleCustomerType: 'Sole Trader OR Business',
+      priceSpecification: [
+        {
+          '@type': 'UnitPriceSpecification',
+          name: 'Setup fee',
+          price: String(waas.setupFee),
+          priceCurrency: 'GBP',
+        },
+        pricingMonthlyUnitSpec(waas.monthlyFee, 'Monthly subscription'),
+      ],
+    },
+    {
+      '@type': 'Offer',
+      '@id': `${BASE_URL}/pricing#offer-addon-smart-forms`,
+      name: 'Smart Forms Add-On',
+      description: ADDON_CATALOG.smartForms.label,
+      price: String(smartFormsPrice),
+      priceCurrency: 'GBP',
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+      seller,
+      eligibleCustomerType: 'Business OR Sole Trader',
+    },
+    {
+      '@type': 'Offer',
+      '@id': `${BASE_URL}/pricing#offer-addon-ai-chatbot`,
+      name: 'AI Chatbot Add-On',
+      description: ADDON_CATALOG.aiChatbot.label,
+      price: String(aiChatbotPrice),
+      priceCurrency: 'GBP',
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+      seller,
+      eligibleCustomerType: 'Business OR Sole Trader',
+    },
   ];
+}
+
+/**
+ * WebApplication JSON-LD for the Quote Calculator — canonical 11-offer list (T&Cs v5 + WaaS).
+ */
+export function generatePricingQuoteCalculatorWebApplicationSchema(): Record<string, unknown> {
+  return {
+    '@type': 'WebApplication',
+    name: 'ScopeSite Quote Calculator',
+    url: UK_PRICING_PAGE_URL,
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Web',
+    description:
+      'Interactive quote calculator for Wix Studio builds, Ultra Fast SSR, Website-as-a-Service (WaaS), AI SEO retainers, Territory Command, and selected add-ons. Deterministic pricing rules are published at /llms-full.txt.',
+    offers: buildCanonicalUkPricingOffers(UK_PRICING_PAGE_URL),
+  };
+}
+
+/**
+ * Build a complete Service + Offer[] JSON-LD for the /pricing page.
+ * Offers match the WebApplication quote calculator list (11 canonical products).
+ */
+export function generatePricingSchema(): Record<string, unknown> {
+  const offers = buildCanonicalUkPricingOffers(UK_PRICING_PAGE_URL);
 
   return {
-    '@context': 'https://schema.org',
     '@type': 'Service',
     '@id': `${BASE_URL}/pricing/#service`,
-    url: `${BASE_URL}/pricing`,
+    url: UK_PRICING_PAGE_URL,
     name: 'AI Visibility and Web Design Services',
     serviceType: 'Web design and AI visibility pricing',
     category: 'Pricing',
     description:
-      'Transparent pricing for AI SEO retainers, Ultra Fast AI visible premium websites, client-managed Wix Studio websites, and the LLM Brain data layer. UK-based agency serving businesses across the United Kingdom.',
+      'Transparent UK pricing for Wix Studio builds, Ultra Fast SSR websites, Website-as-a-Service (WaaS), standalone AI SEO retainers, Territory Command postcode exclusivity, and selected add-ons. Values mirror the on-site Quote Calculator and published rules.',
     provider: { '@id': `${BASE_URL}/#organization` },
     areaServed: {
       '@type': 'Country',

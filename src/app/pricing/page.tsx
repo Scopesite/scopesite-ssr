@@ -8,6 +8,7 @@ import {
   generateBreadcrumbSchema,
   generateWebPageSchema,
   generatePricingSchema,
+  generatePricingQuoteCalculatorWebApplicationSchema,
 } from '@/lib/schema';
 import { getAlternates } from '@/lib/hreflang-map';
 import { PricingBreakdownTables } from './PricingBreakdownTables';
@@ -60,7 +61,7 @@ const canonicalPricingFaqs = [
   {
     question: 'What payment terms do you offer?',
     answer:
-      'Paid in full attracts a 5% discount. Spread payments available over 6, 12, 24, or 36 months. The 36-month option is available only on builds above £2,000 to protect perceived value.',
+      'Paid in full attracts a 5% discount. Spread payment plans over 6, 12, 24, or 36 months are available only to Limited Companies and LLPs (not sole traders or individuals). The 36-month option is available only on builds with a one-off subtotal of £2,000 or more. Sole traders and individuals can choose pay in full or our Website-as-a-Service (WaaS) subscription (£795 setup + £99/month rolling).',
   },
   {
     question: 'How much does a recruitment website with a jobs board cost?',
@@ -76,6 +77,36 @@ const canonicalPricingFaqs = [
     question: 'Why is your SSR site cheaper than your Wix site for most page counts?',
     answer:
       'Component reuse and modern tooling means SSR sites take less time to build than Wix Studio sites. We pass the savings on. Wix is the right choice if you want to edit content yourself, SSR is faster, AI-visible, and cheaper from 6 pages onwards.',
+  },
+  {
+    question: 'What is Website-as-a-Service (WaaS)?',
+    answer:
+      "ScopeSite's WaaS is a continuous monthly subscription that gives you a full website without the upfront capital cost. £795 setup + £99/month rolling. ScopeSite retains ownership of the build during the subscription. Available for sole traders, self-employed, and businesses on Wix Studio Starter (≤5 pages) and Ultra Fast SSR builds (up to 20 pages).",
+  },
+  {
+    question: 'Can I cancel my WaaS subscription anytime?',
+    answer:
+      "Yes. WaaS operates on a 30-day rolling basis with no minimum term. Cancel any time by giving 30 days' written notice. No early termination fees.",
+  },
+  {
+    question: 'Do I own the website on a WaaS plan?',
+    answer:
+      'No. Under WaaS, ScopeSite retains 100% ownership of the build for the duration of your subscription. You hold a license to use the website. If you want to own it outright, you can purchase a Buyout (see below).',
+  },
+  {
+    question: 'What is the WaaS Buyout fee?',
+    answer:
+      'WaaS Buyout fees are flat tiered: £1,500 for Wix Starter, £2,500 for SSR Base (≤5 pages), £3,500 for SSR Plus (6–10 pages), £4,500 for SSR Premium (11–20 pages). The Buyout is in addition to setup and monthly fees already paid; previous payments do not count toward the Buyout price.',
+  },
+  {
+    question: 'Why are spread payment plans (24 and 36 months) restricted to Limited Companies and LLPs?',
+    answer:
+      'Under the UK Consumer Credit Act 1974 and FSMA 2000, spread payment plans with multipliers over 12 months to individuals constitute regulated credit. ScopeSite is not FCA-authorised, so spread plans are restricted to Limited Companies and LLPs. Sole traders and individuals can choose Pay In Full or our WaaS subscription instead.',
+  },
+  {
+    question: 'What is the AI Search Performance Guarantee?',
+    answer:
+      "For clients on an active AI SEO Retainer or Territory Command, ScopeSite guarantees an AI Search Performance Score of 80 or above. After a 3-month build-up window, if your score falls below 80 in any measured month, you pay nothing for that month's retainer fee. The guarantee requires the client to follow ScopeSite's recommendations and not modify the site without consultation.",
   },
 ] as const;
 
@@ -137,13 +168,7 @@ export default function PricingPage() {
   };
 
   const pricingWebApplicationSchema = {
-    '@type': 'WebApplication',
-    name: 'ScopeSite Website Pricing Calculator',
-    applicationCategory: 'BusinessApplication',
-    operatingSystem: 'All',
-    url: PAGE_URL,
-    description:
-      'Interactive deterministic quote generator for custom website builds. Wix Studio, Ultra Fast SSR, AI SEO retainers, and Territory Command. Transparent pricing with all rules published at /llms-full.txt.',
+    ...generatePricingQuoteCalculatorWebApplicationSchema(),
     browserRequirements: 'Requires JavaScript',
     publisher: {
       '@type': 'Organization',
