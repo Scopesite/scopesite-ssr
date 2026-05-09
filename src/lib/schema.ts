@@ -2343,13 +2343,6 @@ function offerMonthlyGbp(
 const AI_SEARCH_PERFORMANCE_GUARANTEE_WARRANTY =
   'AI Search Performance Guarantee: for clients on an active AI SEO Retainer or Territory Command, ScopeSite guarantees an AI Search Performance Score of 80 or above. After a 3-month build-up window, if your score falls below 80 in any measured month and you meet the plan conditions, you pay nothing for that month’s retainer fee.';
 
-/** schema.org BusinessEntityType URLs only (Offer.eligibleCustomerType) — no free-text or Audience nodes. */
-const ELIGIBLE_BUSINESS_AND_ENDUSER: [string, string] = [
-  'https://schema.org/Business',
-  'https://schema.org/Enduser',
-];
-const ELIGIBLE_BUSINESS_ONLY = 'https://schema.org/Business';
-
 const UK_PRICING_PAGE_URL = `${BASE_URL}/pricing`;
 
 function pricingMonthlyUnitSpec(price: number, name?: string): Record<string, unknown> {
@@ -2397,7 +2390,6 @@ export function buildCanonicalUkPricingOffers(pageUrl: string): Record<string, u
       availability: 'https://schema.org/InStock',
       url: pageUrl,
       seller,
-      eligibleCustomerType: ELIGIBLE_BUSINESS_AND_ENDUSER,
     },
     {
       '@type': 'Offer',
@@ -2410,7 +2402,6 @@ export function buildCanonicalUkPricingOffers(pageUrl: string): Record<string, u
       availability: 'https://schema.org/InStock',
       url: pageUrl,
       seller,
-      eligibleCustomerType: ELIGIBLE_BUSINESS_AND_ENDUSER,
     },
     {
       '@type': 'Offer',
@@ -2422,7 +2413,6 @@ export function buildCanonicalUkPricingOffers(pageUrl: string): Record<string, u
       availability: 'https://schema.org/InStock',
       url: pageUrl,
       seller,
-      eligibleCustomerType: ELIGIBLE_BUSINESS_AND_ENDUSER,
     },
     {
       '@type': 'Offer',
@@ -2435,7 +2425,6 @@ export function buildCanonicalUkPricingOffers(pageUrl: string): Record<string, u
       availability: 'https://schema.org/InStock',
       url: pageUrl,
       seller,
-      eligibleCustomerType: ELIGIBLE_BUSINESS_AND_ENDUSER,
     },
     {
       '@type': 'Offer',
@@ -2445,7 +2434,6 @@ export function buildCanonicalUkPricingOffers(pageUrl: string): Record<string, u
       availability: 'https://schema.org/InStock',
       url: pageUrl,
       seller,
-      eligibleCustomerType: ELIGIBLE_BUSINESS_ONLY,
       priceSpecification: [
         {
           '@type': 'UnitPriceSpecification',
@@ -2469,7 +2457,6 @@ export function buildCanonicalUkPricingOffers(pageUrl: string): Record<string, u
       availability: 'https://schema.org/InStock',
       url: pageUrl,
       seller,
-      eligibleCustomerType: ELIGIBLE_BUSINESS_ONLY,
       priceSpecification: [
         {
           '@type': 'UnitPriceSpecification',
@@ -2493,7 +2480,6 @@ export function buildCanonicalUkPricingOffers(pageUrl: string): Record<string, u
       availability: 'https://schema.org/InStock',
       url: pageUrl,
       seller,
-      eligibleCustomerType: ELIGIBLE_BUSINESS_ONLY,
       priceSpecification: [
         {
           '@type': 'UnitPriceSpecification',
@@ -2520,7 +2506,6 @@ export function buildCanonicalUkPricingOffers(pageUrl: string): Record<string, u
         name: 'ScopeSite Digital Studios',
         url: BASE_URL,
       },
-      eligibleCustomerType: ELIGIBLE_BUSINESS_AND_ENDUSER,
       priceSpecification: [
         {
           '@type': 'UnitPriceSpecification',
@@ -2543,7 +2528,6 @@ export function buildCanonicalUkPricingOffers(pageUrl: string): Record<string, u
         name: 'ScopeSite Digital Studios',
         url: BASE_URL,
       },
-      eligibleCustomerType: ELIGIBLE_BUSINESS_AND_ENDUSER,
       priceSpecification: [
         {
           '@type': 'UnitPriceSpecification',
@@ -2564,7 +2548,6 @@ export function buildCanonicalUkPricingOffers(pageUrl: string): Record<string, u
       availability: 'https://schema.org/InStock',
       url: pageUrl,
       seller,
-      eligibleCustomerType: ELIGIBLE_BUSINESS_AND_ENDUSER,
     },
     {
       '@type': 'Offer',
@@ -2576,7 +2559,6 @@ export function buildCanonicalUkPricingOffers(pageUrl: string): Record<string, u
       availability: 'https://schema.org/InStock',
       url: pageUrl,
       seller,
-      eligibleCustomerType: ELIGIBLE_BUSINESS_AND_ENDUSER,
     },
   ];
 }
