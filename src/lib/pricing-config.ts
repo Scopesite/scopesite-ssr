@@ -14,7 +14,269 @@
  * Research Status: COMPLETE ✅
  */
 
-import type { PricingConfig } from '@/types/pricing';
+import type { IntentAddOnKey, PricingConfig, QuoteAddOns, QuoteIntent } from '@/types/pricing';
+
+/** Cap for standard SSR tier — above this triggers enterprise quote flow */
+export const SSR_PRICE_CEILING = 8000;
+
+export type AddOnCategory =
+  | 'leadGen'
+  | 'booking'
+  | 'recruitment'
+  | 'onlineShop'
+  | 'crossCutting'
+  | 'brandContent';
+
+export const ADDON_CATEGORY_LABELS: Record<AddOnCategory, string> = {
+  leadGen: 'Lead Generation',
+  booking: 'Booking',
+  recruitment: 'Recruitment',
+  onlineShop: 'Online Shop',
+  crossCutting: 'Cross-Cutting',
+  brandContent: 'Brand & Content',
+};
+
+export const ADDON_CATALOG: Record<
+  IntentAddOnKey,
+  { label: string; price: number; category: AddOnCategory; isMonthly?: boolean }
+> = {
+  livePromotions: {
+    label: 'Live Promotions (expiry, promo codes, Stripe)',
+    price: 1500,
+    category: 'leadGen',
+  },
+  smartLeadMagnets: {
+    label: 'Smart Lead Magnets (download forms with email automation)',
+    price: 495,
+    category: 'leadGen',
+  },
+  aiChatbot: {
+    label: 'AI Chatbot trained on your business',
+    price: 1499,
+    category: 'leadGen',
+  },
+  multiStepQuoteCalc: {
+    label: 'Multi-step Quote Calculator',
+    price: 1999,
+    category: 'leadGen',
+  },
+  livePricingPages: {
+    label: 'Live Pricing Pages',
+    price: 995,
+    category: 'leadGen',
+  },
+  onlineBooking: {
+    label: 'Online Booking with Calendar Sync',
+    price: 1499,
+    category: 'booking',
+  },
+  smartForms: {
+    label: 'Smart Forms (multi-step, conditional logic)',
+    price: 495,
+    category: 'booking',
+  },
+  intakeWorkflows: {
+    label: 'Intake Workflows (form → email → CRM → booking)',
+    price: 995,
+    category: 'booking',
+  },
+  reminderSystem: {
+    label: 'Reminder System (SMS + email automation)',
+    price: 795,
+    category: 'booking',
+  },
+  jobsBoard: {
+    label: 'Live Jobs Board with auto-schema',
+    price: 1999,
+    category: 'recruitment',
+  },
+  cvUpload: {
+    label: 'CV Upload + Parsing',
+    price: 495,
+    category: 'recruitment',
+  },
+  applicationPortal: {
+    label: 'Application Portal',
+    price: 995,
+    category: 'recruitment',
+  },
+  candidateTracker: {
+    label: 'Candidate Status Tracker',
+    price: 795,
+    category: 'recruitment',
+  },
+  stripeCheckout: {
+    label: 'Stripe Live Pricing & Checkout',
+    price: 0,
+    category: 'onlineShop',
+  },
+  livePromotionsShop: {
+    label: 'Live Promotions + Expiry + Promo Codes',
+    price: 1500,
+    category: 'onlineShop',
+  },
+  subscriptionManagement: {
+    label: 'Subscription Management',
+    price: 1499,
+    category: 'onlineShop',
+  },
+  inventorySync: {
+    label: 'Inventory & Stock Sync',
+    price: 995,
+    category: 'onlineShop',
+  },
+  membersOnlyPricing: {
+    label: 'Members-Only Pricing',
+    price: 995,
+    category: 'onlineShop',
+  },
+  membersArea: {
+    label: 'Members Area / Login Section',
+    price: 995,
+    category: 'crossCutting',
+  },
+  clientPortal: {
+    label: 'Client Portal (case files, secure docs, messaging)',
+    price: 1499,
+    category: 'crossCutting',
+  },
+  documentSign: {
+    label: 'Document Upload & E-Sign',
+    price: 1499,
+    category: 'crossCutting',
+  },
+  imageLibrary: {
+    label: 'Custom Image Library (no stock photos)',
+    price: 800,
+    category: 'crossCutting',
+  },
+  sectorDeepDive: {
+    label: 'Sector Deep Dive (we research your competitors before we build)',
+    price: 3375,
+    category: 'crossCutting',
+  },
+  brandIdentity: {
+    label: 'Brand Identity Pack (logo, colours, style guide)',
+    price: 4875,
+    category: 'brandContent',
+  },
+  videoShortBundle: {
+    label: 'Social Video Bundle',
+    price: 395,
+    category: 'brandContent',
+    isMonthly: true,
+  },
+  ssrAnimations: {
+    label: 'Smooth Scroll Animations',
+    price: 2250,
+    category: 'crossCutting',
+  },
+  ssrI18n: {
+    label: 'Multi-language Site',
+    price: 2750,
+    category: 'crossCutting',
+  },
+  automationSetup: {
+    label: 'Automate emails / calendar / lead routing',
+    price: 1875,
+    category: 'crossCutting',
+  },
+};
+
+const ALL_INTENT_ADDON_KEYS = Object.keys(ADDON_CATALOG) as IntentAddOnKey[];
+
+export function createDefaultAddOns(): QuoteAddOns {
+  const o = {} as Record<IntentAddOnKey, boolean>;
+  for (const k of ALL_INTENT_ADDON_KEYS) {
+    o[k] = false;
+  }
+  return {
+    ...o,
+    voice: false,
+    videoLong: 0,
+  };
+}
+
+/** Pre-ticked and highlighted (recommended but not auto-ticked) keys per intent */
+export function getIntentAddOnDefaults(intent: QuoteIntent | undefined): {
+  preTicked: IntentAddOnKey[];
+  recommended: IntentAddOnKey[];
+} {
+  switch (intent) {
+    case 'leads':
+      return {
+        preTicked: [],
+        recommended: ['smartLeadMagnets', 'aiChatbot', 'livePricingPages', 'multiStepQuoteCalc'],
+      };
+    case 'bookings':
+      return {
+        preTicked: [],
+        recommended: ['onlineBooking', 'smartForms', 'intakeWorkflows', 'reminderSystem', 'clientPortal'],
+      };
+    case 'candidates':
+      return {
+        preTicked: ['jobsBoard'],
+        recommended: ['cvUpload', 'applicationPortal', 'candidateTracker'],
+      };
+    case 'shop':
+      return {
+        preTicked: ['stripeCheckout', 'livePromotionsShop'],
+        recommended: ['subscriptionManagement', 'inventorySync', 'membersOnlyPricing'],
+      };
+    default:
+      return { preTicked: [], recommended: [] };
+  }
+}
+
+export function mergeAddOnsWithIntentDefaults(
+  addOns: QuoteAddOns,
+  intent: QuoteIntent | undefined
+): QuoteAddOns {
+  const { preTicked } = getIntentAddOnDefaults(intent);
+  const next = { ...addOns };
+  for (const k of preTicked) {
+    next[k] = true;
+  }
+  return next;
+}
+
+export const INTENT_PATH_COPY: Record<
+  QuoteIntent,
+  { title: string; subhead: string; defaultProjectType: 'ssr' | 'clientManaged' }
+> = {
+  leads: {
+    title: 'Get More Leads',
+    subhead: 'Highly AI-visible, content-led, found by ChatGPT and Google',
+    defaultProjectType: 'ssr',
+  },
+  bookings: {
+    title: 'Process Bookings',
+    subhead: 'Smart forms, calendar sync, automated workflows',
+    defaultProjectType: 'ssr',
+  },
+  candidates: {
+    title: 'Attract Candidates',
+    subhead:
+      "Recruitment site with auto-schema'd Live Jobs Board — appears in Google for Jobs same day",
+    defaultProjectType: 'ssr',
+  },
+  shop: {
+    title: 'Online Shop',
+    subhead: 'Live pricing, promo codes, real-time inventory',
+    defaultProjectType: 'ssr',
+  },
+  unspecified: {
+    title: 'General',
+    subhead: 'Choose what matters most next.',
+    defaultProjectType: 'ssr',
+  },
+};
+
+export type SSRPriceResult = {
+  price: number;
+  rawPrice: number;
+  exceedsStandardTier: boolean;
+};
 
 // ============================================
 // UK MARKET REFERENCE DATA
@@ -81,19 +343,13 @@ export const PRICING_CONFIG: PricingConfig = {
   },
   
   /**
-   * SSR AI-FIRST WEBSITE (Next.js)
-   * Premium pricing - competitive market rates
-   * 
-   * Base: £8,000 for up to 5 pages
-   * Pages 6-10: +£500 per page
-   * Pages 11-20: +£400 per page
-   * Pages 21+: +£350 per page
+   * SSR (Ultra Fast) — compressed tiers, £8,000 ceiling on standard calculator
    */
   ssrWebsite: {
-    base: 8000,           // Up to 5 pages
-    perPage6to10: 500,    // Pages 6-10
-    perPage11to20: 400,   // Pages 11-20
-    perPage21plus: 350,   // Pages 21+
+    base: 2000,
+    perPage6to10: 250,
+    perPage11to20: 200,
+    perPage21plus: 150,
   },
   
   /**
@@ -116,16 +372,6 @@ export const PRICING_CONFIG: PricingConfig = {
   },
   
   /**
-   * HEADLESS E-COMMERCE (SSR only)
-   * Premium headless solutions
-   */
-  headlessEcommerce: {
-    shopify: 7500,   // Shopify headless integration
-    snipcart: 5500,  // Snipcart integration
-    custom: 12000,   // Custom e-commerce solution
-  },
-  
-  /**
    * CUSTOM WEB APPS (Client-Managed)
    * 
    * UK Market: £3,500 (simple), £7,500 (standard), £12,500+ (complex)
@@ -135,14 +381,6 @@ export const PRICING_CONFIG: PricingConfig = {
     simple: 2625,     // Quote calculators, booking widgets - UK avg £3,500
     standard: 5625,   // Client portals, dashboards - UK avg £7,500
     complex: 9375,    // Multi-user apps, API integrations - UK avg £12,500
-  },
-  
-  /**
-   * SSR WEB APPS (Premium)
-   */
-  ssrWebApps: {
-    simple: 5000,     // Dashboard, forms
-    complex: 12000,   // Portal, integrations
   },
   
   /**
@@ -213,38 +451,6 @@ export const PRICING_CONFIG: PricingConfig = {
   },
   
   /**
-   * SSR-SPECIFIC ADD-ONS
-   * Premium features for Next.js builds
-   */
-  ssrAddOns: {
-    animations: 2250,        // Premium Animations Package (Framer Motion)
-    customerPortal: 5500,    // Client Customer Portal
-    database: 3500,          // PostgreSQL Database
-    authentication: 2750,    // User Authentication System
-    apiIntegration: 1875,    // Per API integration
-    multilanguage: 3375,     // Multi-language / i18n
-    realtime: 4500,          // Real-time Features
-    analytics: 2250,         // Custom Analytics Dashboard
-    scalability: 3000,       // Enterprise Scalability
-  },
-  
-  /**
-   * UK MARKET AVERAGES FOR SSR ADD-ONS
-   * For displaying savings
-   */
-  ssrAddOnsMarket: {
-    animations: 3500,
-    customerPortal: 8000,
-    database: 5500,
-    authentication: 4000,
-    apiIntegration: 3000,
-    multilanguage: 4500,
-    realtime: 6500,
-    analytics: 3500,
-    scalability: 5000,
-  },
-  
-  /**
    * CONTRACT STRUCTURES
    */
   contracts: {
@@ -274,10 +480,10 @@ export const PRICING_CONFIG: PricingConfig = {
    * Minimum monthly amounts for SSR projects by contract length
    */
   ssrMinimums: {
-    six: 1200,        // £1,200/mo minimum for 6-month
-    twelve: 750,      // £750/mo minimum for 12-month
-    twentyFour: 400,  // £400/mo minimum for 24-month
-    thirtySix: 300,   // £300/mo minimum for 36-month
+    six: 600,
+    twelve: 400,
+    twentyFour: 250,
+    thirtySix: 200,
   },
 };
 
@@ -287,18 +493,14 @@ export const PRICING_CONFIG: PricingConfig = {
  */
 export const PRICING_LABELS = {
   projectTypes: {
-    clientManaged: 'Client-Managed Website',
-    ssr: 'SSR AI-First Website',
-    upgrade: 'Website Upgrade',
-    visibility: 'AI Visibility Only (V.O.I.C.E™)',
-    webapp: 'Custom Web App',
+    clientManaged: 'Manage Yourself After Build',
+    ssr: 'Ultra Fast — AI Visible Premium Site',
   },
   projectDescriptions: {
-    clientManaged: 'Built on Wix Studio. Easy to edit yourself. Great performance.',
-    ssr: 'Server-Side Rendered on Next.js. Maximum AI visibility.',
-    upgrade: 'Modernize your existing site with new features and design (40% discount)',
-    visibility: 'Get found by ChatGPT, Claude, and other AI assistants',
-    webapp: 'Bespoke tools and applications to automate your business',
+    clientManaged:
+      'A site you can update yourself after we hand it over. No code, no agency dependency for content changes. Great performance, search-friendly structure.',
+    ssr:
+      'Built so ChatGPT, Claude, and Google AI Overview actually cite your business when prospects ask. 100/100 Lighthouse score. AI crawlers see your full content instantly.',
   },
   projectBadges: {
     clientManaged: '60+ Lighthouse Mobile',
@@ -315,55 +517,28 @@ export const PRICING_LABELS = {
     medium: 'Medium Shop (51-200 products)',
     large: 'Large Shop (200+ products)',
   },
-  headlessEcommerce: {
-    none: 'No E-commerce',
-    shopify: 'Headless E-commerce (Shopify)',
-    snipcart: 'Headless E-commerce (Snipcart)',
-    custom: 'Custom E-commerce Solution',
-  },
   webApps: {
     none: 'No Web App',
     simple: 'Simple (Calculator, Widget, Qualifier)',
     standard: 'Standard (Portal, Dashboard, Tracker)',
     complex: 'Complex (Multi-user, API, Custom Workflows)',
   },
-  ssrWebApps: {
-    none: 'No Web App',
-    simple: 'Simple App (dashboard, forms)',
-    complex: 'Complex App (portal, integrations)',
-  },
   addOns: {
-    voice: 'V.O.I.C.E™ AI Visibility',
-    branding: 'Full Branding Package',
-    research: 'Market Research + Persona',
+    voice: 'AI SEO — Be the answer ChatGPT and Google AI cite',
+    branding: 'Brand Identity Pack (logo, colours, style guide)',
+    research: 'Sector Deep Dive (competitor research before we build)',
     videoLong: 'Long-form Video Production',
     videoShortBundle: 'Short-form Video Bundle',
     imageLibrary: 'Custom Image Library',
     complexForms: 'Advanced Logic Forms',
-    automationSetup: 'Automation Setup',
+    automationSetup: 'Automate emails / calendar / lead routing',
     automationMonthly: 'Automation Maintenance',
   },
-  ssrAddOns: {
-    animations: 'Premium Animations',
-    customerPortal: 'Client Portal',
-    database: 'Data Storage & Records',
-    authentication: 'Member Login System',
-    apiIntegration: 'Connect Your Tools',
-    multilanguage: 'Multi-language Support',
-    realtime: 'Live Updates & Notifications',
-    analytics: 'Advanced Analytics',
-    scalability: 'High-Traffic Ready',
-  },
-  ssrAddOnDescriptions: {
-    animations: 'Page transitions, scroll-triggered animations, micro-interactions, hover effects. Makes your site feel alive.',
-    customerPortal: 'Secure login area for your customers. Dashboard, account management, order history, document access.',
-    database: 'Store customer data, application records, content libraries. Scales infinitely as you grow.',
-    authentication: 'Secure login with Google/Apple/Microsoft, password reset, session management.',
-    apiIntegration: 'Link your CRM, payment gateways, booking systems, or any third-party service.',
-    multilanguage: 'Reach global audiences with content in multiple languages. Automatic routing by location.',
-    realtime: 'WebSocket connections, live updates, notifications, chat functionality.',
-    analytics: 'Beyond Google Analytics. Conversion tracking, funnel visualization, custom event tracking, heatmaps.',
-    scalability: 'Load balancing, advanced CDN setup, auto-scaling, performance monitoring. Built for serious traffic.',
+  includedFeatureLabels: {
+    ssrVoice: 'AI SEO methodology (worth £500/mo)',
+    ssrSchema: 'Get cited by AI (schema markup, hand-coded)',
+    ssrGhost: 'Blog you can write yourself',
+    ssrVercel: 'Premium hosting',
   },
   payments: {
     oneOff: 'Pay in Full (5% discount)',
@@ -379,11 +554,11 @@ export const PRICING_LABELS = {
  * What's included in the SSR base price
  */
 export const SSR_INCLUDED_FEATURES = [
-  'V.O.I.C.E™ AI Visibility (worth £500/mo)',
-  'Server-Side Rendering (Next.js 16)',
-  'Ghost CMS Integration (headless blog)',
-  'Auto-generated JSON-LD Schema',
-  'Vercel Edge Deployment',
+  'Includes AI SEO (worth £500/mo)',
+  'Ultra Fast — Server-Side Rendering (Next.js 16)',
+  PRICING_LABELS.includedFeatureLabels.ssrGhost,
+  PRICING_LABELS.includedFeatureLabels.ssrSchema,
+  PRICING_LABELS.includedFeatureLabels.ssrVercel,
   '100/100 Lighthouse Optimisation',
   'Mobile-first Responsive Design',
   'Basic SEO Setup (meta tags, sitemaps, robots.txt)',
@@ -600,34 +775,32 @@ export const LIMITS = {
 };
 
 /**
- * CALCULATE SSR PRICE FOR PAGE COUNT
+ * CALCULATE SSR PRICE FOR PAGE COUNT (raw + £8,000 ceiling)
  */
-export function calculateSSRPrice(pages: number): number {
+export function calculateSSRPrice(pages: number): SSRPriceResult {
   const { base, perPage6to10, perPage11to20, perPage21plus } = PRICING_CONFIG.ssrWebsite;
-  
-  if (pages <= 5) return base;
-  
-  let total = base;
-  
-  // Pages 6-10
+
+  let raw = base;
   if (pages > 5) {
     const pagesIn6to10 = Math.min(pages - 5, 5);
-    total += pagesIn6to10 * perPage6to10;
+    raw += pagesIn6to10 * perPage6to10;
   }
-  
-  // Pages 11-20
   if (pages > 10) {
     const pagesIn11to20 = Math.min(pages - 10, 10);
-    total += pagesIn11to20 * perPage11to20;
+    raw += pagesIn11to20 * perPage11to20;
   }
-  
-  // Pages 21+
   if (pages > 20) {
-    const pagesOver20 = pages - 20;
-    total += pagesOver20 * perPage21plus;
+    raw += (pages - 20) * perPage21plus;
   }
-  
-  return total;
+
+  if (raw > SSR_PRICE_CEILING) {
+    return {
+      price: SSR_PRICE_CEILING,
+      rawPrice: raw,
+      exceedsStandardTier: true,
+    };
+  }
+  return { price: raw, rawPrice: raw, exceedsStandardTier: false };
 }
 
 /**
@@ -639,12 +812,19 @@ export function getPackageForPageCount(pages: number): 'starter' | 'professional
   return 'enterprise';
 }
 
+/** Minimum one-off build subtotal (£) for the 36-month payment option */
+export const THIRTY_SIX_MONTH_MIN_SUBTOTAL_GBP = 2000;
+
 /**
  * GET ADDITIONAL PAGES BEYOND PACKAGE (Client-Managed)
+ *
+ * Starter (≤5): flat — no per-page line.
+ * Professional (6–10): flat — no per-page line within band.
+ * Enterprise (11+): £7,500 base includes up to 10 pages; £150 per page above 10.
  */
 export function getAdditionalPages(pages: number): number {
   if (pages <= 5) return 0;
-  if (pages <= 10) return Math.max(0, pages - 5);
+  if (pages <= 10) return 0;
   return Math.max(0, pages - 10);
 }
 

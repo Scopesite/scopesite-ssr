@@ -18,7 +18,8 @@
     "test": "vitest run",
     "db:init": "npx tsx scripts/db.ts init",
     "db:init-portal": "npx tsx scripts/db.ts init-portal",
-    "db:check": "npx tsx scripts/db.ts check"
+    "db:check": "npx tsx scripts/db.ts check",
+    "verify:quote": "tsx scripts/verify-quote-scenarios.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.37.1",
