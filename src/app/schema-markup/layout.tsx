@@ -1,5 +1,10 @@
 import { Metadata } from 'next';
-import { generateLandingPageSchema, generateServiceChannels, type FAQItem } from '@/lib/schema';
+import {
+  generateLandingPageSchema,
+  generateServiceChannels,
+  type FAQItem,
+  schemaAggregateOfferRange,
+} from '@/lib/schema';
 import { JsonLd } from '@/components/JsonLd';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -136,6 +141,9 @@ const pageSchema = generateLandingPageSchema(
       { '@id': `${BASE_URL}/generative-engine-optimisation/#service` },
     ],
     availableChannel: generateServiceChannels(),
+    serviceType: 'Schema markup implementation',
+    category: 'Structured data',
+    offers: schemaAggregateOfferRange('750', '2000'),
   }
 );
 

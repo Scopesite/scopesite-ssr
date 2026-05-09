@@ -10,6 +10,7 @@ import {
   generateVOICESoftwareApplicationSchema,
   generateServiceChannels,
   generateFAQSchema,
+  schemaOfferGbpMonthly,
   type FAQItem,
 } from '@/lib/schema';
 import { getAlternates } from '@/lib/hreflang-map';
@@ -109,12 +110,18 @@ export default function VoiceLayout({
 
   const serviceSchema = {
     ...generateServiceSchema(
-      'V.O.I.C.E™ AI Visibility Optimization',
+      'V.O.I.C.E. — AI Visibility Scanner for UK Businesses',
       'Proprietary methodology for optimising websites to be visible and recommended by AI search engines including ChatGPT, Perplexity, Gemini, and Claude. Created by Dan Cartwright at ScopeSite Digital Studios.',
       PAGE_URL,
       undefined,
       {
         availableChannel: generateServiceChannels(),
+        serviceType: 'AI visibility methodology',
+        category: 'Search engine optimisation',
+        offers: [
+          schemaOfferGbpMonthly('562', PAGE_URL),
+          schemaOfferGbpMonthly('500', PAGE_URL),
+        ],
       }
     ),
     isRelatedTo: [

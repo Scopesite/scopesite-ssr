@@ -7,6 +7,7 @@ import {
   generateWebPageSchema,
   generateServiceChannels,
   generateSpeakableSchema,
+  schemaAggregateOfferLowOnly,
 } from '@/lib/schema';
 import { getAlternates } from '@/lib/hreflang-map';
 
@@ -169,6 +170,9 @@ export default function WebDesignLayout({
       { '@type': 'Service', '@id': `${BASE_URL}/generative-engine-optimisation/#service` },
     ],
     availableChannel: generateServiceChannels(),
+    serviceType: 'Web design',
+    category: 'Web design',
+    offers: schemaAggregateOfferLowOnly('8000'),
   };
 
   const faqSchema = generateFAQSchema(faqItems);

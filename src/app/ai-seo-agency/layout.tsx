@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { generateLandingPageSchema, generateServiceChannels, type FAQItem } from '@/lib/schema';
+import { generateLandingPageSchema, generateServiceChannels, type FAQItem, schemaOfferGbpMonthly, schemaOfferGbpOneTime } from '@/lib/schema';
 import { JsonLd } from '@/components/JsonLd';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -91,6 +91,9 @@ const pageSchema = generateLandingPageSchema(
       { '@id': `${BASE_URL}/generative-engine-optimisation/#service` },
     ],
     availableChannel: generateServiceChannels(),
+    serviceType: 'AI SEO agency',
+    category: 'Search engine optimisation',
+    offers: [schemaOfferGbpMonthly('750', PAGE_URL), schemaOfferGbpOneTime('2625', PAGE_URL)],
   },
   ['h1', '.hero-description', '.faq-answer', 'h3']
 );

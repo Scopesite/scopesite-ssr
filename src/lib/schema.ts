@@ -649,6 +649,9 @@ export function generateServiceSchema(
     availableChannel?: Record<string, unknown>[];
     potentialAction?: Record<string, unknown>;
     audience?: { '@id': string };
+    serviceType?: string;
+    category?: string;
+    offers?: Record<string, unknown> | Record<string, unknown>[];
   }
 ) {
   const schema: Record<string, unknown> = {
@@ -678,8 +681,82 @@ export function generateServiceSchema(
   if (options?.audience) {
     schema.audience = options.audience;
   }
+  if (options?.serviceType) {
+    schema.serviceType = options.serviceType;
+  }
+  if (options?.category) {
+    schema.category = options.category;
+  }
+  if (options?.offers) {
+    schema.offers = options.offers;
+  }
 
   return schema;
+}
+
+/** Published catalogue prices: align with site review cycle */
+export const SCHEMA_PUBLIC_PRICE_VALID_UNTIL = '2026-12-31';
+
+/** GBP one-time Offer (copy-led landing pages, FAQ pricing) */
+export function schemaOfferGbpOneTime(price: string, pageUrl: string): Record<string, unknown> {
+  return {
+    '@type': 'Offer',
+    price,
+    priceCurrency: 'GBP',
+    availability: 'https://schema.org/InStock',
+    priceValidUntil: SCHEMA_PUBLIC_PRICE_VALID_UNTIL,
+    url: pageUrl,
+    seller: { '@id': `${BASE_URL}/#organization` },
+  };
+}
+
+/** GBP recurring monthly Offer */
+export function schemaOfferGbpMonthly(price: string, pageUrl: string): Record<string, unknown> {
+  return {
+    '@type': 'Offer',
+    price,
+    priceCurrency: 'GBP',
+    priceSpecification: {
+      '@type': 'UnitPriceSpecification',
+      price,
+      priceCurrency: 'GBP',
+      billingDuration: 'P1M',
+      unitCode: 'MON',
+    },
+    availability: 'https://schema.org/InStock',
+    url: pageUrl,
+    seller: { '@id': `${BASE_URL}/#organization` },
+  };
+}
+
+/** Range pricing from FAQ (e.g. schema implementation £750–£2,000) */
+export function schemaAggregateOfferRange(
+  lowPrice: string,
+  highPrice: string,
+  offerCount: string = '1'
+): Record<string, unknown> {
+  return {
+    '@type': 'AggregateOffer',
+    lowPrice,
+    highPrice,
+    priceCurrency: 'GBP',
+    offerCount,
+    availability: 'https://schema.org/InStock',
+  };
+}
+
+/** “From £X” style floor without inventing a ceiling */
+export function schemaAggregateOfferLowOnly(
+  lowPrice: string,
+  offerCount: string = '1'
+): Record<string, unknown> {
+  return {
+    '@type': 'AggregateOffer',
+    lowPrice,
+    priceCurrency: 'GBP',
+    offerCount,
+    availability: 'https://schema.org/InStock',
+  };
 }
 
 // ============================================
@@ -1974,6 +2051,10 @@ export function generateLandingPageSchema(
     isRelatedTo?: Array<{ '@id': string }>;
     availableChannel?: Record<string, unknown>[];
     potentialAction?: Record<string, unknown>;
+    /** National Service only — replaces legacy hard-coded default */
+    serviceType?: string;
+    category?: string;
+    offers?: Record<string, unknown> | Record<string, unknown>[];
   },
   speakableCssSelectors?: string[]
 ) {
@@ -2014,20 +2095,28 @@ export function generateLandingPageSchema(
       ...serviceExtras,
     });
   } else {
-    schemas.push({
+    const nationalService: Record<string, unknown> = {
       '@type': 'Service',
       '@id': `${url}/#service`,
+      url,
       name: service.name,
       alternateName: service.alternateNames || [],
       description: service.description,
       provider: { '@id': `${BASE_URL}/#organization` },
-      serviceType: 'Web Design',
+      serviceType: serviceOptions?.serviceType ?? 'Professional services',
       areaServed: {
         '@type': 'Country',
         name: 'United Kingdom',
       },
       ...serviceExtras,
-    });
+    };
+    if (serviceOptions?.category) {
+      nationalService.category = serviceOptions.category;
+    }
+    if (serviceOptions?.offers) {
+      nationalService.offers = serviceOptions.offers;
+    }
+    schemas.push(nationalService);
   }
 
   // 3. Breadcrumb
@@ -2290,8 +2379,11 @@ export function generatePricingSchema(): Record<string, unknown> {
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    '@id': `${BASE_URL}/pricing#service`,
+    '@id': `${BASE_URL}/pricing/#service`,
+    url: `${BASE_URL}/pricing`,
     name: 'AI Visibility and Web Design Services',
+    serviceType: 'Web design and AI visibility pricing',
+    category: 'Pricing',
     description:
       'Transparent, schema-first pricing for AI-visibility retainers (V.O.I.C.E™), SSR AI-first websites, Client-Managed Wix Studio websites, and the LLM Brain data-layer service. UK-based agency serving businesses across the United Kingdom.',
     provider: { '@id': `${BASE_URL}/#organization` },

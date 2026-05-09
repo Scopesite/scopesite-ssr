@@ -63,6 +63,8 @@ export default function WebAppsLayout({
         { '@id': `${BASE_URL}/generative-engine-optimisation/#service` },
       ],
       availableChannel: generateServiceChannels(),
+      serviceType: 'Custom web application development',
+      category: 'Software development',
     }
   );
 

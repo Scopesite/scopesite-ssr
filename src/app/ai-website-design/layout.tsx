@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { generateLandingPageSchema, type FAQItem } from '@/lib/schema';
+import { generateLandingPageSchema, type FAQItem, schemaAggregateOfferRange } from '@/lib/schema';
 import { JsonLd } from '@/components/JsonLd';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -121,7 +121,11 @@ const pageSchema = generateLandingPageSchema(
     description: 'AI website design service that builds websites optimised for ChatGPT recommendations, voice search, and AI answer engines using schema markup and structured data.',
   },
   undefined,
-  undefined,
+  {
+    serviceType: 'AI website design',
+    category: 'Web design',
+    offers: schemaAggregateOfferRange('2625', '9000'),
+  },
   ['h1', '.hero-description', '.faq-answer', 'h2']
 );
 

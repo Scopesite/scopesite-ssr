@@ -95,6 +95,8 @@ const pageSchema = generateLandingPageSchema(
       { '@id': `${BASE_URL}/generative-engine-optimisation/#service` },
     ],
     availableChannel: generateServiceChannels(),
+    serviceType: 'AI visibility',
+    category: 'Search engine optimisation',
   },
   ['h1', '.hero-description', '.faq-answer', 'h3']
 );

@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { generateLandingPageSchema, generateServiceChannels, type FAQItem } from '@/lib/schema';
+import { generateLandingPageSchema, generateServiceChannels, type FAQItem, schemaOfferGbpMonthly, schemaOfferGbpOneTime } from '@/lib/schema';
 import { getAlternates } from '@/lib/hreflang-map';
 import { JsonLd } from '@/components/JsonLd';
 
@@ -89,6 +89,9 @@ const pageSchema = generateLandingPageSchema(
       { '@id': `${BASE_URL}/ai-visibility/#service` },
     ],
     availableChannel: generateServiceChannels(),
+    serviceType: 'Generative engine optimisation',
+    category: 'Search engine optimisation',
+    offers: [schemaOfferGbpMonthly('750', PAGE_URL), schemaOfferGbpOneTime('2625', PAGE_URL)],
   },
   ['h1', '.hero-description', '.faq-answer', 'h3']
 );

@@ -6,7 +6,6 @@ import { Loader2 } from 'lucide-react';
 import { JsonLd } from '@/components/JsonLd';
 import {
   generateBreadcrumbSchema,
-  generateServiceSchema,
   generateWebPageSchema,
   generatePricingSchema,
 } from '@/lib/schema';
@@ -90,12 +89,6 @@ export default function PricingPage() {
     { name: 'Pricing', url: PAGE_URL },
   ]);
 
-  const serviceSchema = generateServiceSchema(
-    'Web Design Pricing',
-    'Transparent, instant quotes for web design projects. No hidden fees, flexible payment plans, 25% below UK market average.',
-    PAGE_URL
-  );
-
   // Comprehensive Service + Offer[] schema for the pricing page. Reads every
   // price from PRICING_CONFIG + VOICE_SPEC so published prices cannot drift
   // from the quote wizard. See generatePricingSchema JSDoc for what is /
@@ -108,7 +101,7 @@ export default function PricingPage() {
       'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Flexible 6, 12 or 24-month payment plans. Somerset-based, UK-wide service.',
       PAGE_URL
     ),
-    mainEntity: { '@id': `${PAGE_URL}#service` },
+    mainEntity: { '@id': `${BASE_URL}/pricing/#service` },
   };
 
   return (
@@ -118,7 +111,6 @@ export default function PricingPage() {
         schema={[
           webPageSchema,
           breadcrumbSchema,
-          serviceSchema,
           pricingSchema,
         ]}
       />
