@@ -210,6 +210,28 @@ export default function WebDesignLayout({
     ],
   };
 
+  const wixStudioServiceSchema = {
+    '@type': 'Service',
+    name: 'Wix Studio Website Design',
+    provider: {
+      '@type': 'Organization',
+      name: 'ScopeSite Digital Studios',
+      url: BASE_URL,
+    },
+    areaServed: 'United Kingdom',
+    description:
+      'Client-managed Wix Studio websites you can update yourself after build. Flat-fee tier pricing with no hidden per-page costs within bands.',
+    offers: {
+      '@type': 'AggregateOffer',
+      priceCurrency: 'GBP',
+      lowPrice: '1875',
+      highPrice: '7500',
+      offerCount: '3',
+      description:
+        'Three tiers: Starter (1-5 pages) £1,875, Professional (6-10 pages) £4,125, Enterprise (11+ pages) £7,500 plus £150 per page above 10.',
+    },
+  };
+
   const webPageSchema = {
     ...generateWebPageSchema(
       'Web Design Somerset | Ultra Fast AI visible websites',
@@ -222,7 +244,7 @@ export default function WebDesignLayout({
 
   return (
     <>
-      <JsonLd schema={[webPageSchema, breadcrumbSchema, serviceSchema, faqSchema, speedTestSchema]} />
+      <JsonLd schema={[webPageSchema, breadcrumbSchema, serviceSchema, faqSchema, speedTestSchema, wixStudioServiceSchema]} />
       {children}
     </>
   );

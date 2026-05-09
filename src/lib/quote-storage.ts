@@ -128,7 +128,7 @@ function getDefaultSelections(): StoredQuote['selections'] {
       ssrScalability: false,
     },
     paymentPreference: 'twelve',
-  };
+  } as StoredQuote['selections'];
 }
 
 /**

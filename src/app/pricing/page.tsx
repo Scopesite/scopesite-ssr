@@ -10,39 +10,74 @@ import {
   generatePricingSchema,
 } from '@/lib/schema';
 import { getAlternates } from '@/lib/hreflang-map';
-import { PRICING_CONFIG } from '@/lib/pricing-config';
+import { PricingBreakdownTables } from './PricingBreakdownTables';
 
 const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/pricing`;
 
-// Pricing FAQ data
-const pricingFAQs = [
+/** Visible HTML + FAQPage JSON-LD — must stay 1:1. */
+const canonicalPricingFaqs = [
   {
-    question: 'How much does a website cost with ScopeSite?',
-    answer: `Client-managed sites start from £${PRICING_CONFIG.baseWebsite.starter.toLocaleString('en-GB')} for up to five pages. Ultra Fast AI visible premium builds start from £${PRICING_CONFIG.ssrWebsite.base.toLocaleString('en-GB')} for up to five pages. Use the instant quote calculator for an exact price based on pages, e-commerce, custom features, and add-ons.`,
-  },
-  {
-    question: 'Do you offer payment plans?',
+    question: 'How much does a 5-page Wix Studio website cost?',
     answer:
-      'Yes. We offer 6, 12, and 24-month payment plans as standard, and 36-month plans when your quote qualifies. No credit checks and no interest. This lets you spread the cost while getting your website built immediately.',
+      'A 5-page Wix Studio website (Starter tier, client-managed) costs £1,875 as a flat fee. This is a one-off cost, you can edit content yourself after we hand it over.',
   },
   {
-    question: 'What\'s included in the price?',
-    answer: 'All our packages include responsive design, basic SEO setup, mobile optimization, SSL certificate, and 30 days of post-launch support. Hosting and ongoing maintenance are quoted separately.',
+    question: 'How much does a 10-page Wix Studio website cost?',
+    answer:
+      'A 10-page Wix Studio website (Professional tier) costs £4,125 flat. There are no per-page extras within the 6-10 page band.',
   },
   {
-    question: 'Are there any hidden fees?',
-    answer: 'Absolutely not. We pride ourselves on transparent pricing. The quote you receive is the price you pay. Any additional work outside the agreed scope is discussed and quoted before we proceed.',
+    question: 'How much does a 5-page SSR website cost?',
+    answer:
+      'A 5-page Ultra Fast SSR website starts at £2,000 and includes AI SEO bundled at no extra charge. The site is hand-coded for speed and AI visibility.',
   },
   {
-    question: 'How does your pricing compare to other UK agencies?',
-    answer: 'We researched 348 UK web design agencies to benchmark our pricing. On average, we\'re 25% below market rate for comparable quality work, without compromising on features or support.',
+    question: 'How much does a 10-page SSR website cost?',
+    answer:
+      'A 10-page Ultra Fast SSR website costs £3,250 (£2,000 base plus 5 pages at £250 each). AI SEO is included free.',
   },
   {
-    question: 'Can I upgrade my package later?',
-    answer: 'Yes, you can add features or pages at any time. We\'ll provide a quote for the additional work and can often integrate it into your existing payment plan if applicable.',
+    question: 'How much does a Live Jobs Board cost?',
+    answer:
+      'Our Live Jobs Board with auto-schema is £1,999 as an add-on to any ScopeSite build. Every job posted automatically generates JSON-LD JobPosting schema, appearing in Google for Jobs the same day.',
   },
-];
+  {
+    question: 'How much is the AI SEO retainer?',
+    answer:
+      'Standalone AI SEO retainer is £750 setup plus £500 per month. 6-month commitment total is £3,750. 12-month total is £6,750. AI SEO is bundled free with all SSR website builds.',
+  },
+  {
+    question: 'Do you offer a discount for existing website upgrades?',
+    answer:
+      'Yes. If you have an existing website you want to upgrade, we apply a 40% discount to the base build cost. The discount does not apply to add-ons.',
+  },
+  {
+    question: 'How much is Territory Command?',
+    answer:
+      'Territory Command Standard is £750 setup plus £500 per month and includes postcode exclusivity. Premium tier (cities and high-competition postcodes) is £1,250 setup plus £750 per month. Both include an SSR build and AI SEO.',
+  },
+  {
+    question: 'What payment terms do you offer?',
+    answer:
+      'Paid in full attracts a 5% discount. Spread payments available over 6, 12, 24, or 36 months. The 36-month option is available only on builds above £2,000 to protect perceived value.',
+  },
+  {
+    question: 'How much does a recruitment website with a jobs board cost?',
+    answer:
+      'A typical recruitment build is a 10-page Ultra Fast SSR website plus the Live Jobs Board add-on. Total cost is £5,249, or £4,987 paid in full. AI SEO is included free.',
+  },
+  {
+    question: 'How much does an e-commerce website cost?',
+    answer:
+      'Our Online Shop bundle is a 10-page Ultra Fast SSR with Stripe Checkout (free), Live Promotions (£1,500), and pre-selected shop add-ons. Starts from £4,750 plus selected add-ons.',
+  },
+  {
+    question: 'Why is your SSR site cheaper than your Wix site for most page counts?',
+    answer:
+      'Component reuse and modern tooling means SSR sites take less time to build than Wix Studio sites. We pass the savings on. Wix is the right choice if you want to edit content yourself, SSR is faster, AI-visible, and cheaper from 6 pages onwards.',
+  },
+] as const;
 
 export const metadata: Metadata = {
   title: 'Web Design Pricing UK | ScopeSite',
@@ -68,7 +103,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Web Design Pricing UK | Transparent Costs | ScopeSite',
-    description: 'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Flexible payment plans including 6, 12, 24, or 36 months when you qualify.',
+    description:
+      'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Flexible payment plans including 6, 12, 24, or 36 months when you qualify.',
     images: [`${BASE_URL}/images/og/og-pricing.png`],
   },
   alternates: getAlternates('/pricing', BASE_URL),
@@ -84,16 +120,11 @@ function QuoteCalculatorFallback() {
 }
 
 export default function PricingPage() {
-  // Generate schemas
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: BASE_URL },
     { name: 'Pricing', url: PAGE_URL },
   ]);
 
-  // Comprehensive Service + Offer[] schema for the pricing page. Reads every
-  // price from PRICING_CONFIG + VOICE_SPEC so published prices cannot drift
-  // from the quote wizard. See generatePricingSchema JSDoc for what is /
-  // is not published.
   const pricingSchema = generatePricingSchema();
 
   const webPageSchema = {
@@ -105,14 +136,43 @@ export default function PricingPage() {
     mainEntity: { '@id': `${BASE_URL}/pricing/#service` },
   };
 
+  const pricingWebApplicationSchema = {
+    '@type': 'WebApplication',
+    name: 'ScopeSite Website Pricing Calculator',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'All',
+    url: PAGE_URL,
+    description:
+      'Interactive deterministic quote generator for custom website builds. Wix Studio, Ultra Fast SSR, AI SEO retainers, and Territory Command. Transparent pricing with all rules published at /llms-full.txt.',
+    browserRequirements: 'Requires JavaScript',
+    publisher: {
+      '@type': 'Organization',
+      name: 'ScopeSite Digital Studios',
+      url: BASE_URL,
+    },
+  };
+
+  const pricingFaqPageSchema = {
+    '@type': 'FAQPage',
+    mainEntity: canonicalPricingFaqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  };
+
   return (
     <>
-      {/* Page-specific structured data */}
       <JsonLd
         schema={[
           webPageSchema,
           breadcrumbSchema,
           pricingSchema,
+          pricingWebApplicationSchema,
+          pricingFaqPageSchema,
         ]}
       />
 
@@ -124,9 +184,8 @@ export default function PricingPage() {
             GET YOUR <span className="text-brand-gold">INSTANT QUOTE</span>
           </h1>
           <p className="text-body-lg text-white/80 max-w-2xl mx-auto">
-            No sales calls. No hidden fees. Just honest, transparent pricing
-            that&apos;s 25% below UK market average. Build your quote in under 2
-            minutes.
+            No sales calls. No hidden fees. Just honest, transparent pricing that&apos;s 25% below UK
+            market average. Build your quote in under 2 minutes.
           </p>
         </div>
       </section>
@@ -146,6 +205,8 @@ export default function PricingPage() {
           </p>
         </div>
       </section>
+
+      <PricingBreakdownTables />
 
       {/* Trust Badges */}
       <section className="py-12 bg-brand-navy/5">
@@ -198,39 +259,42 @@ export default function PricingPage() {
               <div>
                 <h3 className="text-brand-navy font-bold text-lg mb-3">No Guesswork</h3>
                 <p className="text-brand-navy/70">
-                  Most agencies give you a &quot;starting from&quot; price, then hit you with extras 
-                  once you&apos;re committed. We show you the full picture upfront - pages, features, 
-                  add-ons - so you know exactly what you&apos;re paying for before you commit to anything.
+                  Most agencies give you a &quot;starting from&quot; price, then hit you with extras
+                  once you&apos;re committed. We show you the full picture upfront - pages, features,
+                  add-ons - so you know exactly what you&apos;re paying for before you commit to
+                  anything.
                 </p>
               </div>
               <div>
                 <h3 className="text-brand-navy font-bold text-lg mb-3">Research-Backed</h3>
                 <p className="text-brand-navy/70">
-                  We didn&apos;t just make up our prices. We researched 348 UK web design agencies to 
-                  understand what the market actually charges. Our prices are set to be competitive 
+                  We didn&apos;t just make up our prices. We researched 348 UK web design agencies to
+                  understand what the market actually charges. Our prices are set to be competitive
                   without cutting corners on quality.
                 </p>
               </div>
               <div>
                 <h3 className="text-brand-navy font-bold text-lg mb-3">Flexible Payment Plans</h3>
                 <p className="text-brand-navy/70">
-                  Not everyone has thousands to spend upfront. Our 12-month and 24-month payment plans 
-                  spread the cost into manageable monthly amounts - no credit checks, no finance companies, 
-                  no interest. Just straightforward monthly payments.
+                  Not everyone has thousands to spend upfront. Our 12-month and 24-month payment plans
+                  spread the cost into manageable monthly amounts - no credit checks, no finance
+                  companies, no interest. Just straightforward monthly payments.
                 </p>
               </div>
               <div>
                 <h3 className="text-brand-navy font-bold text-lg mb-3">UK Market Comparison</h3>
                 <p className="text-brand-navy/70">
-                  Every quote shows you the UK market average for the same work. You&apos;ll see exactly 
-                  how much you&apos;re saving compared to what you&apos;d pay elsewhere. No more wondering 
-                  if you&apos;re getting ripped off.
+                  Every quote shows you the UK market average for the same work. You&apos;ll see
+                  exactly how much you&apos;re saving compared to what you&apos;d pay elsewhere. No
+                  more wondering if you&apos;re getting ripped off.
                 </p>
               </div>
             </div>
 
             <div className="bg-brand-navy rounded-xl p-8">
-              <h3 className="text-white font-bold text-lg mb-4 text-center">What&apos;s Included in Every Project</h3>
+              <h3 className="text-white font-bold text-lg mb-4 text-center">
+                What&apos;s Included in Every Project
+              </h3>
               <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 text-white/80">
                 <div className="flex items-center gap-2">
                   <span className="text-brand-gold">✓</span>
@@ -274,7 +338,7 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* FAQ Section */}
+      {/* FAQ Section — matches FAQPage JSON-LD 1:1 */}
       <section className="bg-brand-navy/5 py-16">
         <div className="container-content">
           <div className="max-w-3xl mx-auto">
@@ -282,7 +346,7 @@ export default function PricingPage() {
               PRICING FAQs
             </h2>
             <div className="space-y-6">
-              {pricingFAQs.map((faq, index) => (
+              {canonicalPricingFaqs.map((faq, index) => (
                 <div key={index} className="bg-white rounded-xl p-6 shadow-sm">
                   <h3 className="text-brand-navy font-bold mb-2">{faq.question}</h3>
                   <p className="text-brand-navy/70">{faq.answer}</p>
@@ -290,12 +354,10 @@ export default function PricingPage() {
               ))}
             </div>
             <div className="text-center mt-8">
-              <p className="text-brand-navy/60 mb-4">
-                Still have questions? We&apos;re happy to chat.
-              </p>
-              <a href="/book" className="btn-primary">
+              <p className="text-brand-navy/60 mb-4">Still have questions? We&apos;re happy to chat.</p>
+              <Link href="/book" className="btn-primary inline-block">
                 Book a Free Call
-              </a>
+              </Link>
             </div>
           </div>
         </div>

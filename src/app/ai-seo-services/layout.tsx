@@ -117,6 +117,38 @@ export default function AISEOServicesLayout({
   return (
     <>
       <JsonLd schema={pageSchema} />
+      <JsonLd
+        schema={{
+          '@type': 'Service',
+          name: 'AI SEO Retainer',
+          provider: {
+            '@type': 'Organization',
+            name: 'ScopeSite Digital Studios',
+            url: BASE_URL,
+          },
+          areaServed: 'United Kingdom',
+          description:
+            'Performance-driven AI Search Engine Optimization. Be the answer when ChatGPT, Perplexity, Claude, and Google AI Overviews get asked about your sector.',
+          offers: {
+            '@type': 'Offer',
+            priceCurrency: 'GBP',
+            price: '500',
+            priceSpecification: {
+              '@type': 'UnitPriceSpecification',
+              price: '500',
+              priceCurrency: 'GBP',
+              unitText: 'MONTH',
+              referenceQuantity: {
+                '@type': 'QuantitativeValue',
+                value: '1',
+                unitCode: 'MON',
+              },
+            },
+            description:
+              '£750 setup plus £500 per month. 6-month and 12-month commitments. Bundled free with SSR website builds.',
+          },
+        }}
+      />
       {children}
     </>
   );

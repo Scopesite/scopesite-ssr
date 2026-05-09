@@ -77,9 +77,33 @@ export default function WebAppsLayout({
     mainEntity: { '@id': `${PAGE_URL}/#service` },
   };
 
+  const customSsrWebAppsServiceSchema = {
+    '@type': 'Service',
+    name: 'Custom Web Application Development',
+    provider: {
+      '@type': 'Organization',
+      name: 'ScopeSite Digital Studios',
+      url: BASE_URL,
+    },
+    areaServed: 'United Kingdom',
+    description:
+      'Hand-coded Next.js Server-Side Rendered websites and web applications. Faster than Wix, AI-visible by default, AI SEO bundled at no extra charge.',
+    offers: {
+      '@type': 'AggregateOffer',
+      priceCurrency: 'GBP',
+      lowPrice: '2000',
+      highPrice: '8000',
+      offerCount: '40',
+      description:
+        'Base price £2,000 (1-5 pages). £250 per page 6-10. £200 per page 11-20. £150 per page 21+. Capped at £8,000 ceiling for standard tier.',
+    },
+  };
+
   return (
     <>
-      <JsonLd schema={[webPageSchema, breadcrumbSchema, serviceSchema]} />
+      <JsonLd
+        schema={[webPageSchema, breadcrumbSchema, serviceSchema, customSsrWebAppsServiceSchema]}
+      />
       {children}
     </>
   );

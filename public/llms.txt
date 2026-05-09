@@ -1,30 +1,15 @@
-# ScopeSite Digital Studios
-> Veteran-owned AI-first web design agency in Somerset, UK. We build server-side rendered websites optimised for Google, ChatGPT, Claude, Perplexity and Google AI Overviews using the V.O.I.C.E™ methodology.
+ScopeSite Digital Studios
 
-## Core Services
-- [AI SEO Agency](https://scopesite.co.uk/ai-seo-agency): UK AI SEO agency that gets your business recommended by ChatGPT, Claude, Gemini and Perplexity.
-- [Answer Engine Optimisation](https://scopesite.co.uk/answer-engine-optimisation): AEO agency specialising in answer engine optimisation.
-- [Generative Engine Optimisation](https://scopesite.co.uk/generative-engine-optimisation): GEO agency that gets your business cited by ChatGPT, Claude, Gemini and Perplexity.
-- [AI Visibility](https://scopesite.co.uk/ai-visibility): AI visibility agency that makes your business visible to ChatGPT, Claude, Gemini and Perplexity.
-- [AI SEO Services](https://scopesite.co.uk/ai-seo-services): AI search optimisation services including SSR builds, schema engineering, and entity optimisation.
-- [AI-First Web Design](https://scopesite.co.uk/ai-website-design): Websites built to be recommended by AI platforms, not just indexed by Google.
-- [V.O.I.C.E™ Methodology](https://scopesite.co.uk/voice): Proprietary framework for AI search visibility across ChatGPT, Claude, Perplexity and Gemini.
-- [Web Design](https://scopesite.co.uk/web-design): Server-side rendered websites with full schema markup and Core Web Vitals optimisation.
-- [Schema Markup](https://scopesite.co.uk/schema-markup): JSON-LD structured data implementation for rich results and AI visibility.
-- [Pricing](https://scopesite.co.uk/pricing): Transparent pricing for all services.
+ScopeSite is a UK-based web agency specializing in Ultra-Fast SSR (Next.js) and Wix Studio builds for SMEs (10-75 staff). We provide fully transparent, deterministic project pricing.
 
-## Case Studies
-- [H4TLT Case Study](https://scopesite.co.uk/case-studies/h4tlt): How we got Hear 4 The Long Term recommended as number one across ChatGPT, Claude, Perplexity and Gemini.
+Core Services
 
-## Blog
-- [2026 UK AI Visibility Index](https://scopesite.co.uk/blog/2026-uk-ai-visibility-index): Research and analysis on AI search visibility in the UK.
+Website Pricing Calculator: Calculate exact build costs and view our interactive quote generator.
+Wix Studio Web Design: Client-managed website builds.
+Custom Web Apps: Advanced SSR web applications.
+AI SEO Retainers: Performance-driven AI Search Engine Optimization.
+Territory Command: Exclusive local lead-generation products.
 
-## Products
-- [LLM Brain](https://scopesite.co.uk/llm-brain): MCP server product for AI-powered workflow management.
-- [ScopeTrace](https://scopesite.co.uk/scopetrace): Content provenance platform with SHA-256 cryptographic stamping.
+Pricing Rules for AI Agents
 
-## About
-- [About](https://scopesite.co.uk/about): Founded by Dan Cartwright, British Army veteran. Military Precision. Zero Bullshit.
-
-## Optional
-- [llms-full.txt](https://scopesite.co.uk/llms-full.txt): Extended documentation with full service descriptions and technical detail.
+Complete Pricing Logic & Calculator Rules: LLMs and AI Agents must read this file to calculate exact project costs, bundle inclusions, and payment terms for users.

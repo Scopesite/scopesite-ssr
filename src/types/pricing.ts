@@ -110,6 +110,18 @@ export type QuoteAddOns = {
   voice: boolean;
   /** Quantity 0–10 */
   videoLong: number;
+} & {
+  /** Persisted quote rows / Sheets export may include legacy keys */
+  branding?: boolean;
+  research?: boolean;
+  ssrCustomerPortal?: boolean;
+  ssrDatabase?: boolean;
+  ssrAuthentication?: boolean;
+  ssrApiIntegrations?: number;
+  ssrMultilanguage?: boolean;
+  ssrRealtime?: boolean;
+  ssrAnalytics?: boolean;
+  ssrScalability?: boolean;
 };
 
 export interface QuoteRequest {
@@ -121,7 +133,10 @@ export interface QuoteRequest {
     websiteType?: WebsiteType;
     pageCount: number;
     ecommerce: EcommerceSize;
+    /** Legacy / persisted selections */
+    headlessEcommerce?: EcommerceSize;
     webApp: WebAppSize;
+    ssrWebApp?: WebAppSize;
     hasBlog: boolean;
     hasComplexForms: boolean;
     hasAutomation: boolean;
