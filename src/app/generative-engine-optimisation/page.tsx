@@ -43,7 +43,8 @@ const faqItems = [
   },
   {
     question: "How much does a generative engine optimisation agency cost?",
-    answer: "Our GEO retainers start at £750 per month, covering ongoing schema maintenance, entity work, citation tracking and monthly reporting. A full AI-first website rebuild, if your current site blocks AI crawlers, starts at £2,625 as a one-off. The quote calculator at /pricing gives you an exact figure."
+    answer:
+      'Our standard GEO retainer is £500 per month with a £750 one-time setup, covering ongoing schema maintenance, entity work, citation tracking and monthly reporting. A full AI-first website rebuild, if your site blocks AI crawlers, is priced as a project — use the quote calculator at /pricing.',
   }
 ];
 

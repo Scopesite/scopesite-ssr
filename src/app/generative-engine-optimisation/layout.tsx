@@ -1,5 +1,10 @@
 import { Metadata } from 'next';
-import { generateLandingPageSchema, generateServiceChannels, type FAQItem, schemaOfferGbpMonthly, schemaOfferGbpOneTime } from '@/lib/schema';
+import {
+  generateLandingPageSchema,
+  generateServiceChannels,
+  type FAQItem,
+  schemaStandardTierServiceOffers,
+} from '@/lib/schema';
 import { getAlternates } from '@/lib/hreflang-map';
 import { JsonLd } from '@/components/JsonLd';
 
@@ -64,7 +69,8 @@ const faqs: FAQItem[] = [
   },
   {
     question: "How much does a generative engine optimisation agency cost?",
-    answer: "Our GEO retainers start at £750 per month, covering ongoing schema maintenance, entity work, citation tracking and monthly reporting. A full AI-first website rebuild, if your current site blocks AI crawlers, starts at £2,625 as a one-off. The quote calculator at /pricing gives you an exact figure."
+    answer:
+      'Our standard GEO retainer is £500 per month with a £750 one-time setup, covering ongoing schema maintenance, entity work, citation tracking and monthly reporting. A full AI-first website rebuild, if your site blocks AI crawlers, is priced as a project — use the quote calculator at /pricing.',
   }
 ];
 
@@ -91,7 +97,7 @@ const pageSchema = generateLandingPageSchema(
     availableChannel: generateServiceChannels(),
     serviceType: 'Generative engine optimisation',
     category: 'Search engine optimisation',
-    offers: [schemaOfferGbpMonthly('750', PAGE_URL), schemaOfferGbpOneTime('2625', PAGE_URL)],
+    offers: schemaStandardTierServiceOffers(PAGE_URL),
   },
   ['h1', '.hero-description', '.faq-answer', 'h3']
 );

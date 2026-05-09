@@ -43,7 +43,8 @@ const faqItems = [
   },
   {
     question: "How much does answer engine optimisation cost?",
-    answer: "Our AEO and AI SEO retainers start from £750 per month. If your current website architecture blocks AI crawlers, an AI-first website rebuild starts from £2,625. We provide transparent pricing via our instant quote calculator so you know exactly what to expect."
+    answer:
+      'Our standard AEO / AI SEO retainer is £500 per month with a £750 one-time setup. If your site needs a full AI-first rebuild, project pricing is on our pricing page via the instant quote calculator.',
   },
   {
     question: "What results can I expect from AEO?",

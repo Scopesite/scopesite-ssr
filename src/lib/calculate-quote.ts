@@ -339,7 +339,7 @@ export function calculateQuote(request: Partial<QuoteRequest>): QuoteBreakdown {
     includedItems.push({
       id: 'ssr-voice',
       label: 'V.O.I.C.E™ AI Visibility',
-      description: 'Included with SSR (worth £562/mo)',
+      description: `Included with SSR (worth £${PRICING_CONFIG.addOns.voice}/mo)`,
       quantity: 1,
       unitPrice: 0,
       total: 0,
@@ -350,7 +350,8 @@ export function calculateQuote(request: Partial<QuoteRequest>): QuoteBreakdown {
   } else if (request.addOns?.voice || request.projectType === 'visibility') {
     // For non-SSR projects, V.O.I.C.E is an optional add-on.
     // For V.O.I.C.E-only (projectType === 'visibility'), the monthly rate depends
-    // on the selected commitment (6-mo = £562, 12-mo = £500). Defaults to £562.
+    // on the selected commitment (defaults to 6-month rate). Standard list rate
+    // matches PRICING_CONFIG.addOns.voice (£500/mo); setup is tracked on voiceTotals.
     const voiceMonthly =
       request.projectType === 'visibility'
         ? request.voiceCommitment === 'twelve'

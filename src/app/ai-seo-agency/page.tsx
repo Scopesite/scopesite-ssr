@@ -35,7 +35,8 @@ const faqItems = [
   },
   {
     question: "What does AI SEO cost?",
-    answer: "Our AI SEO retainers start from £750 per month. If you need a new AI-first website built from scratch, those projects start from £2,625. We provide transparent pricing and you can use our quote calculator to get an exact figure for your specific needs."
+    answer:
+      'Our standard AI SEO retainer is £500 per month with a £750 one-time setup. New AI-first website projects are priced separately — use the instant quote calculator on our pricing page.',
   },
   {
     question: "How do you measure AI SEO results?",

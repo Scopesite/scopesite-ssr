@@ -45,8 +45,9 @@ export function VoiceCommitmentPicker({ value, onChange }: VoiceCommitmentPicker
   return (
     <div className="space-y-4">
       <p className="text-brand-graphite">
-        Choose your V.O.I.C.E™ commitment. No setup fee, fully monthly — cancel
-        anytime after the minimum term with {VOICE_SPEC.noticePeriodDays} days notice.
+        Choose your V.O.I.C.E™ commitment. One-time setup{' '}
+        {formatCurrency(VOICE_SPEC.setupFee)}, then monthly — cancel anytime after the minimum
+        term with {VOICE_SPEC.noticePeriodDays} days notice.
       </p>
 
       <div className="grid md:grid-cols-2 gap-4">
@@ -104,7 +105,7 @@ export function VoiceCommitmentPicker({ value, onChange }: VoiceCommitmentPicker
                       {formatCurrency(data.totalCost)}
                     </span>
                   </div>
-                  {'savingsVsSixMonth' in data && (
+                  {'savingsVsSixMonth' in data && data.savingsVsSixMonth > 0 && (
                     <div className="flex justify-between pt-2 mt-1 border-t border-brand-graphite/10">
                       <span className="text-green-700 font-medium">
                         Save vs 6-month

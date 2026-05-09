@@ -1135,7 +1135,7 @@ function StepProjectType({ value, onChange, upgradeTargetType, onUpgradeTargetCh
       tagline: 'Maximum AI visibility',
       description: 'Server-Side Rendered on Next.js. Auto-generated schema on every page. 100/100 Lighthouse scores. AI crawlers see your full content instantly.',
       badge: '99+ Lighthouse Mobile',
-      includedBadge: 'Includes V.O.I.C.E™ AI Visibility (worth £562/mo)',
+      includedBadge: `Includes V.O.I.C.E™ AI Visibility (worth ${formatCurrency(PRICING_CONFIG.addOns.voice)}/mo)`,
       recommended: true,
       icon: Rocket,
     },
@@ -1710,7 +1710,8 @@ function StepAddOns({ projectType, upgradeTargetType, addOns, onChange }: StepAd
             </div>
           </div>
           <p className="text-sm text-brand-navy/70 mt-2 ml-8">
-            Get found by ChatGPT, Claude, Perplexity + traditional SEO — worth £562/mo, included in your base price.
+            Get found by ChatGPT, Claude, Perplexity + traditional SEO — worth{' '}
+            {formatCurrency(PRICING_CONFIG.addOns.voice)}/mo, included in your base price.
           </p>
         </div>
       )}
@@ -2412,9 +2413,10 @@ function StepSummary({ request, breakdown, contact, onContactChange }: StepSumma
               </span>
             </div>
             <div className="text-white/60 text-body-sm">
-              Total over {voiceCommitmentData.months} months:{' '}
-              {formatCurrency(voiceCommitmentData.totalCost)} • No setup fee •{' '}
-              {VOICE_SPEC.noticePeriodDays}-day notice after minimum term
+              Total over {voiceCommitmentData.months} months (including setup):{' '}
+              {formatCurrency(voiceCommitmentData.totalCost)} • Setup{' '}
+              {formatCurrency(VOICE_SPEC.setupFee)} • {VOICE_SPEC.noticePeriodDays}-day notice after
+              minimum term
             </div>
           </div>
 

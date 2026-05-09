@@ -1,5 +1,10 @@
 import { Metadata } from 'next';
-import { generateLandingPageSchema, generateServiceChannels, type FAQItem, schemaOfferGbpMonthly, schemaOfferGbpOneTime } from '@/lib/schema';
+import {
+  generateLandingPageSchema,
+  generateServiceChannels,
+  type FAQItem,
+  schemaStandardTierServiceOffers,
+} from '@/lib/schema';
 import { JsonLd } from '@/components/JsonLd';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -58,7 +63,8 @@ const faqs: FAQItem[] = [
   },
   {
     question: "What does AI SEO cost?",
-    answer: "Our AI SEO retainers start from £750 per month. If you need a new AI-first website built from scratch, those projects start from £2,625. We provide transparent pricing and you can use our quote calculator to get an exact figure for your specific needs."
+    answer:
+      'Our standard AI SEO retainer is £500 per month with a £750 one-time setup. New AI-first website projects are priced separately — use the instant quote calculator on our pricing page.',
   },
   {
     question: "How do you measure AI SEO results?",
@@ -93,7 +99,7 @@ const pageSchema = generateLandingPageSchema(
     availableChannel: generateServiceChannels(),
     serviceType: 'AI SEO agency',
     category: 'Search engine optimisation',
-    offers: [schemaOfferGbpMonthly('750', PAGE_URL), schemaOfferGbpOneTime('2625', PAGE_URL)],
+    offers: schemaStandardTierServiceOffers(PAGE_URL),
   },
   ['h1', '.hero-description', '.faq-answer', 'h3']
 );

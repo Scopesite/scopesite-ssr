@@ -759,6 +759,73 @@ export function schemaAggregateOfferLowOnly(
   };
 }
 
+/**
+ * Canonical Standard tier (national SEO/AEO/GEO landing pages): £750 setup + £500/mo.
+ * Territory Command tier uses {@link schemaTerritoryCommandServiceOffers} (£750/mo).
+ */
+export function schemaStandardTierServiceOffers(pageUrl: string): Record<string, unknown>[] {
+  const seller = { '@id': `${BASE_URL}/#organization` };
+  return [
+    {
+      '@type': 'Offer',
+      name: 'Setup',
+      price: '750',
+      priceCurrency: 'GBP',
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+      seller,
+    },
+    {
+      '@type': 'Offer',
+      name: 'Monthly Retainer',
+      price: '500',
+      priceCurrency: 'GBP',
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: '500',
+        priceCurrency: 'GBP',
+        billingDuration: 'P1M',
+        unitText: 'MONTH',
+      },
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+      seller,
+    },
+  ];
+}
+
+/** Territory Command premium tier only — £750 setup + £750/mo (Territory Command landing pages). */
+export function schemaTerritoryCommandServiceOffers(pageUrl: string): Record<string, unknown>[] {
+  const seller = { '@id': `${BASE_URL}/#organization` };
+  return [
+    {
+      '@type': 'Offer',
+      name: 'Setup',
+      price: '750',
+      priceCurrency: 'GBP',
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+      seller,
+    },
+    {
+      '@type': 'Offer',
+      name: 'Monthly Retainer (Territory Command)',
+      price: '750',
+      priceCurrency: 'GBP',
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: '750',
+        priceCurrency: 'GBP',
+        billingDuration: 'P1M',
+        unitText: 'MONTH',
+      },
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+      seller,
+    },
+  ];
+}
+
 // ============================================
 // PRODUCT SCHEMA
 // ============================================
@@ -2336,14 +2403,20 @@ export function generatePricingSchema(): Record<string, unknown> {
     offerGbp(
       'SSR AI-First Website',
       ssrBase,
-      'Custom Next.js 16 server-side rendered website on Vercel Edge. Includes V.O.I.C.E™ AI Visibility (worth £562/mo), Ghost CMS, auto-generated JSON-LD schema, 100/100 Lighthouse scores, SSL, and 30 days post-launch support. Starting price for up to 5 pages.',
+      `Custom Next.js 16 server-side rendered website on Vercel Edge. Includes V.O.I.C.E™ AI Visibility (worth £${PRICING_CONFIG.addOns.voice}/mo), Ghost CMS, auto-generated JSON-LD schema, 100/100 Lighthouse scores, SSL, and 30 days post-launch support. Starting price for up to 5 pages.`,
       { id: 'ssr-ai-first' }
+    ),
+    offerGbp(
+      'V.O.I.C.E™ — Setup',
+      VOICE_SPEC.setupFee,
+      'One-time setup before your V.O.I.C.E™ monthly retainer begins.',
+      { id: 'voice-setup' }
     ),
     // V.O.I.C.E — 6-Month Commitment
     offerMonthlyGbp(
       'V.O.I.C.E™ AI Visibility — 6-Month Commitment',
       voiceSix.monthlyPrice,
-      `Monthly AI visibility retainer. ${voiceSix.description} No setup fee. Minimum commitment: ${voiceSix.months} months (total ${formatGbpStatic(voiceSix.totalCost)}), ${VOICE_SPEC.noticePeriodDays}-day notice period after that. Includes monthly AI visibility audits across ChatGPT, Claude, Perplexity, Gemini, and Google AI Overviews; tracked AI Visibility Score with month-on-month reporting; schema markup updates; AEO content recommendations; and competitor monitoring.`,
+      `Monthly AI visibility retainer. ${voiceSix.description} One-time setup ${formatGbpStatic(VOICE_SPEC.setupFee)}. Minimum commitment: ${voiceSix.months} months (total ${formatGbpStatic(voiceSix.totalCost)}, including setup), ${VOICE_SPEC.noticePeriodDays}-day notice period after that. Includes monthly AI visibility audits across ChatGPT, Claude, Perplexity, Gemini, and Google AI Overviews; tracked AI Visibility Score with month-on-month reporting; schema markup updates; AEO content recommendations; and competitor monitoring.`,
       {
         id: 'voice-6mo',
         minimumTerm: 'P6M',
@@ -2354,7 +2427,9 @@ export function generatePricingSchema(): Record<string, unknown> {
     offerMonthlyGbp(
       'V.O.I.C.E™ AI Visibility — 12-Month Commitment',
       voiceTwelve.monthlyPrice,
-      `Monthly AI visibility retainer at a reduced rate. ${voiceTwelve.description} No setup fee. Minimum commitment: ${voiceTwelve.months} months (total ${formatGbpStatic(voiceTwelve.totalCost)}, saves ${formatGbpStatic(voiceTwelve.savingsVsSixMonth)} vs 6-month commitment). Includes everything in the 6-month plan.`,
+      voiceTwelve.savingsVsSixMonth > 0
+        ? `Monthly AI visibility retainer at a reduced rate. ${voiceTwelve.description} One-time setup ${formatGbpStatic(VOICE_SPEC.setupFee)}. Minimum commitment: ${voiceTwelve.months} months (total ${formatGbpStatic(voiceTwelve.totalCost)}, including setup; saves ${formatGbpStatic(voiceTwelve.savingsVsSixMonth)} vs 6-month commitment). Includes everything in the 6-month plan.`
+        : `Monthly AI visibility retainer. ${voiceTwelve.description} One-time setup ${formatGbpStatic(VOICE_SPEC.setupFee)}. Minimum commitment: ${voiceTwelve.months} months (total ${formatGbpStatic(voiceTwelve.totalCost)}, including setup). Includes everything in the 6-month plan.`,
       {
         id: 'voice-12mo',
         minimumTerm: 'P12M',

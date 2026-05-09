@@ -1,5 +1,10 @@
 import { Metadata } from 'next';
-import { generateLandingPageSchema, generateServiceChannels, type FAQItem, schemaOfferGbpMonthly, schemaOfferGbpOneTime } from '@/lib/schema';
+import {
+  generateLandingPageSchema,
+  generateServiceChannels,
+  type FAQItem,
+  schemaStandardTierServiceOffers,
+} from '@/lib/schema';
 import { JsonLd } from '@/components/JsonLd';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -66,7 +71,8 @@ const faqs: FAQItem[] = [
   },
   {
     question: "How much does answer engine optimisation cost?",
-    answer: "Our AEO and AI SEO retainers start from £750 per month. If your current website architecture blocks AI crawlers, an AI-first website rebuild starts from £2,625. We provide transparent pricing via our instant quote calculator so you know exactly what to expect."
+    answer:
+      'Our standard AEO / AI SEO retainer is £500 per month with a £750 one-time setup. If your site needs a full AI-first rebuild, project pricing is on our pricing page via the instant quote calculator.',
   },
   {
     question: "What results can I expect from AEO?",
@@ -97,7 +103,7 @@ const pageSchema = generateLandingPageSchema(
     availableChannel: generateServiceChannels(),
     serviceType: 'Answer engine optimisation',
     category: 'Search engine optimisation',
-    offers: [schemaOfferGbpMonthly('750', PAGE_URL), schemaOfferGbpOneTime('2625', PAGE_URL)],
+    offers: schemaStandardTierServiceOffers(PAGE_URL),
   },
   ['h1', '.hero-description', '.faq-answer', 'h3']
 );

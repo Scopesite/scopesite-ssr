@@ -10,7 +10,7 @@ import {
   generateVOICESoftwareApplicationSchema,
   generateServiceChannels,
   generateFAQSchema,
-  schemaOfferGbpMonthly,
+  schemaStandardTierServiceOffers,
   type FAQItem,
 } from '@/lib/schema';
 import { getAlternates } from '@/lib/hreflang-map';
@@ -89,7 +89,8 @@ const faqs: FAQItem[] = [
   },
   {
     question: 'How much does V.O.I.C.E™ cost?',
-    answer: 'A free AI visibility scan is available to assess your current position. V.O.I.C.E™ is a monthly retainer with no setup fee: £562/month on a 6-month commitment, or £500/month on a 12-month commitment. After 3 months on the retainer, our 80 Score Guarantee kicks in — if your AI Visibility Score is below 80 and you have followed our direction, you pay nothing more until your score hits 80 and holds there for 30 consecutive days.',
+    answer:
+      'A free AI visibility scan is available to assess your current position. V.O.I.C.E™ on our standard tier is £500 per month with a £750 one-time setup (minimum commitment applies — see our pricing page). After 3 months on the retainer, our 80 Score Guarantee kicks in — if your AI Visibility Score is below 80 and you have followed our direction, you pay nothing more until your score hits 80 and holds there for 30 consecutive days.',
   },
   {
     question: 'Is V.O.I.C.E™ only for businesses in Somerset?',
@@ -118,10 +119,7 @@ export default function VoiceLayout({
         availableChannel: generateServiceChannels(),
         serviceType: 'AI visibility methodology',
         category: 'Search engine optimisation',
-        offers: [
-          schemaOfferGbpMonthly('562', PAGE_URL),
-          schemaOfferGbpMonthly('500', PAGE_URL),
-        ],
+        offers: schemaStandardTierServiceOffers(PAGE_URL),
       }
     ),
     isRelatedTo: [

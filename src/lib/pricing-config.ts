@@ -151,11 +151,9 @@ export const PRICING_CONFIG: PricingConfig = {
    */
   addOns: {
     /**
-     * V.O.I.C.E™ AI Visibility (Monthly)
-     * UK SEO/AEO average: £750/mo
-     * Our V.O.I.C.E™: £562/mo (25% less)
+     * V.O.I.C.E™ AI Visibility (Monthly) — Standard tier list rate
      */
-    voice: 562,
+    voice: 500,
     
     /**
      * Full Branding Package
@@ -381,7 +379,7 @@ export const PRICING_LABELS = {
  * What's included in the SSR base price
  */
 export const SSR_INCLUDED_FEATURES = [
-  'V.O.I.C.E™ AI Visibility (worth £562/mo)',
+  'V.O.I.C.E™ AI Visibility (worth £500/mo)',
   'Server-Side Rendering (Next.js 16)',
   'Ghost CMS Integration (headless blog)',
   'Auto-generated JSON-LD Schema',
@@ -458,27 +456,27 @@ export const VOICE_FEATURES = [
  *   - /pricing JSON-LD schema offers (generatePricingSchema)
  */
 export const VOICE_SPEC = {
-  monthlyPrice: 562,
-  setupFee: 0,
+  monthlyPrice: 500,
+  setupFee: 750,
   ukMarketAverage: 750,
 
   commitmentOptions: {
     six: {
       months: 6,
-      monthlyPrice: 562,
+      monthlyPrice: 500,
       label: '6-Month Commitment',
       badge: 'RECOMMENDED',
       description: 'Minimum commitment, cancel anytime after that.',
-      totalCost: 562 * 6, // £3,372 over 6 months
+      totalCost: 750 + 500 * 6,
     },
     twelve: {
       months: 12,
       monthlyPrice: 500,
       label: '12-Month Commitment',
       badge: 'BEST VALUE',
-      description: 'Lock in a reduced rate for the year.',
-      totalCost: 500 * 12, // £6,000 over 12 months
-      savingsVsSixMonth: (562 - 500) * 12, // £744 saved over 12 months
+      description: 'Same monthly rate with a longer commitment horizon for sustained AI visibility work.',
+      totalCost: 750 + 500 * 12,
+      savingsVsSixMonth: 0,
     },
   },
 
