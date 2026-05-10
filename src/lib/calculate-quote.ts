@@ -89,9 +89,8 @@ function calculateWaaSBreakdown(request: QuoteRequest): QuoteBreakdown {
   const cfg = PRICING_CONFIG.waas;
   const tier = resolvePayMonthlyTier(request)!;
   const addOns = normalizeAddOns(request.addOns);
-  const um = upgradeMult(request.hasExistingSite);
 
-  const setupCharge = Math.round(tier.setupFee * um);
+  const setupCharge = tier.setupFee;
 
   const oneOffItems: QuoteLineItem[] = [
     {
@@ -107,7 +106,7 @@ function calculateWaaSBreakdown(request: QuoteRequest): QuoteBreakdown {
 
   if (addOns.smartForms) {
     const meta = ADDON_CATALOG.smartForms;
-    const unit = Math.round(meta.price * um);
+    const unit = meta.price;
     oneOffItems.push({
       id: 'addon-smartForms',
       label: meta.label,
@@ -120,7 +119,7 @@ function calculateWaaSBreakdown(request: QuoteRequest): QuoteBreakdown {
   }
   if (addOns.aiChatbot) {
     const meta = ADDON_CATALOG.aiChatbot;
-    const unit = Math.round(meta.price * um);
+    const unit = meta.price;
     oneOffItems.push({
       id: 'addon-aiChatbot',
       label: meta.label,
@@ -175,13 +174,6 @@ function calculateWaaSBreakdown(request: QuoteRequest): QuoteBreakdown {
   };
 }
 
-/**
- * Apply 40% discount to build (existing site refresh)
- */
-function upgradeMult(hasExistingSite: boolean | undefined): number {
-  return hasExistingSite ? 0.6 : 1;
-}
-
 function pushCatalogAddOns(
   oneOffItems: QuoteLineItem[],
   monthlyItems: QuoteLineItem[],
@@ -189,14 +181,13 @@ function pushCatalogAddOns(
   opts: {
     projectType: 'ssr' | 'clientManaged';
     intent: QuoteRequest['intent'];
-    upgradeMult: number;
   }
 ): void {
-  const { projectType, intent, upgradeMult: um } = opts;
+  const { projectType, intent } = opts;
 
   const promotionsSelected = addOns.livePromotions || addOns.livePromotionsShop;
   if (promotionsSelected) {
-    const price = Math.round(1500 * um);
+    const price = 1500;
     oneOffItems.push({
       id: 'live-promotions',
       label: ADDON_CATALOG.livePromotionsShop.label,
@@ -237,7 +228,7 @@ function pushCatalogAddOns(
       continue;
     }
 
-    const unit = Math.round(meta.price * um);
+    const unit = meta.price;
     if (meta.isMonthly) {
       monthlyItems.push({
         id: `addon-${key}`,
@@ -263,7 +254,7 @@ function pushCatalogAddOns(
 
   const vl = addOns.videoLong || 0;
   if (vl > 0) {
-    const unit = Math.round(PRICING_CONFIG.addOns.videoLong * um);
+    const unit = PRICING_CONFIG.addOns.videoLong;
     oneOffItems.push({
       id: 'video-long',
       label: 'Long-form Video Production',
@@ -291,7 +282,6 @@ export function calculateQuote(request: Partial<QuoteRequest>): QuoteBreakdown {
 
   const addOns = normalizeAddOns(request.addOns);
   const intent = request.intent;
-  const um = upgradeMult(request.hasExistingSite);
   const { recommended, preTicked } = getIntentAddOnDefaults(intent);
   const includedAddOnKeys: IntentAddOnKey[] = [...preTicked];
 
@@ -302,7 +292,7 @@ export function calculateQuote(request: Partial<QuoteRequest>): QuoteBreakdown {
     const ssr = calculateSSRPrice(pageCount);
     exceedsStandardTier = ssr.exceedsStandardTier;
 
-    const buildPrice = Math.round(ssr.price * um);
+    const buildPrice = ssr.price;
     oneOffItems.push({
       id: 'ssr-website',
       label: `Ultra Fast — AI Visible Premium Site (${pageCount} pages)`,
@@ -376,7 +366,6 @@ export function calculateQuote(request: Partial<QuoteRequest>): QuoteBreakdown {
     pushCatalogAddOns(oneOffItems, monthlyItems, addOns, {
       projectType: 'ssr',
       intent,
-      upgradeMult: um,
     });
   }
 
@@ -393,8 +382,8 @@ export function calculateQuote(request: Partial<QuoteRequest>): QuoteBreakdown {
       label: `${packageType.charAt(0).toUpperCase() + packageType.slice(1)} Website Package`,
       description: 'Built on Wix Studio',
       quantity: 1,
-      unitPrice: Math.round(basePrice * um),
-      total: Math.round(basePrice * um),
+      unitPrice: basePrice,
+      total: basePrice,
       isMonthly: false,
       isRequired: true,
     });
@@ -406,7 +395,7 @@ export function calculateQuote(request: Partial<QuoteRequest>): QuoteBreakdown {
         description: `${additionalPages} pages beyond package`,
         quantity: additionalPages,
         unitPrice: PRICING_CONFIG.perPageRate,
-        total: Math.round(additionalPagesPrice * um),
+        total: additionalPagesPrice,
         isMonthly: false,
         isRequired: true,
       });
@@ -474,7 +463,6 @@ export function calculateQuote(request: Partial<QuoteRequest>): QuoteBreakdown {
     pushCatalogAddOns(oneOffItems, monthlyItems, addOns, {
       projectType: 'clientManaged',
       intent,
-      upgradeMult: 1,
     });
 
     if (addOns.voice) {

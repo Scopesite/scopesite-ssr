@@ -18,17 +18,16 @@ function esc(s: string): string {
     .replace(/'/g, '&#39;');
 }
 
-/** UK calculator steps (after entity gate) — matches QuoteCalculator STEPS order */
+/** UK calculator steps — matches QuoteCalculator STEPS order */
 const UK_STEP_LABELS: Record<number, string> = {
   1: 'Legal entity',
   2: 'Welcome',
-  3: 'Existing site',
-  4: 'Your goal',
-  5: 'Build type',
-  6: 'Scope',
-  7: 'Add-ons',
-  8: 'Payment plan',
-  9: 'Summary',
+  3: 'Your goal',
+  4: 'Build type',
+  5: 'Scope',
+  6: 'Add-ons',
+  7: 'Payment plan',
+  8: 'Summary',
 };
 
 export function ukPricingStepLabel(step: number): string {
@@ -60,9 +59,6 @@ export function formatQuoteSelectionsSnapshotHtml(selections: Record<string, unk
     lines.push(`<strong>Legal entity:</strong> ${esc(String(entityType))}`);
   }
 
-  if (typeof selections.hasExistingSite === 'boolean') {
-    lines.push(`<strong>Existing site (40% discount path):</strong> ${selections.hasExistingSite ? 'Yes' : 'No'}`);
-  }
 
   const intent = selections.intent as QuoteIntent | undefined;
   if (intent && INTENT_PATH_COPY[intent]) {

@@ -7,7 +7,7 @@
  * - id: Unique quote token (used in URL ?q=)
  * - email: Customer email
  * - status: 'started' | 'in_progress' | 'submitted' | 'abandoned'
- * - currentStep: Last step number (1-6)
+ * - currentStep: Last step number (1-8)
  * - selections: Current quote selections (projectType, scope, addOns, paymentPreference)
  * - createdAt: Timestamp when quote started
  * - updatedAt: Timestamp of last update

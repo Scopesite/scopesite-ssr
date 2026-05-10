@@ -158,8 +158,6 @@ export interface QuoteRequest {
   entityType?: 'limited' | 'sole_trader' | null;
   /** Required when `entityType === 'limited'`; otherwise `null`. */
   companyName?: string | null;
-  /** Existing website → 40% discount on core build (and SSR catalog add-ons when SSR) */
-  hasExistingSite?: boolean;
   intent?: QuoteIntent;
   scope: {
     websiteType?: WebsiteType;

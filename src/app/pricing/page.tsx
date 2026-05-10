@@ -49,11 +49,6 @@ const canonicalPricingFaqs = [
       'Standalone AI SEO retainer is £750 setup plus £500 per month. 6-month commitment total is £3,750. 12-month total is £6,750. AI SEO is bundled free with all SSR website builds.',
   },
   {
-    question: 'Do you offer a discount for existing website upgrades?',
-    answer:
-      'Yes. If you have an existing website you want to upgrade, we apply a 40% discount to the base build cost. The discount does not apply to add-ons.',
-  },
-  {
     question: 'How much is Territory Command?',
     answer:
       'Territory Command Standard is £750 setup plus £500 per month and includes postcode exclusivity. Premium tier (cities and high-competition postcodes) is £1,250 setup plus £750 per month. Both include an SSR build and AI SEO.',

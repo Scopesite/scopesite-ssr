@@ -5,6 +5,11 @@
 
 import { calculateQuote, createQuoteResult } from '../src/lib/calculate-quote';
 import { createDefaultAddOns, mergeAddOnsWithIntentDefaults, resolvePayMonthlyTier } from '../src/lib/pricing-config';
+import {
+  resolveUkResumeDisplayStep,
+  UK_CALCULATOR_SCHEMA_VERSION,
+  UK_CALCULATOR_TOTAL_STEPS,
+} from '../src/lib/uk-quote-resume-step';
 import type { PaymentPreference, QuoteAddOns, QuoteRequest, QuoteResult } from '../src/types/pricing';
 
 const TITLE = 'ScopeSite QuoteCalculator UK parity verification';
@@ -61,7 +66,6 @@ function includedItemsHasSsrVoice(b: ReturnType<typeof calculateQuote>): boolean
 function test1(): ScenarioResult {
   const request: QuoteRequest = {
     projectType: 'ssr',
-    hasExistingSite: false,
     intent: 'unspecified',
     scope: defaultScope(5),
     addOns: mergeAddOns({}),
@@ -100,7 +104,6 @@ function test1(): ScenarioResult {
 function test2(): ScenarioResult {
   const request: QuoteRequest = {
     projectType: 'ssr',
-    hasExistingSite: false,
     intent: 'unspecified',
     scope: defaultScope(5),
     addOns: mergeAddOns({}),
@@ -126,7 +129,6 @@ function test2(): ScenarioResult {
 function test3(): ScenarioResult {
   const request: QuoteRequest = {
     projectType: 'clientManaged',
-    hasExistingSite: false,
     intent: 'unspecified',
     scope: defaultScope(10),
     addOns: mergeAddOns({}),
@@ -152,7 +154,6 @@ function test3(): ScenarioResult {
 function test4(): ScenarioResult {
   const request: QuoteRequest = {
     projectType: 'ssr',
-    hasExistingSite: false,
     intent: 'unspecified',
     scope: defaultScope(15),
     addOns: mergeAddOns({}),
@@ -188,7 +189,6 @@ function test4(): ScenarioResult {
 function test5(): ScenarioResult {
   const request: QuoteRequest = {
     projectType: 'ssr',
-    hasExistingSite: false,
     intent: 'unspecified',
     scope: defaultScope(40),
     addOns: mergeAddOns({}),
@@ -218,64 +218,9 @@ function test5(): ScenarioResult {
   };
 }
 
-function test6(): ScenarioResult {
-  const request: QuoteRequest = {
-    projectType: 'ssr',
-    hasExistingSite: true,
-    intent: 'unspecified',
-    scope: defaultScope(5),
-    addOns: mergeAddOns({}),
-    paymentPreference: 'oneOff',
-  };
-  const b = calculateQuote(request);
-  createQuoteResult(request, 'oneOff');
-  const expected = { oneOffSubtotal: 1200, oneOffFinal: 1200 };
-  const actual = { oneOffSubtotal: b.oneOffSubtotal, oneOffFinal: b.totals.oneOff.final };
-  const failReasons: string[] = [];
-  if (b.oneOffSubtotal !== 1200) failReasons.push(`oneOffSubtotal want 1200 got ${b.oneOffSubtotal}`);
-  if (b.totals.oneOff.final !== 1200) failReasons.push(`oneOff.final want 1200 got ${b.totals.oneOff.final}`);
-  return {
-    name: 'Test 6: 5-page SSR / existing site / pay in full',
-    request,
-    paymentPreference: 'oneOff',
-    expected,
-    actual,
-    pass: failReasons.length === 0,
-    failReasons,
-  };
-}
-
-function test7(): ScenarioResult {
-  const request: QuoteRequest = {
-    projectType: 'clientManaged',
-    hasExistingSite: true,
-    intent: 'unspecified',
-    scope: defaultScope(10),
-    addOns: mergeAddOns({}),
-    paymentPreference: 'oneOff',
-  };
-  const b = calculateQuote(request);
-  createQuoteResult(request, 'oneOff');
-  const expected = { oneOffSubtotal: 2475, oneOffFinal: 2475 };
-  const actual = { oneOffSubtotal: b.oneOffSubtotal, oneOffFinal: b.totals.oneOff.final };
-  const failReasons: string[] = [];
-  if (b.oneOffSubtotal !== 2475) failReasons.push(`oneOffSubtotal want 2475 got ${b.oneOffSubtotal}`);
-  if (b.totals.oneOff.final !== 2475) failReasons.push(`oneOff.final want 2475 got ${b.totals.oneOff.final}`);
-  return {
-    name: 'Test 7: 10-page Wix / existing site / pay in full',
-    request,
-    paymentPreference: 'oneOff',
-    expected,
-    actual,
-    pass: failReasons.length === 0,
-    failReasons,
-  };
-}
-
 function test8(): ScenarioResult {
   const request: QuoteRequest = {
     projectType: 'ssr',
-    hasExistingSite: false,
     intent: 'candidates',
     scope: defaultScope(10),
     addOns: mergeAddOns({ jobsBoard: true }),
@@ -319,7 +264,6 @@ function test9(): ScenarioResult {
   );
   const request: QuoteRequest = {
     projectType: 'ssr',
-    hasExistingSite: false,
     intent: 'shop',
     scope: defaultScope(15),
     addOns,
@@ -443,6 +387,63 @@ function test12(): ScenarioResult {
   };
 }
 
+function test13(): ScenarioResult {
+  const legacyAddonsStep = resolveUkResumeDisplayStep(7, undefined, false, UK_CALCULATOR_TOTAL_STEPS);
+  const expected = { resumeStep: 6 };
+  const actual = { resumeStep: legacyAddonsStep };
+  const failReasons: string[] = [];
+  if (legacyAddonsStep !== 6) {
+    failReasons.push(`want step 6 (add-ons) got ${legacyAddonsStep}`);
+  }
+  const stubRequest = {
+    projectType: 'ssr' as const,
+    intent: 'unspecified' as const,
+    scope: defaultScope(5),
+    addOns: mergeAddOns({}),
+    paymentPreference: 'oneOff' as const,
+  };
+  return {
+    name: 'Test 13: Legacy 9-step stored step 7 → 8-step UI step 6 (add-ons)',
+    request: stubRequest as QuoteRequest,
+    paymentPreference: 'oneOff',
+    expected,
+    actual,
+    pass: failReasons.length === 0,
+    failReasons,
+  };
+}
+
+function test14(): ScenarioResult {
+  const paymentStep = resolveUkResumeDisplayStep(
+    7,
+    { calculatorSchemaVersion: UK_CALCULATOR_SCHEMA_VERSION },
+    false,
+    UK_CALCULATOR_TOTAL_STEPS
+  );
+  const expected = { resumeStep: 7 };
+  const actual = { resumeStep: paymentStep };
+  const failReasons: string[] = [];
+  if (paymentStep !== 7) {
+    failReasons.push(`schema v2 stored step 7 should remain 7 (payment), got ${paymentStep}`);
+  }
+  const stubRequest = {
+    projectType: 'ssr' as const,
+    intent: 'unspecified' as const,
+    scope: defaultScope(5),
+    addOns: mergeAddOns({}),
+    paymentPreference: 'oneOff' as const,
+  };
+  return {
+    name: 'Test 14: Resume without +1 — schema v2 step 7 stays on payment (not bumped to summary)',
+    request: stubRequest as QuoteRequest,
+    paymentPreference: 'oneOff',
+    expected,
+    actual,
+    pass: failReasons.length === 0,
+    failReasons,
+  };
+}
+
 function formatExpectedLine(sr: ScenarioResult): string {
   const e = sr.expected;
   if (sr.name.startsWith('Test 1:')) {
@@ -456,8 +457,6 @@ function formatExpectedLine(sr: ScenarioResult): string {
   if (sr.name.startsWith('Test 5:')) {
     return `expected: exceedsStandardTier=${e.exceedsStandardTier}, oneOffSubtotal=${e.oneOffSubtotal}`;
   }
-  if (sr.name.startsWith('Test 6:')) return `expected: subtotal=${e.oneOffSubtotal}, final=${e.oneOffFinal}`;
-  if (sr.name.startsWith('Test 7:')) return `expected: subtotal=${e.oneOffSubtotal}, final=${e.oneOffFinal}`;
   if (sr.name.startsWith('Test 8:')) {
     return `expected: subtotal=${e.oneOffSubtotal}, final=${e.oneOffFinal}, includedItems ssr-voice, no paid AI SEO in oneOff`;
   }
@@ -468,6 +467,7 @@ function formatExpectedLine(sr: ScenarioResult): string {
     return `expected: tierId=${e.tierId}`;
   }
   if (sr.name.startsWith('Test 12:')) return `expected: tierId=${e.tierId}`;
+  if (sr.name.startsWith('Test 13:') || sr.name.startsWith('Test 14:')) return `expected: resumeStep=${e.resumeStep}`;
   return `expected: ${JSON.stringify(e)}`;
 }
 
@@ -484,8 +484,6 @@ function formatActualLine(sr: ScenarioResult): string {
   if (sr.name.startsWith('Test 5:')) {
     return `actual:   exceedsStandardTier=${a.exceedsStandardTier}, oneOffSubtotal=${a.oneOffSubtotal}`;
   }
-  if (sr.name.startsWith('Test 6:')) return `actual:   subtotal=${a.oneOffSubtotal}, final=${a.oneOffFinal}`;
-  if (sr.name.startsWith('Test 7:')) return `actual:   subtotal=${a.oneOffSubtotal}, final=${a.oneOffFinal}`;
   if (sr.name.startsWith('Test 8:')) {
     return `actual:   subtotal=${a.oneOffSubtotal}, final=${a.oneOffFinal}, ssr-voice=${a.includedSsrVoice}, noPaidAi=${a.noPaidVoiceLine}`;
   }
@@ -495,6 +493,7 @@ function formatActualLine(sr: ScenarioResult): string {
   if (sr.name.startsWith('Test 10:') || sr.name.startsWith('Test 11:') || sr.name.startsWith('Test 12:')) {
     return `actual:   tierId=${a.tierId}`;
   }
+  if (sr.name.startsWith('Test 13:') || sr.name.startsWith('Test 14:')) return `actual:   resumeStep=${a.resumeStep}`;
   return `actual:   ${JSON.stringify(a)}`;
 }
 
@@ -506,13 +505,13 @@ function main() {
     test3,
     test4,
     test5,
-    test6,
-    test7,
     test8,
     test9,
     test10,
     test11,
     test12,
+    test13,
+    test14,
   ];
   let passed = 0;
   const failed: ScenarioResult[] = [];

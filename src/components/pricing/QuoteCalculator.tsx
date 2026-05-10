@@ -46,6 +46,11 @@ import {
   resolvePayMonthlyTier,
 } from '@/lib/pricing-config';
 import { QuoteEmailCaptureModal } from '@/components/quote/QuoteEmailCaptureModal';
+import {
+  UK_CALCULATOR_SCHEMA_VERSION,
+  UK_CALCULATOR_TOTAL_STEPS,
+  resolveUkResumeDisplayStep,
+} from '@/lib/uk-quote-resume-step';
 import type {
   ProjectType,
   PaymentPreference,
@@ -59,7 +64,7 @@ import type {
 } from '@/types/pricing';
 
 const STORAGE_REDIRECT_NOTICE = 'scopesite_quote_redirect_notice';
-const TOTAL_STEPS = 9;
+const TOTAL_STEPS = UK_CALCULATOR_TOTAL_STEPS;
 
 interface StepDef {
   id: number;
@@ -70,13 +75,12 @@ interface StepDef {
 const STEPS: StepDef[] = [
   { id: 1, title: 'Legal entity', description: 'Who we are contracting with' },
   { id: 2, title: 'Welcome', description: 'Your instant quote' },
-  { id: 3, title: 'Existing site', description: 'Refresh quote with current selections' },
-  { id: 4, title: 'Your goal', description: 'What you want the site to do' },
-  { id: 5, title: 'Build type', description: 'Ultra Fast vs manage yourself' },
-  { id: 6, title: 'Scope', description: 'Pages and features' },
-  { id: 7, title: 'Add-ons', description: 'Optional extras' },
-  { id: 8, title: 'Payment plan', description: 'How you prefer to pay' },
-  { id: 9, title: 'Summary', description: 'Review and send' },
+  { id: 3, title: 'Your goal', description: 'What you want the site to do' },
+  { id: 4, title: 'Build type', description: 'Ultra Fast vs manage yourself' },
+  { id: 5, title: 'Scope', description: 'Pages and features' },
+  { id: 6, title: 'Add-ons', description: 'Optional extras' },
+  { id: 7, title: 'Payment plan', description: 'How you prefer to pay' },
+  { id: 8, title: 'Summary', description: 'Review and send' },
 ];
 
 const CATEGORY_ORDER: AddOnCategory[] = [
@@ -93,7 +97,6 @@ const PAYMENT_OPTIONS_FIXED: PaymentPreference[] = ['oneOff', 'six', 'twelve'];
 
 const initialRequest: Partial<QuoteRequest> = {
   paymentPreference: 'oneOff',
-  hasExistingSite: false,
   intent: 'unspecified',
   scope: {
     pageCount: 5,
@@ -105,15 +108,6 @@ const initialRequest: Partial<QuoteRequest> = {
   },
   addOns: createDefaultAddOns(),
 };
-
-function mapLegacySixStepToEight(oldStep: number): number {
-  if (oldStep <= 1) return oldStep;
-  if (oldStep === 2) return 4;
-  if (oldStep === 3) return 5;
-  if (oldStep === 4) return 6;
-  if (oldStep === 5) return 7;
-  return 8;
-}
 
 function normalizeLoadedAddOns(raw: unknown): QuoteAddOns {
   const d = createDefaultAddOns();
@@ -171,6 +165,8 @@ export function QuoteCalculator() {
   const [legacyNotice, setLegacyNotice] = useState<string | null>(null);
   /** When step body height changes, scroll anchoring can yank the page; lock Y on Next/Back only. */
   const stepNavScrollYRef = useRef<number | null>(null);
+  /** Focus return target after closing the email gate modal (Step 4 build type). */
+  const emailGateTriggerRef = useRef<HTMLButtonElement>(null);
 
   const breakdown = useMemo(() => calculateQuote(request), [request]);
   const isSSR = request.projectType === 'ssr';
@@ -240,7 +236,7 @@ export function QuoteCalculator() {
                   ? (reqSnapshot.companyName?.trim() ?? null)
                   : null,
               projectType: reqSnapshot.projectType,
-              hasExistingSite: reqSnapshot.hasExistingSite ?? false,
+              calculatorSchemaVersion: UK_CALCULATOR_SCHEMA_VERSION,
               intent: reqSnapshot.intent ?? 'unspecified',
               scope: reqSnapshot.scope ?? initialRequest.scope,
               addOns: reqSnapshot.addOns ?? createDefaultAddOns(),
@@ -301,10 +297,8 @@ export function QuoteCalculator() {
         }
 
         let projectType = sel.projectType as ProjectType | undefined;
-        let hasExistingSite = sel.hasExistingSite as boolean | undefined;
         if (sel.projectType === 'upgrade') {
           projectType = 'clientManaged';
-          hasExistingSite = true;
           setLegacyNotice('Quote refreshed for new pricing — please review your selections.');
         }
 
@@ -316,10 +310,12 @@ export function QuoteCalculator() {
           !!(sel.scope && typeof sel.scope === 'object' && 'headlessEcommerce' in sel.scope) ||
           !!(sel.addOns && typeof sel.addOns === 'object' && 'branding' in (sel.addOns as object));
 
-        let step = data.quote.currentStep as number;
-        if (legacyShape && step > 1) {
-          step = mapLegacySixStepToEight(step);
-        }
+        const resumeStep = resolveUkResumeDisplayStep(
+          data.quote.currentStep as number,
+          sel as Record<string, unknown>,
+          legacyShape,
+          TOTAL_STEPS
+        );
 
         setQuoteToken(token);
         setContact((prev) => ({
@@ -344,18 +340,16 @@ export function QuoteCalculator() {
           ...initialRequest,
           ...sel,
           projectType: projectType === 'ssr' || projectType === 'clientManaged' ? projectType : undefined,
-          hasExistingSite: hasExistingSite ?? false,
           intent: (sel.intent as QuoteIntent) || 'unspecified',
           scope: scopeRaw,
           addOns: addOnsNorm,
           paymentPreference: normalizedPp,
         });
 
-        const oldDisplay = step > 1 ? step : 2;
         if (!entityKnown) {
           setCurrentStep(1);
         } else {
-          setCurrentStep(Math.min(oldDisplay + 1, TOTAL_STEPS));
+          setCurrentStep(resumeStep);
         }
       } else if (data.isSubmitted) {
         setIsSubmitted(true);
@@ -408,16 +402,15 @@ export function QuoteCalculator() {
       return false;
     }
     if (currentStep === 2) return true;
-    if (currentStep === 3) return typeof request.hasExistingSite === 'boolean';
-    if (currentStep === 4) return !!request.intent;
-    if (currentStep === 5) return request.projectType === 'ssr' || request.projectType === 'clientManaged';
+    if (currentStep === 3) return !!request.intent;
+    if (currentStep === 4) return request.projectType === 'ssr' || request.projectType === 'clientManaged';
+    if (currentStep === 5) return true;
     if (currentStep === 6) return true;
-    if (currentStep === 7) return true;
-    if (currentStep === 8) {
+    if (currentStep === 7) {
       if (exceedsTier) return true;
       return !!request.paymentPreference;
     }
-    if (currentStep === 9) return contact.name.trim() !== '';
+    if (currentStep === 8) return contact.name.trim() !== '';
     return false;
   }, [currentStep, request, contact.name, exceedsTier]);
 
@@ -427,7 +420,6 @@ export function QuoteCalculator() {
       url: string,
       payload: {
         projectType: ProjectType;
-        hasExistingSite?: boolean;
         intent?: QuoteIntent;
       }
     ) => {
@@ -439,7 +431,6 @@ export function QuoteCalculator() {
             email,
             websiteUrl: url || undefined,
             projectType: payload.projectType,
-            hasExistingSite: payload.hasExistingSite,
             intent: payload.intent,
           }),
         });
@@ -474,13 +465,13 @@ export function QuoteCalculator() {
   const goNext = () => {
     if (!canGoNext() || currentStep >= TOTAL_STEPS) return;
 
-    if (currentStep === 5 && !quoteToken) {
+    if (currentStep === 4 && !quoteToken) {
       setEmailModalOpen(true);
       return;
     }
 
     let nextReq = request;
-    if (currentStep === 4) {
+    if (currentStep === 3) {
       nextReq = {
         ...request,
         addOns: mergeAddOnsWithIntentDefaults(
@@ -520,7 +511,6 @@ export function QuoteCalculator() {
 
       const result = await startQuoteWithEmail(submittedEmail, submittedUrl, {
         projectType: request.projectType,
-        hasExistingSite: request.hasExistingSite,
         intent: request.intent,
       });
 
@@ -537,22 +527,20 @@ export function QuoteCalculator() {
 
       if (result.data?.isExisting) {
         const raw = result.data.currentStep as number;
-        const sel = result.data.selections as { scope?: Record<string, unknown>; entityType?: string } | undefined;
-        const legacyScope = sel?.scope && 'headlessEcommerce' in sel.scope;
-        const entityKnown = sel?.entityType === 'limited' || sel?.entityType === 'sole_trader';
-        const LEGACY_STEP_MAX = 8;
-        let step8: number;
-        if (raw >= 5) {
-          step8 = Math.min(raw, LEGACY_STEP_MAX);
-        } else if (raw === 4 && !legacyScope) {
-          step8 = 5;
-        } else {
-          step8 = Math.max(mapLegacySixStepToEight(Math.max(raw, 1)), 5);
-        }
+        const selExisting = result.data.selections as Record<string, unknown> | undefined;
+        const legacyShapeEmail =
+          selExisting?.projectType === 'upgrade' ||
+          !!(selExisting?.scope && typeof selExisting.scope === 'object' && 'headlessEcommerce' in selExisting.scope) ||
+          !!(selExisting?.addOns &&
+            typeof selExisting.addOns === 'object' &&
+            'branding' in (selExisting.addOns as object));
+        const entityKnown =
+          selExisting?.entityType === 'limited' || selExisting?.entityType === 'sole_trader';
+        const resumeStep = resolveUkResumeDisplayStep(raw, selExisting, legacyShapeEmail, TOTAL_STEPS);
         if (!entityKnown) {
           setCurrentStep(1);
         } else {
-          setCurrentStep(Math.min(step8 + 1, TOTAL_STEPS));
+          setCurrentStep(resumeStep);
         }
         setEmailModalOpen(false);
         return { ok: true as const };
@@ -568,13 +556,13 @@ export function QuoteCalculator() {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            currentStep: 6,
+            currentStep: 5,
             selections: {
               entityType: merged.entityType ?? null,
               companyName:
                 merged.entityType === 'limited' ? (merged.companyName?.trim() ?? null) : null,
               projectType: merged.projectType,
-              hasExistingSite: merged.hasExistingSite ?? false,
+              calculatorSchemaVersion: UK_CALCULATOR_SCHEMA_VERSION,
               intent: merged.intent ?? 'unspecified',
               scope: merged.scope ?? initialRequest.scope,
               addOns: merged.addOns,
@@ -586,7 +574,7 @@ export function QuoteCalculator() {
       }
 
       setEmailModalOpen(false);
-      setCurrentStep(6);
+      setCurrentStep(5);
       return { ok: true as const };
     },
     [request, startQuoteWithEmail]
@@ -603,7 +591,6 @@ export function QuoteCalculator() {
       projectType: request.projectType,
       entityType: request.entityType,
       companyName: request.entityType === 'limited' ? (request.companyName?.trim() ?? null) : null,
-      hasExistingSite: request.hasExistingSite,
       intent: request.intent ?? 'unspecified',
       scope: request.scope,
       addOns: request.addOns,
@@ -664,7 +651,7 @@ export function QuoteCalculator() {
               companyName:
                 request.entityType === 'limited' ? (request.companyName?.trim() ?? null) : null,
               projectType: request.projectType,
-              hasExistingSite: request.hasExistingSite ?? false,
+              calculatorSchemaVersion: UK_CALCULATOR_SCHEMA_VERSION,
               intent: request.intent ?? 'unspecified',
               scope: request.scope,
               addOns: request.addOns,
@@ -867,43 +854,6 @@ export function QuoteCalculator() {
 
       case 3:
         return (
-          <div className="space-y-4">
-            <p className="text-brand-graphite">
-              Do you already have a live website we&apos;re refreshing or replacing? Existing sites qualify for a{' '}
-              <strong>40% discount</strong> on the core build (and on Ultra Fast catalog add-ons when you choose Ultra
-              Fast).
-            </p>
-            <RadioGroup
-              value={
-                request.hasExistingSite === true ? 'yes' : request.hasExistingSite === false ? 'no' : undefined
-              }
-              onValueChange={(v) => updateRequest({ hasExistingSite: v === 'yes' })}
-              className="grid sm:grid-cols-2 gap-3"
-            >
-              <label
-                className={cn(
-                  'flex items-center gap-3 rounded-xl border-2 p-4 cursor-pointer transition-all',
-                  request.hasExistingSite === true ? 'border-brand-gold bg-brand-gold/5' : 'border-brand-graphite/15'
-                )}
-              >
-                <RadioGroupItem value="yes" id="ex-yes" />
-                <span className="font-medium text-brand-navy">Yes — existing site</span>
-              </label>
-              <label
-                className={cn(
-                  'flex items-center gap-3 rounded-xl border-2 p-4 cursor-pointer transition-all',
-                  request.hasExistingSite === false ? 'border-brand-gold bg-brand-gold/5' : 'border-brand-graphite/15'
-                )}
-              >
-                <RadioGroupItem value="no" id="ex-no" />
-                <span className="font-medium text-brand-navy">No — new build</span>
-              </label>
-            </RadioGroup>
-          </div>
-        );
-
-      case 4:
-        return (
           <div className="grid gap-3 sm:grid-cols-2">
             {(Object.keys(INTENT_PATH_COPY) as QuoteIntent[]).map((intent) => {
               const copy = INTENT_PATH_COPY[intent];
@@ -926,7 +876,7 @@ export function QuoteCalculator() {
           </div>
         );
 
-      case 5:
+      case 4:
         return (
           <div className="grid gap-4 md:grid-cols-2">
             {(['ssr', 'clientManaged'] as ProjectType[]).map((pt) => {
@@ -965,7 +915,7 @@ export function QuoteCalculator() {
           </div>
         );
 
-      case 6: {
+      case 5: {
         const minP = isSSR ? LIMITS.minPagesSSR : LIMITS.minPages;
         const maxP = LIMITS.maxPages;
         const pages = Math.min(maxP, Math.max(minP, request.scope?.pageCount ?? minP));
@@ -1066,7 +1016,7 @@ export function QuoteCalculator() {
         );
       }
 
-      case 7:
+      case 6:
         return (
           <div className="space-y-8">
             {suggestedKeys.length > 0 && (
@@ -1146,7 +1096,7 @@ export function QuoteCalculator() {
           </div>
         );
 
-      case 8:
+      case 7:
         if (exceedsTier) {
           return (
             <div className="space-y-6 text-center py-4">
@@ -1204,7 +1154,7 @@ export function QuoteCalculator() {
           </div>
         );
 
-      case 9:
+      case 8:
         return (
           <div className="space-y-6">
             <div className="rounded-xl bg-brand-navy/5 border border-brand-navy/10 p-4 space-y-2">
@@ -1381,7 +1331,12 @@ export function QuoteCalculator() {
 
   return (
     <div className="[overflow-anchor:none]">
-      <QuoteEmailCaptureModal open={emailModalOpen} onSubmit={handleEmailModalSubmit} />
+      <QuoteEmailCaptureModal
+        open={emailModalOpen}
+        onOpenChange={setEmailModalOpen}
+        onSubmit={handleEmailModalSubmit}
+        restoreFocusRef={emailGateTriggerRef}
+      />
 
       <Card className="max-w-3xl mx-auto bg-white shadow-lg border-brand-navy/10">
         <CardHeader className="space-y-2">
@@ -1418,6 +1373,7 @@ export function QuoteCalculator() {
 
             {currentStep < TOTAL_STEPS ? (
               <Button
+                ref={emailGateTriggerRef}
                 type="button"
                 onClick={goNext}
                 disabled={!canGoNext()}

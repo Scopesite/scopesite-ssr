@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { Loader2, Mail } from 'lucide-react';
+import { Loader2, Mail, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 
 interface QuoteEmailCaptureModalProps {
   open: boolean;
+  onOpenChange: (open: boolean) => void;
   /**
    * Called when the user submits a valid email. Must return a Promise — the
    * modal will stay open with a spinner until it resolves. Resolve `{ ok: true }`
@@ -19,21 +20,17 @@ interface QuoteEmailCaptureModalProps {
    * websiteUrl is optional — empty string when not provided.
    */
   onSubmit: (email: string, websiteUrl: string) => Promise<{ ok: true } | { ok: false; error: string }>;
+  /** Focus is restored here when the modal closes (e.g. Step 4 Next button). */
+  restoreFocusRef?: React.RefObject<HTMLElement | null>;
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-/**
- * Email capture interstitial that fires after the user picks a project type.
- * HARD GATE per spec: no close button, no Esc dismiss, no outside-click dismiss,
- * no skip link. The only way past this modal is submitting a valid email.
- *
- * Website URL is optional. When provided, Dan gets flagged to run a free Pro
- * Scan and the prospect is promised scan results within 24 hours.
- */
 export function QuoteEmailCaptureModal({
   open,
+  onOpenChange,
   onSubmit,
+  restoreFocusRef,
 }: QuoteEmailCaptureModalProps) {
   const [email, setEmail] = useState('');
   const [websiteUrl, setWebsiteUrl] = useState('');
@@ -41,20 +38,28 @@ export function QuoteEmailCaptureModal({
   const [error, setError] = useState<string | null>(null);
   const [emailTouched, setEmailTouched] = useState(false);
   const emailRef = useRef<HTMLInputElement>(null);
+  const prevOpenRef = useRef(false);
 
-  // Reset state whenever the modal is re-opened so re-entries start clean
   useEffect(() => {
     if (open) {
       setError(null);
       setEmailTouched(false);
-      // Autofocus with a small delay to let the dialog mount
       const t = setTimeout(() => emailRef.current?.focus(), 50);
       return () => clearTimeout(t);
     }
-  }, [open]);
+    if (prevOpenRef.current && !open) {
+      restoreFocusRef?.current?.focus();
+    }
+    prevOpenRef.current = open;
+  }, [open, restoreFocusRef]);
 
   const isValidEmail = email.trim() !== '' && EMAIL_RE.test(email.trim());
   const showEmailError = emailTouched && !isValidEmail;
+
+  const handleDismiss = () => {
+    if (isSubmitting) return;
+    onOpenChange(false);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,8 +72,6 @@ export function QuoteEmailCaptureModal({
       if (!result.ok) {
         setError(result.error);
       }
-      // On success the parent closes the modal by setting `open = false`.
-      // The modal does not self-close.
     } catch {
       setError('Something went wrong. Please try again.');
     } finally {
@@ -77,48 +80,61 @@ export function QuoteEmailCaptureModal({
   };
 
   return (
-    <DialogPrimitive.Root open={open}>
+    <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay
           className="fixed inset-0 z-50 bg-black/70 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0"
         />
         <DialogPrimitive.Content
-          // HARD GATE: block all dismissal paths so users cannot escape without submitting
-          onEscapeKeyDown={(e) => e.preventDefault()}
-          onPointerDownOutside={(e) => e.preventDefault()}
-          onInteractOutside={(e) => e.preventDefault()}
+          onPointerDown={(e) => e.stopPropagation()}
+          onPointerDownOutside={(e) => {
+            if (isSubmitting) e.preventDefault();
+          }}
+          onEscapeKeyDown={(e) => {
+            if (isSubmitting) e.preventDefault();
+          }}
+          aria-modal="true"
+          role="dialog"
+          aria-labelledby="quote-email-modal-title"
+          aria-describedby="quote-email-modal-desc"
           className={cn(
-            'fixed left-1/2 top-1/2 z-50 w-[95vw] max-w-lg -translate-x-1/2 -translate-y-1/2',
+            'fixed left-1/2 top-1/2 z-[51] w-[95vw] max-w-lg -translate-x-1/2 -translate-y-1/2',
             'bg-white rounded-2xl shadow-2xl border border-brand-navy/10',
             'data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95',
-            'max-h-[95vh] overflow-y-auto'
+            'max-h-[95vh] overflow-y-auto outline-none'
           )}
-          aria-describedby="quote-email-modal-desc"
         >
-          {/* Header */}
-          <div className="bg-brand-navy text-white rounded-t-2xl p-6 md:p-8">
-            <div className="flex items-start gap-3">
+          <div className="bg-brand-navy text-white rounded-t-2xl p-6 md:p-8 relative">
+            <button
+              type="button"
+              onClick={handleDismiss}
+              aria-label="Close email form"
+              className="absolute right-4 top-4 rounded-md p-1.5 text-white/90 hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:ring-2 focus-visible:ring-brand-gold"
+            >
+              <X className="w-5 h-5" aria-hidden />
+            </button>
+            <div className="flex items-start gap-3 pr-10">
               <div className="shrink-0 w-10 h-10 rounded-full bg-brand-gold flex items-center justify-center">
                 <Mail className="w-5 h-5 text-brand-navy" />
               </div>
               <div>
-                <DialogPrimitive.Title className="text-xl md:text-2xl font-headline font-black text-white">
+                <DialogPrimitive.Title
+                  id="quote-email-modal-title"
+                  className="text-xl md:text-2xl font-headline font-black text-white"
+                >
                   Let&apos;s get your quote started
                 </DialogPrimitive.Title>
                 <p id="quote-email-modal-desc" className="sr-only">
-                  Enter your email address to continue building your quote. Adding
-                  your website is optional but lets us run a free Pro Scan.
+                  Enter your email address to continue building your quote. Adding your website is optional but lets us
+                  run a free Pro Scan.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Body */}
           <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-5">
             <div>
-              <p className="text-brand-navy font-medium mb-3">
-                Pop your email in and we&apos;ll send you:
-              </p>
+              <p className="text-brand-navy font-medium mb-3">Pop your email in and we&apos;ll send you:</p>
               <ul className="space-y-2 text-body-sm text-brand-navy/80">
                 <li className="flex items-start gap-2">
                   <span className="text-brand-gold font-bold">✓</span>
@@ -126,19 +142,19 @@ export function QuoteEmailCaptureModal({
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-brand-gold font-bold">✓</span>
-                  <span>A <strong>FREE</strong> professional AI visibility scan of your website</span>
+                  <span>
+                    A <strong>FREE</strong> professional AI visibility scan of your website
+                  </span>
                 </li>
               </ul>
             </div>
 
-            {/* Email field */}
             <div>
-              <Label
-                htmlFor="quote-modal-email"
-                className="text-brand-navy font-bold flex items-center gap-1"
-              >
+              <Label htmlFor="quote-modal-email" className="text-brand-navy font-bold flex items-center gap-1">
                 Email Address
-                <span className="text-red-500" aria-hidden="true">*</span>
+                <span className="text-red-500" aria-hidden="true">
+                  *
+                </span>
                 <span className="sr-only">(required)</span>
               </Label>
               <Input
@@ -157,17 +173,12 @@ export function QuoteEmailCaptureModal({
                 disabled={isSubmitting}
               />
               {showEmailError && (
-                <p
-                  id="quote-modal-email-error"
-                  role="alert"
-                  className="text-body-sm text-red-500 mt-1"
-                >
+                <p id="quote-modal-email-error" role="alert" className="text-body-sm text-red-500 mt-1">
                   Please enter a valid email address.
                 </p>
               )}
             </div>
 
-            {/* Website URL field (optional) */}
             <div>
               <Label htmlFor="quote-modal-url" className="text-brand-navy font-bold">
                 Website URL <span className="text-brand-graphite font-normal">(optional)</span>
@@ -186,10 +197,7 @@ export function QuoteEmailCaptureModal({
             </div>
 
             {error && (
-              <div
-                role="alert"
-                className="p-3 rounded-lg bg-red-50 border border-red-200 text-body-sm text-red-700"
-              >
+              <div role="alert" className="p-3 rounded-lg bg-red-50 border border-red-200 text-body-sm text-red-700">
                 {error}
               </div>
             )}
@@ -208,9 +216,7 @@ export function QuoteEmailCaptureModal({
                 'Continue to my quote →'
               )}
             </Button>
-            <p className="text-caption text-brand-graphite text-center">
-              No spam. Just your quote and your scan.
-            </p>
+            <p className="text-caption text-brand-graphite text-center">No spam. Just your quote and your scan.</p>
           </form>
         </DialogPrimitive.Content>
       </DialogPrimitive.Portal>
