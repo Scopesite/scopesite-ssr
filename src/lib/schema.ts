@@ -298,7 +298,7 @@ export function generateOrganizationSchema() {
       'AI visibility methodology',
       'Generative Engine Optimisation',
       'Answer Engine Optimisation',
-      'AI Search Visibility',
+      'AI Search Performance',
       'AI Search Optimization',
       'ChatGPT Business Recommendations',
       'Structured data for AI',

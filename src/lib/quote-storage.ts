@@ -99,8 +99,14 @@ function generateQuoteToken(): string {
 }
 
 /**
- * Legacy rows without entityType: infer `limited` when a payment term is already set
- * (spread and one-off were always LTD/LLP-only in the product). Step 0 reconfirmation is Phase 2 UI.
+ * Legacy rows without entityType: infer `limited` when a payment term is already set.
+ *
+ * Legacy quotes pre-9241943 had no entityType field. We default to `limited` on migration:
+ * most pre-fix quotes were registered companies (the spread plan + entity gate combination
+ * effectively pre-selected for them). Sole traders / individuals resuming a legacy quote
+ * can amend their entity at Step 1 if needed. CRM consistency (Dan decision 10 May 2026).
+ * Brain entry [add entry ID after Brain log Stage 6]. Note: post-9241943, spread plans are not
+ * LTD/LLP-only — the inference is legacy-shape compatibility, not current eligibility rules.
  */
 function migrateLegacyQuoteSelections(
   raw: Record<string, unknown>

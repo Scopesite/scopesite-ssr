@@ -5,6 +5,7 @@ import { QuoteCalculator } from '@/components/pricing';
 import { Loader2 } from 'lucide-react';
 import { JsonLd } from '@/components/JsonLd';
 import {
+  AI_SEARCH_PERFORMANCE_GUARANTEE_WARRANTY,
   generateBreadcrumbSchema,
   generateWebPageSchema,
   generatePricingSchema,
@@ -95,10 +96,9 @@ const canonicalPricingFaqs = [
   },
   {
     question: 'What is the AI Search Performance Guarantee?',
-    answer:
-      "For clients on an active AI SEO Retainer or Territory Command, ScopeSite guarantees an AI Search Performance Score of 80 or above. After a 3-month build-up window, if your score falls below 80 in any measured month, you pay nothing for that month's retainer fee. The guarantee requires the client to follow ScopeSite's recommendations and not modify the site without consultation.",
+    answer: AI_SEARCH_PERFORMANCE_GUARANTEE_WARRANTY,
   },
-] as const;
+] satisfies ReadonlyArray<{ question: string; answer: string }>;
 
 export const metadata: Metadata = {
   title: 'Web Design Pricing UK | ScopeSite',

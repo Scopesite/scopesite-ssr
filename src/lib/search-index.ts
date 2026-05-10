@@ -15,7 +15,7 @@ export const staticSearchIndex: SearchEntry[] = [
     keywords: ['home', 'agency', 'somerset', 'web design', 'ai visibility', 'veteran owned'],
   },
   {
-    title: 'AI visibility methodology | AI Search Visibility',
+    title: 'AI visibility methodology | AI Search Performance',
     description: 'Our proprietary Answer Engine Optimisation framework. Make your business visible to ChatGPT, Claude, Perplexity and voice assistants.',
     url: '/voice',
     category: 'Service',

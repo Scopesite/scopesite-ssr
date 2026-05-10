@@ -55,24 +55,24 @@ function assertWaaSRequest(request: QuoteRequest): void {
 
   if (addOns.voice) {
     throw new Error(
-      'Optional AI SEO retainer is not available on Website-as-a-Service in this calculator — choose Pay in Full or speak to us about a retainer alongside WaaS.'
+      'Optional AI SEO retainer is not available on Pay Monthly Service in this calculator — choose Pay in Full or speak to us about a standalone AI SEO retainer.'
     );
   }
   if ((addOns.videoLong ?? 0) > 0) {
-    throw new Error('Long-form video packages are not available on Website-as-a-Service plans.');
+    throw new Error('Long-form video packages are not available on Pay Monthly Service plans.');
   }
   if (addOns.livePromotions || addOns.livePromotionsShop) {
-    throw new Error('Live Promotions is not available on Website-as-a-Service plans.');
+    throw new Error('Live Promotions is not available on Pay Monthly Service plans.');
   }
   if (addOns.stripeCheckout) {
-    throw new Error('Shop checkout modules are not available on Website-as-a-Service plans.');
+    throw new Error('Shop checkout modules are not available on Pay Monthly Service plans.');
   }
 
   for (const key of ALL_CALC_ADDON_KEYS) {
     if (key === 'livePromotions' || key === 'livePromotionsShop' || key === 'stripeCheckout') continue;
     if (addOns[key] === true && !cfg.allowedAddOns.includes(key)) {
       throw new Error(
-        'This add-on is not available on Website-as-a-Service plans — only Smart Forms and AI Chatbot are offered at catalogue prices.'
+        'This add-on is not available on Pay Monthly Service plans — only Smart Forms and AI Chatbot are offered at catalogue prices.'
       );
     }
   }
