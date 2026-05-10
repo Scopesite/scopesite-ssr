@@ -61,12 +61,12 @@ const canonicalPricingFaqs = [
   {
     question: 'What payment terms do you offer?',
     answer:
-      'Paid in full attracts a 5% discount. Spread payment plans over 6, 12, 24, or 36 months are available only to Limited Companies and LLPs (not sole traders or individuals). The 36-month option is available only on builds with a one-off subtotal of £2,000 or more. Sole traders and individuals can choose pay in full or our Website-as-a-Service (WaaS) subscription (£795 setup + £99/month rolling).',
+      'All payment options are at the same total price — no interest, no credit charges, no premium for spreading the cost. Choose Pay in Full, 6-Month Contract, 12-Month Contract, or Pay Monthly Service depending on what works for your cashflow. Pay Monthly Service is a tiered subscription with 6-month minimum then 30-day rolling — see Table 7 for tier-specific setup and monthly fees.',
   },
   {
     question: 'How much does a recruitment website with a jobs board cost?',
     answer:
-      'A typical recruitment build is a 10-page Ultra Fast SSR website plus the Live Jobs Board add-on. Total cost is £5,249, or £4,987 paid in full. AI SEO is included free.',
+      'A typical recruitment build is a 10-page Ultra Fast SSR website plus the Live Jobs Board add-on. Total cost is £5,249 — same price across all payment options. AI SEO is included free.',
   },
   {
     question: 'How much does an e-commerce website cost?',
@@ -79,29 +79,24 @@ const canonicalPricingFaqs = [
       'Component reuse and modern tooling means SSR sites take less time to build than Wix Studio sites. We pass the savings on. Wix is the right choice if you want to edit content yourself, SSR is faster, AI-visible, and cheaper from 6 pages onwards.',
   },
   {
-    question: 'What is Website-as-a-Service (WaaS)?',
+    question: 'What is Pay Monthly Service?',
     answer:
-      "ScopeSite's WaaS is a continuous monthly subscription that gives you a full website without the upfront capital cost. £795 setup + £99/month rolling. ScopeSite retains ownership of the build during the subscription. Available for sole traders, self-employed, and businesses on Wix Studio Starter (≤5 pages) and Ultra Fast SSR builds (up to 20 pages).",
+      'Pay Monthly Service (internally referred to as Website-as-a-Service) is a continuous monthly subscription that gives you a full website without the upfront capital cost. Tier-specific setup and monthly fees apply (see Table 7). 6-month minimum, then 30-day rolling. ScopeSite retains ownership of the build during the subscription. Available for Wix Studio (Starter and Professional) and Ultra Fast SSR builds (up to 20 pages).',
   },
   {
-    question: 'Can I cancel my WaaS subscription anytime?',
+    question: 'Can I cancel Pay Monthly Service anytime?',
     answer:
-      "Yes. WaaS operates on a 30-day rolling basis with no minimum term. Cancel any time by giving 30 days' written notice. No early termination fees.",
+      'Pay Monthly Service has a 6-month minimum term. After that it continues on 30-day rolling terms — cancel by giving 30 days\' written notice. No early termination fees if you have served the full 6-month minimum.',
   },
   {
-    question: 'Do I own the website on a WaaS plan?',
+    question: 'Do I own the website on Pay Monthly Service?',
     answer:
-      'No. Under WaaS, ScopeSite retains 100% ownership of the build for the duration of your subscription. You hold a license to use the website. If you want to own it outright, you can purchase a Buyout (see below).',
+      'No. Under Pay Monthly Service, ScopeSite retains 100% ownership of the build for the duration of your subscription. You hold a license to use the website. If you want to own it outright, you can purchase a Buyout (see below).',
   },
   {
-    question: 'What is the WaaS Buyout fee?',
+    question: 'What is the Pay Monthly Service Buyout fee?',
     answer:
-      'WaaS Buyout fees are flat tiered: £1,500 for Wix Starter, £2,500 for SSR Base (≤5 pages), £3,500 for SSR Plus (6–10 pages), £4,500 for SSR Premium (11–20 pages). The Buyout is in addition to setup and monthly fees already paid; previous payments do not count toward the Buyout price.',
-  },
-  {
-    question: 'Why are spread payment plans (24 and 36 months) restricted to Limited Companies and LLPs?',
-    answer:
-      'Under the UK Consumer Credit Act 1974 and FSMA 2000, spread payment plans with multipliers over 12 months to individuals constitute regulated credit. ScopeSite is not FCA-authorised, so spread plans are restricted to Limited Companies and LLPs. Sole traders and individuals can choose Pay In Full or our WaaS subscription instead.',
+      'Pay Monthly Service Buyout fees are tiered: £1,500 for Wix Starter, £3,000 for Wix Professional, £2,500 for SSR Base (≤5 pages), £3,500 for SSR Plus (6–10 pages), £4,500 for SSR Premium (11–20 pages). Buyout is optional and only available after the 6-month minimum term is served. Previous monthly payments do not count toward the Buyout price — the Buyout is a separate one-off acquisition fee.',
   },
   {
     question: 'What is the AI Search Performance Guarantee?',
@@ -113,11 +108,11 @@ const canonicalPricingFaqs = [
 export const metadata: Metadata = {
   title: 'Web Design Pricing UK | ScopeSite',
   description:
-    'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Flexible 6, 12, 24, or 36-month payment plans when you qualify. Somerset-based, UK-wide service.',
+    'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Pay in Full, 6- or 12-month instalments at the same total, or Pay Monthly Service where eligible. Somerset-based, UK-wide service.',
   openGraph: {
     title: 'Web Design Pricing UK | Transparent Costs | ScopeSite Digital Studios',
     description:
-      'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Flexible 6, 12, 24, or 36-month payment plans when you qualify. Somerset-based, UK-wide service.',
+      'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Pay in Full, 6- or 12-month instalments at the same total, or Pay Monthly Service where eligible. Somerset-based, UK-wide service.',
     url: PAGE_URL,
     siteName: 'ScopeSite Digital Studios',
     images: [
@@ -135,7 +130,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Web Design Pricing UK | Transparent Costs | ScopeSite',
     description:
-      'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Flexible payment plans including 6, 12, 24, or 36 months when you qualify.',
+      'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Pay in Full, parity instalments, or Pay Monthly Service.',
     images: [`${BASE_URL}/images/og/og-pricing.png`],
   },
   alternates: getAlternates('/pricing', BASE_URL),
@@ -161,7 +156,7 @@ export default function PricingPage() {
   const webPageSchema = {
     ...generateWebPageSchema(
       'Web Design Pricing UK',
-      'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Flexible 6, 12, 24, or 36-month payment plans when you qualify. Somerset-based, UK-wide service.',
+      'Honest web design pricing from £1,875. No hidden costs, instant quotes online. Pay in Full, 6- or 12-month instalments at the same total, or Pay Monthly Service where eligible. Somerset-based, UK-wide service.',
       PAGE_URL
     ),
     mainEntity: { '@id': `${BASE_URL}/pricing/#service` },

@@ -161,7 +161,7 @@ export async function PATCH(
         ssrAnalytics: quote.selections.addOns?.ssrAnalytics,
         ssrScalability: quote.selections.addOns?.ssrScalability,
         // Payment
-        paymentType: quote.selections.paymentPreference || 'twelve',
+        paymentType: quote.selections.paymentPreference || 'oneOff',
         total: pricing?.selectedTotal ?? 0,
         monthly: pricing?.monthlyPayment ?? null,
         quoteUrl: locale === 'us' ? `https://scopesite.co.uk/us/quote?q=${quote.id}` : `https://scopesite.co.uk/pricing?q=${quote.id}`,

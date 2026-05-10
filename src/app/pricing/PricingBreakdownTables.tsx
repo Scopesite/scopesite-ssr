@@ -342,50 +342,90 @@ export function PricingBreakdownTables() {
           </table>
         </div>
 
-        <h3 className="text-lg font-bold text-brand-navy mb-3">Table 6: Payment Term Modifiers</h3>
+        <h3 className="text-lg font-bold text-brand-navy mb-3">Table 6: Payment Options (No Interest, No Credit Charges)</h3>
         <div className={`${tableWrap} ${rowClass}`}>
           <table className={tableClass}>
             <thead>
               <tr>
                 <th className={thClass}>Term</th>
-                <th className={thClass}>Multiplier</th>
-                <th className={thClass}>Example (£4,000 build)</th>
+                <th className={thClass}>Total (£4,000 build example)</th>
+                <th className={thClass}>Notes</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td className={tdClass}>Paid in Full</td>
-                <td className={tdClass}>× 0.95</td>
-                <td className={tdClass}>£3,800</td>
+                <td className={tdClass}>£4,000</td>
+                <td className={tdClass}>All entity types</td>
               </tr>
               <tr>
                 <td className={tdClass}>6 Months</td>
-                <td className={tdClass}>× 1.03</td>
-                <td className={tdClass}>£4,120 (£687/mo)</td>
+                <td className={tdClass}>£4,000 (£667/mo)</td>
+                <td className={tdClass}>All entity types</td>
               </tr>
               <tr>
                 <td className={tdClass}>12 Months</td>
-                <td className={tdClass}>× 1.06</td>
-                <td className={tdClass}>£4,240 (£353/mo)</td>
+                <td className={tdClass}>£4,000 (£333/mo)</td>
+                <td className={tdClass}>All entity types</td>
               </tr>
               <tr>
-                <td className={tdClass}>24 Months</td>
-                <td className={tdClass}>× 1.12</td>
-                <td className={tdClass}>£4,480 (£187/mo)</td>
+                <td className={tdClass}>Pay Monthly Service</td>
+                <td className={tdClass}>Tiered — see Table 7</td>
+                <td className={tdClass}>Subscription; buyout optional after minimum term</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 className="text-lg font-bold text-brand-navy mb-3 mt-10">Table 7: Pay Monthly Service Tiers</h3>
+        <div className={`${tableWrap} ${rowClass}`}>
+          <table className={tableClass}>
+            <thead>
+              <tr>
+                <th className={thClass}>Build Tier</th>
+                <th className={thClass}>Setup</th>
+                <th className={thClass}>Monthly</th>
+                <th className={thClass}>Buyout (Optional)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className={tdClass}>Wix Starter (≤5 pages)</td>
+                <td className={tdClass}>£995</td>
+                <td className={tdClass}>£119</td>
+                <td className={tdClass}>£1,500</td>
               </tr>
               <tr>
-                <td className={tdClass}>36 Months</td>
-                <td className={tdClass}>× 1.18</td>
-                <td className={tdClass}>
-                  £4,720 (£131/mo, only available above £2,000 subtotal)
-                </td>
+                <td className={tdClass}>Wix Professional (6–10)</td>
+                <td className={tdClass}>£1,495</td>
+                <td className={tdClass}>£179</td>
+                <td className={tdClass}>£3,000</td>
+              </tr>
+              <tr>
+                <td className={tdClass}>SSR Base (≤5 pages)</td>
+                <td className={tdClass}>£795</td>
+                <td className={tdClass}>£109</td>
+                <td className={tdClass}>£2,500</td>
+              </tr>
+              <tr>
+                <td className={tdClass}>SSR Plus (6–10 pages)</td>
+                <td className={tdClass}>£795</td>
+                <td className={tdClass}>£159</td>
+                <td className={tdClass}>£3,500</td>
+              </tr>
+              <tr>
+                <td className={tdClass}>SSR Premium (11–20)</td>
+                <td className={tdClass}>£995</td>
+                <td className={tdClass}>£219</td>
+                <td className={tdClass}>£4,500</td>
               </tr>
             </tbody>
           </table>
         </div>
         <p className="text-xs text-brand-graphite mt-2 max-w-3xl mx-auto leading-relaxed md:text-center">
-          Spread payment plans (6, 12, 24, 36 months) are available to Limited Companies and LLPs only. Sole
-          traders and individuals must pay in full.
+          Pay Monthly Service is a 6-month minimum subscription, then 30-day rolling. ScopeSite retains ownership of the
+          build during the subscription. Buyout fee available any time after the 6-month minimum to acquire full
+          ownership outright.
         </p>
 
         <p className="text-brand-navy/80 text-center max-w-3xl mx-auto mt-10 leading-relaxed">

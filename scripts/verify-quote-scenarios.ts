@@ -1,17 +1,13 @@
 /**
- * ScopeSite QuoteCalculator v2.0 — worked examples + term-length rules.
+ * ScopeSite QuoteCalculator — worked examples + Pay Monthly Service tiers.
  * Run: npx tsx scripts/verify-quote-scenarios.ts
  */
 
 import { calculateQuote, createQuoteResult } from '../src/lib/calculate-quote';
-import {
-  createDefaultAddOns,
-  mergeAddOnsWithIntentDefaults,
-  THIRTY_SIX_MONTH_MIN_SUBTOTAL_GBP,
-} from '../src/lib/pricing-config';
+import { createDefaultAddOns, mergeAddOnsWithIntentDefaults, resolvePayMonthlyTier } from '../src/lib/pricing-config';
 import type { PaymentPreference, QuoteAddOns, QuoteRequest, QuoteResult } from '../src/types/pricing';
 
-const TITLE = 'ScopeSite QuoteCalculator v2.0 verification';
+const TITLE = 'ScopeSite QuoteCalculator UK parity verification';
 
 const green = (s: string) => `\x1b[32m${s}\x1b[0m`;
 const red = (s: string) => `\x1b[31m${s}\x1b[0m`;
@@ -75,7 +71,7 @@ function test1(): ScenarioResult {
   createQuoteResult(request, 'twelve');
   const expected = {
     oneOffSubtotal: 2000,
-    twelveTotalOverTerm: 2120,
+    twelveTotalOverTerm: 2000,
     twelveMonthly: 400,
     exceedsStandardTier: false,
   };
@@ -87,7 +83,7 @@ function test1(): ScenarioResult {
   };
   const failReasons: string[] = [];
   if (b.oneOffSubtotal !== 2000) failReasons.push(`oneOffSubtotal want 2000 got ${b.oneOffSubtotal}`);
-  if (b.totals.twelve.totalOverTerm !== 2120) failReasons.push(`twelve.totalOverTerm want 2120 got ${b.totals.twelve.totalOverTerm}`);
+  if (b.totals.twelve.totalOverTerm !== 2000) failReasons.push(`twelve.totalOverTerm want 2000 got ${b.totals.twelve.totalOverTerm}`);
   if (b.totals.twelve.monthly !== 400) failReasons.push(`twelve.monthly want 400 got ${b.totals.twelve.monthly}`);
   if (b.exceedsStandardTier !== false) failReasons.push(`exceedsStandardTier want false got ${b.exceedsStandardTier}`);
   return {
@@ -112,10 +108,10 @@ function test2(): ScenarioResult {
   };
   const b = calculateQuote(request);
   createQuoteResult(request, 'oneOff');
-  const expected = { oneOffFinal: 1900 };
+  const expected = { oneOffFinal: 2000 };
   const actual = { oneOffFinal: b.totals.oneOff.final };
   const failReasons: string[] = [];
-  if (b.totals.oneOff.final !== 1900) failReasons.push(`oneOff.final want 1900 got ${b.totals.oneOff.final}`);
+  if (b.totals.oneOff.final !== 2000) failReasons.push(`oneOff.final want 2000 got ${b.totals.oneOff.final}`);
   return {
     name: 'Test 2: 5-page SSR / pay in full / no existing site',
     request,
@@ -138,10 +134,10 @@ function test3(): ScenarioResult {
   };
   const b = calculateQuote(request);
   createQuoteResult(request, 'oneOff');
-  const expected = { oneOffFinal: 3919 };
+  const expected = { oneOffFinal: 4125 };
   const actual = { oneOffFinal: b.totals.oneOff.final };
   const failReasons: string[] = [];
-  if (b.totals.oneOff.final !== 3919) failReasons.push(`oneOff.final want 3919 got ${b.totals.oneOff.final}`);
+  if (b.totals.oneOff.final !== 4125) failReasons.push(`oneOff.final want 4125 got ${b.totals.oneOff.final}`);
   return {
     name: 'Test 3: 10-page Wix / pay in full / no existing site',
     request,
@@ -166,7 +162,7 @@ function test4(): ScenarioResult {
   createQuoteResult(request, 'twelve');
   const expected = {
     oneOffSubtotal: 4250,
-    twelveTotalOverTerm: 4505,
+    twelveTotalOverTerm: 4250,
     twelveMonthly: 400,
   };
   const actual = {
@@ -176,7 +172,7 @@ function test4(): ScenarioResult {
   };
   const failReasons: string[] = [];
   if (b.oneOffSubtotal !== 4250) failReasons.push(`oneOffSubtotal want 4250 got ${b.oneOffSubtotal}`);
-  if (b.totals.twelve.totalOverTerm !== 4505) failReasons.push(`twelve.totalOverTerm want 4505 got ${b.totals.twelve.totalOverTerm}`);
+  if (b.totals.twelve.totalOverTerm !== 4250) failReasons.push(`twelve.totalOverTerm want 4250 got ${b.totals.twelve.totalOverTerm}`);
   if (b.totals.twelve.monthly !== 400) failReasons.push(`twelve.monthly want 400 got ${b.totals.twelve.monthly}`);
   return {
     name: 'Test 4: 15-page SSR / 12-month / no existing site',
@@ -233,11 +229,11 @@ function test6(): ScenarioResult {
   };
   const b = calculateQuote(request);
   createQuoteResult(request, 'oneOff');
-  const expected = { oneOffSubtotal: 1200, oneOffFinal: 1140 };
+  const expected = { oneOffSubtotal: 1200, oneOffFinal: 1200 };
   const actual = { oneOffSubtotal: b.oneOffSubtotal, oneOffFinal: b.totals.oneOff.final };
   const failReasons: string[] = [];
   if (b.oneOffSubtotal !== 1200) failReasons.push(`oneOffSubtotal want 1200 got ${b.oneOffSubtotal}`);
-  if (b.totals.oneOff.final !== 1140) failReasons.push(`oneOff.final want 1140 got ${b.totals.oneOff.final}`);
+  if (b.totals.oneOff.final !== 1200) failReasons.push(`oneOff.final want 1200 got ${b.totals.oneOff.final}`);
   return {
     name: 'Test 6: 5-page SSR / existing site / pay in full',
     request,
@@ -260,11 +256,11 @@ function test7(): ScenarioResult {
   };
   const b = calculateQuote(request);
   createQuoteResult(request, 'oneOff');
-  const expected = { oneOffSubtotal: 2475, oneOffFinal: 2351 };
+  const expected = { oneOffSubtotal: 2475, oneOffFinal: 2475 };
   const actual = { oneOffSubtotal: b.oneOffSubtotal, oneOffFinal: b.totals.oneOff.final };
   const failReasons: string[] = [];
   if (b.oneOffSubtotal !== 2475) failReasons.push(`oneOffSubtotal want 2475 got ${b.oneOffSubtotal}`);
-  if (b.totals.oneOff.final !== 2351) failReasons.push(`oneOff.final want 2351 got ${b.totals.oneOff.final}`);
+  if (b.totals.oneOff.final !== 2475) failReasons.push(`oneOff.final want 2475 got ${b.totals.oneOff.final}`);
   return {
     name: 'Test 7: 10-page Wix / existing site / pay in full',
     request,
@@ -286,12 +282,11 @@ function test8(): ScenarioResult {
     paymentPreference: 'oneOff',
   };
   const b = calculateQuote(request);
-  const r = createQuoteResult(request, 'oneOff');
   const markerOk = includedItemsHasSsrVoice(b);
   const noPaidAi = noPaidAiSeoVoiceInOneOff(b);
   const expected = {
     oneOffSubtotal: 5249,
-    oneOffFinal: 4987,
+    oneOffFinal: 5249,
     includedSsrVoice: true,
     noPaidVoiceLine: true,
   };
@@ -303,7 +298,7 @@ function test8(): ScenarioResult {
   };
   const failReasons: string[] = [];
   if (b.oneOffSubtotal !== 5249) failReasons.push(`oneOffSubtotal want 5249 got ${b.oneOffSubtotal}`);
-  if (b.totals.oneOff.final !== 4987) failReasons.push(`oneOff.final want 4987 got ${b.totals.oneOff.final}`);
+  if (b.totals.oneOff.final !== 5249) failReasons.push(`oneOff.final want 5249 got ${b.totals.oneOff.final}`);
   if (!markerOk) failReasons.push('breakdown.includedItems missing id ssr-voice');
   if (!noPaidAi) failReasons.push('oneOffItems contains paid voice / AI SEO line (should be bundled only)');
   return {
@@ -374,36 +369,23 @@ function test9(): ScenarioResult {
 }
 
 function test10(): ScenarioResult {
-  const request: QuoteRequest = {
+  const tier = resolvePayMonthlyTier({
     projectType: 'clientManaged',
-    hasExistingSite: false,
-    intent: 'unspecified',
-    scope: defaultScope(5),
-    addOns: mergeAddOns({}),
-    paymentPreference: 'twelve',
-  };
-  const b = calculateQuote(request);
-  const r = createQuoteResult(request, 'twelve');
-  const expected = {
-    oneOffSubtotal: 1875,
-    thirtySixAvailable: false,
-  };
-  const actual = {
-    oneOffSubtotal: b.oneOffSubtotal,
-    thirtySixAvailable: r.thirtySixAvailable,
-  };
+    scope: defaultScope(4),
+  });
+  const expected = { tierId: 'pms-wix-starter' };
+  const actual = { tierId: tier?.tierId };
   const failReasons: string[] = [];
-  if (b.oneOffSubtotal !== 1875) failReasons.push(`oneOffSubtotal want 1875 got ${b.oneOffSubtotal}`);
-  if (b.oneOffSubtotal >= THIRTY_SIX_MONTH_MIN_SUBTOTAL_GBP) {
-    failReasons.push(`subtotal should be < ${THIRTY_SIX_MONTH_MIN_SUBTOTAL_GBP} for this scenario`);
-  }
-  if (r.thirtySixAvailable !== false) {
-    failReasons.push(`thirtySixAvailable want false got ${r.thirtySixAvailable}`);
-  }
+  if (tier?.tierId !== 'pms-wix-starter') failReasons.push(`want pms-wix-starter got ${tier?.tierId}`);
   return {
-    name: 'Test 10: 5-page Wix Starter / thirtySix unavailable (subtotal < threshold)',
-    request,
-    paymentPreference: 'twelve',
+    name: 'Test 10: Pay Monthly tier — 4-page Wix Starter band',
+    request: {
+      projectType: 'clientManaged',
+      scope: defaultScope(4),
+      addOns: mergeAddOns({}),
+      paymentPreference: 'oneOff',
+    } as QuoteRequest,
+    paymentPreference: 'oneOff',
     expected,
     actual,
     pass: failReasons.length === 0,
@@ -412,33 +394,48 @@ function test10(): ScenarioResult {
 }
 
 function test11(): ScenarioResult {
-  const request: QuoteRequest = {
+  const tier = resolvePayMonthlyTier({
     projectType: 'ssr',
-    hasExistingSite: false,
-    intent: 'unspecified',
-    scope: defaultScope(5),
-    addOns: mergeAddOns({}),
-    paymentPreference: 'twelve',
-  };
-  const b = calculateQuote(request);
-  const r = createQuoteResult(request, 'twelve');
-  const expected = {
-    oneOffSubtotal: 2000,
-    thirtySixAvailable: true,
-  };
-  const actual = {
-    oneOffSubtotal: b.oneOffSubtotal,
-    thirtySixAvailable: r.thirtySixAvailable,
-  };
+    scope: defaultScope(7),
+  });
+  const expected = { tierId: 'pms-ssr-plus' };
+  const actual = { tierId: tier?.tierId };
   const failReasons: string[] = [];
-  if (b.oneOffSubtotal !== 2000) failReasons.push(`oneOffSubtotal want 2000 got ${b.oneOffSubtotal}`);
-  if (r.thirtySixAvailable !== true) {
-    failReasons.push(`thirtySixAvailable want true got ${r.thirtySixAvailable}`);
-  }
+  if (tier?.tierId !== 'pms-ssr-plus') failReasons.push(`want pms-ssr-plus got ${tier?.tierId}`);
   return {
-    name: 'Test 11: 5-page SSR at threshold / thirtySix available',
-    request,
-    paymentPreference: 'twelve',
+    name: 'Test 11: Pay Monthly tier — 7-page SSR Plus band',
+    request: {
+      projectType: 'ssr',
+      scope: defaultScope(7),
+      addOns: mergeAddOns({}),
+      paymentPreference: 'oneOff',
+    } as QuoteRequest,
+    paymentPreference: 'oneOff',
+    expected,
+    actual,
+    pass: failReasons.length === 0,
+    failReasons,
+  };
+}
+
+function test12(): ScenarioResult {
+  const tier = resolvePayMonthlyTier({
+    projectType: 'ssr',
+    scope: defaultScope(25),
+  });
+  const expected = { tierId: null };
+  const actual = { tierId: tier?.tierId ?? null };
+  const failReasons: string[] = [];
+  if (tier !== null) failReasons.push(`want null eligibility for 25-page SSR got ${tier?.tierId}`);
+  return {
+    name: 'Test 12: Pay Monthly tier — 25-page SSR ineligible',
+    request: {
+      projectType: 'ssr',
+      scope: defaultScope(25),
+      addOns: mergeAddOns({}),
+      paymentPreference: 'oneOff',
+    } as QuoteRequest,
+    paymentPreference: 'oneOff',
     expected,
     actual,
     pass: failReasons.length === 0,
@@ -467,12 +464,10 @@ function formatExpectedLine(sr: ScenarioResult): string {
   if (sr.name.startsWith('Test 9:')) {
     return `expected: 1× Live Promotions @1500, stripe included £0, subtotal 5750`;
   }
-  if (sr.name.startsWith('Test 10:')) {
-    return `expected: subtotal=${e.oneOffSubtotal}, thirtySixAvailable=${e.thirtySixAvailable}`;
+  if (sr.name.startsWith('Test 10:') || sr.name.startsWith('Test 11:')) {
+    return `expected: tierId=${e.tierId}`;
   }
-  if (sr.name.startsWith('Test 11:')) {
-    return `expected: subtotal=${e.oneOffSubtotal}, thirtySixAvailable=${e.thirtySixAvailable}`;
-  }
+  if (sr.name.startsWith('Test 12:')) return `expected: tierId=${e.tierId}`;
   return `expected: ${JSON.stringify(e)}`;
 }
 
@@ -497,8 +492,8 @@ function formatActualLine(sr: ScenarioResult): string {
   if (sr.name.startsWith('Test 9:')) {
     return `actual:   promoLines=${a.livePromotionsLineCount}, stripeIncluded=${a.stripeIncluded}, subtotal=${a.oneOffSubtotal}`;
   }
-  if (sr.name.startsWith('Test 10:') || sr.name.startsWith('Test 11:')) {
-    return `actual:   subtotal=${a.oneOffSubtotal}, thirtySixAvailable=${a.thirtySixAvailable}`;
+  if (sr.name.startsWith('Test 10:') || sr.name.startsWith('Test 11:') || sr.name.startsWith('Test 12:')) {
+    return `actual:   tierId=${a.tierId}`;
   }
   return `actual:   ${JSON.stringify(a)}`;
 }
@@ -517,6 +512,7 @@ function main() {
     test9,
     test10,
     test11,
+    test12,
   ];
   let passed = 0;
   const failed: ScenarioResult[] = [];

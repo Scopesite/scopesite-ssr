@@ -10,7 +10,7 @@ import {
   getIntentAddOnDefaults,
   createDefaultAddOns,
   getAdditionalPages,
-  THIRTY_SIX_MONTH_MIN_SUBTOTAL_GBP,
+  resolvePayMonthlyTier,
 } from './pricing-config';
 import type {
   QuoteRequest,
@@ -36,52 +36,17 @@ function normalizeAddOns(partial?: Partial<QuoteAddOns>): QuoteAddOns {
 
 const ALL_CALC_ADDON_KEYS = Object.keys(ADDON_CATALOG) as IntentAddOnKey[];
 
-function isSpreadPayment(p: PaymentPreference): boolean {
-  return p === 'six' || p === 'twelve' || p === 'twentyFour' || p === 'thirtySix';
-}
-
 /**
- * UK compliance: CCA 1974 / FSMA — spread terms are LTD/LLP only.
- * Call before persisting or finalising a quote result.
+ * UK compliance backstop (entity + Pay Monthly Service eligibility). Instalment terms
+ * are the same total as pay in full — no regulated credit premium (CCA 1974 / FSMA).
  */
 export function assertUkQuoteRequestValid(request: QuoteRequest): void {
-  if (request.entityType === 'sole_trader' && isSpreadPayment(request.paymentPreference)) {
-    throw new Error(
-      'Spread payment plans (6, 12, 24, or 36 months) are only available to Limited Companies and LLPs. Sole traders must use Pay in Full or Website-as-a-Service (see T&Cs clause 5.1.2).'
-    );
-  }
   if (request.entityType === 'limited' && !request.companyName?.trim()) {
     throw new Error('Company name is required for Limited Company / LLP quotes.');
   }
   if (request.paymentPreference === 'waas') {
     assertWaaSRequest(request);
   }
-}
-
-function resolveWaaSQuoteContext(request: QuoteRequest): { buyoutFee: number } | null {
-  const cfg = PRICING_CONFIG.waas;
-
-  if (request.projectType === 'clientManaged') {
-    const pages = request.scope.pageCount;
-    if (pages > 5) return null;
-    if (request.scope.ecommerce !== 'none') return null;
-    if (request.scope.webApp !== 'none') return null;
-    return { buyoutFee: cfg.buyoutFees.wixStarter };
-  }
-
-  if (request.projectType === 'ssr') {
-    const pageCount = Math.max(request.scope.pageCount, 5);
-    if (pageCount > cfg.ssrPageCap) return null;
-    const ssr = calculateSSRPrice(pageCount);
-    if (ssr.exceedsStandardTier) return null;
-    let buyoutFee: number;
-    if (pageCount <= 5) buyoutFee = cfg.buyoutFees.ssrBase;
-    else if (pageCount <= 10) buyoutFee = cfg.buyoutFees.ssrPlus;
-    else buyoutFee = cfg.buyoutFees.ssrPremium;
-    return { buyoutFee };
-  }
-
-  return null;
 }
 
 function assertWaaSRequest(request: QuoteRequest): void {
@@ -112,9 +77,9 @@ function assertWaaSRequest(request: QuoteRequest): void {
     }
   }
 
-  if (!resolveWaaSQuoteContext(request)) {
+  if (!resolvePayMonthlyTier(request)) {
     throw new Error(
-      'This build is not eligible for Website-as-a-Service. Choose Wix Starter (up to 5 pages, no e-commerce or custom app), or Ultra Fast SSR up to 20 pages within our standard published tier.'
+      'This build is not eligible for Pay Monthly Service. Choose Pay in Full or a fixed 6- or 12-month contract, or adjust scope to Wix Starter / Professional (no shop or custom app) or Ultra Fast SSR within the standard published tier (up to 20 pages).'
     );
   }
 }
@@ -122,17 +87,19 @@ function assertWaaSRequest(request: QuoteRequest): void {
 function calculateWaaSBreakdown(request: QuoteRequest): QuoteBreakdown {
   assertWaaSRequest(request);
   const cfg = PRICING_CONFIG.waas;
-  const ctx = resolveWaaSQuoteContext(request)!;
+  const tier = resolvePayMonthlyTier(request)!;
   const addOns = normalizeAddOns(request.addOns);
   const um = upgradeMult(request.hasExistingSite);
+
+  const setupCharge = Math.round(tier.setupFee * um);
 
   const oneOffItems: QuoteLineItem[] = [
     {
       id: 'waas-setup',
-      label: 'Website-as-a-Service — setup',
+      label: `Pay Monthly Service — setup (${tier.customerLabel})`,
       quantity: 1,
-      unitPrice: cfg.setupFee,
-      total: cfg.setupFee,
+      unitPrice: setupCharge,
+      total: setupCharge,
       isMonthly: false,
       isRequired: true,
     },
@@ -168,17 +135,17 @@ function calculateWaaSBreakdown(request: QuoteRequest): QuoteBreakdown {
   const monthlyItems: QuoteLineItem[] = [
     {
       id: 'waas-subscription',
-      label: 'Website-as-a-Service (rolling monthly)',
+      label: `Pay Monthly Service — subscription (${tier.customerLabel})`,
       quantity: 1,
-      unitPrice: cfg.monthlyFee,
-      total: cfg.monthlyFee,
+      unitPrice: tier.monthlyFee,
+      total: tier.monthlyFee,
       isMonthly: true,
       isRequired: true,
     },
   ];
 
   const oneOffSubtotal = oneOffItems.reduce((sum, item) => sum + item.total, 0);
-  const monthlySubtotal = cfg.monthlyFee;
+  const monthlySubtotal = tier.monthlyFee;
   const z = { monthly: 0, totalOverTerm: 0, ongoingAfter: 0 };
 
   return {
@@ -186,11 +153,13 @@ function calculateWaaSBreakdown(request: QuoteRequest): QuoteBreakdown {
     oneOffSubtotal,
     monthlyItems,
     monthlySubtotal,
-    thirtySixAvailable: false,
     waasDetails: {
-      setupFee: cfg.setupFee,
-      monthlyFee: cfg.monthlyFee,
-      buyoutFee: ctx.buyoutFee,
+      tierId: tier.tierId,
+      customerLabel: tier.customerLabel,
+      setupFee: setupCharge,
+      monthlyFee: tier.monthlyFee,
+      buyoutFee: tier.buyoutFee,
+      minimumTermMonths: cfg.minimumTermMonths,
     },
     totals: {
       oneOff: {
@@ -198,10 +167,10 @@ function calculateWaaSBreakdown(request: QuoteRequest): QuoteBreakdown {
         discount: 0,
         final: oneOffSubtotal,
       },
-      six: z,
-      twelve: z,
-      twentyFour: z,
-      thirtySix: z,
+      six: { ...z },
+      twelve: { ...z },
+      twentyFour: { ...z },
+      thirtySix: { ...z },
     },
   };
 }
@@ -535,16 +504,7 @@ export function calculateQuote(request: Partial<QuoteRequest>): QuoteBreakdown {
   const twelveMonthly = Math.round(twelveTotal / 12 + monthlySubtotal);
   const twelveOngoing = PRICING_CONFIG.contracts.twelve.ongoingMonthly + monthlySubtotal;
 
-  const twentyFourTotal = oneOffSubtotal * PRICING_CONFIG.contracts.twentyFour.markup;
-  const twentyFourMonthly = Math.round(twentyFourTotal / 24 + monthlySubtotal);
-  const twentyFourOngoing = PRICING_CONFIG.contracts.twentyFour.ongoingMonthly + monthlySubtotal;
-
-  const thirtySixTotal = oneOffSubtotal * PRICING_CONFIG.contracts.thirtySix.markup;
-  const thirtySixMonthly = Math.round(thirtySixTotal / 36 + monthlySubtotal);
-  const thirtySixOngoing = PRICING_CONFIG.contracts.thirtySix.ongoingMonthly + monthlySubtotal;
-
   const isSSR = request.projectType === 'ssr';
-  const thirtySixAvailable = oneOffSubtotal >= THIRTY_SIX_MONTH_MIN_SUBTOTAL_GBP;
 
   return {
     oneOffItems,
@@ -553,7 +513,6 @@ export function calculateQuote(request: Partial<QuoteRequest>): QuoteBreakdown {
     monthlySubtotal,
     includedItems: includedItems.length > 0 ? includedItems : undefined,
     exceedsStandardTier: isSSR ? exceedsStandardTier : undefined,
-    thirtySixAvailable,
     recommendedAddOns: recommended,
     includedAddOnKeys,
     totals: {
@@ -576,20 +535,8 @@ export function calculateQuote(request: Partial<QuoteRequest>): QuoteBreakdown {
         totalOverTerm: Math.round(twelveTotal + monthlySubtotal * 12),
         ongoingAfter: twelveOngoing,
       },
-      twentyFour: {
-        monthly: isSSR
-          ? Math.max(twentyFourMonthly, PRICING_CONFIG.ssrMinimums.twentyFour)
-          : twentyFourMonthly,
-        totalOverTerm: Math.round(twentyFourTotal + monthlySubtotal * 24),
-        ongoingAfter: twentyFourOngoing,
-      },
-      thirtySix: {
-        monthly: isSSR
-          ? Math.max(thirtySixMonthly, PRICING_CONFIG.ssrMinimums.thirtySix)
-          : thirtySixMonthly,
-        totalOverTerm: Math.round(thirtySixTotal + monthlySubtotal * 36),
-        ongoingAfter: thirtySixOngoing,
-      },
+      twentyFour: { monthly: 0, totalOverTerm: 0, ongoingAfter: 0 },
+      thirtySix: { monthly: 0, totalOverTerm: 0, ongoingAfter: 0 },
     },
   };
 }
@@ -600,7 +547,6 @@ function createEmptyBreakdown(): QuoteBreakdown {
     oneOffSubtotal: 0,
     monthlyItems: [],
     monthlySubtotal: 0,
-    thirtySixAvailable: false,
     totals: {
       oneOff: { upfront: 0, discount: 0, final: 0 },
       six: { monthly: 0, totalOverTerm: 0, ongoingAfter: 0 },
@@ -648,20 +594,6 @@ export function createQuoteResult(
         ongoingMonthly: breakdown.totals.twelve.ongoingAfter,
       };
       break;
-    case 'twentyFour':
-      selected = {
-        monthly: breakdown.totals.twentyFour.monthly,
-        totalOverTerm: breakdown.totals.twentyFour.totalOverTerm,
-        ongoingMonthly: breakdown.totals.twentyFour.ongoingAfter,
-      };
-      break;
-    case 'thirtySix':
-      selected = {
-        monthly: breakdown.totals.thirtySix.monthly,
-        totalOverTerm: breakdown.totals.thirtySix.totalOverTerm,
-        ongoingMonthly: breakdown.totals.thirtySix.ongoingAfter,
-      };
-      break;
     case 'waas':
       selected = {
         upfront: breakdown.oneOffSubtotal,
@@ -683,7 +615,6 @@ export function createQuoteResult(
     breakdown,
     selectedPayment: paymentPreference,
     exceedsStandardTier: breakdown.exceedsStandardTier,
-    thirtySixAvailable: breakdown.thirtySixAvailable,
     recommendedAddOns: recommended,
     includedAddOns,
     selected,

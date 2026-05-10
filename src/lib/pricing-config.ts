@@ -16,9 +16,11 @@
 
 import type {
   IntentAddOnKey,
+  PayMonthlyTierId,
   PricingConfig,
   QuoteAddOns,
   QuoteIntent,
+  QuoteRequest,
   WaaSConfig,
 } from '@/types/pricing';
 
@@ -458,57 +460,72 @@ export const PRICING_CONFIG: PricingConfig = {
   
   /**
    * CONTRACT STRUCTURES
+   * Instalment totals equal one-off subtotal (no credit premium) — CCA 1974 / FSMA alignment.
    */
   contracts: {
     oneOff: {
-      discount: 0.95, // 5% discount for paying upfront
+      discount: 1.0,
       requiresLimitedCompany: false,
     },
     six: {
-      markup: 1.03, // 3% markup for 6 months
-      ongoingMonthly: 125, // £125/mo after contract
-      requiresLimitedCompany: true,
+      markup: 1.0,
+      ongoingMonthly: 125,
+      requiresLimitedCompany: false,
     },
     twelve: {
-      markup: 1.06, // 6% markup (industry is 15-20%)
-      ongoingMonthly: 95, // £95/mo after contract
-      requiresLimitedCompany: true,
-    },
-    twentyFour: {
-      markup: 1.12, // 12% markup (industry is 25-35%)
-      ongoingMonthly: 75, // £75/mo after contract
-      requiresLimitedCompany: true,
-    },
-    thirtySix: {
-      markup: 1.18, // 18% markup for longest term
-      ongoingMonthly: 65, // £65/mo after contract
-      requiresLimitedCompany: true,
+      markup: 1.0,
+      ongoingMonthly: 95,
+      requiresLimitedCompany: false,
     },
   },
-  
+
   /**
    * SSR MINIMUM MONTHLY PAYMENTS
-   * Minimum monthly amounts for SSR projects by contract length
+   * Floors for Ultra Fast during fixed 6- / 12-month contract periods
    */
   ssrMinimums: {
     six: 600,
     twelve: 400,
-    twentyFour: 250,
-    thirtySix: 200,
   },
 
+  /** Pay Monthly Service (internal code: WaaS) — tiered subscription */
   waas: {
-    setupFee: 795,
-    monthlyFee: 99,
-    eligibleBuilds: ['wixStarter', 'ssr'],
+    minimumTermMonths: 6,
+    noticePeriodDays: 30,
     ssrPageCap: 20,
-    buyoutFees: {
-      wixStarter: 1500,
-      ssrBase: 2500,
-      ssrPlus: 3500,
-      ssrPremium: 4500,
-    },
     allowedAddOns: ['smartForms', 'aiChatbot'],
+    tiers: {
+      'pms-wix-starter': {
+        customerLabel: 'Wix Starter (≤5 pages)',
+        setupFee: 995,
+        monthlyFee: 119,
+        buyoutFee: 1500,
+      },
+      'pms-wix-pro': {
+        customerLabel: 'Wix Professional (6–10 pages)',
+        setupFee: 1495,
+        monthlyFee: 179,
+        buyoutFee: 3000,
+      },
+      'pms-ssr-base': {
+        customerLabel: 'Ultra Fast SSR Base (≤5 pages)',
+        setupFee: 795,
+        monthlyFee: 109,
+        buyoutFee: 2500,
+      },
+      'pms-ssr-plus': {
+        customerLabel: 'Ultra Fast SSR Plus (6–10 pages)',
+        setupFee: 795,
+        monthlyFee: 159,
+        buyoutFee: 3500,
+      },
+      'pms-ssr-premium': {
+        customerLabel: 'Ultra Fast SSR Premium (11–20 pages)',
+        setupFee: 995,
+        monthlyFee: 219,
+        buyoutFee: 4500,
+      },
+    },
   } satisfies WaaSConfig,
 };
 
@@ -566,12 +583,10 @@ export const PRICING_LABELS = {
     ssrVercel: 'Premium hosting',
   },
   payments: {
-    oneOff: 'Pay in Full (5% discount)',
+    oneOff: 'Pay in Full',
     six: '6-Month Contract',
     twelve: '12-Month Contract',
-    twentyFour: '24-Month Contract',
-    thirtySix: '36-Month Contract',
-    waas: 'Website-as-a-Service (£795 setup + £99/mo)',
+    waas: 'Pay Monthly Service',
   },
 };
 
@@ -830,6 +845,56 @@ export function calculateSSRPrice(pages: number): SSRPriceResult {
 }
 
 /**
+ * Pay Monthly Service (internal: WaaS) tier from build selections — null if ineligible
+ * (e.g. Wix Enterprise 11+, SSR beyond standard tier cap or 21+ pages).
+ */
+export function resolvePayMonthlyTier(
+  request: Pick<QuoteRequest, 'projectType' | 'scope'>
+): {
+  tierId: PayMonthlyTierId;
+  customerLabel: string;
+  setupFee: number;
+  monthlyFee: number;
+  buyoutFee: number;
+} | null {
+  const cfg = PRICING_CONFIG.waas;
+  if (!request.projectType || !request.scope) return null;
+
+  if (request.projectType === 'clientManaged') {
+    const pages = request.scope.pageCount;
+    if (request.scope.ecommerce !== 'none' || request.scope.webApp !== 'none') return null;
+    if (pages <= 5) {
+      const t = cfg.tiers['pms-wix-starter'];
+      return { tierId: 'pms-wix-starter', ...t };
+    }
+    if (pages <= 10) {
+      const t = cfg.tiers['pms-wix-pro'];
+      return { tierId: 'pms-wix-pro', ...t };
+    }
+    return null;
+  }
+
+  if (request.projectType === 'ssr') {
+    const pages = request.scope.pageCount;
+    if (pages > cfg.ssrPageCap) return null;
+    const ssr = calculateSSRPrice(Math.max(pages, 5));
+    if (ssr.exceedsStandardTier) return null;
+    if (pages <= 5) {
+      const t = cfg.tiers['pms-ssr-base'];
+      return { tierId: 'pms-ssr-base', ...t };
+    }
+    if (pages <= 10) {
+      const t = cfg.tiers['pms-ssr-plus'];
+      return { tierId: 'pms-ssr-plus', ...t };
+    }
+    const t = cfg.tiers['pms-ssr-premium'];
+    return { tierId: 'pms-ssr-premium', ...t };
+  }
+
+  return null;
+}
+
+/**
  * CALCULATE PACKAGE FROM PAGE COUNT (Client-Managed)
  */
 export function getPackageForPageCount(pages: number): 'starter' | 'professional' | 'enterprise' {
@@ -837,9 +902,6 @@ export function getPackageForPageCount(pages: number): 'starter' | 'professional
   if (pages <= 10) return 'professional';
   return 'enterprise';
 }
-
-/** Minimum one-off build subtotal (£) for the 36-month payment option */
-export const THIRTY_SIX_MONTH_MIN_SUBTOTAL_GBP = 2000;
 
 /**
  * GET ADDITIONAL PAGES BEYOND PACKAGE (Client-Managed)

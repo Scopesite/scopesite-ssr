@@ -2363,7 +2363,7 @@ function pricingMonthlyUnitSpec(price: number, name?: string): Record<string, un
 }
 
 /**
- * Eleven canonical UK pricing offers for /pricing — shared by Service JSON-LD and WebApplication JSON-LD.
+ * Fourteen canonical UK pricing offers for /pricing — shared by Service JSON-LD and WebApplication JSON-LD.
  * Numeric values are read from PRICING_CONFIG / VOICE_SPEC / ADDON_CATALOG (not hardcoded).
  */
 export function buildCanonicalUkPricingOffers(pageUrl: string): Record<string, unknown>[] {
@@ -2375,6 +2375,8 @@ export function buildCanonicalUkPricingOffers(pageUrl: string): Record<string, u
     perPageRate,
   } = PRICING_CONFIG;
 
+  const pms = waas.tiers;
+
   const smartFormsPrice = ADDON_CATALOG.smartForms.price;
   const aiChatbotPrice = ADDON_CATALOG.aiChatbot.price;
 
@@ -2384,7 +2386,7 @@ export function buildCanonicalUkPricingOffers(pageUrl: string): Record<string, u
       '@id': `${BASE_URL}/pricing#offer-wix-starter-pif`,
       name: 'Wix Studio Starter (Pay In Full)',
       description:
-        'Wix Studio build, up to 5 pages (Manage Yourself After Build). One-off price before any pay-in-full discount.',
+        'Wix Studio build, up to 5 pages (Manage Yourself After Build). Published one-off list price.',
       price: String(starter),
       priceCurrency: 'GBP',
       availability: 'https://schema.org/InStock',
@@ -2396,7 +2398,7 @@ export function buildCanonicalUkPricingOffers(pageUrl: string): Record<string, u
       '@id': `${BASE_URL}/pricing#offer-wix-professional-pif`,
       name: 'Wix Studio Professional (Pay In Full)',
       description:
-        'Wix Studio build, 6–10 pages (Manage Yourself After Build). One-off price before any pay-in-full discount.',
+        'Wix Studio build, 6–10 pages (Manage Yourself After Build). Published one-off list price.',
       price: String(professional),
       priceCurrency: 'GBP',
       availability: 'https://schema.org/InStock',
@@ -2407,7 +2409,7 @@ export function buildCanonicalUkPricingOffers(pageUrl: string): Record<string, u
       '@type': 'Offer',
       '@id': `${BASE_URL}/pricing#offer-wix-enterprise-pif`,
       name: 'Wix Studio Enterprise (Pay In Full from £7,500)',
-      description: `Wix Studio build from 11+ pages. Base from £${enterprise.toLocaleString('en-GB')} plus £${perPageRate} per page above 10 (Manage Yourself After Build). One-off price before any pay-in-full discount.`,
+      description: `Wix Studio build from 11+ pages. Base from £${enterprise.toLocaleString('en-GB')} plus £${perPageRate} per page above 10 (Manage Yourself After Build). Published one-off list price.`,
       price: String(enterprise),
       priceCurrency: 'GBP',
       availability: 'https://schema.org/InStock',
@@ -2496,46 +2498,92 @@ export function buildCanonicalUkPricingOffers(pageUrl: string): Record<string, u
     },
     {
       '@type': 'Offer',
-      '@id': `${BASE_URL}/pricing#offer-waas-wix-starter`,
-      name: 'Wix Studio Starter WaaS (Website-as-a-Service)',
-      description: `Website-as-a-Service on Wix Studio Starter (up to 5 pages). £${waas.setupFee} setup plus £${waas.monthlyFee} per month on a 30-day rolling subscription; no minimum term beyond notice. ScopeSite retains ownership of the build during the subscription; client holds a licence to use the site. Buyout fee £${waas.buyoutFees.wixStarter.toLocaleString('en-GB')} if you later want to own the asset outright.`,
+      '@id': `${BASE_URL}/pricing#offer-pay-monthly-wix-starter`,
+      name: 'Pay Monthly Service — Wix Starter',
+      description: `Pay Monthly Service (subscription — internally also referred to as Website-as-a-Service) for Wix Studio Starter up to 5 pages. £${pms['pms-wix-starter'].setupFee} setup plus £${pms['pms-wix-starter'].monthlyFee} per month after a ${waas.minimumTermMonths}-month minimum; then ${waas.noticePeriodDays}-day rolling notice. ScopeSite retains ownership during the subscription. Optional buyout £${pms['pms-wix-starter'].buyoutFee.toLocaleString('en-GB')} after the minimum term.`,
       availability: 'https://schema.org/InStock',
       url: pageUrl,
-      seller: {
-        '@type': 'Organization',
-        name: 'ScopeSite Digital Studios',
-        url: BASE_URL,
-      },
+      seller,
       priceSpecification: [
         {
           '@type': 'UnitPriceSpecification',
           name: 'Setup fee',
-          price: String(waas.setupFee),
+          price: String(pms['pms-wix-starter'].setupFee),
           priceCurrency: 'GBP',
         },
-        pricingMonthlyUnitSpec(waas.monthlyFee, 'Monthly subscription'),
+        pricingMonthlyUnitSpec(pms['pms-wix-starter'].monthlyFee, 'Monthly subscription'),
       ],
     },
     {
       '@type': 'Offer',
-      '@id': `${BASE_URL}/pricing#offer-waas-ssr`,
-      name: 'Ultra Fast SSR WaaS (Website-as-a-Service)',
-      description: `Website-as-a-Service on Ultra Fast SSR builds up to ${waas.ssrPageCap} pages. £${waas.setupFee} setup plus £${waas.monthlyFee} per month on a 30-day rolling subscription; no minimum term beyond notice. ScopeSite retains ownership of the build during the subscription. Flat buyout tiers: £${waas.buyoutFees.ssrBase.toLocaleString('en-GB')} (≤5 pages), £${waas.buyoutFees.ssrPlus.toLocaleString('en-GB')} (6–10 pages), £${waas.buyoutFees.ssrPremium.toLocaleString('en-GB')} (11–20 pages).`,
+      '@id': `${BASE_URL}/pricing#offer-pay-monthly-wix-pro`,
+      name: 'Pay Monthly Service — Wix Professional',
+      description: `Pay Monthly Service for Wix Studio Professional (6–10 pages). £${pms['pms-wix-pro'].setupFee} setup plus £${pms['pms-wix-pro'].monthlyFee} per month after a ${waas.minimumTermMonths}-month minimum; then ${waas.noticePeriodDays}-day rolling notice. ScopeSite retains ownership during the subscription. Optional buyout £${pms['pms-wix-pro'].buyoutFee.toLocaleString('en-GB')} after the minimum term.`,
       availability: 'https://schema.org/InStock',
       url: pageUrl,
-      seller: {
-        '@type': 'Organization',
-        name: 'ScopeSite Digital Studios',
-        url: BASE_URL,
-      },
+      seller,
       priceSpecification: [
         {
           '@type': 'UnitPriceSpecification',
           name: 'Setup fee',
-          price: String(waas.setupFee),
+          price: String(pms['pms-wix-pro'].setupFee),
           priceCurrency: 'GBP',
         },
-        pricingMonthlyUnitSpec(waas.monthlyFee, 'Monthly subscription'),
+        pricingMonthlyUnitSpec(pms['pms-wix-pro'].monthlyFee, 'Monthly subscription'),
+      ],
+    },
+    {
+      '@type': 'Offer',
+      '@id': `${BASE_URL}/pricing#offer-pay-monthly-ssr-base`,
+      name: 'Pay Monthly Service — Ultra Fast SSR Base',
+      description: `Pay Monthly Service for Ultra Fast SSR Base (≤5 pages). £${pms['pms-ssr-base'].setupFee} setup plus £${pms['pms-ssr-base'].monthlyFee} per month after a ${waas.minimumTermMonths}-month minimum; then ${waas.noticePeriodDays}-day rolling notice. Optional buyout £${pms['pms-ssr-base'].buyoutFee.toLocaleString('en-GB')} after the minimum term.`,
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+      seller,
+      priceSpecification: [
+        {
+          '@type': 'UnitPriceSpecification',
+          name: 'Setup fee',
+          price: String(pms['pms-ssr-base'].setupFee),
+          priceCurrency: 'GBP',
+        },
+        pricingMonthlyUnitSpec(pms['pms-ssr-base'].monthlyFee, 'Monthly subscription'),
+      ],
+    },
+    {
+      '@type': 'Offer',
+      '@id': `${BASE_URL}/pricing#offer-pay-monthly-ssr-plus`,
+      name: 'Pay Monthly Service — Ultra Fast SSR Plus',
+      description: `Pay Monthly Service for Ultra Fast SSR Plus (6–10 pages). £${pms['pms-ssr-plus'].setupFee} setup plus £${pms['pms-ssr-plus'].monthlyFee} per month after a ${waas.minimumTermMonths}-month minimum; then ${waas.noticePeriodDays}-day rolling notice. Optional buyout £${pms['pms-ssr-plus'].buyoutFee.toLocaleString('en-GB')} after the minimum term.`,
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+      seller,
+      priceSpecification: [
+        {
+          '@type': 'UnitPriceSpecification',
+          name: 'Setup fee',
+          price: String(pms['pms-ssr-plus'].setupFee),
+          priceCurrency: 'GBP',
+        },
+        pricingMonthlyUnitSpec(pms['pms-ssr-plus'].monthlyFee, 'Monthly subscription'),
+      ],
+    },
+    {
+      '@type': 'Offer',
+      '@id': `${BASE_URL}/pricing#offer-pay-monthly-ssr-premium`,
+      name: 'Pay Monthly Service — Ultra Fast SSR Premium',
+      description: `Pay Monthly Service for Ultra Fast SSR Premium (11–20 pages). £${pms['pms-ssr-premium'].setupFee} setup plus £${pms['pms-ssr-premium'].monthlyFee} per month after a ${waas.minimumTermMonths}-month minimum; then ${waas.noticePeriodDays}-day rolling notice. Optional buyout £${pms['pms-ssr-premium'].buyoutFee.toLocaleString('en-GB')} after the minimum term.`,
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+      seller,
+      priceSpecification: [
+        {
+          '@type': 'UnitPriceSpecification',
+          name: 'Setup fee',
+          price: String(pms['pms-ssr-premium'].setupFee),
+          priceCurrency: 'GBP',
+        },
+        pricingMonthlyUnitSpec(pms['pms-ssr-premium'].monthlyFee, 'Monthly subscription'),
       ],
     },
     {
@@ -2564,7 +2612,7 @@ export function buildCanonicalUkPricingOffers(pageUrl: string): Record<string, u
 }
 
 /**
- * WebApplication JSON-LD for the Quote Calculator — canonical 11-offer list (T&Cs v5 + WaaS).
+ * WebApplication JSON-LD for the Quote Calculator — canonical 14-offer list (Pay Monthly Service tiers + core SKUs).
  */
 export function generatePricingQuoteCalculatorWebApplicationSchema(): Record<string, unknown> {
   return {
@@ -2574,14 +2622,14 @@ export function generatePricingQuoteCalculatorWebApplicationSchema(): Record<str
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
     description:
-      'Interactive quote calculator for Wix Studio builds, Ultra Fast SSR, Website-as-a-Service (WaaS), AI SEO retainers, Territory Command, and selected add-ons. Deterministic pricing rules are published at /llms-full.txt.',
+      'Interactive quote calculator for Wix Studio builds, Ultra Fast SSR, Pay Monthly Service (internally Website-as-a-Service), AI SEO retainers, Territory Command, and selected add-ons. Deterministic pricing rules are published at /llms-full.txt.',
     offers: buildCanonicalUkPricingOffers(UK_PRICING_PAGE_URL),
   };
 }
 
 /**
  * Build a complete Service + Offer[] JSON-LD for the /pricing page.
- * Offers match the WebApplication quote calculator list (11 canonical products).
+ * Offers match the WebApplication quote calculator list (14 canonical products).
  */
 export function generatePricingSchema(): Record<string, unknown> {
   const offers = buildCanonicalUkPricingOffers(UK_PRICING_PAGE_URL);
@@ -2594,7 +2642,7 @@ export function generatePricingSchema(): Record<string, unknown> {
     serviceType: 'Web design and AI visibility pricing',
     category: 'Pricing',
     description:
-      'Transparent UK pricing for Wix Studio builds, Ultra Fast SSR websites, Website-as-a-Service (WaaS), standalone AI SEO retainers, Territory Command postcode exclusivity, and selected add-ons. Values mirror the on-site Quote Calculator and published rules.',
+      'Transparent UK pricing for Wix Studio builds, Ultra Fast SSR websites, Pay Monthly Service (internally Website-as-a-Service), standalone AI SEO retainers, Territory Command postcode exclusivity, and selected add-ons. Values mirror the on-site Quote Calculator and published rules.',
     provider: { '@id': `${BASE_URL}/#organization` },
     areaServed: {
       '@type': 'Country',

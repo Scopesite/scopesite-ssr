@@ -44,18 +44,14 @@ export interface PricingConfig {
   };
   contracts: {
     oneOff: { discount: number; requiresLimitedCompany?: false };
-    six: { markup: number; ongoingMonthly: number; requiresLimitedCompany: true };
-    twelve: { markup: number; ongoingMonthly: number; requiresLimitedCompany: true };
-    twentyFour: { markup: number; ongoingMonthly: number; requiresLimitedCompany: true };
-    thirtySix: { markup: number; ongoingMonthly: number; requiresLimitedCompany: true };
+    six: { markup: number; ongoingMonthly: number; requiresLimitedCompany?: boolean };
+    twelve: { markup: number; ongoingMonthly: number; requiresLimitedCompany?: boolean };
   };
   ssrMinimums: {
     six: number;
     twelve: number;
-    twentyFour: number;
-    thirtySix: number;
   };
-  /** Website-as-a-Service (Pay-As-You-Go) — not a regulated credit product */
+  /** Pay Monthly Service (internal: WaaS) — subscription, not a regulated credit product */
   waas: WaaSConfig;
 }
 
@@ -68,13 +64,7 @@ export type ProjectType = 'clientManaged' | 'ssr';
 export type WebsiteType = 'clientManaged' | 'ssr';
 
 /** UK quote payment / subscription term (stored as `paymentPreference` on QuoteRequest for API compatibility). */
-export type PaymentTerm =
-  | 'oneOff'
-  | 'six'
-  | 'twelve'
-  | 'twentyFour'
-  | 'thirtySix'
-  | 'waas';
+export type PaymentTerm = 'oneOff' | 'six' | 'twelve' | 'waas';
 
 export type PaymentPreference = PaymentTerm;
 
@@ -115,18 +105,26 @@ export type IntentAddOnKey =
   | 'ssrI18n'
   | 'automationSetup';
 
-export interface WaaSConfig {
+export type PayMonthlyTierId =
+  | 'pms-wix-starter'
+  | 'pms-wix-pro'
+  | 'pms-ssr-base'
+  | 'pms-ssr-plus'
+  | 'pms-ssr-premium';
+
+export interface PayMonthlyTierConfig {
+  customerLabel: string;
   setupFee: number;
   monthlyFee: number;
-  eligibleBuilds: readonly ('wixStarter' | 'ssr')[];
+  buyoutFee: number;
+}
+
+export interface WaaSConfig {
+  minimumTermMonths: number;
+  noticePeriodDays: number;
   ssrPageCap: number;
-  buyoutFees: {
-    wixStarter: number;
-    ssrBase: number;
-    ssrPlus: number;
-    ssrPremium: number;
-  };
-  /** Add-ons permitted on WaaS (standard catalogue prices) */
+  tiers: Record<PayMonthlyTierId, PayMonthlyTierConfig>;
+  /** Add-ons permitted on Pay Monthly Service / WaaS (catalogue prices) */
   allowedAddOns: readonly IntentAddOnKey[];
 }
 
@@ -215,13 +213,14 @@ export interface QuoteBreakdown {
   exceedsStandardTier?: boolean;
   recommendedAddOns?: IntentAddOnKey[];
   includedAddOnKeys?: IntentAddOnKey[];
-  /** False when one-off subtotal is below £2,000 — 36-month term hidden in UI */
-  thirtySixAvailable?: boolean;
-  /** Populated when `paymentPreference === 'waas'` */
+  /** Populated when `paymentPreference === 'waas'` (Pay Monthly Service) */
   waasDetails?: {
+    tierId: PayMonthlyTierId;
+    customerLabel: string;
     setupFee: number;
     monthlyFee: number;
     buyoutFee: number;
+    minimumTermMonths: number;
   };
   totals: {
     oneOff: {
@@ -239,6 +238,7 @@ export interface QuoteBreakdown {
       totalOverTerm: number;
       ongoingAfter: number;
     };
+    /** US calculator only — UK returns zeros */
     twentyFour: {
       monthly: number;
       totalOverTerm: number;
@@ -270,8 +270,6 @@ export interface QuoteResult {
   breakdown: QuoteBreakdown;
   selectedPayment: PaymentTerm;
   exceedsStandardTier?: boolean;
-  /** Mirrors breakdown.thirtySixAvailable */
-  thirtySixAvailable?: boolean;
   recommendedAddOns?: IntentAddOnKey[];
   includedAddOns?: IntentAddOnKey[];
   selected: {

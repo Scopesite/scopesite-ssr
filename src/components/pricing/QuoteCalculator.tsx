@@ -33,6 +33,7 @@ import { cn } from '@/lib/utils';
 import { calculateQuote, createQuoteResult, formatCurrency } from '@/lib/calculate-quote';
 import {
   PRICING_LABELS,
+  PRICING_CONFIG,
   SSR_INCLUDED_FEATURES,
   ADDON_CATALOG,
   ADDON_CATEGORY_LABELS,
@@ -42,7 +43,7 @@ import {
   mergeAddOnsWithIntentDefaults,
   createDefaultAddOns,
   getIntentAddOnDefaults,
-  THIRTY_SIX_MONTH_MIN_SUBTOTAL_GBP,
+  resolvePayMonthlyTier,
 } from '@/lib/pricing-config';
 import { QuoteEmailCaptureModal } from '@/components/quote/QuoteEmailCaptureModal';
 import type {
@@ -69,7 +70,7 @@ interface StepDef {
 const STEPS: StepDef[] = [
   { id: 1, title: 'Legal entity', description: 'Who we are contracting with' },
   { id: 2, title: 'Welcome', description: 'Your instant quote' },
-  { id: 3, title: 'Existing site', description: 'Refresh discount eligibility' },
+  { id: 3, title: 'Existing site', description: 'Refresh quote with current selections' },
   { id: 4, title: 'Your goal', description: 'What you want the site to do' },
   { id: 5, title: 'Build type', description: 'Ultra Fast vs manage yourself' },
   { id: 6, title: 'Scope', description: 'Pages and features' },
@@ -87,10 +88,11 @@ const CATEGORY_ORDER: AddOnCategory[] = [
   'brandContent',
 ];
 
-/** Payment options always shown; 36-month appended only when build subtotal allows */
-const PAYMENT_OPTIONS_BASE: PaymentPreference[] = ['oneOff', 'six', 'twelve', 'twentyFour'];
+/** Fixed instalment terms — same total as pay in full (no credit premium). */
+const PAYMENT_OPTIONS_FIXED: PaymentPreference[] = ['oneOff', 'six', 'twelve'];
 
 const initialRequest: Partial<QuoteRequest> = {
+  paymentPreference: 'oneOff',
   hasExistingSite: false,
   intent: 'unspecified',
   scope: {
@@ -103,10 +105,6 @@ const initialRequest: Partial<QuoteRequest> = {
   },
   addOns: createDefaultAddOns(),
 };
-
-function isSpreadPlan(p: PaymentPreference | undefined): boolean {
-  return p === 'six' || p === 'twelve' || p === 'twentyFour' || p === 'thirtySix';
-}
 
 function mapLegacySixStepToEight(oldStep: number): number {
   if (oldStep <= 1) return oldStep;
@@ -171,21 +169,12 @@ export function QuoteCalculator() {
   const [quoteLimitExceeded, setQuoteLimitExceeded] = useState(false);
   const [emailModalOpen, setEmailModalOpen] = useState(false);
   const [legacyNotice, setLegacyNotice] = useState<string | null>(null);
-  /** Shown when user switches from Limited to Sole Trader after choosing a spread plan. */
-  const [spreadResetNotice, setSpreadResetNotice] = useState<string | null>(null);
   /** When step body height changes, scroll anchoring can yank the page; lock Y on Next/Back only. */
   const stepNavScrollYRef = useRef<number | null>(null);
 
   const breakdown = useMemo(() => calculateQuote(request), [request]);
   const isSSR = request.projectType === 'ssr';
   const exceedsTier = !!breakdown.exceedsStandardTier;
-
-  const paymentPlanOptions = useMemo((): PaymentPreference[] => {
-    if (breakdown.thirtySixAvailable) {
-      return [...PAYMENT_OPTIONS_BASE, 'thirtySix'];
-    }
-    return PAYMENT_OPTIONS_BASE;
-  }, [breakdown.thirtySixAvailable]);
 
   const waasEligible = useMemo(() => {
     if (!request.projectType || !request.scope || !request.addOns) return false;
@@ -202,15 +191,16 @@ export function QuoteCalculator() {
   }, [request]);
 
   const selectablePaymentPreferences = useMemo((): PaymentPreference[] => {
-    const tail = waasEligible ? (['waas'] as PaymentPreference[]) : [];
-    if (request.entityType === 'sole_trader') {
-      return ['oneOff', ...tail];
-    }
-    if (request.entityType === 'limited') {
-      return [...paymentPlanOptions, ...tail];
-    }
-    return ['oneOff', ...tail];
-  }, [request.entityType, paymentPlanOptions, waasEligible]);
+    return waasEligible ? [...PAYMENT_OPTIONS_FIXED, 'waas'] : [...PAYMENT_OPTIONS_FIXED];
+  }, [waasEligible]);
+
+  const payMonthlyPreview = useMemo(() => {
+    if (!request.projectType || !request.scope) return null;
+    return resolvePayMonthlyTier({
+      projectType: request.projectType,
+      scope: request.scope,
+    } as Pick<QuoteRequest, 'projectType' | 'scope'>);
+  }, [request.projectType, request.scope]);
 
   const { recommended, preTicked } = useMemo(
     () => getIntentAddOnDefaults(request.intent),
@@ -344,6 +334,12 @@ export function QuoteCalculator() {
         const entityKnown =
           sel.entityType === 'limited' || sel.entityType === 'sole_trader';
 
+        const rawPp = sel.paymentPreference as string | undefined;
+        const normalizedPp: PaymentPreference =
+          rawPp === 'twentyFour' || rawPp === 'thirtySix'
+            ? 'twelve'
+            : ((rawPp as PaymentPreference) || 'oneOff');
+
         setRequest({
           ...initialRequest,
           ...sel,
@@ -352,7 +348,7 @@ export function QuoteCalculator() {
           intent: (sel.intent as QuoteIntent) || 'unspecified',
           scope: scopeRaw,
           addOns: addOnsNorm,
-          paymentPreference: (sel.paymentPreference as PaymentPreference) || 'oneOff',
+          paymentPreference: normalizedPp,
         });
 
         const oldDisplay = step > 1 ? step : 2;
@@ -377,29 +373,6 @@ export function QuoteCalculator() {
   const updateRequest = useCallback((updates: Partial<QuoteRequest>) => {
     setRequest((prev) => ({ ...prev, ...updates }));
   }, []);
-
-  useEffect(() => {
-    if (currentStep !== 8 || exceedsTier) return;
-    if (breakdown.thirtySixAvailable) return;
-    if (request.entityType !== 'limited') return;
-    if (request.paymentPreference === 'thirtySix') {
-      updateRequest({ paymentPreference: 'twelve' });
-    }
-  }, [
-    currentStep,
-    exceedsTier,
-    breakdown.thirtySixAvailable,
-    request.entityType,
-    request.paymentPreference,
-    updateRequest,
-  ]);
-
-  useEffect(() => {
-    if (request.entityType !== 'sole_trader') return;
-    if (!request.paymentPreference) return;
-    if (!isSpreadPlan(request.paymentPreference)) return;
-    updateRequest({ paymentPreference: 'oneOff' });
-  }, [request.entityType, request.paymentPreference, updateRequest]);
 
   useEffect(() => {
     if (!request.paymentPreference) return;
@@ -504,10 +477,6 @@ export function QuoteCalculator() {
     if (currentStep === 5 && !quoteToken) {
       setEmailModalOpen(true);
       return;
-    }
-
-    if (currentStep === 1) {
-      setSpreadResetNotice(null);
     }
 
     let nextReq = request;
@@ -661,8 +630,7 @@ export function QuoteCalculator() {
           oneOff: 'One-off',
           six: '6-month',
           twelve: '12-month',
-          twentyFour: '24-month',
-          thirtySix: '36-month',
+          waas: 'Pay Monthly Service',
         };
 
         let selectedTotal: number;
@@ -675,23 +643,15 @@ export function QuoteCalculator() {
         } else if (paymentPref === 'waas') {
           selectedTotal = breakdown.oneOffSubtotal;
           monthlyPayment = breakdown.monthlySubtotal;
-          paymentTypeLabel = 'Website-as-a-Service';
+          paymentTypeLabel = paymentTypeLabels.waas;
         } else if (paymentPref === 'twelve') {
           selectedTotal = breakdown.totals.twelve.totalOverTerm;
           monthlyPayment = breakdown.totals.twelve.monthly;
           paymentTypeLabel = paymentTypeLabels.twelve;
-        } else if (paymentPref === 'six') {
+        } else {
           selectedTotal = breakdown.totals.six.totalOverTerm;
           monthlyPayment = breakdown.totals.six.monthly;
           paymentTypeLabel = paymentTypeLabels.six;
-        } else if (paymentPref === 'twentyFour') {
-          selectedTotal = breakdown.totals.twentyFour.totalOverTerm;
-          monthlyPayment = breakdown.totals.twentyFour.monthly;
-          paymentTypeLabel = paymentTypeLabels.twentyFour;
-        } else {
-          selectedTotal = breakdown.totals.thirtySix.totalOverTerm;
-          monthlyPayment = breakdown.totals.thirtySix.monthly;
-          paymentTypeLabel = paymentTypeLabels.thirtySix;
         }
 
         await fetch(`/api/quote/${quoteToken}`, {
@@ -755,31 +715,17 @@ export function QuoteCalculator() {
     }
   };
 
-  const setEntityChoice = useCallback(
-    (t: 'limited' | 'sole_trader') => {
-      if (t === 'limited') {
-        setSpreadResetNotice(null);
-        setRequest((prev) => ({ ...prev, entityType: 'limited' }));
-        return;
-      }
-      const hadSpread =
-        request.entityType === 'limited' && isSpreadPlan(request.paymentPreference);
-      if (hadSpread) {
-        setSpreadResetNotice(
-          'Your payment plan was reset. Spread terms are only available to Limited Companies and LLPs. On the payment step, choose Pay in Full or Website-as-a-Service.'
-        );
-      } else {
-        setSpreadResetNotice(null);
-      }
-      setRequest((prev) => ({
-        ...prev,
-        entityType: 'sole_trader',
-        companyName: null,
-        ...(hadSpread ? { paymentPreference: 'oneOff' as const } : {}),
-      }));
-    },
-    [request.entityType, request.paymentPreference]
-  );
+  const setEntityChoice = useCallback((t: 'limited' | 'sole_trader') => {
+    if (t === 'limited') {
+      setRequest((prev) => ({ ...prev, entityType: 'limited' }));
+      return;
+    }
+    setRequest((prev) => ({
+      ...prev,
+      entityType: 'sole_trader',
+      companyName: null,
+    }));
+  }, []);
 
   const renderAddonToggle = (key: IntentAddOnKey) => {
     const meta = ADDON_CATALOG[key];
@@ -824,8 +770,8 @@ export function QuoteCalculator() {
         return (
           <div className="space-y-6">
             <p className="text-brand-graphite text-center max-w-xl mx-auto">
-              Before we price your build, we need to know how you&apos;re buying — this decides which payment options we
-              can show you.
+              Before we price your build, we need to know who we&apos;re contracting with — this titles invoices and your
+              quote correctly.
             </p>
             <div className="grid gap-4 md:grid-cols-2">
               <button
@@ -880,16 +826,10 @@ export function QuoteCalculator() {
               </div>
             )}
 
-            {spreadResetNotice && (
-              <p className="text-sm text-amber-900 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
-                {spreadResetNotice}
-              </p>
-            )}
-
             <p className="text-xs text-brand-graphite leading-relaxed max-w-2xl mx-auto text-center">
-              We ask this because UK consumer credit law (CCA 1974, FSMA 2000) restricts spread payment plans to Limited
-              Companies and LLPs only. Sole traders have access to Pay In Full or our Website-as-a-Service monthly
-              subscription. See clause 5.1.2 of our Terms and Conditions.
+              We ask who we&apos;re contracting with so invoices and agreements are titled correctly. Pay in Full,
+              6-Month and 12-Month instalments include no premium over the one-off total (same price whether you spread
+              the cost or not). Pay Monthly Service is a separate subscription product — see Table 7 on our pricing page.
             </p>
           </div>
         );
@@ -1226,24 +1166,10 @@ export function QuoteCalculator() {
         }
         return (
           <div className="space-y-4">
-            {!breakdown.thirtySixAvailable && request.entityType === 'limited' && (
-              <p className="text-sm text-brand-graphite rounded-lg border border-brand-navy/10 bg-brand-navy/[0.03] px-3 py-2">
-                Builds under £{THIRTY_SIX_MONTH_MIN_SUBTOTAL_GBP.toLocaleString('en-GB')} are available on 6, 12 or
-                24-month terms.
-              </p>
-            )}
-            {request.entityType === 'sole_trader' ? (
-              <p className="text-xs text-brand-graphite leading-relaxed">
-                As a sole trader or individual, regulated spread plans are not shown. Choose Pay in Full or, if your
-                build is eligible, Website-as-a-Service (rolling subscription — not a regulated credit product).
-              </p>
-            ) : (
-              <p className="text-xs text-brand-graphite leading-relaxed">
-                Spread payment plans (6, 12, 24, or 36 months) are exclusively available to registered Limited
-                Companies and LLPs. Sole traders and individuals must select Pay In Full or Website-as-a-Service where
-                offered.
-              </p>
-            )}
+            <p className="text-xs text-brand-graphite leading-relaxed">
+              Pay in Full, 6-Month and 12-Month Contract total the same one-off price — no premium for instalments. Pay
+              Monthly Service is a tiered subscription where your build qualifies (otherwise choose a fixed-term option).
+            </p>
             <RadioGroup
               value={request.paymentPreference}
               onValueChange={(v) => updateRequest({ paymentPreference: v as PaymentPreference })}
@@ -1253,12 +1179,21 @@ export function QuoteCalculator() {
                 <label
                   key={pref}
                   className={cn(
-                    'flex items-center gap-3 rounded-xl border-2 p-4 cursor-pointer transition-all',
+                    'flex items-start gap-3 rounded-xl border-2 p-4 cursor-pointer transition-all',
                     request.paymentPreference === pref ? 'border-brand-gold bg-brand-gold/5' : 'border-brand-graphite/15'
                   )}
                 >
-                  <RadioGroupItem value={pref} id={`pay-${pref}`} />
-                  <span className="font-medium text-brand-navy">{PRICING_LABELS.payments[pref]}</span>
+                  <RadioGroupItem value={pref} id={`pay-${pref}`} className="mt-1" />
+                  <span className="flex flex-col gap-1 flex-1 min-w-0">
+                    <span className="font-medium text-brand-navy">{PRICING_LABELS.payments[pref]}</span>
+                    {pref === 'waas' && payMonthlyPreview ? (
+                      <span className="text-sm text-brand-graphite font-normal leading-snug">
+                        {formatCurrency(payMonthlyPreview.setupFee)} setup +{' '}
+                        {formatCurrency(payMonthlyPreview.monthlyFee)}/month ({PRICING_CONFIG.waas.minimumTermMonths}
+                        -month minimum)
+                      </span>
+                    ) : null}
+                  </span>
                 </label>
               ))}
             </RadioGroup>
@@ -1297,46 +1232,23 @@ export function QuoteCalculator() {
                     ? formatCurrency(breakdown.totals.oneOff.final)
                     : request.paymentPreference === 'waas'
                       ? `${formatCurrency(breakdown.monthlySubtotal)}/mo`
-                      : `${formatCurrency(
-                          breakdown.totals[
-                            request.paymentPreference === 'six'
-                              ? 'six'
-                              : request.paymentPreference === 'twelve'
-                                ? 'twelve'
-                                : request.paymentPreference === 'twentyFour'
-                                  ? 'twentyFour'
-                                  : 'thirtySix'
-                          ].monthly
-                        )}/mo`}
+                      : request.paymentPreference === 'six' || request.paymentPreference === 'twelve'
+                        ? `${formatCurrency(breakdown.totals[request.paymentPreference].monthly)}/mo`
+                        : '—'}
                 </span>
               </div>
               {request.paymentPreference !== 'oneOff' && request.paymentPreference !== 'waas' && (
                 <p className="text-xs text-brand-graphite">
                   Total over term:{' '}
-                  {formatCurrency(
-                    breakdown.totals[
-                      request.paymentPreference === 'six'
-                        ? 'six'
-                        : request.paymentPreference === 'twelve'
-                          ? 'twelve'
-                          : request.paymentPreference === 'twentyFour'
-                            ? 'twentyFour'
-                            : 'thirtySix'
-                    ].totalOverTerm
-                  )}
+                  {formatCurrency(breakdown.totals[request.paymentPreference as 'six' | 'twelve'].totalOverTerm)}
                 </p>
               )}
-              {request.paymentPreference === 'waas' && (
+              {request.paymentPreference === 'waas' && breakdown.waasDetails && (
                 <p className="text-xs text-brand-graphite">
-                  Setup due today: {formatCurrency(breakdown.oneOffSubtotal)}. Indicative year 1:{' '}
-                  {formatCurrency(breakdown.oneOffSubtotal + breakdown.monthlySubtotal * 12)} (then{' '}
-                  {formatCurrency(breakdown.monthlySubtotal)}/mo rolling).
-                  {breakdown.waasDetails && (
-                    <>
-                      {' '}
-                      Buyout fee if you take full ownership: {formatCurrency(breakdown.waasDetails.buyoutFee)}.
-                    </>
-                  )}
+                  {formatCurrency(breakdown.waasDetails.setupFee)} setup +{' '}
+                  {formatCurrency(breakdown.waasDetails.monthlyFee)}/month rolling ({breakdown.waasDetails.minimumTermMonths}
+                  -month minimum, then {PRICING_CONFIG.waas.noticePeriodDays} days&apos; notice). Optional buyout after the
+                  minimum term: {formatCurrency(breakdown.waasDetails.buyoutFee)}.
                 </p>
               )}
             </div>
@@ -1451,7 +1363,6 @@ export function QuoteCalculator() {
               setIsSubmitted(false);
               setQuoteId(null);
               setQuoteToken(null);
-              setSpreadResetNotice(null);
               setCurrentStep(1);
               setRequest({ ...initialRequest, addOns: createDefaultAddOns() });
               setContact({ name: '', email: '', phone: '', company: '', message: '' });

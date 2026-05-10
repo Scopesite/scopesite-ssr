@@ -108,14 +108,12 @@ function migrateLegacyQuoteSelections(
   const s: Record<string, unknown> = { ...raw };
   const entityMissing = s.entityType === undefined || s.entityType === null;
   if (entityMissing) {
-    const pp = s.paymentPreference as string | undefined;
-    if (
-      pp === 'oneOff' ||
-      pp === 'six' ||
-      pp === 'twelve' ||
-      pp === 'twentyFour' ||
-      pp === 'thirtySix'
-    ) {
+    let pp = s.paymentPreference as string | undefined;
+    if (pp === 'twentyFour' || pp === 'thirtySix') {
+      s.paymentPreference = 'twelve';
+      pp = 'twelve';
+    }
+    if (pp === 'oneOff' || pp === 'six' || pp === 'twelve' || pp === 'waas') {
       s.entityType = 'limited';
     }
   }
@@ -160,7 +158,7 @@ function getDefaultSelections(): StoredQuote['selections'] {
       ssrAnalytics: false,
       ssrScalability: false,
     },
-    paymentPreference: 'twelve',
+    paymentPreference: 'oneOff',
   } as StoredQuote['selections'];
 }
 
