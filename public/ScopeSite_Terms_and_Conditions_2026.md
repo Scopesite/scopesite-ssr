@@ -16,7 +16,7 @@ Company Registration Number: 16130355 • Effective Date: 10 May 2026 (supersede
 2. Company Information
 3. Services and Deliverables
 4. Pricing, Quotes and the Quote Calculator
-5. Payment Terms
+5. Payment Terms (incl. Pay Monthly Service — §5.1.6)
 6. Intellectual Property and Ownership
 7. Revisions and Change Requests
 8. Cancellation and Refunds
@@ -239,85 +239,81 @@ All fees are quoted and payable in British Pounds Sterling (GBP). ScopeSite is n
 
 #### 5.1.1 Pay In Full
 
-If the Client elects to pay in full at the start of the project, a 5% discount is applied. Full payment is due on signing the Service Agreement and before any work commences.
+If the Client elects to pay in full, the project total is charged as a single payment at the same price as any other payment option. ScopeSite does not apply a discount, premium, or interest charge based on payment timing. All payment options reflect the same total project cost. Full payment is due on signing the Service Agreement and before any work commences.
 
-#### 5.1.2 Spread Payments (Limited Companies and LLPs Only)
+#### 5.1.2 Spread Payment Plans
 
-Spread payment terms (6, 12, 24, or 36 months) are strictly available only to registered Limited Companies (LTDs) and Limited Liability Partnerships (LLPs). By selecting a spread payment plan, the Client warrants and represents that they are a registered corporate entity acting in the course of business.
+Spread Payment Plans are offered at the same total project cost as Pay in Full. ScopeSite does not apply interest, credit premiums, or financing charges on Spread Payment Plans. The total cost is divided across the chosen term length (6 or 12 months). Spread Payment Plans are available to all entity types on the terms shown in the Quote Calculator and Service Agreement.
 
-Spread plans are subject to the following multipliers applied to the subtotal:
+Illustration using a **£4,000** Project Subtotal (figures are illustrative of division only):
 
-| Term | Multiplier | Notes |
+| Term | Total | Monthly (£4,000 example) |
 |---|---|---|
-| 6 months | × 1.03 | Subtotal × 1.03, divided by 6 |
-| 12 months | × 1.06 | Subtotal × 1.06, divided by 12 |
-| 24 months | × 1.12 | Subtotal × 1.12, divided by 24 |
-| 36 months | × 1.18 | Subtotal × 1.18, divided by 36 |
+| Paid in Full | Project Subtotal | One payment of £4,000 |
+| 6 Months | Project Subtotal | £667/month (£4,000 ÷ 6) |
+| 12 Months | Project Subtotal | £333/month (£4,000 ÷ 12) |
 
-Sole traders, general partnerships, and individuals acting outside a registered corporate structure are legally ineligible for spread payment plans under this Agreement and must elect the Pay In Full option.
+#### 5.1.3 Initial Payment for Spread Plans
 
-#### 5.1.3 36-Month Plan Eligibility
+The first monthly payment under any Spread Payment Plan is due immediately on signing the Service Agreement. Work commences upon receipt of the first payment.
 
-The 36-month payment plan is available only on Builds with a one-off subtotal of £2,000 or more. This protects perceived value on smaller builds and is not negotiable.
+#### 5.1.4 SSR Monthly Floors
 
-#### 5.1.4 Initial Payment for Spread Plans
-
-The first monthly payment under any spread plan is due immediately on signing the Service Agreement. Work commences upon receipt of the first payment.
-
-#### 5.1.5 SSR Monthly Floors
-
-For Ultra Fast SSR Builds on a spread payment plan, monthly payments cannot fall below the following minimum floors:
+For Ultra Fast SSR Builds on a Spread Payment Plan (6 or 12 months), monthly payments cannot fall below the following minimum floors:
 
 - 6 months: £600 per month
 - 12 months: £400 per month
-- 24 months: £250 per month
-- 36 months: £200 per month
 
-If a Client's calculated monthly figure falls below the floor for their chosen term, the floor applies.
+If a Client's calculated monthly figure falls below the floor for their chosen term, the floor applies (and the practical effect may be to shorten the term or adjust the plan as set out in the Quote Calculator).
 
-#### 5.1.6 Pay-As-You-Go (PAYG) / Subscription Builds (Website-as-a-Service)
+#### 5.1.5 Payment Option Availability
 
-For certain Builds (as specified in the Quote Calculator or Service Agreement), ScopeSite may offer a Pay-As-You-Go (PAYG) rolling subscription model, designed primarily for sole traders and individuals.
+Pay in Full, Spread Payment Plans (where offered for the selected Build), and Pay Monthly Service (defined at §5.1.6) are available to Limited Companies, LLPs, sole traders, partnerships, and individuals, subject to eligibility in the Quote Calculator and Service Agreement.
+
+#### 5.1.6 Pay Monthly Service (formally: Website-as-a-Service / PAYG)
+
+For certain Builds (as specified in the Quote Calculator or Service Agreement), ScopeSite may offer **Pay Monthly Service** — a subscription model (internally also referred to as Website-as-a-Service) designed for Clients who prefer managed monthly access. Pay Monthly Service is a continuous service agreement, not a regulated credit product.
+
+#### 5.1.6.1 Pay Monthly Service Tiers
+
+Pay Monthly Service is offered across five tiers matched to the build type and complexity:
+
+| Build Tier | Setup | Monthly | Buyout Fee |
+|---|---|---|---|
+| Wix Starter (≤5 pages) | £995 | £119 | £1,500 |
+| Wix Professional (6–10 pages) | £1,495 | £179 | £3,000 |
+| Ultra Fast SSR Base (≤5 pages) | £795 | £109 | £2,500 |
+| Ultra Fast SSR Plus (6–10 pages) | £795 | £159 | £3,500 |
+| Ultra Fast SSR Premium (11–20 pages) | £995 | £219 | £4,500 |
 
 **Available Products:**
 
-WaaS is offered exclusively on:
+Pay Monthly Service is offered on the tier appropriate to the selected Build in the Quote Calculator, including Wix Studio Starter, Wix Studio Professional (6–10 pages), and Ultra Fast SSR Builds up to 20 pages, as published.
 
-- Wix Studio Starter (≤5 pages)
-- Ultra Fast SSR Builds (up to 20 pages maximum)
+Pay Monthly Service is NOT available on Wix Studio Enterprise (11+ pages by default), Ultra Fast SSR Builds over 20 pages, Territory Command as a standalone selection, the standalone AI SEO Retainer-only path, or any Custom Web Application — unless expressly stated otherwise in the Service Agreement.
 
-WaaS is NOT available on Wix Studio Professional, Wix Studio Enterprise, SSR Builds over 20 pages, or any Custom Web Application.
+**Add-Ons Available on Pay Monthly Service:**
 
-**Pricing:**
-
-A flat WaaS structure applies regardless of underlying build type:
-
-- Setup Fee: £795 (one-off, payable on signing)
-- Monthly Subscription: £99 per calendar month
-- Term: 30-day rolling, cancellable any time
-
-**Add-Ons Available on WaaS:**
-
-WaaS Clients may add the following Add-Ons at standard published prices, payable upfront on top of the £795 setup fee:
+Clients on Pay Monthly Service may add the following Add-Ons at standard published prices, payable upfront on top of the applicable setup fee:
 
 - Smart Forms (£495)
 - AI Chatbot (£1,499)
 
-WaaS Clients may NOT add: Live Promotions, Live Jobs Board, Members Areas, or any other Add-On not listed above. These remain available exclusively on Pay In Full or LTD/LLP spread payment Builds.
+Clients on Pay Monthly Service may NOT add: Live Promotions, Live Jobs Board, Members Areas, or any other Add-On not listed above. These remain available on Pay in Full or Spread Payment Plan Builds as published.
 
-**Where a Client selects the WaaS model:**
+**Where a Client selects Pay Monthly Service:**
 
-(a) **Nature of Agreement:** This is a continuous month-to-month service agreement, not a credit agreement, hire-purchase agreement, or financing plan.
+(a) **Nature of Agreement:** This is a subscription agreement for a managed website service, not a hire-purchase agreement or regulated financing plan.
 
-(b) **Ownership:** The Client is paying for a license to use the Build and hosting services. ScopeSite retains 100% of all Intellectual Property Rights and ownership of the Build at all times. Clauses 6.3.1 and 6.3.2 (IP Transfer on full payment) do NOT apply to WaaS agreements.
+(b) **Ownership:** The Client is paying for a licence to use the Build and hosting services. ScopeSite retains 100% of all Intellectual Property Rights and ownership of the Build at all times. Clauses 6.3.1 and 6.3.2 (IP Transfer on full payment) do NOT apply to Pay Monthly Service agreements.
 
-(c) **Term and Cancellation:** The Agreement operates on a 30-day rolling basis. The Client may cancel at any time by providing 30 days' written notice. No early termination fees apply.
+(c) **Term, Minimum Term, and Cancellation:** See §5.1.6.2.
 
-(d) **Effect of Cancellation:** Upon cancellation or failure to pay the monthly subscription fee, the Client's license to use the Build immediately terminates, and ScopeSite will suspend and take the website offline.
+(d) **Effect of Cancellation:** Upon cancellation or failure to pay the monthly subscription fee, the Client's licence to use the Build immediately terminates, and ScopeSite may suspend and take the website offline.
 
-(e) **Buyout Option:** If the Client wishes to own the Build outright and transfer the IP, they must purchase a License Buyout (as defined in clause 6.5), at the WaaS-specific buyout fee set out in clause 6.5.4. ScopeSite will offer the buyout option at the point of cancellation. Previous monthly WaaS payments do NOT count toward the buyout price.
+(e) **Buyout Option:** If the Client wishes to own the Build outright and transfer the IP, they must purchase a License Buyout (as defined in clause 6.5), at the tier Buyout Fee set out in clause 6.5.4 and §5.1.6.1. ScopeSite will offer the buyout option at the point of cancellation. Previous monthly Pay Monthly Service payments do NOT count toward the buyout price.
 
-(f) **Site Recovery and Resale Rights:** In the event that a WaaS Client cancels their subscription and declines to purchase a Buyout, ScopeSite reserves the right to:
+(f) **Site Recovery and Resale Rights:** In the event that a Pay Monthly Service Client cancels their subscription and declines to purchase a Buyout, ScopeSite reserves the right to:
 
 (i) take the Build offline immediately on cancellation;
 
@@ -329,11 +325,23 @@ WaaS Clients may NOT add: Live Promotions, Live Jobs Board, Members Areas, or an
 
 (v) where the original Client supplied their own pre-existing domain, ScopeSite makes no claim to the domain itself. The Client retains that domain and may take it elsewhere.
 
-The Client warrants that they understand and accept the foregoing as a fundamental condition of accessing the WaaS pricing model. The Client acknowledges that the heavily reduced initial fee reflects ScopeSite's retained right to recover and re-monetise the underlying technical asset in the event of Client cancellation.
+The Client warrants that they understand and accept the foregoing as a fundamental condition of accessing Pay Monthly Service. The Client acknowledges that the subscription fee reflects ScopeSite's retained right to recover and re-monetise the underlying technical asset in the event of Client cancellation.
 
-(g) **AI Search Performance Guarantee:** The AI Search Performance Guarantee (clause 14.4) applies to WaaS Builds where an AI SEO Retainer or Territory Command is also active, on the same terms as committed retainer Clients. The WaaS subscription itself is not a retainer.
+(g) **AI Search Performance Guarantee:** Clause 14.4 applies to Pay Monthly Service Builds where an AI SEO Retainer or Territory Command is also active, on the same terms as committed retainer Clients. The Pay Monthly Service subscription itself is not a retainer.
 
 (h) **Data Protection Roles:** Where Client Content includes Personal Data of the Client's own customers, end users, or contacts (e.g. captured via Smart Forms or AI Chatbot), the Client is the Data Controller and ScopeSite is the Data Processor under UK GDPR. The Client is solely responsible for compliance with their Controller obligations, including data subject access requests, and for exporting all such data prior to cancellation.
+
+#### 5.1.6.2 Minimum Term
+
+All Pay Monthly Service subscriptions carry a **6-month minimum term** from the Effective Date. After the 6-month minimum, the subscription continues on a **30-day rolling** basis until terminated by either party on **30 days' written notice**.
+
+#### 5.1.6.3 Buyout
+
+The Client may elect to purchase the Build outright at any time after the 6-month minimum term has been served, on payment of the **Buyout Fee** applicable to their tier (§5.1.6.1). Previous Pay Monthly Service payments do not count toward the Buyout Fee. The Buyout Fee is a separate one-off acquisition charge.
+
+#### 5.1.6.4 Right to Strip on Default
+
+In the event of **three consecutive missed monthly payments** and **30 days' written notice** having been served on the Client without remedy, ScopeSite reserves the right to terminate the Pay Monthly Service subscription and recover the Build, including all components, schema, domain authority, and associated mechanics. ScopeSite may resell or repurpose the recovered assets at its sole discretion. The Client forfeits any prior Pay Monthly Service payments made up to the point of default.
 
 ### 5.2 Retainer Payment Structures
 
@@ -358,8 +366,7 @@ Minimum contract periods bind the Client for the full duration of the chosen ter
 | Pay In Full Build | None (one-off) |
 | 6-Month Spread Build | 6 months |
 | 12-Month Spread Build | 12 months |
-| 24-Month Spread Build | 24 months |
-| 36-Month Spread Build | 36 months |
+| Pay Monthly Service (§5.1.6) | 6 months minimum; then 30-day rolling |
 | AI SEO Retainer | As selected: 6 or 12 months |
 | Territory Command (either tier) | 12 months |
 | Custom Web Applications | As specified in Service Agreement |
@@ -431,7 +438,7 @@ If the Client terminates a recurring Service during a minimum contract period, a
 
 #### 5.8.2 Spread Payment Builds
 
-Where a Build has been delivered and the corporate Client is paying via a 6, 12, 24, or 36-month Spread Payment Plan, the Client acknowledges that ScopeSite has already performed the Build work in full at the start of the Agreement.
+Where a Build has been delivered and the Client is paying via a **6 or 12-month** Spread Payment Plan, the Client acknowledges that ScopeSite has already performed the Build work in full at the start of the Agreement.
 
 If the Client terminates the Agreement early, or defaults on payment causing ScopeSite to terminate under Clause 19, the entire remaining balance of the Spread Payment Plan becomes immediately due and payable.
 
@@ -596,18 +603,19 @@ The License Buyout Fee is calculated as the **greater of**:
 (a) twelve (12) months of the Client's most recent Retainer monthly fee; OR
 (b) 25% of the original Build fee.
 
-**For WaaS / Subscription Builds (sole trader / PAYG clients):**
+**For Pay Monthly Service (defined at §5.1.6):**
 
-A flat tiered License Buyout Fee applies, reflecting the embedded value of the technical asset including AI visibility work and any accrued Domain Authority:
+A flat tiered License Buyout Fee applies per tier, reflecting the embedded value of the technical asset including AI visibility work and any accrued Domain Authority:
 
-| WaaS Tier | Buyout Fee |
+| Pay Monthly Service tier | Buyout Fee |
 |---|---|
-| Wix Studio Starter WaaS (≤5 pages) | £1,500 |
-| SSR Base WaaS (≤5 pages) | £2,500 |
-| SSR Plus WaaS (6-10 pages) | £3,500 |
-| SSR Premium WaaS (11-20 pages) | £4,500 |
+| Wix Starter (≤5 pages) | £1,500 |
+| Wix Professional (6–10 pages) | £3,000 |
+| Ultra Fast SSR Base (≤5 pages) | £2,500 |
+| Ultra Fast SSR Plus (6–10 pages) | £3,500 |
+| Ultra Fast SSR Premium (11–20 pages) | £4,500 |
 
-WaaS Buyout Fees are flat fees and do NOT reduce by any monthly subscription fees previously paid. The Buyout Fee is in addition to the Setup Fee and any monthly subscription fees already paid.
+Pay Monthly Service Buyout Fees are flat fees and do NOT reduce by any monthly subscription fees previously paid. The Buyout Fee is in addition to the Setup Fee and any monthly subscription fees already paid.
 
 **Common Provisions:**
 
@@ -633,9 +641,11 @@ On receipt of the IP Transfer Fee in full plus all Services fees in full:
 (c) Third-party components, plugins, or assets incorporated into the Deliverables (which remain subject to their own licenses);
 (d) Any ScopeSite proprietary platforms (V.O.I.C.E. scanner, ScopeBot, internal tools).
 
-### 6.7 Pay Monthly Builds
+### 6.7 Pay Monthly Service Subscriptions
 
-Where a Build is paid via a Spread Payment Plan (6, 12, 24, or 36 months):
+Where a Build is delivered under **Pay Monthly Service** (clause §5.1.6), IP and licence terms follow §5.1.6 and clause 6.5 as applicable.
+
+Where a Build is paid via a **Spread Payment Plan (6 or 12 months)**:
 
 (a) NO Intellectual Property Rights transfer during the spread payment period;
 (b) the Client receives a license under clause 6.2 to use the Build while payments are current;
