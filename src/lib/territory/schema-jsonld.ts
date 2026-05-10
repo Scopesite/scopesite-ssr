@@ -27,7 +27,6 @@ function territoryTierOffers(): Record<string, unknown>[] {
       priceCurrency: 'GBP',
       availability: 'https://schema.org/LimitedAvailability',
       eligibleRegion: { '@type': 'Country', name: 'United Kingdom' },
-      eligibleCustomerType: 'https://schema.org/Business',
       seller: territoryOfferSeller,
     },
     {
@@ -46,7 +45,6 @@ function territoryTierOffers(): Record<string, unknown>[] {
       },
       availability: 'https://schema.org/LimitedAvailability',
       eligibleRegion: { '@type': 'Country', name: 'United Kingdom' },
-      eligibleCustomerType: 'https://schema.org/Business',
       seller: territoryOfferSeller,
     },
     {
@@ -58,7 +56,6 @@ function territoryTierOffers(): Record<string, unknown>[] {
       priceCurrency: 'GBP',
       availability: 'https://schema.org/LimitedAvailability',
       eligibleRegion: { '@type': 'Country', name: 'United Kingdom' },
-      eligibleCustomerType: 'https://schema.org/Business',
       seller: territoryOfferSeller,
     },
     {
@@ -77,7 +74,6 @@ function territoryTierOffers(): Record<string, unknown>[] {
       },
       availability: 'https://schema.org/LimitedAvailability',
       eligibleRegion: { '@type': 'Country', name: 'United Kingdom' },
-      eligibleCustomerType: 'https://schema.org/Business',
       seller: territoryOfferSeller,
     },
   ];

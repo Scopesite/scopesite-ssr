@@ -613,7 +613,6 @@ Place this JSON-LD block in the page head.
         "@type": "Country",
         "name": "United Kingdom"
       },
-      "eligibleCustomerType": "https://schema.org/Business",
       "seller": {"@id": "https://scopesite.co.uk/#organization"}
     },
     {
