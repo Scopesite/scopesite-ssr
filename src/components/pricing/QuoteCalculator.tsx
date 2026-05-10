@@ -486,8 +486,26 @@ export function QuoteCalculator() {
     if (quoteToken) {
       void saveProgress(nextStep, nextReq);
     }
-    stepNavScrollYRef.current = window.scrollY;
+
+    const leavingAddOnsStep = currentStep === 6;
+    if (leavingAddOnsStep) {
+      stepNavScrollYRef.current = null;
+    } else {
+      stepNavScrollYRef.current = window.scrollY;
+    }
+
     setCurrentStep(nextStep);
+
+    if (leavingAddOnsStep) {
+      requestAnimationFrame(() => {
+        const calculator = document.getElementById('quote-calculator-anchor');
+        if (calculator) {
+          calculator.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
+    }
   };
 
   const goBack = () => {
@@ -1330,7 +1348,7 @@ export function QuoteCalculator() {
   const stepMeta = STEPS[currentStep - 1];
 
   return (
-    <div className="[overflow-anchor:none]">
+    <div id="quote-calculator-anchor" className="[overflow-anchor:none]">
       <QuoteEmailCaptureModal
         open={emailModalOpen}
         onOpenChange={setEmailModalOpen}
