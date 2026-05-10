@@ -68,7 +68,7 @@ const faqItems = [
   {
     question: 'How much does a website cost?',
     answer:
-      `Client-managed Wix builds start from £${WIX_FROM.toLocaleString('en-GB')} (up to 5 pages, you manage content after launch). Our Ultra Fast AI visible premium builds start from £${ULTRA_FAST_FROM.toLocaleString('en-GB')} for up to 5 pages, with a published cap of £8,000 before we scope enterprise separately. Payment plans run over 6, 12, 24, or 36 months when you qualify, with no credit checks and no interest. You get an instant quote on our pricing page in under two minutes.`,
+      `Client-managed Wix builds start from £${WIX_FROM.toLocaleString('en-GB')} (up to 5 pages, you manage content after launch). Our Ultra Fast AI visible premium builds start from £${ULTRA_FAST_FROM.toLocaleString('en-GB')} for up to 5 pages, with a published cap of £8,000 before we scope enterprise separately. Payment options include Pay in Full, a 6-Month Contract, a 12-Month Contract, or Pay Monthly Service — see what applies to you in an instant quote on our pricing page in under two minutes.`,
   },
   {
     question: "What if I'm not happy with the design?",

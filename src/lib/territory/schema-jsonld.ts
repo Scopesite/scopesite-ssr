@@ -8,6 +8,8 @@
  * on 6 April 2026, tracked in a separate Cursor task).
  */
 
+import { buildAiSearchPerformanceGuaranteeWarrantyPromise } from '@/lib/schema';
+
 import { FAQ } from './copy';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -17,6 +19,7 @@ const territoryOfferSeller = { '@id': `${BASE_URL}/#organization` };
 
 /** Standard (green) and Premium (purple) tiers — published prices match pricing engine v2.1. */
 function territoryTierOffers(): Record<string, unknown>[] {
+  const warranty = buildAiSearchPerformanceGuaranteeWarrantyPromise();
   return [
     {
       '@type': 'Offer',
@@ -28,6 +31,7 @@ function territoryTierOffers(): Record<string, unknown>[] {
       availability: 'https://schema.org/LimitedAvailability',
       eligibleRegion: { '@type': 'Country', name: 'United Kingdom' },
       seller: territoryOfferSeller,
+      warranty,
     },
     {
       '@type': 'Offer',
@@ -46,6 +50,7 @@ function territoryTierOffers(): Record<string, unknown>[] {
       availability: 'https://schema.org/LimitedAvailability',
       eligibleRegion: { '@type': 'Country', name: 'United Kingdom' },
       seller: territoryOfferSeller,
+      warranty,
     },
     {
       '@type': 'Offer',
@@ -57,6 +62,7 @@ function territoryTierOffers(): Record<string, unknown>[] {
       availability: 'https://schema.org/LimitedAvailability',
       eligibleRegion: { '@type': 'Country', name: 'United Kingdom' },
       seller: territoryOfferSeller,
+      warranty,
     },
     {
       '@type': 'Offer',
@@ -75,6 +81,7 @@ function territoryTierOffers(): Record<string, unknown>[] {
       availability: 'https://schema.org/LimitedAvailability',
       eligibleRegion: { '@type': 'Country', name: 'United Kingdom' },
       seller: territoryOfferSeller,
+      warranty,
     },
   ];
 }

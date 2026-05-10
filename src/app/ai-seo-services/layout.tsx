@@ -1,5 +1,10 @@
 import { Metadata } from 'next';
-import { generateLandingPageSchema, generateServiceChannels, type FAQItem } from '@/lib/schema';
+import {
+  buildAiSearchPerformanceGuaranteeWarrantyPromise,
+  generateLandingPageSchema,
+  generateServiceChannels,
+  type FAQItem,
+} from '@/lib/schema';
 import { JsonLd } from '@/components/JsonLd';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -146,6 +151,7 @@ export default function AISEOServicesLayout({
             },
             description:
               '£750 setup plus £500 per month. 6-month and 12-month commitments. Bundled free with SSR website builds.',
+            warranty: buildAiSearchPerformanceGuaranteeWarrantyPromise(),
           },
         }}
       />

@@ -2340,8 +2340,21 @@ function offerMonthlyGbp(
 }
 
 /** Customer-facing warranty text for JSON-LD (matches T&Cs v5 clause 14.4; no internal product codenames). */
-const AI_SEARCH_PERFORMANCE_GUARANTEE_WARRANTY =
+export const AI_SEARCH_PERFORMANCE_GUARANTEE_WARRANTY =
   'AI Search Performance Guarantee: for clients on an active AI SEO Retainer or Territory Command, ScopeSite guarantees an AI Search Performance Score of 80 or above. After a 3-month build-up window, if your score falls below 80 in any measured month and you meet the plan conditions, you pay nothing for that month’s retainer fee.';
+
+/** WarrantyPromise node for AI SEO Retainer and Territory Command priced Offers (service pages + consistency with /pricing description). */
+export function buildAiSearchPerformanceGuaranteeWarrantyPromise(): Record<string, unknown> {
+  return {
+    '@type': 'WarrantyPromise',
+    description: AI_SEARCH_PERFORMANCE_GUARANTEE_WARRANTY,
+    durationOfWarranty: {
+      '@type': 'QuantitativeValue',
+      value: 1,
+      unitText: 'MONTH',
+    },
+  };
+}
 
 const UK_PRICING_PAGE_URL = `${BASE_URL}/pricing`;
 

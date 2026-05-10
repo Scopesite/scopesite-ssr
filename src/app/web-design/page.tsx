@@ -233,7 +233,7 @@ const faqItems = [
   },
   {
     question: 'How much does a website cost?',
-    answer: `Client-managed builds start from £${WIX_START_GBP.toLocaleString('en-GB')} for up to five pages. Ultra Fast AI visible premium builds start from £${ULTRA_FAST_START_GBP.toLocaleString('en-GB')} for up to five pages, capped at £8,000 on standard pricing before we scope enterprise separately. Spread payments over 6, 12, 24, or 36 months when you qualify, with no credit checks and no interest. Get an instant quote on our pricing page in under two minutes.`,
+    answer: `Client-managed builds start from £${WIX_START_GBP.toLocaleString('en-GB')} for up to five pages. Ultra Fast AI visible premium builds start from £${ULTRA_FAST_START_GBP.toLocaleString('en-GB')} for up to five pages, capped at £8,000 on standard pricing before we scope enterprise separately. Payment options include Pay in Full, a 6-Month Contract, a 12-Month Contract, or Pay Monthly Service — see what applies to you in an instant quote on our pricing page in under two minutes.`,
   },
   {
     question: 'What if I\'m not happy with the design?',
@@ -277,10 +277,10 @@ const faqItems = [
 
 // Payment Plan Features
 const paymentFeatures = [
-  '6, 12, 24, or 36 month payment plans when you qualify',
-  'Fixed monthly payments - no surprises',
-  'Includes ongoing maintenance and support',
-  'Start building now, pay as you grow',
+  'Pay in Full, 6-Month Contract, 12-Month Contract, or Pay Monthly Service',
+  'Transparent options — see exactly what you qualify for in the calculator',
+  'Includes ongoing maintenance and support where included in your package',
+  'Start building now with the payment structure that fits',
 ];
 
 // Technical metrics with comparisons
@@ -858,9 +858,9 @@ export default function WebDesignPage() {
           <div className="max-w-4xl mx-auto">
             <FadeInOnScroll>
               <div className="text-center mb-8 md:mb-10">
-                <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">Pay Monthly, Spread the Cost</h2>
+                <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">Flexible ways to pay</h2>
                 <p className="text-white/70">
-                  Ultra Fast web design without the full upfront hit
+                  Ultra Fast web design with Pay in Full, fixed-term contracts, or Pay Monthly Service
                 </p>
               </div>
             </FadeInOnScroll>
@@ -869,13 +869,14 @@ export default function WebDesignPage() {
               <FadeInOnScroll delay={0.2} direction="left">
                 <div>
                   <p className="text-body-lg text-white/80 mb-6">
-                    We know dropping thousands upfront isn&apos;t always realistic - especially when 
-                    you&apos;re investing in your business growth. That&apos;s why we offer flexible 
-                    payment plans that let you spread the cost over 6, 12, 24, or 36 months when you qualify.
+                    We know dropping thousands upfront isn&apos;t always realistic — especially when
+                    you&apos;re investing in your business growth. That&apos;s why we offer Pay in Full,
+                    a 6-Month Contract, a 12-Month Contract, or Pay Monthly Service. Your instant
+                    quote on the pricing page shows which options apply and the numbers for each.
                   </p>
                   <p className="text-white/60 mb-8">
-                    No credit checks, no finance companies, no interest. Just straightforward 
-                    monthly payments that fit your budget.
+                    No credit checks, no finance companies, no interest on our standard spread
+                    options. Straightforward pricing that fits how you want to pay.
                   </p>
                   
                   <ul className="space-y-3 mb-8">
@@ -955,8 +956,8 @@ export default function WebDesignPage() {
           
           <FadeInOnScroll delay={0.2}>
             <p className="text-brand-navy/70 mb-10 max-w-2xl mx-auto">
-              Get your instant quote in under 2 minutes. See exactly what it costs, 
-              including monthly payment options.
+              Get your instant quote in under 2 minutes. See exactly what it costs,
+              including Pay in Full, contract, and Pay Monthly Service options where they apply.
             </p>
           </FadeInOnScroll>
           
