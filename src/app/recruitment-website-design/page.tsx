@@ -122,8 +122,11 @@ export default function RecruitmentWebsiteDesignPage() {
       {/* 1. Hero */}
       <section className="bg-brand-navy text-white py-section">
         <div className="container-content max-w-4xl mx-auto text-center">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-display font-headline text-white mb-6 leading-tight">
-            Recruitment Website Design That Earns Its Place On Your P&amp;L
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-display font-headline text-white mb-6 leading-tight uppercase">
+            Recruitment{' '}
+            <span className="text-[#FF1463]">Website Design</span>
+            {' '}
+            That Earns Its Place On Your P&amp;L
           </h1>
           <p className="text-body-lg text-white/90 max-w-3xl mx-auto mb-4">
             We don&apos;t replace your ATS. We build the website your ATS should have been sitting behind all along,
@@ -140,14 +143,14 @@ export default function RecruitmentWebsiteDesignPage() {
               href={DEMO_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-[#FF1463] text-white font-bold text-lg shadow-lg hover:opacity-95 transition-opacity min-w-[240px]"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-[#FF1463] text-white font-bold text-lg shadow-lg hover:opacity-95 transition-opacity min-w-[240px] no-underline hover:no-underline visited:text-white [&>svg]:text-white"
             >
               See The Live Demo
-              <ArrowRight className="w-5 h-5" aria-hidden />
+              <ArrowRight className="w-5 h-5 shrink-0" aria-hidden />
             </a>
             <Link
               href="/book"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg border-2 border-white/40 text-white font-semibold hover:bg-white/10 transition-colors min-w-[200px]"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-white border-2 border-brand-navy text-brand-navy font-bold no-underline hover:no-underline hover:bg-gray-100 transition-colors min-w-[200px] visited:text-brand-navy [&>svg]:text-brand-navy"
             >
               Book A Call
             </Link>
@@ -226,10 +229,10 @@ export default function RecruitmentWebsiteDesignPage() {
                 <Briefcase className="h-7 w-7 text-brand-gold" aria-hidden />
               </div>
               <Image
-                src="/images/scopesite-websites-found-hero-ai.webp"
-                alt="Custom recruitment website by ScopeSite"
-                width={400}
-                height={225}
+                src="/images/recruitment/custom-recruitment-website.jpg"
+                alt="Custom recruitment website design example by ScopeSite"
+                width={800}
+                height={600}
                 className="w-full rounded-lg mb-4 h-auto object-cover max-h-40"
               />
               <h3 className="text-xl font-bold text-brand-navy mb-1">Custom Recruitment Website</h3>
@@ -248,10 +251,10 @@ export default function RecruitmentWebsiteDesignPage() {
                 <FileSearch className="h-7 w-7 text-brand-gold" aria-hidden />
               </div>
               <Image
-                src="/images/scopesite-websites-found-hero-ai.webp"
-                alt="Live jobs board with auto-schema"
-                width={400}
-                height={225}
+                src="/images/recruitment/live-jobs-board-auto-schema.jpg"
+                alt="Live jobs board with auto-generated JobPosting schema"
+                width={800}
+                height={600}
                 className="w-full rounded-lg mb-4 h-auto object-cover max-h-40"
               />
               <h3 className="text-xl font-bold text-brand-navy mb-1">Live Jobs Board (Auto-Schema)</h3>
@@ -270,10 +273,10 @@ export default function RecruitmentWebsiteDesignPage() {
                 <Sparkles className="h-7 w-7 text-brand-gold" aria-hidden />
               </div>
               <Image
-                src="/images/scopesite-websites-found-hero-ai.webp"
-                alt="AI visibility for recruitment agencies"
-                width={400}
-                height={225}
+                src="/images/recruitment/ai-visibility-recruitment-agency.jpg"
+                alt="AI visibility for UK recruitment agencies via V.O.I.C.E methodology"
+                width={800}
+                height={600}
                 className="w-full rounded-lg mb-4 h-auto object-cover max-h-40"
               />
               <h3 className="text-xl font-bold text-brand-navy mb-1">AI Visibility Layer (V.O.I.C.E Methodology)</h3>
@@ -289,6 +292,18 @@ export default function RecruitmentWebsiteDesignPage() {
                 V.O.I.C.E methodology, monthly retainer
               </p>
             </article>
+          </div>
+          <div className="mt-12 flex flex-col items-center gap-4 text-center">
+            <p className="max-w-2xl text-lg text-brand-navy/80">
+              Not sure which build fits your agency? Thirty minutes on a call sorts it. No pitch deck, no obligation.
+            </p>
+            <Link
+              href="/book"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-[#FF1463] px-8 py-4 font-bold text-white no-underline hover:no-underline hover:opacity-90 transition-opacity visited:text-white [&>svg]:text-white"
+            >
+              Book A Discovery Call
+              <ArrowRight className="h-5 w-5 shrink-0" aria-hidden />
+            </Link>
           </div>
         </div>
       </section>
@@ -308,10 +323,10 @@ export default function RecruitmentWebsiteDesignPage() {
             href={DEMO_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-10 py-5 rounded-lg bg-[#FF1463] text-white font-bold text-lg shadow-lg hover:opacity-95 transition-opacity"
+            className="inline-flex items-center justify-center gap-2 px-10 py-5 rounded-lg bg-[#FF1463] text-white font-bold text-lg shadow-lg hover:opacity-95 transition-opacity no-underline hover:no-underline visited:text-white [&>svg]:text-white"
           >
             Open The Live Demo
-            <ArrowRight className="w-5 h-5" aria-hidden />
+            <ArrowRight className="w-5 h-5 shrink-0" aria-hidden />
           </a>
           <p className="mt-4 text-sm text-white/70">Your real jobs board, custom-built. Not a SaaS.</p>
         </div>
@@ -491,14 +506,14 @@ export default function RecruitmentWebsiteDesignPage() {
               href={DEMO_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-white text-[#FF1463] font-bold hover:bg-white/95 transition-colors"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-white text-brand-navy font-bold no-underline hover:no-underline hover:bg-gray-100 transition-colors [&>svg]:text-brand-navy"
             >
               Open The Live Demo
-              <ArrowRight className="w-5 h-5" aria-hidden />
+              <ArrowRight className="w-5 h-5 shrink-0 text-brand-navy" aria-hidden />
             </a>
             <Link
               href="/book"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg border-2 border-white text-white font-bold hover:bg-white/10 transition-colors"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg border-2 border-white bg-transparent text-white font-bold no-underline hover:no-underline hover:bg-white/10 transition-colors visited:text-white"
             >
               Book A Call
             </Link>
