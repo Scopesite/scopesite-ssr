@@ -157,7 +157,7 @@ export default function RecruitmentWebsiteDesignPage() {
           </div>
           <div className="mt-12 max-w-3xl mx-auto rounded-2xl overflow-hidden border border-white/10 bg-white/5">
             <Image
-              src="/images/recruitment/recruitment-website-design-hero.jpg"
+              src="/images/recruitment/recruitment-website-design-hero.webp"
               alt="Recruitment website design example: schema-first UK agency build"
               width={1200}
               height={675}
@@ -229,7 +229,7 @@ export default function RecruitmentWebsiteDesignPage() {
                 <Briefcase className="h-7 w-7 text-brand-gold" aria-hidden />
               </div>
               <Image
-                src="/images/recruitment/custom-recruitment-website.jpg"
+                src="/images/recruitment/custom-recruitment-website.webp"
                 alt="Custom recruitment website design example by ScopeSite"
                 width={800}
                 height={600}
@@ -251,7 +251,7 @@ export default function RecruitmentWebsiteDesignPage() {
                 <FileSearch className="h-7 w-7 text-brand-gold" aria-hidden />
               </div>
               <Image
-                src="/images/recruitment/live-jobs-board-auto-schema.jpg"
+                src="/images/recruitment/live-jobs-board-auto-schema.webp"
                 alt="Live jobs board with auto-generated JobPosting schema"
                 width={800}
                 height={600}
@@ -273,7 +273,7 @@ export default function RecruitmentWebsiteDesignPage() {
                 <Sparkles className="h-7 w-7 text-brand-gold" aria-hidden />
               </div>
               <Image
-                src="/images/recruitment/ai-visibility-recruitment-agency.jpg"
+                src="/images/recruitment/ai-visibility-recruitment-agency.webp"
                 alt="AI visibility for UK recruitment agencies via V.O.I.C.E methodology"
                 width={800}
                 height={600}
