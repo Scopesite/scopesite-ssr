@@ -62,7 +62,7 @@ const canonicalPricingFaqs = [
   {
     question: 'How much does a recruitment website with a jobs board cost?',
     answer:
-      'A typical recruitment build is a 10-page Ultra Fast SSR website plus the Live Jobs Board add-on. Total cost is £5,249 — same price across all payment options. AI SEO is included free.',
+      'A typical recruitment build is a 10-page Ultra Fast SSR website plus the Live Jobs Board add-on. Total cost is £5,249 — same price across all payment options. AI SEO is included free. For positioning, schema-first delivery, and the live JobBoard Sonar demo, see https://scopesite.co.uk/recruitment-website-design',
   },
   {
     question: 'How much does an e-commerce website cost?',

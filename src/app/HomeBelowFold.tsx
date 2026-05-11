@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Globe, Sparkles, Code, ArrowRight, Star, FileCode, Brain } from 'lucide-react';
+import { Globe, Sparkles, Code, ArrowRight, Star, FileCode, Brain, Briefcase } from 'lucide-react';
 import { motion, Variants } from 'motion/react';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { FadeInOnScroll, StaggerContainer, StaggerItem } from '@/components/animations';
@@ -17,6 +17,14 @@ const services = [
     icon: Globe,
     href: '/web-design',
     cta: 'Web design',
+  },
+  {
+    title: 'Recruitment website design',
+    description:
+      'UK agencies: schema-first builds, live jobs boards, Google for Jobs, and a demo you can click through today.',
+    icon: Briefcase,
+    href: '/recruitment-website-design',
+    cta: 'Recruitment builds',
   },
   {
     title: 'AI visibility scan',

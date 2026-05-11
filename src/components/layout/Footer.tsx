@@ -6,6 +6,7 @@ import { FooterSearch } from './FooterSearch';
 const FOOTER_LINKS = {
   services: [
     { label: 'Web Design', href: '/web-design' },
+    { label: 'Recruitment Website Design', href: '/recruitment-website-design' },
     { label: 'AI Website Design', href: '/ai-website-design' },
     { label: 'AI SEO Agency', href: '/ai-seo-agency' },
     { label: 'AI SEO Services', href: '/ai-seo-services' },

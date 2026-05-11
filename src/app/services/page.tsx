@@ -27,6 +27,12 @@ const ALL_SERVICES: readonly { title: string; href: string; description: string 
       'Ultra Fast AI visible premium sites and client-managed builds, all priced in the open.',
   },
   {
+    title: 'Recruitment Website Design',
+    href: '/recruitment-website-design',
+    description:
+      'Bespoke recruitment sites, live jobs with JobPosting schema, Google for Jobs, and AI visibility.',
+  },
+  {
     title: 'AI Website Design',
     href: '/ai-website-design',
     description:

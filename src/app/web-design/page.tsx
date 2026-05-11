@@ -28,7 +28,9 @@ import {
   Server,
   Activity,
   HardHat,
-  Factory
+  Factory,
+  Users,
+  type LucideIcon,
 } from 'lucide-react';
 import { 
   AnimatedCounter, 
@@ -191,8 +193,20 @@ const iconAnimations = {
   },
 };
 
-// Industries Data
-const industries = [
+// Industries Data (optional href makes the whole card link to a sector landing page)
+const industries: {
+  title: string;
+  description: string;
+  icon: LucideIcon;
+  href?: string;
+}[] = [
+  {
+    title: 'Recruitment',
+    description:
+      'Agency owners who need recruitment website design, live jobs schema, and a site that still belongs to them.',
+    icon: Users,
+    href: '/recruitment-website-design',
+  },
   {
     title: 'Legal & Financial',
     description: 'Solicitors, accountants, wealth managers - where your website is the first thing clients check before calling',
@@ -384,6 +398,22 @@ export default function WebDesignPage() {
         </div>
       </section>
 
+      <section className="section-white border-b border-brand-navy/10 py-8" aria-label="Sector landing pages">
+        <div className="container-content max-w-3xl mx-auto text-center">
+          <p className="text-brand-navy/80 text-body">
+            For sector-specific builds, see{' '}
+            <Link href="/recruitment-website-design" className="text-brand-gold hover:underline font-medium">
+              recruitment website design
+            </Link>{' '}
+            or our{' '}
+            <Link href="/web-design" className="text-brand-gold hover:underline font-medium">
+              main web design service
+            </Link>
+            .
+          </p>
+        </div>
+      </section>
+
       {/* Built for Businesses Like Yours - Moved up for buyer recognition */}
       <section className="section-white">
         <div className="container-content">
@@ -397,8 +427,8 @@ export default function WebDesignPage() {
           </FadeInOnScroll>
           
           <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12" staggerDelay={0.1}>
-            {industries.map((industry) => (
-              <StaggerItem key={industry.title}>
+            {industries.map((industry) => {
+              const card = (
                 <div
                   className="p-8 rounded-2xl bg-white border-l-4 border-l-brand-gold border border-brand-navy/10
                     shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-brand-gold/40 
@@ -410,8 +440,19 @@ export default function WebDesignPage() {
                   <h3 className="text-brand-navy font-bold text-lg mb-3">{industry.title}</h3>
                   <p className="text-brand-navy/70 leading-relaxed">{industry.description}</p>
                 </div>
-              </StaggerItem>
-            ))}
+              );
+              return (
+                <StaggerItem key={industry.title}>
+                  {industry.href ? (
+                    <Link href={industry.href} className="block h-full text-inherit no-underline">
+                      {card}
+                    </Link>
+                  ) : (
+                    card
+                  )}
+                </StaggerItem>
+              );
+            })}
           </StaggerContainer>
           
           <FadeInOnScroll>

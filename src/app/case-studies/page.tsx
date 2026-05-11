@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, TrendingUp } from 'lucide-react';
 import { JsonLd } from '@/components/JsonLd';
+import { CaseStudyListWithFilters } from '@/components/case-studies/CaseStudyListWithFilters';
 import {
   generateBreadcrumbSchema,
   generateCollectionPageSchema,
@@ -54,6 +54,7 @@ const caseStudies = [
       { label: 'AI Bot Crawls', value: '2,169' },
       { label: 'AI Platforms', value: '#1 on 3' },
     ],
+    sector: 'health' as const,
   },
 ];
 
@@ -125,50 +126,9 @@ export default function CaseStudiesPage() {
         </div>
       </section>
 
-      {/* Case Studies Grid */}
+      {/* Case Studies Grid + sector chips */}
       <section className="section-white">
-        <div className="container-content">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {caseStudies.map((cs) => (
-              <Link 
-                key={cs.slug} 
-                href={`/case-studies/${cs.slug}`}
-                className="group flex flex-col bg-white rounded-2xl border border-brand-navy/10 overflow-hidden hover:shadow-card transition-all duration-300"
-              >
-                <div className="p-8 flex-1 flex flex-col">
-                  <div className="text-brand-gold font-bold text-sm tracking-wider uppercase mb-3">
-                    {cs.client}
-                  </div>
-                  <h2 className="text-xl font-bold text-brand-navy mb-4 group-hover:text-brand-gold-accessible transition-colors">
-                    {cs.title}
-                  </h2>
-                  <p className="text-muted mb-8 flex-1">
-                    {cs.description}
-                  </p>
-                  
-                  <div className="grid grid-cols-2 gap-4 mb-8 pt-6 border-t border-brand-navy/10">
-                    {cs.metrics.map((metric, i) => (
-                      <div key={i}>
-                        <div className="text-2xl font-bold text-brand-navy mb-1 flex items-center gap-2">
-                          <TrendingUp className="w-5 h-5 text-brand-gold" />
-                          {metric.value}
-                        </div>
-                        <div className="text-xs text-muted font-medium uppercase tracking-wider">
-                          {metric.label}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="flex items-center text-brand-navy font-bold group-hover:text-brand-gold-accessible transition-colors mt-auto">
-                    Read Case Study
-                    <ArrowRight className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
+        <CaseStudyListWithFilters caseStudies={caseStudies} />
       </section>
     </>
   );
