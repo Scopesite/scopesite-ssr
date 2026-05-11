@@ -8,7 +8,6 @@ import {
   generateFAQSchema,
   generateServiceSchema,
   generateWebPageSchema,
-  schemaOfferGbpOneTime,
   type FAQItem,
 } from '@/lib/schema';
 
@@ -16,6 +15,25 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_PATH = '/recruitment-website-design';
 const PAGE_URL = `${BASE_URL}${PAGE_PATH}`;
 const DEMO_URL = 'https://jobboard-sonar.vercel.app/';
+
+/** Service JSON-LD Offer: mirrors visible "from £2,000" and SSR cap £8,000 (canonical pricing). */
+const recruitmentServiceOffer: Record<string, unknown> = {
+  '@type': 'Offer',
+  priceCurrency: 'GBP',
+  price: '2000',
+  priceSpecification: {
+    '@type': 'PriceSpecification',
+    minPrice: '2000',
+    maxPrice: '8000',
+    priceCurrency: 'GBP',
+  },
+  url: PAGE_URL,
+  description:
+    'Custom recruitment website design from £2,000. AI SEO included free. £5,249 typical with Live Jobs Board add-on.',
+  availability: 'https://schema.org/InStock',
+  priceValidUntil: '2026-12-31',
+  seller: { '@id': `${BASE_URL}/#organization` },
+};
 
 export const metadata: Metadata = {
   title: 'Recruitment Website Design UK | Custom-Built, Schema-First, AI-Visible | ScopeSite',
@@ -56,7 +74,7 @@ const recruitmentFaqs: FAQItem[] = [
   {
     question: 'How much does a recruitment website cost in the UK?',
     answer:
-      'A bespoke custom-built recruitment website from ScopeSite starts at £4,997 plus an optional monthly maintenance retainer. The Pay Monthly Service option spreads the build cost over 24 months. Template SaaS products like Volcanic or Firefish cost £250-£899 a month over three-year contracts, which works out at roughly £9,000 to £32,000 total.',
+      'A custom Ultra Fast SSR recruitment website starts at £2,000 for up to 5 pages. A typical 10-page build is £3,250. Add a Live Jobs Board with auto-schema for £1,999, taking a typical recruitment build with jobs board to £5,249, one-off. AI SEO is included free. Same total whether you pay in full, spread over 6 months, or 12 months. Pay Monthly Service is also available; see https://scopesite.co.uk/pricing for tier-specific setup and monthly fees. Volcanic charges £899 a month over a three-year lock-in, totalling £32,364.',
   },
   {
     question: 'How do you design a recruitment website that ranks for Google for Jobs?',
@@ -91,7 +109,7 @@ export default function RecruitmentWebsiteDesignPage() {
 
   const serviceSchema = generateServiceSchema(
     'Recruitment Website Design',
-    'Bespoke recruitment website design for UK agencies. Schema-first, Google for Jobs ready, AI-visible.',
+    'Custom recruitment website design for UK agencies from £2,000. AI SEO included free. Schema-first SSR, Google for Jobs ready, ChatGPT-readable. Live Jobs Board add-on £1,999. Typical 10-page build with jobs board: £5,249.',
     PAGE_URL,
     'Service',
     {
@@ -100,14 +118,14 @@ export default function RecruitmentWebsiteDesignPage() {
         '@type': 'BusinessAudience',
         audienceType: 'UK recruitment agencies',
       } as unknown as { '@id': string },
-      offers: schemaOfferGbpOneTime('4997', PAGE_URL),
+      offers: recruitmentServiceOffer,
     }
   );
 
   const webPageSchema = {
     ...generateWebPageSchema(
       'Recruitment Website Design UK | Custom-Built, Schema-First, AI-Visible | ScopeSite',
-      'Bespoke recruitment website design for UK agencies. Schema-first, Google for Jobs ready, AI-visible. One extra placement covers the cost. See the live demo.',
+      'Custom recruitment website design for UK agencies from £2,000. AI SEO included free. Schema-first SSR, Google for Jobs ready, ChatGPT-readable. See the live demo.',
       PAGE_URL
     ),
     mainEntity: { '@id': `${PAGE_URL}/#service` },
@@ -146,7 +164,7 @@ export default function RecruitmentWebsiteDesignPage() {
               className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-[#FF1463] text-white font-bold text-lg shadow-lg hover:opacity-95 transition-opacity min-w-[240px] no-underline hover:no-underline visited:text-white [&>svg]:text-white"
             >
               See The Live Demo
-              <ArrowRight className="w-5 h-5 shrink-0" aria-hidden />
+              <ArrowRight className="w-5 h-5 shrink-0 text-white" aria-hidden />
             </a>
             <Link
               href="/book"
@@ -173,7 +191,7 @@ export default function RecruitmentWebsiteDesignPage() {
       <section className="section-white border-b border-brand-navy/10" aria-labelledby="indeed-problem-heading">
         <div className="container-content max-w-3xl mx-auto">
           <h2 id="indeed-problem-heading" className="text-brand-navy text-2xl sm:text-3xl md:text-h2 font-bold mb-6">
-            The recruitment website problem nobody talks about
+            The recruitment website cost nobody talks about
           </h2>
           <div className="prose prose-lg text-muted max-w-none space-y-4">
             <p>
@@ -218,7 +236,7 @@ export default function RecruitmentWebsiteDesignPage() {
       <section className="py-section bg-brand-navy/5 border-b border-brand-navy/10" aria-labelledby="what-we-build-heading">
         <div className="container-content">
           <h2 id="what-we-build-heading" className="text-brand-navy text-2xl sm:text-3xl md:text-h2 font-bold text-center mb-4">
-            Custom-built recruitment websites, three core capabilities
+            Recruitment website development, three ways we build it
           </h2>
           <p className="text-center text-muted max-w-2xl mx-auto mb-12">
             Recruitment website development, live jobs, and AI visibility in one coherent build.
@@ -235,7 +253,7 @@ export default function RecruitmentWebsiteDesignPage() {
                 height={600}
                 className="w-full rounded-lg mb-4 h-auto object-cover max-h-40"
               />
-              <h3 className="text-xl font-bold text-brand-navy mb-1">Custom Recruitment Website</h3>
+              <h3 className="text-xl font-bold text-brand-navy mb-1">Custom Recruitment Web Design</h3>
               <p className="text-brand-gold-accessible font-semibold text-sm mb-3">No templates. No 3-year contracts.</p>
               <p className="text-muted flex-1 text-sm leading-relaxed">
                 Built in Next.js 16 with server-side rendering, schema-first architecture, and Lexend typography. You own
@@ -243,7 +261,7 @@ export default function RecruitmentWebsiteDesignPage() {
                 for you, your call.
               </p>
               <p className="mt-4 text-sm font-bold text-brand-navy border-t border-brand-navy/10 pt-4">
-                From £4,997 + Pay Monthly Service available
+                From £2,000 - AI SEO included free
               </p>
             </article>
             <article className="rounded-2xl border border-brand-navy/10 bg-white p-8 shadow-sm flex flex-col">
@@ -257,7 +275,7 @@ export default function RecruitmentWebsiteDesignPage() {
                 height={600}
                 className="w-full rounded-lg mb-4 h-auto object-cover max-h-40"
               />
-              <h3 className="text-xl font-bold text-brand-navy mb-1">Live Jobs Board (Auto-Schema)</h3>
+              <h3 className="text-xl font-bold text-brand-navy mb-1">Live Jobs Board with Google for Jobs Schema</h3>
               <p className="text-brand-gold-accessible font-semibold text-sm mb-3">Google for Jobs verified from day one.</p>
               <p className="text-muted flex-1 text-sm leading-relaxed">
                 Every role on your site auto-generates valid JSON-LD JobPosting schema, title, salary, location,
@@ -279,7 +297,7 @@ export default function RecruitmentWebsiteDesignPage() {
                 height={600}
                 className="w-full rounded-lg mb-4 h-auto object-cover max-h-40"
               />
-              <h3 className="text-xl font-bold text-brand-navy mb-1">AI Visibility Layer (V.O.I.C.E Methodology)</h3>
+              <h3 className="text-xl font-bold text-brand-navy mb-1">AI Visibility for Recruitment Agencies</h3>
               <p className="text-brand-gold-accessible font-semibold text-sm mb-3">
                 ChatGPT, Perplexity, Claude, Google AI Overviews.
               </p>
@@ -302,7 +320,7 @@ export default function RecruitmentWebsiteDesignPage() {
               className="inline-flex items-center justify-center gap-2 rounded-full bg-[#FF1463] px-8 py-4 font-bold text-white no-underline hover:no-underline hover:opacity-90 transition-opacity visited:text-white [&>svg]:text-white"
             >
               Book A Discovery Call
-              <ArrowRight className="h-5 w-5 shrink-0" aria-hidden />
+              <ArrowRight className="h-5 w-5 shrink-0 text-white" aria-hidden />
             </Link>
           </div>
         </div>
@@ -312,7 +330,7 @@ export default function RecruitmentWebsiteDesignPage() {
       <section className="py-section bg-[#1E1F5C] text-white" aria-labelledby="demo-heading">
         <div className="container-content max-w-3xl mx-auto text-center">
           <h2 id="demo-heading" className="text-2xl sm:text-3xl md:text-h2 font-bold mb-4">
-            See What A Recruitment Website Should Actually Look Like
+            See A Recruitment Website Builder Built For You, Not For Templates
           </h2>
           <p className="text-white/85 mb-8 leading-relaxed">
             We built a fully interactive demo prototype. Three perspectives, the recruiter admin view, the candidate
@@ -326,7 +344,7 @@ export default function RecruitmentWebsiteDesignPage() {
             className="inline-flex items-center justify-center gap-2 px-10 py-5 rounded-lg bg-[#FF1463] text-white font-bold text-lg shadow-lg hover:opacity-95 transition-opacity no-underline hover:no-underline visited:text-white [&>svg]:text-white"
           >
             Open The Live Demo
-            <ArrowRight className="w-5 h-5 shrink-0" aria-hidden />
+            <ArrowRight className="w-5 h-5 shrink-0 text-white" aria-hidden />
           </a>
           <p className="mt-4 text-sm text-white/70">Your real jobs board, custom-built. Not a SaaS.</p>
         </div>
@@ -336,7 +354,7 @@ export default function RecruitmentWebsiteDesignPage() {
       <section className="section-white border-b border-brand-navy/10" aria-labelledby="compare-heading">
         <div className="container-content max-w-5xl mx-auto">
           <h2 id="compare-heading" className="text-brand-navy text-2xl sm:text-3xl md:text-h2 font-bold mb-4 text-center">
-            What you get vs. what Access Volcanic and Firefish Software give you
+            Recruitment Website Design UK vs Access Volcanic and Firefish Software
           </h2>
           <p className="text-center text-muted max-w-2xl mx-auto mb-8">
             Honest comparison for owners weighing recruitment web design against template SaaS. Your ATS (Bullhorn,
@@ -376,8 +394,12 @@ export default function RecruitmentWebsiteDesignPage() {
             candidate visibility over a typical three-year contract is roughly £43,000.
           </p>
           <p className="mt-4 text-muted leading-relaxed max-w-3xl mx-auto">
-            A custom build from us costs £4,997 plus a monthly maintenance retainer. Over three years that&apos;s
-            roughly £18,000. The maths is not particularly complicated.
+            A 10-page recruitment build with a live jobs board is £5,249, one-off. AI SEO included free. Same price
+            whether you pay in full, spread over 6 months, or 12 months. No interest, no credit charges.
+          </p>
+          <p className="mt-4 text-muted leading-relaxed max-w-3xl mx-auto">
+            Volcanic at £899 a month over a three-year lock-in is £32,364. We are roughly one-sixth of that, and you own
+            the code at the end.
           </p>
         </div>
       </section>
@@ -386,29 +408,29 @@ export default function RecruitmentWebsiteDesignPage() {
       <section className="py-section bg-brand-navy/5 border-b border-brand-navy/10" aria-labelledby="fee-maths-heading">
         <div className="container-content max-w-4xl mx-auto">
           <h2 id="fee-maths-heading" className="text-brand-navy text-2xl sm:text-3xl md:text-h2 font-bold text-center mb-6">
-            One extra placement covers the build
+            Recruitment Website Cost, Honest Maths
           </h2>
-          <p className="text-muted text-center max-w-3xl mx-auto mb-10 leading-relaxed">
-            The average UK SME recruitment agency makes 7.75 placements a month. The average permanent placement fee
-            on a £50,000 salary at 20% is £10,000. A typical specialist desk at 25% on £75,000 hits £18,750.
+          <p className="text-muted text-center max-w-3xl mx-auto mb-6 leading-relaxed">
+            A typical recruitment build with us is £5,249. That covers a 10-page Ultra Fast SSR site, a Live Jobs Board
+            with auto-schema, AI SEO bundled free, and the same price whether you pay in full, spread over 6 months, or
+            12 months.
           </p>
           <p className="text-muted text-center max-w-3xl mx-auto mb-12 leading-relaxed">
-            A bespoke recruitment website from us is £4,997 build + monthly retainer. One extra placement, the kind
-            that you would not otherwise have made because the candidate found a competitor first on Google, covers it.
-            Two placements pay for the year. We have not yet found a recruitment agency that argues with the maths.
+            Volcanic costs £32,364 over a three-year lock-in. We are roughly one-sixth of that, and you own the code at
+            the end.
           </p>
           <div className="grid sm:grid-cols-3 gap-6 text-center">
             <div className="rounded-2xl bg-white border border-brand-navy/10 p-6 shadow-sm">
+              <p className="text-3xl md:text-4xl font-headline text-brand-navy mb-2">£5,249</p>
+              <p className="text-sm text-muted">Your build (10-page SSR + Live Jobs Board)</p>
+            </div>
+            <div className="rounded-2xl bg-white border border-brand-navy/10 p-6 shadow-sm">
+              <p className="text-3xl md:text-4xl font-headline text-brand-navy mb-2">£32,364</p>
+              <p className="text-sm text-muted">Volcanic over a 3-year lock-in</p>
+            </div>
+            <div className="rounded-2xl bg-white border border-brand-navy/10 p-6 shadow-sm">
               <p className="text-3xl md:text-4xl font-headline text-brand-navy mb-2">£10,000</p>
-              <p className="text-sm text-muted">One £50K placement at 20% fee</p>
-            </div>
-            <div className="rounded-2xl bg-white border border-brand-navy/10 p-6 shadow-sm">
-              <p className="text-3xl md:text-4xl font-headline text-brand-navy mb-2">£18,750</p>
-              <p className="text-sm text-muted">One £75K placement at 25% fee</p>
-            </div>
-            <div className="rounded-2xl bg-white border border-brand-navy/10 p-6 shadow-sm">
-              <p className="text-3xl md:text-4xl font-headline text-brand-navy mb-2">£43,000</p>
-              <p className="text-sm text-muted">Three years on Volcanic with rented visibility</p>
+              <p className="text-sm text-muted">Indeed at £25/day x 14 sponsored jobs for one month</p>
             </div>
           </div>
         </div>
@@ -418,7 +440,7 @@ export default function RecruitmentWebsiteDesignPage() {
       <section className="section-white border-b border-brand-navy/10" aria-labelledby="process-heading">
         <div className="container-content max-w-5xl mx-auto">
           <h2 id="process-heading" className="text-brand-navy text-2xl sm:text-3xl md:text-h2 font-bold text-center mb-12">
-            From brief to live in eight weeks
+            How To Build A Recruitment Website In Eight Weeks
           </h2>
           <ol className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 list-none p-0 m-0">
             <li className="relative rounded-2xl border border-brand-navy/10 bg-white p-6 pt-10">
@@ -468,7 +490,7 @@ export default function RecruitmentWebsiteDesignPage() {
       <section className="py-section bg-brand-navy/5 border-b border-brand-navy/10" aria-labelledby="faq-heading">
         <div className="container-content max-w-3xl mx-auto">
           <h2 id="faq-heading" className="text-brand-navy text-2xl sm:text-3xl md:text-h2 font-bold text-center mb-10">
-            Questions recruitment agency owners actually ask
+            Recruitment Website Design FAQ
           </h2>
           <div className="space-y-3">
             {recruitmentFaqs.map((faq) => (
