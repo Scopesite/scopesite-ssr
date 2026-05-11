@@ -11,6 +11,7 @@ import {
   DeferredVercelAnalytics,
 } from '@/components/DeferredViewportAnalytics';
 import { SkipLink, RouteAnnouncer } from '@/components/a11y';
+import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
 import { getAlternates } from '@/lib/hreflang-map';
 import {
   generateOrganizationSchema,
@@ -148,6 +149,7 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${paytoneOne.variable} ${inter.variable} font-body`}
       >
+        <GoogleAnalytics />
         <SkipLink />
         <Header />
         <main id="main-content" className="pt-32" tabIndex={-1}>
