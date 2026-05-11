@@ -161,14 +161,14 @@ export default function RecruitmentWebsiteDesignPage() {
               href={DEMO_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-[#FF1463] text-white font-bold text-lg shadow-lg hover:opacity-95 transition-opacity min-w-[240px] no-underline hover:no-underline visited:text-white [&>svg]:text-white"
+              className="cta-recruitment inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-[#FF1463] !text-white hover:!text-white font-bold text-lg shadow-lg hover:opacity-95 transition-opacity min-w-[240px] !no-underline hover:!no-underline visited:!text-white [&>svg]:!text-white"
             >
               See The Live Demo
-              <ArrowRight className="w-5 h-5 shrink-0 text-white" aria-hidden />
+              <ArrowRight className="w-5 h-5 shrink-0 !text-white" aria-hidden />
             </a>
             <Link
               href="/book"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-white border-2 border-brand-navy text-brand-navy font-bold no-underline hover:no-underline hover:bg-gray-100 transition-colors min-w-[200px] visited:text-brand-navy [&>svg]:text-brand-navy"
+              className="cta-recruitment-ghost inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-white border-2 border-brand-navy !text-brand-navy hover:!text-brand-navy font-bold !no-underline hover:!no-underline hover:bg-gray-100 transition-colors min-w-[200px] visited:!text-brand-navy [&>svg]:!text-brand-navy"
             >
               Book A Call
             </Link>
@@ -317,10 +317,10 @@ export default function RecruitmentWebsiteDesignPage() {
             </p>
             <Link
               href="/book"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-[#FF1463] px-8 py-4 font-bold text-white no-underline hover:no-underline hover:opacity-90 transition-opacity visited:text-white [&>svg]:text-white"
+              className="cta-recruitment inline-flex items-center justify-center gap-2 rounded-full bg-[#FF1463] px-8 py-4 font-bold !text-white hover:!text-white !no-underline hover:!no-underline hover:opacity-90 transition-opacity visited:!text-white [&>svg]:!text-white"
             >
               Book A Discovery Call
-              <ArrowRight className="h-5 w-5 shrink-0 text-white" aria-hidden />
+              <ArrowRight className="h-5 w-5 shrink-0 !text-white" aria-hidden />
             </Link>
           </div>
         </div>
@@ -341,10 +341,10 @@ export default function RecruitmentWebsiteDesignPage() {
             href={DEMO_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-10 py-5 rounded-lg bg-[#FF1463] text-white font-bold text-lg shadow-lg hover:opacity-95 transition-opacity no-underline hover:no-underline visited:text-white [&>svg]:text-white"
+            className="cta-recruitment inline-flex items-center justify-center gap-2 px-10 py-5 rounded-lg bg-[#FF1463] !text-white hover:!text-white font-bold text-lg shadow-lg hover:opacity-95 transition-opacity !no-underline hover:!no-underline visited:!text-white [&>svg]:!text-white"
           >
             Open The Live Demo
-            <ArrowRight className="w-5 h-5 shrink-0 text-white" aria-hidden />
+            <ArrowRight className="w-5 h-5 shrink-0 !text-white" aria-hidden />
           </a>
           <p className="mt-4 text-sm text-white/70">Your real jobs board, custom-built. Not a SaaS.</p>
         </div>
@@ -528,14 +528,14 @@ export default function RecruitmentWebsiteDesignPage() {
               href={DEMO_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-white text-brand-navy font-bold no-underline hover:no-underline hover:bg-gray-100 transition-colors [&>svg]:text-brand-navy"
+              className="cta-recruitment-ghost-on-magenta inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-white !text-brand-navy hover:!text-brand-navy font-bold !no-underline hover:!no-underline hover:bg-gray-100 transition-colors [&>svg]:!text-brand-navy"
             >
               Open The Live Demo
-              <ArrowRight className="w-5 h-5 shrink-0 text-brand-navy" aria-hidden />
+              <ArrowRight className="w-5 h-5 shrink-0 !text-brand-navy" aria-hidden />
             </a>
             <Link
               href="/book"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg border-2 border-white bg-transparent text-white font-bold no-underline hover:no-underline hover:bg-white/10 transition-colors visited:text-white"
+              className="cta-recruitment-outline-on-magenta inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg border-2 border-white bg-transparent !text-white hover:!text-white font-bold !no-underline hover:!no-underline hover:bg-white/10 transition-colors visited:!text-white"
             >
               Book A Call
             </Link>
