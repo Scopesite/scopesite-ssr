@@ -157,7 +157,7 @@ export default function RecruitmentWebsiteDesignPage() {
           </div>
           <div className="mt-12 max-w-3xl mx-auto rounded-2xl overflow-hidden border border-white/10 bg-white/5">
             <Image
-              src="/images/scopesite-websites-found-hero-ai.webp"
+              src="/images/recruitment/recruitment-website-design-hero.jpg"
               alt="Recruitment website design example: schema-first UK agency build"
               width={1200}
               height={675}
