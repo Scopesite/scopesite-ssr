@@ -22,6 +22,7 @@ import { AdminTrelloPanel } from '@/components/portal/AdminTrelloPanel';
 import { TrelloSyncBanner } from '@/components/portal/TrelloSyncBanner';
 import { Suspense } from 'react';
 import { getCardPublicUrl, isTrelloConfigured } from '@/lib/trello';
+import { getClientTrelloListStatus } from '@/lib/portal-trello';
 import { TYPE_OF_WORK_LABELS, URGENCY_LABELS, type CommenceWorkBy } from '@/types/portal';
 
 interface RequestDetailPageProps {
@@ -84,6 +85,8 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
   const typeLabel = TYPE_OF_WORK_LABELS[request.type_of_work] || request.type_of_work;
 
   let trelloCardUrl: string | null = null;
+  const clientTrelloStatus =
+    isAdmin && client ? await getClientTrelloListStatus(client) : null;
   if (isAdmin && request.trello_card_id && isTrelloConfigured()) {
     trelloCardUrl = await getCardPublicUrl(request.trello_card_id);
   }
@@ -130,6 +133,9 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
           requestId={request.id}
           trelloCardId={request.trello_card_id}
           trelloCardUrl={trelloCardUrl}
+          clientId={client.id}
+          clientListNeedsFix={clientTrelloStatus?.needsNewList}
+          clientListName={clientTrelloStatus?.listName}
         />
       )}
 

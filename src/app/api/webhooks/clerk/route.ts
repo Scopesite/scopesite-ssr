@@ -11,7 +11,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Webhook } from 'svix';
 import { WebhookEvent } from '@clerk/nextjs/server';
 import { linkClerkUserToClient, logActivity, getClientByEmail, updateClient } from '@/lib/portal-db';
-import { isTrelloConfigured, createList } from '@/lib/trello';
+import { isTrelloConfigured } from '@/lib/trello';
+import { ensureClientTrelloList } from '@/lib/portal-trello';
 
 export async function POST(request: NextRequest) {
   // Get the webhook secret from environment
@@ -103,14 +104,12 @@ async function handleUserCreated(data: {
   if (client) {
     console.log(`Linked Clerk user ${clerkUserId} to client ${client.id} (${client.company_name})`);
 
-    // Create Trello list if client doesn't have one (fallback for older clients)
-    if (!client.trello_list_id && isTrelloConfigured()) {
+    // Open Trello list for new requests (creates one if missing or archived)
+    if (isTrelloConfigured()) {
       try {
-        const trelloList = await createList(client.company_name);
-        client = await updateClient(client.id, { trello_list_id: trelloList.id }) || client;
-        console.log(`Created Trello list "${trelloList.name}" (${trelloList.id}) for client ${client.id}`);
+        client = await ensureClientTrelloList(client);
       } catch (trelloError) {
-        console.error('Failed to create Trello list on sign-in:', trelloError);
+        console.error('Failed to ensure Trello list on sign-in:', trelloError);
       }
     }
 

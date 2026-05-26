@@ -10,13 +10,16 @@
 import { useState } from 'react';
 import { Mail, Pencil, Archive } from 'lucide-react';
 import { ClientEditPanel } from './ClientEditPanel';
+import { ClientTrelloListPanel } from './ClientTrelloListPanel';
 import type { ClientRow } from '@/types/portal';
+import type { ClientTrelloListStatus } from '@/lib/portal-trello';
 
 interface ClientActionsProps {
   client: ClientRow;
+  trelloListStatus: ClientTrelloListStatus;
 }
 
-export function ClientActions({ client }: ClientActionsProps) {
+export function ClientActions({ client, trelloListStatus }: ClientActionsProps) {
   const [isEditPanelOpen, setIsEditPanelOpen] = useState(false);
 
   return (
@@ -50,6 +53,12 @@ export function ClientActions({ client }: ClientActionsProps) {
           )}
         </div>
       </div>
+
+      <ClientTrelloListPanel
+        clientId={client.id}
+        companyName={client.company_name}
+        initialStatus={trelloListStatus}
+      />
 
       {/* Edit Panel */}
       <ClientEditPanel

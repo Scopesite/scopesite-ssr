@@ -18,6 +18,80 @@ import {
   getCardPublicUrl,
 } from '@/lib/trello';
 
+export interface ClientTrelloListStatus {
+  configured: boolean;
+  listId: string | null;
+  listName: string | null;
+  isArchived: boolean;
+  needsNewList: boolean;
+}
+
+export async function getClientTrelloListStatus(
+  client: Pick<ClientRow, 'trello_list_id'>
+): Promise<ClientTrelloListStatus> {
+  if (!isTrelloConfigured()) {
+    return {
+      configured: false,
+      listId: null,
+      listName: null,
+      isArchived: false,
+      needsNewList: false,
+    };
+  }
+
+  if (!client.trello_list_id) {
+    return {
+      configured: true,
+      listId: null,
+      listName: null,
+      isArchived: false,
+      needsNewList: true,
+    };
+  }
+
+  const existing = await getListById(client.trello_list_id);
+  if (!existing) {
+    return {
+      configured: true,
+      listId: client.trello_list_id,
+      listName: null,
+      isArchived: true,
+      needsNewList: true,
+    };
+  }
+
+  return {
+    configured: true,
+    listId: existing.id,
+    listName: existing.name,
+    isArchived: existing.closed,
+    needsNewList: existing.closed,
+  };
+}
+
+/**
+ * Create a new open Trello list and assign it to the client (all future requests use it).
+ */
+export async function recreateClientTrelloList(client: ClientRow): Promise<{
+  client: ClientRow;
+  listId: string;
+  listName: string;
+}> {
+  if (!isTrelloConfigured()) {
+    throw new Error('Trello is not configured');
+  }
+
+  const trelloList = await createList(client.company_name);
+  const updated = await updateClient(client.id, { trello_list_id: trelloList.id });
+
+  const nextClient = updated || { ...client, trello_list_id: trelloList.id };
+  return {
+    client: nextClient,
+    listId: trelloList.id,
+    listName: trelloList.name,
+  };
+}
+
 /**
  * Ensure the client has an open (non-archived) Trello list for new cards.
  */
@@ -26,19 +100,19 @@ export async function ensureClientTrelloList(client: ClientRow): Promise<ClientR
     return client;
   }
 
-  if (client.trello_list_id) {
-    const existing = await getListById(client.trello_list_id);
-    if (existing && !existing.closed) {
-      return client;
-    }
+  const status = await getClientTrelloListStatus(client);
+  if (!status.needsNewList && status.listId) {
+    return client;
+  }
+
+  if (status.needsNewList && client.trello_list_id) {
     console.warn(
-      `Client ${client.company_name} Trello list is archived or missing (${existing?.name ?? client.trello_list_id}), creating a new list`
+      `Client ${client.company_name} Trello list needs replacement (${status.listName ?? client.trello_list_id})`
     );
   }
 
-  const trelloList = await createList(client.company_name);
-  const updated = await updateClient(client.id, { trello_list_id: trelloList.id });
-  return updated || { ...client, trello_list_id: trelloList.id };
+  const { client: updated } = await recreateClientTrelloList(client);
+  return updated;
 }
 
 export interface SyncRequestToTrelloOptions {

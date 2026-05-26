@@ -16,6 +16,7 @@ import { ClientActions } from '@/components/portal/ClientActions';
 import { ClientContacts } from '@/components/portal/ClientContacts';
 import { ClientNotes } from '@/components/portal/ClientNotes';
 import type { ChangeRequestProgress } from '@/types/portal';
+import { getClientTrelloListStatus } from '@/lib/portal-trello';
 
 interface ClientDetailPageProps {
   params: Promise<{ id: string }>;
@@ -59,6 +60,8 @@ export default async function ClientDetailPage({ params }: ClientDetailPageProps
   // Calculate stats
   const openRequests = requests.filter(r => !['invoice_sent', 'invoice_paid'].includes(r.progress));
   const completedRequests = requests.filter(r => ['invoice_sent', 'invoice_paid'].includes(r.progress));
+  const trelloListStatus = await getClientTrelloListStatus(client);
+
   const totalRevenue = completedRequests.reduce((sum, r) => {
     if (r.one_off_payment) return sum + r.one_off_payment;
     if (r.hours_estimated && r.rate_charged) return sum + (r.hours_estimated * r.rate_charged);
@@ -188,7 +191,7 @@ export default async function ClientDetailPage({ params }: ClientDetailPageProps
         {/* Sidebar */}
         <div className="space-y-6">
           {/* Actions (includes Edit Panel) */}
-          <ClientActions client={client} />
+          <ClientActions client={client} trelloListStatus={trelloListStatus} />
 
           {/* Invoices */}
           <AdminInvoiceUpload clientId={client.id} invoices={invoices} />

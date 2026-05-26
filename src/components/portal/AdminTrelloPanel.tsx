@@ -2,18 +2,25 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { ExternalLink, Loader2, Trello } from 'lucide-react';
 
 interface AdminTrelloPanelProps {
   requestId: string;
   trelloCardId: string | null;
   trelloCardUrl: string | null;
+  clientId?: string;
+  clientListNeedsFix?: boolean;
+  clientListName?: string | null;
 }
 
 export function AdminTrelloPanel({
   requestId,
   trelloCardId,
   trelloCardUrl,
+  clientId,
+  clientListNeedsFix,
+  clientListName,
 }: AdminTrelloPanelProps) {
   const router = useRouter();
   const [syncing, setSyncing] = useState(false);
@@ -76,6 +83,19 @@ export function AdminTrelloPanel({
             ? 'Portal has an old card ID but Trello has no matching card. Sync again to create a new card.'
             : 'This request is only in the portal. Sync creates the client list (if needed) and the Trello card. Project is optional.'}
         </p>
+        {clientListNeedsFix && clientId && (
+          <p className="text-sm text-amber-800/90 mt-2">
+            Client list
+            {clientListName ? ` "${clientListName}"` : ''} is archived or missing.{' '}
+            <Link
+              href={`/portal/admin/clients/${clientId}`}
+              className="font-semibold text-brand-navy underline hover:text-brand-gold-accessible"
+            >
+              Create & assign a new list
+            </Link>{' '}
+            before syncing.
+          </p>
+        )}
       </div>
       {error && (
         <p className="text-sm text-red-600" role="alert">
