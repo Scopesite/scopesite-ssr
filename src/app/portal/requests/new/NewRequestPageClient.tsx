@@ -6,18 +6,24 @@ import { ArrowLeft, Send, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { FileUpload, type UploadedFile } from '@/components/FileUpload';
 import { ClientPicker } from '@/components/portal/ClientPicker';
+import { ProjectPicker } from '@/components/portal/ProjectPicker';
 import { TYPE_OF_WORK_LABELS, URGENCY_LABELS, type ChangeRequestType, type CommenceWorkBy } from '@/types/portal';
 
 interface NewRequestPageClientProps {
   isAdmin: boolean;
+  /** Set for client users; admin resolves via onBehalfClientId */
+  clientId?: string | null;
 }
 
-export function NewRequestPageClient({ isAdmin }: NewRequestPageClientProps) {
+export function NewRequestPageClient({ isAdmin, clientId: initialClientId }: NewRequestPageClientProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [onBehalfClientId, setOnBehalfClientId] = useState<string | null>(null);
+  const [projectId, setProjectId] = useState<string | null>(null);
+
+  const resolvedClientId = isAdmin ? onBehalfClientId : initialClientId ?? null;
 
   const [formData, setFormData] = useState({
     title: '',
@@ -31,6 +37,7 @@ export function NewRequestPageClient({ isAdmin }: NewRequestPageClientProps) {
 
   const handleClientChange = (clientId: string | null) => {
     setOnBehalfClientId(clientId);
+    setProjectId(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -55,6 +62,7 @@ export function NewRequestPageClient({ isAdmin }: NewRequestPageClientProps) {
           ...(isAdmin && onBehalfClientId
             ? { on_behalf_client_id: onBehalfClientId }
             : {}),
+          ...(projectId ? { project_id: projectId } : {}),
         }),
       });
 
@@ -91,6 +99,14 @@ export function NewRequestPageClient({ isAdmin }: NewRequestPageClientProps) {
       <form onSubmit={handleSubmit} className="space-y-6">
         {isAdmin && (
           <ClientPicker value={onBehalfClientId} onChange={handleClientChange} />
+        )}
+
+        {resolvedClientId && (
+          <ProjectPicker
+            clientId={resolvedClientId}
+            value={projectId}
+            onChange={setProjectId}
+          />
         )}
 
         <div>

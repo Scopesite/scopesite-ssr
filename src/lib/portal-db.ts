@@ -35,6 +35,7 @@ import type {
   BrandFontEntry,
   BrandSocialHandle,
 } from '@/types/portal';
+import { computeSlaDueAt } from '@/types/portal';
 
 // ============================================
 // TABLE INITIALIZATION
@@ -67,6 +68,10 @@ export async function initializePortalTables(): Promise<void> {
   // Migration: Add trello_list_id column if it doesn't exist
   await sql`
     ALTER TABLE clients ADD COLUMN IF NOT EXISTS trello_list_id VARCHAR(50)
+  `;
+
+  await sql`
+    ALTER TABLE clients ADD COLUMN IF NOT EXISTS sms_opt_in BOOLEAN NOT NULL DEFAULT FALSE
   `;
 
   // Projects table
@@ -137,6 +142,32 @@ export async function initializePortalTables(): Promise<void> {
   await sql`
     ALTER TABLE change_requests ADD COLUMN IF NOT EXISTS created_on_behalf_of BOOLEAN DEFAULT false
   `;
+
+  await sql`
+    ALTER TABLE change_requests ADD COLUMN IF NOT EXISTS sla_due_at TIMESTAMPTZ
+  `;
+
+  await sql`
+    ALTER TABLE projects ADD COLUMN IF NOT EXISTS description TEXT
+  `;
+
+  try {
+    await sql`
+      UPDATE change_requests SET sla_due_at = created_at + (
+        CASE commence_work_by
+          WHEN 'emergency' THEN interval '1 hour'
+          WHEN 'out_of_hours' THEN interval '4 hours'
+          WHEN '24_hours' THEN interval '24 hours'
+          WHEN '48_hours' THEN interval '48 hours'
+          WHEN '3_5_days' THEN interval '120 hours'
+          ELSE NULL
+        END
+      )
+      WHERE sla_due_at IS NULL AND commence_work_by IS NOT NULL
+    `;
+  } catch (backfillError) {
+    console.warn('SLA backfill skipped or failed:', backfillError);
+  }
 
   // Comments table
   await sql`
@@ -345,6 +376,11 @@ export async function updateClient(
   id: string,
   updates: UpdateClient
 ): Promise<ClientRow | null> {
+  const current = await getClientById(id);
+  if (!current) {
+    return null;
+  }
+
   const sql = getDb();
   const result = await sql`
     UPDATE clients SET
@@ -352,7 +388,8 @@ export async function updateClient(
       company_name = COALESCE(${updates.company_name ?? null}, company_name),
       primary_contact_name = COALESCE(${updates.primary_contact_name ?? null}, primary_contact_name),
       email = COALESCE(${updates.email ?? null}, email),
-      phone = COALESCE(${updates.phone}, phone),
+      phone = ${updates.phone !== undefined ? updates.phone : current.phone},
+      sms_opt_in = ${updates.sms_opt_in !== undefined ? updates.sms_opt_in : current.sms_opt_in},
       hourly_rate = COALESCE(${updates.hourly_rate}, hourly_rate),
       trello_label_id = COALESCE(${updates.trello_label_id}, trello_label_id),
       trello_list_id = COALESCE(${updates.trello_list_id}, trello_list_id),
@@ -398,13 +435,15 @@ export async function createProject(data: NewProject): Promise<ProjectRow> {
     INSERT INTO projects (
       client_id,
       name,
+      description,
       type,
       start_date,
       target_launch_date
     ) VALUES (
       ${data.client_id},
       ${data.name},
-      ${data.type},
+      ${data.description ?? null},
+      ${data.type ?? 'ongoing'},
       ${data.start_date || null},
       ${data.target_launch_date || null}
     )
@@ -440,6 +479,22 @@ export async function getProjectById(id: string): Promise<ProjectRow | null> {
   return result[0] || null;
 }
 
+/**
+ * Get change requests linked to a project
+ */
+export async function getChangeRequestsByProjectId(
+  projectId: string
+): Promise<ChangeRequestRow[]> {
+  const sql = getDb();
+  const result = await sql`
+    SELECT * FROM change_requests
+    WHERE project_id = ${projectId}
+    ORDER BY created_at DESC
+  `;
+
+  return result as ChangeRequestRow[];
+}
+
 // ============================================
 // CHANGE REQUEST OPERATIONS
 // ============================================
@@ -451,6 +506,8 @@ export async function createChangeRequest(
   data: NewChangeRequest
 ): Promise<ChangeRequestRow> {
   const sql = getDb();
+  const slaDueAt = computeSlaDueAt(data.commence_work_by ?? null);
+
   const result = await sql`
     INSERT INTO change_requests (
       client_id,
@@ -461,7 +518,8 @@ export async function createChangeRequest(
       commence_work_by,
       progress,
       created_by_user_id,
-      created_on_behalf_of
+      created_on_behalf_of,
+      sla_due_at
     ) VALUES (
       ${data.client_id},
       ${data.project_id || null},
@@ -471,7 +529,8 @@ export async function createChangeRequest(
       ${data.commence_work_by || null},
       'not_seen_yet',
       ${data.created_by_user_id || null},
-      ${data.created_on_behalf_of ?? false}
+      ${data.created_on_behalf_of ?? false},
+      ${slaDueAt}
     )
     RETURNING *
   ` as ChangeRequestRow[];

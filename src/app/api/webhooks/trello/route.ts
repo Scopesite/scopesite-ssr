@@ -27,7 +27,16 @@ import {
   sendStatusChangedNotification,
 } from '@/lib/portal-notifications';
 import { PROGRESS_LABELS } from '@/types/portal';
-import type { ChangeRequestProgress, UpdateChangeRequest, CommenceWorkBy } from '@/types/portal';
+import { sendSms } from '@/lib/brevo-sms';
+
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://scopesite.co.uk';
+import type {
+  ChangeRequestProgress,
+  UpdateChangeRequest,
+  CommenceWorkBy,
+  ChangeRequestRow,
+  ClientRow,
+} from '@/types/portal';
 import { getCostDisplay as calculateCostDisplay, URGENCY_RATES } from '@/types/portal';
 
 /**
@@ -130,7 +139,18 @@ export async function POST(request: NextRequest) {
  * Handle custom field updates from Trello
  */
 async function handleCustomFieldUpdate(
-  request: { id: string; client_id: string; hours_estimated: number | null; rate_charged: number | null; progress: string; title: string; one_off_payment: number | null; trello_card_id: string | null },
+  request: Pick<
+    ChangeRequestRow,
+    | 'id'
+    | 'client_id'
+    | 'hours_estimated'
+    | 'rate_charged'
+    | 'progress'
+    | 'title'
+    | 'one_off_payment'
+    | 'trello_card_id'
+    | 'is_complete'
+  >,
   action: {
     data?: {
       customField?: { name: string; options?: { id: string; value: { text: string } }[] };
@@ -138,7 +158,10 @@ async function handleCustomFieldUpdate(
     };
     memberCreator?: { fullName: string };
   },
-  client: { id: string; email: string; primary_contact_name: string; company_name: string }
+  client: Pick<
+    ClientRow,
+    'id' | 'email' | 'primary_contact_name' | 'company_name' | 'phone' | 'sms_opt_in'
+  >
 ) {
   const fieldName = action.data?.customField?.name;
   const newValue = action.data?.customFieldItem;
@@ -353,6 +376,14 @@ async function handleCustomFieldUpdate(
         requestId: request.id,
         newStatus: label,
       }).catch((err) => console.error('Failed to send status notification:', err));
+
+      if (client.sms_opt_in && client.phone) {
+        const titleShort = request.title.slice(0, 40);
+        sendSms({
+          to: client.phone,
+          body: `ScopeSite: "${titleShort}" is now ${label}. View: ${BASE_URL}/portal/requests/${request.id}`,
+        }).catch((err) => console.error('Client status SMS failed:', err));
+      }
     }
 
     // Estimate added - send notification if we have estimate values
@@ -383,6 +414,30 @@ async function handleCustomFieldUpdate(
         totalAmount,
         invoiceUrl: updatedRequest.invoice_url || undefined,
       }).catch(err => console.error('Failed to send invoice notification:', err));
+    }
+  }
+
+  const completionFields = ['complete', 'completed', 'iscomplete'];
+  if (
+    completionFields.includes(normalizedFieldName) &&
+    updates.is_complete &&
+    !request.is_complete
+  ) {
+    const label = 'Completed';
+    sendStatusChangedNotification({
+      clientEmail: client.email,
+      clientName: client.primary_contact_name,
+      requestTitle: request.title,
+      requestId: request.id,
+      newStatus: label,
+    }).catch((err) => console.error('Failed to send completion notification:', err));
+
+    if (client.sms_opt_in && client.phone) {
+      const titleShort = request.title.slice(0, 40);
+      sendSms({
+        to: client.phone,
+        body: `ScopeSite: "${titleShort}" is now ${label}. View: ${BASE_URL}/portal/requests/${request.id}`,
+      }).catch((err) => console.error('Client completion SMS failed:', err));
     }
   }
 }

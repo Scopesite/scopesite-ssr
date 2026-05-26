@@ -16,13 +16,17 @@ export default async function NewRequestPage() {
   }
 
   const isAdmin = isPortalAdmin(userId);
+  let clientId: string | null = null;
 
-  if (!isAdmin) {
+  if (isAdmin) {
+    // Admin picks client in the form
+  } else {
     const client = await getClientByClerkId(userId);
     if (!client) {
       redirect('/portal/dashboard');
     }
+    clientId = client.id;
   }
 
-  return <NewRequestPageClient isAdmin={isAdmin} />;
+  return <NewRequestPageClient isAdmin={isAdmin} clientId={clientId} />;
 }

@@ -21,8 +21,11 @@ import {
   sendRequestSubmittedNotification,
   sendRequestOnBehalfNotification,
 } from '@/lib/portal-notifications';
+import { sendSms } from '@/lib/brevo-sms';
 import type { ChangeRequestType, CommenceWorkBy } from '@/types/portal';
 import { TYPE_OF_WORK_LABELS, URGENCY_LABELS, URGENCY_RATES } from '@/types/portal';
+
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://scopesite.co.uk';
 
 function validateRequest(
   body: unknown
@@ -257,6 +260,20 @@ export async function POST(request: NextRequest) {
       requestId: changeRequest.id,
       description: changeRequest.description || '',
     }).catch((err) => console.error('Failed to send admin notification:', err));
+
+    const adminPhone = process.env.ADMIN_PHONE;
+    if (adminPhone) {
+      const urgency =
+        changeRequest.commence_work_by &&
+        URGENCY_LABELS[changeRequest.commence_work_by as Exclude<CommenceWorkBy, null>]
+          ? URGENCY_LABELS[changeRequest.commence_work_by as Exclude<CommenceWorkBy, null>]
+          : 'unspecified';
+      const titleShort = changeRequest.title.slice(0, 60);
+      sendSms({
+        to: adminPhone,
+        body: `ScopeSite: new request from ${client.company_name} — ${titleShort}. Urgency: ${urgency}. View: ${BASE_URL}/portal/requests/${changeRequest.id}`,
+      }).catch((err) => console.error('Admin SMS failed:', err));
+    }
 
     if (createdOnBehalf) {
       sendRequestOnBehalfNotification({

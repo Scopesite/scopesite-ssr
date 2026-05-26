@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
   FileText,
+  Folder,
   Plus,
   Palette,
   Receipt,
@@ -29,6 +30,7 @@ interface NavItem {
 const clientNavItems: NavItem[] = [
   { name: 'Dashboard', href: '/portal/dashboard', icon: LayoutDashboard },
   { name: 'My Requests', href: '/portal/requests', icon: FileText },
+  { name: 'Projects', href: '/portal/projects', icon: Folder },
   { name: 'New Request', href: '/portal/requests/new', icon: Plus },
   { name: 'Brand', href: '/portal/brand', icon: Palette },
   { name: 'Invoices', href: '/portal/invoices', icon: Receipt },

@@ -95,6 +95,10 @@ export default async function AdminRequestsPage({ searchParams }: AdminRequestsP
             <tbody className="divide-y divide-gray-100">
               {filteredRequests.map((request) => {
                 const client = clientMap.get(request.client_id);
+                const isSlaBreached =
+                  request.sla_due_at &&
+                  !request.is_complete &&
+                  new Date(request.sla_due_at).getTime() < Date.now();
                 return (
                   <tr key={request.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4">
@@ -127,6 +131,11 @@ export default async function AdminRequestsPage({ searchParams }: AdminRequestsP
                         )}
                         {request.is_complete && !request.is_rejected && (
                           <span className="px-1.5 py-0.5 bg-emerald-100 text-emerald-700 text-xs rounded">DONE</span>
+                        )}
+                        {isSlaBreached && (
+                          <span className="px-1.5 py-0.5 bg-red-100 text-red-700 text-xs rounded font-medium">
+                            SLA
+                          </span>
                         )}
                       </div>
                     </td>

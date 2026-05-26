@@ -8,6 +8,7 @@ import {
   getChangeRequestById,
   getCommentsByRequestId,
   getFilesByRequestId,
+  getProjectById,
 } from '@/lib/portal-db';
 import { isPortalAdmin } from '@/lib/portal-auth';
 import { StatusBadge } from '@/components/portal/StatusBadge';
@@ -15,6 +16,8 @@ import { CommentThread } from '@/components/portal/CommentThread';
 import { CostDisplay } from '@/components/portal/CostDisplay';
 import { ApprovalButtons } from '@/components/portal/ApprovalButtons';
 import { VisualProgress } from '@/components/portal/VisualProgress';
+import { SlaCountdown } from '@/components/portal/SlaCountdown';
+import { SendSmsButton } from '@/components/portal/SendSmsButton';
 import { TYPE_OF_WORK_LABELS, URGENCY_LABELS, type CommenceWorkBy } from '@/types/portal';
 
 interface RequestDetailPageProps {
@@ -61,11 +64,18 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
     notFound();
   }
 
-  // Get comments and files
-  const [comments, files] = await Promise.all([
+  const [comments, files, project] = await Promise.all([
     getCommentsByRequestId(request.id),
     getFilesByRequestId(request.id),
+    request.project_id ? getProjectById(request.project_id) : Promise.resolve(null),
   ]);
+
+  const smsCanSend = Boolean(client.sms_opt_in && client.phone);
+  const smsDisabledReason = !client.phone
+    ? 'Client has no phone number on file'
+    : !client.sms_opt_in
+      ? "Client hasn't opted in to SMS updates"
+      : undefined;
 
   const typeLabel = TYPE_OF_WORK_LABELS[request.type_of_work] || request.type_of_work;
 
@@ -282,6 +292,20 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
 
         {/* Sidebar */}
         <div className="space-y-6">
+          <SlaCountdown
+            slaDueAt={request.sla_due_at ?? null}
+            createdAt={request.created_at}
+            isComplete={isComplete}
+          />
+
+          {isAdmin && (
+            <SendSmsButton
+              requestId={request.id}
+              canSend={smsCanSend}
+              disabledReason={smsDisabledReason}
+            />
+          )}
+
           {/* Status timeline */}
           <div className="bg-white rounded-xl border border-gray-200 p-6">
             <h3 className="font-semibold text-brand-navy mb-4">Status</h3>
@@ -305,6 +329,19 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
                   <dt className="text-brand-navy/50">Urgency</dt>
                   <dd className="text-brand-navy text-xs">
                     {URGENCY_LABELS[request.commence_work_by as Exclude<CommenceWorkBy, null>] || request.commence_work_by}
+                  </dd>
+                </div>
+              )}
+              {project && (
+                <div>
+                  <dt className="text-brand-navy/50">Project</dt>
+                  <dd>
+                    <Link
+                      href={`/portal/projects/${project.id}`}
+                      className="text-brand-gold-accessible hover:text-brand-orange-accessible font-medium"
+                    >
+                      {project.name}
+                    </Link>
                   </dd>
                 </div>
               )}

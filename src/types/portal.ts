@@ -24,6 +24,7 @@ export interface ClientRow {
   primary_contact_name: string;
   email: string;
   phone: string | null;
+  sms_opt_in: boolean;
   hourly_rate: number | null; // Default rate: 45/60/90/120/200
   trello_label_id: string | null; // Label ID for this client on shared board
   trello_list_id: string | null; // Trello list ID for this client's cards
@@ -39,6 +40,7 @@ export interface ProjectRow {
   id: string; // UUID
   client_id: string; // FK to clients
   name: string;
+  description: string | null;
   type: 'ssr' | 'clientManaged' | 'visibility' | 'webapp' | 'ongoing';
   status: 'active' | 'on_hold' | 'complete' | 'cancelled';
   start_date: Date | null;
@@ -86,6 +88,7 @@ export interface ChangeRequestRow {
 
   // Dates
   due_date: Date | null;
+  sla_due_at: Date | null;
   created_at: Date;
   updated_at: Date;
 
@@ -210,6 +213,26 @@ export const URGENCY_LABELS: Record<Exclude<CommenceWorkBy, null>, string> = {
   '3_5_days': '3 - 5 days - £45/hr',
 };
 
+/** SLA target hours from request created_at (calendar hours) */
+export const URGENCY_SLA_HOURS: Record<Exclude<CommenceWorkBy, null>, number> = {
+  emergency: 1,
+  out_of_hours: 4,
+  '24_hours': 24,
+  '48_hours': 48,
+  '3_5_days': 120,
+};
+
+export function computeSlaDueAt(
+  commenceWorkBy: CommenceWorkBy,
+  createdAt: Date = new Date()
+): Date | null {
+  if (!commenceWorkBy) {
+    return null;
+  }
+  const hours = URGENCY_SLA_HOURS[commenceWorkBy];
+  return new Date(createdAt.getTime() + hours * 60 * 60 * 1000);
+}
+
 export type ChangeRequestProgress =
   | 'not_seen_yet'
   | 'submission_viewed'
@@ -303,7 +326,8 @@ export interface NewClient {
 export interface NewProject {
   client_id: string;
   name: string;
-  type: ProjectType;
+  description?: string | null;
+  type?: ProjectType;
   start_date?: Date;
   target_launch_date?: Date;
 }
@@ -386,6 +410,7 @@ export interface UpdateClient {
   primary_contact_name?: string;
   email?: string;
   phone?: string | null;
+  sms_opt_in?: boolean;
   hourly_rate?: number | null;
   trello_label_id?: string | null;
   trello_list_id?: string | null;
@@ -412,6 +437,7 @@ export interface UpdateChangeRequest {
   invoice_number?: string | null;
   invoice_url?: string | null;
   due_date?: Date | null;
+  sla_due_at?: Date | null;
   trello_card_id?: string | null;
 }
 
