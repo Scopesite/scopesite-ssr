@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { FadeInOnScroll, StaggerContainer, StaggerItem, AnimatedCounter } from '@/components/animations';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { H4TLTGmailTestimonial } from '@/components/case-studies/H4TLTGmailTestimonial';
 
 // AI visibility methodology data
 const voiceSteps = [
@@ -638,6 +639,20 @@ export default function H4TLTCaseStudyPage() {
             <Link href="https://voice.scopesite.co.uk" className="btn-primary text-lg px-8 py-4 rounded-lg inline-block">
               Run a free scan on your own site →
             </Link>
+          </FadeInOnScroll>
+        </div>
+      </section>
+
+      {/* Section 9b: Client Testimonial (Gmail-style email card) */}
+      <section className="bg-slate-50 py-section">
+        <div className="container-content">
+          <FadeInOnScroll>
+            <div className="text-center mb-10">
+              <h2 className="text-brand-navy text-3xl sm:text-4xl mb-4">Client testimonial</h2>
+            </div>
+          </FadeInOnScroll>
+          <FadeInOnScroll delay={0.1}>
+            <H4TLTGmailTestimonial />
           </FadeInOnScroll>
         </div>
       </section>

@@ -165,6 +165,7 @@ export default function CaseStudyLayout({
         about: { '@id': 'https://scopesite.co.uk/#voice-methodology' },
         mentions: [
           { '@id': 'https://hear4thelongterm.co.uk/#organization' },
+          { '@id': 'https://scopesite.co.uk/case-studies/h4tlt/#mark-ashmore-review' },
           { '@id': 'https://doi.org/10.61841/xt3he524' },
           { '@id': 'https://doi.org/10.1145/3637528.3671900' }
         ],
@@ -172,6 +173,26 @@ export default function CaseStudyLayout({
           { '@id': 'https://doi.org/10.61841/xt3he524' },
           { '@id': 'https://doi.org/10.1145/3637528.3671900' }
         ]
+      },
+      {
+        '@type': 'Review',
+        '@id': 'https://scopesite.co.uk/case-studies/h4tlt/#mark-ashmore-review',
+        itemReviewed: { '@id': 'https://scopesite.co.uk/#organization' },
+        reviewRating: {
+          '@type': 'Rating',
+          ratingValue: '5',
+          bestRating: '5',
+        },
+        author: {
+          '@type': 'Person',
+          name: 'Mark Ashmore',
+          honorificSuffix: 'RHAD, MIOA',
+          jobTitle: 'Founder',
+          worksFor: { '@id': 'https://hear4thelongterm.co.uk/#organization' },
+        },
+        reviewBody:
+          "Proof positive you know what you're at! Excellent result which we can only build on. Well done and thanks. Onwards and upwards!",
+        datePublished: '2026-04-14',
       },
       {
         '@type': 'FAQPage',
