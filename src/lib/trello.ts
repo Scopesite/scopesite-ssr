@@ -11,7 +11,7 @@ const TRELLO_BOARD_ID = process.env.TRELLO_BOARD_ID!;
 const BASE_URL = 'https://api.trello.com/1';
 
 // Cache for board data
-let cachedLists: { id: string; name: string }[] | null = null;
+let cachedLists: TrelloListInfo[] | null = null;
 let cachedCustomFields: { id: string; name: string; type: string; options?: { id: string; value: { text: string } }[] }[] | null = null;
 
 /**
@@ -48,24 +48,56 @@ export function isTrelloConfigured(): boolean {
   return !!(TRELLO_API_KEY && TRELLO_TOKEN && TRELLO_BOARD_ID);
 }
 
+export interface TrelloListInfo {
+  id: string;
+  name: string;
+  closed: boolean;
+}
+
 /**
- * Get lists on the board
+ * Get lists on the board (open lists only — Trello default for this endpoint)
  */
-export async function getBoardLists(): Promise<{ id: string; name: string }[]> {
+export async function getBoardLists(): Promise<TrelloListInfo[]> {
   if (cachedLists) return cachedLists;
-  
-  cachedLists = await trelloFetch<{ id: string; name: string }[]>(
+
+  cachedLists = await trelloFetch<TrelloListInfo[]>(
     `/boards/${TRELLO_BOARD_ID}/lists`
   );
-  
+
   return cachedLists;
+}
+
+/**
+ * Fetch a list by ID (includes archived/closed lists)
+ */
+export async function getListById(listId: string): Promise<TrelloListInfo | null> {
+  try {
+    return await trelloFetch<TrelloListInfo>(`/lists/${listId}?fields=id,name,closed`);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Pick the board's active intake list (never an archived list)
+ */
+export async function resolveIntakeListId(): Promise<string> {
+  const lists = await getBoardLists();
+  const openLists = lists.filter((l) => !l.closed);
+
+  const incoming = openLists.find((l) => l.name.toLowerCase().includes('incoming'));
+  if (incoming) return incoming.id;
+
+  if (openLists[0]) return openLists[0].id;
+
+  throw new Error('No open lists found on Trello board');
 }
 
 /**
  * Create a new list on the board (for a new client)
  */
-export async function createList(name: string): Promise<{ id: string; name: string }> {
-  const result = await trelloFetch<{ id: string; name: string }>('/lists', {
+export async function createList(name: string): Promise<TrelloListInfo> {
+  const result = await trelloFetch<TrelloListInfo>('/lists', {
     method: 'POST',
     body: JSON.stringify({
       name,
@@ -77,7 +109,7 @@ export async function createList(name: string): Promise<{ id: string; name: stri
   // Invalidate the cached lists
   cachedLists = null;
 
-  return result;
+  return { ...result, closed: result.closed ?? false };
 }
 
 /**
@@ -123,21 +155,28 @@ export async function createCard(params: {
 }): Promise<{ id: string; url: string }> {
   let targetListId = params.listId;
 
-  // If no direct listId, find by name
-  if (!targetListId) {
-    const lists = await getBoardLists();
-    const targetListName = params.listName || 'Incoming';
-    let targetList = lists.find(l => l.name.toLowerCase().includes(targetListName.toLowerCase()));
-    
-    if (!targetList) {
-      targetList = lists[0];
+  if (targetListId) {
+    const list = await getListById(targetListId);
+    if (!list || list.closed) {
+      console.warn(
+        `Trello list ${targetListId} is missing or archived (${list?.name ?? 'unknown'}), using intake list`
+      );
+      targetListId = undefined;
     }
+  }
 
-    if (!targetList) {
-      throw new Error('No lists found on board');
+  // If no valid listId, use open intake list (never archived Done, etc.)
+  if (!targetListId) {
+    if (params.listName) {
+      const lists = await getBoardLists();
+      const match = lists.find(
+        (l) => !l.closed && l.name.toLowerCase().includes(params.listName!.toLowerCase())
+      );
+      targetListId = match?.id;
     }
-    
-    targetListId = targetList.id;
+    if (!targetListId) {
+      targetListId = await resolveIntakeListId();
+    }
   }
 
   // Create the card

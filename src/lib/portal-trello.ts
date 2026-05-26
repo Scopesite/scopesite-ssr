@@ -2,7 +2,7 @@
  * Portal + Trello setup helpers
  */
 
-import { createList, isTrelloConfigured } from '@/lib/trello';
+import { createList, getListById, isTrelloConfigured } from '@/lib/trello';
 import { updateClient } from '@/lib/portal-db';
 import type { ClientRow, ChangeRequestRow } from '@/types/portal';
 import {
@@ -19,11 +19,21 @@ import {
 } from '@/lib/trello';
 
 /**
- * Ensure the client has a dedicated Trello list (creates one if missing).
+ * Ensure the client has an open (non-archived) Trello list for new cards.
  */
 export async function ensureClientTrelloList(client: ClientRow): Promise<ClientRow> {
-  if (!isTrelloConfigured() || client.trello_list_id) {
+  if (!isTrelloConfigured()) {
     return client;
+  }
+
+  if (client.trello_list_id) {
+    const existing = await getListById(client.trello_list_id);
+    if (existing && !existing.closed) {
+      return client;
+    }
+    console.warn(
+      `Client ${client.company_name} Trello list is archived or missing (${existing?.name ?? client.trello_list_id}), creating a new list`
+    );
   }
 
   const trelloList = await createList(client.company_name);
