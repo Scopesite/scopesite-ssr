@@ -30,7 +30,7 @@ import {
   Star,
 } from 'lucide-react';
 
-const H4TLT_BLUE = '#0E4D8A';
+const H4TLT_BLUE = '#0083cb';
 const GMAIL_BLUE = '#1A73E8';
 const GMAIL_STAR = '#F4B400';
 
