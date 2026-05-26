@@ -235,6 +235,18 @@ export async function addComment(cardId: string, text: string, fromPortal = true
 }
 
 /**
+ * Public Trello URL for a card (null if card was deleted or ID is invalid)
+ */
+export async function getCardPublicUrl(cardId: string): Promise<string | null> {
+  try {
+    const card = await trelloFetch<{ shortUrl: string }>(`/cards/${cardId}?fields=shortUrl`);
+    return card.shortUrl || null;
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Get a card with its custom fields
  */
 export async function getCard(cardId: string): Promise<{

@@ -4,6 +4,7 @@ import { PortalNav } from '@/components/portal/PortalNav';
 import { PortalSidebar } from '@/components/portal/PortalSidebar';
 import { BrevoIdentifyPortal } from '@/components/BrevoIdentifyPortal';
 import { getClientByClerkId } from '@/lib/portal-db';
+import { isPortalAdmin } from '@/lib/portal-auth';
 
 export const metadata = {
   title: 'Client Portal',
@@ -32,8 +33,7 @@ export default async function PortalLayout({
 
   const user = await currentUser();
   const client = await getClientByClerkId(userId);
-  const adminIds = process.env.ADMIN_CLERK_IDS?.split(',') || [];
-  const isAdmin = adminIds.includes(userId);
+  const isAdmin = isPortalAdmin(userId);
 
   return (
     <ClerkProvider>

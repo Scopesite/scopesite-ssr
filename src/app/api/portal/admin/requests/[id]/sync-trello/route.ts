@@ -72,7 +72,7 @@ export async function POST(_request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    if (trelloSync.trelloCardId && !changeRequest.trello_card_id) {
+    if (trelloSync.trelloCardId) {
       await updateChangeRequest(changeRequest.id, {
         trello_card_id: trelloSync.trelloCardId,
       });

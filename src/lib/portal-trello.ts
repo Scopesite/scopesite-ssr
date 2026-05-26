@@ -15,6 +15,7 @@ import {
   createCard,
   setCustomField,
   addComment,
+  getCardPublicUrl,
 } from '@/lib/trello';
 
 /**
@@ -63,11 +64,16 @@ export async function syncRequestToTrello(
   }
 
   if (request.trello_card_id) {
-    return {
-      success: true,
-      trelloCardId: request.trello_card_id,
-      reason: 'Request already linked to Trello',
-    };
+    const existingUrl = await getCardPublicUrl(request.trello_card_id);
+    if (existingUrl) {
+      return {
+        success: true,
+        trelloCardId: request.trello_card_id,
+        trelloUrl: existingUrl,
+        reason: 'Request already linked to Trello',
+      };
+    }
+    // Stale ID in DB (card deleted or never created) — create a fresh card below
   }
 
   const clientWithList = await ensureClientTrelloList(client);

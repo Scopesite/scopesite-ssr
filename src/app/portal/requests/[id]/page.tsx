@@ -18,9 +18,10 @@ import { ApprovalButtons } from '@/components/portal/ApprovalButtons';
 import { VisualProgress } from '@/components/portal/VisualProgress';
 import { SlaCountdown } from '@/components/portal/SlaCountdown';
 import { SendSmsButton } from '@/components/portal/SendSmsButton';
-import { SyncTrelloButton } from '@/components/portal/SyncTrelloButton';
+import { AdminTrelloPanel } from '@/components/portal/AdminTrelloPanel';
 import { TrelloSyncBanner } from '@/components/portal/TrelloSyncBanner';
 import { Suspense } from 'react';
+import { getCardPublicUrl, isTrelloConfigured } from '@/lib/trello';
 import { TYPE_OF_WORK_LABELS, URGENCY_LABELS, type CommenceWorkBy } from '@/types/portal';
 
 interface RequestDetailPageProps {
@@ -82,6 +83,11 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
 
   const typeLabel = TYPE_OF_WORK_LABELS[request.type_of_work] || request.type_of_work;
 
+  let trelloCardUrl: string | null = null;
+  if (isAdmin && request.trello_card_id && isTrelloConfigured()) {
+    trelloCardUrl = await getCardPublicUrl(request.trello_card_id);
+  }
+
   const formatDate = (date: Date | string) => {
     return new Date(date).toLocaleDateString('en-GB', {
       day: 'numeric',
@@ -118,6 +124,14 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
       <Suspense fallback={null}>
         <TrelloSyncBanner />
       </Suspense>
+
+      {isAdmin && (
+        <AdminTrelloPanel
+          requestId={request.id}
+          trelloCardId={request.trello_card_id}
+          trelloCardUrl={trelloCardUrl}
+        />
+      )}
 
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Main content */}
@@ -304,10 +318,6 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
             createdAt={request.created_at}
             isComplete={isComplete}
           />
-
-          {isAdmin && !request.trello_card_id && (
-            <SyncTrelloButton requestId={request.id} />
-          )}
 
           {isAdmin && (
             <SendSmsButton
