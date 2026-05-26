@@ -16,14 +16,14 @@ import {
   logActivity,
 } from '@/lib/portal-db';
 import { isPortalAdmin } from '@/lib/portal-auth';
-import { isTrelloConfigured, createCard, addComment, setCustomField } from '@/lib/trello';
+import { syncRequestToTrello } from '@/lib/portal-trello';
 import {
   sendRequestSubmittedNotification,
   sendRequestOnBehalfNotification,
 } from '@/lib/portal-notifications';
 import { sendSms } from '@/lib/brevo-sms';
 import type { ChangeRequestType, CommenceWorkBy } from '@/types/portal';
-import { TYPE_OF_WORK_LABELS, URGENCY_LABELS, URGENCY_RATES } from '@/types/portal';
+import { TYPE_OF_WORK_LABELS, URGENCY_LABELS } from '@/types/portal';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://scopesite.co.uk';
 
@@ -209,47 +209,24 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    if (isTrelloConfigured()) {
-      try {
-        const typeOfWorkLabel =
-          TYPE_OF_WORK_LABELS[validation.data.type_of_work] || validation.data.type_of_work;
-        const submittedBy = createdOnBehalf
-          ? `${adminActorName} (on behalf of ${client.primary_contact_name})`
-          : client.primary_contact_name;
+    let trelloWarning: string | undefined;
+    const trelloSync = await syncRequestToTrello(changeRequest, client, {
+      submittedByName: createdOnBehalf ? adminActorName : client.primary_contact_name,
+      createdOnBehalf,
+      commenceWorkBy: validation.data.commence_work_by,
+      fileUrls: validation.data.file_urls,
+    });
 
-        const trelloCard = await createCard({
-          name: `[${client.company_name}] ${validation.data.title}`,
-          desc: `**Type:** ${typeOfWorkLabel}\n**Client:** ${client.company_name}\n**Submitted by:** ${submittedBy}\n\n---\n\n${validation.data.description}`,
-          listId: client.trello_list_id || undefined,
-          labelId: client.trello_label_id || undefined,
-          portalRequestId: changeRequest.id,
-          typeOfWork: typeOfWorkLabel,
-        });
-
-        await updateChangeRequest(changeRequest.id, {
-          trello_card_id: trelloCard.id,
-        });
-
-        if (validation.data.commence_work_by) {
-          const urgencyLabel = URGENCY_LABELS[validation.data.commence_work_by];
-          await setCustomField(trelloCard.id, 'commence_work_by', urgencyLabel);
-          const rate = URGENCY_RATES[validation.data.commence_work_by];
-          await setCustomField(trelloCard.id, 'rate_charged', `£${rate}`);
-        }
-
-        if (validation.data.file_urls && validation.data.file_urls.length > 0) {
-          for (const fileUrl of validation.data.file_urls) {
-            const filename = fileUrl.split('/').pop() || 'file';
-            const uploader = createdOnBehalf ? 'staff' : 'client';
-            await addComment(
-              trelloCard.id,
-              `📎 File uploaded by ${uploader}: ${filename} - ${fileUrl}`
-            );
-          }
-        }
-      } catch (trelloError) {
-        console.error('Failed to create Trello card:', trelloError);
-      }
+    if (trelloSync.success && trelloSync.trelloCardId) {
+      await updateChangeRequest(changeRequest.id, {
+        trello_card_id: trelloSync.trelloCardId,
+      });
+      changeRequest.trello_card_id = trelloSync.trelloCardId;
+    } else if (!trelloSync.skipped) {
+      trelloWarning =
+        trelloSync.error ||
+        'Request saved in the portal but Trello card could not be created. Use Sync to Trello on the request page.';
+      console.error('Trello sync failed for request', changeRequest.id, trelloSync);
     }
 
     sendRequestSubmittedNotification({
@@ -288,6 +265,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       data: changeRequest,
+      trelloWarning,
+      trelloCardId: changeRequest.trello_card_id ?? undefined,
     });
   } catch (error) {
     console.error('Error creating request:', error);

@@ -18,6 +18,9 @@ import { ApprovalButtons } from '@/components/portal/ApprovalButtons';
 import { VisualProgress } from '@/components/portal/VisualProgress';
 import { SlaCountdown } from '@/components/portal/SlaCountdown';
 import { SendSmsButton } from '@/components/portal/SendSmsButton';
+import { SyncTrelloButton } from '@/components/portal/SyncTrelloButton';
+import { TrelloSyncBanner } from '@/components/portal/TrelloSyncBanner';
+import { Suspense } from 'react';
 import { TYPE_OF_WORK_LABELS, URGENCY_LABELS, type CommenceWorkBy } from '@/types/portal';
 
 interface RequestDetailPageProps {
@@ -111,6 +114,10 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
           <span className="font-medium">Created on your behalf by ScopeSite</span>
         </div>
       )}
+
+      <Suspense fallback={null}>
+        <TrelloSyncBanner />
+      </Suspense>
 
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Main content */}
@@ -297,6 +304,10 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
             createdAt={request.created_at}
             isComplete={isComplete}
           />
+
+          {isAdmin && !request.trello_card_id && (
+            <SyncTrelloButton requestId={request.id} />
+          )}
 
           {isAdmin && (
             <SendSmsButton

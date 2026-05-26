@@ -72,7 +72,10 @@ export function NewRequestPageClient({ isAdmin, clientId: initialClientId }: New
         throw new Error(data.error || 'Failed to submit request');
       }
 
-      router.push(`/portal/requests/${data.data.id}`);
+      const trelloQuery = data.trelloWarning
+        ? `?trelloWarning=${encodeURIComponent(data.trelloWarning)}`
+        : '';
+      router.push(`/portal/requests/${data.data.id}${trelloQuery}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong');
       setIsSubmitting(false);
