@@ -176,7 +176,7 @@ export default function RecruitmentWebsiteDesignPage() {
           <div className="mt-12 max-w-3xl mx-auto rounded-2xl overflow-hidden border border-white/10 bg-white/5">
             <Image
               src="/images/recruitment/recruitment-website-design-hero.webp"
-              alt="Recruitment website design example: schema-first UK agency build"
+              alt="Laptop mockup showing a recruitment website on screen"
               width={1200}
               height={675}
               className="w-full h-auto"
@@ -248,7 +248,7 @@ export default function RecruitmentWebsiteDesignPage() {
               </div>
               <Image
                 src="/images/recruitment/custom-recruitment-website.webp"
-                alt="Custom recruitment website design example by ScopeSite"
+                alt="Dark blue graphic with the headline Ultra-Fast AI Visible Next Gen in white and yellow"
                 width={800}
                 height={600}
                 className="w-full rounded-lg mb-4 h-auto object-cover max-h-40"
@@ -270,7 +270,7 @@ export default function RecruitmentWebsiteDesignPage() {
               </div>
               <Image
                 src="/images/recruitment/live-jobs-board-auto-schema.webp"
-                alt="Live jobs board with auto-generated JobPosting schema"
+                alt="Dark blue graphic reading Job Vacancies Visible to AI in yellow and white with small icons"
                 width={800}
                 height={600}
                 className="w-full rounded-lg mb-4 h-auto object-cover max-h-40"
@@ -292,7 +292,7 @@ export default function RecruitmentWebsiteDesignPage() {
               </div>
               <Image
                 src="/images/recruitment/ai-visibility-recruitment-agency.webp"
-                alt="AI visibility for UK recruitment agencies via V.O.I.C.E methodology"
+                alt="Dark blue graphic with a Recommended label in pink and the headline Not Just Cited in white"
                 width={800}
                 height={600}
                 className="w-full rounded-lg mb-4 h-auto object-cover max-h-40"

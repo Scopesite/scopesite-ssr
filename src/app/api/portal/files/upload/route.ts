@@ -7,12 +7,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { put } from '@vercel/blob';
-import { 
-  getClientByClerkId, 
+import {
+  getClientByClerkId,
+  getClientById,
   getChangeRequestById,
   createFile,
-  logActivity 
+  logActivity,
 } from '@/lib/portal-db';
+import { isPortalAdmin } from '@/lib/portal-auth';
 import type { FileFolderCategory } from '@/types/portal';
 
 // File validation constants
@@ -53,16 +55,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const client = await getClientByClerkId(userId);
+    const formData = await request.formData();
+    const formClientId = formData.get('clientId') as string | null;
+    const admin = isPortalAdmin(userId);
 
-    if (!client) {
-      return NextResponse.json(
-        { success: false, error: 'Client not found' },
-        { status: 404 }
-      );
+    let client = await getClientByClerkId(userId);
+
+    if (admin && formClientId) {
+      const target = await getClientById(formClientId);
+      if (!target) {
+        return NextResponse.json({ success: false, error: 'Client not found' }, { status: 404 });
+      }
+      client = target;
+    } else if (!client) {
+      return NextResponse.json({ success: false, error: 'Client not found' }, { status: 404 });
     }
 
-    const formData = await request.formData();
+    const uploadedByRole: 'client' | 'admin' = admin && formClientId ? 'admin' : 'client';
     const files = formData.getAll('files') as File[];
     const changeRequestId = formData.get('changeRequestId') as string | null;
     const category = (formData.get('category') as FileFolderCategory) || 'change_requests';
@@ -130,7 +139,7 @@ export async function POST(request: NextRequest) {
           file_size: file.size,
           blob_url: blob.url,
           folder_category: category,
-          uploaded_by: 'client',
+          uploaded_by: uploadedByRole,
           visible_to_client: true,
         });
 

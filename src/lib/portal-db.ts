@@ -29,6 +29,11 @@ import type {
   ClientDashboardStats,
   AdminDashboardStats,
   ChangeRequestProgress,
+  BrandProfileRow,
+  UpsertBrandProfile,
+  BrandPaletteSwatch,
+  BrandFontEntry,
+  BrandSocialHandle,
 } from '@/types/portal';
 
 // ============================================
@@ -126,6 +131,13 @@ export async function initializePortalTables(): Promise<void> {
     ALTER TABLE change_requests ADD COLUMN IF NOT EXISTS is_rejected BOOLEAN DEFAULT false
   `;
 
+  await sql`
+    ALTER TABLE change_requests ADD COLUMN IF NOT EXISTS created_by_user_id VARCHAR(255)
+  `;
+  await sql`
+    ALTER TABLE change_requests ADD COLUMN IF NOT EXISTS created_on_behalf_of BOOLEAN DEFAULT false
+  `;
+
   // Comments table
   await sql`
     CREATE TABLE IF NOT EXISTS comments (
@@ -201,6 +213,20 @@ export async function initializePortalTables(): Promise<void> {
     )
   `;
 
+  await sql`
+    CREATE TABLE IF NOT EXISTS brand_profiles (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      client_id UUID NOT NULL UNIQUE REFERENCES clients(id) ON DELETE CASCADE,
+      palette JSONB DEFAULT '[]'::jsonb,
+      fonts JSONB DEFAULT '[]'::jsonb,
+      tone_voice TEXT,
+      banned_words TEXT[] DEFAULT ARRAY[]::TEXT[],
+      social_handles JSONB DEFAULT '[]'::jsonb,
+      updated_at TIMESTAMPTZ DEFAULT NOW(),
+      updated_by VARCHAR(255)
+    )
+  `;
+
   // Create indexes
   await sql`CREATE INDEX IF NOT EXISTS idx_clients_clerk_user ON clients(clerk_user_id)`;
   await sql`CREATE INDEX IF NOT EXISTS idx_clients_email ON clients(email)`;
@@ -217,6 +243,7 @@ export async function initializePortalTables(): Promise<void> {
   await sql`CREATE INDEX IF NOT EXISTS idx_activity_request ON activity_log(change_request_id)`;
   await sql`CREATE INDEX IF NOT EXISTS idx_contacts_client ON client_contacts(client_id)`;
   await sql`CREATE INDEX IF NOT EXISTS idx_notes_client ON client_notes(client_id)`;
+  await sql`CREATE INDEX IF NOT EXISTS idx_brand_profiles_client ON brand_profiles(client_id)`;
 
   // Migration: Copy primary contact from clients to client_contacts (if not already migrated)
   // This ensures each client has at least one contact entry
@@ -432,7 +459,9 @@ export async function createChangeRequest(
       description,
       type_of_work,
       commence_work_by,
-      progress
+      progress,
+      created_by_user_id,
+      created_on_behalf_of
     ) VALUES (
       ${data.client_id},
       ${data.project_id || null},
@@ -440,7 +469,9 @@ export async function createChangeRequest(
       ${data.description},
       ${data.type_of_work},
       ${data.commence_work_by || null},
-      'not_seen_yet'
+      'not_seen_yet',
+      ${data.created_by_user_id || null},
+      ${data.created_on_behalf_of ?? false}
     )
     RETURNING *
   ` as ChangeRequestRow[];
@@ -1026,6 +1057,100 @@ export async function deleteClientNote(id: string): Promise<boolean> {
   ` as { id: string }[];
   
   return result.length > 0;
+}
+
+// ============================================
+// BRAND PROFILE OPERATIONS
+// ============================================
+
+function mapBrandProfileRow(row: BrandProfileRow): BrandProfileRow {
+  return {
+    ...row,
+    palette: (row.palette as BrandPaletteSwatch[]) ?? [],
+    fonts: (row.fonts as BrandFontEntry[]) ?? [],
+    tone_voice: row.tone_voice ?? null,
+    banned_words: row.banned_words ?? [],
+    social_handles: (row.social_handles as BrandSocialHandle[]) ?? [],
+  };
+}
+
+function emptyBrandProfile(clientId: string): BrandProfileRow {
+  return {
+    id: '',
+    client_id: clientId,
+    palette: [],
+    fonts: [],
+    tone_voice: null,
+    banned_words: [],
+    social_handles: [],
+    updated_at: new Date(),
+    updated_by: null,
+  };
+}
+
+/**
+ * Get brand profile for a client (returns empty defaults if none saved yet)
+ */
+export async function getBrandProfile(clientId: string): Promise<BrandProfileRow> {
+  const sql = getDb();
+  const result = await sql`
+    SELECT * FROM brand_profiles WHERE client_id = ${clientId}
+  ` as BrandProfileRow[];
+
+  if (!result[0]) {
+    return emptyBrandProfile(clientId);
+  }
+
+  return mapBrandProfileRow(result[0]);
+}
+
+/**
+ * Create or update brand profile for a client
+ */
+export async function upsertBrandProfile(
+  clientId: string,
+  data: UpsertBrandProfile,
+  updatedBy: string
+): Promise<BrandProfileRow> {
+  const sql = getDb();
+  const existing = await getBrandProfile(clientId);
+
+  const palette = data.palette ?? existing.palette;
+  const fonts = data.fonts ?? existing.fonts;
+  const toneVoice = data.tone_voice !== undefined ? data.tone_voice : existing.tone_voice;
+  const bannedWords = data.banned_words ?? existing.banned_words;
+  const socialHandles = data.social_handles ?? existing.social_handles;
+
+  const result = await sql`
+    INSERT INTO brand_profiles (
+      client_id,
+      palette,
+      fonts,
+      tone_voice,
+      banned_words,
+      social_handles,
+      updated_by
+    ) VALUES (
+      ${clientId},
+      ${JSON.stringify(palette)}::jsonb,
+      ${JSON.stringify(fonts)}::jsonb,
+      ${toneVoice},
+      ${bannedWords},
+      ${JSON.stringify(socialHandles)}::jsonb,
+      ${updatedBy}
+    )
+    ON CONFLICT (client_id) DO UPDATE SET
+      palette = EXCLUDED.palette,
+      fonts = EXCLUDED.fonts,
+      tone_voice = EXCLUDED.tone_voice,
+      banned_words = EXCLUDED.banned_words,
+      social_handles = EXCLUDED.social_handles,
+      updated_by = EXCLUDED.updated_by,
+      updated_at = NOW()
+    RETURNING *
+  ` as BrandProfileRow[];
+
+  return mapBrandProfileRow(result[0]);
 }
 
 // ============================================

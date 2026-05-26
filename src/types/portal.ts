@@ -88,6 +88,11 @@ export interface ChangeRequestRow {
   due_date: Date | null;
   created_at: Date;
   updated_at: Date;
+
+  // Audit: who filed the request (Clerk user id)
+  created_by_user_id: string | null;
+  /** True when an admin created this request for the client */
+  created_on_behalf_of?: boolean;
 }
 
 /**
@@ -224,6 +229,47 @@ export type FileFolderCategory =
   | 'invoices'
   | 'change_requests';
 
+// ============================================
+// BRAND PROFILE
+// ============================================
+
+export interface BrandPaletteSwatch {
+  name: string;
+  hex: string;
+}
+
+export interface BrandFontEntry {
+  name: string;
+  role: 'display' | 'body' | 'accent' | string;
+  source_url?: string;
+}
+
+export interface BrandSocialHandle {
+  platform: string;
+  handle: string;
+  url?: string;
+}
+
+export interface BrandProfileRow {
+  id: string;
+  client_id: string;
+  palette: BrandPaletteSwatch[];
+  fonts: BrandFontEntry[];
+  tone_voice: string | null;
+  banned_words: string[];
+  social_handles: BrandSocialHandle[];
+  updated_at: Date;
+  updated_by: string | null;
+}
+
+export interface UpsertBrandProfile {
+  palette?: BrandPaletteSwatch[];
+  fonts?: BrandFontEntry[];
+  tone_voice?: string | null;
+  banned_words?: string[];
+  social_handles?: BrandSocialHandle[];
+}
+
 export type ActivityActionType =
   | 'request_submitted'
   | 'status_changed'
@@ -269,6 +315,8 @@ export interface NewChangeRequest {
   description: string;
   type_of_work: ChangeRequestType;
   commence_work_by?: CommenceWorkBy;
+  created_by_user_id?: string;
+  created_on_behalf_of?: boolean;
 }
 
 export interface NewComment {

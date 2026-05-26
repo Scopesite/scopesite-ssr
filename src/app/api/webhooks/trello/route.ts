@@ -20,11 +20,13 @@ import {
   getChangeRequestById
 } from '@/lib/portal-db';
 import { mapTrelloProgressToDb, getCustomFields } from '@/lib/trello';
-import { 
+import {
   sendEstimateReadyNotification,
   sendNewCommentNotification,
-  sendInvoiceReadyNotification 
+  sendInvoiceReadyNotification,
+  sendStatusChangedNotification,
 } from '@/lib/portal-notifications';
+import { PROGRESS_LABELS } from '@/types/portal';
 import type { ChangeRequestProgress, UpdateChangeRequest, CommenceWorkBy } from '@/types/portal';
 import { getCostDisplay as calculateCostDisplay, URGENCY_RATES } from '@/types/portal';
 
@@ -330,7 +332,29 @@ async function handleCustomFieldUpdate(
   // Send notifications for specific status changes
   if (normalizedFieldName === 'progress') {
     const newProgress = updates.progress;
-    
+    const previousProgress = request.progress;
+
+    const notifyProgressStatuses: ChangeRequestProgress[] = [
+      'in_progress',
+      'awaiting_client_info',
+      'in_review',
+    ];
+
+    if (
+      newProgress &&
+      newProgress !== previousProgress &&
+      notifyProgressStatuses.includes(newProgress)
+    ) {
+      const label = PROGRESS_LABELS[newProgress] || newProgress;
+      sendStatusChangedNotification({
+        clientEmail: client.email,
+        clientName: client.primary_contact_name,
+        requestTitle: request.title,
+        requestId: request.id,
+        newStatus: label,
+      }).catch((err) => console.error('Failed to send status notification:', err));
+    }
+
     // Estimate added - send notification if we have estimate values
     if (newProgress === 'estimate_added') {
       const hasEstimate = (updatedRequest.hours_estimated && updatedRequest.rate_charged) || updatedRequest.one_off_payment;

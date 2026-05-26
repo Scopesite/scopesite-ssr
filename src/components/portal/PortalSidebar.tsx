@@ -30,7 +30,7 @@ const clientNavItems: NavItem[] = [
   { name: 'Dashboard', href: '/portal/dashboard', icon: LayoutDashboard },
   { name: 'My Requests', href: '/portal/requests', icon: FileText },
   { name: 'New Request', href: '/portal/requests/new', icon: Plus },
-  { name: 'Brand', href: '/portal/files', icon: Palette },
+  { name: 'Brand', href: '/portal/brand', icon: Palette },
   { name: 'Invoices', href: '/portal/invoices', icon: Receipt },
 ];
 

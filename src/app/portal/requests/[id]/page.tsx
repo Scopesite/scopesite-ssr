@@ -2,12 +2,14 @@ import { auth } from '@clerk/nextjs/server';
 import { redirect, notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Calendar, Paperclip, ExternalLink } from 'lucide-react';
-import { 
-  getClientByClerkId, 
-  getChangeRequestById, 
+import {
+  getClientByClerkId,
+  getClientById,
+  getChangeRequestById,
   getCommentsByRequestId,
-  getFilesByRequestId 
+  getFilesByRequestId,
 } from '@/lib/portal-db';
+import { isPortalAdmin } from '@/lib/portal-auth';
 import { StatusBadge } from '@/components/portal/StatusBadge';
 import { CommentThread } from '@/components/portal/CommentThread';
 import { CostDisplay } from '@/components/portal/CostDisplay';
@@ -33,17 +35,29 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
     redirect('/portal/sign-in');
   }
 
-  const client = await getClientByClerkId(userId);
-  
-  if (!client) {
+  const isAdmin = isPortalAdmin(userId);
+  const viewerClient = await getClientByClerkId(userId);
+
+  if (!isAdmin && !viewerClient) {
     redirect('/portal/dashboard');
   }
 
   const resolvedParams = await params;
   const request = await getChangeRequestById(resolvedParams.id);
 
-  // Verify request belongs to this client
-  if (!request || request.client_id !== client.id) {
+  if (!request) {
+    notFound();
+  }
+
+  if (!isAdmin && viewerClient && request.client_id !== viewerClient.id) {
+    notFound();
+  }
+
+  const client = isAdmin
+    ? (await getClientById(request.client_id)) ?? viewerClient
+    : viewerClient;
+
+  if (!client) {
     notFound();
   }
 
@@ -76,11 +90,17 @@ export default async function RequestDetailPage({ params }: RequestDetailPagePro
     <div className="max-w-4xl mx-auto">
       {/* Back link */}
       <Link
-        href="/portal/requests"
+        href={isAdmin ? '/portal/admin/requests' : '/portal/requests'}
         className="inline-flex items-center gap-2 text-sm text-brand-navy/60 hover:text-brand-navy mb-6"
       >
         <ArrowLeft size={16} /> Back to requests
       </Link>
+
+      {request.created_on_behalf_of && (
+        <div className="mb-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-sm text-brand-navy">
+          <span className="font-medium">Created on your behalf by ScopeSite</span>
+        </div>
+      )}
 
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Main content */}

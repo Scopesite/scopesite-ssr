@@ -30,6 +30,8 @@ interface BrandUploadSectionProps {
   acceptedExtensions: string[];
   files: FileRow[];
   isAdmin?: boolean;
+  /** When admin manages another client's brand assets */
+  uploadClientId?: string;
   onFileUploaded?: () => void;
 }
 
@@ -49,6 +51,7 @@ export function BrandUploadSection({
   acceptedExtensions,
   files,
   isAdmin = false,
+  uploadClientId,
   onFileUploaded,
 }: BrandUploadSectionProps) {
   const [uploads, setUploads] = useState<UploadState[]>([]);
@@ -75,6 +78,9 @@ export function BrandUploadSection({
     const formData = new FormData();
     formData.append('files', uploadState.file);
     formData.append('category', category);
+    if (uploadClientId) {
+      formData.append('clientId', uploadClientId);
+    }
 
     try {
       const response = await fetch('/api/portal/files/upload', {
@@ -142,7 +148,7 @@ export function BrandUploadSection({
         }
       }
     },
-    [category, onFileUploaded]
+    [category, onFileUploaded, uploadClientId]
   );
 
   // Remove upload from list

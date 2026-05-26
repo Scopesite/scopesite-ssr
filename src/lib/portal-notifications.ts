@@ -83,6 +83,41 @@ function emailTemplate(content: string, title: string): string {
 }
 
 /**
+ * Notify client when an admin creates a request on their behalf
+ */
+export async function sendRequestOnBehalfNotification(data: {
+  clientEmail: string;
+  clientName: string;
+  requestTitle: string;
+  requestId: string;
+  createdByName: string;
+}): Promise<boolean> {
+  const content = `
+    <h1 style="color: ${COLORS.navy}; font-size: 24px; margin: 0 0 16px 0;">New Request From ScopeSite</h1>
+    
+    <p style="color: ${COLORS.graphite}; font-size: 16px; line-height: 1.6; margin: 0 0 24px 0;">
+      Hi ${data.clientName.split(' ')[0]},
+    </p>
+    
+    <p style="color: ${COLORS.graphite}; font-size: 16px; line-height: 1.6; margin: 0 0 24px 0;">
+      ${data.createdByName} has created a new request on your behalf: <strong>"${data.requestTitle}"</strong>
+    </p>
+    
+    <p style="color: ${COLORS.graphite}; font-size: 16px; line-height: 1.6; margin: 0 0 24px 0;">
+      Please review the details in your portal. If anything needs changing, reply in the discussion thread on the request.
+    </p>
+    
+    <a href="${BASE_URL}/portal/requests/${data.requestId}" style="display: inline-block; background-color: ${COLORS.gold}; color: ${COLORS.navy}; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">Review Request</a>
+  `;
+
+  return sendEmail({
+    to: data.clientEmail,
+    subject: `New request created on your behalf: ${data.requestTitle}`,
+    html: emailTemplate(content, 'Request Created On Your Behalf'),
+  });
+}
+
+/**
  * Send notification to admin when client submits a new request
  */
 export async function sendRequestSubmittedNotification(data: {
