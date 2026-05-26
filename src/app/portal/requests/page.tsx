@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Plus, Filter } from 'lucide-react';
 import { getClientByClerkId, getChangeRequestsByClientId } from '@/lib/portal-db';
 import { RequestCard } from '@/components/portal/RequestCard';
+import { SmsOptInBanner } from '@/components/portal/SmsOptInBanner';
 import { PROGRESS_LABELS, type ChangeRequestProgress } from '@/types/portal';
 
 export const metadata = {
@@ -61,6 +62,8 @@ export default async function RequestsPage({ searchParams }: RequestsPageProps) 
           <Plus size={20} /> New Request
         </Link>
       </div>
+
+      <SmsOptInBanner show={!client.phone || !client.sms_opt_in} />
 
       {/* Filter pills */}
       <div className="flex flex-wrap gap-2">

@@ -8,7 +8,7 @@
  * Header: x-admin-key: YOUR_ADMIN_KEY
  * 
  * Optional query params:
- * - portal=true - Also initialize portal tables
+ * - portal=false - Skip portal table migrations (default: portal migrations run)
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
   }
   
   const { searchParams } = new URL(request.url);
-  const includePortal = searchParams.get('portal') === 'true';
+  const includePortal = searchParams.get('portal') !== 'false';
   
   try {
     // Check database connection first

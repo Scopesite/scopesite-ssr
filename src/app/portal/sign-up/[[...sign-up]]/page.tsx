@@ -38,7 +38,7 @@ export default function SignUpPage() {
         routing="path"
         path="/portal/sign-up"
         signInUrl="/portal/sign-in"
-        afterSignUpUrl="/portal/dashboard"
+        afterSignUpUrl="/portal/settings?sms=setup"
       />
       
       {/* Help text */}

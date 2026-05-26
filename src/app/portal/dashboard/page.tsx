@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Plus, FileText, ArrowRight, AlertCircle } from 'lucide-react';
+import { SmsOptInBanner } from '@/components/portal/SmsOptInBanner';
 import { 
   getClientByClerkId, 
   getChangeRequestsByClientId, 
@@ -19,7 +20,12 @@ export const metadata = {
   title: 'Dashboard - Client Portal',
 };
 
-export default async function DashboardPage() {
+interface DashboardPageProps {
+  searchParams: Promise<{ sms?: string }>;
+}
+
+export default async function DashboardPage({ searchParams }: DashboardPageProps) {
+  const resolvedParams = await searchParams;
   const { userId } = await auth();
   
   if (!userId) {
@@ -91,6 +97,14 @@ export default async function DashboardPage() {
           Here&apos;s what&apos;s happening with your projects
         </p>
       </div>
+
+      {resolvedParams.sms === 'saved' && (
+        <div className="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
+          SMS preferences saved. You will receive text updates when your request status changes.
+        </div>
+      )}
+
+      <SmsOptInBanner show={!client.phone || !client.sms_opt_in} />
 
       {/* Action needed banner */}
       {needsAction.length > 0 && (

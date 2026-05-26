@@ -9,25 +9,57 @@ export const metadata = {
   title: 'Settings - Client Portal',
 };
 
-export default async function SettingsPage() {
+interface SettingsPageProps {
+  searchParams: Promise<{ sms?: string }>;
+}
+
+export default async function SettingsPage({ searchParams }: SettingsPageProps) {
   const { userId } = await auth();
 
   if (!userId) {
     redirect('/portal/sign-in');
   }
 
+  const resolvedParams = await searchParams;
+  const setupMode = resolvedParams.sms === 'setup';
+
   const user = await currentUser();
   const client = await getClientByClerkId(userId);
   const isAdmin = isPortalAdmin(userId);
+
+  const needsSmsSetup =
+    client && !isAdmin && (!client.phone || !client.sms_opt_in);
 
   return (
     <div className="max-w-2xl mx-auto space-y-8">
       <div>
         <h1 className="text-2xl font-bold text-brand-navy">Account Settings</h1>
         <p className="text-brand-navy/60 mt-1">
-          Manage your profile and notification preferences
+          {setupMode
+            ? 'Optional: set up SMS alerts for your requests'
+            : 'Manage your profile and notification preferences'}
         </p>
       </div>
+
+      {client && !isAdmin && (
+        <div
+          className={`bg-white rounded-xl border overflow-hidden ${
+            setupMode || needsSmsSetup
+              ? 'border-brand-gold/50 ring-1 ring-brand-gold/20'
+              : 'border-gray-200'
+          }`}
+        >
+          <div className="px-6 py-4 bg-brand-gold/10 border-b border-brand-gold/30 flex items-center gap-2">
+            <Phone size={18} className="text-brand-navy" />
+            <h2 className="font-semibold text-brand-navy">SMS notifications (optional)</h2>
+          </div>
+          <SettingsForm
+            initialPhone={client.phone}
+            initialSmsOptIn={client.sms_opt_in ?? false}
+            setupMode={setupMode}
+          />
+        </div>
+      )}
 
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
         <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
@@ -86,6 +118,17 @@ export default async function SettingsPage() {
                   <p className="text-brand-navy">{client.email}</p>
                 </div>
               </div>
+              {client.phone && client.sms_opt_in && (
+                <div className="flex items-center gap-3">
+                  <Phone size={18} className="text-brand-navy/40" />
+                  <div>
+                    <p className="text-xs text-brand-navy/50 uppercase font-medium">SMS</p>
+                    <p className="text-brand-navy text-sm">
+                      Enabled · {client.phone}
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           ) : isAdmin ? (
             <p className="text-brand-navy/60 text-sm">
@@ -99,19 +142,6 @@ export default async function SettingsPage() {
           )}
         </div>
       </div>
-
-      {client && (
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-          <div className="px-6 py-4 bg-gray-50 border-b border-gray-200 flex items-center gap-2">
-            <Phone size={18} className="text-brand-navy/50" />
-            <h2 className="font-semibold text-brand-navy">SMS notifications</h2>
-          </div>
-          <SettingsForm
-            initialPhone={client.phone}
-            initialSmsOptIn={client.sms_opt_in ?? false}
-          />
-        </div>
-      )}
 
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
         <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">

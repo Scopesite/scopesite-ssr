@@ -55,20 +55,23 @@ export function SlaCountdown({
   createdAt,
   isComplete,
 }: SlaCountdownProps) {
-  const dueDate = slaDueAt ? new Date(slaDueAt) : null;
-  const createdDate = new Date(createdAt);
+  const dueMs = slaDueAt ? new Date(slaDueAt).getTime() : null;
+  const createdMs = new Date(createdAt).getTime();
 
   const [snapshot, setSnapshot] = useState<{ label: string; tone: SlaTone } | null>(
-    () =>
-      dueDate && !isComplete
-        ? getSlaSnapshot(dueDate, createdDate)
-        : null
+    () => {
+      if (dueMs === null || isComplete) return null;
+      return getSlaSnapshot(new Date(dueMs), new Date(createdMs));
+    }
   );
 
   useEffect(() => {
-    if (!dueDate || isComplete) {
+    if (dueMs === null || isComplete) {
       return;
     }
+
+    const dueDate = new Date(dueMs);
+    const createdDate = new Date(createdMs);
 
     const tick = () => {
       setSnapshot(getSlaSnapshot(dueDate, createdDate));
@@ -77,11 +80,13 @@ export function SlaCountdown({
     tick();
     const id = window.setInterval(tick, 60000);
     return () => window.clearInterval(id);
-  }, [dueDate, createdDate, isComplete]);
+  }, [dueMs, createdMs, isComplete]);
 
-  if (isComplete || !dueDate || !snapshot) {
+  if (isComplete || dueMs === null || !snapshot) {
     return null;
   }
+
+  const dueDate = new Date(dueMs);
 
   return (
     <div
