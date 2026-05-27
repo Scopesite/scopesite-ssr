@@ -51,17 +51,20 @@ const voiceSteps = [
   },
 ];
 
-// Before/After comparison
+// Before/After comparison — Jan 2026 launch baseline vs Apr 2026 measured results
 const comparison = [
-  { metric: 'Weekly traffic', before: '7 visitors', after: '53 unique visitors in the last 30 days, up 36%' },
+  { metric: 'Weekly traffic', before: '7 visitors', after: '53 unique visitors in last 30 days, up 36%' },
   { metric: 'Site sessions', before: 'Minimal', after: '85 sessions in last 30 days, up 70%' },
   { metric: 'Google organic', before: 'Negligible', after: '269% increase, 48 sessions from Google alone' },
-  { metric: 'AI bot crawls', before: '0', after: '2,169 total since launch, averaging 20+ per day' },
-  { metric: 'Average session', before: 'Unknown', after: '5 minutes 30 seconds (better than 76% of health sector sites globally)' },
-  { metric: 'Organic search share', before: 'Unknown', after: '73% of all traffic (better than 92% of comparable sites)' },
-  { metric: 'AI visibility', before: '0 mentions', after: '#1 nationally across Google AI Overview, ChatGPT and Perplexity' },
+  { metric: 'AI bot crawls', before: '0', after: '2,169 total launch-to-date, averaging 20+ per day' },
+  { metric: 'Average session duration', before: 'Unknown', after: '6m 57s, up 21% MoM (better than 76% of health sites globally)' },
+  { metric: 'Pages per session', before: 'Unknown', after: '1.7, up 14% MoM' },
+  { metric: 'Bounce rate', before: 'Unknown', after: '62.6%, down 12% MoM (improvement)' },
+  { metric: 'Returning visitors', before: 'Unknown', after: '15% (above the global Health Care benchmark of 13%)' },
+  { metric: 'Organic search traffic', before: 'None', after: '73% of all traffic (better than 92% of comparable sites)' },
+  { metric: 'AI visibility', before: '0', after: 'Position 1 across Google AI Overview, ChatGPT, Perplexity, Claude, Grok and Bing' },
   { metric: 'Schema markup', before: 'None', after: 'Full JSON-LD on every page' },
-  { metric: 'Ad spend', before: '£0', after: 'Still £0' },
+  { metric: 'Ad spend', before: '£0', after: '£0' },
 ];
 
 export default function H4TLTCaseStudyPage() {
@@ -209,7 +212,7 @@ export default function H4TLTCaseStudyPage() {
             <div className="text-center mb-16">
               <h2 className="text-white text-3xl sm:text-4xl mb-4">The problem</h2>
               <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-                When Mark came to ScopeSite in late 2024, his website was effectively invisible.
+                When the new H4TLT site went live on 1 January 2026, the business had seven weekly visitors, zero AI assistant recommendations, no structured data, and no advertising budget.
               </p>
             </div>
           </FadeInOnScroll>
@@ -596,7 +599,7 @@ export default function H4TLTCaseStudyPage() {
           <div className="max-w-5xl mx-auto mb-12">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 px-6 hidden md:grid">
               <div className="font-bold text-brand-navy">Metric</div>
-              <div className="font-bold text-slate-400">Before (Nov 2024)</div>
+              <div className="font-bold text-slate-400">Before (Jan 2026)</div>
               <div className="font-bold text-brand-gold">After (April 2026)</div>
             </div>
             
@@ -622,7 +625,7 @@ export default function H4TLTCaseStudyPage() {
           <FadeInOnScroll delay={0.3}>
             <div className="max-w-3xl mx-auto bg-white p-8 rounded-xl border-2 border-brand-gold shadow-lg text-center">
               <p className="text-brand-navy text-xl font-bold leading-relaxed">
-                Organic search traffic up 269%. Average session duration in the top 24% globally. Nationally recommended by three AI platforms. Zero ad spend.
+                Organic search traffic up 269%. Average session duration up 21% to nearly seven minutes (readers, not browsers). Bounce rate down 12% (lower is better). 15% of traffic now comes from returning visitors, above the global Health Care benchmark of 13%. Nationally recommended by three AI platforms. Zero ad spend.
               </p>
             </div>
           </FadeInOnScroll>
@@ -739,6 +742,41 @@ export default function H4TLTCaseStudyPage() {
                 <p>
                   Boring, unglamorous, and exactly the stuff most agencies skip because they are too busy selling Canva-designed reports.
                 </p>
+                <p>
+                  In four months, Hear 4 The Long Term has gone from seven weekly visitors to a Position 1 national ranking across six AI engines, with sessions averaging nearly seven minutes, falling bounce rate, and a returning visitor rate above the global Health Care benchmark. Same operator. Same single audiologist. No paid media. No advertising budget.
+                </p>
+              </div>
+            </FadeInOnScroll>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 11b: Primary Discovery Call CTA */}
+      <section className="bg-brand-navy py-section border-t border-white/10">
+        <div className="container-content">
+          <div className="max-w-3xl mx-auto text-center">
+            <FadeInOnScroll>
+              <h2 className="text-white text-3xl sm:text-4xl mb-4 leading-tight">
+                Ready to talk about your own AI visibility position?
+              </h2>
+              <p className="text-slate-300 text-lg mb-10 leading-relaxed">
+                A 15-minute discovery call gives you a clear picture of where your business sits today and what&apos;s possible. Or run a free V.O.I.C.E. scan first to see your starting position.
+              </p>
+            </FadeInOnScroll>
+            <FadeInOnScroll delay={0.1}>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <Link
+                  href="/book"
+                  className="btn-primary text-lg px-8 py-4 rounded-lg inline-block w-full sm:w-auto"
+                >
+                  Book a 15-minute discovery call →
+                </Link>
+                <Link
+                  href="https://voice.scopesite.co.uk"
+                  className="btn-secondary-light text-lg px-8 py-4 rounded-lg inline-block w-full sm:w-auto"
+                >
+                  Run a free V.O.I.C.E. scan →
+                </Link>
               </div>
             </FadeInOnScroll>
           </div>
@@ -845,7 +883,21 @@ export default function H4TLTCaseStudyPage() {
                 <StaggerItem>
                   <div>
                     <h3 className="text-brand-navy text-xl font-bold mb-3">How much does AI visibility optimisation cost?</h3>
-                    <p className="text-slate-600 leading-relaxed">The H4TLT project combined a full Ultra Fast build, structured data, entity work, and content architecture. Pricing moves with our published calculator; this engagement was scoped under the Ultra Fast ladder at the time. Start with a free AI visibility scan at voice.scopesite.co.uk to see where your site currently stands.</p>
+                    <p className="text-slate-600 leading-relaxed mb-5">The H4TLT engagement combined a full website rebuild, custom Compliance Checker app, and ongoing AI visibility programme. Typical engagements in professional services sectors range from £3,000 setup with retainers from £500/month for single-site businesses, scaling to £20,000+ for multi-product or multi-location operations. The exact figure depends on your sector, current schema position, and the AI visibility gap. A free V.O.I.C.E. scan at voice.scopesite.co.uk gives you a starting picture, and a 15-minute discovery call gives you a realistic figure for your business.</p>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <Link
+                        href="/book"
+                        className="btn-primary px-6 py-3 rounded-lg inline-block text-center"
+                      >
+                        Book a 15-minute discovery call →
+                      </Link>
+                      <Link
+                        href="https://voice.scopesite.co.uk"
+                        className="btn-secondary px-6 py-3 rounded-lg inline-block text-center"
+                      >
+                        Run a free V.O.I.C.E. scan →
+                      </Link>
+                    </div>
                   </div>
                 </StaggerItem>
                 <StaggerItem>
