@@ -548,7 +548,7 @@ export async function sendQuoteClientConfirmation(quote: QuoteEmailData): Promis
           <div style="text-align: center; margin: 32px 0;">
             <a href="https://scopesite.co.uk/book?email=${encodeURIComponent(quote.email)}" 
                style="display: inline-block; padding: 16px 36px; background-color: #ECB615; color: #0A1B36; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px;">
-              ${loc === 'us' ? 'Schedule a 15-Minute Call with Dan' : 'Book a 15-Minute Call with Dan'}
+              ${loc === 'us' ? 'Schedule a 30-Minute Call with Dan' : 'Book a 30-Minute Call with Dan'}
             </a>
             <p style="color: #666; font-size: 14px; margin: 12px 0 0 0;">
               No sales pitch. Just a direct conversation about your project.
