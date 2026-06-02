@@ -57,7 +57,10 @@ export async function GlossaryArticleLayout({
             <article className="glossary-article">{children}</article>
           </GlossaryFrontmatterProvider>
 
-          <RelatedTerms slugs={frontmatter.relatedSlugs} />
+          <RelatedTerms
+            slugs={frontmatter.relatedSlugs}
+            currentSlug={frontmatter.slug}
+          />
         </div>
 
         <aside className="hidden lg:block">

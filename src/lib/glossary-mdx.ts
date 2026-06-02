@@ -66,6 +66,11 @@ export async function listGlossarySlugs(): Promise<string[]> {
     .sort();
 }
 
+/** MDX article slugs that have a real published glossary page (index + sitemap source of truth). */
+export async function getPublishedGlossarySlugs(): Promise<string[]> {
+  return listGlossarySlugs();
+}
+
 export async function readGlossarySource(slug: string): Promise<string | null> {
   try {
     return await readFile(path.join(CONTENT_DIR, `${slug}.mdx`), 'utf8');

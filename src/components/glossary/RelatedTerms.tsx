@@ -1,26 +1,35 @@
 import Link from 'next/link';
-import { STATIC_GLOSSARY_TERMS } from '@/lib/glossary-db';
+import { getAllGlossaryTermsSafe } from '@/lib/glossary-db';
+import {
+  getPublishedGlossarySlugs,
+  listGlossaryFrontmatter,
+} from '@/lib/glossary-mdx';
 
 interface RelatedTermsProps {
   slugs: string[];
+  currentSlug: string;
 }
 
-function slugToLabel(slug: string): string {
-  return slug
-    .split('-')
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(' ');
-}
+export async function RelatedTerms({ slugs, currentSlug }: RelatedTermsProps) {
+  const published = new Set(await getPublishedGlossarySlugs());
+  const [articles, dictionary] = await Promise.all([
+    listGlossaryFrontmatter(),
+    getAllGlossaryTermsSafe(),
+  ]);
 
-export function RelatedTerms({ slugs }: RelatedTermsProps) {
-  const resolved = slugs.map((relatedSlug) => {
-    const term =
-      STATIC_GLOSSARY_TERMS.find((entry) => entry.slug === relatedSlug) ?? null;
-    return {
-      slug: relatedSlug,
-      label: term?.term ?? slugToLabel(relatedSlug),
-    };
-  });
+  const titleBySlug = new Map(articles.map((article) => [article.slug, article.term]));
+  const termBySlug = new Map(dictionary.map((entry) => [entry.slug, entry.term]));
+
+  const items = slugs
+    .filter((slug) => slug !== currentSlug && published.has(slug))
+    .map((slug) => ({
+      slug,
+      label: titleBySlug.get(slug) ?? termBySlug.get(slug) ?? slug,
+    }));
+
+  if (items.length === 0) {
+    return null;
+  }
 
   return (
     <section className="mt-12 border-t border-brand-navy/10 pt-8">
@@ -28,7 +37,7 @@ export function RelatedTerms({ slugs }: RelatedTermsProps) {
         Related terms
       </h2>
       <ul className="grid gap-3 sm:grid-cols-2">
-        {resolved.map((item) => (
+        {items.map((item) => (
           <li key={item.slug}>
             <Link
               href={`/glossary/${item.slug}`}

@@ -108,6 +108,30 @@ export const INTEL_DECK_GLOSSARY_SEED: NewGlossaryTerm[] = [
     category: 'AI Search',
     related_slugs: ['generative-engine-optimisation', 'ai-overviews'],
   },
+  {
+    term: 'AI Citation',
+    slug: 'ai-citation',
+    definition:
+      'When an AI answer names or quotes your site as the source it used to build the reply.',
+    category: 'AI Search',
+    related_slugs: ['generative-engine-optimisation'],
+  },
+  {
+    term: 'llms.txt',
+    slug: 'llms-txt',
+    definition:
+      'A plain-text file at /llms.txt that tells AI crawlers what your site is and which pages matter most.',
+    category: 'AI Search',
+    related_slugs: ['generative-engine-optimisation'],
+  },
+  {
+    term: 'robots.txt for AI bots',
+    slug: 'robots-txt-for-ai-bots',
+    definition:
+      'Rules in robots.txt that say which AI crawlers may read your site and which paths they should skip.',
+    category: 'AI Search',
+    related_slugs: ['generative-engine-optimisation'],
+  },
 ];
 
 function toStaticGlossaryTerm(
@@ -143,7 +167,12 @@ async function insertGlossaryTerm(entry: NewGlossaryTerm): Promise<void> {
       ${entry.category ?? null},
       ${entry.related_slugs ?? []}
     )
-    ON CONFLICT (slug) DO NOTHING
+    ON CONFLICT (slug) DO UPDATE SET
+      term = EXCLUDED.term,
+      definition = EXCLUDED.definition,
+      category = EXCLUDED.category,
+      related_slugs = EXCLUDED.related_slugs,
+      updated_at = NOW()
   `;
 }
 
