@@ -2,7 +2,7 @@ export interface SearchEntry {
   title: string;
   description: string;
   url: string;
-  category: 'Service' | 'Case Study' | 'Product' | 'About' | 'Legal' | 'Location' | 'Blog' | 'Resource';
+  category: 'Service' | 'Case Study' | 'Product' | 'About' | 'Legal' | 'Location' | 'Blog' | 'Resource' | 'Glossary';
   keywords: string[];
 }
 

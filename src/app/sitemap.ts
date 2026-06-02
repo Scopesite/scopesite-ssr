@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { getAllPostSlugs } from '@/lib/ghost';
+import { listGlossaryFrontmatter } from '@/lib/glossary-mdx';
 
 const BASE_URL = 'https://scopesite.co.uk';
 
@@ -235,6 +236,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
+      url: `${BASE_URL}/glossary`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    },
+    {
       url: `${BASE_URL}/us`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
@@ -280,6 +287,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Error fetching blog slugs for sitemap:', error);
   }
 
-  return [...staticPages, ...blogPages];
+  let glossaryPages: MetadataRoute.Sitemap = [];
+  try {
+    const articles = await listGlossaryFrontmatter();
+    glossaryPages = articles.map((article) => ({
+      url: `${BASE_URL}/glossary/${article.slug}`,
+      lastModified: new Date(article.publishDate),
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    }));
+  } catch (error) {
+    console.error('Error fetching glossary articles for sitemap:', error);
+  }
+
+  return [...staticPages, ...glossaryPages, ...blogPages];
 }
 

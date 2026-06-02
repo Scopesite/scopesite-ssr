@@ -7,6 +7,7 @@
 
 import { GhostPost } from './ghost';
 import { ADDON_CATALOG, PRICING_CONFIG, VOICE_SPEC } from './pricing-config';
+import type { GlossaryTerm } from './glossary-db';
 
 const BASE_URL = 'https://scopesite.co.uk';
 
@@ -455,6 +456,121 @@ export function generateVOICEDefinedTermSetSchema() {
       },
     ],
   };
+}
+
+// ============================================
+// GLOSSARY DEFINED TERM SCHEMA
+// ============================================
+
+export function generateGlossaryDefinedTermSchema(term: GlossaryTerm) {
+  return {
+    '@type': 'DefinedTerm',
+    '@id': `${BASE_URL}/glossary/${term.slug}#term`,
+    name: term.term,
+    description: term.definition,
+    url: `${BASE_URL}/glossary/${term.slug}`,
+    inDefinedTermSet: { '@id': `${BASE_URL}/glossary#set` },
+  };
+}
+
+export function generateGlossaryDefinedTermSetSchema(terms: GlossaryTerm[]) {
+  return {
+    '@type': 'DefinedTermSet',
+    '@id': `${BASE_URL}/glossary#set`,
+    name: 'ScopeSite Web & Marketing Glossary',
+    url: `${BASE_URL}/glossary`,
+    hasDefinedTerm: terms.map(generateGlossaryDefinedTermSchema),
+  };
+}
+
+export interface GlossaryArticleSchemaInput {
+  term: string;
+  slug: string;
+  alternateName?: string;
+  definition: string;
+  featureImage: string;
+  featureAlt: string;
+  relatedSlugs: string[];
+  citations: Array<{ name: string; url: string }>;
+  publishDate: string;
+}
+
+/**
+ * Full @graph for Intel Deck glossary article pages.
+ * Pass the resulting array to JsonLd — do not add @context here.
+ */
+export function generateGlossaryArticleGraph(
+  frontmatter: GlossaryArticleSchemaInput,
+  mentionTerms: GlossaryTerm[]
+): Record<string, unknown>[] {
+  const pageUrl = `${BASE_URL}/glossary/${frontmatter.slug}`;
+
+  return [
+    {
+      '@type': 'WebPage',
+      '@id': `${pageUrl}#webpage`,
+      url: pageUrl,
+      name: frontmatter.term,
+      isPartOf: { '@id': `${BASE_URL}/#website` },
+      primaryImageOfPage: { '@id': `${pageUrl}#primaryimage` },
+      mainEntity: { '@id': `${pageUrl}#term` },
+      relatedLink: frontmatter.relatedSlugs.map(
+        (relatedSlug) => `${BASE_URL}/glossary/${relatedSlug}`
+      ),
+    },
+    {
+      '@type': 'DefinedTerm',
+      '@id': `${pageUrl}#term`,
+      name: frontmatter.term,
+      ...(frontmatter.alternateName
+        ? { alternateName: frontmatter.alternateName }
+        : {}),
+      description: frontmatter.definition,
+      inDefinedTermSet: { '@id': `${BASE_URL}/glossary#set` },
+    },
+    {
+      '@type': 'DefinedTermSet',
+      '@id': `${BASE_URL}/glossary#set`,
+      name: 'ScopeSite Digital Studios Glossary',
+      url: `${BASE_URL}/glossary`,
+      publisher: { '@id': `${BASE_URL}/#organization` },
+    },
+    {
+      '@type': 'Article',
+      '@id': `${pageUrl}#article`,
+      headline: frontmatter.term,
+      author: { '@id': `${BASE_URL}/#dan-cartwright` },
+      publisher: { '@id': `${BASE_URL}/#organization` },
+      image: { '@id': `${pageUrl}#primaryimage` },
+      about: { '@id': `${pageUrl}#term` },
+      datePublished: frontmatter.publishDate,
+      speakable: generateSpeakableSchema(['.glossary-definition', 'h1']),
+      citation: frontmatter.citations.map((citation) => ({
+        '@type': 'WebPage',
+        name: citation.name,
+        url: citation.url,
+      })),
+      mentions: mentionTerms.map((term) => ({
+        '@type': 'DefinedTerm',
+        '@id': `${BASE_URL}/glossary/${term.slug}#term`,
+        name: term.term,
+        description: term.definition,
+        url: `${BASE_URL}/glossary/${term.slug}`,
+      })),
+    },
+    {
+      '@type': 'ImageObject',
+      '@id': `${pageUrl}#primaryimage`,
+      url: `${BASE_URL}${frontmatter.featureImage}`,
+      contentUrl: `${BASE_URL}${frontmatter.featureImage}`,
+      name: frontmatter.term,
+      caption: frontmatter.featureAlt,
+      description: frontmatter.featureAlt,
+      representativeOfPage: true,
+      width: 1200,
+      height: 630,
+    },
+  ];
 }
 
 // ============================================

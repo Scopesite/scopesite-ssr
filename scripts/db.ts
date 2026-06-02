@@ -15,6 +15,7 @@ dotenv.config({ path: '.env.local' });
 
 import { getDb, checkConnection, initializeDatabase } from '../src/lib/db';
 import { initializePortalTables } from '../src/lib/portal-db';
+import { initializeGlossaryTable, seedGlossaryTerms } from '../src/lib/glossary-db';
 
 async function main() {
   const command = process.argv[2];
@@ -36,6 +37,13 @@ async function main() {
         console.log('   - comments table');
         console.log('   - files table');
         console.log('   - activity_log table');
+
+        await initializeGlossaryTable();
+        await seedGlossaryTerms();
+        console.log('✅ Glossary tables initialized!');
+        console.log('   - glossary_terms table');
+        console.log('   - seed data applied (idempotent)');
+
         console.log('\n✅ Database initialized successfully!');
       } catch (error) {
         console.error('❌ Failed to initialize database:', error);
@@ -70,7 +78,7 @@ async function main() {
           const sql = getDb();
           
           // Check all tables
-          const tables = ['briefs', 'quotes', 'clients', 'projects', 'change_requests', 'comments', 'files', 'activity_log'];
+          const tables = ['briefs', 'quotes', 'clients', 'projects', 'change_requests', 'comments', 'files', 'activity_log', 'glossary_terms'];
           
           for (const table of tables) {
             const tableCheck = await sql`

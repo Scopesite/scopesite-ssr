@@ -18,6 +18,7 @@ export default function SearchResults() {
   const [query, setQuery] = useState(initialQuery);
   const [debouncedQuery, setDebouncedQuery] = useState(initialQuery);
   const [ghostPosts, setGhostPosts] = useState<SearchEntry[]>([]);
+  const [glossaryEntries, setGlossaryEntries] = useState<SearchEntry[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   // Debounce the input
@@ -32,29 +33,35 @@ export default function SearchResults() {
     return () => clearTimeout(timer);
   }, [query, router]);
 
-  // Fetch Ghost posts once to include in the search index
+  // Fetch dynamic sources (Ghost posts + glossary articles) into the index
   useEffect(() => {
-    async function fetchGhostPosts() {
+    async function fetchDynamicSources() {
       try {
-        const res = await fetch('/api/search-posts');
-        if (res.ok) {
-          const posts = await res.json();
-          setGhostPosts(posts);
+        const [postsRes, glossaryRes] = await Promise.all([
+          fetch('/api/search-posts'),
+          fetch('/api/search-glossary'),
+        ]);
+
+        if (postsRes.ok) {
+          setGhostPosts(await postsRes.json());
+        }
+        if (glossaryRes.ok) {
+          setGlossaryEntries(await glossaryRes.json());
         }
       } catch (error) {
-        console.error('Failed to fetch ghost posts for search:', error);
+        console.error('Failed to fetch dynamic search sources:', error);
       } finally {
         setIsLoading(false);
       }
     }
-    
-    fetchGhostPosts();
+
+    fetchDynamicSources();
   }, []);
 
-  // Combine static index and ghost posts
+  // Combine static index with dynamic sources (ghost posts + glossary)
   const combinedIndex = useMemo(() => {
-    return [...staticSearchIndex, ...ghostPosts];
-  }, [ghostPosts]);
+    return [...staticSearchIndex, ...ghostPosts, ...glossaryEntries];
+  }, [ghostPosts, glossaryEntries]);
 
   // Initialize Fuse
   const fuse = useMemo(() => {
