@@ -12,6 +12,7 @@ export interface GlossaryTerm {
   term: string;
   slug: string;
   definition: string;
+  display_title: string | null;
   category: string | null;
   related_slugs: string[];
   created_at: Date;
@@ -22,8 +23,23 @@ export interface NewGlossaryTerm {
   term: string;
   slug: string;
   definition: string;
+  display_title?: string | null;
   category?: string;
   related_slugs?: string[];
+}
+
+function slugToLabel(slug: string): string {
+  return slug
+    .split('-')
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
+}
+
+/** Human-readable label for related-term cards and popups. */
+export function getGlossaryDisplayLabel(
+  entry: Pick<GlossaryTerm, 'display_title' | 'term' | 'slug'>
+): string {
+  return entry.display_title ?? entry.term ?? slugToLabel(entry.slug);
 }
 
 const BASE_GLOSSARY_SEED: NewGlossaryTerm[] = [
@@ -58,7 +74,7 @@ export const INTEL_DECK_GLOSSARY_SEED: NewGlossaryTerm[] = [
     term: 'Generative Engine Optimisation',
     slug: 'generative-engine-optimisation',
     definition:
-      'Generative Engine Optimisation, or GEO, is the work of getting your website mentioned inside the AI-written answers that now sit at the top of Google and inside tools like ChatGPT, so that when someone asks the machine a question, your business is part of the reply rather than buried on page two of the old blue links.',
+      'Getting your business named inside the AI-written answer at the top of search, rather than just ranking in the blue links below it.',
     category: 'AI Search',
     related_slugs: [
       'answer-engine-optimisation',
@@ -69,12 +85,53 @@ export const INTEL_DECK_GLOSSARY_SEED: NewGlossaryTerm[] = [
     ],
   },
   {
+    term: 'Answer Engine Optimisation',
+    slug: 'answer-engine-optimisation',
+    definition:
+      'Writing your pages so a search engine can lift your words straight into the answer box at the top, without the reader needing to click through.',
+    category: 'AI Search',
+    related_slugs: [
+      'generative-engine-optimisation',
+      'ai-overviews',
+      'query-fan-out',
+      'ai-citation',
+      'ai-mode',
+    ],
+  },
+  {
     term: 'AI Overviews',
     slug: 'ai-overviews',
     definition:
       "Google's AI-generated answer box that sits above the normal blue links and answers the question directly.",
     category: 'AI Search',
     related_slugs: ['generative-engine-optimisation'],
+  },
+  {
+    term: 'Featured snippet',
+    slug: 'featured-snippet',
+    display_title: 'Featured snippet',
+    definition:
+      'The short, direct answer Google lifts from a single page and shows in a box at the very top of the results, also called position zero.',
+    category: 'SEO',
+    related_slugs: ['answer-engine-optimisation'],
+  },
+  {
+    term: 'Query Fan-out',
+    slug: 'query-fan-out',
+    display_title: 'Query Fan-out',
+    definition:
+      'When an AI search expands one question into several related sub-queries before stitching the answer together.',
+    category: 'AI Search',
+    related_slugs: ['answer-engine-optimisation'],
+  },
+  {
+    term: 'AI Mode',
+    slug: 'ai-mode',
+    display_title: 'AI Mode',
+    definition:
+      "Google's AI-powered search interface that answers questions in a conversational panel instead of only listing links.",
+    category: 'AI Search',
+    related_slugs: ['answer-engine-optimisation'],
   },
   {
     term: 'Schema',
@@ -111,6 +168,7 @@ export const INTEL_DECK_GLOSSARY_SEED: NewGlossaryTerm[] = [
   {
     term: 'AI Citation',
     slug: 'ai-citation',
+    display_title: 'AI Citation',
     definition:
       'When an AI answer names or quotes your site as the source it used to build the reply.',
     category: 'AI Search',
@@ -119,6 +177,7 @@ export const INTEL_DECK_GLOSSARY_SEED: NewGlossaryTerm[] = [
   {
     term: 'llms.txt',
     slug: 'llms-txt',
+    display_title: 'llms.txt',
     definition:
       'A plain-text file at /llms.txt that tells AI crawlers what your site is and which pages matter most.',
     category: 'AI Search',
@@ -127,6 +186,7 @@ export const INTEL_DECK_GLOSSARY_SEED: NewGlossaryTerm[] = [
   {
     term: 'robots.txt for AI bots',
     slug: 'robots-txt-for-ai-bots',
+    display_title: 'robots.txt for AI bots',
     definition:
       'Rules in robots.txt that say which AI crawlers may read your site and which paths they should skip.',
     category: 'AI Search',
@@ -144,6 +204,7 @@ function toStaticGlossaryTerm(
     term: entry.term,
     slug: entry.slug,
     definition: entry.definition,
+    display_title: entry.display_title ?? null,
     category: entry.category ?? null,
     related_slugs: entry.related_slugs ?? [],
     created_at: now,
@@ -159,17 +220,19 @@ export const STATIC_GLOSSARY_TERMS: GlossaryTerm[] = [
 async function insertGlossaryTerm(entry: NewGlossaryTerm): Promise<void> {
   const sql = getDb();
   await sql`
-    INSERT INTO glossary_terms (term, slug, definition, category, related_slugs)
+    INSERT INTO glossary_terms (term, slug, definition, display_title, category, related_slugs)
     VALUES (
       ${entry.term},
       ${entry.slug},
       ${entry.definition},
+      ${entry.display_title ?? null},
       ${entry.category ?? null},
       ${entry.related_slugs ?? []}
     )
     ON CONFLICT (slug) DO UPDATE SET
       term = EXCLUDED.term,
       definition = EXCLUDED.definition,
+      display_title = EXCLUDED.display_title,
       category = EXCLUDED.category,
       related_slugs = EXCLUDED.related_slugs,
       updated_at = NOW()
@@ -193,6 +256,11 @@ export async function initializeGlossaryTable(): Promise<void> {
       created_at TIMESTAMPTZ DEFAULT NOW(),
       updated_at TIMESTAMPTZ DEFAULT NOW()
     )
+  `;
+
+  await sql`
+    ALTER TABLE glossary_terms
+    ADD COLUMN IF NOT EXISTS display_title TEXT
   `;
 
   await sql`
@@ -259,8 +327,8 @@ export async function seedGlossaryTerms(): Promise<void> {
 }
 
 /**
- * Popup dictionary + GEO article term for the Intel Deck glossary trial.
- * Idempotent — safe to run on every db:init.
+ * Popup dictionary + Intel Deck glossary terms.
+ * Idempotent upsert — safe to run on every db:init.
  */
 export async function seedIntelDeckGlossaryTerms(): Promise<void> {
   for (const entry of INTEL_DECK_GLOSSARY_SEED) {

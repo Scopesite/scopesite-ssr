@@ -1,5 +1,8 @@
 import Link from 'next/link';
-import { getAllGlossaryTermsSafe } from '@/lib/glossary-db';
+import {
+  getAllGlossaryTermsSafe,
+  getGlossaryDisplayLabel,
+} from '@/lib/glossary-db';
 import {
   getPublishedGlossarySlugs,
   listGlossaryFrontmatter,
@@ -18,14 +21,19 @@ export async function RelatedTerms({ slugs, currentSlug }: RelatedTermsProps) {
   ]);
 
   const titleBySlug = new Map(articles.map((article) => [article.slug, article.term]));
-  const termBySlug = new Map(dictionary.map((entry) => [entry.slug, entry.term]));
+  const dictBySlug = new Map(dictionary.map((entry) => [entry.slug, entry]));
 
   const items = slugs
     .filter((slug) => slug !== currentSlug && published.has(slug))
-    .map((slug) => ({
-      slug,
-      label: titleBySlug.get(slug) ?? termBySlug.get(slug) ?? slug,
-    }));
+    .map((slug) => {
+      const entry = dictBySlug.get(slug);
+      return {
+        slug,
+        label:
+          titleBySlug.get(slug) ??
+          (entry ? getGlossaryDisplayLabel(entry) : slug),
+      };
+    });
 
   if (items.length === 0) {
     return null;
