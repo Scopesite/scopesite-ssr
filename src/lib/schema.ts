@@ -619,7 +619,12 @@ export function generateGlossaryArticleGraph(
       name: frontmatter.term,
       url: pageUrl,
       headline: frontmatter.term,
-      author: { '@id': `${BASE_URL}/#dan-cartwright` },
+      author: {
+        '@type': 'Person',
+        '@id': `${BASE_URL}/#dan-cartwright`,
+        name: 'Dan Cartwright',
+        url: `${BASE_URL}/about`,
+      },
       publisher: { '@id': `${BASE_URL}/#organization` },
       image: { '@id': `${pageUrl}#primaryimage` },
       about: { '@id': `${pageUrl}#term` },
