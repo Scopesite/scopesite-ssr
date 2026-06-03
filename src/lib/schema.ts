@@ -45,7 +45,7 @@ export function generateOrganizationSchema() {
     '@type': ['Organization', 'LocalBusiness', 'ProfessionalService'],
     '@id': `${BASE_URL}/#organization`,
     name: 'ScopeSite Digital Studios',
-    legalName: 'ScopeSite Digital Studios Ltd',
+    legalName: 'SCOPESITE LTD',
     description:
       'Veteran-owned AI-first web design agency in Somerset, UK. We build fast, HTML-first websites optimised for Google, ChatGPT, Claude, Perplexity and Google AI Overviews using our AI visibility methodology.',
     url: BASE_URL,
@@ -354,7 +354,7 @@ export function generateLeanOrganizationSchema() {
     '@type': 'Organization',
     '@id': `${BASE_URL}/#organization`,
     name: 'ScopeSite Digital Studios',
-    legalName: 'ScopeSite Digital Studios Ltd',
+    legalName: 'SCOPESITE LTD',
     url: BASE_URL,
     logo: {
       '@type': 'ImageObject',
