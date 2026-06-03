@@ -3,7 +3,16 @@ import Link from 'next/link';
 import { getAllGlossaryTermsSafe } from '@/lib/glossary-db';
 import type { GlossaryTerm } from '@/lib/glossary-db';
 import { JsonLd } from '@/components/JsonLd';
-import { generateGlossaryDefinedTermSetSchema } from '@/lib/schema';
+import {
+  generateGlossaryDefinedTermSetSchema,
+  generateCollectionPageSchema,
+  generateItemListSchema,
+  generateBreadcrumbSchema,
+  wrapInGraph,
+} from '@/lib/schema';
+
+const BASE_URL = 'https://scopesite.co.uk';
+const PAGE_URL = `${BASE_URL}/glossary`;
 
 export const metadata: Metadata = {
   title: 'Glossary | ScopeSite',
@@ -58,9 +67,30 @@ export default async function GlossaryIndexPage() {
   const setSchema = generateGlossaryDefinedTermSetSchema(terms);
   const groups = groupByCategory(terms);
 
+  const collectionPageSchema = generateCollectionPageSchema(PAGE_URL, 'ScopeSite Glossary');
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: BASE_URL },
+    { name: 'Glossary', url: PAGE_URL },
+  ]);
+  const itemListSchema = generateItemListSchema(
+    `${PAGE_URL}/#term-list`,
+    'Glossary Terms',
+    terms.map((term) => ({
+      '@id': `${PAGE_URL}/${term.slug}#term`,
+      url: `${PAGE_URL}/${term.slug}`,
+    }))
+  );
+
+  const pageSchema = wrapInGraph([
+    collectionPageSchema,
+    setSchema,
+    itemListSchema,
+    breadcrumbSchema,
+  ]);
+
   return (
     <>
-      <JsonLd schema={setSchema} />
+      <JsonLd schema={pageSchema} />
       <main className="container-content py-section">
         <header className="max-w-2xl">
           <h1>Glossary</h1>

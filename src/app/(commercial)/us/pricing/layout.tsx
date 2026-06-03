@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import {
   generateWebPageFAQPageSchema,
   generateOfferSchema,
-  generateUSOrganizationSchema,
   generateBreadcrumbSchema,
   generateItemListSchema,
   wrapInGraph,
@@ -100,8 +99,6 @@ const retainerOffer = generateOfferSchema(
   'USD'
 );
 
-const usOrganization = generateUSOrganizationSchema();
-
 const breadcrumbSchema = generateBreadcrumbSchema([
   { name: 'Home', url: BASE_URL },
   { name: 'United States', url: `${BASE_URL}/us` },
@@ -120,7 +117,6 @@ const pageSchema = wrapInGraph([
   auditOffer,
   websiteOffer,
   retainerOffer,
-  usOrganization,
   breadcrumbSchema,
 ]);
 

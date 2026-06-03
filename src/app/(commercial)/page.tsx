@@ -141,6 +141,19 @@ export default function Home() {
     speakable: generateSpeakableSchema(['h1', '.hero-description', '.faq-answer', 'h2']),
   };
 
+  const homepageOrgRatingSchema = {
+    '@type': 'Organization',
+    '@id': `${BASE_URL}/#organization`,
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '5',
+      bestRating: '5',
+      worstRating: '1',
+      ratingCount: '6',
+      reviewCount: '6',
+    },
+  };
+
   const faqSchema = generateFAQSchema(homeFaqs);
 
   const homeServiceSchemas = [
@@ -212,6 +225,7 @@ export default function Home() {
         schema={[
           breadcrumbSchema,
           homePageSchema,
+          homepageOrgRatingSchema,
           faqSchema,
           coreServicesListSchema,
           ...reviewSchemas,

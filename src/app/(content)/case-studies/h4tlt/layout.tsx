@@ -63,41 +63,6 @@ export default function CaseStudyLayout({
     '@graph': [
       {
         '@type': 'Organization',
-        '@id': 'https://scopesite.co.uk/#organization',
-        name: 'ScopeSite Digital Studios',
-        url: 'https://scopesite.co.uk',
-        logo: {
-          '@type': 'ImageObject',
-          url: 'https://scopesite.co.uk/images/logo-icon.svg'
-        },
-        description: 'Veteran-owned web design and AI visibility agency',
-        foundingDate: '2024',
-        founder: { '@id': 'https://scopesite.co.uk/#dan-cartwright' },
-        address: {
-          '@type': 'PostalAddress',
-          addressLocality: 'Beckington, Frome',
-          addressRegion: 'Somerset',
-          postalCode: 'BA11',
-          addressCountry: 'UK'
-        },
-        telephone: '01373 311339',
-        email: 'support@scopesite.co.uk',
-        sameAs: [
-          // TEMP REMOVED 2026-04-18: Wikidata entity Q138866631 deleted 6 April 2026 (spam/advertising). Awaiting admin review. Restore if entity is reinstated.
-          // 'https://www.wikidata.org/wiki/Q138866631',
-          'https://find-and-update.company-information.service.gov.uk/company/16130355'
-        ]
-      },
-      {
-        '@type': 'Person',
-        '@id': 'https://scopesite.co.uk/#dan-cartwright',
-        name: 'Dan Cartwright',
-        jobTitle: 'Founder',
-        worksFor: { '@id': 'https://scopesite.co.uk/#organization' },
-        url: 'https://scopesite.co.uk/about'
-      },
-      {
-        '@type': 'Organization',
         '@id': 'https://hear4thelongterm.co.uk/#organization',
         name: 'Hear 4 The Long Term',
         url: 'https://hear4thelongterm.co.uk',

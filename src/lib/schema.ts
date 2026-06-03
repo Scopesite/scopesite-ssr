@@ -346,14 +346,66 @@ export function generateOrganizationSchema() {
         ],
       },
     },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '5',
-      bestRating: '5',
-      worstRating: '1',
-      ratingCount: '6',
-      reviewCount: '6',
+  };
+}
+
+export function generateLeanOrganizationSchema() {
+  return {
+    '@type': 'Organization',
+    '@id': `${BASE_URL}/#organization`,
+    name: 'ScopeSite Digital Studios',
+    legalName: 'ScopeSite Digital Studios Ltd',
+    url: BASE_URL,
+    logo: {
+      '@type': 'ImageObject',
+      '@id': `${BASE_URL}/#logo`,
+      contentUrl: `${BASE_URL}/images/logo-icon.svg`,
+      url: `${BASE_URL}/images/logo-icon.svg`,
+      name: 'ScopeSite Digital Studios Logo',
+      description: 'ScopeSite Digital Studios logo',
+      width: 512,
+      height: 512,
+      inLanguage: 'en-GB',
     },
+    contactPoint: [
+      {
+        '@type': 'ContactPoint',
+        contactType: 'customer service',
+        telephone: '+441373311339',
+        email: 'dan@scopesite.co.uk',
+        availableLanguage: ['en-GB', 'en-US'],
+        areaServed: [
+          { '@type': 'Country', name: 'United Kingdom' },
+          { '@type': 'Country', name: 'United States' },
+        ],
+      },
+    ],
+    sameAs: [
+      'https://www.linkedin.com/in/scopesite',
+      'https://www.linkedin.com/company/106028304',
+      'https://www.facebook.com/scopesite',
+      'https://www.instagram.com/scopesitedigitalstudios',
+      'https://x.com/DlgltaI',
+      'https://find-and-update.company-information.service.gov.uk/company/16130355',
+      'https://www.google.com/maps/place/ScopeSite+Digital+Studios/@51.2672214,-2.2915633,17z',
+      'https://github.com/Scopesite/scopesite-ssr',
+      'https://github.com/Scopesite/voice',
+      'https://www.trustpilot.com/review/scopesite.co.uk',
+      'https://www.yell.com/biz/scopesite-digital-studios-beckington-11012422/',
+      'https://fromechamber.com/member/scopesite-ltd/',
+      'https://www.gov.uk/armed-forces-covenant-businesses/scopesite-digital-studios-scopesite-digital-ltd',
+      'https://www.approvedbusiness.co.uk/companies/scopesite-ltd',
+      'https://www.threads.com/@aiseo_experts',
+      'https://www.pinterest.com/scopesitedigitalstudios',
+      'https://bsky.app/profile/webdesignsomerset.bsky.social',
+      'https://www.tiktok.com/@dan_the_webdesigner',
+      'https://frome.cylex-uk.co.uk/company/scopesite-digital-studios-28469047.html',
+      'https://diib.com/featuredmembers/scopesite-digital-studios/',
+      'https://www.hotfrog.co.uk/company/ef91c8e5a352cf95b1dd6f23891ed6b6/scopesite-digital-studios/frome/web-design',
+      'https://www.crunchbase.com/organization/scopesite-digital-studios',
+      'https://www.designrush.com/agency/profile/scopesite-digital-studios',
+      'https://www.bark.com/en/gb/company/scopesite/VVVVPy/',
+    ],
   };
 }
 
@@ -462,6 +514,9 @@ export function generateVOICEDefinedTermSetSchema() {
 // GLOSSARY DEFINED TERM SCHEMA
 // ============================================
 
+export const GLOSSARY_TERM_SET_ID = `${BASE_URL}/glossary#set`;
+export const GLOSSARY_TERM_SET_NAME = 'ScopeSite Web & Marketing Glossary';
+
 export function generateGlossaryDefinedTermSchema(term: GlossaryTerm) {
   return {
     '@type': 'DefinedTerm',
@@ -469,15 +524,15 @@ export function generateGlossaryDefinedTermSchema(term: GlossaryTerm) {
     name: term.term,
     description: term.definition,
     url: `${BASE_URL}/glossary/${term.slug}`,
-    inDefinedTermSet: { '@id': `${BASE_URL}/glossary#set` },
+    inDefinedTermSet: { '@id': GLOSSARY_TERM_SET_ID },
   };
 }
 
 export function generateGlossaryDefinedTermSetSchema(terms: GlossaryTerm[]) {
   return {
     '@type': 'DefinedTermSet',
-    '@id': `${BASE_URL}/glossary#set`,
-    name: 'ScopeSite Web & Marketing Glossary',
+    '@id': GLOSSARY_TERM_SET_ID,
+    name: GLOSSARY_TERM_SET_NAME,
     url: `${BASE_URL}/glossary`,
     hasDefinedTerm: terms.map(generateGlossaryDefinedTermSchema),
   };
@@ -493,6 +548,8 @@ export interface GlossaryArticleSchemaInput {
   relatedSlugs: string[];
   citations: Array<{ name: string; url: string }>;
   publishDate: string;
+  dateModified?: string;
+  faqs?: FAQItem[];
 }
 
 /**
@@ -504,8 +561,9 @@ export function generateGlossaryArticleGraph(
   mentionTerms: GlossaryTerm[]
 ): Record<string, unknown>[] {
   const pageUrl = `${BASE_URL}/glossary/${frontmatter.slug}`;
+  const dateModified = frontmatter.dateModified || frontmatter.publishDate;
 
-  return [
+  const graph: Record<string, unknown>[] = [
     {
       '@type': 'WebPage',
       '@id': `${pageUrl}#webpage`,
@@ -514,6 +572,7 @@ export function generateGlossaryArticleGraph(
       isPartOf: { '@id': `${BASE_URL}/#website` },
       primaryImageOfPage: { '@id': `${pageUrl}#primaryimage` },
       mainEntity: { '@id': `${pageUrl}#term` },
+      inLanguage: 'en-GB',
       relatedLink: frontmatter.relatedSlugs.map(
         (relatedSlug) => `${BASE_URL}/glossary/${relatedSlug}`
       ),
@@ -526,12 +585,12 @@ export function generateGlossaryArticleGraph(
         ? { alternateName: frontmatter.alternateName }
         : {}),
       description: frontmatter.definition,
-      inDefinedTermSet: { '@id': `${BASE_URL}/glossary#set` },
+      inDefinedTermSet: { '@id': GLOSSARY_TERM_SET_ID },
     },
     {
       '@type': 'DefinedTermSet',
-      '@id': `${BASE_URL}/glossary#set`,
-      name: 'ScopeSite Digital Studios Glossary',
+      '@id': GLOSSARY_TERM_SET_ID,
+      name: GLOSSARY_TERM_SET_NAME,
       url: `${BASE_URL}/glossary`,
       publisher: { '@id': `${BASE_URL}/#organization` },
     },
@@ -544,6 +603,7 @@ export function generateGlossaryArticleGraph(
       image: { '@id': `${pageUrl}#primaryimage` },
       about: { '@id': `${pageUrl}#term` },
       datePublished: frontmatter.publishDate,
+      dateModified: dateModified,
       speakable: generateSpeakableSchema(['.glossary-definition', 'h1']),
       citation: frontmatter.citations.map((citation) => ({
         '@type': 'WebPage',
@@ -570,7 +630,18 @@ export function generateGlossaryArticleGraph(
       width: 1200,
       height: 630,
     },
+    generateBreadcrumbSchema([
+      { name: 'Home', url: BASE_URL },
+      { name: 'Glossary', url: `${BASE_URL}/glossary` },
+      { name: frontmatter.term, url: pageUrl },
+    ]),
   ];
+
+  if (frontmatter.faqs && frontmatter.faqs.length > 0) {
+    graph.push(generateFAQSchema(frontmatter.faqs));
+  }
+
+  return graph;
 }
 
 // ============================================
@@ -2154,53 +2225,6 @@ export function generateLocalBusinessSchema(
       dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
       opens: '09:00',
       closes: '17:00',
-    },
-  };
-}
-
-/**
- * Generates an Organization reference for US-market pages.
- * ScopeSite has a UK office and serves US clients remotely, so these pages
- * should not claim a separate US LocalBusiness location.
- */
-export function generateUSOrganizationSchema() {
-  return {
-    '@type': 'Organization',
-    '@id': `${BASE_URL}/#organization`,
-    name: 'ScopeSite Digital Studios',
-    legalName: 'ScopeSite Digital Studios Ltd',
-    description:
-      'AI-first web design agency based in the UK, serving businesses across the United States.',
-    telephone: '+441373311339',
-    email: 'dan@scopesite.co.uk',
-    url: BASE_URL,
-    logo: {
-      '@type': 'ImageObject',
-      '@id': `${BASE_URL}/#logo`,
-      url: `${BASE_URL}/images/logo-icon.svg`,
-      contentUrl: `${BASE_URL}/images/logo-icon.svg`,
-      name: 'ScopeSite Digital Studios Logo',
-      width: 512,
-      height: 512,
-    },
-    currenciesAccepted: 'USD',
-    paymentAccepted: 'Bank Transfer, Credit Card',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: '4 Horse Close',
-      addressLocality: 'Frome',
-      addressRegion: 'Somerset',
-      postalCode: 'BA11',
-      addressCountry: 'GB',
-    },
-    geo: {
-      '@type': 'GeoCoordinates',
-      latitude: '51.2308',
-      longitude: '-2.3201',
-    },
-    areaServed: {
-      '@type': 'Country',
-      name: 'United States',
     },
   };
 }

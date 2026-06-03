@@ -67,6 +67,7 @@ export async function generateMetadata({
     alternates: {
       canonical: `${BASE_URL}/glossary/${term.slug}`,
     },
+    robots: { index: false, follow: true },
   };
 }
 

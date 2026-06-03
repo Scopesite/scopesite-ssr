@@ -14,7 +14,6 @@ import { SkipLink, RouteAnnouncer } from '@/components/a11y';
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
 import { getAlternates } from '@/lib/hreflang-map';
 import {
-  generateOrganizationSchema,
   generateWebsiteSchema,
   generateVOICEDefinedTermSetSchema,
   generateBusinessAudienceSchema,
@@ -128,7 +127,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const organizationSchema = generateOrganizationSchema();
   const websiteSchema = generateWebsiteSchema();
   const voiceTermSetSchema = generateVOICEDefinedTermSetSchema();
   const audienceSchema = generateBusinessAudienceSchema();
@@ -139,7 +137,7 @@ export default function RootLayout({
       <head>
         <meta name="color-scheme" content="light" />
         <meta name="supported-color-schemes" content="light" />
-        <JsonLd schema={[organizationSchema, websiteSchema, voiceTermSetSchema, audienceSchema, scheduleActionSchema]} />
+        <JsonLd schema={[websiteSchema, voiceTermSetSchema, audienceSchema, scheduleActionSchema]} />
         {process.env.NEXT_PUBLIC_AHREFS_ANALYTICS_KEY ? (
           <link rel="preconnect" href="https://analytics.ahrefs.com" crossOrigin="anonymous" />
         ) : null}
