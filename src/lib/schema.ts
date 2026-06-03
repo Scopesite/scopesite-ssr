@@ -556,12 +556,31 @@ export interface GlossaryArticleSchemaInput {
  * Full @graph for Intel Deck glossary article pages.
  * Pass the resulting array to JsonLd — do not add @context here.
  */
+/**
+ * Format a date string into an ISO 8601 UTC timestamp.
+ * If the string only contains a date (e.g. "2026-06-03"), 09:00:00Z is appended as a consistent convention.
+ */
+function formatSchemaDate(dateStr: string): string {
+  if (!dateStr) return '';
+  if (dateStr.includes('T')) {
+    try {
+      return new Date(dateStr).toISOString();
+    } catch {
+      return dateStr;
+    }
+  }
+  return `${dateStr}T09:00:00Z`;
+}
+
 export function generateGlossaryArticleGraph(
   frontmatter: GlossaryArticleSchemaInput,
   mentionTerms: GlossaryTerm[]
 ): Record<string, unknown>[] {
   const pageUrl = `${BASE_URL}/glossary/${frontmatter.slug}`;
   const dateModified = frontmatter.dateModified || frontmatter.publishDate;
+
+  const isoPublishDate = formatSchemaDate(frontmatter.publishDate);
+  const isoModifiedDate = formatSchemaDate(dateModified);
 
   const graph: Record<string, unknown>[] = [
     {
@@ -597,13 +616,15 @@ export function generateGlossaryArticleGraph(
     {
       '@type': 'Article',
       '@id': `${pageUrl}#article`,
+      name: frontmatter.term,
+      url: pageUrl,
       headline: frontmatter.term,
       author: { '@id': `${BASE_URL}/#dan-cartwright` },
       publisher: { '@id': `${BASE_URL}/#organization` },
       image: { '@id': `${pageUrl}#primaryimage` },
       about: { '@id': `${pageUrl}#term` },
-      datePublished: frontmatter.publishDate,
-      dateModified: dateModified,
+      datePublished: isoPublishDate,
+      dateModified: isoModifiedDate,
       speakable: generateSpeakableSchema(['.glossary-definition', 'h1']),
       citation: frontmatter.citations.map((citation) => ({
         '@type': 'WebPage',
