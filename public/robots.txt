@@ -56,7 +56,6 @@ Allow: /
 User-agent: Claude-SearchBot
 Allow: /
 
-Crawl-delay: 10
 User-agent: AhrefsBot
 Crawl-delay: 10
 
