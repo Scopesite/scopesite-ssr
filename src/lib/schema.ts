@@ -356,6 +356,7 @@ export function generateLeanOrganizationSchema() {
     name: 'ScopeSite Digital Studios',
     legalName: 'SCOPESITE LTD',
     url: BASE_URL,
+    foundingDate: '2024-12-01',
     logo: {
       '@type': 'ImageObject',
       '@id': `${BASE_URL}/#logo`,
@@ -394,6 +395,7 @@ export function generateLeanOrganizationSchema() {
       'https://www.yell.com/biz/scopesite-digital-studios-beckington-11012422/',
       'https://fromechamber.com/member/scopesite-ltd/',
       'https://www.gov.uk/armed-forces-covenant-businesses/scopesite-digital-studios-scopesite-digital-ltd',
+      'https://veteran-owned.uk/listing/scopesite-digital-studios/',
       'https://www.approvedbusiness.co.uk/companies/scopesite-ltd',
       'https://www.threads.com/@aiseo_experts',
       'https://www.pinterest.com/scopesitedigitalstudios',
@@ -842,9 +844,14 @@ export function generateBreadcrumbSchema(items: BreadcrumbItem[]) {
 // FAQ SCHEMA
 // ============================================
 
-export function generateFAQSchema(faqs: FAQItem[]) {
+export function generateFAQSchema(
+  faqs: FAQItem[],
+  options?: { id?: string; inLanguage?: string }
+) {
   return {
     '@type': 'FAQPage',
+    ...(options?.id ? { '@id': options.id } : {}),
+    ...(options?.inLanguage ? { inLanguage: options.inLanguage } : {}),
     mainEntity: faqs.map((faq) => ({
       '@type': 'Question',
       name: faq.question,

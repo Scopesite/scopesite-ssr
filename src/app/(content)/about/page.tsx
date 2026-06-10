@@ -14,6 +14,7 @@ import {
   generateAboutPageSchema,
   generateFounderPersonSchema,
   generateImageObjectSchema,
+  generateFAQSchema,
 } from '@/lib/schema';
 
 const BASE_URL = 'https://scopesite.co.uk';
@@ -98,6 +99,76 @@ const notList = [
   "We're not for everyone - and that's fine",
 ];
 
+// FAQ data: single source of truth for both the visible section and FAQPage schema.
+// Visible answers and schema answers MUST stay identical.
+const faqs = [
+  {
+    question: "Who is Dan Cartwright?",
+    answer:
+      "Dan Cartwright is the founder of ScopeSite Digital Studios, a veteran-owned web and AI-visibility agency in Somerset. He served six years in the British Army (Royal Electrical and Mechanical Engineers, 2008 to 2014) as a vehicle mechanic, then worked in recruitment and as a mental health nurse before building ScopeSite. He runs it as sole operator, so the person who answers the phone is the person doing the work.",
+  },
+  {
+    question: "What is ScopeSite Digital Studios?",
+    answer:
+      "ScopeSite Digital Studios is a web and AI-visibility agency registered in England as SCOPESITE LTD (company number 16130355). It builds websites and structured data that make businesses findable by AI answer engines like ChatGPT, Perplexity, Claude and Google AI Overviews. It is run from Beckington, near Frome, in Somerset.",
+  },
+  {
+    question: "What is the Armed Forces Covenant?",
+    answer:
+      "The Armed Forces Covenant is a national promise that people who serve or have served in the UK Armed Forces, and their families, are treated fairly and face no disadvantage when accessing goods and services. It was published in 2011 and its core principles are set in the Armed Forces Act. More than 11,000 businesses and charities have signed it, ScopeSite among them.",
+  },
+  {
+    question: "What is the Defence Employer Recognition Scheme Bronze Award?",
+    answer:
+      "The Defence Employer Recognition Scheme is a Ministry of Defence scheme that recognises employers who support the Armed Forces community, across three tiers: Bronze, Silver and Gold. The Bronze Award goes to employers who have signed the Armed Forces Covenant and pledged to be forces-friendly, open to employing reservists, veterans and military families. ScopeSite holds the ERS Bronze Award, received in 2026.",
+  },
+  {
+    question: "What is Veteran Owned UK (VOUK)?",
+    answer:
+      "Veteran Owned UK is the UK's largest online directory for the public to find businesses owned by serving personnel, veterans or their spouses. Veterans can list for free, with paid membership tiers for enhanced listings. ScopeSite is a verified member.",
+  },
+  {
+    question: "Is ScopeSite a certified veteran-owned business?",
+    answer:
+      "Yes. ScopeSite is a certified veteran-owned business, verified by Veteran Owned UK. It is also a signatory of the Armed Forces Covenant and holds the Ministry of Defence Employer Recognition Scheme Bronze Award (2026). Founder Dan Cartwright served in the British Army from 2008 to 2014.",
+  },
+  {
+    question: "What is the V.O.I.C.E. methodology?",
+    answer:
+      "V.O.I.C.E. stands for Visibility Optimisation for Intelligent Crawler Engines. It is the methodology behind ScopeSite's AI-visibility work: it scans a website, scores how readable it is to AI systems, and fixes the gaps using structured data, E-E-A-T signals and answer engine optimisation. It is the engine that powers the CAFMO product.",
+  },
+  {
+    question: "What is CAFMO?",
+    answer:
+      "CAFMO stands for Can AI Find Me Online. It is ScopeSite's tool that scans a website, scores how visible it is to AI engines, and shows what to fix. It is the productised version of the V.O.I.C.E. methodology, and it does exactly what the name asks.",
+  },
+  {
+    question: "Where is ScopeSite based?",
+    answer:
+      "ScopeSite is based in Beckington, near Frome, in Somerset, and is registered in England as SCOPESITE LTD. It works with clients across the UK.",
+  },
+  {
+    question: "What did Dan do before starting ScopeSite?",
+    answer:
+      "Before ScopeSite, Dan served six years in the British Army (REME, 2008 to 2014) as a vehicle mechanic, then moved into recruitment with Pertemps and Reed, and spent time as a Band 4 mental health nurse. The thread running through all of it is diagnosis: working the actual problem in front of you, not the one you assumed.",
+  },
+  {
+    question: "What is AI visibility?",
+    answer:
+      "AI visibility is whether your business gets found and cited when people ask AI tools to recommend a business like yours. Engines like ChatGPT, Perplexity, Claude and Google AI Overviews hand back a single answer, and AI visibility is about making sure your name is in it. It is a separate job from ranking in the old list of blue links.",
+  },
+  {
+    question: "Who does ScopeSite work with?",
+    answer:
+      "Any business that depends on being found online. That covers solicitors, accountants, estate agents, dental practices, media companies, charities and professional services firms, mostly across Somerset and Wiltshire, with plenty more around the UK. The work is not tied to a sector or a location: if customers need to find you, and you want to be visible to AI engines as well as traditional search, ScopeSite can help.",
+  },
+  {
+    question: "Do you work with recruitment agencies?",
+    answer:
+      "Yes, and it is a particular specialism. As a veteran-owned agency, ScopeSite does focused work making recruitment firms, including ex-forces and veteran recruiters, visible to the AI engines that candidates and clients now search first.",
+  },
+];
+
 export default function AboutPage() {
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: BASE_URL },
@@ -116,6 +187,11 @@ export default function AboutPage() {
     height: 400,
   });
 
+  const faqSchema = generateFAQSchema(faqs, {
+    id: `${PAGE_URL}#faq`,
+    inLanguage: 'en-GB',
+  });
+
   return (
     <>
       {/* Page-specific structured data: full Person node lives here */}
@@ -124,6 +200,7 @@ export default function AboutPage() {
           breadcrumbSchema,
           aboutPageSchema,
           personSchema,
+          faqSchema,
           headshotImageSchema,
         ]}
       />
@@ -436,6 +513,36 @@ export default function AboutPage() {
                 Soldier, recruiter, nurse, builder of websites. In roughly that
                 order.
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="section-white">
+        <div className="container-content">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-brand-navy mb-8 text-xl sm:text-2xl md:text-h2">
+              Frequently asked questions
+            </h2>
+            <div className="space-y-4">
+              {faqs.map((faq) => (
+                <details
+                  key={faq.question}
+                  className="group rounded-xl border border-brand-navy/10 bg-white p-5 [&_summary::-webkit-details-marker]:hidden"
+                >
+                  <summary className="flex cursor-pointer items-center justify-between gap-4 text-brand-navy font-bold text-lg list-none">
+                    <h3 className="font-bold text-lg m-0">{faq.question}</h3>
+                    <span
+                      aria-hidden="true"
+                      className="flex-shrink-0 text-brand-gold-accessible transition-transform duration-200 group-open:rotate-45"
+                    >
+                      +
+                    </span>
+                  </summary>
+                  <p className="mt-4 text-brand-navy/70">{faq.answer}</p>
+                </details>
+              ))}
             </div>
           </div>
         </div>
