@@ -273,44 +273,52 @@ export default function AboutPage() {
       {/* The veteran bit */}
       <section className="bg-brand-navy py-section">
         <div className="container-content">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-white mb-6 text-xl sm:text-2xl md:text-h2">
-              The veteran bit
-            </h2>
-            <div className="space-y-5 text-white/80">
-              <p>
-                ScopeSite is a certified veteran-owned business, verified by
-                Veteran Owned UK, and a signatory of the Armed Forces Covenant. In
-                2026 we received the Defence Employer Recognition Scheme Bronze
-                Award from the Ministry of Defence, which recognises businesses
-                that employ and champion the Armed Forces community.
-              </p>
-              <p>
-                The forces background is not a badge I wear for sympathy points. It
-                is the operating system. Turn up when you said you would, do the
-                job properly, do not flannel the customer, and if something goes
-                wrong, say so before they find out. None of that is revolutionary.
-                It is just rarer than it should be in this industry.
-              </p>
+          <div className="grid md:grid-cols-[1fr_auto] gap-10 md:gap-14 items-center max-w-5xl mx-auto">
+            {/* Text column */}
+            <div className="max-w-3xl">
+              <h2 className="text-white mb-6 text-xl sm:text-2xl md:text-h2">
+                The veteran bit
+              </h2>
+              <div className="space-y-5 text-white/80">
+                <p>
+                  ScopeSite is a certified veteran-owned business, verified by
+                  Veteran Owned UK, and a signatory of the Armed Forces Covenant.
+                  In 2026 we received the Defence Employer Recognition Scheme
+                  Bronze Award from the Ministry of Defence, which recognises
+                  businesses that employ and champion the Armed Forces community.
+                </p>
+                <p>
+                  The forces background is not a badge I wear for sympathy points.
+                  It is the operating system. Turn up when you said you would, do
+                  the job properly, do not flannel the customer, and if something
+                  goes wrong, say so before they find out. None of that is
+                  revolutionary. It is just rarer than it should be in this
+                  industry.
+                </p>
+              </div>
             </div>
 
-            {/* Accreditation badges */}
-            <div className="flex items-end justify-center gap-10 mt-10">
-              <Image
-                src="/images/veteran-owned-uk.webp"
-                alt="Certified Veteran-Owned Business, verified by Veteran Owned UK"
-                width={1000}
-                height={1000}
-                className="h-28 w-auto md:h-36"
-              />
+            {/* Portrait badge, outside the text on the right */}
+            <div className="flex justify-center md:justify-end">
               <Image
                 src="/images/armed-forces-covenant-ers-bronze.webp"
                 alt="Armed Forces Covenant Defence Employer Recognition Scheme Bronze Award 2026"
                 width={400}
                 height={900}
-                className="h-40 w-auto md:h-52"
+                className="h-72 w-auto md:h-96"
               />
             </div>
+          </div>
+
+          {/* Veteran Owned badge, centred below */}
+          <div className="flex justify-center mt-10">
+            <Image
+              src="/images/veteran-owned-uk.webp"
+              alt="Certified Veteran-Owned Business, verified by Veteran Owned UK"
+              width={1000}
+              height={1000}
+              className="h-[200px] w-[200px]"
+            />
           </div>
         </div>
       </section>
@@ -425,7 +433,7 @@ export default function AboutPage() {
                 Cartwright actually is, there is a straight answer.
               </p>
               <p className="font-medium text-brand-navy">
-                Mechanic, recruiter, nurse, builder of websites. In roughly that
+                Soldier, recruiter, nurse, builder of websites. In roughly that
                 order.
               </p>
             </div>
