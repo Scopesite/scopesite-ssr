@@ -423,7 +423,11 @@ export function generateFounderPersonSchema() {
       'British Army veteran and founder of ScopeSite Digital Studios. Leads our AI visibility methodology for AI search.',
     worksFor: { '@id': `${BASE_URL}/#organization` },
     url: `${BASE_URL}/about`,
-    image: `${BASE_URL}/images/dan-headshot.webp`,
+    image: [
+      `${BASE_URL}/images/dan-headshot.webp`,
+      `${BASE_URL}/images/veteran-owned-uk.webp`,
+      `${BASE_URL}/images/armed-forces-covenant-ers-bronze.webp`,
+    ],
     sameAs: [
       'https://www.linkedin.com/in/dan-cartwright-scopesite',
     ],
@@ -433,10 +437,12 @@ export function generateFounderPersonSchema() {
       'Next.js',
       'AI visibility methodology',
       'Structured data',
+      'Schema Markup',
       'Generative Engine Optimisation',
       'AI Visibility',
       'Answer Engine Optimisation',
       'Web Design',
+      'Recruitment Websites',
       'Entity SEO',
     ],
     knowsLanguage: 'en-GB',
@@ -449,11 +455,14 @@ export function generateFounderPersonSchema() {
       },
       skills: 'AI Visibility, structured data, HTML-first web design, Next.js, entity SEO',
     },
-    hasCredential: {
-      '@type': 'EducationalOccupationalCredential',
-      credentialCategory: 'Military Service',
-      description: 'British Army veteran, Royal Electrical and Mechanical Engineers (REME)',
+    memberOf: {
+      '@type': 'Organization',
+      name: 'British Army (Royal Electrical and Mechanical Engineers)',
     },
+    award: [
+      'Armed Forces Covenant Defence Employer Recognition Scheme Bronze Award (2026)',
+      'Certified Veteran-Owned Business, verified by Veteran Owned UK',
+    ],
   };
 }
 
@@ -1263,11 +1272,16 @@ export function generateAboutPageSchema(url: string) {
     name: 'About ScopeSite Digital Studios',
     description:
       'Learn about ScopeSite, a veteran-owned AI-first web design agency based in Somerset, UK.',
+    inLanguage: 'en-GB',
+    dateModified: formatSchemaDate('2026-06-10'),
     isPartOf: {
       '@id': `${BASE_URL}/#website`,
     },
     about: {
       '@id': `${BASE_URL}/#organization`,
+    },
+    mainEntity: {
+      '@id': `${BASE_URL}/#dan-cartwright`,
     },
   };
 }

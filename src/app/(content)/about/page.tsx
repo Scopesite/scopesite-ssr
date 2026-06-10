@@ -12,6 +12,7 @@ import { JsonLd } from '@/components/JsonLd';
 import {
   generateBreadcrumbSchema,
   generateAboutPageSchema,
+  generateFounderPersonSchema,
   generateImageObjectSchema,
 } from '@/lib/schema';
 
@@ -19,13 +20,13 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/about`;
 
 export const metadata: Metadata = {
-  title: 'About Us | Veteran-Owned | ScopeSite',
+  title: 'About Dan Cartwright | Veteran-Owned Web & AI Visibility Agency | ScopeSite',
   description:
-    'Founded by British Army veteran Dan Cartwright. Website designers with military precision. Somerset-based, UK-wide service. No corporate bullshit.',
+    'Dan Cartwright is the founder of ScopeSite Digital Studios, a certified veteran-owned UK agency making businesses visible to ChatGPT, Perplexity, Claude and Google AI Overviews.',
   openGraph: {
-    title: 'About Us | Veteran-Owned Website Designers | ScopeSite Digital Studios',
+    title: 'About Dan Cartwright | Veteran-Owned Web & AI Visibility Agency | ScopeSite',
     description:
-      'Founded by British Army veteran Dan Cartwright. Website designers with military precision. Somerset-based, UK-wide service. No corporate bullshit.',
+      'Dan Cartwright is the founder of ScopeSite Digital Studios, a certified veteran-owned UK agency making businesses visible to ChatGPT, Perplexity, Claude and Google AI Overviews.',
     url: PAGE_URL,
     siteName: 'ScopeSite Digital Studios',
     images: [
@@ -41,9 +42,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'About Us | Veteran-Owned Website Designers | ScopeSite',
+    title: 'About Dan Cartwright | Veteran-Owned Web & AI Visibility Agency | ScopeSite',
     description:
-      'Founded by British Army veteran Dan Cartwright. Website designers with military precision, based in Somerset, serving UK-wide.',
+      'Dan Cartwright is the founder of ScopeSite Digital Studios, a certified veteran-owned UK agency making businesses visible to ChatGPT, Perplexity, Claude and Google AI Overviews.',
     images: [`${BASE_URL}/images/og/og-about.png`],
   },
   alternates: {
@@ -51,7 +52,7 @@ export const metadata: Metadata = {
   },
 };
 
-// Values Data
+// How We Work values
 const values = [
   {
     title: 'STRAIGHT TALKING',
@@ -97,30 +98,15 @@ const notList = [
   "We're not for everyone - and that's fine",
 ];
 
-// Why We Exist Cards
-const whyCards = [
-  {
-    title: 'THE PROBLEM',
-    text: "Most agencies sell pretty websites that don't perform. They hide behind jargon, lock you into contracts, and disappear when things go wrong. They charge premium prices for template solutions and treat small businesses like an afterthought.",
-  },
-  {
-    title: 'THE OPPORTUNITY',
-    text: "AI is changing how people find businesses. ChatGPT, Siri, voice search - they don't care how pretty your website looks. They care about structure, speed, and trust signals. Most agencies haven't caught up. We have.",
-  },
-  {
-    title: 'OUR RESPONSE',
-    text: "We built ScopeSite to be the agency we wished existed. Transparent pricing. Plain English explanations. Websites that actually work - for humans AND AI. No retainers designed to bleed you dry. Just honest work at fair prices.",
-  },
-];
-
 export default function AboutPage() {
-  // Generate schemas
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: BASE_URL },
     { name: 'About', url: PAGE_URL },
   ]);
 
   const aboutPageSchema = generateAboutPageSchema(PAGE_URL);
+
+  const personSchema = generateFounderPersonSchema();
 
   const headshotImageSchema = generateImageObjectSchema({
     contentUrl: `${BASE_URL}/images/dan-headshot.webp`,
@@ -132,169 +118,204 @@ export default function AboutPage() {
 
   return (
     <>
-      {/* Page-specific structured data */}
-      <JsonLd schema={[breadcrumbSchema, aboutPageSchema, headshotImageSchema]} />
+      {/* Page-specific structured data: full Person node lives here */}
+      <JsonLd
+        schema={[
+          breadcrumbSchema,
+          aboutPageSchema,
+          personSchema,
+          headshotImageSchema,
+        ]}
+      />
 
       {/* Hero Section */}
-      <section className="bg-brand-navy text-white py-section min-h-[60vh] flex items-center">
+      <section className="bg-brand-navy text-white py-section">
         <div className="container-content">
           <div className="max-w-4xl mx-auto text-center">
             <span className="badge-gold-lg mb-6 inline-flex items-center justify-center">
               Veteran Owned
             </span>
-            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-headline text-white mb-4">
-              BUILT <span className="text-brand-gold">DIFFERENT.</span> ON
-              PURPOSE.
+            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-headline text-white mb-6">
+              About <span className="text-brand-gold">ScopeSite</span>
             </h1>
-            <p className="text-xl md:text-2xl text-white/90 font-medium mb-8">
-              A web design agency that actually gives a shit
-            </p>
-            <p className="text-body-lg text-white/70 max-w-3xl mx-auto">
-              ScopeSite isn&apos;t another faceless agency churning out template
-              websites and empty promises. We&apos;re a veteran-owned,
-              Somerset-based studio that believes businesses deserve better than
-              the bullshit most agencies sell.
+            <p className="text-xl md:text-2xl text-white/90 font-medium">
+              The bloke behind it
             </p>
           </div>
         </div>
       </section>
 
-      {/* Company Identity Section */}
-      <section className="bg-white py-12 border-b border-brand-navy/10">
-        <div className="container-content">
-          <div className="max-w-4xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-8">
-              <div>
-                <h2 className="text-brand-navy font-bold text-xl mb-4">Who We Are</h2>
-                <p className="text-brand-navy/70 mb-4">
-                  ScopeSite Digital Studios is a veteran-owned, AI-first web design agency based in
-                  Somerset, UK. Founded by Dan Cartwright, a British Army veteran, ScopeSite builds
-                  fast HTML-first websites using Next.js and our AI visibility methodology.
-                </p>
-                <p className="text-brand-navy/70">
-                  ScopeSite specialises in web design, SEO, and AI search optimisation for businesses
-                  in Somerset, Bristol, Bath, and across the South West. Every website is custom-built
-                  for strong Core Web Vitals and speed scores, not vanity metrics alone.
-                </p>
-              </div>
-              <div>
-                <h2 className="text-brand-navy font-bold text-xl mb-4">What Makes Us Different</h2>
-                <p className="text-brand-navy/70 mb-4">
-                  Unlike traditional agencies that rely on WordPress templates, ScopeSite builds every
-                  site from scratch using Next.js server-side rendering. This means faster load times,
-                  better Google rankings, and visibility in AI search engines like ChatGPT, Perplexity,
-                  and Gemini.
-                </p>
-                <p className="text-brand-navy/70">
-                  ScopeSite achieved #1 AI recommendations for client H4TLT across all four major AI
-                  platforms. The agency&apos;s{' '}
-                  <Link href="/voice" className="text-brand-gold hover:underline font-medium">
-                    AI visibility methodology
-                  </Link>{' '}
-                  is the practical system we use to make businesses visible to AI assistants across the
-                  South West.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* The Founder Section */}
+      {/* The bloke behind it */}
       <section className="section-white">
         <div className="container-content">
-          <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">Meet the Founder</h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-[320px_1fr] gap-12 items-start max-w-5xl mx-auto">
             {/* Photo */}
-            <div className="flex justify-center md:justify-end">
-              <div className="relative">
-                <div
-                  className="w-72 h-72 md:w-80 md:h-80 rounded-[30px] overflow-hidden border-4 border-brand-navy"
-                >
-                  <Image
-                    src="/images/dan-headshot.webp"
-                    alt="Dan Cartwright - Founder and Director of ScopeSite"
-                    width={400}
-                    height={400}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+            <div className="flex justify-center md:justify-start">
+              <div className="w-72 h-72 rounded-[30px] overflow-hidden border-4 border-brand-navy">
+                <Image
+                  src="/images/dan-headshot.webp"
+                  alt="Dan Cartwright - Founder and Director of ScopeSite"
+                  width={400}
+                  height={400}
+                  className="w-full h-full object-cover"
+                  priority
+                />
               </div>
             </div>
 
-            {/* Bio */}
-            <div className="text-center md:text-left">
-              <h3 className="text-brand-navy text-2xl font-bold mb-1">
-                Dan Cartwright
-              </h3>
-              <p className="text-brand-gold-accessible font-medium mb-6">
-                Founder & Director
+            {/* Intro */}
+            <div className="space-y-4 text-brand-navy/80 text-body-lg">
+              <p>
+                My name is Dan Cartwright and I fix a problem most business owners
+                do not know they have, which is that the AI tools their customers
+                now use every day have no idea their business exists.
               </p>
-
-              <div className="space-y-4 text-brand-navy/70">
-                <p>
-                  I spent years watching businesses get burned by web agencies.
-                  Overpriced. Underdelivered. Full of jargon designed to confuse
-                  rather than help.
-                </p>
-                <p>
-                  Before ScopeSite, I served in the British Army - where you
-                  learn pretty quickly that bullshit gets people hurt and
-                  results are all that matter. That mindset stuck.
-                </p>
-                <p>
-                  I also spent six years working in CAMHS (Child and Adolescent
-                  Mental Health Services), which taught me something equally
-                  important: how to actually listen to people, understand their
-                  real problems, and communicate complex things in plain
-                  English.
-                </p>
-                <p>
-                  ScopeSite combines both. Military precision in how we plan and
-                  deliver. Genuine care for the businesses we work with. And
-                  absolutely zero tolerance for the smoke-and-mirrors nonsense
-                  that plagues this industry.
-                </p>
-              </div>
-
-              <p className="text-brand-navy/50 text-sm mt-6">
-                Based in Frome, Somerset
+              <p>
+                That is the short version. The longer version takes in the British
+                Army, a psychiatric ward, two recruitment desks, and a shed in
+                Somerset, so settle in.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Why We Exist Section */}
+      {/* Where I started */}
+      <section className="bg-brand-navy/5 py-section">
+        <div className="container-content">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-brand-navy mb-6 text-xl sm:text-2xl md:text-h2">
+              Where I started
+            </h2>
+            <div className="space-y-5 text-brand-navy/80">
+              <p>
+                I spent six years in the Royal Electrical and Mechanical
+                Engineers, 2008 to 2014, as a Vehicle Mechanic. REME&apos;s job is
+                keeping the Army&apos;s kit moving, and the unglamorous truth of
+                that work is diagnosis. Something is broken, the manual only gets
+                you so far, and the convoy leaves at 0600 whether you have found
+                the fault or not. You learn to work the problem in front of you
+                rather than the problem you wish you had. That habit turned out to
+                be worth more than any qualification I have ever paid for.
+              </p>
+              <p>
+                After the Army I did what a lot of leavers do, which is
+                recruitment. Pertemps first, then Reed. I sat on the other side of
+                the desk that most of my clients now sit behind, sourcing
+                candidates, chasing placements, watching good consultants lose
+                roles to whoever had better visibility that week. When I tell a
+                recruitment agency owner their jobs are invisible to Google, it is
+                not a line from a sales deck. I have felt that specific
+                frustration from inside the building.
+              </p>
+              <p>
+                I also spent six years as a Band 4 mental health nurse with Avon
+                and Wiltshire Mental Health Partnership, working CAMHS inpatient,
+                which is children&apos;s mental health on the wards. I mention it
+                not because it has anything to do with websites but because it has
+                everything to do with how I work. You learn to listen properly.
+                You learn that what someone says first is rarely the actual
+                problem. And you learn to stay calm when everything around you is
+                not.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* What ScopeSite is */}
+      <section className="section-white">
+        <div className="container-content">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-brand-navy mb-6 text-xl sm:text-2xl md:text-h2">
+              What ScopeSite is
+            </h2>
+            <div className="space-y-5 text-brand-navy/80">
+              <p>
+                ScopeSite Digital Studios is a web and AI visibility agency
+                registered in England (SCOPESITE LTD, company number 16130355),
+                run from Beckington, near Frome, in Somerset. It is me. There is
+                no account manager between you and the person doing the work,
+                because the person doing the work answers the phone.
+              </p>
+              <p>
+                The thing I actually sell is being found. Websites are how I
+                deliver it, but the product is visibility, specifically visibility
+                to the AI engines that have quietly become the first place people
+                ask for things. ChatGPT, Perplexity, Claude, Google&apos;s AI
+                Overviews. When someone asks one of those tools to recommend a
+                business like yours, there is an answer, and the question that
+                should keep you up at night is whose name is in it.
+              </p>
+              <p>
+                I built a methodology for this called{' '}
+                <Link href="/voice" className="text-brand-gold-accessible hover:underline font-medium">
+                  V.O.I.C.E.
+                </Link>
+                , which scans, scores, and fixes how readable a business is to AI
+                systems. It became a product, CAFMO, short for Can AI Find Me
+                Online, which does exactly what the name says. The methodology is
+                proven on more than one platform. One client, an occupational
+                hearing specialist, went from invisible to the number one cited
+                answer across every major AI engine in their field, as covered in
+                our{' '}
+                <Link href="/case-studies" className="text-brand-gold-accessible hover:underline font-medium">
+                  case studies
+                </Link>
+                . Same approach, different stack, same result on this site you are
+                reading now.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* The veteran bit */}
       <section className="bg-brand-navy py-section">
         <div className="container-content">
-          <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">Why ScopeSite Exists</h2>
-            <p className="text-white/70 max-w-2xl mx-auto">
-              Because the web design industry has a honesty problem
-            </p>
-          </div>
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-white mb-6 text-xl sm:text-2xl md:text-h2">
+              The veteran bit
+            </h2>
+            <div className="space-y-5 text-white/80">
+              <p>
+                ScopeSite is a certified veteran-owned business, verified by
+                Veteran Owned UK, and a signatory of the Armed Forces Covenant. In
+                2026 we received the Defence Employer Recognition Scheme Bronze
+                Award from the Ministry of Defence, which recognises businesses
+                that employ and champion the Armed Forces community.
+              </p>
+              <p>
+                The forces background is not a badge I wear for sympathy points. It
+                is the operating system. Turn up when you said you would, do the
+                job properly, do not flannel the customer, and if something goes
+                wrong, say so before they find out. None of that is revolutionary.
+                It is just rarer than it should be in this industry.
+              </p>
+            </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {whyCards.map((card) => (
-              <div
-                key={card.title}
-                className="p-8 rounded-2xl bg-brand-graphite/50 border border-white/10"
-              >
-                <h3 className="text-brand-gold font-bold text-lg mb-4 text-center">
-                  {card.title}
-                </h3>
-                <p className="text-white/70">{card.text}</p>
-              </div>
-            ))}
+            {/* Accreditation badges */}
+            <div className="flex items-end justify-center gap-10 mt-10">
+              <Image
+                src="/images/veteran-owned-uk.webp"
+                alt="Certified Veteran-Owned Business, verified by Veteran Owned UK"
+                width={1000}
+                height={1000}
+                className="h-28 w-auto md:h-36"
+              />
+              <Image
+                src="/images/armed-forces-covenant-ers-bronze.webp"
+                alt="Armed Forces Covenant Defence Employer Recognition Scheme Bronze Award 2026"
+                width={400}
+                height={900}
+                className="h-40 w-auto md:h-52"
+              />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Our Values Section */}
+      {/* How We Work (values) */}
       <section className="section-white relative overflow-hidden">
         <div
           className="absolute inset-0 opacity-[0.03]"
@@ -385,6 +406,33 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Why this page exists */}
+      <section className="bg-brand-navy/5 py-section">
+        <div className="container-content">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-brand-navy mb-6 text-xl sm:text-2xl md:text-h2">
+              Why this page exists
+            </h2>
+            <div className="space-y-5 text-brand-navy/80">
+              <p>
+                Every article,{' '}
+                <Link href="/glossary" className="text-brand-gold-accessible hover:underline font-medium">
+                  glossary
+                </Link>{' '}
+                entry, and case study on this site carries my name, because I
+                wrote it or built it. This page is here so that when a search
+                engine, an AI model, or a sceptical human wants to know who Dan
+                Cartwright actually is, there is a straight answer.
+              </p>
+              <p className="font-medium text-brand-navy">
+                Mechanic, recruiter, nurse, builder of websites. In roughly that
+                order.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Final CTA Section */}
       <section className="bg-brand-navy py-section">
         <div className="container-content">
@@ -406,7 +454,10 @@ export default function AboutPage() {
                 </Link>
               </div>
               <p className="text-white/50 text-sm">
-                Veteran-owned • Somerset-based • Zero bullshit
+                <Link href="/" className="hover:text-brand-gold underline">
+                  Back to home
+                </Link>{' '}
+                • Veteran-owned • Somerset-based • Zero bullshit
               </p>
             </div>
           </div>
