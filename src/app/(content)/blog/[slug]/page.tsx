@@ -21,6 +21,7 @@ import {
   generateBlogHowToSchema,
   generateSpeakableSchema,
   generateItemListSchema,
+  generateFounderPersonSchema,
 } from '@/lib/schema';
 import { TableOfContents } from '@/components/blog/TableOfContents';
 import { extractHeadingsFromHtml } from '@/lib/blog/extract-headings';
@@ -170,7 +171,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       '.prose-scopesite .faq-answer',
     ]);
 
-    schemas = [webPageSchema, breadcrumbSchema, blogPostingSchema];
+    // Person node must render on the same route as BlogPosting author @id reference.
+    const personSchema = generateFounderPersonSchema();
+    schemas = [webPageSchema, breadcrumbSchema, personSchema, blogPostingSchema];
 
     const faqSchema = generateBlogFAQSchema(post);
     if (faqSchema) schemas.push(faqSchema);
