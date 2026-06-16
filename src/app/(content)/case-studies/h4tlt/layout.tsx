@@ -192,7 +192,7 @@ export default function CaseStudyLayout({
             name: 'How much does AI visibility optimisation cost?',
             acceptedAnswer: {
               '@type': 'Answer',
-              text: 'The H4TLT engagement combined a full website rebuild, custom Compliance Checker app, and ongoing AI visibility programme. Typical engagements in professional services sectors range from £3,000 setup with retainers from £500/month for single-site businesses, scaling to £20,000+ for multi-product or multi-location operations. The exact figure depends on your sector, current schema position, and the AI visibility gap. A free V.O.I.C.E. scan at voice.scopesite.co.uk gives you a starting picture, and a 30-minute discovery call gives you a realistic figure for your business.'
+              text: 'The H4TLT engagement combined a full website rebuild, custom Compliance Checker app, and ongoing AI visibility programme. Typical engagements in professional services sectors range from £3,000 setup with retainers from £500/month for single-site businesses, scaling to £20,000+ for multi-product or multi-location operations. The exact figure depends on your sector, current schema position, and the AI visibility gap. A free V.O.I.C.E. scan at canaifindme.online gives you a starting picture, and a 30-minute discovery call gives you a realistic figure for your business.'
             }
           },
           {

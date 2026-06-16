@@ -17,7 +17,7 @@ import { HomeBelowFoldWrapper } from './HomeBelowFoldWrapper';
 import { PRICING_CONFIG } from '@/lib/pricing-config';
 
 const BASE_URL = 'https://scopesite.co.uk';
-const VOICE_SCAN_URL = 'https://voice.scopesite.co.uk';
+const VOICE_SCAN_URL = 'https://canaifindme.online';
 const WIX_FROM = PRICING_CONFIG.baseWebsite.starter;
 const ULTRA_FROM = PRICING_CONFIG.ssrWebsite.base;
 
@@ -114,7 +114,7 @@ const homeFaqs: FAQItem[] = [
   {
     question: 'What is the free AI visibility scan?',
     answer:
-      'It is our quick check that scores how well AI systems can read and trust your site. The free scan at voice.scopesite.co.uk shows where you stand today across the categories we track.',
+      'It is our quick check that scores how well AI systems can read and trust your site. The free scan at canaifindme.online shows where you stand today across the categories we track.',
   },
   {
     question: 'How much does a website cost?',

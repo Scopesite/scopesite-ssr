@@ -71,7 +71,7 @@ interface HomeBelowFoldStaticProps {
   reviews: Review[];
 }
 
-const VOICE_SCAN_URL = 'https://voice.scopesite.co.uk';
+const VOICE_SCAN_URL = 'https://canaifindme.online';
 
 export function HomeBelowFoldStatic({ reviews }: HomeBelowFoldStaticProps) {
   return (

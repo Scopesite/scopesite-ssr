@@ -719,7 +719,7 @@ export function generateVOICESoftwareApplicationSchema() {
     name: 'AI visibility scanner',
     description:
       'AI visibility scoring that reviews schema health, page structure, speed, AI crawler access, accessibility, authority, and entity signals using a clear deductive model.',
-    url: 'https://voice.scopesite.co.uk',
+    url: 'https://canaifindme.online',
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
     creator: { '@id': `${BASE_URL}/#organization` },
@@ -740,7 +740,7 @@ export function generateVOICESoftwareApplicationSchema() {
       name: 'Scan Website AI Visibility',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: 'https://voice.scopesite.co.uk',
+        urlTemplate: 'https://canaifindme.online',
         actionPlatform: 'https://schema.org/DesktopWebPlatform',
       },
     },

@@ -7,7 +7,7 @@ import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { FadeInOnScroll, StaggerContainer, StaggerItem } from '@/components/animations';
 import { GoogleIcon } from '@/components/icons';
 
-const VOICE_SCAN_URL = 'https://voice.scopesite.co.uk';
+const VOICE_SCAN_URL = 'https://canaifindme.online';
 
 const services = [
   {

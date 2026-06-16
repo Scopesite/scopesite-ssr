@@ -255,7 +255,7 @@ export function Footer() {
               ))}
               <li>
                 <a
-                  href="https://voice.scopesite.co.uk/"
+                  href="https://canaifindme.online"
                   className="text-white/70 text-body-sm hover:text-brand-gold transition-colors"
                   target="_blank"
                   rel="noopener noreferrer"

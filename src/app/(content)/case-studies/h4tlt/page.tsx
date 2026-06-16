@@ -144,7 +144,7 @@ export default function H4TLTCaseStudyPage() {
             </FadeInOnScroll>
             <FadeInOnScroll delay={0.45}>
               <div className="flex flex-col items-center gap-4">
-                <Link href="https://voice.scopesite.co.uk" className="btn-primary text-lg px-10 py-5 rounded-lg">
+                <Link href="https://canaifindme.online" className="btn-primary text-lg px-10 py-5 rounded-lg">
                   Check your own site for free →
                 </Link>
                 <Link href="https://scopesite.co.uk/evidence" className="text-white text-sm hover:text-brand-gold transition-colors underline underline-offset-4">
@@ -267,7 +267,7 @@ export default function H4TLTCaseStudyPage() {
         <div className="container-content text-center">
           <FadeInOnScroll>
             <p className="text-white text-2xl font-medium mb-8">Worried your own site has the same problem?</p>
-            <Link href="https://voice.scopesite.co.uk" className="btn-primary text-lg px-8 py-4 rounded-lg animate-pulse-cta inline-block mb-4">
+            <Link href="https://canaifindme.online" className="btn-primary text-lg px-8 py-4 rounded-lg animate-pulse-cta inline-block mb-4">
               Run a free AI visibility scan →
             </Link>
             <p className="text-slate-400 text-sm">Takes 60 seconds. No email required.</p>
@@ -325,7 +325,7 @@ export default function H4TLTCaseStudyPage() {
         <div className="container-content text-center">
           <FadeInOnScroll>
             <p className="text-white text-2xl font-medium mb-8">Want to see which AI visibility pillars your site is missing?</p>
-            <Link href="https://voice.scopesite.co.uk" className="btn-primary text-lg px-8 py-4 rounded-lg inline-block">
+            <Link href="https://canaifindme.online" className="btn-primary text-lg px-8 py-4 rounded-lg inline-block">
               Check your site for free →
             </Link>
           </FadeInOnScroll>
@@ -639,7 +639,7 @@ export default function H4TLTCaseStudyPage() {
             <p className="text-white text-2xl font-medium mb-8 max-w-3xl mx-auto leading-relaxed">
               This was built for a single-operator audiology business. The methodology works for any professional services firm.
             </p>
-            <Link href="https://voice.scopesite.co.uk" className="btn-primary text-lg px-8 py-4 rounded-lg inline-block">
+            <Link href="https://canaifindme.online" className="btn-primary text-lg px-8 py-4 rounded-lg inline-block">
               Run a free scan on your own site →
             </Link>
           </FadeInOnScroll>
@@ -772,7 +772,7 @@ export default function H4TLTCaseStudyPage() {
                   Book a 30-minute discovery call →
                 </Link>
                 <Link
-                  href="https://voice.scopesite.co.uk"
+                  href="https://canaifindme.online"
                   className="btn-secondary-light text-lg px-8 py-4 rounded-lg inline-block w-full sm:w-auto"
                 >
                   Run a free V.O.I.C.E. scan →
@@ -788,7 +788,7 @@ export default function H4TLTCaseStudyPage() {
         <div className="container-content text-center">
           <FadeInOnScroll>
             <p className="text-white text-2xl font-medium mb-8">Curious what your AI visibility score would be?</p>
-            <Link href="https://voice.scopesite.co.uk" className="btn-primary text-lg px-8 py-4 rounded-lg inline-block">
+            <Link href="https://canaifindme.online" className="btn-primary text-lg px-8 py-4 rounded-lg inline-block">
               Free scan, 60 seconds →
             </Link>
           </FadeInOnScroll>
@@ -883,7 +883,7 @@ export default function H4TLTCaseStudyPage() {
                 <StaggerItem>
                   <div>
                     <h3 className="text-brand-navy text-xl font-bold mb-3">How much does AI visibility optimisation cost?</h3>
-                    <p className="text-slate-600 leading-relaxed mb-5">The H4TLT engagement combined a full website rebuild, custom Compliance Checker app, and ongoing AI visibility programme. Typical engagements in professional services sectors range from £3,000 setup with retainers from £500/month for single-site businesses, scaling to £20,000+ for multi-product or multi-location operations. The exact figure depends on your sector, current schema position, and the AI visibility gap. A free V.O.I.C.E. scan at voice.scopesite.co.uk gives you a starting picture, and a 30-minute discovery call gives you a realistic figure for your business.</p>
+                    <p className="text-slate-600 leading-relaxed mb-5">The H4TLT engagement combined a full website rebuild, custom Compliance Checker app, and ongoing AI visibility programme. Typical engagements in professional services sectors range from £3,000 setup with retainers from £500/month for single-site businesses, scaling to £20,000+ for multi-product or multi-location operations. The exact figure depends on your sector, current schema position, and the AI visibility gap. A free V.O.I.C.E. scan at canaifindme.online gives you a starting picture, and a 30-minute discovery call gives you a realistic figure for your business.</p>
                     <div className="flex flex-col sm:flex-row gap-3">
                       <Link
                         href="/book"
@@ -892,7 +892,7 @@ export default function H4TLTCaseStudyPage() {
                         Book a 30-minute discovery call →
                       </Link>
                       <Link
-                        href="https://voice.scopesite.co.uk"
+                        href="https://canaifindme.online"
                         className="btn-secondary px-6 py-3 rounded-lg inline-block text-center"
                       >
                         Run a free V.O.I.C.E. scan →
@@ -930,7 +930,7 @@ export default function H4TLTCaseStudyPage() {
 
             <FadeInOnScroll delay={0.3}>
               <div className="flex flex-col items-center gap-6">
-                <Link href="https://voice.scopesite.co.uk" className="btn-primary text-xl px-12 py-6 rounded-lg shadow-2xl hover:scale-105 transition-transform duration-300">
+                <Link href="https://canaifindme.online" className="btn-primary text-xl px-12 py-6 rounded-lg shadow-2xl hover:scale-105 transition-transform duration-300">
                   Check your site for free →
                 </Link>
                 <Link href="https://scopesite.co.uk/evidence" className="text-white/80 hover:text-white transition-colors underline underline-offset-4">
