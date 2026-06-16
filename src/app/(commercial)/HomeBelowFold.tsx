@@ -6,8 +6,7 @@ import { motion, Variants } from 'motion/react';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { FadeInOnScroll, StaggerContainer, StaggerItem } from '@/components/animations';
 import { GoogleIcon } from '@/components/icons';
-
-const VOICE_SCAN_URL = 'https://voice.scopesite.co.uk';
+import { VOICE_SCANNER_URL } from '@/lib/voice-urls';
 
 const services = [
   {
@@ -329,7 +328,7 @@ export function HomeBelowFold({ reviews }: HomeBelowFoldProps) {
           </FadeInOnScroll>
           <FadeInOnScroll delay={0.2}>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <a href={VOICE_SCAN_URL} className="btn-primary" target="_blank" rel="noopener noreferrer">
+              <a href={VOICE_SCANNER_URL} className="btn-primary" target="_blank" rel="noopener noreferrer">
                 Get your free AI visibility scan
               </a>
               <Link href="/book" className="btn-secondary-light">

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Phone, Mail, MapPin } from 'lucide-react';
 import { FooterSearch } from './FooterSearch';
+import { VOICE_PRODUCT_PATH } from '@/lib/voice-urls';
 
 const FOOTER_LINKS = {
   services: [
@@ -254,14 +255,12 @@ export function Footer() {
                 </li>
               ))}
               <li>
-                <a
-                  href="https://voice.scopesite.co.uk/"
+                <Link
+                  href={VOICE_PRODUCT_PATH}
                   className="text-white/70 text-body-sm hover:text-brand-gold transition-colors"
-                  target="_blank"
-                  rel="noopener noreferrer"
                 >
                   Run a free AI visibility scan
-                </a>
+                </Link>
               </li>
             </ul>
           </nav>

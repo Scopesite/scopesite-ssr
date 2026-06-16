@@ -9,6 +9,8 @@ import { GhostPost } from './ghost';
 import { ADDON_CATALOG, PRICING_CONFIG, VOICE_SPEC } from './pricing-config';
 import type { GlossaryTerm } from './glossary-db';
 
+import { VOICE_SCANNER_URL } from '@/lib/voice-urls';
+
 const BASE_URL = 'https://scopesite.co.uk';
 
 // ============================================
@@ -719,7 +721,7 @@ export function generateVOICESoftwareApplicationSchema() {
     name: 'AI visibility scanner',
     description:
       'AI visibility scoring that reviews schema health, page structure, speed, AI crawler access, accessibility, authority, and entity signals using a clear deductive model.',
-    url: 'https://voice.scopesite.co.uk',
+    url: VOICE_SCANNER_URL,
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
     creator: { '@id': `${BASE_URL}/#organization` },
@@ -740,7 +742,7 @@ export function generateVOICESoftwareApplicationSchema() {
       name: 'Scan Website AI Visibility',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: 'https://voice.scopesite.co.uk',
+        urlTemplate: VOICE_SCANNER_URL,
         actionPlatform: 'https://schema.org/DesktopWebPlatform',
       },
     },
