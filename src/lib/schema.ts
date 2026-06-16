@@ -1541,7 +1541,17 @@ export function extractTopicsFromContent(
 // BLOG POSTING SCHEMA (Enhanced for GEO)
 // ============================================
 
-export function generateBlogPostingSchema(post: GhostPost, url: string, citations?: Array<{ name: string; url: string }>) {
+export interface BlogPostingSeoFields {
+  headline?: string;
+  description?: string;
+}
+
+export function generateBlogPostingSchema(
+  post: GhostPost,
+  url: string,
+  citations?: Array<{ name: string; url: string }>,
+  seoFields?: BlogPostingSeoFields
+) {
   // Extract keywords from tags
   const keywords = post.tags?.map(t => t.name) || [];
   
@@ -1558,11 +1568,16 @@ export function generateBlogPostingSchema(post: GhostPost, url: string, citation
   if (tagSlugs.has('tech-article')) types.push('TechArticle');
   if (tagSlugs.has('learning-resource')) types.push('LearningResource');
 
+  const headline = seoFields?.headline?.trim() || post.meta_title?.trim() || post.title;
+  const description =
+    seoFields?.description?.trim() || post.meta_description?.trim() || post.excerpt || post.custom_excerpt;
+
   const schema: Record<string, unknown> = {
     '@type': types.length === 1 ? types[0] : types,
     '@id': `${url}/#article`,
-    headline: post.title,
-    description: post.excerpt || post.custom_excerpt,
+    headline,
+    name: headline,
+    description,
     url,
     datePublished: post.published_at,
     dateModified: post.updated_at,

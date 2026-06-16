@@ -4,6 +4,7 @@ import {
   generateLocalServiceSchema,
   generateLocalBusinessSchema,
   generateBreadcrumbSchema,
+  generateFAQSchema,
   generateSpeakableSchema,
   wrapInGraph,
   type FAQItem,
@@ -15,12 +16,14 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/seo-somerset`;
 
 export const metadata: Metadata = {
-  title: 'SEO Somerset | AI-Powered Search Optimisation | ScopeSite',
-  description: 'Somerset SEO services built for AI search visibility. AI visibility methodology gets your business found by ChatGPT, Perplexity, and Google. Free audit available.',
+  title: 'SEO Somerset | Technical SEO & AI Visibility Agency',
+  description:
+    'Technical SEO, schema and AI visibility optimisation for Somerset businesses that want stronger Google rankings and to be found by AI search.',
   keywords: ['seo somerset', 'somerset seo', 'search engine optimisation somerset', 'seo services somerset', 'ai seo somerset', 'local seo somerset'],
   openGraph: {
-    title: 'SEO Somerset | AI-Powered Search Optimisation',
-    description: 'Somerset SEO services built for AI search visibility. AI visibility methodology gets your business found by ChatGPT, Perplexity, and Google. Free audit available.',
+    title: 'SEO Somerset | Technical SEO & AI Visibility Agency',
+    description:
+      'Technical SEO, schema and AI visibility optimisation for Somerset businesses that want stronger Google rankings and to be found by AI search.',
     url: PAGE_URL,
     siteName: 'ScopeSite Digital Studios',
     images: [
@@ -36,8 +39,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'SEO Somerset | AI-Powered Search Optimisation',
-    description: 'Somerset SEO services built for AI search visibility. AI visibility methodology gets your business found by ChatGPT, Perplexity, and Google.',
+    title: 'SEO Somerset | Technical SEO & AI Visibility Agency',
+    description:
+      'Technical SEO, schema and AI visibility optimisation for Somerset businesses that want stronger Google rankings and to be found by AI search.',
     images: [`${BASE_URL}/images/og/og-seo-somerset.png`],
   },
   alternates: {
@@ -60,21 +64,23 @@ const faqs: FAQItem[] = [
 
 const areasServed: AreaServedItem[] = [
   { type: 'AdministrativeArea', name: 'Somerset' },
-  { type: 'City', name: 'Frome' },
-  { type: 'City', name: 'Taunton' },
-  { type: 'City', name: 'Yeovil' },
-  { type: 'City', name: 'Bridgwater' },
-  { type: 'City', name: 'Glastonbury' },
-  { type: 'City', name: 'Wells' },
-  { type: 'City', name: 'Shepton Mallet' },
+  { type: 'City', name: 'Bath' },
+  { type: 'City', name: 'Bristol' },
+  { type: 'AdministrativeArea', name: 'Wiltshire' },
+  { type: 'AdministrativeArea', name: 'South West England' },
+  { type: 'Country', name: 'United Kingdom' },
 ];
+
+const PAGE_TITLE = 'SEO Somerset | Technical SEO & AI Visibility Agency';
+const PAGE_DESCRIPTION =
+  'Technical SEO, schema and AI visibility optimisation for Somerset businesses that want stronger Google rankings and to be found by AI search.';
 
 const pageSchema = wrapInGraph([
   {
     ...generateWebPageFAQPageSchema(
       PAGE_URL,
-      'SEO Somerset | AI-Powered Search Optimisation',
-      'Somerset SEO services built for AI search visibility. AI visibility methodology gets your business found by ChatGPT, Perplexity, and Google.',
+      PAGE_TITLE,
+      PAGE_DESCRIPTION,
       faqs,
       `${PAGE_URL}/#service`
     ),
@@ -83,16 +89,17 @@ const pageSchema = wrapInGraph([
   generateLocalServiceSchema(
     'SEO Somerset',
     ['Somerset SEO', 'Search Engine Optimisation Somerset', 'SEO Services Somerset'],
-    'Professional SEO services for Somerset businesses with AI optimisation and local search visibility.',
+    PAGE_DESCRIPTION,
     PAGE_URL,
     areasServed,
     [
       { name: 'SEO Audit', price: '500' },
       { name: 'Monthly SEO Retainer', price: '300' },
     ],
-    'SEO'
+    'Technical SEO and AI visibility optimisation'
   ),
   generateLocalBusinessSchema('Somerset', areasServed, PAGE_URL),
+  generateFAQSchema(faqs, { id: `${PAGE_URL}/#faq`, inLanguage: 'en-GB' }),
   generateBreadcrumbSchema([
     { name: 'Home', url: BASE_URL },
     { name: 'SEO Somerset', url: PAGE_URL },

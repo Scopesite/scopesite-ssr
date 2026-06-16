@@ -20,12 +20,15 @@ import {
   generateBlogFAQSchema,
   generateBlogHowToSchema,
   generateSpeakableSchema,
+  generateItemListSchema,
 } from '@/lib/schema';
 import { TableOfContents } from '@/components/blog/TableOfContents';
 import { extractHeadingsFromHtml } from '@/lib/blog/extract-headings';
 import { injectHeadingIds } from '@/lib/blog/inject-heading-ids';
 import { enhanceFaqHtml } from '@/lib/blog/enhance-faq-html';
 import { demoteBodyHeadings } from '@/lib/blog/demote-body-headings';
+import { getBlogSeoOverride, resolveBlogSeoFields } from '@/lib/blog/pitch-cluster-seo';
+import { injectPitchClusterLinks } from '@/lib/blog/inject-pitch-cluster-links';
 
 const BASE_URL = 'https://scopesite.co.uk';
 
@@ -70,26 +73,20 @@ export async function generateMetadata({
   }
 
   const pageUrl = `${BASE_URL}/blog/${slug}`;
-
-  const description = post.meta_description || post.excerpt || post.custom_excerpt || `Read ${post.title} on the ScopeSite blog.`;
+  const { seoTitle, description } = resolveBlogSeoFields(slug, post);
   const ogImage = post.og_image || post.feature_image;
   const twitterImage = post.twitter_image || post.feature_image;
 
   // Blog posts opt out of the root layout's `%s | ScopeSite` title template.
-  // Editorial control of the SEO title lives in Ghost (post.meta_title); fall
-  // back to the visible post title when no meta_title is set. We never append
-  // brand text automatically — if the brand should appear, it must be written
-  // into Ghost.
-  const ghostMetaTitle = post.meta_title?.trim();
-  const seoTitle = ghostMetaTitle || post.title;
-
+  // Editorial control of the SEO title lives in Ghost (post.meta_title) unless a
+  // pitch-cluster override is set in code. We never append brand text automatically.
   return {
     title: {
       absolute: seoTitle,
     },
     description,
     openGraph: {
-      title: post.og_title || ghostMetaTitle || post.title,
+      title: post.og_title || seoTitle,
       description: post.og_description || description,
       type: 'article',
       url: pageUrl,
@@ -107,7 +104,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: 'summary_large_image',
-      title: post.twitter_title || ghostMetaTitle || post.title,
+      title: post.twitter_title || seoTitle,
       description: post.twitter_description || description,
       images: twitterImage ? [twitterImage] : undefined,
     },
@@ -153,16 +150,18 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       { name: post.title, url: pageUrl },
     ]);
 
-    const description =
-      post.meta_description || post.excerpt || post.custom_excerpt || `Read ${post.title} on the ScopeSite blog.`;
+    const { seoTitle: schemaTitle, description } = resolveBlogSeoFields(slug, post);
+    const seoOverride = getBlogSeoOverride(slug);
 
-    const schemaTitle = post.meta_title?.trim() || post.title;
     const webPageSchema = {
       ...generateWebPageSchema(schemaTitle, description, pageUrl),
       mainEntity: { '@id': `${pageUrl}/#article` },
     };
 
-    const blogPostingSchema = generateBlogPostingSchema(post, pageUrl);
+    const blogPostingSchema = generateBlogPostingSchema(post, pageUrl, undefined, {
+      headline: schemaTitle,
+      description,
+    });
     blogPostingSchema.speakable = generateSpeakableSchema([
       'h1',
       '.key-takeaway',
@@ -178,11 +177,25 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
     const howToSchema = generateBlogHowToSchema(post, pageUrl);
     if (howToSchema) schemas.push(howToSchema);
+
+    if (seoOverride?.itemList) {
+      schemas.push(
+        generateItemListSchema(
+          `${pageUrl}/#tool-list`,
+          seoOverride.itemList.name,
+          seoOverride.itemList.items.map((item) => ({
+            '@type': 'SoftwareApplication',
+            name: item.name,
+            ...(item.description ? { description: item.description } : {}),
+          }))
+        )
+      );
+    }
   } catch (e) {
     console.error('[BlogPost] Schema generation failed for', slug, e);
   }
 
-  const rawPostHtml = post.html || '';
+  const rawPostHtml = injectPitchClusterLinks(slug, post.html || '');
   const demotedPostHtml = demoteBodyHeadings(rawPostHtml);
   const blogHeadings = extractHeadingsFromHtml(demotedPostHtml);
   const showTableOfContents = blogHeadings.filter((heading) => heading.level === 2).length >= 3;

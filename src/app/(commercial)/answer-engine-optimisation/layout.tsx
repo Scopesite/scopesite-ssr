@@ -10,13 +10,17 @@ import { JsonLd } from '@/components/JsonLd';
 const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/answer-engine-optimisation`;
 
+const PAGE_TITLE = 'AEO Agency UK | Answer Engine Optimisation Services';
+const PAGE_DESCRIPTION =
+  'Answer engine optimisation services to get your business cited by ChatGPT, Claude, Gemini and Perplexity. UK AEO agency with structured data, SSR, and entity-led content.';
+
 export const metadata: Metadata = {
-  title: 'Answer Engine Optimisation (AEO) Agency UK | ScopeSite',
-  description: 'AEO agency specialising in answer engine optimisation. Get your business cited by ChatGPT, Claude, Gemini and Perplexity as the answer.',
-  keywords: ['answer engine optimisation', 'aeo agency', 'aeo seo agency', 'what is answer engine optimisation'],
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
+  keywords: ['answer engine optimisation', 'aeo agency', 'aeo agency uk', 'answer engine optimisation services', 'what is answer engine optimisation'],
   openGraph: {
-    title: 'Answer Engine Optimisation (AEO) Agency UK | ScopeSite',
-    description: 'AEO agency specialising in answer engine optimisation. Get your business cited by ChatGPT, Claude, Gemini and Perplexity as the answer.',
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
     url: PAGE_URL,
     images: [
       {
@@ -30,8 +34,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Answer Engine Optimisation (AEO) Agency UK | ScopeSite',
-    description: 'AEO agency specialising in answer engine optimisation. Get your business cited by ChatGPT, Claude, Gemini and Perplexity as the answer.',
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
     images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
   },
   alternates: {
@@ -84,8 +88,8 @@ const faqs: FAQItem[] = [
 const pageSchema = generateLandingPageSchema(
   PAGE_URL,
   'Answer Engine Optimisation',
-  'Answer Engine Optimisation (AEO) Agency UK | ScopeSite',
-  'AEO agency specialising in answer engine optimisation. Get your business cited by ChatGPT, Claude, Gemini and Perplexity as the answer.',
+  PAGE_TITLE,
+  PAGE_DESCRIPTION,
   faqs,
   {
     name: 'Answer Engine Optimisation',
