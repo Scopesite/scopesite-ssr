@@ -165,6 +165,26 @@ export function Footer() {
                 Frome Web Design
               </a>
             </p>
+
+            {/* Verification badges */}
+            <div className="mt-6 flex flex-col gap-4">
+              <Image
+                src="/badges/British-Veteran-Owned-Logo-White.webp"
+                alt="British Veteran Owned verified member"
+                width={1920}
+                height={1146}
+                className="w-[200px] h-auto"
+                loading="lazy"
+              />
+              <Image
+                src="/badges/AFC_RECOG_BRONZE_POS_RGB.webp"
+                alt="MoD Employer Recognition Scheme Bronze Award holder, Armed Forces Covenant signatory"
+                width={614}
+                height={1181}
+                className="w-[200px] h-auto"
+                loading="lazy"
+              />
+            </div>
           </div>
 
           {/* Services Links */}

@@ -107,6 +107,12 @@ export function generateOrganizationSchema() {
     ],
     founder: generateFounderPersonSchema(),
     foundingDate: '2024-12-01',
+    award: [
+      'MoD Employer Recognition Scheme Bronze Award 2026',
+      'Armed Forces Covenant signatory',
+      'British Veteran Owned: verified member',
+      'Veteran Owned UK: verified member',
+    ],
     priceRange: '££-£££',
     currenciesAccepted: 'GBP',
     paymentAccepted: 'Bank Transfer, Credit Card',
