@@ -15,9 +15,9 @@ import { getAlternates } from '@/lib/hreflang-map';
 import { ChevronDown } from 'lucide-react';
 import { HomeBelowFoldWrapper } from './HomeBelowFoldWrapper';
 import { PRICING_CONFIG } from '@/lib/pricing-config';
+import { VOICE_PRODUCT_PATH, VOICE_SCANNER_URL } from '@/lib/voice-urls';
 
 const BASE_URL = 'https://scopesite.co.uk';
-const VOICE_SCAN_URL = 'https://voice.scopesite.co.uk';
 const WIX_FROM = PRICING_CONFIG.baseWebsite.starter;
 const ULTRA_FROM = PRICING_CONFIG.ssrWebsite.base;
 
@@ -114,7 +114,7 @@ const homeFaqs: FAQItem[] = [
   {
     question: 'What is the free AI visibility scan?',
     answer:
-      'It is our quick check that scores how well AI systems can read and trust your site. The free scan at voice.scopesite.co.uk shows where you stand today across the categories we track.',
+      'It is our quick check that scores how well AI systems can read and trust your site. The free scan at scopesite.co.uk/voice shows where you stand today across the categories we track.',
   },
   {
     question: 'How much does a website cost?',
@@ -251,7 +251,7 @@ export default function Home() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <a href={VOICE_SCAN_URL} className="btn-primary text-center" target="_blank" rel="noopener noreferrer">
+                <a href={VOICE_SCANNER_URL} className="btn-primary text-center" target="_blank" rel="noopener noreferrer">
                   Get a free AI visibility scan
                 </a>
                 <a href="#how-it-works" className="btn-secondary text-center">
@@ -259,14 +259,12 @@ export default function Home() {
                 </a>
               </div>
               <p className="mt-6 text-sm text-white/70 max-w-md lg:max-w-xl mx-auto md:mx-0">
-                <a
-                  href={VOICE_SCAN_URL}
+                <Link
+                  href={VOICE_PRODUCT_PATH}
                   className="text-brand-gold underline underline-offset-2 hover:text-white"
-                  target="_blank"
-                  rel="noopener noreferrer"
                 >
                   Run a free AI visibility scan
-                </a>
+                </Link>
               </p>
             </div>
           </div>
@@ -362,7 +360,7 @@ export default function Home() {
             </p>
           </div>
           <div className="mt-10 text-center">
-            <a href={VOICE_SCAN_URL} className="btn-primary inline-block" target="_blank" rel="noopener noreferrer">
+            <a href={VOICE_SCANNER_URL} className="btn-primary inline-block" target="_blank" rel="noopener noreferrer">
               Run the free scan
             </a>
           </div>
@@ -390,7 +388,7 @@ export default function Home() {
             help fixing them.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href={VOICE_SCAN_URL} className="btn-primary text-center" target="_blank" rel="noopener noreferrer">
+            <a href={VOICE_SCANNER_URL} className="btn-primary text-center" target="_blank" rel="noopener noreferrer">
               Scan your site free
             </a>
             <Link href="/voice" className="btn-secondary text-center">

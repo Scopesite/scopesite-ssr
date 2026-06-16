@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Globe, Sparkles, Code, ArrowRight, Star, FileCode, Brain, Briefcase } from 'lucide-react';
 import { GoogleIcon } from '@/components/icons';
+import { VOICE_SCANNER_URL } from '@/lib/voice-urls';
 
 const services = [
   {
@@ -70,8 +71,6 @@ interface Review {
 interface HomeBelowFoldStaticProps {
   reviews: Review[];
 }
-
-const VOICE_SCAN_URL = 'https://voice.scopesite.co.uk';
 
 export function HomeBelowFoldStatic({ reviews }: HomeBelowFoldStaticProps) {
   return (
@@ -250,7 +249,7 @@ export function HomeBelowFoldStatic({ reviews }: HomeBelowFoldStaticProps) {
             whether we are a fit.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <a href={VOICE_SCAN_URL} className="btn-primary" target="_blank" rel="noopener noreferrer">
+            <a href={VOICE_SCANNER_URL} className="btn-primary" target="_blank" rel="noopener noreferrer">
               Get your free AI visibility scan
             </a>
             <Link href="/book" className="btn-secondary-light">
