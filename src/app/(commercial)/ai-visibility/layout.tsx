@@ -5,15 +5,17 @@ import { JsonLd } from '@/components/JsonLd';
 const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/ai-visibility`;
 
+const PAGE_TITLE = 'AI Visibility Agency UK | Get Cited by ChatGPT and Google AI';
+const PAGE_DESCRIPTION =
+  'AI visibility agency for UK businesses that want ChatGPT, Claude, Gemini and Perplexity to recommend them. Free scan, audits, structured data, and retainers from £750 setup and £500 per month.';
+
 export const metadata: Metadata = {
-  title: 'AI Visibility Agency UK | ScopeSite',
-  description:
-    'AI visibility agency for ChatGPT, Claude, Gemini, and Perplexity. Free scan, audits, Ultra Fast builds, and retainers from £750 setup and £500 per month.',
-  keywords: ['ai visibility', 'llm visibility', 'llm visibility tool', 'llm visibility tracking'],
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
+  keywords: ['ai visibility agency', 'ai visibility', 'llm visibility', 'llm visibility tool', 'llm visibility tracking'],
   openGraph: {
-    title: 'AI Visibility Agency UK | ScopeSite Digital Studios',
-    description:
-      'AI visibility agency for ChatGPT, Claude, Gemini, and Perplexity. Scanner, audits, Ultra Fast builds, structured data.',
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
     url: PAGE_URL,
     images: [
       {
@@ -27,9 +29,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AI Visibility Agency UK | ScopeSite Digital Studios',
-    description:
-      'AI visibility for ChatGPT, Claude, Gemini, and Perplexity. Scanner, audits, Ultra Fast builds.',
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
     images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
   },
   alternates: {
@@ -90,8 +91,8 @@ const faqs: FAQItem[] = [
 const pageSchema = generateLandingPageSchema(
   PAGE_URL,
   'AI Visibility',
-  'AI Visibility Agency UK | ScopeSite Digital Studios',
-  'AI visibility agency for ChatGPT, Claude, Gemini, and Perplexity. Free scan, audits, Ultra Fast builds, retainers from £750 setup and £500 per month.',
+  PAGE_TITLE,
+  PAGE_DESCRIPTION,
   faqs,
   {
     name: 'AI Visibility',
