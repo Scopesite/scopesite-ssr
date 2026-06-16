@@ -511,9 +511,10 @@ export function generateVOICEDefinedTermSetSchema() {
       },
       {
         '@type': 'DefinedTerm',
-        '@id': `${BASE_URL}/#voice-crawler`,
-        name: 'Crawler',
-        description: 'Ensuring AI crawlers (ChatGPT, Perplexity, Google AI, Claude) can access, read, and index website content.',
+        '@id': `${BASE_URL}/#voice-conversational`,
+        name: 'Conversational',
+        description:
+          'Optimising content and structure for how people interact with AI through conversational queries, voice search, and chat-based discovery.',
         inDefinedTermSet: { '@id': `${BASE_URL}/#voice-methodology` },
       },
       {

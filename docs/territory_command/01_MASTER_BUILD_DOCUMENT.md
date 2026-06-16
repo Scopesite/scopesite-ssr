@@ -295,7 +295,7 @@ This guarantee is written into every Territory Command contract. It is not a mar
 A: A Territory is your postcode paired with your sector. For example, BA11 Solicitors is one Territory. BA11 Accountants is a different Territory. One firm holds each Territory exclusively.
 
 **Q2: What is V.O.I.C.E.?**
-A: V.O.I.C.E. is our methodology for AI visibility engineering. It stands for Visibility, Optimisation, for Intelligent, Crawler, Engines. The V.O.I.C.E. scanner measures how AI platforms like ChatGPT, Perplexity, Claude and Google AI Overviews see your business. Your score runs from 0 to 100.
+A: V.O.I.C.E. is our methodology for AI visibility engineering. It stands for Visibility, Optimisation, for Intelligent, Conversational, Engines. The V.O.I.C.E. scanner measures how AI platforms like ChatGPT, Perplexity, Claude and Google AI Overviews see your business. Your score runs from 0 to 100.
 
 **Q3: What is a Sit-Rep?**
 A: A monthly situation report on your AI visibility. It covers what changed in your score and why, where your competitors moved, what we engineered that month, what crawlers picked up, and what we are targeting next. It is the record of work delivered against your guarantee.
@@ -632,7 +632,7 @@ Place this JSON-LD block in the page head.
           "name": "What is V.O.I.C.E.?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "V.O.I.C.E. is the ScopeSite methodology for AI visibility engineering. It stands for Visibility, Optimisation, for Intelligent, Crawler, Engines. The V.O.I.C.E. scanner measures how AI platforms like ChatGPT, Perplexity, Claude and Google AI Overviews see a business. Scores run from 0 to 100."
+            "text": "V.O.I.C.E. is the ScopeSite methodology for AI visibility engineering. It stands for Visibility, Optimisation, for Intelligent, Conversational, Engines. The V.O.I.C.E. scanner measures how AI platforms like ChatGPT, Perplexity, Claude and Google AI Overviews see a business. Scores run from 0 to 100."
           }
         },
         {

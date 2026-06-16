@@ -135,7 +135,7 @@ const faqs = [
   {
     question: "What is the V.O.I.C.E. methodology?",
     answer:
-      "V.O.I.C.E. stands for Visibility Optimisation for Intelligent Crawler Engines. It is the methodology behind ScopeSite's AI-visibility work: it scans a website, scores how readable it is to AI systems, and fixes the gaps using structured data, E-E-A-T signals and answer engine optimisation. It is the engine that powers the CAFMO product.",
+      "V.O.I.C.E. stands for Visibility Optimisation for Intelligent Conversational Engines. It is the methodology behind ScopeSite's AI-visibility work: it scans a website, scores how readable it is to AI systems, and fixes the gaps using structured data, E-E-A-T signals and answer engine optimisation. It is the engine that powers the CAFMO product.",
   },
   {
     question: "What is CAFMO?",

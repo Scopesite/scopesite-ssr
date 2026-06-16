@@ -86,7 +86,7 @@ export default function CaseStudyLayout({
         '@type': 'Service',
         '@id': 'https://scopesite.co.uk/case-studies/h4tlt/#methodology-service',
         name: 'AI visibility Methodology',
-        alternateName: 'Visibility, Optimisation, for Intelligent, Crawler, Engines',
+        alternateName: 'Visibility, Optimisation, for Intelligent, Conversational, Engines',
         provider: { '@id': 'https://scopesite.co.uk/#organization' },
         description: 'Answer Engine Optimisation methodology for AI visibility',
         url: 'https://scopesite.co.uk/voice',
