@@ -200,7 +200,7 @@ export default function VoicePage() {
               hands-on implementation.
             </p>
             <a
-              href="https://voice.scopesite.co.uk/"
+              href="https://canaifindme.online"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary inline-flex items-center gap-2 text-lg"
@@ -345,7 +345,7 @@ export default function VoicePage() {
               <div className="absolute inset-0 bg-brand-gold/40 rounded-2xl blur-xl animate-pulse" />
               
               <a
-                href="https://voice.scopesite.co.uk/"
+                href="https://canaifindme.online"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="relative inline-flex items-center gap-3 px-10 py-5 rounded-2xl
@@ -399,7 +399,7 @@ export default function VoicePage() {
           
           <div className="text-center">
             <a
-              href="https://voice.scopesite.co.uk/"
+              href="https://canaifindme.online"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary inline-flex items-center gap-2"
@@ -484,7 +484,7 @@ export default function VoicePage() {
             <p className="text-muted mb-8 max-w-xl mx-auto">Get your free visibility score or book a call to discuss your results</p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <a
-              href="https://voice.scopesite.co.uk/"
+              href="https://canaifindme.online"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary"

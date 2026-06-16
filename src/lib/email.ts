@@ -700,7 +700,7 @@ export async function sendQuoteStartedAdminNotification(
           ${normalizedUrl ? `
           <div style="margin-bottom: 24px; padding: 12px 16px; background-color: #FFF9E6; border-left: 4px solid #ECB615; border-radius: 4px;">
             <p style="margin: 0; color: #333; font-size: 14px; line-height: 1.5;">
-              <strong>Action:</strong> Run a Pro Scan on <a href="https://voice.scopesite.co.uk/" style="color: #ECB615;" target="_blank" rel="noopener">voice.scopesite.co.uk</a>
+              <strong>Action:</strong> Run a Pro Scan on <a href="https://canaifindme.online" style="color: #ECB615;" target="_blank" rel="noopener">canaifindme.online</a>
               and email the results to the prospect within 24 hours.
             </p>
           </div>
