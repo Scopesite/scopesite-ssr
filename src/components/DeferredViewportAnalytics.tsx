@@ -17,24 +17,15 @@ const MOBILE_MAX_PX = 768;
 
 export function DeferredAhrefsAnalytics() {
   const key = process.env.NEXT_PUBLIC_AHREFS_ANALYTICS_KEY;
-  const [strategy, setStrategy] = useState<'afterInteractive' | 'lazyOnload' | null>(null);
 
-  useLayoutEffect(() => {
-    queueMicrotask(() => {
-      setStrategy(
-        window.innerWidth < MOBILE_MAX_PX ? 'lazyOnload' : 'afterInteractive',
-      );
-    });
-  }, []);
-
-  if (!key || !strategy) return null;
+  if (!key) return null;
 
   return (
     <Script
       id="ahrefs-analytics"
       src="https://analytics.ahrefs.com/analytics.js"
       data-key={key}
-      strategy={strategy}
+      strategy="lazyOnload"
     />
   );
 }
