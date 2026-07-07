@@ -7,14 +7,6 @@
     {
       "path": "/api/admin/abandoned-digest",
       "schedule": "0 8 * * *"
-    },
-    {
-      "path": "/api/cron/territory/expire-pending",
-      "schedule": "*/15 * * * *"
-    },
-    {
-      "path": "/api/cron/territory/expire-promotions",
-      "schedule": "*/5 * * * *"
     }
   ],
   "redirects": [
