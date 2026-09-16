@@ -31,6 +31,8 @@ export interface GhostAuthor {
 export interface GhostPost {
   id: string;
   uuid: string;
+  visibility?: string;
+  access?: boolean;
   slug: string;
   title: string;
   html?: string;
@@ -219,6 +221,16 @@ const MOCK_POSTS: GhostPost[] = [
   },
 ];
 
+// Recruitment branch articles have one destination, independent of topic tags.
+export const RWD_DESTINATION = 'hash-site-recruitmentwebdesign';
+export function scopeSiteFilter(filter?: string): string {
+  const guard = `tag:-${RWD_DESTINATION}+visibility:public`;
+  return filter ? `${guard}+(${filter})` : guard;
+}
+export function isScopeSitePost(post: GhostPost): boolean {
+  return !!post && post.access !== false && (!post.visibility || post.visibility === 'public') && !post.tags?.some(tag => tag.slug === RWD_DESTINATION);
+}
+
 // Check if Ghost is configured
 const isGhostConfigured = () => {
   return !!(process.env.GHOST_URL && process.env.GHOST_CONTENT_API_KEY);
@@ -309,15 +321,12 @@ export async function getPosts(options: {
     page: page.toString(),
     limit: limit.toString(),
     include: 'tags,authors',
+    filter: scopeSiteFilter(filter),
   };
-
-  if (filter) {
-    params.filter = filter;
-  }
 
   try {
     const response = await fetchWithRetry(getGhostApiUrl('posts', params), {
-      next: { revalidate: 60 }, // Revalidate every 60 seconds
+      cache: 'no-store',
     });
 
     if (!response.ok) {
@@ -325,7 +334,7 @@ export async function getPosts(options: {
     }
 
     const data: GhostPostsResponse = await response.json();
-    data.posts = data.posts.map(cleanPost);
+    data.posts = data.posts.filter(isScopeSitePost).map(cleanPost);
     return data;
   } catch (error) {
     console.error('Ghost API error, falling back to mock data:', error);
@@ -353,6 +362,7 @@ export async function getPosts(options: {
  * Get a single post by slug
  */
 export async function getPostBySlug(slug: string): Promise<GhostPost | null> {
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) || slug.length > 160) return null;
   // Return mock data if Ghost is not configured
   if (!isGhostConfigured()) {
     return MOCK_POSTS.find(post => post.slug === slug) || null;
@@ -360,11 +370,13 @@ export async function getPostBySlug(slug: string): Promise<GhostPost | null> {
 
   const params: Record<string, string> = {
     include: 'tags,authors',
+    filter: scopeSiteFilter(`slug:${slug}`),
+    limit: '1',
   };
 
   try {
-    const response = await fetchWithRetry(getGhostApiUrl(`posts/slug/${slug}`, params), {
-      next: { revalidate: 60 },
+    const response = await fetchWithRetry(getGhostApiUrl('posts', params), {
+      cache: 'no-store',
     });
 
     if (!response.ok) {
@@ -375,7 +387,7 @@ export async function getPostBySlug(slug: string): Promise<GhostPost | null> {
     }
 
     const data = await response.json();
-    const post = data.posts?.[0] || null;
+    const post = data.posts?.find((post: GhostPost) => post.slug === slug && isScopeSitePost(post)) || null;
     return post ? cleanPost(post) : null;
   } catch (error) {
     console.error('Ghost API error for slug, falling back to mock data:', error);
@@ -395,13 +407,13 @@ export async function getFeaturedPosts(limit: number = 3): Promise<GhostPost[]> 
 
   const params: Record<string, string> = {
     limit: limit.toString(),
-    filter: 'featured:true',
+    filter: scopeSiteFilter('featured:true'),
     include: 'tags,authors',
   };
 
   try {
     const response = await fetchWithRetry(getGhostApiUrl('posts', params), {
-      next: { revalidate: 60 },
+      cache: 'no-store',
     });
 
     if (!response.ok) {
@@ -409,7 +421,7 @@ export async function getFeaturedPosts(limit: number = 3): Promise<GhostPost[]> 
     }
 
     const data = await response.json();
-    return (data.posts || []).map(cleanPost);
+    return (data.posts || []).filter(isScopeSitePost).map(cleanPost);
   } catch (error) {
     console.error('Ghost API error for featured posts, falling back to mock data:', error);
     // Fallback to mock data on error
@@ -428,12 +440,14 @@ export async function getAllPostSlugs(): Promise<string[]> {
 
   const params: Record<string, string> = {
     limit: 'all',
-    fields: 'slug',
+    fields: 'slug,visibility',
+    include: 'tags',
+    filter: scopeSiteFilter(),
   };
 
   try {
     const response = await fetchWithRetry(getGhostApiUrl('posts', params), {
-      next: { revalidate: 60 },
+      cache: 'no-store',
     });
 
     if (!response.ok) {
@@ -441,7 +455,7 @@ export async function getAllPostSlugs(): Promise<string[]> {
     }
 
     const data = await response.json();
-    return data.posts?.map((post: { slug: string }) => post.slug) || [];
+    return data.posts?.filter(isScopeSitePost).map((post: GhostPost) => post.slug) || [];
   } catch (error) {
     console.error('Ghost API error for slugs, falling back to mock data:', error);
     // Fallback to mock data on error
