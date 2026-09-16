@@ -15,6 +15,7 @@ const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_PATH = '/recruitment-website-design';
 const PAGE_URL = `${BASE_URL}${PAGE_PATH}`;
 const DEMO_URL = 'https://jobboard-sonar.vercel.app/';
+const SPECIALIST_SITE_URL = 'https://recruitmentwebdesign.com';
 
 /** Service JSON-LD Offer: mirrors visible "from £2,000" and SSR cap £8,000 (canonical pricing). */
 const recruitmentServiceOffer: Record<string, unknown> = {
@@ -155,6 +156,9 @@ export default function RecruitmentWebsiteDesignPage() {
             If you care about recruitment website cost, recruitment web design, and recruitment SEO in one build, this
             is the stack-agnostic layer that sits over Bullhorn, Idibu, or Tracker RMS without starting another{' '}
             <span className="whitespace-nowrap">ATS migration</span> drama.
+          </p>
+          <p className="text-white/75 max-w-2xl mx-auto mb-8 text-sm">
+            Looking for the specialist site? Visit <a href={SPECIALIST_SITE_URL} className="underline font-semibold hover:text-white">recruitmentwebdesign.com</a>.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <a

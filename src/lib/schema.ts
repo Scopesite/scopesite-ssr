@@ -75,27 +75,11 @@ export function generateOrganizationSchema() {
     email: 'support@scopesite.co.uk',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: '4 Horse Close',
       addressLocality: 'Frome',
       addressRegion: 'Somerset',
-      postalCode: 'BA11',
       addressCountry: 'GB',
     },
-    geo: {
-      '@type': 'GeoCoordinates',
-      latitude: '51.2308',
-      longitude: '-2.3201',
-    },
     areaServed: [
-      {
-        '@type': 'GeoCircle',
-        geoMidpoint: {
-          '@type': 'GeoCoordinates',
-          latitude: 51.2672,
-          longitude: -2.2890,
-        },
-        geoRadius: '80000',
-      },
       {
         '@type': 'Country',
         name: 'United Kingdom',
@@ -144,7 +128,6 @@ export function generateOrganizationSchema() {
       'https://find-and-update.company-information.service.gov.uk/company/16130355',
       // TEMP REMOVED 2026-04-18: Wikidata entity Q138866631 deleted 6 April 2026 (spam/advertising). Awaiting admin review. Restore if entity is reinstated.
       // 'https://www.wikidata.org/wiki/Q138866631',
-      'https://www.google.com/maps/place/ScopeSite+Digital+Studios/@51.2672214,-2.2915633,17z',
       'https://github.com/Scopesite/scopesite-ssr',
       'https://github.com/Scopesite/voice',
       'https://www.trustpilot.com/review/scopesite.co.uk',
@@ -2279,16 +2262,9 @@ export function generateLocalBusinessSchema(
     paymentAccepted: 'Bank Transfer, Credit Card',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: '4 Horse Close',
       addressLocality: 'Frome',
       addressRegion: 'Somerset',
-      postalCode: 'BA11',
       addressCountry: 'GB',
-    },
-    geo: {
-      '@type': 'GeoCoordinates',
-      latitude: '51.2308',
-      longitude: '-2.3201',
     },
     areaServed: areaServed.map((area) => ({
       '@type': area.type,

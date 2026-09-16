@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { ArrowLeft, Clock, Calendar } from 'lucide-react';
 import {
   getPostBySlug,
-  getAllPostSlugs,
   formatPostDate,
   getPosts,
 } from '@/lib/ghost';
@@ -33,7 +32,7 @@ import { injectPitchClusterLinks } from '@/lib/blog/inject-pitch-cluster-links';
 
 const BASE_URL = 'https://scopesite.co.uk';
 
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
 
 interface BlogPostPageProps {
   params: Promise<{
@@ -52,12 +51,6 @@ function truncateAuthorBio(bio: string, maxLength = 80): string {
   const safeLength = cutPoint > 0 ? cutPoint : maxLength;
 
   return `${trimmedBio.slice(0, safeLength).trimEnd()}...`;
-}
-
-// Generate static params for all posts
-export async function generateStaticParams() {
-  const slugs = await getAllPostSlugs();
-  return slugs.map((slug) => ({ slug }));
 }
 
 // Generate metadata for SEO
