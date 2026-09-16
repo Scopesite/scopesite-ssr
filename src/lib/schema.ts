@@ -377,6 +377,7 @@ export function generateLeanOrganizationSchema() {
       'https://www.instagram.com/scopesitedigitalstudios',
       'https://x.com/DlgltaI',
       'https://find-and-update.company-information.service.gov.uk/company/16130355',
+      'https://www.google.com/maps/place/ScopeSite+Digital+Studios/@51.2672214,-2.2915633,17z',
       'https://github.com/Scopesite/scopesite-ssr',
       'https://github.com/Scopesite/voice',
       'https://www.trustpilot.com/review/scopesite.co.uk',
@@ -2861,5 +2862,4 @@ export function generatePricingSchema(): Record<string, unknown> {
 function formatGbpStatic(amount: number): string {
   return `£${amount.toLocaleString('en-GB')}`;
 }
-
 
