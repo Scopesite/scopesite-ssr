@@ -14,6 +14,7 @@ export interface NavLink {
 }
 
 export const SERVICES_LINKS: NavLink[] = [
+  { label: 'Recruitment Website Design', href: 'https://recruitmentwebdesign.com' },
   { label: 'Web Design', href: '/web-design' },
   { label: 'AI Website Design', href: '/ai-website-design' },
   { label: 'Custom Web Apps', href: '/web-apps' },
