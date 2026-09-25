@@ -99,15 +99,29 @@ describe('Services dropdown keyboard access', () => {
   });
 
   it('keeps the mobile services routes behind the same toggle', () => {
-    render(<Navigation variant="mobile" />);
+    const { container } = render(<Navigation variant="mobile" />);
     const button = screen.getByRole('button', { name: 'Services' });
-    expect(screen.queryByRole('link', { name: 'Custom Web Apps' })).toBeNull();
+    const submenuLinks = () => container.querySelectorAll('#mobile-services-menu a');
+
+    expect(button.getAttribute('aria-expanded')).toBe('false');
+    expect(container.querySelector('#mobile-services-menu')).toBeNull();
+    expect(submenuLinks()).toHaveLength(0);
+
     fireEvent.click(button);
+    expect(button.getAttribute('aria-expanded')).toBe('true');
+    const menu = container.querySelector('#mobile-services-menu');
+    expect(menu).not.toBeNull();
+    expect(menu?.classList.contains('flex')).toBe(true);
+    expect(menu?.hasAttribute('hidden')).toBe(false);
+    expect(submenuLinks().length).toBeGreaterThan(0);
     expect(screen.getByRole('link', { name: 'Custom Web Apps' }).getAttribute('href')).toBe('/web-apps');
     expect(screen.getByRole('link', { name: 'Recruitment websites for UK agencies' }).getAttribute('href')).toBe(
       RWD_DESTINATIONS.home
     );
+
     fireEvent.keyDown(button, { key: 'Escape' });
     expect(button.getAttribute('aria-expanded')).toBe('false');
+    expect(container.querySelector('#mobile-services-menu')).toBeNull();
+    expect(submenuLinks()).toHaveLength(0);
   });
 });

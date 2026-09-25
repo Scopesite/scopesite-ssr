@@ -214,14 +214,11 @@ export function Navigation({
             />
           </button>
 
-          <div
-            id="mobile-services-menu"
-            className={cn(
-              'overflow-hidden transition-all duration-300 w-full flex flex-col items-center',
-              isServicesOpen ? 'max-h-[520px] mt-4 opacity-100' : 'max-h-0 opacity-0'
-            )}
-            hidden={!isServicesOpen}
-          >
+          {isServicesOpen && (
+            <div
+              id="mobile-services-menu"
+              className="overflow-hidden w-full flex flex-col items-center max-h-[520px] mt-4"
+            >
             {SERVICES_LINKS.map((link) => {
               const isHub = link.variant === 'hub';
               const isActive = pathname === link.href;
@@ -250,7 +247,8 @@ export function Navigation({
                 </Link>
               );
             })}
-          </div>
+            </div>
+          )}
         </div>
       )}
 
