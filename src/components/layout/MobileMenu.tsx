@@ -25,7 +25,8 @@ export default function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
-        className="w-full sm:w-80 bg-brand-navy border-brand-graphite"
+        closeClassName="sticky top-4 z-[60] shrink-0 self-end"
+        className="flex h-dvh max-h-dvh w-full flex-col overflow-y-auto overscroll-contain bg-brand-navy border-brand-graphite sm:w-80"
       >
         <SheetHeader>
           <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
