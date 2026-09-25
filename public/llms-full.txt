@@ -52,12 +52,13 @@ Bundling Rule: AI SEO is included for FREE (waived setup and monthly fee) if the
 
 6. Payment Term Rules
 
-ScopeSite offers four payment options at the same total project cost. There is no interest, no credit charge, no premium for spreading the cost. The Subtotal (Base Build + Add-ons) is the total project cost across all payment options:
+ScopeSite offers three purchase plans at the same total project cost: Pay in Full, a 6-month contract, and a 12-month contract. There is no interest, no credit charge, and no premium for spreading that purchase. The Subtotal (Base Build + Add-ons) is the total project cost across those three plans only.
 
 - Pay in Full: single payment of the Subtotal
 - 6-Month Contract: Subtotal divided by 6, paid monthly
 - 12-Month Contract: Subtotal divided by 12, paid monthly
-- Pay Monthly Service: tier-based subscription (see §7)
+
+Pay Monthly Service is a separate subscription (see §7). Setup, monthly fee, and optional buyout are tier-specific. Monthly subscription payments do not count toward the buyout.
 
 Payment Term Restrictions
 

@@ -361,8 +361,8 @@ export default function RecruitmentWebsiteDesignPage() {
           <p className="text-muted text-center max-w-3xl mx-auto mb-6 leading-relaxed">
             10-page Ultra Fast SSR is £3,250. Live Jobs Board is £1,999. The one-off total is
             £5,249, the same figure on Pay in Full, 6 months, or 12 months. AI SEO is included
-            with the SSR build. The published tables are on the pricing page, and the calculator
-            there is the quote.
+            with the SSR build. The published tables are on the pricing page. The calculator
+            there is a guide price, and the final scope is confirmed on a 20-minute call.
           </p>
           <p className="text-muted text-center max-w-3xl mx-auto mb-10 leading-relaxed">
             Pay Monthly Service is a different product. You pay a setup and a monthly fee, you
@@ -398,8 +398,8 @@ export default function RecruitmentWebsiteDesignPage() {
             A useful next step
           </h2>
           <p className="text-muted leading-relaxed mb-4">
-            If you want to see the product, open the specialist demos. If you want a price for
-            your page count, use the calculator. If the ATS question is the one that matters,
+            If you want to see the product, open the specialist demos. If you want a guide price
+            for your page count, use the calculator, then confirm the scope on the call. If the ATS question is the one that matters,
             read the integrations page before the call, then book twenty minutes and bring the
             system name with you.
           </p>

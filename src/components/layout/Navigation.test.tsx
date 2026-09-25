@@ -26,8 +26,22 @@ vi.mock('next/link', () => ({
   ),
 }));
 
+function stubFineHover(enabled: boolean) {
+  window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+    matches: enabled && query === '(hover: hover) and (pointer: fine)',
+    media: query,
+    onchange: null,
+    addListener: () => undefined,
+    removeListener: () => undefined,
+    addEventListener: () => undefined,
+    removeEventListener: () => undefined,
+    dispatchEvent: () => false,
+  })) as unknown as typeof window.matchMedia;
+}
+
 afterEach(() => {
   cleanup();
+  vi.unstubAllGlobals();
 });
 
 describe('Services dropdown keyboard access', () => {
@@ -47,6 +61,41 @@ describe('Services dropdown keyboard access', () => {
     fireEvent.keyDown(document, { key: 'Escape' });
     expect(button.getAttribute('aria-expanded')).toBe('false');
     expect(document.activeElement).toBe(button);
+  });
+
+  it('stays open when a fine pointer enters and then clicks Services', () => {
+    stubFineHover(true);
+    render(<Navigation variant="header" />);
+    const button = screen.getByRole('button', { name: 'Services' });
+    const menuRoot = button.parentElement;
+    if (!menuRoot) throw new Error('Services menu root missing');
+
+    fireEvent.mouseEnter(menuRoot);
+    expect(button.getAttribute('aria-expanded')).toBe('true');
+
+    fireEvent.click(button);
+    expect(button.getAttribute('aria-expanded')).toBe('true');
+    expect(screen.getByRole('link', { name: 'Web Design' }).getAttribute('href')).toBe('/web-design');
+  });
+
+  it('keeps the submenu visible when the pointer leaves a focused link', () => {
+    stubFineHover(true);
+    render(<Navigation variant="header" />);
+    const button = screen.getByRole('button', { name: 'Services' });
+    const menuRoot = button.parentElement;
+    if (!menuRoot) throw new Error('Services menu root missing');
+
+    fireEvent.mouseEnter(menuRoot);
+    const link = screen.getByRole('link', { name: 'Web Design' });
+    link.focus();
+    fireEvent.mouseLeave(menuRoot);
+
+    expect(button.getAttribute('aria-expanded')).toBe('true');
+    expect(document.activeElement).toBe(link);
+
+    link.blur();
+    fireEvent.mouseLeave(menuRoot);
+    expect(button.getAttribute('aria-expanded')).toBe('false');
   });
 
   it('keeps the mobile services routes behind the same toggle', () => {

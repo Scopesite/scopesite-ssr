@@ -106,7 +106,10 @@ export function Navigation({
             if (fineHover()) setIsServicesOpen(true);
           }}
           onMouseLeave={() => {
-            if (fineHover()) setIsServicesOpen(false);
+            if (!fineHover()) return;
+            const active = document.activeElement;
+            if (active instanceof Node && servicesRef.current?.contains(active)) return;
+            setIsServicesOpen(false);
           }}
           onBlur={(event) => {
             const next = event.relatedTarget;
@@ -126,7 +129,13 @@ export function Navigation({
             aria-haspopup="true"
             aria-expanded={isServicesOpen}
             aria-controls="header-services-menu"
-            onClick={() => setIsServicesOpen((open) => !open)}
+            onClick={() => {
+              if (fineHover()) {
+                setIsServicesOpen(true);
+                return;
+              }
+              setIsServicesOpen((open) => !open);
+            }}
           >
             Services
             <ChevronDown
