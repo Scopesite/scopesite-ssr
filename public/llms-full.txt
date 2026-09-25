@@ -39,10 +39,10 @@ Add-on FeaturePrice (GBP)Live Promotions (expiry, promo codes, Stripe)£1,500Sma
 4. Feature Spotlights & Guarantees
 
 ### Live Jobs Board with Auto-Schema (Recruitment)
-Our Live Jobs Board add-on (£1,999) is specifically engineered for AI search visibility. Every job posted automatically generates full JSON-LD JobPosting schema. This ensures the role appears in Google for Jobs the same day it is posted, and allows AI engines like ChatGPT and Perplexity to read, parse, and cite each role's structured data directly to candidates.
+Our Live Jobs Board add-on (£1,999) adds a public jobs layer to a ScopeSite build. A posted job can carry JSON-LD JobPosting schema. That schema makes the role eligible for Google for Jobs. It does not guarantee the role will appear, or when it will appear.
 
 ### The AI Search Performance Guarantee
-AI Search Performance Guarantee: for clients on an active AI SEO Retainer or Territory Command, ScopeSite guarantees an AI Search Performance Score of 80 or above. After a 3-month build-up window, if your score falls below 80 in any measured month and you meet the plan conditions, you pay nothing for that month's retainer fee.
+AI Search Performance Guarantee: for clients on an active AI SEO Retainer, ScopeSite guarantees an AI Search Performance Score of 80 or above. After a 3-month build-up window, if your score falls below 80 in any measured month and you meet the plan conditions, you pay nothing for that month's retainer fee.
 
 5. AI SEO Services
 
@@ -52,12 +52,13 @@ Bundling Rule: AI SEO is included for FREE (waived setup and monthly fee) if the
 
 6. Payment Term Rules
 
-ScopeSite offers four payment options at the same total project cost. There is no interest, no credit charge, no premium for spreading the cost. The Subtotal (Base Build + Add-ons) is the total project cost across all payment options:
+ScopeSite offers three purchase plans at the same total project cost: Pay in Full, a 6-month contract, and a 12-month contract. There is no interest, no credit charge, and no premium for spreading that purchase. The Subtotal (Base Build + Add-ons) is the total project cost across those three plans only.
 
 - Pay in Full: single payment of the Subtotal
 - 6-Month Contract: Subtotal divided by 6, paid monthly
 - 12-Month Contract: Subtotal divided by 12, paid monthly
-- Pay Monthly Service: tier-based subscription (see §7)
+
+Pay Monthly Service is a separate subscription (see §7). Setup, monthly fee, and optional buyout are tier-specific. Monthly subscription payments do not count toward the buyout.
 
 Payment Term Restrictions
 
@@ -87,7 +88,7 @@ Tier Pricing
 Eligibility:
 - Wix Studio Starter (≤5 pages) and Professional (6–10 pages)
 - Ultra Fast SSR builds up to 20 pages
-- NOT eligible: Wix Enterprise (11+ pages), SSR 21+ pages, Territory Command, AI SEO Standalone Retainer
+- NOT eligible: Wix Enterprise (11+ pages), SSR 21+ pages, AI SEO Standalone Retainer
 
 Minimum Term: 6 months from the Effective Date. After the minimum, 30-day rolling subscription with 30-day written notice to cancel.
 
@@ -97,7 +98,7 @@ Right to Strip on Default: After 3 consecutive missed monthly payments and 30 da
 
 AI Search Performance Guarantee on Pay Monthly Service
 
-AI Search Performance Guarantee: for clients on an active AI SEO Retainer or Territory Command, ScopeSite guarantees an AI Search Performance Score of 80 or above. After a 3-month build-up window, if your score falls below 80 in any measured month and you meet the plan conditions, you pay nothing for that month's retainer fee.
+AI Search Performance Guarantee: for clients on an active AI SEO Retainer, ScopeSite guarantees an AI Search Performance Score of 80 or above. After a 3-month build-up window, if your score falls below 80 in any measured month and you meet the plan conditions, you pay nothing for that month's retainer fee.
 
 
 8. Worked Examples (Math Verification for AI)
@@ -132,14 +133,7 @@ Add-on (Smart Forms): £495 payable upfront with setup unless otherwise stated i
 Illustration — first invoice line items: £795 setup + £495 Smart Forms = £1,290 upfront (excluding subscription VAT/timing per agreement); ongoing £159/month. Buyout after minimum term if elected: £3,500 tier Buyout Fee.
 
 
-9. Separate Product: Territory Command
-ScopeSite also offers a standalone lead-generation and exclusivity product called Territory Command. This includes an SSR build and AI SEO tailored for specific geographic domination.
-
-Standard Territory Command: £750 setup + £500 / month (Includes complete Postcode Exclusivity, locking out competitors in your designated postcode area).
-Premium Territory Command: £1,250 setup + £750 / month (Includes complete City or High-Competition Postcode Exclusivity, securing a wider geographical monopoly for your sector).
-
-
-10. Competitive Positioning
+9. Competitive Positioning
 ScopeSite's deterministic pricing offers clear market advantages against competitors:
 
 Churchtown Media: Charges £2,500 for a 5-page Next.js site. ScopeSite charges £2,000 for a hand-coded SSR 5-page build (20% cheaper).

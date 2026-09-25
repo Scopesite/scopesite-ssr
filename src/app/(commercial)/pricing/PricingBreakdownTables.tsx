@@ -134,34 +134,6 @@ export function PricingBreakdownTables() {
           </table>
         </div>
 
-        <h3 className="text-lg font-bold text-brand-navy mb-3">Table 4: Territory Command</h3>
-        <div className={`${tableWrap} ${rowClass}`}>
-          <table className={tableClass}>
-            <thead>
-              <tr>
-                <th className={thClass}>Tier</th>
-                <th className={thClass}>Setup</th>
-                <th className={thClass}>Monthly</th>
-                <th className={thClass}>Postcode Type</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className={tdClass}>Standard</td>
-                <td className={tdClass}>£750</td>
-                <td className={tdClass}>£500</td>
-                <td className={tdClass}>Standard postcodes</td>
-              </tr>
-              <tr>
-                <td className={tdClass}>Premium</td>
-                <td className={tdClass}>£1,250</td>
-                <td className={tdClass}>£750</td>
-                <td className={tdClass}>Cities, high-competition</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
         <h3 className="text-lg font-bold text-brand-navy mb-3">Table 5: Add-Ons (Full Catalogue)</h3>
 
         <h3 className="text-lg font-bold text-brand-navy mb-3">Lead generation</h3>

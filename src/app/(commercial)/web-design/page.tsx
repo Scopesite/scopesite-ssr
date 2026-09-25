@@ -1,6 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import { RwdOutboundLink } from '@/components/rwd/RwdOutboundLink';
+import { RWD_DESTINATIONS } from '@/lib/rwd-outbound';
 import { useState, useRef } from 'react';
 import { motion, useInView } from 'motion/react';
 import { 
@@ -203,9 +205,9 @@ const industries: {
   {
     title: 'Recruitment',
     description:
-      'Agency owners who need recruitment website design, live jobs schema, and a site that still belongs to them.',
+      'Agency owners who need a public site for client enquiries and live jobs, beside the ATS they already use.',
     icon: Users,
-    href: '/recruitment-website-design',
+    href: RWD_DESTINATIONS.website_design,
   },
   {
     title: 'Legal & Financial',
@@ -401,11 +403,20 @@ export default function WebDesignPage() {
       <section className="section-white border-b border-brand-navy/10 py-8" aria-label="Sector landing pages">
         <div className="container-content max-w-3xl mx-auto text-center">
           <p className="text-brand-navy/80 text-body">
-            For sector-specific builds, see{' '}
+            Recruitment agencies can read the parent introduction on{' '}
             <Link href="/recruitment-website-design" className="text-brand-gold hover:underline font-medium">
               recruitment website design
-            </Link>{' '}
-            or our{' '}
+            </Link>
+            , or the specialist pages for{' '}
+            <RwdOutboundLink
+              destination="jobs_board"
+              page="web_design"
+              placement="body"
+              className="text-brand-gold hover:underline font-medium"
+            >
+              a live jobs board
+            </RwdOutboundLink>
+            . Other sectors stay on our{' '}
             <Link href="/web-design" className="text-brand-gold hover:underline font-medium">
               main web design service
             </Link>
@@ -443,7 +454,16 @@ export default function WebDesignPage() {
               );
               return (
                 <StaggerItem key={industry.title}>
-                  {industry.href ? (
+                  {industry.href?.startsWith('https://recruitmentwebdesign.com') ? (
+                    <RwdOutboundLink
+                      destination="website_design"
+                      page="web_design"
+                      placement="card"
+                      className="block h-full text-inherit no-underline"
+                    >
+                      {card}
+                    </RwdOutboundLink>
+                  ) : industry.href ? (
                     <Link href={industry.href} className="block h-full text-inherit no-underline">
                       {card}
                     </Link>

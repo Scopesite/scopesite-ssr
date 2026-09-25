@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { RwdOutboundLink } from '@/components/rwd/RwdOutboundLink';
 import { useState } from 'react';
 import { QuoteRedirectNotice } from '@/components/quote/QuoteRedirectNotice';
 import { 
@@ -281,8 +282,17 @@ export default function WebAppsPage() {
               </p>
               <p>
                 We&apos;ve built quote calculators for tradespeople, compliance checkers for healthcare practices, 
-                client portals for service businesses, and booking systems for venues. Each one is different 
-                because each business is different. That&apos;s the point.
+                client portals for service businesses, and booking systems for venues. A recruitment agency
+                that already has an ATS usually needs the public jobs layer described on{' '}
+                <RwdOutboundLink
+                  destination="ats"
+                  page="web_apps"
+                  placement="body"
+                  className="text-brand-navy font-semibold underline underline-offset-2"
+                >
+                  ATS integrations at Recruitment Web Design
+                </RwdOutboundLink>
+                . Each build is different because each business is different.
               </p>
             </div>
           </div>
