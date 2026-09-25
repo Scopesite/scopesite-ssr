@@ -203,6 +203,15 @@ export default function AIVisibilityPage() {
               >
                 AI search visibility for recruitment websites
               </RwdOutboundLink>
+              , or{' '}
+              <RwdOutboundLink
+                destination="ai_discovery"
+                page="ai_visibility"
+                placement="body"
+                className="text-brand-gold hover:underline"
+              >
+                how to improve a recruitment website&apos;s chances of appearing in AI answers
+              </RwdOutboundLink>
               .
             </p>
           </>

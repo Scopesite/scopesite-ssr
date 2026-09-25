@@ -14,6 +14,7 @@ export const RWD_DESTINATIONS = {
   ats: `${RWD_ORIGIN}/ats-integrations`,
   jobs_board: `${RWD_ORIGIN}/live-jobs-board`,
   ai_visibility: `${RWD_ORIGIN}/ai-search-visibility`,
+  ai_discovery: `${RWD_ORIGIN}/explainers/ai-discovery`,
   software: `${RWD_ORIGIN}/recruitment-software`,
   demos: `${RWD_ORIGIN}/demos`,
 } as const;

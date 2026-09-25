@@ -217,7 +217,16 @@ export default function RecruitmentWebsiteDesignPage() {
             </p>
             <p>
               ScopeSite is the studio that delivers the build, the same way it delivers other UK
-              sites. Recruitment Web Design is the specialist site for this buyer, with the pages
+              sites.{' '}
+              <RwdOutboundLink
+                destination="home"
+                page="recruitment_intro"
+                placement="body"
+                className="font-semibold text-brand-navy underline underline-offset-4"
+              >
+                Recruitment Web Design
+              </RwdOutboundLink>{' '}
+              is the specialist site for this buyer, with the pages
               that go into the website, the jobs board, the ATS question, and the demos. Use those
               pages when you want the detail. Use this page when you want the relationship and the
               price in one place.
@@ -321,7 +330,16 @@ export default function RecruitmentWebsiteDesignPage() {
               <p className="text-muted flex-1 text-sm leading-relaxed">
                 Structured facts about the agency, the sectors, and the jobs. Useful original
                 answers on the page. None of that buys a citation, a ranking, or an index. It gives
-                the crawler something accurate to work with.
+                the crawler something accurate to work with. The specialist explainer covers{' '}
+                <RwdOutboundLink
+                  destination="ai_discovery"
+                  page="recruitment_intro"
+                  placement="body"
+                  className="font-semibold text-brand-navy underline underline-offset-4"
+                >
+                  how to improve a recruitment website&apos;s chances of appearing in AI answers
+                </RwdOutboundLink>
+                .
               </p>
               <p className="mt-4 text-sm font-bold text-brand-navy border-t border-brand-navy/10 pt-4">
                 Included with SSR. Standalone retainer is separate.
