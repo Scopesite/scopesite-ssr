@@ -48,8 +48,8 @@ describe('Mobile menu sheet scroll', () => {
     expect(dialog.classList.contains('max-h-dvh')).toBe(true);
     expect(getComputedStyle(dialog).overflowY).toBe('auto');
 
-    const quote = screen.getByRole('link', { name: 'Get Instant Quote' });
-    expect(dialog.contains(quote)).toBe(true);
+    const recruitment = screen.getByRole('link', { name: 'Work In Recruitment?' });
+    expect(dialog.contains(recruitment)).toBe(true);
 
     const close = screen.getByRole('button', { name: 'Close' });
     expect(dialog.contains(close)).toBe(true);

@@ -251,34 +251,19 @@ export default function Home() {
                 you are in the conversation, not stuck on the sidelines.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <RwdOutboundLink
-                  destination="home"
-                  page="home"
-                  placement="hero"
-                  className="btn-primary text-center"
-                >
-                  Recruitment websites for UK agencies
-                </RwdOutboundLink>
-                <a href={VOICE_SCAN_URL} className="btn-secondary text-center" target="_blank" rel="noopener noreferrer">
-                  Get a free AI visibility scan
-                </a>
-              </div>
-              <p className="mt-4 text-sm text-white/70 max-w-md lg:max-w-xl mx-auto md:mx-0">
-                <a href="#how-it-works" className="text-brand-gold underline underline-offset-2 hover:text-white">
-                  See how a ScopeSite build works
-                </a>
-              </p>
-              <p className="mt-6 text-sm text-white/70 max-w-md lg:max-w-xl mx-auto md:mx-0">
+              <div className="flex max-w-full flex-col items-center gap-4 sm:flex-row sm:flex-wrap md:items-start md:justify-start justify-center">
+                <Link href="/pricing" className="btn-primary w-full text-center sm:w-auto">
+                  Live Quote Builder
+                </Link>
                 <a
                   href={VOICE_SCAN_URL}
-                  className="text-brand-gold underline underline-offset-2 hover:text-white"
+                  className="btn-secondary w-full text-center sm:w-auto"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Run a free AI visibility scan
+                  Free AI Visibility Scan
                 </a>
-              </p>
+              </div>
             </div>
           </div>
 
