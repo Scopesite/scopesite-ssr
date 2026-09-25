@@ -2531,9 +2531,9 @@ function offerMonthlyGbp(
 
 /** Customer-facing warranty text for JSON-LD (matches T&Cs v5 clause 14.4; no internal product codenames). */
 export const AI_SEARCH_PERFORMANCE_GUARANTEE_WARRANTY =
-  'AI Search Performance Guarantee: for clients on an active AI SEO Retainer or Territory Command, ScopeSite guarantees an AI Search Performance Score of 80 or above. After a 3-month build-up window, if your score falls below 80 in any measured month and you meet the plan conditions, you pay nothing for that month’s retainer fee.';
+  'AI Search Performance Guarantee: for clients on an active AI SEO Retainer, ScopeSite guarantees an AI Search Performance Score of 80 or above. After a 3-month build-up window, if your score falls below 80 in any measured month and you meet the plan conditions, you pay nothing for that month’s retainer fee.';
 
-/** WarrantyPromise node for AI SEO Retainer and Territory Command priced Offers (service pages + consistency with /pricing description). */
+/** WarrantyPromise node for the AI SEO Retainer priced Offer (service pages + consistency with /pricing description). */
 export function buildAiSearchPerformanceGuaranteeWarrantyPromise(): Record<string, unknown> {
   return {
     '@type': 'WarrantyPromise',
@@ -2566,7 +2566,8 @@ function pricingMonthlyUnitSpec(price: number, name?: string): Record<string, un
 }
 
 /**
- * Fourteen canonical UK pricing offers for /pricing — shared by Service JSON-LD and WebApplication JSON-LD.
+ * Canonical UK pricing offers for /pricing — shared by Service JSON-LD and WebApplication JSON-LD.
+ * Territory Command is discontinued and is not a current public offer.
  * Numeric values are read from PRICING_CONFIG / VOICE_SPEC / ADDON_CATALOG (not hardcoded).
  */
 export function buildCanonicalUkPricingOffers(pageUrl: string): Record<string, unknown>[] {
@@ -2647,52 +2648,6 @@ export function buildCanonicalUkPricingOffers(pageUrl: string): Record<string, u
           priceCurrency: 'GBP',
         },
         pricingMonthlyUnitSpec(VOICE_SPEC.monthlyPrice, 'Monthly retainer'),
-      ],
-      warranty: {
-        '@type': 'WarrantyPromise',
-        description: AI_SEARCH_PERFORMANCE_GUARANTEE_WARRANTY,
-      },
-    },
-    {
-      '@type': 'Offer',
-      '@id': `${BASE_URL}/pricing#offer-territory-standard`,
-      name: 'Territory Command Standard',
-      description:
-        'Postcode-exclusive AI SEO and lead-generation product. £750 setup plus £500 per calendar month; 12-month minimum term.',
-      availability: 'https://schema.org/InStock',
-      url: pageUrl,
-      seller,
-      priceSpecification: [
-        {
-          '@type': 'UnitPriceSpecification',
-          name: 'Setup fee',
-          price: '750',
-          priceCurrency: 'GBP',
-        },
-        pricingMonthlyUnitSpec(500, 'Monthly retainer'),
-      ],
-      warranty: {
-        '@type': 'WarrantyPromise',
-        description: AI_SEARCH_PERFORMANCE_GUARANTEE_WARRANTY,
-      },
-    },
-    {
-      '@type': 'Offer',
-      '@id': `${BASE_URL}/pricing#offer-territory-premium`,
-      name: 'Territory Command Premium',
-      description:
-        'Postcode-exclusive AI SEO and lead-generation product for high-competition areas. £1,250 setup plus £750 per calendar month; 12-month minimum term.',
-      availability: 'https://schema.org/InStock',
-      url: pageUrl,
-      seller,
-      priceSpecification: [
-        {
-          '@type': 'UnitPriceSpecification',
-          name: 'Setup fee',
-          price: '1250',
-          priceCurrency: 'GBP',
-        },
-        pricingMonthlyUnitSpec(750, 'Monthly retainer'),
       ],
       warranty: {
         '@type': 'WarrantyPromise',
@@ -2815,7 +2770,7 @@ export function buildCanonicalUkPricingOffers(pageUrl: string): Record<string, u
 }
 
 /**
- * WebApplication JSON-LD for the Quote Calculator — canonical 14-offer list (Pay Monthly Service tiers + core SKUs).
+ * WebApplication JSON-LD for the Quote Calculator — current public offers (Pay Monthly Service tiers + core SKUs).
  */
 export function generatePricingQuoteCalculatorWebApplicationSchema(): Record<string, unknown> {
   return {
@@ -2825,14 +2780,14 @@ export function generatePricingQuoteCalculatorWebApplicationSchema(): Record<str
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
     description:
-      'Interactive quote calculator for Wix Studio builds, Ultra Fast SSR, Pay Monthly Service (internally Website-as-a-Service), AI SEO retainers, Territory Command, and selected add-ons. Deterministic pricing rules are published at /llms-full.txt.',
+      'Interactive quote calculator for Wix Studio builds, Ultra Fast SSR, Pay Monthly Service (internally Website-as-a-Service), AI SEO retainers, and selected add-ons. Deterministic pricing rules are published at /llms-full.txt.',
     offers: buildCanonicalUkPricingOffers(UK_PRICING_PAGE_URL),
   };
 }
 
 /**
  * Build a complete Service + Offer[] JSON-LD for the /pricing page.
- * Offers match the WebApplication quote calculator list (14 canonical products).
+ * Offers match the WebApplication quote calculator list.
  */
 export function generatePricingSchema(): Record<string, unknown> {
   const offers = buildCanonicalUkPricingOffers(UK_PRICING_PAGE_URL);
@@ -2845,7 +2800,7 @@ export function generatePricingSchema(): Record<string, unknown> {
     serviceType: 'Web design and AI visibility pricing',
     category: 'Pricing',
     description:
-      'Transparent UK pricing for Wix Studio builds, Ultra Fast SSR websites, Pay Monthly Service (internally Website-as-a-Service), standalone AI SEO retainers, Territory Command postcode exclusivity, and selected add-ons. Values mirror the on-site Quote Calculator and published rules.',
+      'Transparent UK pricing for Wix Studio builds, Ultra Fast SSR websites, Pay Monthly Service (internally Website-as-a-Service), standalone AI SEO retainers, and selected add-ons. Values mirror the on-site Quote Calculator and published rules.',
     provider: { '@id': `${BASE_URL}/#organization` },
     areaServed: {
       '@type': 'Country',

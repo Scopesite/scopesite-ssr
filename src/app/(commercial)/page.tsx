@@ -15,6 +15,7 @@ import { getAlternates } from '@/lib/hreflang-map';
 import { ChevronDown } from 'lucide-react';
 import { HomeBelowFoldWrapper } from './HomeBelowFoldWrapper';
 import { PRICING_CONFIG } from '@/lib/pricing-config';
+import { RwdOutboundLink } from '@/components/rwd/RwdOutboundLink';
 
 const BASE_URL = 'https://scopesite.co.uk';
 const VOICE_SCAN_URL = 'https://canaifindme.online';
@@ -97,9 +98,9 @@ const homeFaqs: FAQItem[] = [
       'It means when someone asks an AI assistant for a recommendation, your business can actually be in the answer. If the AI cannot read your site properly, you are not in the running. We fix the technical side so you are.',
   },
   {
-    question: 'Why would a solicitor, accountant, or dentist care about ChatGPT?',
+    question: 'Why would a recruitment agency owner care about ChatGPT?',
     answer:
-      'Because people already ask AI who to hire and who to trust. If your competitor shows up and you do not, you just lost an enquiry you never knew existed. This is not about tech for tech’s sake, it is about being in the conversation when buyers ask.',
+      'Hiring managers already ask an assistant which agency covers finance in Manchester, or warehouse staff across the Midlands. If the answer names another firm, that enquiry never reached you. A useful public site states the desks you cover, shows real jobs when you have them, and gives a client a straight way to enquire.',
   },
   {
     question: 'My website looks fine. Why would AI ignore it?',
@@ -163,9 +164,9 @@ export default function Home() {
       serviceType: 'AI-Visible Web Design',
       name: 'Web Design by ScopeSite',
       description:
-        'Websites built for speed and AI visibility. Structured data, fast load, built for solicitors, accountants, and professional services.',
+        'Websites built for speed and clear structured facts. UK recruitment agencies are the primary buyer, and the same build approach covers other UK businesses.',
       provider: { '@id': `${BASE_URL}/#organization` },
-      areaServed: { '@type': 'Place', name: 'Somerset, United Kingdom' },
+      areaServed: { '@type': 'Country', name: 'United Kingdom' },
       url: `${BASE_URL}/web-design`,
     },
     {
@@ -251,13 +252,23 @@ export default function Home() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <a href={VOICE_SCAN_URL} className="btn-primary text-center" target="_blank" rel="noopener noreferrer">
+                <RwdOutboundLink
+                  destination="home"
+                  page="home"
+                  placement="hero"
+                  className="btn-primary text-center"
+                >
+                  Recruitment websites for UK agencies
+                </RwdOutboundLink>
+                <a href={VOICE_SCAN_URL} className="btn-secondary text-center" target="_blank" rel="noopener noreferrer">
                   Get a free AI visibility scan
                 </a>
-                <a href="#how-it-works" className="btn-secondary text-center">
-                  See How It Works
-                </a>
               </div>
+              <p className="mt-4 text-sm text-white/70 max-w-md lg:max-w-xl mx-auto md:mx-0">
+                <a href="#how-it-works" className="text-brand-gold underline underline-offset-2 hover:text-white">
+                  See how a ScopeSite build works
+                </a>
+              </p>
               <p className="mt-6 text-sm text-white/70 max-w-md lg:max-w-xl mx-auto md:mx-0">
                 <a
                   href={VOICE_SCAN_URL}
@@ -320,16 +331,29 @@ export default function Home() {
       <section className="bg-white py-16 border-b border-brand-navy/10">
         <div className="container-content max-w-4xl mx-auto">
           <h2 className="text-brand-navy text-2xl sm:text-3xl font-bold mb-6 text-center">
-            Most websites are invisible to AI
+            A recruitment site has a practical job
           </h2>
           <p className="text-muted text-lg mb-6 text-center max-w-3xl mx-auto">
-            Not low ranking. Invisible. Wix, WordPress, Squarespace, and plenty of custom builds look
-            great to you, but AI crawlers often get an empty page or a mess they cannot trust.
+            An agency owner needs three things from the public site: a client can enquire, a candidate can
+            see a real vacancy, and the page can sit beside the ATS they already pay for. Plenty of sites
+            look finished in a browser and still hand a crawler a thin page, because the useful HTML turns
+            up only after JavaScript runs.
           </p>
           <p className="text-muted text-lg text-center max-w-3xl mx-auto">
-            When someone asks for a solicitor in Frome, a dentist in Bath, or an accountant in Bristol, the
-            AI pulls from sites it can actually understand. If yours is not one of them, you do not exist in
-            that answer. Your site might look the part, but if AI cannot read it, AI cannot recommend it.
+            Ask an assistant for a recruitment agency that covers finance roles in Manchester, or warehouse
+            staff in the Midlands, and it can only use pages it can actually read. ScopeSite is the parent
+            studio. Recruitment Web Design is the specialist site for that agency work, and the rest of the
+            services on this site stay available for other UK businesses.
+          </p>
+          <p className="text-center mt-6">
+            <RwdOutboundLink
+              destination="website_design"
+              page="home"
+              placement="body"
+              className="text-brand-navy font-semibold underline underline-offset-4"
+            >
+              Recruitment website design on the specialist site
+            </RwdOutboundLink>
           </p>
         </div>
       </section>
@@ -352,8 +376,8 @@ export default function Home() {
             </p>
             <p>
               We add <strong className="text-white">structured data</strong> that spells out what
-              you do, where you are, who you are, and what makes you credible. Less guesswork for the
-              machine, more chance you get cited.
+              you do, where you are, and who you are. The facts are on the page in a form a crawler can
+              read. That does not guarantee a citation, a ranking, or an index.
             </p>
             <p>
               We run everything through{' '}

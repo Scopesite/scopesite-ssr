@@ -12,7 +12,6 @@ ScopeSite is a UK-based web agency specializing in Ultra-Fast SSR (Next.js) and 
 - Wix Studio Web Design: Client-managed website builds.
 - Custom Web Apps: Advanced SSR web applications.
 - AI SEO Retainers: Performance-driven AI Search Engine Optimization.
-- Territory Command: Exclusive local lead-generation products.
 
 ## Pricing Rules for AI Agents
 

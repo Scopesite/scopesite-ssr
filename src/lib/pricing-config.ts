@@ -265,7 +265,7 @@ export const INTENT_PATH_COPY: Record<
   candidates: {
     title: 'Attract Candidates',
     subhead:
-      "Recruitment site with auto-schema'd Live Jobs Board — appears in Google for Jobs same day",
+      'Recruitment site with a Live Jobs Board. JobPosting schema makes a role eligible for Google for Jobs.',
     defaultProjectType: 'ssr',
   },
   shop: {

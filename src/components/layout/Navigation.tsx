@@ -1,20 +1,31 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { RwdOutboundLink } from '@/components/rwd/RwdOutboundLink';
+import { RWD_DESTINATIONS, type RwdDestinationCategory, type RwdPageCategory, type RwdPlacementCategory } from '@/lib/rwd-outbound';
 
 export interface NavLink {
   label: string;
   href: string;
   /** Distinct styling for the Services hub row (e.g. All Services →) */
   variant?: 'hub';
+  outbound?: {
+    page: RwdPageCategory;
+    placement: RwdPlacementCategory;
+    destination: RwdDestinationCategory;
+  };
 }
 
 export const SERVICES_LINKS: NavLink[] = [
-  { label: 'Recruitment Website Design', href: 'https://recruitmentwebdesign.com' },
+  {
+    label: 'Recruitment websites for UK agencies',
+    href: RWD_DESTINATIONS.home,
+    outbound: { page: 'nav', placement: 'nav', destination: 'home' },
+  },
   { label: 'Web Design', href: '/web-design' },
   { label: 'AI Website Design', href: '/ai-website-design' },
   { label: 'Custom Web Apps', href: '/web-apps' },
@@ -49,6 +60,29 @@ export function Navigation({
   const pathname = usePathname();
   const isUS = pathname?.startsWith('/us');
   const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const servicesRef = useRef<HTMLDivElement>(null);
+  const servicesButtonRef = useRef<HTMLButtonElement>(null);
+
+  const closeServices = (restoreFocus = false) => {
+    setIsServicesOpen(false);
+    if (restoreFocus) servicesButtonRef.current?.focus();
+  };
+
+  const fineHover = () => {
+    if (typeof window.matchMedia !== 'function') return false;
+    return window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  };
+
+  useEffect(() => {
+    if (variant !== 'header' || !isServicesOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      event.preventDefault();
+      closeServices(true);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [isServicesOpen, variant]);
 
   const localeLinks = useMemo(() => {
     if (!isUS) return NAV_LINKS;
@@ -65,8 +99,24 @@ export function Navigation({
   return (
     <nav className={className} aria-label={navLabel}>
       {variant === 'header' && (
-        <div className="relative group">
+        <div
+          ref={servicesRef}
+          className="relative"
+          onMouseEnter={() => {
+            if (fineHover()) setIsServicesOpen(true);
+          }}
+          onMouseLeave={() => {
+            if (fineHover()) setIsServicesOpen(false);
+          }}
+          onBlur={(event) => {
+            const next = event.relatedTarget;
+            if (next instanceof Node && servicesRef.current?.contains(next)) return;
+            setIsServicesOpen(false);
+          }}
+        >
           <button
+            ref={servicesButtonRef}
+            type="button"
             className={cn(
               'flex items-center gap-1 transition-colors duration-200',
               'text-white font-body font-medium whitespace-nowrap',
@@ -75,35 +125,51 @@ export function Navigation({
             )}
             aria-haspopup="true"
             aria-expanded={isServicesOpen}
+            aria-controls="header-services-menu"
+            onClick={() => setIsServicesOpen((open) => !open)}
           >
             Services
-            <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
+            <ChevronDown
+              className={cn('w-4 h-4 transition-transform', isServicesOpen && 'rotate-180')}
+            />
           </button>
 
-          <div className="absolute top-full left-0 pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+          <div
+            id="header-services-menu"
+            className={cn(
+              'absolute top-full left-0 pt-4 transition-all duration-200 z-50',
+              isServicesOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+            )}
+          >
             <div className="bg-brand-navy border border-brand-graphite rounded-lg shadow-xl py-2 min-w-[260px]">
               {SERVICES_LINKS.map((link) => {
                 const isHub = link.variant === 'hub';
                 const isActive = pathname === link.href;
+                const className = cn(
+                  'block px-4 py-2 text-sm font-body transition-colors',
+                  isHub && 'border-t border-white/10 mt-1 pt-3 hover:bg-white/5',
+                  isHub &&
+                    (isActive ? 'text-brand-gold bg-white/5' : 'text-white/55 hover:text-brand-gold'),
+                  !isHub &&
+                    (isActive
+                      ? 'text-brand-gold bg-white/5'
+                      : 'text-white/80 hover:text-brand-gold hover:bg-white/5')
+                );
+                if (link.outbound) {
+                  return (
+                    <RwdOutboundLink
+                      key={link.href}
+                      destination={link.outbound.destination}
+                      page={link.outbound.page}
+                      placement={link.outbound.placement}
+                      className={className}
+                    >
+                      {link.label}
+                    </RwdOutboundLink>
+                  );
+                }
                 return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={onLinkClick}
-                    className={cn(
-                      'block px-4 py-2 text-sm font-body transition-colors',
-                      isHub &&
-                        'border-t border-white/10 mt-1 pt-3 hover:bg-white/5',
-                      isHub &&
-                        (isActive
-                          ? 'text-brand-gold bg-white/5'
-                          : 'text-white/55 hover:text-brand-gold'),
-                      !isHub &&
-                        (isActive
-                          ? 'text-brand-gold bg-white/5'
-                          : 'text-white/80 hover:text-brand-gold hover:bg-white/5')
-                    )}
-                  >
+                  <Link key={link.href} href={link.href} onClick={onLinkClick} className={className}>
                     {link.label}
                   </Link>
                 );
@@ -125,6 +191,13 @@ export function Navigation({
               linkClassName
             )}
             aria-expanded={isServicesOpen}
+            aria-controls="mobile-services-menu"
+            onKeyDown={(event) => {
+              if (event.key === 'Escape' && isServicesOpen) {
+                event.preventDefault();
+                setIsServicesOpen(false);
+              }
+            }}
           >
             Services
             <ChevronDown
@@ -133,27 +206,37 @@ export function Navigation({
           </button>
 
           <div
+            id="mobile-services-menu"
             className={cn(
               'overflow-hidden transition-all duration-300 w-full flex flex-col items-center',
               isServicesOpen ? 'max-h-[520px] mt-4 opacity-100' : 'max-h-0 opacity-0'
             )}
+            hidden={!isServicesOpen}
           >
             {SERVICES_LINKS.map((link) => {
               const isHub = link.variant === 'hub';
               const isActive = pathname === link.href;
+              const className = cn(
+                'block py-2 text-base font-body transition-colors w-full text-center',
+                isHub && 'border-t border-white/10 mt-2 pt-3',
+                isHub && (isActive ? 'text-brand-gold' : 'text-white/50 hover:text-brand-gold'),
+                !isHub && (isActive ? 'text-brand-gold' : 'text-white/70 hover:text-brand-gold')
+              );
+              if (link.outbound) {
+                return (
+                  <RwdOutboundLink
+                    key={link.href}
+                    destination={link.outbound.destination}
+                    page={link.outbound.page}
+                    placement={link.outbound.placement}
+                    className={className}
+                  >
+                    {link.label}
+                  </RwdOutboundLink>
+                );
+              }
               return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={onLinkClick}
-                  className={cn(
-                    'block py-2 text-base font-body transition-colors w-full text-center',
-                    isHub && 'border-t border-white/10 mt-2 pt-3',
-                    isHub &&
-                      (isActive ? 'text-brand-gold' : 'text-white/50 hover:text-brand-gold'),
-                    !isHub && (isActive ? 'text-brand-gold' : 'text-white/70 hover:text-brand-gold')
-                  )}
-                >
+                <Link key={link.href} href={link.href} onClick={onLinkClick} className={className}>
                   {link.label}
                 </Link>
               );

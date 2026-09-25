@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Globe, Sparkles, Code, ArrowRight, Star, FileCode, Brain, Briefcase } from 'lucide-react';
 import { GoogleIcon } from '@/components/icons';
+import { RwdOutboundLink } from '@/components/rwd/RwdOutboundLink';
 
 const services = [
   {
@@ -14,10 +15,10 @@ const services = [
   {
     title: 'Recruitment website design',
     description:
-      'UK agencies: schema-first builds, live jobs boards, Google for Jobs, and a demo you can click through today.',
+      'Agency owners need a public site clients can enquire through, jobs the ATS can feed, and a page that is actually theirs. Recruitment Web Design is the specialist site for that work.',
     icon: Briefcase,
-    href: '/recruitment-website-design',
-    cta: 'Recruitment builds',
+    href: 'https://recruitmentwebdesign.com/',
+    cta: 'Recruitment websites for UK agencies',
   },
   {
     title: 'AI visibility scan',
@@ -138,14 +139,26 @@ export function HomeBelowFoldStatic({ reviews }: HomeBelowFoldStaticProps) {
                   <h3 className="text-brand-navy text-xl font-bold mb-3">{service.title}</h3>
                   <p className="text-muted mb-6">{service.description}</p>
 
-                  <Link
-                    href={service.href}
-                    className="btn inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-gold border border-brand-gold text-brand-navy text-base font-semibold transition-all duration-200 hover:bg-brand-orange hover:border-brand-orange no-underline"
-                    style={{ boxShadow: '0 4px 12px rgba(236,182,21,0.3)' }}
-                  >
-                    {service.cta}
-                    <ArrowRight className="w-4 h-4" aria-hidden="true" />
-                  </Link>
+                  {service.href.startsWith('https://recruitmentwebdesign.com') ? (
+                    <RwdOutboundLink
+                      destination="home"
+                      page="home"
+                      placement="card"
+                      className="btn inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-gold border border-brand-gold text-brand-navy text-base font-semibold transition-all duration-200 hover:bg-brand-orange hover:border-brand-orange no-underline"
+                    >
+                      {service.cta}
+                      <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                    </RwdOutboundLink>
+                  ) : (
+                    <Link
+                      href={service.href}
+                      className="btn inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-gold border border-brand-gold text-brand-navy text-base font-semibold transition-all duration-200 hover:bg-brand-orange hover:border-brand-orange no-underline"
+                      style={{ boxShadow: '0 4px 12px rgba(236,182,21,0.3)' }}
+                    >
+                      {service.cta}
+                      <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                    </Link>
+                  )}
                 </div>
               );
             })}

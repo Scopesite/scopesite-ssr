@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { RwdOutboundLink } from '@/components/rwd/RwdOutboundLink';
 import { Code2, Globe, TrendingUp, Eye, FileCode, Activity } from 'lucide-react';
 import {
   LandingHero,
@@ -192,7 +193,17 @@ export default function AIVisibilityPage() {
               <Link href="/ai-seo-services" className="text-brand-gold hover:underline">
                 AI SEO services
               </Link>{' '}
-              for the full programme.
+              for the full programme. Recruitment agencies who want that work applied to client enquiries
+              and job pages can read{' '}
+              <RwdOutboundLink
+                destination="ai_visibility"
+                page="ai_visibility"
+                placement="body"
+                className="text-brand-gold hover:underline"
+              >
+                AI search visibility for recruitment websites
+              </RwdOutboundLink>
+              .
             </p>
           </>
         }

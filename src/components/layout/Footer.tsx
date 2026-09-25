@@ -2,11 +2,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Phone, Mail, MapPin } from 'lucide-react';
 import { FooterSearch } from './FooterSearch';
+import { RwdOutboundLink } from '@/components/rwd/RwdOutboundLink';
 
 const FOOTER_LINKS = {
   services: [
     { label: 'Web Design', href: '/web-design' },
-    { label: 'Recruitment Website Design', href: '/recruitment-website-design' },
+    { label: 'Recruitment website design, ScopeSite introduction', href: '/recruitment-website-design' },
     { label: 'AI Website Design', href: '/ai-website-design' },
     { label: 'AI SEO Agency', href: '/ai-seo-agency' },
     { label: 'AI SEO Services', href: '/ai-seo-services' },
@@ -203,6 +204,16 @@ export function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <RwdOutboundLink
+                  destination="home"
+                  page="footer"
+                  placement="footer"
+                  className="text-white/70 text-body-sm hover:text-brand-gold transition-colors"
+                >
+                  Recruitment websites for UK agencies
+                </RwdOutboundLink>
+              </li>
             </ul>
             {/* Local Services Sub-section */}
             <h4 className="font-body font-semibold text-white/80 text-body-sm mt-6 mb-3">

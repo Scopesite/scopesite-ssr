@@ -42,17 +42,12 @@ const canonicalPricingFaqs = [
   {
     question: 'How much does a Live Jobs Board cost?',
     answer:
-      'Our Live Jobs Board with auto-schema is £1,999 as an add-on to any ScopeSite build. Every job posted automatically generates JSON-LD JobPosting schema, appearing in Google for Jobs the same day.',
+      'Our Live Jobs Board with auto-schema is £1,999 as an add-on to any ScopeSite build. A posted job can carry JSON-LD JobPosting schema, which makes the role eligible for Google for Jobs. Eligibility is not an appearance date, and it is not a promise the role will show.',
   },
   {
     question: 'How much is the AI SEO retainer?',
     answer:
       'Standalone AI SEO retainer is £750 setup plus £500 per month. 6-month commitment total is £3,750. 12-month total is £6,750. AI SEO is bundled free with all SSR website builds.',
-  },
-  {
-    question: 'How much is Territory Command?',
-    answer:
-      'Territory Command Standard is £750 setup plus £500 per month and includes postcode exclusivity. Premium tier (cities and high-competition postcodes) is £1,250 setup plus £750 per month. Both include an SSR build and AI SEO.',
   },
   {
     question: 'What payment terms do you offer?',
@@ -62,7 +57,7 @@ const canonicalPricingFaqs = [
   {
     question: 'How much does a recruitment website with a jobs board cost?',
     answer:
-      'A typical recruitment build is a 10-page Ultra Fast SSR website plus the Live Jobs Board add-on. Total cost is £5,249 — same price across all payment options. AI SEO is included free. For positioning, schema-first delivery, and the live JobBoard Sonar demo, see https://scopesite.co.uk/recruitment-website-design',
+      'A typical recruitment build is a 10-page Ultra Fast SSR website (£3,250) plus the Live Jobs Board add-on (£1,999). Total cost is £5,249, the same total on Pay in Full, 6 months, or 12 months. AI SEO is included free with the SSR build. Pay Monthly Service is a separate subscription. The parent introduction is at https://scopesite.co.uk/recruitment-website-design',
   },
   {
     question: 'How much does an e-commerce website cost?',
@@ -291,9 +286,9 @@ export default function PricingPage() {
               <div>
                 <h3 className="text-brand-navy font-bold text-lg mb-3">Flexible Payment Plans</h3>
                 <p className="text-brand-navy/70">
-                  Not everyone has thousands to spend upfront. Our 12-month and 24-month payment plans
-                  spread the cost into manageable monthly amounts - no credit checks, no finance
-                  companies, no interest. Just straightforward monthly payments.
+                  Not everyone has thousands to spend upfront. A purchase can be paid in full, or over 6 or
+                  12 months, at the same total. Pay Monthly Service is a separate subscription. No credit
+                  checks, no finance companies, no interest on the purchase plans.
                 </p>
               </div>
               <div>
