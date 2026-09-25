@@ -8,7 +8,11 @@ import { usePathname } from 'next/navigation';
 import { Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Navigation } from './Navigation';
+import { RwdOutboundLink } from '@/components/rwd/RwdOutboundLink';
 import { cn } from '@/lib/utils';
+
+const recruitmentCtaClass =
+  'inline-flex items-center justify-center whitespace-nowrap rounded-md bg-[#f71663] px-5 py-2 font-body text-sm font-bold text-[#0a1429] no-underline hover:bg-[#f71663] hover:text-[#0a1429]';
 
 const MobileMenu = dynamic(() => import('./MobileMenu'), {
   ssr: false,
@@ -48,42 +52,52 @@ export function Header() {
       )}
     >
       <div className="container-content">
-        <div className="flex items-center justify-between h-32">
+        <div className="flex items-center h-32 gap-4">
           <Link href="/" className="flex items-center gap-4 group shrink-0" aria-label="ScopeSite - Go to homepage">
             <Image
               src="/images/logo-icon.svg"
               alt="ScopeSite Digital Studios logo"
               width={100}
               height={100}
-              className="transition-transform group-hover:scale-105"
+              className="h-[100px] w-[100px] transition-transform group-hover:scale-105 lg:h-16 lg:w-16 xl:h-[100px] xl:w-[100px]"
               priority
             />
             <span className={cn(
-              "font-brand text-[50px] leading-none tracking-tight hidden sm:block whitespace-nowrap transition-colors",
+              "font-brand text-[50px] leading-none tracking-tight hidden sm:block lg:hidden xl:block whitespace-nowrap transition-colors",
               isHome ? "text-brand-gold" : "text-white group-hover:text-brand-gold"
             )}>
               SCOPESITE
             </span>
           </Link>
 
-          <Navigation
-            className="hidden lg:flex items-center gap-5 xl:gap-8"
-            variant="header"
-          />
-
-          <div className="hidden lg:flex items-center shrink-0">
-            <Button
-              asChild
-              className="bg-brand-gold text-brand-navy hover:bg-white hover:text-brand-navy shadow-button font-body font-bold px-5 py-2 whitespace-nowrap"
-            >
-              <Link href={isUS ? '/us/quote' : '/pricing'}>Get a Quote</Link>
-            </Button>
+          <div className="ml-auto hidden lg:flex items-center gap-4">
+            <Navigation
+              className="flex items-center gap-4 xl:gap-6"
+              variant="header"
+            />
+            {isUS ? (
+              <Button
+                asChild
+                className="bg-brand-gold text-brand-navy hover:bg-white hover:text-brand-navy shadow-button font-body font-bold px-5 py-2 whitespace-nowrap"
+              >
+                <Link href="/us/quote">Get a Quote</Link>
+              </Button>
+            ) : (
+              <RwdOutboundLink
+                destination="home"
+                page="nav"
+                placement="nav"
+                className={recruitmentCtaClass}
+              >
+                Work In Recruitment?
+              </RwdOutboundLink>
+            )}
           </div>
 
           <Button
             variant="ghost"
             size="icon"
-            className="lg:hidden text-white hover:text-brand-gold hover:bg-transparent h-20 w-20 [&_svg]:!h-14 [&_svg]:!w-14"
+            className="ml-auto lg:hidden text-white hover:text-brand-gold hover:bg-transparent h-20 w-20 [&_svg]:!h-14 [&_svg]:!w-14"
             aria-label="Open menu"
             onClick={() => setIsMobileMenuOpen(true)}
           >

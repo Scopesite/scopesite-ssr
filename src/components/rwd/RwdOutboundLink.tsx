@@ -1,6 +1,6 @@
 'use client';
 
-import type { ReactNode } from 'react';
+import type { MouseEvent, ReactNode } from 'react';
 import {
   RWD_DESTINATIONS,
   trackRwdOutbound,
@@ -14,6 +14,8 @@ interface RwdOutboundLinkProps {
   page: RwdPageCategory;
   placement: RwdPlacementCategory;
   className?: string;
+  /** Runs after tracking. Does not replace it and does not cancel navigation. */
+  onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
   children: ReactNode;
 }
 
@@ -26,14 +28,16 @@ export function RwdOutboundLink({
   page,
   placement,
   className,
+  onClick,
   children,
 }: RwdOutboundLinkProps) {
   return (
     <a
       href={RWD_DESTINATIONS[destination]}
       className={className}
-      onClick={() => {
+      onClick={(event) => {
         trackRwdOutbound({ page, placement, destination });
+        onClick?.(event);
       }}
     >
       {children}
