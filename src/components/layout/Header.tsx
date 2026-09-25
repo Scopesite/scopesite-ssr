@@ -12,7 +12,7 @@ import { RwdOutboundLink } from '@/components/rwd/RwdOutboundLink';
 import { cn } from '@/lib/utils';
 
 const recruitmentCtaClass =
-  'inline-flex items-center justify-center whitespace-nowrap rounded-md bg-[#f71663] px-5 py-2 font-body text-sm font-bold text-[#0a1429] shadow-button no-underline hover:bg-[#f71663] hover:text-[#0a1429]';
+  'inline-flex items-center justify-center whitespace-nowrap rounded-md bg-[#f71663] px-5 py-2 font-body text-sm font-bold text-[#0a1429] no-underline hover:bg-[#f71663] hover:text-[#0a1429]';
 
 const MobileMenu = dynamic(() => import('./MobileMenu'), {
   ssr: false,
@@ -59,11 +59,11 @@ export function Header() {
               alt="ScopeSite Digital Studios logo"
               width={100}
               height={100}
-              className="h-16 w-16 transition-transform group-hover:scale-105 xl:h-[100px] xl:w-[100px]"
+              className="h-[100px] w-[100px] transition-transform group-hover:scale-105 lg:h-16 lg:w-16 xl:h-[100px] xl:w-[100px]"
               priority
             />
             <span className={cn(
-              "font-brand text-[50px] leading-none tracking-tight hidden xl:block whitespace-nowrap transition-colors",
+              "font-brand text-[50px] leading-none tracking-tight hidden sm:block lg:hidden xl:block whitespace-nowrap transition-colors",
               isHome ? "text-brand-gold" : "text-white group-hover:text-brand-gold"
             )}>
               SCOPESITE

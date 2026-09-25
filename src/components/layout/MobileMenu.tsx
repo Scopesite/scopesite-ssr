@@ -14,7 +14,7 @@ import { Navigation } from './Navigation';
 import { RwdOutboundLink } from '@/components/rwd/RwdOutboundLink';
 
 const recruitmentCtaClass =
-  'inline-flex w-full items-center justify-center whitespace-nowrap rounded-md bg-[#f71663] px-5 py-2 text-center font-body text-sm font-bold text-[#0a1429] shadow-button no-underline hover:bg-[#f71663] hover:text-[#0a1429]';
+  'inline-flex w-full items-center justify-center whitespace-nowrap rounded-md bg-[#f71663] px-5 py-2 text-center font-body text-sm font-bold text-[#0a1429] no-underline hover:bg-[#f71663] hover:text-[#0a1429]';
 
 interface MobileMenuProps {
   open: boolean;
