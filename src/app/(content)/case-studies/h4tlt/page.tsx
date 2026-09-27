@@ -282,7 +282,7 @@ export default function H4TLTCaseStudyPage() {
             <FadeInOnScroll>
               <div className="text-center mb-16">
                 <h2 className="text-brand-navy text-3xl sm:text-4xl mb-4">What we built: AI visibility</h2>
-                <p className="text-slate-400 italic text-lg mb-8">Visibility, Optimisation, for Intelligent, Crawler, Engines.</p>
+                <p className="text-slate-400 italic text-lg mb-8">Visibility, Optimisation, for Intelligent, Conversational, Engines.</p>
                 <div className="prose-scopesite text-left">
                   <p>
                     Each pillar in our framework is grounded in peer-reviewed research from Princeton, Toronto, and the SSRN. The full 19-page evidence review is available at scopesite.co.uk/evidence. Here is what each letter does and why it matters.

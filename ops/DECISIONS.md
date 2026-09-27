@@ -265,4 +265,27 @@
 
 ---
 
-*Last Updated: 2026-01-03*
+## D013 - V.O.I.C.E. Acronym: Conversational (not Crawler)
+
+**Date:** 2026-06-16
+**Decision:** The "C" in V.O.I.C.E.™ stands for **Conversational**, not Crawler
+**Decided By:** Dan
+
+**Canonical expansion:**
+Visibility, Optimisation, for Intelligent, Conversational, Engines
+
+**Rationale:**
+- Aligns with PROJECT_BRIEF.md and the live blog post `/blog/2026-uk-ai-visibility-index`
+- "Conversational" covers voice search, chat-based AI discovery, and how people actually query assistants
+- "Crawler" duplicated technical SEO language already covered by Visibility and Optimisation
+
+**Applies to:**
+- All site copy, schema `DefinedTermSet` (`#voice-methodology`), FAQ answers, case studies, and downstream surfaces (CAFMO, Brain entries, glossary)
+
+**Overrides:** Any prior Brain entries or code using "Crawler" in the acronym context
+
+**Revisit When:** Never without a formal brand decision
+
+---
+
+*Last Updated: 2026-06-16*
