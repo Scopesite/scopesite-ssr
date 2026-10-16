@@ -8,6 +8,7 @@
 import { GhostPost } from './ghost';
 import { ADDON_CATALOG, PRICING_CONFIG, VOICE_SPEC } from './pricing-config';
 import type { GlossaryTerm } from './glossary-db';
+import { CAFMO_PRODUCT_STORY } from './product-story';
 
 const BASE_URL = 'https://scopesite.co.uk';
 
@@ -702,11 +703,10 @@ export function generateBusinessAudienceSchema() {
 export function generateVOICESoftwareApplicationSchema() {
   return {
     '@type': 'SoftwareApplication',
-    '@id': `${BASE_URL}/#voice-scanner`,
+    '@id': CAFMO_PRODUCT_STORY.applicationId,
     name: 'CAFMO (Can AI Find Me Online)',
-    description:
-      'CAFMO (Can AI Find Me Online), ScopeSite’s AI visibility product in development. The public scanner still uses the earlier V.O.I.C.E. interface while the replacement is being built.',
-    url: 'https://canaifindme.online',
+    description: CAFMO_PRODUCT_STORY.description,
+    url: CAFMO_PRODUCT_STORY.url,
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
     creator: { '@id': `${BASE_URL}/#organization` },

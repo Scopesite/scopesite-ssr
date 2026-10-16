@@ -22,7 +22,7 @@ const services = [
   },
   {
     title: 'AI visibility scan',
-    description: 'Check website evidence and understand the current scanner, CAFMO and the limits of a technical score.',
+    description: 'Check website evidence and understand CAFMO and the limits of its page and model answer checks.',
     icon: Sparkles,
     href: '/voice',
     cta: 'Run the scan',
@@ -259,12 +259,12 @@ export function HomeBelowFoldStatic({ reviews }: HomeBelowFoldStaticProps) {
             Ready when you are
           </h2>
           <p className="text-white mb-8 max-w-xl mx-auto">
-            No obligation, no hard sell. Explore the current scanner or book a call and we will talk honestly about
+            No obligation, no hard sell. Explore CAFMO or book a call and we will talk honestly about
             whether we are a fit.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <a href={VOICE_SCAN_URL} className="btn-primary" target="_blank" rel="noopener noreferrer">
-              Explore the current scanner
+              Explore CAFMO
             </a>
             <Link href="/book" className="btn-secondary-light">
               Book a discovery call

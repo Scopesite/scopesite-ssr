@@ -330,7 +330,7 @@ export default function AboutPage() {
                 <Link href="/voice" className="text-brand-gold-accessible hover:underline font-medium">
                   V.O.I.C.E.
                 </Link>
-                , which checks website evidence and helps us prioritise repairs. CAFMO, short for Can AI Find Me Online, is the product being rebuilt around that work. The public scanner still uses the earlier V.O.I.C.E. interface while the replacement is in development. You can read the current position on our{' '}
+                , which checks website evidence and helps us prioritise repairs. CAFMO, short for Can AI Find Me Online, is now live, with saved page checks, model answers and an improvement plan you can review. The earlier scanner keeps its own accounts and credits. You can read the current position on our{' '}
                 <Link href="/voice" className="text-brand-gold-accessible hover:underline font-medium">AI visibility page</Link>
                 , or see the scope and reported results of our work with Hear 4 The Long Term in the{' '}
                 <Link href="/case-studies/h4tlt" className="text-brand-gold-accessible hover:underline font-medium">published H4TLT case study</Link>.

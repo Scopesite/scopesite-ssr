@@ -9,9 +9,9 @@ export const faqItems: FAQItem[] = [
       "A technical scan checks the website evidence it can retrieve, including content, structured data and access signals. A score does not show that an assistant searched for, cited or recommended your business. Those outcomes need separate, dated checks of actual answers.",
   },
   {
-    question: 'Where can I check current scanner access?',
+    question: 'Where can I use CAFMO or the earlier scanner?',
     answer:
-      `${CAFMO_PRODUCT_STORY.availability} Check the existing scanner for current access and credit terms.`,
+      `${CAFMO_PRODUCT_STORY.availability} Check canaifindme.online/pricing for CAFMO’s current plans and allowances.`,
   },
   {
     question: 'What is Answer Engine Optimization?',

@@ -81,7 +81,7 @@ export default function AIVisibilityPage() {
               style={{ color: '#0A1B36' }}
             >
               <Rocket className="w-6 h-6" />
-              See the current scanner
+              Explore CAFMO
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
@@ -182,22 +182,22 @@ export default function AIVisibilityPage() {
               The AI visibility scanner
             </h2>
             <p className="text-muted mb-4">
-              The earlier scanner was built by{' '}
+              CAFMO was built by{' '}
               <Link href="/us/services" className="text-brand-gold font-medium hover:underline">
                 ScopeSite Digital Studios
               </Link>{' '}
-              to inspect technical website evidence. CAFMO is the replacement product in development; the public scanner still uses the earlier V.O.I.C.E. interface.
+              to inspect website pages, record model answer evidence and keep a saved improvement plan. CAFMO is live at canaifindme.online; the earlier scanner and its credits remain at voice.scopesite.co.uk.
             </p>
             <p className="text-muted mb-6">
-              A useful report distinguishes the website content it retrieved, the structured data it found, external metrics and generated advice. Failed requests and missing provider data should remain explicit. Actual assistant citations need separate observations.
+              A useful report distinguishes the website content it retrieved, the structured data it found, model answer evidence and generated advice. Failed requests and missing provider data remain explicit. Model API results can differ from the consumer assistant applications.
             </p>
 
             <div className="grid sm:grid-cols-2 gap-4 mb-8">
               {[
                 { icon: Code2, label: 'Structured data found on the page' },
-                { icon: BarChart3, label: 'Core Web Vitals performance' },
+                { icon: BarChart3, label: 'Saved page checks and question lists' },
                 { icon: Bot, label: 'Crawler access findings returned by the scan' },
-                { icon: ShieldCheck, label: 'External authority data, where returned' },
+                { icon: ShieldCheck, label: 'Model answers with inspectable source evidence' },
                 { icon: Search, label: 'Content structure and heading hierarchy' },
                 { icon: BarChart3, label: 'Consistent business facts' },
               ].map((item) => (
@@ -219,11 +219,11 @@ export default function AIVisibilityPage() {
                 style={{ color: '#0A1B36' }}
               >
                 <Rocket className="w-6 h-6" />
-                See the current scanner
+                Explore CAFMO
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <p className="text-light text-sm mt-4">
-                See the current scanner for its access and credit arrangements.
+                See CAFMO’s current plans, or return to the earlier scanner for existing accounts and credits.
               </p>
             </div>
           </div>
@@ -368,7 +368,7 @@ export default function AIVisibilityPage() {
               Find Out Where You Stand
             </h2>
             <p className="text-white/70 mb-10 max-w-2xl mx-auto">
-              Read the current scanner and CAFMO status, then choose the website or answer checks that fit your question.
+              Read the CAFMO and earlier scanner overview, then choose the website or answer checks that fit your question.
             </p>
 
             <div className="relative inline-block">
@@ -383,13 +383,13 @@ export default function AIVisibilityPage() {
                 style={{ color: '#0A1B36' }}
               >
                 <Rocket className="w-6 h-6" />
-                See the current scanner
+                Explore CAFMO
                 <ExternalLink className="w-5 h-5" />
               </Link>
             </div>
 
             <p className="text-white/50 text-sm mt-6">
-              Existing scanner access is separate from future CAFMO subscription plans.
+              Legacy scanner accounts and credits remain separate from CAFMO subscriptions.
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8">

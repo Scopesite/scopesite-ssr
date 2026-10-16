@@ -381,7 +381,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               Book a Strategy Call
             </Link>
             <Link href="/voice" className="btn-secondary-light">
-              View CAFMO and the current scanner
+              View CAFMO and the earlier scanner
             </Link>
           </div>
         </div>

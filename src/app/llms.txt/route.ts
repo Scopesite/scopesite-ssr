@@ -18,7 +18,9 @@ ScopeSite Digital Studios is the trading name of SCOPESITE LTD (company 16130355
 
 - [Recruitment Web Design](https://recruitmentwebdesign.com/): ScopeSite’s specialist recruitment website service.
 - [Recruitment AI discovery guide](https://recruitmentwebdesign.com/explainers/ai-discovery): Practical checks across search and AI providers.
-- [CAFMO and the current scanner](https://scopesite.co.uk/voice): ${CAFMO_PRODUCT_STORY.description} ${CAFMO_PRODUCT_STORY.availability}
+- [CAFMO](https://canaifindme.online/): ${CAFMO_PRODUCT_STORY.description} ${CAFMO_PRODUCT_STORY.availability}
+- [CAFMO plans](https://canaifindme.online/pricing): Current monthly subscriptions, account allowances and terms, separate from ScopeSite agency services.
+- [Earlier scanner](https://voice.scopesite.co.uk/): Existing scanner accounts and legacy credits.
 - [Founder and company](https://scopesite.co.uk/about): ScopeSite and Dan Cartwright’s identity and background.
 
 ${CAFMO_PRODUCT_STORY.measurement}

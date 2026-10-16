@@ -131,7 +131,7 @@ export default function USServicesPage() {
                 href="/us/ai-visibility"
                 className="text-brand-gold hover:text-brand-orange transition-colors underline underline-offset-2"
               >
-                explore the current scanner
+                explore CAFMO
               </Link>{' '}
               and review its current account and credit arrangements before starting.
             </p>

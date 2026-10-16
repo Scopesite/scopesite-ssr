@@ -107,7 +107,7 @@ export default function USQuotePage() {
                   href="/voice"
                   className="btn inline-block border-2 border-brand-gold !text-brand-navy no-underline font-bold px-6 py-3 rounded-lg hover:bg-brand-gold transition-colors"
                 >
-                  Explore the current scanner
+                  Explore CAFMO
                 </Link>
               </div>
             </div>

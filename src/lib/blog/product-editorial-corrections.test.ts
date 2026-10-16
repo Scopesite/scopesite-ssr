@@ -14,7 +14,8 @@ describe('dated product editorial correction', () => {
     expect(post.id).toBe(source.id);
     expect(post.slug).toBe(source.slug);
     expect(post.published_at).toBe(source.published_at);
-    expect(post.html).toContain('currently being rebuilt');
+    expect(post.html).toContain('CAFMO is live');
+    expect(post.html).toContain('https://canaifindme.online/pricing');
     expect(post.html).toContain('https://voice.scopesite.co.uk/pricing');
     expect(post.html).not.toContain('£29');
     expect(post.feature_image).toBeUndefined();

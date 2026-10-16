@@ -8,11 +8,11 @@ import { CAFMO_PRODUCT_STORY } from '@/lib/product-story';
  * Retire each override after its corrected copy is reconciled in Ghost.
  * Source receipt: docs/product-story-reconciliation-2026-10-16.md.
  */
-const REVIEW_DATE = '2026-10-16T10:08:00.000Z';
+const REVIEW_DATE = '2026-10-16T19:50:00.000Z';
 const status = `<h2>CAFMO and the earlier scanner</h2>
 <p>${CAFMO_PRODUCT_STORY.description} ${CAFMO_PRODUCT_STORY.availability}</p>
 <p>${CAFMO_PRODUCT_STORY.measurement}</p>
-<p>For the earlier scanner’s current credit arrangements, use its <a href="https://voice.scopesite.co.uk/pricing">pricing page</a>. For the product’s current position, read <a href="https://scopesite.co.uk/voice">CAFMO and the current scanner</a>. ScopeSite’s <a href="https://scopesite.co.uk/pricing">agency services</a> are a separate purchase.</p>`;
+<p>Use <a href="https://canaifindme.online/pricing">CAFMO’s monthly plans</a> for the live application, or the <a href="https://voice.scopesite.co.uk/pricing">earlier scanner’s pricing page</a> for existing credits. ScopeSite’s <a href="https://scopesite.co.uk/pricing">agency services</a> are a separate purchase.</p>`;
 const notice = `<p><strong>Updated 16 October 2026.</strong> This revision replaces the older product and competitor comparison. Previous per-scan prices and “cheapest” claims are not a current CAFMO subscription offer.</p>`;
 const sources = `<h2>Sources and further checks</h2><ul>
 <li><a href="https://developers.openai.com/api/docs/bots">OpenAI crawler roles and controls</a></li>
@@ -74,7 +74,7 @@ ${sources}`,
   },
   'free-ai-visibility-tools': {
     title: 'Free AI visibility checks: what you can learn before buying a tool',
-    description: 'Check readable pages, business identity, crawler access and actual assistant answers. Understand the limits of free checks and the current scanner status.',
+    description: 'Check readable pages, business identity, crawler access and actual assistant answers. Understand the limits of free checks and CAFMO’s current plans and access.',
     html: `${notice}
 <p class="key-takeaway">You can begin with public pages and a small, recorded set of buyer questions. Check what each method observes and keep failures visible. A technical pass, an assistant mention and a qualified enquiry are different results.</p>
 <p>Before buying another dashboard, write down the question. For a recruitment agency it might be, “Can an employer tell which engineering roles we cover?” That can be investigated. “Are we winning at AI?” has enough room in it for an entire sales department.</p>

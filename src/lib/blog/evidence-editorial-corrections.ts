@@ -3,7 +3,7 @@ import type { GhostPost } from '@/lib/ghost';
 import corrections from './evidence-editorial-corrections.data.json';
 
 /** Read-only Ghost corrections reviewed against the snapshots in ./fixtures/editorial-2026-10-16. */
-export const EVIDENCE_REVIEW_DATE = '2026-10-16T10:35:00.000Z';
+export const EVIDENCE_REVIEW_DATE = '2026-10-16T19:50:00.000Z';
 
 // Include every replaced claim surface so a metadata-only edit cannot be lost.
 const fingerprintFields = [

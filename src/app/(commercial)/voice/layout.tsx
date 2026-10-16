@@ -12,7 +12,7 @@ import {
   schemaStandardTierServiceOffers,
 } from '@/lib/schema';
 import { getAlternates } from '@/lib/hreflang-map';
-import { AI_VISIBILITY_FAQS as faqs } from '@/lib/product-story';
+import { AI_VISIBILITY_FAQS as faqs, CAFMO_PRODUCT_STORY } from '@/lib/product-story';
 
 const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/voice`;
@@ -20,11 +20,11 @@ const PAGE_URL = `${BASE_URL}/voice`;
 export const metadata: Metadata = {
   title: 'AI visibility checker and AI SEO | ScopeSite',
   description:
-    'Website evidence, technical readiness and separate AI answer checks. Understand CAFMO, the current scanner and ScopeSite’s AI SEO services.',
+    'Website evidence, technical readiness and separate model answer checks. Explore the live CAFMO application and ScopeSite’s AI SEO services.',
   openGraph: {
     title: 'AI visibility checker and AI SEO | ScopeSite',
     description:
-      'Website checks and AI SEO support from ScopeSite, with the current CAFMO development and legacy scanner status.',
+      'Website checks and AI SEO support from ScopeSite. CAFMO is live, with the earlier scanner and its credits available separately.',
     url: PAGE_URL,
     siteName: 'ScopeSite Digital Studios',
     images: [
@@ -75,7 +75,7 @@ export default function VoiceLayout({
     isRelatedTo: [
       { '@id': `${BASE_URL}/ai-seo-services/#service` },
       { '@id': `${BASE_URL}/schema-markup/#service` },
-      { '@id': `${BASE_URL}/#voice-scanner` },
+      { '@id': CAFMO_PRODUCT_STORY.applicationId },
       { '@id': `${BASE_URL}/generative-engine-optimisation/#service` },
     ],
   };
