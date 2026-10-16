@@ -100,8 +100,8 @@ const pillarCards = [
 // Benefits Data
 const benefits = [
   {
-    title: 'Technical readiness score',
-    description: 'Read a score of the signals checked, with its limits',
+    title: 'Page findings',
+    description: 'See the checks that passed, failed or could not complete',
     icon: BarChart3,
   },
   {
@@ -110,18 +110,18 @@ const benefits = [
     icon: Code2,
   },
   {
-    title: 'DA/PA Ranking',
-    description: 'External authority metrics where the provider returns them',
+    title: 'Saved question lists',
+    description: 'Keep the buyer questions you want to check again',
     icon: BarChart3,
   },
   {
-    title: 'Spam Score Analysis',
-    description: 'Review an external risk signal alongside the actual links',
+    title: 'Page access checks',
+    description: 'Inspect the public response and crawler access findings',
     icon: Shield,
   },
   {
-    title: 'Backlink Count',
-    description: 'Link counts reported by the external data source',
+    title: 'Business facts',
+    description: 'Compare your saved business reference with a public listing',
     icon: Link2,
   },
   {
@@ -152,7 +152,7 @@ export default function VoicePage() {
             </h1>
             <Image
               src="/images/voice-ai-aeo-geo-uk-scopesite-top-logo.webp"
-              alt="AI visibility scanning tool by ScopeSite Digital Studios"
+              alt="V.O.I.C.E. analysis methodology by ScopeSite Digital Studios"
               width={600}
               height={120}
               className="mx-auto mb-4"
@@ -173,7 +173,7 @@ export default function VoicePage() {
               rel="noopener noreferrer"
               className="btn-primary inline-flex items-center gap-2 text-lg"
             >
-              Open the current scanner
+              Open CAFMO
               <ArrowRight className="w-5 h-5" />
             </a>
           </div>
@@ -293,7 +293,7 @@ export default function VoicePage() {
         
         <div className="container-content relative z-10">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">CAFMO and the current scanner</h2>
+            <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">CAFMO is live</h2>
             <p className="text-white/70 mb-10">
               {CAFMO_PRODUCT_STORY.availability}
             </p>
@@ -315,13 +315,13 @@ export default function VoicePage() {
                 style={{ color: '#0A1B36' }}
               >
                 <Rocket className="w-6 h-6" />
-                Open the current scanner
+                Open CAFMO
                 <ExternalLink className="w-5 h-5" />
               </a>
             </div>
             
             <p className="text-white/50 text-sm mt-6">
-              Opens the existing scanner in a new tab. Check its current access and credit terms there.
+              Opens CAFMO in a new tab. <a href="https://canaifindme.online/pricing" className="underline">See monthly plans</a>, or <a href="https://voice.scopesite.co.uk" className="underline">return to the earlier scanner</a> for existing accounts and credits.
             </p>
           </div>
         </div>
@@ -333,7 +333,7 @@ export default function VoicePage() {
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">What to look for in a scan report</h2>
             <p className="text-muted max-w-2xl mx-auto">
-              A useful report explains what was checked, what failed and what could not be measured. Technical readiness, third-party metrics and actual AI answer observations should remain distinguishable.
+              A useful report explains what was checked, what failed and what could not be measured. CAFMO keeps page findings, model answer evidence and your reviewed next steps together, with their different limits attached.
             </p>
           </div>
           
@@ -358,7 +358,7 @@ export default function VoicePage() {
               rel="noopener noreferrer"
               className="btn-primary inline-flex items-center gap-2"
             >
-              Open the current scanner
+              Open CAFMO
               <ArrowRight className="w-5 h-5" />
             </a>
           </div>
@@ -435,7 +435,7 @@ export default function VoicePage() {
       <section className="section-white">
         <div className="container-content text-center">
           <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">Where should you start?</h2>
-            <p className="text-muted mb-8 max-w-xl mx-auto">Open the current scanner, or discuss the website evidence with ScopeSite.</p>
+            <p className="text-muted mb-8 max-w-xl mx-auto">Open CAFMO, or discuss the website evidence with ScopeSite.</p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <a
               href="https://canaifindme.online"
@@ -443,7 +443,7 @@ export default function VoicePage() {
               rel="noopener noreferrer"
               className="btn-primary"
             >
-              Open the current scanner
+              Open CAFMO
             </a>
             <Link href="/book" className="btn-secondary">
               Book Strategy Call

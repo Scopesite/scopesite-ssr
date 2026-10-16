@@ -160,7 +160,7 @@ export default function AIVisibilityPage() {
             </p>
           </>
         }
-        primaryCTA={{ text: 'Explore the current scanner', href: '/voice' }}
+        primaryCTA={{ text: 'Explore CAFMO', href: '/voice' }}
         secondaryCTA={{ text: 'Get a Quote', href: '/pricing' }}
       />
 
@@ -198,12 +198,12 @@ export default function AIVisibilityPage() {
             </div>
             <div className="bg-brand-graphite/30 p-8 rounded-2xl border border-brand-gold/30 flex flex-col justify-center items-center text-center">
               <Activity className="w-16 h-16 text-brand-gold mb-4" />
-              <h3 className="text-white font-bold text-xl mb-4">Explore the current scanner</h3>
+              <h3 className="text-white font-bold text-xl mb-4">Explore CAFMO</h3>
               <p className="text-white/70 mb-6">
                 Review the scanner&apos;s access terms and the website evidence it checks.
               </p>
               <Link href="/voice" className="btn-primary">
-                Explore the current scanner
+                Explore CAFMO
               </Link>
             </div>
           </div>
@@ -237,8 +237,8 @@ export default function AIVisibilityPage() {
 
       <LandingCTA
         title="READY TO BE SEEN?"
-        description="Explore the current scanner and its access terms, or get an instant quote."
-        primaryCTA={{ text: 'Explore the current scanner', href: '/voice' }}
+        description="Explore CAFMO and its access terms, or get an instant quote."
+        primaryCTA={{ text: 'Explore CAFMO', href: '/voice' }}
         secondaryCTA={{ text: 'Get Instant Quote', href: '/pricing' }}
         footnote="No corporate waffle • Real results • Read our latest insights on the blog"
       />

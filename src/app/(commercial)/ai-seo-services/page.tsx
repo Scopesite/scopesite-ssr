@@ -123,7 +123,7 @@ export default function AISEOServicesPage() {
             </p>
             <p className="mb-4">
               Our AI SEO work covers technical reviews, implementation and Ultra Fast rebuilds where needed.
-              The current scanner has its own account and credit arrangements.
+              CAFMO has its own monthly plans. Earlier scanner accounts and credits remain separate.
             </p>
             <p>
               Learn more about our{' '}
@@ -138,11 +138,11 @@ export default function AISEOServicesPage() {
               <Link href="/ai-visibility" className="text-brand-gold hover:underline">
                 AI visibility
               </Link>{' '}
-              with the current scanner.
+              with CAFMO.
             </p>
           </>
         }
-        primaryCTA={{ text: 'Explore the current scanner', href: '/voice' }}
+        primaryCTA={{ text: 'Explore CAFMO', href: '/voice' }}
         secondaryCTA={{ text: 'Get a Quote', href: '/pricing' }}
       />
 
@@ -247,8 +247,8 @@ export default function AISEOServicesPage() {
 
       <LandingCTA
         title="READY FOR AI VISIBILITY?"
-        description="Explore the current scanner and its access terms, or get an instant quote for AI SEO."
-        primaryCTA={{ text: 'Explore the current scanner', href: '/voice' }}
+        description="Explore CAFMO and its access terms, or get an instant quote for AI SEO."
+        primaryCTA={{ text: 'Explore CAFMO', href: '/voice' }}
         secondaryCTA={{ text: 'Get Instant Quote', href: '/pricing' }}
         footnote="No corporate waffle • Real results • Read our latest insights on the blog"
       />

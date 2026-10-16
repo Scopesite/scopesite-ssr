@@ -64,7 +64,8 @@ describe('captured Ghost editorial corrections', () => {
     const text = document.body.textContent || '';
     expect(text.trim().split(/\s+/).length).toBeGreaterThanOrEqual(700);
     expect(text.trim().split(/\s+/).length).toBeLessThanOrEqual(1050);
-    expect(text).toContain('private development preview');
+    expect(text).toContain('CAFMO is live');
+    expect(document.querySelector('a[href="https://canaifindme.online/pricing"]')).not.toBeNull();
     expect(document.querySelector('a[href="https://scopesite.co.uk/case-studies/h4tlt"]')).not.toBeNull();
     expect(text).not.toMatch(/97%|37 of 38|£15,000|£8,000|#1 across|fraudulent/);
     expect(document.querySelector('h1, script, img')).toBeNull();

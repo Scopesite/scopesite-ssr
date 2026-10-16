@@ -16,6 +16,7 @@ import { ChevronDown } from 'lucide-react';
 import { HomeBelowFoldWrapper } from './HomeBelowFoldWrapper';
 import { PRICING_CONFIG } from '@/lib/pricing-config';
 import { RwdOutboundLink } from '@/components/rwd/RwdOutboundLink';
+import { CAFMO_PRODUCT_STORY } from '@/lib/product-story';
 
 const BASE_URL = 'https://scopesite.co.uk';
 const VOICE_SCAN_URL = 'https://canaifindme.online';
@@ -115,7 +116,7 @@ const homeFaqs: FAQItem[] = [
   {
     question: 'What does the AI visibility scan check?',
     answer:
-      'It checks the website evidence available to the scanner and highlights technical issues. CAFMO is being rebuilt; canaifindme.online currently opens the earlier scanner interface. A technical score does not prove that an AI assistant has cited your business.',
+      `${CAFMO_PRODUCT_STORY.description} ${CAFMO_PRODUCT_STORY.measurement}`,
   },
   {
     question: 'How much does a website cost?',
@@ -261,7 +262,7 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Explore the current scanner
+                  Explore CAFMO
                 </a>
               </div>
             </div>
@@ -372,7 +373,7 @@ export default function Home() {
           </div>
           <div className="mt-10 text-center">
             <a href={VOICE_SCAN_URL} className="btn-primary inline-block" target="_blank" rel="noopener noreferrer">
-              Explore the current scanner
+              Explore CAFMO
             </a>
           </div>
         </div>
@@ -400,7 +401,7 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href={VOICE_SCAN_URL} className="btn-primary text-center" target="_blank" rel="noopener noreferrer">
-              Explore the current scanner
+              Explore CAFMO
             </a>
             <Link href="/voice" className="btn-secondary text-center">
               Read how AI SEO and scans work

@@ -179,7 +179,7 @@ export default function TermsPage() {
 
             <aside className="bg-brand-navy/5 border border-brand-navy/10 rounded-xl p-6 mb-8" aria-label="Product naming note">
               <h2 className="text-brand-navy text-lg font-bold mb-2">Product naming note, 16 October 2026</h2>
-              <p className="text-brand-navy/80">These terms retain historical V.O.I.C.E. scanner references. CAFMO is the product name for the replacement application in development; V.O.I.C.E. remains the methodology and engine name. This note does not announce a new subscription or change an existing agreement. <Link href="/voice" className="underline">Read the current scanner and CAFMO status.</Link></p>
+              <p className="text-brand-navy/80">These terms retain historical V.O.I.C.E. scanner references. CAFMO is now live at canaifindme.online, with its own <a href="https://canaifindme.online/terms" className="underline">subscription terms</a>. The earlier scanner remains at voice.scopesite.co.uk with separate accounts and credits. This note does not change an existing agreement or convert purchased credits into a subscription. <Link href="/voice" className="underline">Read the current CAFMO and earlier scanner status.</Link></p>
             </aside>
 
             {/* Markdown Content */}

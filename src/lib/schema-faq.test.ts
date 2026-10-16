@@ -42,12 +42,12 @@ describe('landing-page structured data', () => {
     expect(generateWebsiteSchema()).not.toHaveProperty('additionalProperty');
   });
 
-  it('describes the in-development product without an offer or launch action', () => {
+  it('uses the live application identity without importing agency offers', () => {
     const product = generateVOICESoftwareApplicationSchema();
-    expect(product['@id']).toBe('https://scopesite.co.uk/#voice-scanner');
+    expect(product['@id']).toBe('https://canaifindme.online/#application');
     expect(product.name).toBe('CAFMO (Can AI Find Me Online)');
     expect(product.url).toBe('https://canaifindme.online');
-    expect(product.description).toContain('in development');
+    expect(product.description).toContain('live application');
     expect(product).not.toHaveProperty('offers');
     expect(product).not.toHaveProperty('potentialAction');
   });

@@ -1316,4 +1316,4 @@ Principal Place of Business: Frome, Somerset, United Kingdom
 
 ## Product naming note, 16 October 2026
 
-The terms above retain historical V.O.I.C.E. scanner references. CAFMO is the product name for the replacement application in development; V.O.I.C.E. remains the methodology and engine name. This note does not announce a new subscription or change an existing agreement. Current scanner and CAFMO status: https://scopesite.co.uk/voice
+The terms above retain historical V.O.I.C.E. scanner references. CAFMO is now live at https://canaifindme.online/ with its own subscription terms at https://canaifindme.online/terms. The earlier scanner remains at https://voice.scopesite.co.uk/ with separate accounts and credits. This note does not change an existing agreement or convert purchased credits into a subscription. Current CAFMO and earlier scanner status: https://scopesite.co.uk/voice

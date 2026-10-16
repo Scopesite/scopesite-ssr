@@ -137,7 +137,7 @@ export default function GenerativeEngineOptimisationPage() {
             </p>
           </>
         }
-        primaryCTA={{ text: 'Explore the current scanner', href: '/voice' }}
+        primaryCTA={{ text: 'Explore CAFMO', href: '/voice' }}
         secondaryCTA={{ text: 'Get a Quote', href: '/pricing' }}
       />
 
@@ -215,7 +215,7 @@ export default function GenerativeEngineOptimisationPage() {
       <LandingCTA
         title="READY TO BE CITED?"
         description="Check the technical evidence your website exposes, then assess actual AI answers separately. Start with a website scan or discuss a scoped audit."
-        primaryCTA={{ text: 'Explore the current scanner', href: '/voice' }}
+        primaryCTA={{ text: 'Explore CAFMO', href: '/voice' }}
         secondaryCTA={{ text: 'Get Instant Quote', href: '/pricing' }}
         footnote="No corporate waffle • Real results • Read our latest insights on the blog"
       />

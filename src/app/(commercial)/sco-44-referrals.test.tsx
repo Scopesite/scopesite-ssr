@@ -61,7 +61,7 @@ describe('SCO-44 protected header and hero CTAs', () => {
     expectSameTabSpecialistLink(recruitment, RWD_DESTINATIONS.home);
     expect(recruitment.className).toContain('bg-[#f71663]');
     expect(screen.queryByRole('link', { name: 'Live Quote Builder' })).toBeNull();
-    expect(screen.queryByRole('link', { name: 'Explore the current scanner' })).toBeNull();
+    expect(screen.queryByRole('link', { name: 'Explore CAFMO' })).toBeNull();
   });
 
   it('keeps the mobile pink recruitment button on the specialist homepage', () => {
@@ -79,7 +79,7 @@ describe('SCO-44 protected header and hero CTAs', () => {
 
     const hero = quote.closest('section');
     expect(hero).not.toBeNull();
-    const scan = within(hero!).getByRole('link', { name: 'Explore the current scanner' });
+    const scan = within(hero!).getByRole('link', { name: 'Explore CAFMO' });
     expect(scan.getAttribute('href')).toBe('https://canaifindme.online');
     expect(scan.getAttribute('target')).toBe('_blank');
     expect(scan.getAttribute('rel')).toBe('noopener noreferrer');
