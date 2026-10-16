@@ -2,9 +2,14 @@
 
 import Script from 'next/script';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { useEffect, Suspense } from 'react';
+import { useEffect, useSyncExternalStore, Suspense } from 'react';
+import { isProductionAnalyticsHostname } from '@/lib/analytics-hostname';
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+
+const subscribeToHostname = () => () => {};
+const getProductionHostSnapshot = () => isProductionAnalyticsHostname(window.location.hostname);
+const getServerHostSnapshot = () => false;
 
 declare global {
   interface Window {
@@ -38,6 +43,12 @@ function GoogleAnalyticsInner() {
 }
 
 export default function GoogleAnalytics() {
+  const isProductionHost = useSyncExternalStore(
+    subscribeToHostname,
+    getProductionHostSnapshot,
+    getServerHostSnapshot
+  );
+
   if (!GA_MEASUREMENT_ID) {
     if (process.env.NODE_ENV === 'development') {
       console.warn(
@@ -46,6 +57,8 @@ export default function GoogleAnalytics() {
     }
     return null;
   }
+
+  if (!isProductionHost) return null;
 
   return (
     <>

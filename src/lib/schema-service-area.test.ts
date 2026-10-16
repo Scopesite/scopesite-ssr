@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { generateLocalBusinessSchema, generateOrganizationSchema } from './schema';
+import {
+  generateLeanOrganizationSchema,
+  generateLocalBusinessSchema,
+  generateOrganizationSchema,
+} from './schema';
 
 function assertNoStreetOrCoordinates(value: unknown) {
   const blob = JSON.stringify(value);
@@ -15,6 +19,29 @@ function assertNoStreetOrCoordinates(value: unknown) {
 }
 
 describe('ScopeSite service-area schema', () => {
+  it.each([
+    ['commercial', generateOrganizationSchema],
+    ['content', generateLeanOrganizationSchema],
+  ] as const)('keeps %s identity references free of private coordinates and software repositories', (_name, generate) => {
+    const organization = generate();
+    assertNoStreetOrCoordinates(organization);
+    expect(organization['@id']).toBe('https://scopesite.co.uk/#organization');
+    expect(organization.brand).toContainEqual({
+      '@type': 'Brand',
+      '@id': 'https://recruitmentwebdesign.com/#brand',
+      name: 'Recruitment Web Design',
+      url: 'https://recruitmentwebdesign.com',
+    });
+    expect(organization.sameAs.some((url) => url.includes('recruitmentwebdesign.com'))).toBe(false);
+    for (const reference of organization.sameAs) {
+      const url = new URL(reference);
+      if (url.hostname === 'github.com') {
+        // A repository identifies a software project, not its operating business.
+        expect(url.pathname.split('/').filter(Boolean).length).toBeLessThanOrEqual(1);
+      }
+    }
+  });
+
   it('emits Organization identity without a street or coordinates', () => {
     const organization = generateOrganizationSchema();
     assertNoStreetOrCoordinates(organization);

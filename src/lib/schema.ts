@@ -40,6 +40,15 @@ export interface HowToStep {
 // ORGANIZATION SCHEMA
 // ============================================
 
+function generateRecruitmentWebDesignBrandSchema() {
+  return {
+    '@type': 'Brand',
+    '@id': 'https://recruitmentwebdesign.com/#brand',
+    name: 'Recruitment Web Design',
+    url: 'https://recruitmentwebdesign.com',
+  };
+}
+
 export function generateOrganizationSchema() {
   return {
     '@type': ['Organization', 'LocalBusiness', 'ProfessionalService'],
@@ -128,8 +137,6 @@ export function generateOrganizationSchema() {
       'https://find-and-update.company-information.service.gov.uk/company/16130355',
       // TEMP REMOVED 2026-04-18: Wikidata entity Q138866631 deleted 6 April 2026 (spam/advertising). Awaiting admin review. Restore if entity is reinstated.
       // 'https://www.wikidata.org/wiki/Q138866631',
-      'https://github.com/Scopesite/scopesite-ssr',
-      'https://github.com/Scopesite/voice',
       'https://www.trustpilot.com/review/scopesite.co.uk',
       'https://www.yell.com/biz/scopesite-digital-studios-beckington-11012422/',
       'https://fromechamber.com/member/scopesite-ltd/',
@@ -183,6 +190,7 @@ export function generateOrganizationSchema() {
     publishingPrinciples: `${BASE_URL}/terms-and-conditions`,
     correctionsPolicy: `${BASE_URL}/terms-and-conditions`,
     brand: [
+      generateRecruitmentWebDesignBrandSchema(),
       {
         '@type': 'Brand',
         '@id': `${BASE_URL}/#brand-scopesite`,
@@ -346,6 +354,7 @@ export function generateLeanOrganizationSchema() {
     legalName: 'SCOPESITE LTD',
     url: BASE_URL,
     foundingDate: '2024-12-01',
+    brand: [generateRecruitmentWebDesignBrandSchema()],
     logo: {
       '@type': 'ImageObject',
       '@id': `${BASE_URL}/#logo`,
@@ -377,9 +386,6 @@ export function generateLeanOrganizationSchema() {
       'https://www.instagram.com/scopesitedigitalstudios',
       'https://x.com/DlgltaI',
       'https://find-and-update.company-information.service.gov.uk/company/16130355',
-      'https://www.google.com/maps/place/ScopeSite+Digital+Studios/@51.2672214,-2.2915633,17z',
-      'https://github.com/Scopesite/scopesite-ssr',
-      'https://github.com/Scopesite/voice',
       'https://www.trustpilot.com/review/scopesite.co.uk',
       'https://www.yell.com/biz/scopesite-digital-studios-beckington-11012422/',
       'https://fromechamber.com/member/scopesite-ltd/',
