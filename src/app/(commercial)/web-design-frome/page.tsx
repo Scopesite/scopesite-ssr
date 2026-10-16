@@ -183,8 +183,8 @@ export default function WebDesignFromePage() {
       />
 
       <LandingCaseStudy 
-        title="See What AI-First Design Delivers"
-        quote="A UK business went from invisible to #1 AI-recommended in 6 weeks using our AI visibility methodology"
+        title="H4TLT case study"
+        description="Read about our work with H4TLT, a workplace hearing surveillance provider."
         theme="dark" 
       />
 
@@ -203,7 +203,7 @@ export default function WebDesignFromePage() {
           },
           {
             title: "H4TLT Case Study",
-            description: "How we got a business from invisible to #1 AI-recommended in 6 weeks",
+            description: "Read about our work with H4TLT, a workplace hearing surveillance provider.",
             href: "/case-studies/h4tlt"
           },
           {

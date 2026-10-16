@@ -180,8 +180,8 @@ export default function SEOBristolPage() {
       />
 
       <LandingCaseStudy 
-        title="AI visibility gets Bristol Results"
-        quote="From invisible to #1 AI-recommended in 6 weeks - the approach Bristol's tech scene has been waiting for"
+        title="H4TLT case study"
+        description="Read about our work with H4TLT, a workplace hearing surveillance provider."
         theme="dark" 
       />
 

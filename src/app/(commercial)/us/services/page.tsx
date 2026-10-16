@@ -108,18 +108,15 @@ export default function USServicesPage() {
               businesses that need to be found by AI.
             </p>
             <p className="text-brand-navy/80 mb-6">
-              This is not a minor technical detail. It is the difference between being visible to AI
-              and being completely ignored. Our{' '}
+              Our published{' '}
               <Link
                 href="/case-studies/h4tlt"
                 className="text-brand-gold-accessible hover:text-brand-orange-accessible transition-colors underline underline-offset-2"
               >
                 case study with H4TLT
-              </Link>
-              , a UK-based training provider, demonstrated a direct path from zero AI presence to
-              active ChatGPT recommendations within six weeks of launching a server-rendered site
-              with proper schema markup. The same approach works for US businesses because the
-              underlying technology is global.
+              </Link>{' '}
+              documents our work with a workplace hearing surveillance provider. Read it for the
+              evidence and context behind the project.
             </p>
             <p className="text-brand-navy/80">
               Every build ships with sub-2-second load times, 90+ Lighthouse scores across all

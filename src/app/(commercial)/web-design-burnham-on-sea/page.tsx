@@ -168,8 +168,8 @@ export default function WebDesignBurnhamOnSeaPage() {
       />
 
       <LandingCaseStudy 
-        title="See What AI-First Design Delivers"
-        quote="A UK business went from invisible to #1 AI-recommended in 6 weeks using our AI visibility methodology"
+        title="H4TLT case study"
+        description="Read about our work with H4TLT, a workplace hearing surveillance provider."
         theme="dark" 
       />
 
