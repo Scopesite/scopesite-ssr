@@ -6,7 +6,7 @@ Two published articles contained unsupported client stories, result timelines an
 
 This correction separates initial HTML from rendered pages, search crawlers from model training and user-directed fetching, technical checks from actual assistant answers, schema validation from citation outcomes, and Lighthouse lab scores from field data. It removes universal 100/100 results and unsupported 99.7%/43% claims in the targeted passages. Current CAFMO copy distinguishes the private replacement preview from the earlier public scanner. No prices, payment flows, forms, privacy controls or access settings are changed.
 
-Hosted preview inspection also identified stale free-scanner labels in the shared blog author/footer template and a pre-existing tracking-cleanup bug that deleted question marks from prose. The shared blog links now describe the current scanner overview. Tracking cleanup operates only on actual quoted anchor href attributes, removing the verified `ref=scopesite-digital-studios.ghost.io` value. Other referral parameters, encoding, fragments, other attributes, prose and malformed URLs are preserved. Sixteen regression cases cover that boundary.
+Hosted preview inspection also identified stale free-scanner labels in the shared blog author/footer template and a pre-existing tracking-cleanup bug that deleted question marks from prose. The shared blog links now describe the current scanner overview. Tracking cleanup operates only on actual quoted anchor href attributes, removing the verified `ref=scopesite-digital-studios.ghost.io` value. Other referral parameters, encoding, fragments, other attributes, prose and malformed URLs are preserved. Nineteen regression cases cover that boundary.
 
 ## Articles
 
@@ -48,7 +48,7 @@ Unexpected old-source drift or an invalid timestamp leaves the entire source pos
 
 ## Validation and limits
 
-- The initial 123-test suite passed across 20 files; 24 new editorial tests exercise real source snapshots, retained identity/dates/anchors, metadata and schema propagation, later-CMS bypass, whole-post preservation and diagnostic on drift, atomic duplicate/missing-block rejection, and listing/detail/featured integration. The subsequent link-cleanup repair adds 16 passing regression cases; final combined validation is recorded in the release receipt.
+- The initial 123-test suite passed across 20 files; 24 new editorial tests exercise real source snapshots, retained identity/dates/anchors, metadata and schema propagation, later-CMS bypass, whole-post preservation and diagnostic on drift, atomic duplicate/missing-block rejection, and listing/detail/featured integration. The subsequent link-cleanup repair adds 19 passing regression cases; final combined validation is recorded in the release receipt.
 - Production build and TypeScript check pass. Targeted lint for all changed TypeScript/TSX files passes.
 - Full repository lint remains red with eight errors and 48 warnings in unchanged files, including the book page and portal/territory components. This branch does not claim to resolve that baseline.
 - Independent review approved both full replacements and verified that all 17 adjacent paragraph/caption findings and three affected figures were addressed.

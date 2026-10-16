@@ -33,4 +33,8 @@ describe('Ghost link tracking cleanup', () => {
     const html = '<a href="/a broken path?ref=scopesite-digital-studios.ghost.io">Read?</a>';
     expect(stripGhostTrackingParams(html)).toBe(html);
   });
+  it.each(['&#38;', '&#x26;', '&quot;'])('leaves unsupported HTML entities intact: %s', (entity) => {
+    const html = `<a href="/guide?ref=scopesite-digital-studios.ghost.io${entity}campaign=employers">Read?</a>`;
+    expect(stripGhostTrackingParams(html)).toBe(html);
+  });
 });

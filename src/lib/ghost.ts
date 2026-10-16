@@ -477,6 +477,9 @@ export function stripGhostTrackingParams(html: string): string {
     try {
       // Validate only. Do not reserialise URLs or guess how to repair malformed ones.
       if (/[\s<>]/.test(href)) return match;
+      // Only &amp; is decoded below. In particular, numeric entities contain a '#'
+      // which must not be mistaken for a URL fragment by the narrow string cleanup.
+      if ((href.match(/&(?:#\d+|#x[\da-f]+|[a-z][a-z\d]+);/gi) || []).some((entity) => entity.toLowerCase() !== '&amp;')) return match;
       decodeURI(href);
       const url = new URL(href.replace(/&amp;/gi, '&'), 'https://scopesite.co.uk');
       if (!['https:', 'http:'].includes(url.protocol)) return match;
