@@ -129,7 +129,6 @@ export function generateOrganizationSchema() {
       },
     ],
     sameAs: [
-      'https://www.linkedin.com/in/scopesite',
       'https://www.linkedin.com/company/106028304',
       'https://www.facebook.com/scopesite',
       'https://www.instagram.com/scopesitedigitalstudios',
@@ -380,7 +379,6 @@ export function generateLeanOrganizationSchema() {
       },
     ],
     sameAs: [
-      'https://www.linkedin.com/in/scopesite',
       'https://www.linkedin.com/company/106028304',
       'https://www.facebook.com/scopesite',
       'https://www.instagram.com/scopesitedigitalstudios',
