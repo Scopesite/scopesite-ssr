@@ -10,6 +10,8 @@
  */
 
 import { applyProductEditorialCorrection } from '@/lib/blog/product-editorial-corrections';
+import { applyEvidenceEditorialCorrection } from '@/lib/blog/evidence-editorial-corrections';
+export { formatPostDate } from '@/lib/blog/format-post-date';
 
 // Types
 export interface GhostTag {
@@ -490,22 +492,9 @@ export function demoteBodyH1s(html: string): string {
 
 function cleanPost(post: GhostPost): GhostPost {
   post = applyProductEditorialCorrection(post);
+  post = applyEvidenceEditorialCorrection(post);
   if (post.html) {
     return { ...post, html: demoteBodyH1s(stripGhostTrackingParams(post.html)) };
   }
   return post;
 }
-
-/**
- * Format date for display
- */
-export function formatPostDate(dateString: string): string {
-  return new Date(dateString).toLocaleDateString('en-GB', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  });
-}
-
-
-

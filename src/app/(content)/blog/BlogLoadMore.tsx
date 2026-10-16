@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from 'react';
 import { BlogCard } from '@/components/blog';
-import { GhostPost } from '@/lib/ghost';
+import type { GhostPost } from '@/lib/ghost';
 import { Loader2 } from 'lucide-react';
 
 interface BlogLoadMoreProps {
