@@ -122,7 +122,7 @@ export default function AISEOAgencyPage() {
               We check your website architecture, structured data and content against the facts of your business. Search results and AI citations are measured separately, so a technical score does not get passed off as a recommendation.
             </p>
             <p>
-              Check your current <Link href="/ai-visibility" className="text-brand-gold hover:underline">AI visibility</Link> with the current scanner, explore our <Link href="/generative-engine-optimisation" className="text-brand-gold hover:underline">generative engine optimisation</Link> work, or see our full range of <Link href="/ai-seo-services" className="text-brand-gold hover:underline">AI SEO services</Link>.
+              Check your current <Link href="/ai-visibility" className="text-brand-gold hover:underline">AI visibility</Link> with CAFMO, explore our <Link href="/generative-engine-optimisation" className="text-brand-gold hover:underline">generative engine optimisation</Link> work, or see our full range of <Link href="/ai-seo-services" className="text-brand-gold hover:underline">AI SEO services</Link>.
             </p>
           </>
         }

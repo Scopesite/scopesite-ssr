@@ -123,7 +123,7 @@ export default function AISEOServicesPage() {
             </p>
             <p className="mb-4">
               Our AI SEO work covers technical reviews, implementation and Ultra Fast rebuilds where needed.
-              The current scanner has its own account and credit arrangements.
+              CAFMO has its own monthly plans. Earlier scanner accounts and credits remain separate.
             </p>
             <p>
               Learn more about our{' '}

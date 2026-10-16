@@ -271,7 +271,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Open the current AI visibility scanner
+                  Open CAFMO
                 </a>
               </li>
             </ul>
