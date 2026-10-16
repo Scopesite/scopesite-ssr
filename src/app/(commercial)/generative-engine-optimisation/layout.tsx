@@ -13,11 +13,11 @@ const PAGE_URL = `${BASE_URL}/generative-engine-optimisation`;
 
 export const metadata: Metadata = {
   title: 'Generative Engine Optimisation Agency | ScopeSite',
-  description: 'Generative engine optimisation agency getting UK businesses cited by ChatGPT, Claude, Gemini and Perplexity. AI visibility methodology. Start with a free scan.',
+  description: 'Generative engine optimisation for UK businesses: website evidence, technical repairs and separate checks of assistant answers. Explore the current scanner.',
   keywords: ['generative engine optimisation', 'generative engine optimisation agency', 'geo agency', 'generative engine optimisation services', 'what is generative engine optimisation'],
   openGraph: {
     title: 'Generative Engine Optimisation Agency | ScopeSite',
-    description: 'Generative engine optimisation agency getting UK businesses cited by ChatGPT, Claude, Gemini and Perplexity. AI visibility methodology. Start with a free scan.',
+    description: 'Generative engine optimisation for UK businesses: website evidence, technical repairs and separate checks of assistant answers. Explore the current scanner.',
     url: PAGE_URL,
     images: [
       {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Generative Engine Optimisation Agency | ScopeSite',
-    description: 'Generative engine optimisation agency getting UK businesses cited by ChatGPT, Claude, Gemini and Perplexity. AI visibility methodology. Start with a free scan.',
+    description: 'Generative engine optimisation for UK businesses: website evidence, technical repairs and separate checks of assistant answers. Explore the current scanner.',
     images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
 },
   alternates: getAlternates('/generative-engine-optimisation', BASE_URL),
@@ -44,7 +44,7 @@ const pageSchema = generateLandingPageSchema(
   PAGE_URL,
   'Generative Engine Optimisation',
   'Generative Engine Optimisation Agency | ScopeSite',
-  'Generative engine optimisation agency getting UK businesses cited by ChatGPT, Claude, Gemini and Perplexity. AI visibility methodology. Start with a free scan.',
+  'Generative engine optimisation for UK businesses: website evidence, technical repairs and separate checks of assistant answers. Explore the current scanner.',
   faqs,
   {
     name: 'Generative Engine Optimisation',

@@ -3,13 +3,9 @@
 import Link from 'next/link';
 import { ArrowRight, Globe, Clock, Zap, Users, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
-
-const faqs = [
-  { question: "Why should I hire a UK web agency instead of a US one?", answer: "Because AI visibility is a global challenge and the technology doesn\u2019t change based on geography. ScopeSite specializes in server-side rendered websites with full schema markup and AI optimization, a combination most US agencies aren\u2019t offering yet. You get a specialist, not a generalist who\u2019s bolted \u2018AI\u2019 onto their existing services." },
-  { question: "What time zone do you work in?", answer: "ScopeSite is based in the UK (GMT/BST). That gives us 5-8 hours of overlap with US East Coast business hours and full overlap with US West Coast mornings. All communication is async-friendly, and we schedule calls at times that work for both sides." },
-  { question: "Do you accept payment in USD?", answer: "Yes. All US pricing is in USD. We invoice in dollars and accept payment via bank transfer or card." },
-  { question: "Can I see the AI visibility scanner before committing to anything?", answer: "Absolutely. Run a free scan at scopesite.co.uk/voice on any URL. No signup required. You\u2019ll get an instant AI visibility report showing where your site stands." },
-];
+import { JsonLd } from '@/components/JsonLd';
+import { generateFAQSchema } from '@/lib/schema';
+import { faqItems as faqs } from './faqs';
 
 function FAQItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
@@ -35,6 +31,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 export default function USPage() {
   return (
     <>
+      <JsonLd schema={generateFAQSchema(faqs, { id: 'https://scopesite.co.uk/us/#webpage', inLanguage: 'en-US' })} />
       {/* Hero */}
       <section className="bg-brand-navy text-white py-section min-h-[85vh] flex items-center relative overflow-hidden">
         <div
@@ -60,12 +57,12 @@ export default function USPage() {
             </h1>
 
             <p className="text-xl md:text-2xl text-white/90 font-medium mb-6">
-              Server-side rendered websites that AI platforms can actually read, understand, and recommend to their users.
+              Custom websites with readable content, clear business facts and checks for search and AI access.
             </p>
 
             <div className="text-body-lg text-white/70 mb-10 max-w-3xl mx-auto">
               <p>
-                We are a UK-based web design agency that builds websites specifically for AI visibility. Not templates. Not WordPress. Custom-built, server-rendered sites with the kind of structured data and schema markup that makes ChatGPT, Perplexity, and Claude pay attention. We now serve businesses across the United States with USD pricing and a remote-first workflow that makes the Atlantic feel like a hallway.
+                We are a UK-based web design agency building custom Next.js websites, with core content delivered in HTML, structured business facts and crawler access checks. We check those foundations separately from whether an assistant actually mentions or cites a business. US projects use USD pricing and a remote workflow with clear written updates.
               </p>
             </div>
 
@@ -90,16 +87,16 @@ export default function USPage() {
             <div className="divider-gold mx-auto mb-10" />
 
             <p className="text-brand-navy/80 mb-6">
-              It&apos;s a fair question. You&apos;ve got thousands of web agencies in the US, so why hire one from across the pond? The honest answer: because almost none of them are doing what we do.
+              Distance is a reasonable thing to question when hiring an agency. So are the build, the evidence behind its claims and who handles the work after launch. Those are useful things to compare, whichever side of the Atlantic the agency sits on.
             </p>
             <p className="text-brand-navy/80 mb-6">
-              The vast majority of US web agencies are still building websites the old way. WordPress themes, page builders, maybe some basic SEO sprinkled on top. They&apos;ll tell you they&apos;re &quot;AI-ready&quot; because they added a chatbot to the homepage. That&apos;s not AI visibility. That&apos;s a widget.
+              Our work combines custom Next.js development, readable page content, structured business facts and crawler configuration. You can inspect those deliverables. A badge saying &quot;AI-ready&quot; gives you rather less to go on.
             </p>
             <p className="text-brand-navy/80 mb-6">
-              AI visibility means your website is built so that AI platforms, including ChatGPT, Perplexity, Claude, Google&apos;s AI Overviews, and voice assistants like Siri and Alexa, can read your content, understand what your business does, and recommend you when someone asks a relevant question. That requires server-side rendering, structured schema markup, entity relationships, and proper crawler configuration. It&apos;s a different discipline entirely from traditional web design.
+              AI visibility work covers several different questions: can a service access the page, can it extract useful information, and does a live answer actually mention or cite the business? ChatGPT, Claude, Perplexity and Google use different tools and retrieval paths. Search crawlers and browser agents also behave differently, so one provider&apos;s guidance cannot settle every check.
             </p>
             <p className="text-brand-navy/80">
-              We&apos;ve been building this way from day one. It&apos;s not something we bolted onto an existing service. Our AI visibility methodology was designed for this exact problem. And because the technology behind AI crawlers and structured data is universal, it works the same whether your business is in Austin, Texas or Frome, Somerset.
+              Readable content and accurate business information matter in both Austin and Frome. The market, location, question and provider still affect what needs testing. We apply the technical checks to your site, then assess answer evidence in the context of the people you want to serve.
             </p>
           </div>
         </div>
@@ -113,13 +110,13 @@ export default function USPage() {
             <div className="divider-gold mx-auto mb-10" />
 
             <p className="text-white/80 mb-6">
-              Every website we build is server-side rendered using Next.js. That means the full HTML content is delivered to the browser (and to AI crawlers) on the first request. Most websites built with React, Angular, or modern JavaScript frameworks are client-side rendered, which means the browser has to download and execute JavaScript before any content appears. AI crawlers don&apos;t wait for that. They see a blank page and move on.
+              Our Next.js builds deliver core page content in the initial HTML, reducing reliance on a visitor or crawler running JavaScript to obtain it. Rendering support varies between search crawlers, fetch tools and browser agents. We inspect the initial response and the rendered page, then check the access controls relevant to each provider.
             </p>
             <p className="text-white/80 mb-6">
-              On top of server-side rendering, we implement structured data using JSON-LD schema markup. This is the language AI platforms use to understand what your business is, what services you offer, where you operate, and what your customers say about you. Without it, AI is guessing. With it, AI knows.
+              We use JSON-LD structured data to describe supported facts about the business, its services and the areas it serves. Those facts must agree with the visible page. Valid markup helps make the information explicit; it does not guarantee indexing, citation or a recommendation from an assistant.
             </p>
             <p className="text-white/80 mb-6">
-              Our <Link href="/voice" className="text-brand-gold hover:text-brand-orange transition-colors underline underline-offset-2">AI visibility methodology</Link> is the framework that ties this together. It covers five layers of optimization: making your site visible to AI crawlers, optimizing the content structure for extraction, building intelligent entity relationships, configuring crawler access, and engineering the content itself for answer-engine compatibility.
+              Our <Link href="/voice" className="text-brand-gold hover:text-brand-orange transition-colors underline underline-offset-2">AI visibility methodology</Link> connects content access, factual consistency, entity relationships and crawler checks. Observed answers and citations are assessed separately, with the question and provider recorded so the result has some context.
             </p>
             <p className="text-white/80">
               Our published <Link href="/case-studies/h4tlt" className="text-brand-gold hover:text-brand-orange transition-colors underline underline-offset-2">H4TLT case study</Link> documents our work with a workplace hearing surveillance provider. Read it for the evidence and context behind the project.
@@ -142,7 +139,7 @@ export default function USPage() {
                 </div>
                 <h3 className="text-lg mb-3">Time Zone Friendly</h3>
                 <p className="text-brand-navy/70 text-sm">
-                  We&apos;re 5-8 hours ahead of the US. That means when you finish your workday, we&apos;ve already been working on your project for half a day. You wake up to progress, not silence.
+                  We work from the UK on GMT/BST. Written updates keep the project moving between calls, which we arrange at mutually suitable times for your US location.
                 </p>
               </div>
               <div className="card-hover text-center p-8">
@@ -189,7 +186,7 @@ export default function USPage() {
               </p>
             </div>
             <p className="text-white/80 mb-6">
-              We&apos;re not the right agency for everyone. If you want a cheap template site or a quick WordPress build, there are faster and cheaper options out there. We&apos;re the right choice if you care about long-term visibility, especially as AI-powered search continues to replace traditional Google results. Our clients tend to think in years, not weeks.
+              The work suits businesses looking for a custom site they can maintain and improve over time. Search results, AI answers and direct visits are different ways people may find you, and the website needs to serve the people who arrive as well as the systems that discover it.
             </p>
             <p className="text-white/80 mb-6">
               We also work well with US marketing agencies and SEO firms that need a technical partner for builds. If you&apos;re an agency looking for a white-label web development team that understands AI optimization at a technical level, we should talk. You handle the client relationship and strategy. We handle the build, the schema, and the AI visibility layer.
@@ -225,7 +222,7 @@ export default function USPage() {
             <div className="divider-gold mx-auto mb-8" />
 
             <p className="text-white/80 text-lg mb-10 max-w-2xl mx-auto">
-              Every day your website sits without structured data and server-side rendering, AI platforms are recommending your competitors instead. The technology exists right now to fix that. We know how to build it.
+              Start with evidence from your own website: what arrives in the HTML, which pages are accessible and whether the business facts agree. Those checks give us a concrete basis for improvements. Actual mentions and citations need their own assessment.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">

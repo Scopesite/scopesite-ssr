@@ -4,7 +4,7 @@ import type { FAQItem } from '@/lib/schema';
 export const faqItems: FAQItem[] = [
   {
     question: "What is an AI SEO agency?",
-    answer: "An AI SEO agency specialises in making your business visible to artificial intelligence platforms like ChatGPT, Claude, Perplexity, and Gemini. Instead of just trying to rank you on Google's traditional search results, we engineer your website's architecture, structured data, and content so that AI models extract it, understand it, and recommend your business to users."
+    answer: "An AI SEO agency reviews how search and AI services can access and interpret information about a business. Our work includes readable content, accurate structured data and provider-specific access checks. Actual mentions and citations are measured separately; a technical repair does not guarantee a recommendation."
   },
   {
     question: "How is AI SEO different from traditional SEO?",
@@ -20,7 +20,7 @@ export const faqItems: FAQItem[] = [
   },
   {
     question: "Do you work with businesses outside Somerset?",
-    answer: "Yes. While we are based in Frome, Somerset, we work with professional services, clinics, and e-commerce businesses across the UK. AI visibility is a national and global game, and our methodology works regardless of your location."
+    answer: "Yes. We are based in Frome, Somerset, and work with businesses across the UK. The technical review is applied to your website, while answer checks need questions, locations and providers that are relevant to your market."
   },
   {
     question: "What does AI SEO cost?",

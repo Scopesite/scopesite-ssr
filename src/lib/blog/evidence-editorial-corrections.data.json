@@ -1,0 +1,367 @@
+[
+  {
+    "slug": "how-to-get-recommended-by-chatgpt",
+    "sourceUpdatedAt": "2026-01-28T04:42:09.000+00:00",
+    "sourceFingerprint": "25fbc8b8118bb43d79ea6102a4474054756bcac2b340a659bd48ab1b0b508fb6",
+    "kind": "replace_article",
+    "title": "How to improve your business’s chances of appearing in AI answers",
+    "description": "A practical guide to website evidence, crawler roles and recorded assistant checks, with the published H4TLT case study and clear limits on result claims.",
+    "removeImages": true,
+    "blocks": [],
+    "html": "<p><strong>Updated 16 October 2026.</strong> This article replaces earlier claims about a six-week client result, universal AI rankings and scanner capabilities. Those claims should not be used as evidence or as a promise of future results.</p>\n<p>A recruitment agency can have a useful website and still be absent when an employer asks ChatGPT for a supplier. That answer deserves investigation. It does not, by itself, tell you whether the problem is the website, the question, the sources selected or the assistant’s particular response.</p>\n<p>Start with a question you can test, then keep the evidence attached. A website score, an assistant mentioning your agency and an employer submitting an enquiry are different observations. Putting them in the same green circle saves dashboard space, but makes the business decision rather harder.</p>\n<h2>Choose the employer question first</h2>\n<p>Write down what a prospective client might need: a recruitment partner for a particular role, sector or location; evidence that the agency understands the work; or an explanation of how an assignment starts. Use the language that appears in real enquiries where you have permission to use it.</p>\n<p>Keep a small, fixed set of questions. Include questions about your named agency and questions that do not mention it. “What does this agency do?” checks a different problem from “Which agency should we consider?” Record the wording before testing, so a disappointing answer does not become a different question.</p>\n<h2>Make the relevant page useful</h2>\n<p>Read the page an employer should find. Can they identify the service, the roles covered, the area served, the supplier and the next step? Does the evidence support the claim being made? A list of sectors is less useful than a clear account of the work the agency actually undertakes.</p>\n<p>Keep names and relationships consistent across the site. Explain a specialist service’s relationship to its parent company. Publish genuine experience and approved client evidence, with enough context to understand it. A company does not acquire another office because somebody has added a postcode to its structured data.</p>\n<h2>Check access without treating AI as one visitor</h2>\n<p>Inspect the HTML returned by the server as well as the finished browser page. If important service information appears only after scripts run, some retrieval tools may miss it. Google Search can process JavaScript, while browser agents may inspect a rendered page. Test the relevant route before prescribing a rebuild.</p>\n<p>Crawler controls also have different jobs. OpenAI distinguishes search, potential training and user-requested fetching. Anthropic documents separate crawler roles too. Check the actual user agent, robots rules, response status and any verified firewall evidence. Permission to crawl does not establish that an assistant selected or cited the page.</p>\n<h2>Use structured data to describe supported facts</h2>\n<p>Relevant schema can describe the organisation, services, articles and other information visible on a page. Validate the syntax and check the facts. If the page changes, the markup needs checking too.</p>\n<p>Google says structured data is not required for its generative search features. It remains useful for eligible rich results, but there is no special schema recipe that guarantees an AI recommendation. Google’s Rich Results Test checks its supported features; an empty result does not establish that a page contains no structured data at all.</p>\n<p>An optional llms.txt file can provide a curated map for tools that choose to read it. Keep it accurate if you supply one. It does not replace public content, access controls or the separate work of measuring actual answers.</p>\n<h2>Record what the assistant actually returned</h2>\n<p>For each question, save the product, mode, date, relevant location or personalisation settings, answer and cited URLs. Note whether a search visibly ran. Use a fresh context where practical and record any access failure. A consumer product and its provider’s API can produce different observations.</p>\n<p>Score the parts separately: whether the agency was mentioned, whether it was described correctly, whether a useful source was cited and whether the answer gave a sensible next step. One favourable screenshot cannot establish a permanent position, and repeating a question until the agency appears makes the record less useful.</p>\n<p>Run a separate test with the page supplied explicitly. That can reveal missing or ambiguous information. It does not show that the assistant would have discovered the page unaided.</p>\n<h2>Repair the fault you can demonstrate</h2>\n<p>A missing service description needs a content repair. A failed request needs an access investigation. Contradictory company names need reconciliation. Keep the work connected to the finding, then repeat the same check after publication.</p>\n<p>Watch search data and consent-based website analytics alongside the answer records. An assistant citation, a referred visit and a qualified enquiry each need their own evidence. Agree a review schedule, rather than promising that every business will appear in answers after a fixed number of weeks.</p>\n<h2>Where ScopeSite’s work fits</h2>\n<p>Our published <a href=\"https://scopesite.co.uk/case-studies/h4tlt\">H4TLT case study</a> sets out the approved evidence for work with Hear 4 The Long Term, a workplace hearing-surveillance business. Read its scope directly; it is not a recruitment result or a timetable for another company.</p>\n<p>CAFMO, Can AI Find Me Online, is ScopeSite’s AI visibility product and is currently being rebuilt, with the replacement application in a private development preview. The public scanner still uses the earlier V.O.I.C.E. interface; V.O.I.C.E. remains the methodology and engine name. Existing scanner credits are separate from the replacement application’s future subscriptions. The <a href=\"https://scopesite.co.uk/voice\">current product page</a> explains that distinction.</p>\n<p>For recruitment work, the <a href=\"https://recruitmentwebdesign.com/explainers/ai-discovery\">Recruitment Web Design discovery guide</a> sets out the checks in more detail. Begin with the employer question and the page meant to answer it, then decide what the evidence justifies changing.</p>\n<h2>Sources checked on 16 October 2026</h2>\n<ul>\n<li><a href=\"https://developers.google.com/search/docs/fundamentals/ai-optimization-guide\">Google Search: generative AI guidance</a></li>\n<li><a href=\"https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics\">Google Search: JavaScript processing</a></li>\n<li><a href=\"https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data\">Google Search: structured data</a></li>\n<li><a href=\"https://developers.openai.com/api/docs/bots\">OpenAI crawler roles</a></li>\n<li><a href=\"https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler\">Anthropic crawler roles</a></li>\n<li><a href=\"https://web.dev/articles/ai-agent-site-ux\">Browser-agent usability</a></li>\n<li><a href=\"https://llmstxt.org/\">The llms.txt proposal</a></li>\n</ul>"
+  },
+  {
+    "slug": "why-your-website-is-invisible-to-chatgpt-and-how-to-fix-it",
+    "sourceUpdatedAt": "2026-01-05T23:39:38.000+00:00",
+    "sourceFingerprint": "bb139ea2eec1c2eee508291835f07245fd73179020bb86dd52a43b96abf04ec1",
+    "kind": "replace_article",
+    "title": "Why your business may be missing from an AI answer, and what to check",
+    "description": "How to check delivered HTML, crawler access, structured data and observed assistant answers without treating a scan as a ranking guarantee.",
+    "removeImages": true,
+    "blocks": [],
+    "html": "<p><strong>Updated 16 October 2026.</strong> This article replaces unsupported agency allegations, an unverified events-business case story and universal claims about AI crawling and result timelines. The guidance below distinguishes technical findings from observed assistant answers.</p>\n<p>An absent recommendation is a starting point for an investigation. It is a poor diagnosis on its own. The assistant may have interpreted the question differently, selected other sources or answered without a fresh search. There may also be a real problem with the website. You need evidence to tell those possibilities apart.</p>\n<p>For a recruitment owner, the question is whether an employer can find the relevant service, understand the agency’s experience and start a conversation. Test that before declaring the business invisible.</p>\n<h2>Capture the answer before changing the site</h2>\n<p>Save the exact question, the product and mode, the date, any relevant location setting, the answer and its cited URLs. Record whether the session was signed in or carried previous conversation context. If the product was inaccessible or the request failed, record the failure separately from an answer that omitted the business.</p>\n<p>Keep a small set of realistic buyer questions fixed for later comparison. Test the named agency as well as an unbranded supplier question. Avoid changing the wording repeatedly until a preferred result appears; the original evidence still needs explaining.</p>\n<h2>Compare the first response with the finished page</h2>\n<p>Open the relevant service page and inspect the HTML returned by its URL. Then compare it with the rendered browser page. Look for the important facts: company identity, service scope, roles covered, location and a usable enquiry link.</p>\n<p>If those facts appear only after JavaScript runs, a retrieval tool that does not render scripts may miss them. That finding can justify a rendering repair. It does not establish that every AI system sees a blank page. Google Search can render JavaScript, and browser agents may use the rendered screen, page structure and accessibility information.</p>\n<p>Check the actual delivery before blaming the platform name. Two sites built with the same framework can expose their content differently. A full rebuild should answer an observed problem that a smaller change cannot reasonably solve.</p>\n<h2>Check the relevant access controls</h2>\n<p>Read the robots rules for the actual user agent and URL. Inspect response status codes and any available verified crawler or firewall records. A successful request from your own laptop does not prove what a service’s crawler received.</p>\n<p>Separate search crawling, potential model training and user-requested fetching. OpenAI, Anthropic and Perplexity document distinct roles. Blocking a training crawler does not automatically prove absence from every answer route; allowing one does not guarantee inclusion. Keep private account pages and reports private while investigating public discovery.</p>\n<h2>Look for an information problem</h2>\n<p>Ask someone unfamiliar with the agency to identify its specialism, the businesses it serves and how to enquire. If the page requires several guesses, an assistant may also produce an incomplete description. Fix the ambiguous wording because it matters to the buyer.</p>\n<p>Check for conflicting company names, expired offers, unsupported testimonials and service claims that differ across pages. Make internal links useful and descriptive. A heading called “Solutions” followed by another heading called “Excellence” can leave everybody fully informed about absolutely nothing.</p>\n<p>You can supply the page to an assistant and ask factual questions as a separate extraction test. Label that test clearly. Success with a supplied URL does not demonstrate unaided discovery.</p>\n<h2>Validate schema without making it a gatekeeper</h2>\n<p>Structured data should describe supported facts visible on the page. Validate it and inspect the relationships between the organisation, service and article. Do not add reviews, offices or qualifications merely to make the graph look more substantial.</p>\n<p>Google’s current guidance says structured data is not a requirement for its generative search features. The Rich Results Test covers supported Google features, while a general schema validator examines the wider vocabulary. Passing either check does not certify that an assistant will cite the business.</p>\n<p>Treat llms.txt as an optional maintained resource for tools that choose to use it. It is not an access-control file, and Google Search says it does not use it to improve or reduce search visibility.</p>\n<h2>Measure performance with its limits attached</h2>\n<p>Investigate slow or failed responses, broken navigation and poor mobile usability. Record the URL, device conditions, date and test method. A lab performance score and real-user field measurements answer different questions, and some pages have insufficient field data.</p>\n<p>There is no verified universal 200-millisecond abandonment rule for every AI crawler in the sources used here. Improve faults that the measurements demonstrate. Do not turn a fast test result into a claim about citations, or assume that an assistant’s absence proves the hosting is too slow.</p>\n<h2>Decide what happens next</h2>\n<p>Write a repair list with the evidence beside each item, then repeat the same technical checks after publication. Revisit the fixed buyer questions on an agreed schedule. Keep mentions, accurate descriptions, citations, visits and enquiries separate so a technical improvement cannot accidentally become a claimed sales result.</p>\n<p>ScopeSite’s <a href=\"https://scopesite.co.uk/case-studies/h4tlt\">published H4TLT case study</a> provides an approved example from workplace hearing surveillance. Its evidence belongs to that work and should be read directly, without borrowing its result for another sector.</p>\n<p>CAFMO, Can AI Find Me Online, is ScopeSite’s AI visibility product in development, with the replacement application in a private development preview. The earlier public scanner uses the V.O.I.C.E. interface; its existing credit arrangements are separate from future CAFMO subscriptions. A technical scan examines the evidence it can retrieve and supplies findings and generated suggestions for review. It does not reproduce every assistant’s answer.</p>\n<p>Read the <a href=\"https://scopesite.co.uk/voice\">current scanner status</a> or the <a href=\"https://recruitmentwebdesign.com/explainers/ai-discovery\">recruitment discovery guide</a>, then start with the question and page that matter to the next employer.</p>\n<h2>Sources checked on 16 October 2026</h2>\n<ul>\n<li><a href=\"https://developers.google.com/search/docs/fundamentals/ai-optimization-guide\">Google Search: generative AI guidance</a></li>\n<li><a href=\"https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics\">Google Search: JavaScript processing</a></li>\n<li><a href=\"https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data\">Google Search: structured data</a></li>\n<li><a href=\"https://developers.openai.com/api/docs/bots\">OpenAI crawler roles</a></li>\n<li><a href=\"https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler\">Anthropic crawler roles</a></li>\n<li><a href=\"https://docs.perplexity.ai/docs/resources/perplexity-crawlers\">Perplexity crawler and user-fetch roles</a></li>\n<li><a href=\"https://web.dev/articles/ai-agent-site-ux\">Browser-agent usability</a></li>\n</ul>"
+  },
+  {
+    "slug": "business-not-showing-up-ai-search",
+    "sourceUpdatedAt": "2026-04-25T21:15:54.000+01:00",
+    "sourceFingerprint": "74f3c1f8e500031caf5294b1320ccfb59715cab5ef22d6a3399234fe385eef23",
+    "kind": "replace_blocks",
+    "title": "Why Your Business Isn’t Showing Up in AI Search (And What to Do About It)",
+    "description": "Checks for missing website content, crawler access and inaccurate business facts, with separate observations of what assistants actually return.",
+    "removeImages": false,
+    "blocks": [
+      {
+        "id": "business-not-showing-up-ai-search:1",
+        "before": "<p>These crawlers work differently from the Googlebot you're familiar with. And here's the critical part: 69% of AI crawlers cannot execute JavaScript [4].</p>",
+        "after": "<p>Inspect the HTML returned by the server and compare it with the rendered page. If important content appears only after scripts run, some retrieval tools may miss it. Google Search can render JavaScript, and browser agents may use the rendered page. Check the relevant provider and access route before deciding whether the website needs a rendering change.</p>"
+      },
+      {
+        "id": "business-not-showing-up-ai-search:2",
+        "before": "<p>That test tells you everything. Same words on the page. Same topic. Same quality. The only difference was the structured data. The AI could understand the page with schema. It couldn't properly parse the pages without it.</p>",
+        "after": "<p>A small comparison can raise a question for further testing. It cannot establish that schema caused inclusion, or that an assistant cannot understand a page without it. Google’s current guidance says structured data is not required for its generative search features.</p>"
+      },
+      {
+        "id": "business-not-showing-up-ai-search:3",
+        "before": "<p><strong>How to check:</strong> Go to Google's Rich Results Test (search.google.com/test/rich-results) and enter your website URL. It'll tell you what structured data you have (if any) and whether it's valid. If the result is empty, you've got no schema markup.</p>",
+        "after": "<p>Use Google’s Rich Results Test to check supported Google rich-result types. An empty result does not establish that a page contains no structured data. Inspect the page’s markup and use the Schema.org validator for the wider vocabulary, then compare it with the visible facts.</p>"
+      },
+      {
+        "id": "business-not-showing-up-ai-search:4",
+        "before": "<p>If your site uses client-side rendering, plan a migration to server-side rendering. This is the biggest single fix for AI invisibility, but also the most involved. Implement FAQPage and HowTo schema markup. Create an llms.txt file for your site. Build an ongoing content plan that answers the specific questions your target customers are asking AI.</p>",
+        "after": "<p>If important content is absent from the initial HTML, assess whether server rendering or prerendering would solve the observed access problem. Add relevant structured data only where the visible facts support it. An optional llms.txt file should be accurate if supplied, but Google Search does not use it as a visibility signal.</p>"
+      },
+      {
+        "id": "business-not-showing-up-ai-search:5",
+        "before": "<p>If you don't know where to start or you want a professional assessment, the V.O.I.C.E. scan at <a href=\"https://scopesite.co.uk/voice?ref=scopesite-digital-studios.ghost.io\">scopesite.co.uk/voice</a> is designed for exactly this. It's a free Pro scan worth £300 that identifies every gap between where you are and where you need to be for <a href=\"https://scopesite.co.uk/blog/geo-vs-seo-vs-aeo?ref=scopesite-digital-studios.ghost.io\">AI visibility across SEO and Answer Engine Optimisation (AEO)</a>.</p>",
+        "after": "<p>CAFMO, Can AI Find Me Online, is ScopeSite’s AI visibility product and is currently being rebuilt. The public scanner still uses the earlier V.O.I.C.E. interface; V.O.I.C.E. remains the methodology and engine name. Its technical findings need review, and actual assistant recommendations require separate recorded checks. See the <a href=\"https://scopesite.co.uk/voice\">current product page</a> and the <a href=\"https://voice.scopesite.co.uk/pricing\">earlier scanner’s pricing page</a> for status and credit arrangements.</p>"
+      },
+      {
+        "id": "business-not-showing-up-ai-search:6",
+        "before": "<p>Run an AI visibility check. Go to amivisibleonai.com or use the free V.O.I.C.E. scan at <a href=\"https://scopesite.co.uk/voice?ref=scopesite-digital-studios.ghost.io\">scopesite.co.uk/voice</a>. You can't fix what you can't measure. The check takes under a minute and tells you whether AI crawlers can access your site, whether you have structured data, and whether your content is structured for AI extraction. That gives you a clear starting point.</p>",
+        "after": "<p>Begin with the current scanner overview at scopesite.co.uk/voice and record what was actually checked. Keep technical findings separate from questions asked in a consumer assistant, and retain failed or unavailable checks in the record.</p>"
+      },
+      {
+        "id": "business-not-showing-up-ai-search:review-1",
+        "before": "<p><strong>Key Takeaway:</strong> Most small-business websites are invisible to AI search platforms like ChatGPT, Claude, and Gemini. The reason usually isn't bad content. It's technical: your website can't be read by AI crawlers, you've got no structured data, or your content doesn't answer the questions AI is looking for. An AI visibility scanner can tell you exactly where the problems are.</p>",
+        "after": "<p><strong>Key Takeaway:</strong> An absent mention can have several causes, including the question asked, the sources selected and an access or information problem. A technical scan can help investigate the pages it retrieves. Record actual assistant answers separately before deciding what to change.</p>"
+      },
+      {
+        "id": "business-not-showing-up-ai-search:review-17",
+        "before": "<p>If your website is built using a JavaScript framework that renders content in the browser (developers call this \"client-side rendering\" or CSR), then nearly seven out of ten AI crawlers visit your site and see nothing. A blank page. Empty HTML. Your content only appears after the JavaScript runs in a human's browser. The AI crawler doesn't have a browser. It just reads the raw code. And the raw code is empty.</p>",
+        "after": "<p>Client-side rendering can leave important content dependent on JavaScript. Check the actual response for the page: a framework name does not tell you which facts were delivered, or whether a particular retrieval service renders scripts.</p>"
+      },
+      {
+        "id": "business-not-showing-up-ai-search:review-20",
+        "before": "<p>This is why <a href=\"https://scopesite.co.uk/web-design?ref=scopesite-digital-studios.ghost.io\" rel=\"noreferrer\">server-side rendering (SSR (Server-Side Rendering))</a> is so important for AI visibility. An SSR (Server-Side Rendering)<a href=\"https://scopesite.co.uk/ai-website-design?ref=scopesite-digital-studios.ghost.io\"> website</a> sends the full, finished HTML to the crawler. The content is right there in the source code before any JavaScript runs. Every AI crawler can read it. Immediately. No waiting, no rendering, no blank pages.</p>",
+        "after": "<p><a href=\"https://scopesite.co.uk/web-design\">Server-side rendering</a> can place important content in the initial HTML. That reduces a dependency on client-side scripts for that content. Access controls, request failures and provider selection still need their own checks.</p>"
+      },
+      {
+        "id": "business-not-showing-up-ai-search:review-34",
+        "before": "<p><strong>FAQPage schema</strong> flags your FAQ sections as structured question-and-answer pairs that AI can extract directly into its responses.</p>",
+        "after": "<p><strong>FAQPage schema</strong> describes visible question-and-answer content. Its presence does not guarantee that an assistant will reproduce an answer or cite the page.</p>"
+      },
+      {
+        "id": "business-not-showing-up-ai-search:review-35",
+        "before": "<p><strong>HowTo schema</strong> turns your step-by-step guides into numbered arrays that AI assistants can serve natively.</p>",
+        "after": "<p><strong>HowTo schema</strong> can describe a genuine sequence of instructions. Validate it against the visible guide; any subsequent use in an assistant answer needs separate observation.</p>"
+      },
+      {
+        "id": "business-not-showing-up-ai-search:review-93",
+        "before": "<p><a href=\"https://scopesite.co.uk/?ref=scopesite-digital-studios.ghost.io\" rel=\"noreferrer\"><em> Studios</em></a><em> is based in Beckington, Frome, Somerset, BA11. We build AI-visible websites and implement the V.O.I.C.E. methodology for small businesses across Frome, Trowbridge, Warminster, Shepton Mallet, Westbury, Somerset and Wiltshire. Find out why AI can't</em>\"<em> see your business with a free V.O.I.C.E. scan at </em><a href=\"https://voice.scopesite.co.uk/?ref=scopesite-digital-studios.ghost.io\" rel=\"noreferrer\"><em>voice.scopesite.co.uk </em></a></p>",
+        "after": "<p><em>ScopeSite Digital Studios builds websites and web systems and uses V.O.I.C.E. as its methodology and engine name. Read the <a href=\"https://scopesite.co.uk/voice\">current CAFMO and earlier scanner overview</a> for product status and the link to existing scanner credit arrangements.</em></p>"
+      }
+    ],
+    "notice": "<p><strong>Technical correction, 16 October 2026.</strong> We have revised the passages about AI crawling, structured data and the current product where relevant. Earlier universal visibility claims and the unsupported figures identified below should not be treated as evidence. This targeted correction does not revalidate every historical statistic or commercial comparison in the article.</p>",
+    "appendix": "<h2 id=\"technical-correction-sources-2026-10-16\">Sources checked for this correction</h2><ul><li><a href=\"https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics\">Google Search: JavaScript processing</a></li><li><a href=\"https://developers.openai.com/api/docs/bots\">OpenAI crawler roles</a></li><li><a href=\"https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler\">Anthropic crawler roles</a></li><li><a href=\"https://web.dev/articles/ai-agent-site-ux\">Browser-agent usability</a></li><li><a href=\"https://developers.google.com/search/docs/fundamentals/ai-optimization-guide\">Google Search: generative AI guidance</a></li><li><a href=\"https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data\">Google Search: structured data</a></li></ul><p>For current product status, read <a href=\"https://scopesite.co.uk/voice\">CAFMO and the earlier scanner</a>. Recruitment agencies can use the <a href=\"https://recruitmentwebdesign.com/explainers/ai-discovery\">recruitment AI discovery guide</a> to separate technical checks from actual assistant answers.</p>"
+  },
+  {
+    "slug": "geo-vs-seo-vs-aeo",
+    "sourceUpdatedAt": "2026-04-25T18:49:10.000+01:00",
+    "sourceFingerprint": "7b1391744154c902ee11c85c97548ac1526288bda9abf988cd787899ed1e8cc9",
+    "kind": "replace_blocks",
+    "title": "GEO vs SEO vs AEO: What Small Businesses Actually Need to Know About AI Visibility in 2026",
+    "description": "How SEO, AEO and GEO overlap, what website checks can establish, and why actual assistant answers need their own dated evidence.",
+    "removeImages": false,
+    "blocks": [
+      {
+        "id": "geo-vs-seo-vs-aeo:1",
+        "before": "<p>69% of AI crawlers cannot execute JavaScript [12]. That’s a SearchVIU finding from November 2025, and it’s the most important technical stat in this entire post. If your website is built on a JavaScript framework that renders content in the browser (what developers call client-side rendering), then nearly seven out of ten AI crawlers see a blank page when they visit your site.</p>",
+        "after": "<p>Inspect the HTML returned by the server and compare it with the rendered page. If important content appears only after scripts run, some retrieval tools may miss it. Google Search can render JavaScript, and browser agents may use the rendered page. Check the relevant provider and access route before deciding whether the website needs a rendering change.</p>"
+      },
+      {
+        "id": "geo-vs-seo-vs-aeo:2",
+        "before": "<p>And it gets worse when you look at crawl speed. Research from Onely found that Google takes nine times longer to crawl JavaScript-rendered content compared to plain HTML [14]. That study is from 2022, but the November 2025 SearchVIU data confirms the core problem hasn’t been fixed. AI crawlers still can’t process JavaScript-heavy sites properly.</p>",
+        "after": "<p>A study of one crawler and an earlier rendering setup does not establish the behaviour of today’s assistants. Test the current HTML response and rendered page, identify the provider and repeat the same retrieval check after a repair.</p>"
+      },
+      {
+        "id": "geo-vs-seo-vs-aeo:3",
+        "before": "<p>The most common reason is technical. If your website uses client-side rendering (where JavaScript builds the page in the browser), AI crawlers likely can’t see your content at all. 69% of AI crawlers cannot execute JavaScript [12]. Other common causes include missing schema markup (only 12.4% of domains use structured data [7]), content that doesn’t directly answer specific questions, and weak entity signals across the web (inconsistent business information, few reviews, limited third-party mentions).</p>",
+        "after": "<p>There are several possible reasons for an absent mention, including the question asked, the sources selected and an access or content problem. Check the delivered page and provider controls, then record the actual answer and sources. One missing mention cannot identify the cause.</p>"
+      },
+      {
+        "id": "geo-vs-seo-vs-aeo:4",
+        "before": "<p>At ScopeSite, we built the V.O.I.C.E. methodology (Visibility, Optimisation, for Intelligent, Crawler, Engines) around exactly this workflow. Start with a scan. Understand the gap. Then fix the technical and content issues that are keeping you invisible.</p>",
+        "after": "<p>V.O.I.C.E. is ScopeSite’s methodology and engine name. The work begins with available website evidence and a clear question, followed by reviewed repairs and separate checks of actual assistant answers.</p>"
+      },
+      {
+        "id": "geo-vs-seo-vs-aeo:5",
+        "before": "<p>Costs vary depending on the starting point. Running an AI visibility check is free using tools like Am I Visible on AI. Fixing the technical issues (moving to server-side rendering, implementing schema markup, restructuring content) typically requires a web developer or agency. At ScopeSite, our V.O.I.C.E. methodology includes a free Pro scan worth £300 that identifies your specific visibility gaps. From there, a roadmap is built based on what your site actually needs, not a one-size-fits-all package. You can sign up for a V.O.I.C.E. scan at https://scopesite.co.uk/voice.</p>",
+        "after": "<p>CAFMO, Can AI Find Me Online, is ScopeSite’s AI visibility product and is currently being rebuilt. The public scanner still uses the earlier V.O.I.C.E. interface; V.O.I.C.E. remains the methodology and engine name. Its technical findings need review, and actual assistant recommendations require separate recorded checks. See the <a href=\"https://scopesite.co.uk/voice\">current product page</a> and the <a href=\"https://voice.scopesite.co.uk/pricing\">earlier scanner’s pricing page</a> for status and credit arrangements.</p>"
+      },
+      {
+        "id": "geo-vs-seo-vs-aeo:review-48",
+        "before": "<p>This is why server-side rendering (SSR) matters. An <a href=\"https://scopesite.co.uk/ai-website-design?ref=scopesite-digital-studios.ghost.io\">AI-ready website built with SSR</a> sends the full, completed HTML to the crawler. The content is right there in the source code. No waiting for JavaScript to execute. No blank pages. No nine-times-slower crawl times. The AI sees everything, immediately.</p>",
+        "after": "<p>An <a href=\"https://scopesite.co.uk/ai-website-design\">SSR website</a> can include its important content in the initial HTML response. Inspect the actual page and relevant access route. Server rendering does not establish that every service received, selected or cited the content.</p>"
+      },
+      {
+        "id": "geo-vs-seo-vs-aeo:review-50",
+        "before": "<p>This is where the combination of SEO, AEO and GEO stops being theoretical. If your site can’t be crawled (a technical SEO failure), your content can’t be extracted (an AEO failure), and your business can’t be cited (a GEO failure). The AI visibility checker shows you the symptom. Understanding the difference between these three disciplines shows you the cause.</p>",
+        "after": "<p>Crawling, extracting information and citing a source are separate observations. A failed request may explain a problem on that route, while another source or retrieval route remains possible. Use the evidence from the relevant provider before assigning a cause.</p>"
+      },
+      {
+        "id": "geo-vs-seo-vs-aeo:review-52",
+        "before": "<p><strong>Start with SEO.</strong> Your website needs to be technically sound, fast, crawlable, and indexed by Google. If it’s not, nothing else works. Make sure you’re using server-side rendering. Implement structured data. Fix your Core Web Vitals. This is the plumbing.</p>",
+        "after": "<p><strong>Start with the pages your customers need.</strong> Check their content, links, response status and rendering. For Google Search, investigate indexing and its current technical guidance. Test other providers separately, and use the measured faults to decide whether rendering, structured data or performance needs work.</p>"
+      },
+      {
+        "id": "geo-vs-seo-vs-aeo:review-79",
+        "before": "<p><em>ScopeSite Digital Studios is based in Beckington, Frome, Somerset BA11. We build AI-visible websites and implement the V.O.I.C.E. methodology for small businesses across Frome, Trowbridge, Warminster, Shepton Mallet, Westbury, Somerset and Wiltshire. If you want to find out whether AI can see your business, start with a free V.O.I.C.E. scan at </em><a href=\"https://scopesite.co.uk/voice?ref=scopesite-digital-studios.ghost.io\"><em>scopesite.co.uk/voice</em></a><em>.</em></p>",
+        "after": "<p><em>ScopeSite Digital Studios builds websites and web systems and uses V.O.I.C.E. as its methodology and engine name. The <a href=\"https://scopesite.co.uk/voice\">current product overview</a> explains CAFMO, the earlier public scanner and their different stages of availability.</em></p>"
+      }
+    ],
+    "notice": "<p><strong>Technical correction, 16 October 2026.</strong> We have revised the passages about AI crawling, structured data and the current product where relevant. Earlier universal visibility claims and the unsupported figures identified below should not be treated as evidence. This targeted correction does not revalidate every historical statistic or commercial comparison in the article.</p>",
+    "appendix": "<h2 id=\"technical-correction-sources-2026-10-16\">Sources checked for this correction</h2><ul><li><a href=\"https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics\">Google Search: JavaScript processing</a></li><li><a href=\"https://web.dev/articles/ai-agent-site-ux\">Browser-agent usability</a></li><li><a href=\"https://developers.openai.com/api/docs/bots\">OpenAI crawler roles</a></li><li><a href=\"https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler\">Anthropic crawler roles</a></li></ul><p>For current product status, read <a href=\"https://scopesite.co.uk/voice\">CAFMO and the earlier scanner</a>. Recruitment agencies can use the <a href=\"https://recruitmentwebdesign.com/explainers/ai-discovery\">recruitment AI discovery guide</a> to separate technical checks from actual assistant answers.</p>"
+  },
+  {
+    "slug": "how-much-should-a-website-cost-in-frome-and-why-most-quotes-are-either-a-rip-off-or-a-waste-of-money",
+    "sourceUpdatedAt": "2026-03-15T17:06:09.000+00:00",
+    "sourceFingerprint": "4e2af6293f782d9283e1e3df10c95f1a124068b757acdcb5d2c3b065b4fc7eaf",
+    "kind": "replace_blocks",
+    "title": "How Much Should a Website Cost in Frome? (And Why Most Quotes Are Either a Rip-Off or a Waste of Money)",
+    "description": "Web design in Frome costs between £500 and £30,000 depending on who you ask. Most of those quotes are either a waste of money or a rip-off.",
+    "removeImages": false,
+    "blocks": [
+      {
+        "id": "how-much-should-a-website-cost-in-frome-and-why-most-quotes-are-either-a-rip-off-or-a-waste-of-money:1",
+        "before": "<p><strong>It doesn't have proper schema markup.</strong> 99.7% of websites lack the structured data that AI search engines need to understand and recommend businesses. A template site with Yoast or RankMath installed has basic, boilerplate schema that tells AI almost nothing useful about who you are, what you do, or where you operate. When someone asks ChatGPT \"who's the best [your trade] in Frome?\", your £500 website is invisible.</p>",
+        "after": "<p>Inspect what the site actually publishes about the business. Structured data should match the visible services, identity and contact information, whichever CMS or plugin produced it. Neither a price tag nor the presence of a plugin establishes whether an assistant will recommend the business.</p>"
+      },
+      {
+        "id": "how-much-should-a-website-cost-in-frome-and-why-most-quotes-are-either-a-rip-off-or-a-waste-of-money:2",
+        "before": "<p>A client-side rendered website (which is what most WordPress and React sites are) works like this: your browser requests the page, the server sends back an empty shell of HTML plus a load of JavaScript files, and then your browser has to assemble the page itself. That takes time. It also means AI crawlers, which don't execute JavaScript well, see a blank page when they visit. Your content never gets read. Your business never gets recommended.</p>",
+        "after": "<p>Inspect the HTML returned by the server and compare it with the rendered page. If important content appears only after scripts run, some retrieval tools may miss it. Google Search can render JavaScript, and browser agents may use the rendered page. Check the relevant provider and access route before deciding whether the website needs a rendering change.</p>"
+      },
+      {
+        "id": "how-much-should-a-website-cost-in-frome-and-why-most-quotes-are-either-a-rip-off-or-a-waste-of-money:3",
+        "before": "<p><strong>Custom JSON-LD schema markup.</strong> Not the boilerplate that a plugin generates. Hand-crafted structured data that creates a complete, interconnected knowledge graph about your business. Your LocalBusiness entity specifies Frome as your location, BA11 as your postcode, Somerset as your region. Your Service schema lists exactly what you offer. Your FAQPage schema makes your frequently asked questions extractable by AI. Your BlogPosting schema with SpeakableSpecification tells AI which parts of your content are safe to cite.</p>",
+        "after": "<p>Custom JSON-LD can connect supported business, service and article facts. It should agree with the visible page and be maintained when those facts change. SpeakableSpecification identifies suitable text-to-speech passages in supported uses; it does not tell every assistant that text is safe to cite.</p>"
+      },
+      {
+        "id": "how-much-should-a-website-cost-in-frome-and-why-most-quotes-are-either-a-rip-off-or-a-waste-of-money:4",
+        "before": "<p><strong>The </strong><a href=\"https://scopesite.co.uk/voice?ref=scopesite-digital-studios.ghost.io\"><strong>V.O.I.C.E. methodology</strong></a><strong>.</strong> Voice-Optimised, Organised, Intelligent, Content Engineering, Engineered. It's the system we use to ensure every site we build is readable, understandable, and recommendable by AI. We proved it works. Our client H4TLT went from zero AI visibility to #1 recommendations across ChatGPT, Perplexity, Claude, and Gemini.</p>",
+        "after": "<p>V.O.I.C.E. is ScopeSite’s methodology and engine name. It combines website evidence checks with reviewed technical and content work. The <a href=\"https://scopesite.co.uk/case-studies/h4tlt\">published H4TLT case study</a> provides the approved client example, with its own scope and evidence.</p>"
+      },
+      {
+        "id": "how-much-should-a-website-cost-in-frome-and-why-most-quotes-are-either-a-rip-off-or-a-waste-of-money:5",
+        "before": "<p><strong>Schema validation.</strong> Go to Google's Rich Results Test at search.google.com/test/rich-results. Enter a ScopeSite URL. You'll see BlogPosting, LocalBusiness, Service, FAQPage, BreadcrumbList, SpeakableSpecification, and more. Every entity connected. Every relationship defined. Then test your own site.</p>",
+        "after": "<p>Validate the markup actually present on the page. Google’s Rich Results Test covers supported Google features; a general schema validator covers a wider vocabulary. Check the business facts and visible-content agreement as well as syntax.</p>"
+      },
+      {
+        "id": "how-much-should-a-website-cost-in-frome-and-why-most-quotes-are-either-a-rip-off-or-a-waste-of-money:review-30",
+        "before": "<p>The performance difference is measurable. ScopeSite sites hit 100/100 on Google's Lighthouse test across Performance, Accessibility, Best Practices, and SEO. Remember that stat about WordPress? Only 43.44% of WordPress sites pass Core Web Vitals. We pass at 100%. Every time.</p>",
+        "after": "<p>Performance is measurable for a particular page and test setup. Keep a Lighthouse lab result separate from real-user Core Web Vitals, and record the device conditions and date. Neither a framework choice nor one successful test establishes a permanent 100/100 result for every site.</p>"
+      },
+      {
+        "id": "how-much-should-a-website-cost-in-frome-and-why-most-quotes-are-either-a-rip-off-or-a-waste-of-money:review-48",
+        "before": "<p>For Frome businesses that want hands-on control, the ability to update content, swap images, and manage pages without calling us, we also build on Wix Studio. It won't hit 100/100 Lighthouse scores. It won't have the same depth of custom schema. But it's a genuine option for businesses at an earlier stage or with a tighter budget.</p>",
+        "after": "<p>For Frome businesses that want hands-on control, the ability to update content, swap images, and manage pages without calling us, we also build on Wix Studio. Assess its editing needs, delivered performance and structured data against the project brief. The platform name alone cannot establish those results.</p>"
+      },
+      {
+        "id": "how-much-should-a-website-cost-in-frome-and-why-most-quotes-are-either-a-rip-off-or-a-waste-of-money:review-52",
+        "before": "<p>Because we're building a different thing. A WordPress freelancer assembles a site from pre-built components. We engineer a site from scratch using modern technology that delivers 100/100 Lighthouse scores, custom schema markup, and AI visibility. Only 43.44% of WordPress sites pass Core Web Vitals. We pass at 100%.</p>",
+        "after": "<p>Compare the work included in the proposal: design, content, integrations, editing control, performance checks and maintenance. ScopeSite’s custom builds can include server rendering and relevant structured data. Ask for evidence from the proposed implementation; a framework name does not guarantee a score or an AI recommendation.</p>"
+      },
+      {
+        "id": "how-much-should-a-website-cost-in-frome-and-why-most-quotes-are-either-a-rip-off-or-a-waste-of-money:review-54",
+        "before": "<p>Server-side rendering (SSR) means the server builds the complete page and sends it ready-made. Client-side rendering (CSR) means the server sends an empty shell and your browser builds the page from JavaScript. SSR is faster, more reliable, and readable by AI crawlers. CSR is cheaper to build but slower to load and often invisible to AI. Only 43.44% of WordPress sites pass Core Web Vitals. ScopeSite hits 100/100 using SSR.</p>",
+        "after": "<p>Server-side rendering produces HTML on the server; client-side rendering uses browser scripts to produce or update content. Sites can combine these approaches. Inspect the actual initial response and rendered page, then test performance and the relevant retrieval route. The rendering label alone does not establish speed, build cost or an assistant citation.</p>"
+      }
+    ],
+    "notice": "<p><strong>Technical correction, 16 October 2026.</strong> We have revised the passages about AI crawling, structured data and the current product where relevant. Earlier universal visibility claims and the unsupported figures identified below should not be treated as evidence. This targeted correction does not revalidate every historical statistic or commercial comparison in the article.</p>",
+    "appendix": "<h2 id=\"technical-correction-sources-2026-10-16\">Sources checked for this correction</h2><ul><li><a href=\"https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data\">Google Search: structured data</a></li><li><a href=\"https://developers.google.com/search/docs/fundamentals/ai-optimization-guide\">Google Search: generative AI guidance</a></li><li><a href=\"https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics\">Google Search: JavaScript processing</a></li><li><a href=\"https://web.dev/articles/ai-agent-site-ux\">Browser-agent usability</a></li><li><a href=\"https://developers.google.com/search/docs/appearance/structured-data/speakable\">Google Search: speakable structured data</a></li><li><a href=\"https://developer.chrome.com/docs/lighthouse/performance/performance-scoring\">Lighthouse score variability</a></li><li><a href=\"https://developers.google.com/speed/docs/insights/v5/about\">PageSpeed Insights: lab and field data</a></li></ul><p>For current product status, read <a href=\"https://scopesite.co.uk/voice\">CAFMO and the earlier scanner</a>. Recruitment agencies can use the <a href=\"https://recruitmentwebdesign.com/explainers/ai-discovery\">recruitment AI discovery guide</a> to separate technical checks from actual assistant answers.</p>"
+  },
+  {
+    "slug": "html-structure-schema-ai-visibility",
+    "sourceUpdatedAt": "2026-04-25T18:43:20.000+01:00",
+    "sourceFingerprint": "65448c541b9fedc8779309ca9e1faefbfb1d729a379f29bfce6ef093126cf1ed",
+    "kind": "replace_blocks",
+    "title": "How HTML structure and schema support a clearer website",
+    "description": "How semantic HTML and accurate structured data support a clear website, and how to test them without claiming a guaranteed AI citation.",
+    "removeImages": false,
+    "blocks": [
+      {
+        "id": "html-structure-schema-ai-visibility:1",
+        "before": "<p>I've been digging into how AI systems actually read and recommend websites, and what I've found is this: the HTML structure of your page, the stuff that's been around since the 90s, is just as important as any fancy schema you bolt on top. And if you want ChatGPT, Perplexity, or Google's AI to actually recommend your business? You need both working together, wrapped around content that's organised into proper information hubs. (<a href=\"https://scopesite.co.uk/blog/why-your-website-is-invisible-to-chatgpt-and-how-to-fix-it?ref=scopesite-digital-studios.ghost.io\" rel=\"noreferrer\">We talk about getting found by ChatGPT in a separate article)</a></p>",
+        "after": "<p>Clear headings, useful links and meaningful page structure help people use a page and make its content easier to inspect. Relevant structured data can describe the same supported facts. Neither format supplies a universal rule for whether ChatGPT, Perplexity or Google will recommend the business.</p>"
+      },
+      {
+        "id": "html-structure-schema-ai-visibility:2",
+        "before": "<p>And here's something most guides won't tell you: you can use both. A 2024 study found that pages using semantic HTML structure alongside schema markup performed 43% better than pages using only one approach. The two reinforce each other.</p>",
+        "after": "<p>Use semantic HTML and appropriate structured data where they serve the page. Test usability and validate the facts and markup, then measure any search or assistant outcome separately. The earlier 43% comparison is not supported by an identified primary study in this review.</p>"
+      },
+      {
+        "id": "html-structure-schema-ai-visibility:3",
+        "before": "<p><strong>At the schema level:</strong> You've got LocalBusiness schema with your address, opening hours, and service areas. Your solicitors have Person schema with their qualifications. Your FAQ page uses FAQPage schema so the AI can grab questions and answers directly.</p>",
+        "after": "<p>At the schema level, describe the business, people and services only where the facts are supported and visible. FAQ markup should agree with the displayed questions and answers. Keep any subsequent citation claim tied to an observed provider response.</p>"
+      },
+      {
+        "id": "html-structure-schema-ai-visibility:4",
+        "before": "<p>You don't need to choose between semantic HTML and schema markup. You need both. And you need them wrapped around content that's organised properly.</p>",
+        "after": "<p>Use a clear page structure and relevant structured data together where they help the reader and describe the content accurately. Their presence does not guarantee a recommendation.</p>"
+      }
+    ],
+    "notice": "<p><strong>Technical correction, 16 October 2026.</strong> We have revised the passages about AI crawling, structured data and the current product where relevant. Earlier universal visibility claims and the unsupported figures identified below should not be treated as evidence. This targeted correction does not revalidate every historical statistic or commercial comparison in the article.</p>",
+    "appendix": "<h2 id=\"technical-correction-sources-2026-10-16\">Sources checked for this correction</h2><ul><li><a href=\"https://developers.google.com/search/docs/fundamentals/ai-optimization-guide\">Google Search: generative AI guidance</a></li><li><a href=\"https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data\">Google Search: structured data</a></li><li><a href=\"https://web.dev/articles/ai-agent-site-ux\">Browser-agent usability</a></li></ul><p>For current product status, read <a href=\"https://scopesite.co.uk/voice\">CAFMO and the earlier scanner</a>. Recruitment agencies can use the <a href=\"https://recruitmentwebdesign.com/explainers/ai-discovery\">recruitment AI discovery guide</a> to separate technical checks from actual assistant answers.</p>"
+  },
+  {
+    "slug": "3-seo-mistakes-somerset-businesses-make-and-how-to-fix-them",
+    "sourceUpdatedAt": "2026-03-14T20:28:15.000+00:00",
+    "sourceFingerprint": "cee8ee54108ccbbec9719e7de839c67517c560730cb0198a8554f9e000ff8872",
+    "kind": "replace_blocks",
+    "title": "3 SEO Mistakes Somerset Businesses Make (And How to Fix Them)",
+    "description": "Practical checks for website speed, accurate structured data and ongoing search review, with separate evidence for assistant mentions and citations.",
+    "removeImages": false,
+    "blocks": [
+      {
+        "id": "3-seo-mistakes-somerset-businesses-make-and-how-to-fix-them:1",
+        "before": "<p>Here’s where it gets uncomfortable. Your website might look great. It might even load quickly. But if it doesn’t have proper schema markup, it’s invisible to the fastest-growing search channel in the world: AI.</p>",
+        "after": "<p>Structured data can describe supported business facts and make eligible pages available for rich results. It must agree with the visible content. A valid graph cannot establish that an assistant understood, selected or recommended the business.</p>"
+      },
+      {
+        "id": "3-seo-mistakes-somerset-businesses-make-and-how-to-fix-them:2",
+        "before": "<p>Schema markup is structured data written in JSON-LD format that tells search engines and AI systems exactly what your website is about. Not approximately. Not “probably a plumber in Taunton.” Explicitly: this is a plumbing business, based at this address, serving these areas, offering these services, run by this person with these qualifications.</p>",
+        "after": "<p>Schema markup describes facts using a shared vocabulary. JSON-LD is one supported format, alongside Microdata and RDFa. The facts still need to be accurate and supported by the visible page.</p>"
+      },
+      {
+        "id": "3-seo-mistakes-somerset-businesses-make-and-how-to-fix-them:3",
+        "before": "<p>99.7% of websites don’t have this. That’s not a typo. Almost every website on the internet is effectively invisible to AI systems like ChatGPT, Perplexity, and Google’s AI Overviews because it lacks the structured data those systems need to make confident recommendations.</p>",
+        "after": "<p>Check your own pages before drawing conclusions from a headline statistic. This review has no verified source for the earlier 99.7% claim. An absent schema block does not establish absence from an assistant’s answers.</p>"
+      },
+      {
+        "id": "3-seo-mistakes-somerset-businesses-make-and-how-to-fix-them:4",
+        "before": "<p>The most important schema types for a Somerset business are <a href=\"https://scopesite-digital-studios.ghost.io/schema-markup\">LocalBusiness, Service, FAQPage, and BreadcrumbList</a>. If you’re publishing blog content, add BlogPosting with SpeakableSpecification so AI knows which parts of your content are safe to cite and read aloud. If those terms mean nothing to you, that’s fine. But someone on your team, or your agency, needs to understand them. Because your competitors will.</p>",
+        "after": "<p>Choose schema types that match the business and the content on each page. Describe genuine services, supported organisation facts and visible questions. SpeakableSpecification is not a general signal that a passage is safe for AI citation.</p>"
+      },
+      {
+        "id": "3-seo-mistakes-somerset-businesses-make-and-how-to-fix-them:5",
+        "before": "<p>And here’s the thing that should genuinely worry you: pages with schema markup are 36% more likely to appear in AI-generated summaries and citations, according to WPRiders. A third more likely to be the answer. If you’re not in that 0.3% of websites with proper schema, you’re giving that advantage to someone else.</p>",
+        "after": "<p>A citation claim needs evidence from the provider and questions being tested. The earlier percentages do not establish what will happen to your site. Keep validation results separate from actual mentions, citations and enquiries.</p>"
+      },
+      {
+        "id": "3-seo-mistakes-somerset-businesses-make-and-how-to-fix-them:6",
+        "before": "<p>At ScopeSite, we built the <a href=\"https://scopesite.co.uk/voice?ref=scopesite-digital-studios.ghost.io\" rel=\"noreferrer\">V.O.I.C.E. methodology</a> specifically to solve these three problems simultaneously. V.O.I.C.E. stands for Voice-Optimised, Organised, Intelligent, Content Engineering, Engineered. It’s a system that addresses speed, structured data, and ongoing visibility in one joined-up process.</p>",
+        "after": "<p>V.O.I.C.E. is ScopeSite’s methodology and engine name. It covers website evidence, reviewed repairs and separate measurement of search performance and assistant answers.</p>"
+      },
+      {
+        "id": "3-seo-mistakes-somerset-businesses-make-and-how-to-fix-them:7",
+        "before": "<p><strong>Step 2: Check your schema.</strong> Go to Google’s Rich Results Test (search.google.com/test/rich-results) and enter your URL. If the result comes back empty or shows only basic WebSite schema, you’re missing the structured data that AI needs to understand and recommend your business. You should be seeing LocalBusiness, Service, and FAQPage at minimum.</p>",
+        "after": "<p>Step 2: Inspect your structured data. Use Google’s Rich Results Test for its supported rich-result types and a general schema validator for wider markup. Confirm that the visible page supports every material claim. An empty rich-result test is not proof that no schema exists.</p>"
+      },
+      {
+        "id": "3-seo-mistakes-somerset-businesses-make-and-how-to-fix-them:review-7",
+        "before": "<p>The fix isn’t a faster hosting plan. It’s a faster architecture. Server-side rendered websites built with modern tools like <a href=\"https://scopesite-digital-studios.ghost.io/ai-website-design\">Next.js</a> deliver fully-formed HTML to the browser in a single request. No waiting for JavaScript to load. No plugin overhead. No guesswork. That’s why ScopeSite sites consistently hit 100/100 on Google’s Lighthouse performance test. It’s not magic. It’s engineering.</p>",
+        "after": "<p>Inspect the performance report before choosing the repair. Hosting, images, scripts, page structure and rendering can each contribute to a slow experience. <a href=\"https://scopesite.co.uk/ai-website-design\">Server rendering</a> can deliver important content in the initial HTML, but it does not guarantee a particular Lighthouse score. Record the tested URL, device conditions and date.</p>"
+      },
+      {
+        "id": "3-seo-mistakes-somerset-businesses-make-and-how-to-fix-them:figure-1",
+        "before": "<figure class=\"kg-card kg-image-card kg-card-hascaption\"><img src=\"https://storage.ghost.io/c/65/4e/654e6744-ae7b-41f0-9bc2-dd2989837dc5/content/images/2026/03/voice_aeo_geo_seo_somerset_uk.png\" class=\"kg-image\" alt=\"V.O.I.C.E. trademark logo by ScopeSite Digital Studios on a navy background with a gold microphone icon replacing the letter I and grey sound wave rings radiating outward, representing the Voice-Optimised Intelligent Content Engineering methodology for AI search visibility\" loading=\"lazy\" width=\"2000\" height=\"1125\" srcset=\"https://storage.ghost.io/c/65/4e/654e6744-ae7b-41f0-9bc2-dd2989837dc5/content/images/size/w600/2026/03/voice_aeo_geo_seo_somerset_uk.png 600w, https://storage.ghost.io/c/65/4e/654e6744-ae7b-41f0-9bc2-dd2989837dc5/content/images/size/w1000/2026/03/voice_aeo_geo_seo_somerset_uk.png 1000w, https://storage.ghost.io/c/65/4e/654e6744-ae7b-41f0-9bc2-dd2989837dc5/content/images/size/w1600/2026/03/voice_aeo_geo_seo_somerset_uk.png 1600w, https://storage.ghost.io/c/65/4e/654e6744-ae7b-41f0-9bc2-dd2989837dc5/content/images/2026/03/voice_aeo_geo_seo_somerset_uk.png 2000w\" sizes=\"(min-width: 720px) 720px\"><figcaption><span style=\"white-space: pre-wrap;\">V.O.I.C.E™ - Voice Optimisation for Intelligent Crawler Engines</span></figcaption></figure>",
+        "after": ""
+      }
+    ],
+    "notice": "<p><strong>Technical correction, 16 October 2026.</strong> We have revised the passages about AI crawling, structured data and the current product where relevant. Earlier universal visibility claims and the unsupported figures identified below should not be treated as evidence. This targeted correction does not revalidate every historical statistic or commercial comparison in the article.</p>",
+    "appendix": "<h2 id=\"technical-correction-sources-2026-10-16\">Sources checked for this correction</h2><ul><li><a href=\"https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data\">Google Search: structured data</a></li><li><a href=\"https://developers.google.com/search/docs/fundamentals/ai-optimization-guide\">Google Search: generative AI guidance</a></li><li><a href=\"https://developers.google.com/search/docs/appearance/structured-data/speakable\">Google Search: speakable structured data</a></li><li><a href=\"https://developer.chrome.com/docs/lighthouse/performance/performance-scoring\">Lighthouse score variability</a></li><li><a href=\"https://developers.google.com/speed/docs/insights/v5/about\">PageSpeed Insights: lab and field data</a></li></ul><p>For current product status, read <a href=\"https://scopesite.co.uk/voice\">CAFMO and the earlier scanner</a>. Recruitment agencies can use the <a href=\"https://recruitmentwebdesign.com/explainers/ai-discovery\">recruitment AI discovery guide</a> to separate technical checks from actual assistant answers.</p>"
+  },
+  {
+    "slug": "seo-frome-businesses-2026",
+    "sourceUpdatedAt": "2026-03-15T18:53:10.000+00:00",
+    "sourceFingerprint": "0899b5df7c86ee1d5dc05e56e3943fe7fa2a73770bb1d3339070e7011bd7d66f",
+    "kind": "replace_blocks",
+    "title": "SEO for Frome Businesses: How to Get Found on Google and AI in 2026",
+    "description": "A practical guide to local search and AI discovery checks for Frome businesses, including readable pages, accurate business facts and recorded answers.",
+    "removeImages": false,
+    "blocks": [
+      {
+        "id": "seo-frome-businesses-2026:1",
+        "before": "<p><strong>Ignoring schema markup.</strong> 99.7% of websites lack the structured data that AI systems need to understand and recommend businesses. An online retailer that added Product schema with reviews, pricing, and availability saw their click-through rate increase by 35%, according to Dynamic Schema. For a Frome business, schema is what makes the difference between being recommended by ChatGPT and being invisible to it. It’s not an advanced tactic anymore. It’s the baseline.</p>",
+        "after": "<p>Check whether your structured data is accurate and useful for the page. There is no verified source here for the earlier 99.7% figure, and missing schema does not prove that ChatGPT cannot recommend the business. Any claimed improvement needs its own dated measurement.</p>"
+      },
+      {
+        "id": "seo-frome-businesses-2026:2",
+        "before": "<p><strong>Schema markup that actually tells AI something useful.</strong> Your website needs JSON-LD structured data that explicitly tells search engines and AI: this is a business called [name], located in Frome, Somerset, offering [services], with [reviews] and [credentials]. The important schema types for a Frome business are LocalBusiness, Service, FAQPage, and BreadcrumbList. If you’re blogging (and you should be), add BlogPosting with SpeakableSpecification so AI knows which content it can cite and read aloud.</p>",
+        "after": "<p>Publish clear, supported business facts in the page and describe relevant facts in structured data. Choose types that fit the content. SpeakableSpecification identifies text for supported speech uses; it is not permission for every assistant to cite the passage.</p>"
+      },
+      {
+        "id": "seo-frome-businesses-2026:3",
+        "before": "<p>Every blog post published on a ScopeSite-built website automatically generates six validated schema types: Articles, Breadcrumbs, FAQ, Local Businesses, Organisation, and Review Snippets. No plugins. No manual work. Google’s Rich Results Test confirms them all valid with zero errors. That’s the <a href=\"https://scopesite.co.uk/voice?ref=scopesite-digital-studios.ghost.io\">V.O.I.C.E. methodology</a> at work.</p>",
+        "after": "<p>The schema generated for a page depends on its template and content. Check the actual output and its supporting facts. A validator result belongs to that tested page and date; it does not certify every post or make review snippets appropriate on every article.</p>"
+      },
+      {
+        "id": "seo-frome-businesses-2026:4",
+        "before": "<p><a href=\"https://scopesite.co.uk/voice?ref=scopesite-digital-studios.ghost.io\">V.O.I.C.E.</a> stands for Voice-Optimisation, for Intelligent, Crawler, Engines. It’s the methodology ScopeSite uses on every site we build.</p>",
+        "after": "<p>V.O.I.C.E. is ScopeSite’s methodology and engine name. The <a href=\"https://scopesite.co.uk/voice\">current product page</a> explains its relationship to CAFMO and the earlier scanner.</p>"
+      },
+      {
+        "id": "seo-frome-businesses-2026:5",
+        "before": "<p>The auto-generated schema is a genuine differentiator. When you publish a blog post on a ScopeSite website, the system automatically creates interconnected structured data that tells AI what the post is about, who wrote it, which entities it references, and which sections are safe to cite. No manual configuration. No plugins to maintain. Publish and the schema handles itself.</p>",
+        "after": "<p>Templates can generate structured data from approved content, but the output still needs review. When the page changes, check the graph, its relationships and its agreement with the visible facts. Automatic generation does not certify a claim or decide which passages an assistant will cite.</p>"
+      },
+      {
+        "id": "seo-frome-businesses-2026:6",
+        "before": "<p>Type “Who is the best [your service] in Frome?” or “Can you recommend a [your business type] near Frome?” If you’re not mentioned, AI doesn’t know you exist. That’s the gap V.O.I.C.E. fills.</p>",
+        "after": "<p>Write down a small set of questions a prospective customer might ask, then record the product, date, location, answer and cited URLs. An absent mention in one answer does not show that the model has no knowledge of the business. Repeat the same questions before drawing conclusions.</p>"
+      },
+      {
+        "id": "seo-frome-businesses-2026:7",
+        "before": "<p>For competitive terms, expect 3-6 months before you see meaningful movement. For longer-tail, location-specific keywords like “web designer Frome” or “accountant near Frome,” results come faster, sometimes within weeks. AI visibility through V.O.I.C.E. typically shows results within 60-90 days of implementation.</p>",
+        "after": "<p>The time needed depends on the website, the proposed changes and the question being measured. Agree the work and measurement schedule first. There is no verified general 60–90-day timetable for a business to appear in assistant answers.</p>"
+      },
+      {
+        "id": "seo-frome-businesses-2026:review-21",
+        "before": "<p>And here’s the WordPress problem: only 43.44% of WordPress sites had a good Core Web Vitals score in June 2025, ranking WordPress dead last among all major CMS platforms, according to Search Engine Journal’s analysis of HTTP Archive data. ScopeSite sites score 100/100 on Google’s Lighthouse test. Every time. Because they’re server-side rendered with Next.js, not assembled from plugins.</p>",
+        "after": "<p>Test the actual page, device conditions and date. A platform-wide report cannot establish the performance of an individual site, and a choice of framework does not guarantee a 100/100 Lighthouse result. Keep lab measurements separate from real-user Core Web Vitals data.</p>"
+      },
+      {
+        "id": "seo-frome-businesses-2026:figure-1",
+        "before": "<figure class=\"kg-card kg-image-card kg-card-hascaption\"><img src=\"https://storage.ghost.io/c/65/4e/654e6744-ae7b-41f0-9bc2-dd2989837dc5/content/images/2026/03/google_lighthouse_score_scopesite-1.png\" class=\"kg-image\" alt=\"Dark background with a lighthouse icon above bold white text reading 'Google Lighthouse Score' with four green circular badges each showing 100% for Performance, Accessibility, Best Practices, and SEO, captioned 'SSR Websites Achieve 100%, Vastly Improving SEO\" loading=\"lazy\" width=\"2000\" height=\"1125\" srcset=\"https://storage.ghost.io/c/65/4e/654e6744-ae7b-41f0-9bc2-dd2989837dc5/content/images/size/w600/2026/03/google_lighthouse_score_scopesite-1.png 600w, https://storage.ghost.io/c/65/4e/654e6744-ae7b-41f0-9bc2-dd2989837dc5/content/images/size/w1000/2026/03/google_lighthouse_score_scopesite-1.png 1000w, https://storage.ghost.io/c/65/4e/654e6744-ae7b-41f0-9bc2-dd2989837dc5/content/images/size/w1600/2026/03/google_lighthouse_score_scopesite-1.png 1600w, https://storage.ghost.io/c/65/4e/654e6744-ae7b-41f0-9bc2-dd2989837dc5/content/images/2026/03/google_lighthouse_score_scopesite-1.png 2000w\" sizes=\"(min-width: 720px) 720px\"><figcaption><span style=\"white-space: pre-wrap;\">SSR Websites Achieve 100% - Vastly Improving SEO</span></figcaption></figure>",
+        "after": ""
+      },
+      {
+        "id": "seo-frome-businesses-2026:figure-2",
+        "before": "<figure class=\"kg-card kg-image-card kg-card-hascaption\"><img src=\"https://storage.ghost.io/c/65/4e/654e6744-ae7b-41f0-9bc2-dd2989837dc5/content/images/2026/03/VOICE_for_Frome_businesses_Somerset_UK.png\" class=\"kg-image\" alt=\"V.O.I.C.E. trademark logo on a dark navy background with a gold microphone icon replacing the letter I and grey sound wave rings, with gold and white text reading 'For Frome Businesses' below, captioned 'V.O.I.C.E, Voice-Optimisation for Intelligent, Crawler, Engines\" loading=\"lazy\" width=\"2000\" height=\"1125\" srcset=\"https://storage.ghost.io/c/65/4e/654e6744-ae7b-41f0-9bc2-dd2989837dc5/content/images/size/w600/2026/03/VOICE_for_Frome_businesses_Somerset_UK.png 600w, https://storage.ghost.io/c/65/4e/654e6744-ae7b-41f0-9bc2-dd2989837dc5/content/images/size/w1000/2026/03/VOICE_for_Frome_businesses_Somerset_UK.png 1000w, https://storage.ghost.io/c/65/4e/654e6744-ae7b-41f0-9bc2-dd2989837dc5/content/images/size/w1600/2026/03/VOICE_for_Frome_businesses_Somerset_UK.png 1600w, https://storage.ghost.io/c/65/4e/654e6744-ae7b-41f0-9bc2-dd2989837dc5/content/images/2026/03/VOICE_for_Frome_businesses_Somerset_UK.png 2000w\" sizes=\"(min-width: 720px) 720px\"><figcaption><span style=\"white-space: pre-wrap;\">V.O.I.C.E™ - Voice-Optimisation for Intelligent, Crawler, Engines</span></figcaption></figure>",
+        "after": ""
+      }
+    ],
+    "notice": "<p><strong>Technical correction, 16 October 2026.</strong> We have revised the passages about AI crawling, structured data and the current product where relevant. Earlier universal visibility claims and the unsupported figures identified below should not be treated as evidence. This targeted correction does not revalidate every historical statistic or commercial comparison in the article.</p>",
+    "appendix": "<h2 id=\"technical-correction-sources-2026-10-16\">Sources checked for this correction</h2><ul><li><a href=\"https://developers.google.com/search/docs/fundamentals/ai-optimization-guide\">Google Search: generative AI guidance</a></li><li><a href=\"https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data\">Google Search: structured data</a></li><li><a href=\"https://developers.google.com/search/docs/appearance/structured-data/speakable\">Google Search: speakable structured data</a></li><li><a href=\"https://developer.chrome.com/docs/lighthouse/performance/performance-scoring\">Lighthouse score variability</a></li><li><a href=\"https://developers.google.com/speed/docs/insights/v5/about\">PageSpeed Insights: lab and field data</a></li></ul><p>For current product status, read <a href=\"https://scopesite.co.uk/voice\">CAFMO and the earlier scanner</a>. Recruitment agencies can use the <a href=\"https://recruitmentwebdesign.com/explainers/ai-discovery\">recruitment AI discovery guide</a> to separate technical checks from actual assistant answers.</p>"
+  }
+]

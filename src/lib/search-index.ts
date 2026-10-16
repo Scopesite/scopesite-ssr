@@ -263,7 +263,7 @@ export const staticSearchIndex: SearchEntry[] = [
   },
   {
     title: 'US AI Visibility Scan | ScopeSite',
-    description: 'Free AI visibility scan for US businesses. See how ChatGPT, Claude, and Perplexity view your website.',
+    description: 'Explore the current AI visibility scanner for US businesses, its website checks, and existing account and credit arrangements.',
     url: '/us/ai-visibility',
     category: 'Location',
     keywords: ['us', 'ai visibility', 'scan', 'audit', 'chatgpt', 'perplexity', 'claude'],

@@ -78,7 +78,7 @@ const ALL_SERVICES: readonly { title: string; href: string; description: string 
     title: 'AI visibility scan and AI SEO',
     href: '/voice',
     description:
-      'Free scan plus ongoing AI SEO when you want help fixing the gaps.',
+      'Explore the current scanner, with separate AI SEO services for reviewed repairs.',
   },
   {
     title: 'Custom Web Apps',

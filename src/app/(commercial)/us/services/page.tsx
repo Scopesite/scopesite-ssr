@@ -121,11 +121,8 @@ export default function USServicesPage() {
               >
                 AI visibility methodology
               </Link>{' '}
-              (Visibility, Optimization, for Intelligent, Crawler, Engines) is the framework that
-              ties it all together. It covers five layers: making your site visible to AI crawlers,
-              optimizing content structure for extraction, defining entity relationships that AI can
-              map, configuring crawler access via robots.txt and llms.txt, and engineering content
-              for answer-engine compatibility.
+              uses website evidence to identify technical repairs. We check content, structured facts
+              and provider access separately, then record actual assistant answers and citations.
             </p>
             <p className="text-white/80">
               Every project starts with a full AI visibility audit using our AI visibility scanner. You
@@ -134,9 +131,9 @@ export default function USServicesPage() {
                 href="/us/ai-visibility"
                 className="text-brand-gold hover:text-brand-orange transition-colors underline underline-offset-2"
               >
-                run a free scan right now
+                explore the current scanner
               </Link>{' '}
-              to see where your site stands before committing to anything.
+              and review its current account and credit arrangements before starting.
             </p>
           </div>
         </div>

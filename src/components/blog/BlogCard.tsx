@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Clock } from 'lucide-react';
-import { formatPostDate } from '@/lib/ghost';
+import { formatPostDate } from '@/lib/blog/format-post-date';
 
 interface BlogCardProps {
   slug: string;

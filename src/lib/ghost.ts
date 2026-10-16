@@ -10,6 +10,8 @@
  */
 
 import { applyProductEditorialCorrection } from '@/lib/blog/product-editorial-corrections';
+import { applyEvidenceEditorialCorrection } from '@/lib/blog/evidence-editorial-corrections';
+export { formatPostDate } from '@/lib/blog/format-post-date';
 
 // Types
 export interface GhostTag {
@@ -470,11 +472,38 @@ export async function getAllPostSlugs(): Promise<string[]> {
  * Ghost appends ?ref=<ghost-domain> to all links even when the setting is off.
  */
 export function stripGhostTrackingParams(html: string): string {
-  return html
-    .replace(/([?&])ref=[^&"'<>\s]*/gi, (_match, prefix) => prefix === '?' ? '' : '')
-    .replace(/\?&/g, '?')
-    .replace(/\?(?=["'<>\s])/g, '')
-    .replace(/&(?=["'<>\s])/g, '');
+  // Skip complete quoted attributes before the actual href; data-href and title text are not links.
+  return html.replace(/(<a\b(?:[^"'<>]|"[^"]*"|'[^']*')*?\s+href\s*=\s*)(["'])(.*?)\2/gi, (match, opening, quote, href: string) => {
+    try {
+      // Validate only. Do not reserialise URLs or guess how to repair malformed ones.
+      if (/[\s<>]/.test(href)) return match;
+      // Only &amp; is decoded below. In particular, numeric entities contain a '#'
+      // which must not be mistaken for a URL fragment by the narrow string cleanup.
+      if ((href.match(/&(?:#\d+|#x[\da-f]+|[a-z][a-z\d]+);/gi) || []).some((entity) => entity.toLowerCase() !== '&amp;')) return match;
+      decodeURI(href);
+      const url = new URL(href.replace(/&amp;/gi, '&'), 'https://scopesite.co.uk');
+      if (!['https:', 'http:'].includes(url.protocol)) return match;
+    } catch {
+      return match;
+    }
+    const hashIndex = href.indexOf('#');
+    const fragment = hashIndex < 0 ? '' : href.slice(hashIndex);
+    const beforeFragment = hashIndex < 0 ? href : href.slice(0, hashIndex);
+    const queryIndex = beforeFragment.indexOf('?');
+    if (queryIndex < 0) return match;
+    const query = beforeFragment.slice(queryIndex + 1);
+    const parameters = query.split(/&(?:amp;)?/i);
+    const retained = parameters.filter((parameter) => {
+      const equals = parameter.indexOf('=');
+      if (equals < 0 || parameter.slice(0, equals).toLowerCase() !== 'ref') return true;
+      // The captured CMS inserts this value. Other referral values may be functional.
+      return decodeURIComponent(parameter.slice(equals + 1)).toLowerCase() !== 'scopesite-digital-studios.ghost.io';
+    });
+    if (retained.length === parameters.length) return match;
+    const separator = /&amp;/i.test(query) ? '&amp;' : '&';
+    const remainingQuery = retained.join(separator);
+    return `${opening}${quote}${beforeFragment.slice(0, queryIndex)}${remainingQuery ? `?${remainingQuery}` : ''}${fragment}${quote}`;
+  });
 }
 
 /**
@@ -490,22 +519,9 @@ export function demoteBodyH1s(html: string): string {
 
 function cleanPost(post: GhostPost): GhostPost {
   post = applyProductEditorialCorrection(post);
+  post = applyEvidenceEditorialCorrection(post);
   if (post.html) {
     return { ...post, html: demoteBodyH1s(stripGhostTrackingParams(post.html)) };
   }
   return post;
 }
-
-/**
- * Format date for display
- */
-export function formatPostDate(dateString: string): string {
-  return new Date(dateString).toLocaleDateString('en-GB', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  });
-}
-
-
-
