@@ -472,11 +472,35 @@ export async function getAllPostSlugs(): Promise<string[]> {
  * Ghost appends ?ref=<ghost-domain> to all links even when the setting is off.
  */
 export function stripGhostTrackingParams(html: string): string {
-  return html
-    .replace(/([?&])ref=[^&"'<>\s]*/gi, (_match, prefix) => prefix === '?' ? '' : '')
-    .replace(/\?&/g, '?')
-    .replace(/\?(?=["'<>\s])/g, '')
-    .replace(/&(?=["'<>\s])/g, '');
+  // Skip complete quoted attributes before the actual href; data-href and title text are not links.
+  return html.replace(/(<a\b(?:[^"'<>]|"[^"]*"|'[^']*')*?\s+href\s*=\s*)(["'])(.*?)\2/gi, (match, opening, quote, href: string) => {
+    try {
+      // Validate only. Do not reserialise URLs or guess how to repair malformed ones.
+      if (/[\s<>]/.test(href)) return match;
+      decodeURI(href);
+      const url = new URL(href.replace(/&amp;/gi, '&'), 'https://scopesite.co.uk');
+      if (!['https:', 'http:'].includes(url.protocol)) return match;
+    } catch {
+      return match;
+    }
+    const hashIndex = href.indexOf('#');
+    const fragment = hashIndex < 0 ? '' : href.slice(hashIndex);
+    const beforeFragment = hashIndex < 0 ? href : href.slice(0, hashIndex);
+    const queryIndex = beforeFragment.indexOf('?');
+    if (queryIndex < 0) return match;
+    const query = beforeFragment.slice(queryIndex + 1);
+    const parameters = query.split(/&(?:amp;)?/i);
+    const retained = parameters.filter((parameter) => {
+      const equals = parameter.indexOf('=');
+      if (equals < 0 || parameter.slice(0, equals).toLowerCase() !== 'ref') return true;
+      // The captured CMS inserts this value. Other referral values may be functional.
+      return decodeURIComponent(parameter.slice(equals + 1)).toLowerCase() !== 'scopesite-digital-studios.ghost.io';
+    });
+    if (retained.length === parameters.length) return match;
+    const separator = /&amp;/i.test(query) ? '&amp;' : '&';
+    const remainingQuery = retained.join(separator);
+    return `${opening}${quote}${beforeFragment.slice(0, queryIndex)}${remainingQuery ? `?${remainingQuery}` : ''}${fragment}${quote}`;
+  });
 }
 
 /**

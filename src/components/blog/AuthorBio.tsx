@@ -97,9 +97,9 @@ export function AuthorBio({ author }: AuthorBioProps) {
                   <Link href="/case-studies/h4tlt" className="text-brand-gold underline hover:text-brand-navy">
                     H4TLT case study
                   </Link>
-                  , and run a free scan with{' '}
+                  , and check the current product status in the{' '}
                   <Link href="/voice" className="text-brand-gold underline hover:text-brand-navy">
-                    AI visibility scan
+                    CAFMO and earlier scanner overview
                   </Link>
                   .
                 </p>
