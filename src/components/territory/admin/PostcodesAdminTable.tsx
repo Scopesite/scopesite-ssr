@@ -5,6 +5,7 @@ import { useCallback, useState } from 'react';
 import type { AdminPostcodeListRow } from '@/lib/territory/postcodePricing';
 import { PromotionCountdown } from '@/components/territory/PromotionCountdown';
 import { Button } from '@/components/ui/button';
+import { useBrowserTime } from '@/hooks/useBrowserTime';
 
 type Row = AdminPostcodeListRow;
 
@@ -22,11 +23,12 @@ async function parseJson(res: Response): Promise<{ error?: string }> {
 }
 
 function ExpiryPreview({ hours }: { hours: number }) {
+  const now = useBrowserTime(60_000);
   const safe = Number.isFinite(hours) && hours >= 1 ? hours : 1;
-  const d = new Date(Date.now() + safe * 3600000);
+  const d = now === null ? null : new Date(now + safe * 3600000);
   return (
     <span className="font-medium text-slate-800">
-      {d.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })}
+      {d ? d.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' }) : 'Calculating…'}
     </span>
   );
 }

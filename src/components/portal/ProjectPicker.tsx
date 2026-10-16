@@ -15,21 +15,24 @@ interface ProjectPickerProps {
 }
 
 export function ProjectPicker({ clientId, value, onChange }: ProjectPickerProps) {
+  if (!clientId) return null;
+  return <ClientProjectPicker key={clientId} clientId={clientId} value={value} onChange={onChange} />;
+}
+
+function ClientProjectPicker({ clientId, value, onChange }: ProjectPickerProps & { clientId: string }) {
   const [projects, setProjects] = useState<ProjectOption[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!clientId) {
-      setProjects([]);
-      return;
-    }
-
     let cancelled = false;
-    setLoading(true);
+    const controller = new AbortController();
 
     const params = new URLSearchParams({ clientId });
-    fetch(`/api/portal/projects?${params}`)
-      .then((res) => res.json())
+    fetch(`/api/portal/projects?${params}`, { signal: controller.signal })
+      .then((res) => {
+        if (!res.ok) throw new Error('Could not load projects');
+        return res.json();
+      })
       .then((data) => {
         if (cancelled) return;
         if (data.success && Array.isArray(data.data)) {
@@ -52,12 +55,9 @@ export function ProjectPicker({ clientId, value, onChange }: ProjectPickerProps)
 
     return () => {
       cancelled = true;
+      controller.abort();
     };
   }, [clientId]);
-
-  if (!clientId) {
-    return null;
-  }
 
   return (
     <div>

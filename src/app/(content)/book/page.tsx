@@ -1,6 +1,7 @@
 'use client';
 
 import Script from 'next/script';
+import Link from 'next/link';
 import { useEffect } from 'react';
 
 const CAL_LINK = 'scopesite/30min';
@@ -172,7 +173,7 @@ export default function BookPage() {
             <div className="mt-8 bg-brand-gold/10 border border-brand-gold/30 rounded-xl p-6 text-center">
               <p className="text-white/80">
                 <strong className="text-brand-gold">Not sure if you need a call?</strong>{' '}
-                Try our <a href="/pricing" className="text-brand-gold underline hover:text-white transition-colors">instant quote calculator</a> first - 
+                Try our <Link href="/pricing" className="text-brand-gold underline hover:text-white transition-colors">instant quote calculator</Link> first -
                 you might find exactly what you need without needing to talk to anyone.
               </p>
             </div>
@@ -205,9 +206,9 @@ export default function BookPage() {
           </ul>
           <p className="text-white/70 text-body-sm text-center">
             Not ready to book? Send a written brief instead via{' '}
-            <a href="/brief" className="text-brand-gold underline hover:text-white">
+            <Link href="/brief" className="text-brand-gold underline hover:text-white">
               scopesite.co.uk/brief
-            </a>
+            </Link>
             .
           </p>
         </div>

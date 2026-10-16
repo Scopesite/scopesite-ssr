@@ -1,28 +1,39 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState, useSyncExternalStore } from 'react';
 import { Info } from 'lucide-react';
 
 const STORAGE_KEY = 'scopesite_quote_redirect_notice';
+
+function createNoticeStore() {
+  let message: string | null = null;
+  let loaded = false;
+  return {
+    getSnapshot: () => message,
+    getServerSnapshot: () => null,
+    subscribe: (onChange: () => void) => {
+      if (!loaded) {
+        loaded = true;
+        try {
+          message = sessionStorage.getItem(STORAGE_KEY);
+          if (message) sessionStorage.removeItem(STORAGE_KEY);
+        } catch {
+          // Storage may be unavailable; the booking page still works.
+        }
+        onChange();
+      }
+      return () => {};
+    },
+  };
+}
 
 /**
  * Shows a one-shot banner when the pricing calculator redirects here with a
  * sessionStorage message (legacy ?q= visibility / webapp tokens).
  */
 export function QuoteRedirectNotice() {
-  const [message, setMessage] = useState<string | null>(null);
-
-  useEffect(() => {
-    try {
-      const raw = sessionStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        setMessage(raw);
-        sessionStorage.removeItem(STORAGE_KEY);
-      }
-    } catch {
-      /* ignore */
-    }
-  }, []);
+  const [store] = useState(createNoticeStore);
+  const message = useSyncExternalStore(store.subscribe, store.getSnapshot, store.getServerSnapshot);
 
   if (!message) return null;
 
