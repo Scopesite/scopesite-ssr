@@ -175,7 +175,7 @@ export default function Home() {
       serviceType: 'AI Visibility Optimisation',
       name: 'AI SEO and AI visibility by ScopeSite',
       description:
-        'AI SEO retainers, AI visibility audits, and ongoing optimisation. Free scan and paid programmes.',
+        'AI SEO retainers, AI visibility audits and ongoing optimisation. Scanner account and credit arrangements are separate.',
       provider: { '@id': `${BASE_URL}/#organization` },
       areaServed: { '@type': 'Place', name: 'United Kingdom' },
       url: `${BASE_URL}/voice`,
@@ -261,7 +261,7 @@ export default function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Free AI Visibility Scan
+                  Explore the current scanner
                 </a>
               </div>
             </div>
@@ -365,14 +365,14 @@ export default function Home() {
               read. That does not guarantee a citation, a ranking, or an index.
             </p>
             <p>
-              We run everything through{' '}
-              <strong className="text-white">our AI visibility scan</strong>, so you are not guessing
-              whether you are visible or just hoping. You get a score and a priority list.
+              Our <strong className="text-white">AI visibility scan</strong> checks the website evidence it can
+              retrieve and supplies findings for review. Actual assistant mentions and citations need
+              separate recorded checks.
             </p>
           </div>
           <div className="mt-10 text-center">
             <a href={VOICE_SCAN_URL} className="btn-primary inline-block" target="_blank" rel="noopener noreferrer">
-              Run the free scan
+              Explore the current scanner
             </a>
           </div>
         </div>
@@ -392,7 +392,7 @@ export default function Home() {
             >
               what an AI visibility checker actually measures
             </Link>
-            . Takes minutes. Costs nothing to start.
+            . Check the current account and credit arrangements before starting.
           </p>
           <p className="text-muted mb-8 max-w-2xl mx-auto">
             This is the front door for most clients. Run the scan, see the gaps, then we talk if you want
@@ -400,7 +400,7 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href={VOICE_SCAN_URL} className="btn-primary text-center" target="_blank" rel="noopener noreferrer">
-              Scan your site free
+              Explore the current scanner
             </a>
             <Link href="/voice" className="btn-secondary text-center">
               Read how AI SEO and scans work

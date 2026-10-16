@@ -122,11 +122,11 @@ export default function AISEOAgencyPage() {
               We check your website architecture, structured data and content against the facts of your business. Search results and AI citations are measured separately, so a technical score does not get passed off as a recommendation.
             </p>
             <p>
-              Check your current <Link href="/ai-visibility" className="text-brand-gold hover:underline">AI visibility</Link> with our free AI visibility scan, explore our <Link href="/generative-engine-optimisation" className="text-brand-gold hover:underline">generative engine optimisation</Link> work, or see our full range of <Link href="/ai-seo-services" className="text-brand-gold hover:underline">AI SEO services</Link>.
+              Check your current <Link href="/ai-visibility" className="text-brand-gold hover:underline">AI visibility</Link> with the current scanner, explore our <Link href="/generative-engine-optimisation" className="text-brand-gold hover:underline">generative engine optimisation</Link> work, or see our full range of <Link href="/ai-seo-services" className="text-brand-gold hover:underline">AI SEO services</Link>.
             </p>
           </>
         }
-        primaryCTA={{ text: 'Free AI visibility scan', href: '/voice' }}
+        primaryCTA={{ text: 'Explore the current scanner', href: '/voice' }}
         secondaryCTA={{ text: 'Get a Quote', href: '/pricing' }}
       />
 
@@ -203,8 +203,8 @@ export default function AISEOAgencyPage() {
 
       <LandingCTA
         title="READY TO BE RECOMMENDED?"
-        description="Stop fighting for blue links while your competitors get recommended by AI. Run a free AI visibility scan today to see your current AI visibility, or get an instant quote."
-        primaryCTA={{ text: 'Free AI visibility scan', href: '/voice' }}
+        description="Explore the current scanner and its access terms, or get an instant quote for the work your website needs."
+        primaryCTA={{ text: 'Explore the current scanner', href: '/voice' }}
         secondaryCTA={{ text: 'Get Instant Quote', href: '/pricing' }}
         footnote="No corporate waffle • Real results • Read our latest insights on the blog"
       />

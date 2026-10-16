@@ -126,7 +126,7 @@ export default function AEOPage() {
             </p>
           </>
         }
-        primaryCTA={{ text: 'Free AI visibility scan', href: '/voice' }}
+        primaryCTA={{ text: 'Explore the current scanner', href: '/voice' }}
         secondaryCTA={{ text: 'Get a Quote', href: '/pricing' }}
       />
 
@@ -222,8 +222,8 @@ export default function AEOPage() {
 
       <LandingCTA
         title="READY TO BE THE ANSWER?"
-        description="Stop fighting for blue links while your competitors get recommended by AI. Run a free AI visibility scan today to see your current AI visibility, or get an instant quote."
-        primaryCTA={{ text: 'Free AI visibility scan', href: '/voice' }}
+        description="Explore the current scanner and its access terms, or get an instant quote for the work your website needs."
+        primaryCTA={{ text: 'Explore the current scanner', href: '/voice' }}
         secondaryCTA={{ text: 'Get Instant Quote', href: '/pricing' }}
         footnote="No corporate waffle • Real results • Read our latest insights on the blog"
       />

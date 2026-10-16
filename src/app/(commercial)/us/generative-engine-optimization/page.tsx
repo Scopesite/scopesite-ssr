@@ -296,7 +296,7 @@ export default function USGenerativeEngineOptimizationPage() {
                 href="/us/ai-visibility"
                 className="text-white/70 hover:text-white font-medium inline-flex items-center gap-1 transition-colors"
               >
-                Run Free Scan <ArrowRight className="w-4 h-4" />
+                Explore the current scanner <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           </div>

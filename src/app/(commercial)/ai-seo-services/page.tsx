@@ -122,8 +122,8 @@ export default function AISEOServicesPage() {
               content laid out for machine reading.
             </p>
             <p className="mb-4">
-              Our AI SEO work runs from the free scan through Ultra Fast rebuilds when needed, plus structured
-              data that tells AI exactly who you are.
+              Our AI SEO work covers technical reviews, implementation and Ultra Fast rebuilds where needed.
+              The current scanner has its own account and credit arrangements.
             </p>
             <p>
               Learn more about our{' '}
@@ -138,11 +138,11 @@ export default function AISEOServicesPage() {
               <Link href="/ai-visibility" className="text-brand-gold hover:underline">
                 AI visibility
               </Link>{' '}
-              with a free scan.
+              with the current scanner.
             </p>
           </>
         }
-        primaryCTA={{ text: 'Free AI visibility scan', href: '/voice' }}
+        primaryCTA={{ text: 'Explore the current scanner', href: '/voice' }}
         secondaryCTA={{ text: 'Get a Quote', href: '/pricing' }}
       />
 
@@ -247,8 +247,8 @@ export default function AISEOServicesPage() {
 
       <LandingCTA
         title="READY FOR AI VISIBILITY?"
-        description="Stop fighting for blue links while competitors get recommended. Run a free AI visibility scan today, or get an instant quote for AI SEO."
-        primaryCTA={{ text: 'Free AI visibility scan', href: '/voice' }}
+        description="Explore the current scanner and its access terms, or get an instant quote for AI SEO."
+        primaryCTA={{ text: 'Explore the current scanner', href: '/voice' }}
         secondaryCTA={{ text: 'Get Instant Quote', href: '/pricing' }}
         footnote="No corporate waffle • Real results • Read our latest insights on the blog"
       />

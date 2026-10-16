@@ -9,7 +9,7 @@ const PAGE_URL = `${BASE_URL}/ai-visibility`;
 
 const PAGE_TITLE = 'AI Visibility Agency UK | Get Cited by ChatGPT and Google AI';
 const PAGE_DESCRIPTION =
-  'AI visibility agency for UK businesses that want ChatGPT, Claude, Gemini and Perplexity to recommend them. Free scan, audits, structured data, and retainers from £750 setup and £500 per month.';
+  'AI visibility audits and structured data for UK businesses. Explore the current scanner, with separate agency retainers from £750 setup and £500 per month.';
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,

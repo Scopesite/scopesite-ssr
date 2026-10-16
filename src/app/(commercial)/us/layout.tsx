@@ -41,10 +41,10 @@ export const metadata: Metadata = {
 };
 
 const faqs: FAQItem[] = [
-  { question: "Why should I hire a UK web agency instead of a US one?", answer: "Because AI visibility is a global challenge and the technology doesn't change based on geography. ScopeSite specializes in server-side rendered websites with full schema markup and AI optimization, a combination most US agencies aren't offering yet. You get a specialist, not a generalist who's bolted 'AI' onto their existing services." },
-  { question: "What time zone do you work in?", answer: "ScopeSite is based in the UK (GMT/BST). That gives us 5-8 hours of overlap with US East Coast business hours and full overlap with US West Coast mornings. All communication is async-friendly, and we schedule calls at times that work for both sides." },
+  { question: "Why should I hire a UK web agency instead of a US one?", answer: "ScopeSite builds custom Next.js websites with server-rendered content, structured business facts and checks for AI search access. For a US business, the useful comparison is the proposed build, evidence, support and price. Provider behaviour and local search results still need checking for your market." },
+  { question: "What time zone do you work in?", answer: "ScopeSite is based in the UK (GMT/BST). We use written updates and recorded walkthroughs, and arrange calls at mutually suitable times. The time difference depends on your US location and the daylight-saving dates." },
   { question: "Do you accept payment in USD?", answer: "Yes. All US pricing is in USD. We invoice in dollars and accept payment via bank transfer or card." },
-  { question: "Can I see the AI visibility scanner before committing to anything?", answer: "Absolutely. Run a free scan at scopesite.co.uk/voice on any URL. No signup required. You'll get an instant AI visibility report showing where your site stands." },
+  { question: "Can I see the AI visibility scanner before committing to anything?", answer: "The current scanner overview at scopesite.co.uk/voice explains access and credit arrangements. The public scanner uses the earlier V.O.I.C.E. interface while CAFMO is being rebuilt. Review its current account and credit terms before starting." },
 ];
 
 const serviceSchema = {

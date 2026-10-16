@@ -324,14 +324,14 @@ export function HomeBelowFold({ reviews }: HomeBelowFoldProps) {
           </FadeInOnScroll>
           <FadeInOnScroll delay={0.1}>
             <p className="text-white mb-8 max-w-xl mx-auto">
-              No obligation, no hard sell. Run the free scan or book a call and we will talk honestly about
+              No obligation, no hard sell. Explore the current scanner or book a call and we will talk honestly about
               whether we are a fit.
             </p>
           </FadeInOnScroll>
           <FadeInOnScroll delay={0.2}>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <a href={VOICE_SCAN_URL} className="btn-primary" target="_blank" rel="noopener noreferrer">
-                Get your free AI visibility scan
+                Explore the current scanner
               </a>
               <Link href="/book" className="btn-secondary-light">
                 Book a discovery call

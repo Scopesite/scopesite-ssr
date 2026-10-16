@@ -268,9 +268,9 @@ export default function H4TLTCaseStudyPage() {
           <FadeInOnScroll>
             <p className="text-white text-2xl font-medium mb-8">Worried your own site has the same problem?</p>
             <Link href="https://canaifindme.online" className="btn-primary text-lg px-8 py-4 rounded-lg animate-pulse-cta inline-block mb-4">
-              Run a free AI visibility scan →
+              Explore the current scanner →
             </Link>
-            <p className="text-slate-400 text-sm">Takes 60 seconds. No email required.</p>
+            <p className="text-slate-400 text-sm">Check the current account and credit arrangements before starting.</p>
           </FadeInOnScroll>
         </div>
       </section>
@@ -640,7 +640,7 @@ export default function H4TLTCaseStudyPage() {
               This was built for a single-operator audiology business. The methodology works for any professional services firm.
             </p>
             <Link href="https://canaifindme.online" className="btn-primary text-lg px-8 py-4 rounded-lg inline-block">
-              Run a free scan on your own site →
+              Explore the current scanner →
             </Link>
           </FadeInOnScroll>
         </div>
@@ -789,7 +789,7 @@ export default function H4TLTCaseStudyPage() {
           <FadeInOnScroll>
             <p className="text-white text-2xl font-medium mb-8">Curious what your AI visibility score would be?</p>
             <Link href="https://canaifindme.online" className="btn-primary text-lg px-8 py-4 rounded-lg inline-block">
-              Free scan, 60 seconds →
+              Explore the current scanner →
             </Link>
           </FadeInOnScroll>
         </div>
