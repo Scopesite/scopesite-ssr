@@ -616,6 +616,12 @@ export async function getAllChangeRequests(limit?: number): Promise<ChangeReques
   return result as ChangeRequestRow[];
 }
 
+/** One timestamp for the complete admin result set, captured at the data boundary. */
+export async function getAllChangeRequestsSnapshot() {
+  const requests = await getAllChangeRequests();
+  return { requests, checkedAt: Date.now() };
+}
+
 /**
  * Update a change request
  */

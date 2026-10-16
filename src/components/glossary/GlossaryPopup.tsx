@@ -137,7 +137,7 @@ export function GlossaryPopup({
 
   useEffect(() => {
     if (!open) return;
-    updatePlacement();
+    // showPopup measures on the next animation frame, after the card is mounted.
     window.addEventListener('resize', updatePlacement);
     window.addEventListener('scroll', updatePlacement, true);
     return () => {

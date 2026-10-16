@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Filter } from 'lucide-react';
-import { getAllClients, getAllChangeRequests } from '@/lib/portal-db';
+import { getAllClients, getAllChangeRequestsSnapshot } from '@/lib/portal-db';
 import { StatusBadge } from '@/components/portal/StatusBadge';
 import { AdminDeleteButton } from '@/components/portal/AdminDeleteButton';
 import { PROGRESS_LABELS, type ChangeRequestProgress } from '@/types/portal';
@@ -17,9 +17,9 @@ export default async function AdminRequestsPage({ searchParams }: AdminRequestsP
   const resolvedParams = await searchParams;
   const statusFilter = resolvedParams.status as ChangeRequestProgress | undefined;
 
-  const [clients, allRequests] = await Promise.all([
+  const [clients, { requests: allRequests, checkedAt }] = await Promise.all([
     getAllClients(),
-    getAllChangeRequests(),
+    getAllChangeRequestsSnapshot(),
   ]);
 
   // Create a map for quick client lookup
@@ -98,7 +98,7 @@ export default async function AdminRequestsPage({ searchParams }: AdminRequestsP
                 const isSlaBreached =
                   request.sla_due_at &&
                   !request.is_complete &&
-                  new Date(request.sla_due_at).getTime() < Date.now();
+                  new Date(request.sla_due_at).getTime() < checkedAt;
                 return (
                   <tr key={request.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4">

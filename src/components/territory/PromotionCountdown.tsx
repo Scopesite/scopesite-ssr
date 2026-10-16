@@ -1,6 +1,7 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+import { useBrowserTime } from '@/hooks/useBrowserTime';
 
 function formatRemaining(ms: number): string {
   if (ms <= 0) return '0h 00m 00s';
@@ -23,37 +24,15 @@ interface Props {
 }
 
 export function PromotionCountdown({ expiresAt, onExpired }: Props) {
-  const fired = useRef(false);
-  const [label, setLabel] = useState(() =>
-    formatRemaining(new Date(expiresAt).getTime() - Date.now()),
-  );
-
-  const tick = useCallback(() => {
-    const end = new Date(expiresAt).getTime();
-    const now = Date.now();
-    const diff = end - now;
-    if (diff <= 0) {
-      setLabel('0h 00m 00s');
-      if (!fired.current) {
-        fired.current = true;
-        onExpired?.();
-      }
-      return false;
-    }
-    setLabel(formatRemaining(diff));
-    return true;
-  }, [expiresAt, onExpired]);
-
+  const fired = useRef<string | null>(null);
+  const end = new Date(expiresAt).getTime();
+  const now = useBrowserTime(1000, Number.isFinite(end) ? end : undefined);
   useEffect(() => {
-    fired.current = false;
-    tick();
-    const id = window.setInterval(() => {
-      if (!tick()) {
-        window.clearInterval(id);
-      }
-    }, 1000);
-    return () => window.clearInterval(id);
-  }, [tick]);
-
+    if (now !== null && Number.isFinite(end) && now >= end && fired.current !== expiresAt) {
+      fired.current = expiresAt;
+      onExpired?.();
+    }
+  }, [now, end, expiresAt, onExpired]);
+  const label = now === null || !Number.isFinite(end) ? '…' : formatRemaining(end - now);
   return <span className="tabular-nums font-semibold">{label}</span>;
 }
