@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import type { ReactNode } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, render, screen, within } from '@testing-library/react';
 import { Header } from '@/components/layout/Header';
 import MobileMenu from '@/components/layout/MobileMenu';
 import { NAV_LINKS, SERVICES_LINKS } from '@/components/layout/Navigation';
@@ -61,7 +61,7 @@ describe('SCO-44 protected header and hero CTAs', () => {
     expectSameTabSpecialistLink(recruitment, RWD_DESTINATIONS.home);
     expect(recruitment.className).toContain('bg-[#f71663]');
     expect(screen.queryByRole('link', { name: 'Live Quote Builder' })).toBeNull();
-    expect(screen.queryByRole('link', { name: 'Free AI Visibility Scan' })).toBeNull();
+    expect(screen.queryByRole('link', { name: 'Explore the current scanner' })).toBeNull();
   });
 
   it('keeps the mobile pink recruitment button on the specialist homepage', () => {
@@ -71,13 +71,15 @@ describe('SCO-44 protected header and hero CTAs', () => {
     expect(recruitment.className).toContain('bg-[#f71663]');
   });
 
-  it('keeps the homepage hero on Live Quote Builder and the free scan', () => {
+  it('keeps the homepage hero on Live Quote Builder and the current scanner', () => {
     render(<Home />);
     const quote = screen.getByRole('link', { name: 'Live Quote Builder' });
     expect(quote.getAttribute('href')).toBe('/pricing');
     expect(quote.getAttribute('target')).toBeNull();
 
-    const scan = screen.getByRole('link', { name: 'Free AI Visibility Scan' });
+    const hero = quote.closest('section');
+    expect(hero).not.toBeNull();
+    const scan = within(hero!).getByRole('link', { name: 'Explore the current scanner' });
     expect(scan.getAttribute('href')).toBe('https://canaifindme.online');
     expect(scan.getAttribute('target')).toBe('_blank');
     expect(scan.getAttribute('rel')).toBe('noopener noreferrer');
