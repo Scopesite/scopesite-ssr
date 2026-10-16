@@ -760,7 +760,7 @@ export default function H4TLTCaseStudyPage() {
                 Ready to talk about your own AI visibility position?
               </h2>
               <p className="text-slate-300 text-lg mb-10 leading-relaxed">
-                A 30-minute discovery call gives you a clear picture of where your business sits today and what&apos;s possible. Or run a free V.O.I.C.E. scan first to see your starting position.
+                A 30-minute discovery call gives you a clear picture of where your business sits today and what&apos;s possible. Or open the current scanner to check your website evidence first.
               </p>
             </FadeInOnScroll>
             <FadeInOnScroll delay={0.1}>
@@ -775,7 +775,7 @@ export default function H4TLTCaseStudyPage() {
                   href="https://canaifindme.online"
                   className="btn-secondary-light text-lg px-8 py-4 rounded-lg inline-block w-full sm:w-auto"
                 >
-                  Run a free V.O.I.C.E. scan →
+                  Open the current scanner →
                 </Link>
               </div>
             </FadeInOnScroll>
@@ -883,7 +883,7 @@ export default function H4TLTCaseStudyPage() {
                 <StaggerItem>
                   <div>
                     <h3 className="text-brand-navy text-xl font-bold mb-3">How much does AI visibility optimisation cost?</h3>
-                    <p className="text-slate-600 leading-relaxed mb-5">The H4TLT engagement combined a full website rebuild, custom Compliance Checker app, and ongoing AI visibility programme. Typical engagements in professional services sectors range from £3,000 setup with retainers from £500/month for single-site businesses, scaling to £20,000+ for multi-product or multi-location operations. The exact figure depends on your sector, current schema position, and the AI visibility gap. A free V.O.I.C.E. scan at canaifindme.online gives you a starting picture, and a 30-minute discovery call gives you a realistic figure for your business.</p>
+                    <p className="text-slate-600 leading-relaxed mb-5">The H4TLT engagement combined a full website rebuild, custom Compliance Checker app, and ongoing AI visibility programme. Typical engagements in professional services sectors range from £3,000 setup with retainers from £500/month for single-site businesses, scaling to £20,000+ for multi-product or multi-location operations. The exact figure depends on your sector, current schema position, and the AI visibility gap. The current scanner at canaifindme.online gives you a starting picture, and a 30-minute discovery call gives you a realistic figure for your business.</p>
                     <div className="flex flex-col sm:flex-row gap-3">
                       <Link
                         href="/book"
@@ -895,7 +895,7 @@ export default function H4TLTCaseStudyPage() {
                         href="https://canaifindme.online"
                         className="btn-secondary px-6 py-3 rounded-lg inline-block text-center"
                       >
-                        Run a free V.O.I.C.E. scan →
+                        Open the current scanner →
                       </Link>
                     </div>
                   </div>

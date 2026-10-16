@@ -3,29 +3,7 @@
 import Link from 'next/link';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
-
-const faqItems = [
-  {
-    question: 'What is server-side rendering and why does it matter for AI?',
-    answer:
-      'Server-side rendering (SSR) generates your page content on the server before sending it to the browser. Client-side rendering (CSR), used by most React apps and WordPress page builders, depends on JavaScript to build the page after it loads. AI crawlers from ChatGPT, Perplexity, and Claude do not execute JavaScript. If your site relies on CSR, those crawlers see a blank page. SSR ensures your content is readable by every AI system from the moment it arrives.',
-  },
-  {
-    question: 'Do you work with e-commerce sites?',
-    answer:
-      'Yes. We build custom e-commerce sites with Product, Offer, and Review schema markup so AI platforms can read your catalog, understand pricing, and surface your products in recommendations. E-commerce projects typically fall at the higher end of our Tier 2 pricing.',
-  },
-  {
-    question: 'What CMS do you use?',
-    answer:
-      'We use headless CMS platforms like Ghost and Sanity, connected to a Next.js front end. This separates your content management from your presentation layer, giving you an easy editing experience while keeping your site fast, secure, and fully optimized for AI visibility.',
-  },
-  {
-    question: 'How long does a typical project take?',
-    answer:
-      'A standard website build takes 6 to 8 weeks from kickoff to launch. Complex projects with custom functionality or large content migrations typically take 8 to 12 weeks. Our AI Visibility Audit is delivered within 5 business days.',
-  },
-];
+import { faqItems } from './faqs';
 
 function FAQItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
@@ -41,9 +19,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
           className={`w-5 h-5 text-brand-gold flex-shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
         />
       </button>
-      {open && (
-        <div className="pb-5 text-brand-navy/80 leading-relaxed">{answer}</div>
-      )}
+      <div hidden={!open} className="pb-5 text-brand-navy/80 leading-relaxed">{answer}</div>
     </div>
   );
 }
@@ -61,13 +37,13 @@ export default function USServicesPage() {
             </h1>
 
             <p className="text-xl text-white/90 font-medium mb-6">
-              Server-side rendered websites that AI platforms can read, understand, and recommend.
+              Websites with readable HTML, accurate business facts and checks for AI search access.
             </p>
 
             <p className="text-white/70 mb-10 max-w-2xl mx-auto">
               Every site we build includes structured schema markup, AI visibility tuning, and the
-              technical foundation that gets American businesses found by ChatGPT, Perplexity, Claude,
-              and Google AI Overviews. Built in Britain. Priced in dollars.
+              technical checks that support search and AI retrieval. Actual citations are assessed
+              separately. Built in Britain. Priced in dollars.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -94,18 +70,10 @@ export default function USServicesPage() {
             <div className="divider-gold mx-auto mb-10" />
 
             <p className="text-brand-navy/80 mb-6">
-              Most websites are invisible to AI. WordPress and client-side rendered frameworks depend
-              on JavaScript to display content, and AI crawlers from ChatGPT, Perplexity, and Claude
-              do not execute JavaScript. When their bots visit a typical React single-page app or a
-              WordPress page-builder site, they see an empty shell. Your content exists, but AI
-              cannot read it.
+              Some pages expose their main content only after JavaScript runs. A retrieval tool that does not render those scripts may miss it. WordPress and React can both deliver useful HTML; the implementation needs checking. We inspect the response and access rules rather than assuming every AI tool behaves alike.
             </p>
             <p className="text-brand-navy/80 mb-6">
-              We build every site using Next.js with server-side rendering (SSR). Your content is
-              fully rendered as HTML before it reaches the browser or any crawler. AI systems get
-              the complete page on the first request, not a blank template waiting for scripts to
-              load. This is the same technology used by Nike, Netflix, and TikTok, applied to
-              businesses that need to be found by AI.
+              We use Next.js to deliver useful page content in the initial HTML. That reduces dependence on client-side scripts for reading the page. We also test links, content and access controls. A readable page is a technical foundation; an assistant still decides what to retrieve and cite.
             </p>
             <p className="text-brand-navy/80 mb-6">
               Our published{' '}
@@ -119,10 +87,8 @@ export default function USServicesPage() {
               evidence and context behind the project.
             </p>
             <p className="text-brand-navy/80">
-              Every build ships with sub-2-second load times, 90+ Lighthouse scores across all
-              categories, mobile-first responsive design, and enterprise-grade security. No
-              WordPress plugins. No template themes. No monthly maintenance fees to keep the
-              lights on.
+              We test performance, accessibility and responsive behaviour on the actual build.
+              Your proposal sets out the agreed delivery targets and support arrangements.
             </p>
           </div>
         </div>
@@ -142,16 +108,10 @@ export default function USServicesPage() {
               >
                 Schema markup
               </Link>{' '}
-              is the language AI platforms use to understand your business. It tells ChatGPT what
-              services you offer, where you operate, what your customers think of you, and how your
-              content relates to the broader web. Without it, AI guesses about your business based on
-              unstructured text. With it, AI knows.
+              describes business facts and relationships using a shared vocabulary. We keep it consistent with the visible page and link services to their real provider. Different search and AI systems decide how to use those facts; valid markup is not proof that a particular system uses it.
             </p>
             <p className="text-white/80 mb-6">
-              99.7% of websites either lack schema markup entirely or implement it incorrectly. That
-              is a competitive gap you can step through right now. We implement Organization, Service,
-              Product, FAQ, Review, and LocalBusiness schema types as JSON-LD, validated against
-              Google&apos;s Rich Results requirements and tested against AI extraction tools.
+              We select schema types that match the business and the visible content, then validate the JSON-LD against Schema.org. Where relevant, we check Google-supported search features separately. Retrieval and citation checks for other providers remain separate tests.
             </p>
             <p className="text-white/80 mb-6">
               Our{' '}
@@ -190,28 +150,21 @@ export default function USServicesPage() {
             <div className="divider-gold mx-auto mb-10" />
 
             <p className="text-brand-navy/80 mb-6">
-              Traditional SEO gets you ranked in search results. Answer Engine Optimization gets you
-              recommended in AI-generated answers. They are different disciplines with different
-              requirements, and most businesses are only doing one of them.
+              SEO and answer-engine optimisation share work on useful content and accessible pages. We measure search visibility and AI citations separately, because success in one does not prove success in the other.
             </p>
             <p className="text-brand-navy/80 mb-6">
-              When someone asks ChatGPT, Perplexity, Claude, or Google AI Overviews a question about
-              your industry, the AI pulls from websites it can read and trust. It prioritizes
-              structured content with clear entity definitions, proper schema markup, and technical
-              signals that indicate authority. A site with strong AEO is cited as a source. A site
-              without it is skipped entirely.
+              An assistant may use model knowledge, search results or a direct page fetch, depending on the product and question. We check the relevant routes, record the sources it cites and distinguish those outcomes from the technical health of your site.
             </p>
             <p className="text-brand-navy/80 mb-6">
-              We structure every page so AI systems can extract clean answers. Headers follow a
+              We structure pages to make useful answers easy to find. Headers follow a
               logical hierarchy. Content addresses specific questions with direct, factual responses.
               Schema markup connects your services, locations, reviews, and credentials into a
-              knowledge graph that AI can parse without ambiguity.
+              set of explicit relationships that can be checked against the visible content.
             </p>
             <p className="text-brand-navy/80">
-              AEO is not a replacement for SEO. It is an additional layer that most businesses have
-              not built yet. The businesses that invest in it first will own the AI recommendation
-              space in their market for years. That advantage compounds over time as AI platforms
-              learn to trust and cite your content more frequently.
+              We review search visibility and AI answers over time. A technical repair can be
+              verified when it is released; whether a provider retrieves or cites the page needs
+              separate evidence. There is no guaranteed timetable or permanent position.
             </p>
           </div>
         </div>
@@ -286,9 +239,9 @@ export default function USServicesPage() {
             <div className="divider-gold mx-auto mb-8" />
 
             <p className="text-white/80 text-lg mb-10 max-w-2xl mx-auto">
-              Every day your website sits without structured data and server-side rendering, AI
-              platforms are recommending your competitors instead. The technology exists right now
-              to fix that. We know how to build it.
+              Start with the evidence your website exposes and the questions your buyers ask.
+              We can identify technical problems, scope the repairs and agree how results will
+              be measured.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">

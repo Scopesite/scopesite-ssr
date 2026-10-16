@@ -12,7 +12,6 @@ import {
   Mic,
   Tag,
   Link2,
-  TrendingUp,
   Check,
 } from 'lucide-react';
 
@@ -113,8 +112,8 @@ function Stage1Publish({ active }: { active: boolean }) {
 const schemaBlocks = [
   { label: 'Author: Dan Cartwright', Icon: User, delay: 0.3 },
   { label: 'Publisher: ScopeSite', Icon: Building2, delay: 0.6 },
-  { label: 'FAQ: 5 Questions', Icon: HelpCircle, delay: 0.9 },
-  { label: 'Speakable: 8 Sections', Icon: Mic, delay: 1.2 },
+  { label: 'FAQ: where present', Icon: HelpCircle, delay: 0.9 },
+  { label: 'Speakable: selected text', Icon: Mic, delay: 1.2 },
   { label: 'About: Web Design, AI', Icon: Tag, delay: 1.5 },
   { label: 'Mentions: ChatGPT, Next.js', Icon: Link2, delay: 1.8 },
 ];
@@ -141,7 +140,7 @@ function Stage2Schema({ active }: { active: boolean }) {
       <div className="relative bg-[#16213e] rounded-lg border border-white/10 p-5 shadow-xl">
         {/* Counter */}
         <div className="absolute top-3 right-4 flex items-center gap-2 text-xs font-mono">
-          <span className="text-white/50">Schema Types:</span>
+          <span className="text-white/50">Example facts:</span>
           <span className="text-brand-gold font-bold">
             {active ? (
               <AnimatedCounter value={6} duration={2.5} className="text-brand-gold" />
@@ -201,7 +200,7 @@ function Stage2Schema({ active }: { active: boolean }) {
           transition={{ delay: 2.2 }}
         >
           <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
-          application/ld+json injected
+          application/ld+json in page HTML
         </motion.div>
       </div>
     </div>
@@ -213,7 +212,7 @@ function Stage2Schema({ active }: { active: boolean }) {
 // ---------------------------------------------------------------------------
 
 const AI_RESPONSE =
-  'Based on my analysis, ScopeSite Digital Studios in Frome offers AI-optimised websites with perfect Lighthouse scores and full schema markup.';
+  'ScopeSite Digital Studios builds recruitment websites and web systems. Check the linked service page for scope, evidence and current terms.';
 
 function Stage3Recommend({ active }: { active: boolean }) {
   const [typewriterDone, setTypewriterDone] = useState(false);
@@ -224,13 +223,13 @@ function Stage3Recommend({ active }: { active: boolean }) {
       {/* Chat panel */}
       <div className="bg-[#16213e] rounded-lg border border-white/10 p-4 shadow-xl">
         <div className="text-[10px] uppercase tracking-wider text-white/30 mb-3 font-mono">
-          AI Assistant
+          Illustrative answer, not a recorded result
         </div>
 
         {/* User bubble */}
         <div className="flex justify-end mb-3">
           <div className="bg-white/10 text-white/90 text-xs rounded-xl rounded-br-sm px-3 py-2 max-w-[80%]">
-            Who is the best web designer in Frome?
+            What does ScopeSite Digital Studios do?
           </div>
         </div>
 
@@ -261,37 +260,9 @@ function Stage3Recommend({ active }: { active: boolean }) {
         </div>
       </div>
 
-      {/* Metrics panel */}
-      <div className="grid grid-cols-3 gap-3">
-        {[
-          { label: 'AI Citations', value: 47, suffix: '' },
-          { label: 'Organic Traffic', value: 312, suffix: '%' },
-          { label: 'Enquiries', value: 24, suffix: '' },
-        ].map((stat) => (
-          <div
-            key={stat.label}
-            className="bg-[#16213e] rounded-lg border border-white/10 p-3 text-center"
-          >
-            <div className="flex items-center justify-center gap-1 mb-1">
-              <TrendingUp className="w-3 h-3 text-green-400" />
-            </div>
-            <div className="text-brand-gold font-bold text-lg leading-none">
-              {active ? (
-                <AnimatedCounter
-                  value={stat.value}
-                  duration={2}
-                  delay={0.5}
-                  suffix={stat.suffix}
-                  className="text-brand-gold"
-                />
-              ) : (
-                '0'
-              )}
-            </div>
-            <div className="text-white/40 text-[10px] mt-1">{stat.label}</div>
-          </div>
-        ))}
-      </div>
+      <p className="text-white/70 text-xs leading-relaxed">
+        Check the real answer, its date and cited sources. This illustration does not report client traffic, enquiries or citation counts.
+      </p>
     </div>
   );
 }
@@ -300,7 +271,7 @@ function Stage3Recommend({ active }: { active: boolean }) {
 // Stage indicator bar
 // ---------------------------------------------------------------------------
 
-const STAGE_LABELS = ['Publish', 'Schema Generates', 'AI Recommends'];
+const STAGE_LABELS = ['Publish', 'Schema Generates', 'Check Answers'];
 
 function StageIndicator({ current }: { current: number }) {
   return (
@@ -362,7 +333,7 @@ function StaticFallback() {
           2. Schema Generates
         </div>
         <div className="text-white font-semibold text-sm mb-3">
-          6 schema types auto-generated
+          Relevant structured facts
         </div>
         <div className="space-y-2">
           {schemaBlocks.map((block) => (
@@ -378,26 +349,12 @@ function StaticFallback() {
       {/* Stage 3 */}
       <div className="bg-[#16213e] rounded-lg border border-white/10 p-5">
         <div className="text-brand-gold font-bold text-xs uppercase tracking-wider mb-3">
-          3. AI Recommends
+          3. Check Answers
         </div>
         <div className="bg-[#0d1729] border-l-2 border-brand-gold rounded-lg p-3 text-xs text-white/80 mb-3">
-          &quot;Based on my analysis, ScopeSite Digital Studios in Frome offers AI-optimised
-          websites with perfect Lighthouse scores...&quot;
+          Illustrative answer: ScopeSite builds recruitment websites and web systems. Check the linked service page for current scope and terms.
         </div>
-        <div className="grid grid-cols-3 gap-2 text-center">
-          <div>
-            <div className="text-brand-gold font-bold text-sm">47</div>
-            <div className="text-white/40 text-[9px]">AI Citations</div>
-          </div>
-          <div>
-            <div className="text-brand-gold font-bold text-sm">312%</div>
-            <div className="text-white/40 text-[9px]">Traffic</div>
-          </div>
-          <div>
-            <div className="text-brand-gold font-bold text-sm">24</div>
-            <div className="text-white/40 text-[9px]">Enquiries</div>
-          </div>
-        </div>
+        <p className="text-white/70 text-xs">Actual citations and enquiries require separate evidence.</p>
       </div>
     </div>
   );

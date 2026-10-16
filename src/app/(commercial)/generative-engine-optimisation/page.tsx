@@ -10,49 +10,14 @@ import {
   FAQSection,
   LandingCTA,
 } from '@/components/landing';
-
-// FAQ Data
-const faqItems = [
-  {
-    question: "What is generative engine optimisation?",
-    answer: "Generative engine optimisation is the practice of structuring your website, schema and content so that generative AI models (ChatGPT, Claude, Gemini and Perplexity) cite your business when someone asks a question in your field. Traditional SEO targets a list of ten blue links. GEO targets the one or two sources the model actually names in its answer."
-  },
-  {
-    question: "What is the difference between GEO and SEO?",
-    answer: "SEO fights for ranking on a search engine results page. GEO fights to be a citation inside a generative AI answer. SEO cares about keywords, backlinks and click-through rate. GEO cares about structured data, entity relationships, server-rendered HTML and whether the model can extract a clean fact from your page in the first place."
-  },
-  {
-    question: "What is the difference between GEO and AEO?",
-    answer: "AEO (answer engine optimisation) is about being the single extracted answer to a specific question. GEO (generative engine optimisation) is broader, covering every technical and content signal that influences whether a generative model trusts and cites your brand. In practice the two overlap heavily, and most agency briefs use the terms interchangeably."
-  },
-  {
-    question: "How do AI models decide which businesses to recommend?",
-    answer: "Generative models blend training data, real-time retrieval and entity confidence scoring. If your business is an established entity in Wikidata and the Google Knowledge Graph, has rich structured data and is reachable via fast, server-rendered HTML, you are more likely to be cited. If your site is a JavaScript shell with no structured facts, the model has nothing to work with and picks a competitor."
-  },
-  {
-    question: "Do I need GEO if I already have SEO?",
-    answer: "Yes. Strong SEO gives you clicks from Google traditional results, but it does not guarantee a single citation inside ChatGPT, Gemini, Claude or Perplexity. Those platforms rank by entity confidence and extraction quality, not keyword density. GEO adds the structured data, content architecture and crawler access that AI models specifically require."
-  },
-  {
-    question: "Which AI platforms does generative engine optimisation target?",
-    answer: "ChatGPT (OpenAI), Claude (Anthropic), Perplexity, Gemini (Google) and Google AI Overviews are the five platforms that matter for UK businesses in 2026. The same structured data signals also help with voice search on Siri and Alexa, so the work carries over."
-  },
-  {
-    question: "How long does generative engine optimisation take to work?",
-    answer: "Perplexity typically starts citing correctly structured sources within 2 to 4 weeks. ChatGPT and Claude usually take 6 to 12 weeks as their retrieval layers pick up your new schema. Persistent citations, where the model names your business by default in a category, take 3 to 6 months depending on your starting authority."
-  },
-  {
-    question: "How much does a generative engine optimisation agency cost?",
-    answer:
-      'Our standard GEO retainer is £500 per month with a £750 one-time setup, covering ongoing schema maintenance, entity work, citation tracking and monthly reporting. A full AI-first website rebuild, if your site blocks AI crawlers, is priced as a project — use the quote calculator at /pricing.',
-  }
-];
+import { faqItems } from './faqs';
+import { websiteEvidenceChecks as proofStats } from '@/lib/website-evidence-checks';
 
 // Problem points
 const problemPoints = [
   {
     title: "JavaScript Walls",
-    description: "Your website renders client-side, so GPTBot and ClaudeBot see a blank page. Blank pages do not get cited."
+    description: "If a page depends on JavaScript to expose its content, some retrieval tools may miss it. We check the delivered HTML and the access rules for the relevant search and user-requested bots."
   },
   {
     title: "Unknown Entity",
@@ -60,7 +25,7 @@ const problemPoints = [
   },
   {
     title: "Unstructured Facts",
-    description: "Flowing marketing prose reads well to humans. AI cannot extract a clean fact from it. If the model cannot quote you, it will not cite you."
+    description: "A buyer should be able to find the service, location and supporting evidence without digging through vague claims. Clear answers also make those facts easier for retrieval tools to extract."
   },
   {
     title: "Ranking Without Citation",
@@ -137,12 +102,7 @@ const whatYouGetCards = [
 ];
 
 // Proof stats
-const proofStats = [
-  { value: 100, suffix: "%", label: "Speed scores", description: "Strong technical performance on every build" },
-  { value: 4, suffix: "x", label: "AI Platforms", description: "Optimised for ChatGPT, Claude, Gemini & Perplexity" },
-  { value: 800, suffix: "M+", label: "Weekly AI Users", description: "The audience you are currently missing" },
-  { value: 1, suffix: "st", label: "AI Recommendation", description: "Our goal for your business" },
-];
+
 
 export default function GenerativeEngineOptimisationPage() {
   return (
@@ -231,7 +191,7 @@ export default function GenerativeEngineOptimisationPage() {
       />
 
       <LandingProof
-        title="PROVEN AI VISIBILITY"
+        title="WHAT WE CHECK"
         stats={proofStats}
         quote={{
           text: "ScopeSite took us from being completely invisible to ChatGPT, to being the number one recommended provider in our sector nationally in under 4 months.",
@@ -254,7 +214,7 @@ export default function GenerativeEngineOptimisationPage() {
 
       <LandingCTA
         title="READY TO BE CITED?"
-        description="Stop being invisible to generative AI. Run a free AI visibility scan today and see exactly how ChatGPT, Claude, Gemini and Perplexity describe your business right now."
+        description="Check the technical evidence your website exposes, then assess actual AI answers separately. Start with a website scan or discuss a scoped audit."
         primaryCTA={{ text: 'Free AI visibility scan', href: '/voice' }}
         secondaryCTA={{ text: 'Get Instant Quote', href: '/pricing' }}
         footnote="No corporate waffle • Real results • Read our latest insights on the blog"

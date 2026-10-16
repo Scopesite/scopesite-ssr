@@ -11,19 +11,8 @@ import {
   DynamicLandingCTA as LandingCTA,
   DynamicLandingAreasServed as LandingAreasServed,
 } from '@/components/landing/below-fold-dynamic';
-
-const faqItems = [
-  { question: "What does SEO in Somerset actually cost?", answer: "Technical SEO is built into every web build. Standalone AI SEO uses a £750 setup and £500 per month on a 6- or 12-month commitment. We price from the published sheet, not your postcode." },
-  { question: "Do I need SEO if I already have a website?", answer: "If your website isn't showing up when someone Googles your service in Somerset, yes. And if ChatGPT doesn't mention you when asked about your industry locally, you're already behind." },
-  { question: "What's the difference between SEO and AI optimisation?", answer: "Traditional SEO focuses on Google rankings. AI optimisation (what we call GEO and AEO) ensures your business gets recommended by ChatGPT, Perplexity, Claude, and voice assistants. We do both." },
-  { question: "How long does SEO take to show results?", answer: "Technical SEO improvements (speed, schema, structure) show impact within weeks. Content-driven ranking improvements typically take 3-6 months. AI visibility improvements can happen faster because the field is less competitive." },
-  { question: "Can you help with Google Business Profile?", answer: "Yes. GBP optimisation is part of every local SEO engagement. We optimise your profile, manage citations, and ensure NAP consistency across the web." },
-  { question: "What is ScopeSite's AI visibility approach?", answer: "It is ScopeSite's practical framework for making businesses visible to Google and to AI platforms such as ChatGPT and Perplexity." },
-  { question: "Do you guarantee first page rankings?", answer: "No. Anyone who guarantees rankings is lying. What we guarantee is technically sound implementation: validated schema, fast load times, proper site structure, and AI-readable content." },
-  { question: "Is local SEO different from national SEO?", answer: "Yes. Local SEO targets geographic searches ('plumber in Frome'), uses local schema markup, optimises Google Business Profile, and builds local citations. We specialise in Somerset local SEO." },
-  { question: "Will AI search replace Google?", answer: "Not replace, but it's already changing how people find businesses. 58% of local searches now happen through voice. ChatGPT handles 100+ million queries daily. Businesses that optimise for both will win." },
-  { question: "Can you audit my current SEO?", answer: "Yes. We offer a free AI visibility audit that checks your site's schema markup, load speed, AI crawler accessibility, and content structure. Book a call and we'll run it live." },
-];
+import { faqItems } from './faqs';
+import { websiteEvidenceChecks as proofStats } from '@/lib/website-evidence-checks';
 
 const problemPoints = [
   {
@@ -32,7 +21,7 @@ const problemPoints = [
   },
   {
     title: "AI doesn't know your business exists",
-    description: "ChatGPT handles over 100 million queries daily. Voice assistants field 58% of local searches. If your website doesn't have proper schema markup, structured content, and AI-readable data, these platforms can't recommend you. Traditional SEO won't fix that."
+    description: "Search engines and AI assistants can use different routes to your business. We check accessible content, accurate business facts and the answers your buyers actually see. Structured data helps describe those facts; it does not guarantee a recommendation."
   },
   {
     title: "Rankings aren't the whole picture anymore",
@@ -94,12 +83,7 @@ const whatYouGetCards = [
   },
 ];
 
-const proofStats = [
-  { value: 15, suffix: "+", label: "Somerset Clients" },
-  { value: 100, suffix: "/100", label: "Lighthouse Scores" },
-  { value: 89, suffix: "%", label: "AI Recommendation Rate" },
-  { value: 6, suffix: " weeks", label: "Average Time to AI Visibility" },
-];
+
 
 const somersetTowns = [
   'Frome',
@@ -173,12 +157,8 @@ export default function SEOSomersetPage() {
       />
 
       <LandingProof
-        title="SOMERSET SEO RESULTS"
+        title="WHAT WE CHECK"
         stats={proofStats}
-        quote={{
-          text: "We'd been paying an SEO agency £500/month for two years with nothing to show for it. ScopeSite rebuilt our site on Next.js, implemented proper schema markup, and within six weeks ChatGPT was recommending us. That's never happened before.",
-          author: "Professional Services, Somerset"
-        }}
         theme="light"
       />
 

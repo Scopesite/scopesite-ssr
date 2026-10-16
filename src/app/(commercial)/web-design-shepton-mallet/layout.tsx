@@ -2,13 +2,13 @@ import { Metadata } from 'next';
 import { 
   generateWebPageFAQPageSchema, 
   generateLocalServiceSchema,
-  generateLocalBusinessSchema,
+
   generateBreadcrumbSchema,
   wrapInGraph,
-  type FAQItem,
   type AreaServedItem 
 } from '@/lib/schema';
 import { JsonLd } from '@/components/JsonLd';
+import { faqItems as faqs } from './faqs';
 
 const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/web-design-shepton-mallet`;
@@ -27,35 +27,22 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         alt: 'Web Design Shepton Mallet | AI-Ready Websites for Local Businesses',
-      },
+},
     ],
     locale: 'en_GB',
     type: 'website',
-  },
+},
   twitter: {
     card: 'summary_large_image',
     title: 'Web Design Shepton Mallet | AI-Ready Websites for Local Businesses',
     description: 'Web design for Shepton Mallet businesses. AI-optimised websites by ScopeSite, based 15 minutes away in Frome. 100/100 Lighthouse scores, fair pricing.',
     images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
-  },
+},
   keywords: ['web design shepton mallet', 'web designer shepton mallet', 'website design shepton mallet', 'shepton mallet web design'],
   alternates: {
     canonical: PAGE_URL,
-  },
+},
 };
-
-const faqs: FAQItem[] = [
-  { question: "Is there a web designer near Shepton Mallet?", answer: "Yes. ScopeSite is based just 15 minutes away in Frome. We work with businesses across Shepton Mallet and the surrounding Somerset area. Face-to-face meetings are easy to arrange." },
-  { question: "How much does web design cost for a small business?", answer: "Published pricing starts at £1,875 or £2,000 depending on track. Most Shepton Mallet projects land around £4,000 to £8,000. That is well below typical Bristol or Bath quotes. Use our calculator for an exact figure." },
-  { question: "What is AI-ready web design?", answer: "AI-ready means your site is built with server-side rendering, structured schema markup, and content designed to be understood by AI platforms like ChatGPT and Google AI Overviews. It's how businesses get found in 2026." },
-  { question: "Do you work with small businesses in Shepton Mallet?", answer: "Yes. Most of our clients are small and medium businesses. We understand the Shepton Mallet market, from independent shops to businesses connected to the Royal Bath and West Showground." },
-  { question: "What technology do you use?", answer: "We build on Next.js with server-side rendering. No WordPress, no page builders. This gives you sub-2-second load times, 100/100 Lighthouse scores, and proper AI visibility." },
-  { question: "How long does a web design project take?", answer: "Typically 4-6 weeks from brief to launch. We agree a specific timeline upfront and stick to it." },
-  { question: "Can you help with local SEO for Shepton Mallet?", answer: "Yes. Local SEO is built into every project. That includes Google Business Profile optimisation, local schema markup, citation building, and content structured for 'near me' searches." },
-  { question: "Will my website work on mobile?", answer: "Every site we build is mobile-first. Over 60% of local searches happen on mobile, so your site is designed for phones and tablets before anything else." },
-  { question: "Do you offer payment plans?", answer: "Yes. 50% upfront, 50% on completion is standard. Monthly plans are available for larger projects." },
-  { question: "What guarantee do you offer?", answer: "100% schema validation guarantee. We put specific load time and accessibility scores in writing before you commit." },
-];
 
 const areasServed: AreaServedItem[] = [
   { type: 'City', name: 'Shepton Mallet' },
@@ -83,7 +70,7 @@ const pageSchema = wrapInGraph([
       { name: 'Complex Website', price: '9375' },
     ]
   ),
-  generateLocalBusinessSchema('Shepton Mallet', areasServed, PAGE_URL),
+
   generateBreadcrumbSchema([
     { name: 'Home', url: BASE_URL },
     { name: 'Web Design Shepton Mallet', url: PAGE_URL },

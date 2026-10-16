@@ -2,13 +2,13 @@ import { Metadata } from 'next';
 import { 
   generateWebPageFAQPageSchema, 
   generateLocalServiceSchema,
-  generateLocalBusinessSchema,
+
   generateBreadcrumbSchema,
   wrapInGraph,
-  type FAQItem,
   type AreaServedItem 
 } from '@/lib/schema';
 import { JsonLd } from '@/components/JsonLd';
+import { faqItems as faqs } from './faqs';
 
 const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/seo-bristol`;
@@ -27,35 +27,22 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         alt: 'SEO Bristol | AI Search Optimisation',
-      },
+},
     ],
     locale: 'en_GB',
     type: 'website',
-  },
+},
   twitter: {
     card: 'summary_large_image',
     title: 'SEO Bristol | AI Search Optimisation',
     description: 'Bristol SEO services that go beyond Google rankings. Get your business recommended by ChatGPT, Perplexity, and AI search engines. AI visibility methodology.',
     images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
-  },
+},
   keywords: ['seo bristol', 'bristol seo', 'search engine optimisation bristol', 'seo services bristol', 'ai seo bristol'],
   alternates: {
     canonical: PAGE_URL,
-  },
+},
 };
-
-const faqs: FAQItem[] = [
-  { question: "How is your SEO different from Bristol SEO agencies?", answer: "Most Bristol SEO agencies focus exclusively on Google rankings. We optimise for Google, ChatGPT, Perplexity, Claude, and voice assistants. Bristol's tech scene is competitive - AI visibility is the differentiator." },
-  { question: "What does SEO in Bristol cost?", answer: "Standalone AI SEO uses a £750 setup and £500 per month on a 6- or 12-month commitment. We do not carry Bristol office rent, so you see fair numbers for the same work." },
-  { question: "Why hire a Somerset agency for Bristol SEO?", answer: "Because we deliver better technology at fairer rates. We're 40 minutes from Bristol, regularly in the city for meetings, and our AI visibility methodology is more advanced than what Bristol agencies offer." },
-  { question: "Do you understand Bristol's market?", answer: "Yes. Bristol is a tech hub, creative capital, and competitive digital market. Startups, scale-ups, professional services, and creative agencies all need different SEO approaches. We've worked across all of them." },
-  { question: "Can you help Bristol startups with SEO?", answer: "Absolutely. Startups need to build visibility fast without burning through their runway. AI SEO is often less competitive than traditional SEO, giving startups an edge established competitors haven't exploited yet." },
-  { question: "What's AI visibility methodology?", answer: "It is ScopeSite's practical framework for making businesses visible to Google and to AI platforms such as ChatGPT and Perplexity." },
-  { question: "How long until I see results?", answer: "Technical SEO improvements show impact within weeks. Content-driven ranking improvements take 3-6 months. AI visibility improvements can happen within 4-8 weeks because the field is less competitive." },
-  { question: "Do you guarantee rankings?", answer: "No. Anyone who guarantees rankings is lying. We guarantee technically sound implementation: validated schema, fast load times, proper site structure, and AI-readable content." },
-  { question: "Will you meet Bristol clients in person?", answer: "Yes. We're in Bristol regularly and happy to meet at your office or a coffee shop. 40 minutes is nothing." },
-  { question: "Can you audit our current SEO?", answer: "Yes. We offer a free AI visibility audit that checks schema markup, load speed, AI crawler accessibility, and content structure. Book a call and we'll run it live." },
-];
 
 const areasServed: AreaServedItem[] = [
   { type: 'City', name: 'Bristol' },
@@ -79,12 +66,12 @@ const pageSchema = wrapInGraph([
     PAGE_URL,
     areasServed,
     [
-      { name: 'SEO Audit', price: '500' },
-      { name: 'Monthly SEO Retainer', price: '300' },
+      { name: 'AI SEO Setup', price: '750' },
+      { name: 'Monthly AI SEO Retainer', price: '500' },
     ],
     'SEO'
   ),
-  generateLocalBusinessSchema('Bristol', areasServed, PAGE_URL),
+
   generateBreadcrumbSchema([
     { name: 'Home', url: BASE_URL },
     { name: 'SEO Bristol', url: PAGE_URL },

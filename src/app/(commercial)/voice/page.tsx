@@ -25,7 +25,8 @@ import {
   Search,
   FileText
 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useId } from 'react';
+import { AI_VISIBILITY_FAQS as faqItems, CAFMO_PRODUCT_STORY } from '@/lib/product-story';
 
 // FAQ Accordion Component
 function FAQItem({ question, answer, isOpen, onClick }: { 
@@ -34,10 +35,13 @@ function FAQItem({ question, answer, isOpen, onClick }: {
   isOpen: boolean; 
   onClick: () => void;
 }) {
+  const answerId = useId();
   return (
     <div className="border-b border-white/10 last:border-b-0">
       <button
         onClick={onClick}
+        aria-expanded={isOpen}
+        aria-controls={answerId}
         className="w-full py-6 flex items-center justify-between text-left group"
       >
         <span className="text-white font-medium text-lg pr-8">{question}</span>
@@ -47,7 +51,8 @@ function FAQItem({ question, answer, isOpen, onClick }: {
           }`} 
         />
       </button>
-      <div 
+      <div
+        id={answerId}
         className={`overflow-hidden transition-all duration-300 ease-out ${
           isOpen ? 'max-h-96 pb-6' : 'max-h-0'
         }`}
@@ -63,13 +68,13 @@ const pillarCards = [
   {
     step: '1',
     title: 'MEASURE',
-    description: 'We score how AI platforms read you today, not how your brochure reads to humans.',
+    description: 'We check the website evidence available to a scan, then test named questions separately.',
     icon: Eye,
   },
   {
     step: '2',
     title: 'STRUCTURE',
-    description: 'Facts are auto-formatted for AI to read, with clean HTML and structured data.',
+    description: 'We publish clear HTML and structured facts that agree with the visible page.',
     icon: Settings,
   },
   {
@@ -81,13 +86,13 @@ const pillarCards = [
   {
     step: '4',
     title: 'SPEED',
-    description: 'Ultra Fast Next.js delivery so crawlers get full pages, not empty shells.',
+    description: 'Server-rendered pages give crawlers useful content before browser scripts run.',
     icon: MessageCircle,
   },
   {
     step: '5',
     title: 'REPORT',
-    description: 'You get plain-English fixes, tracked scores, and a plan you can act on.',
+    description: 'You get the findings, their limits, and a plan for the next repair.',
     icon: Cpu,
   },
 ];
@@ -95,75 +100,43 @@ const pillarCards = [
 // Benefits Data
 const benefits = [
   {
-    title: 'AI GEO Visibility Score',
-    description: 'See exactly how visible you are to AI assistants',
+    title: 'Technical readiness score',
+    description: 'Read a score of the signals checked, with its limits',
     icon: BarChart3,
   },
   {
     title: 'Structured Data Health',
-    description: 'Full breakdown of your schema markup and what\'s missing',
+    description: 'Check the structured data found on the scanned page',
     icon: Code2,
   },
   {
     title: 'DA/PA Ranking',
-    description: 'Your domain authority powered by MOZ',
+    description: 'External authority metrics where the provider returns them',
     icon: BarChart3,
   },
   {
     title: 'Spam Score Analysis',
-    description: 'Check if your backlinks are helping or hurting',
+    description: 'Review an external risk signal alongside the actual links',
     icon: Shield,
   },
   {
     title: 'Backlink Count',
-    description: 'How many sites are linking to you',
+    description: 'Link counts reported by the external data source',
     icon: Link2,
   },
   {
-    title: 'AI Mentions Tracking',
-    description: 'See if you show up for specific keywords in AI chat',
+    title: 'Separate answer checks',
+    description: 'Use dated provider answers to check actual mentions and citations',
     icon: Search,
   },
   {
-    title: '90-Day Implementation Guide',
-    description: 'Full PDF roadmap to fix what\'s broken',
+    title: 'Repair priorities',
+    description: 'Prioritise the issues the scan actually reports',
     icon: FileText,
   },
 ];
 
-// FAQ Data
-const faqItems = [
-  {
-    question: 'What is the AI visibility methodology?',
-    answer:
-      'It is our ScopeSite framework for AI SEO: fast HTML, structured facts, crawler access, and content laid out for AI extraction. It helps ChatGPT, Perplexity, Gemini, and Claude cite you accurately.',
-  },
-  {
-    question: 'Who built it?',
-    answer:
-      'Dan Cartwright, founder of ScopeSite Digital Studios. Dan is a British Army veteran who focused on a simple problem: good-looking sites that AI still cannot read.',
-  },
-  {
-    question: 'How is this different from traditional SEO?',
-    answer:
-      'Classic SEO chases rankings. AI SEO chases citations inside AI answers. You usually want both. Generative engine optimisation covers the AI side, search SEO covers the blue links.',
-  },
-  {
-    question: 'What results have you proven?',
-    answer:
-      'Client H4TLT (Hearing 4 The Long Term) reached number one AI recommendations across ChatGPT, Perplexity, Claude, and Gemini. That made them a standout UK case in their sector.',
-  },
-  {
-    question: 'How much does the AI SEO retainer cost?',
-    answer:
-      'The scan is free. The standard AI SEO retainer is £500 per month with a £750 one-time setup on a 6- or 12-month commitment. See our pricing page for detail. After three months on the retainer, our 80 Score Guarantee applies. If your AI visibility score stays below 80 while you follow our direction, you pay nothing more until the score reaches 80 and holds for 30 consecutive days.',
-  },
-  {
-    question: 'Is this only for Somerset businesses?',
-    answer:
-      'No. ScopeSite is based in Somerset and works UK-wide. The technical approach is the same wherever you operate.',
-  },
-];
+// FAQ copy is shared with the server-rendered structured data.
 
 export default function VoicePage() {
   const [openFAQ, setOpenFAQ] = useState<number | null>(0);
@@ -186,18 +159,13 @@ export default function VoicePage() {
               priority
             />
             <p className="text-xl md:text-2xl text-white/90 font-medium mb-8">
-              Measure, fix, and track how AI cites you
+              Check your website, then check the answers
             </p>
             <p className="text-body-lg text-white/70 mb-6 max-w-3xl mx-auto">
-              UK businesses are already being found by AI assistants as often as traditional search. 
-              Whether your customers ask &quot;Siri, find a reliable plumber near me&quot; or &quot;ChatGPT, 
-              who does the best web design in my area?&quot;, the results come from structured data, 
-              technical performance and trust signals - not just pretty pages.
+              A recruitment agency can have a perfectly respectable website and still be described badly in an AI answer. We check the public facts, the pages a crawler can retrieve, and the questions your buyers actually ask.
             </p>
             <p className="text-body text-white/60 mb-10 max-w-3xl mx-auto">
-              That is where our AI visibility system helps. We make sure assistants understand your services,
-              areas, and proof. You get a free AI visibility score, a plain-English action plan, and optional
-              hands-on implementation.
+              {CAFMO_PRODUCT_STORY.description} {CAFMO_PRODUCT_STORY.measurement}
             </p>
             <a
               href="https://canaifindme.online"
@@ -205,7 +173,7 @@ export default function VoicePage() {
               rel="noopener noreferrer"
               className="btn-primary inline-flex items-center gap-2 text-lg"
             >
-              Get Your Free AI Score
+              Open the current scanner
               <ArrowRight className="w-5 h-5" />
             </a>
           </div>
@@ -219,11 +187,7 @@ export default function VoicePage() {
             <div className="p-8 rounded-2xl bg-brand-navy/[0.03] border border-brand-navy/10">
               <h2 className="text-brand-navy text-2xl font-bold mb-4">What is the AI visibility system?</h2>
               <p className="text-brand-navy/80 leading-relaxed text-lg">
-                It is how ScopeSite turns your website into something AI can read, trust, and cite. We combine
-                Ultra Fast delivery, structured facts, crawler access, and content layout built for AI answers.
-                Dan Cartwright, a British Army veteran, designed the workflow around one goal: stop losing
-                enquiries to competitors who simply publish clearer machine-readable facts. Before you run a
-                scan, read{' '}
+                V.O.I.C.E. names the methodology behind our AI visibility work. We check what your website says about your services, who provides them and what supports the claims, then fix the problems we can demonstrate. For a practical introduction, read{' '}
                 <Link href="/blog/ai-visibility-checker" className="text-brand-gold hover:underline">
                   what an AI visibility checker actually measures
                 </Link>
@@ -238,43 +202,41 @@ export default function VoicePage() {
       <section className="bg-white py-12">
         <div className="container-content">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-brand-navy text-2xl font-bold mb-6 text-center">The Problem With Traditional SEO</h2>
+            <h2 className="text-brand-navy text-2xl font-bold mb-6 text-center">Check the route a buyer actually uses</h2>
             <div className="grid md:grid-cols-2 gap-8 mb-8">
               <div>
                 <p className="text-muted mb-4">
-                  Your business might rank well on Google, but when someone asks ChatGPT or Claude
-                  for recommendations in your industry, you&apos;re nowhere to be found. That&apos;s because
-                  AI assistants don&apos;t crawl websites like Google does - they need structured data,
-                  clear context, and trust signals that traditional SEO ignores.
+                  A Google result, a Claude search and a ChatGPT answer can take different routes to your business. Some answers use retrieved pages, others rely on information already in a model. A single website score cannot stand in for all of them.
                 </p>
                 <p className="text-muted">
-                  Most UK businesses are completely invisible to AI search. When potential customers
-                  ask AI assistants for local recommendations, your competitors show up while you
-                  don&apos;t. Not because they&apos;re better - because their websites speak the language AI
-                  understands.
+                  Start with the evidence: accessible pages, clear services, consistent company details and useful answers. Then record the provider, question, date and cited source when checking an AI response.
                 </p>
               </div>
               <div>
                 <p className="text-muted mb-4">
-                  Our AI visibility programme fixes this. We audit how AI reads you, show the gaps, then ship
-                  the technical work so assistants recognise and recommend your business. The practical goal is{' '}
+                  Our programme combines a technical website audit with separate checks of real answers. Read our guide to{' '}
                   <Link
                     href="/blog/how-to-get-recommended-by-chatgpt"
                     className="text-brand-gold hover:underline"
                   >
                     how to get recommended by ChatGPT in 2026
                   </Link>
-                  . The same foundation supports Perplexity, Claude, and Gemini.
+                  , then compare the evidence for each provider.
                 </p>
                 <p className="text-muted">
-                  This isn&apos;t about gaming algorithms or chasing trends. It&apos;s about fundamentally
-                  restructuring how your website communicates what you do, where you operate, and why
-                  you&apos;re trustworthy. The same signals that help AI also improve your traditional SEO -
-                  it&apos;s not either/or.
+                  A recruitment website also needs to do its day job: explain the desks you cover, publish real vacancies and help a hiring manager enquire. Our specialist service is at recruitmentwebdesign.com, with its scope, integration questions and demonstrations laid out in one place.
                 </p>
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="bg-white pb-12">
+        <div className="container-content max-w-4xl flex flex-wrap justify-center gap-6">
+          <a href="https://recruitmentwebdesign.com/explainers/ai-discovery" className="text-brand-navy underline">AI discovery for recruitment websites</a>
+          <Link href="/pricing" className="text-brand-navy underline">Agency service pricing</Link>
+          <Link href="/terms-and-conditions" className="text-brand-navy underline">Service and guarantee terms</Link>
         </div>
       </section>
 
@@ -309,12 +271,9 @@ export default function VoicePage() {
       <section className="bg-brand-navy/[0.03] py-12 border-t border-brand-navy/10">
         <div className="container-content">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-brand-navy text-2xl font-bold mb-4">Proven Results</h2>
+            <h2 className="text-brand-navy text-2xl font-bold mb-4">Published client evidence</h2>
             <p className="text-brand-navy/80 leading-relaxed text-lg max-w-3xl mx-auto mb-6">
-              Our AI SEO work has been proven in practice. ScopeSite delivered number one AI recommendations
-              for client H4TLT (Hearing 4 The Long Term) across ChatGPT, Perplexity, Claude,
-              and Gemini. This made it the first UK hearing compliance business to be recommended
-              by all four major AI platforms.
+              Our published case study covers work with Hear 4 The Long Term, a workplace hearing surveillance business. It sets out the engagement and its reported results, with the context a headline cannot carry.
             </p>
             <Link
               href="/case-studies/h4tlt"
@@ -334,9 +293,9 @@ export default function VoicePage() {
         
         <div className="container-content relative z-10">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">Check Your AI Visibility Score</h2>
+            <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">CAFMO and the current scanner</h2>
             <p className="text-white/70 mb-10">
-              The first pro scan is on us - no strings attached
+              {CAFMO_PRODUCT_STORY.availability}
             </p>
             
             {/* Prominent CTA Card */}
@@ -356,13 +315,13 @@ export default function VoicePage() {
                 style={{ color: '#0A1B36' }}
               >
                 <Rocket className="w-6 h-6" />
-                Launch Your Free AI Scan
+                Open the current scanner
                 <ExternalLink className="w-5 h-5" />
               </a>
             </div>
             
             <p className="text-white/50 text-sm mt-6">
-              Opens in new tab • Takes 2 minutes • No card details required • 1 Free Pro Scan
+              Opens the existing scanner in a new tab. Check its current access and credit terms there.
             </p>
           </div>
         </div>
@@ -372,14 +331,9 @@ export default function VoicePage() {
       <section className="section-white">
         <div className="container-content">
           <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">What&apos;s Included in Your Free Scan?</h2>
+            <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">What to look for in a scan report</h2>
             <p className="text-muted max-w-2xl mx-auto">
-              No fluff, no sales pitch, just actionable insight. If you are comparing free tools first, read our
-              take on the{' '}
-              <Link href="/blog/free-ai-visibility-tools" className="text-brand-gold hover:underline">
-                free AI visibility tools we tested
-              </Link>
-              , and how they stack up before you pay for anything.
+              A useful report explains what was checked, what failed and what could not be measured. Technical readiness, third-party metrics and actual AI answer observations should remain distinguishable.
             </p>
           </div>
           
@@ -404,7 +358,7 @@ export default function VoicePage() {
               rel="noopener noreferrer"
               className="btn-primary inline-flex items-center gap-2"
             >
-              Get Your Free Score
+              Open the current scanner
               <ArrowRight className="w-5 h-5" />
             </a>
           </div>
@@ -418,7 +372,7 @@ export default function VoicePage() {
             See AI visibility in action
           </h2>
           <p className="text-white/50 text-center mb-10 max-w-xl mx-auto text-sm">
-            From publish to AI recommendation in seconds
+            Illustrative workflow. Retrieval, citations and enquiries need their own measurement.
           </p>
 
           <VoiceSchemaDemo />
@@ -432,17 +386,17 @@ export default function VoicePage() {
               </div>
               <div className="bg-[#16213e] rounded-lg border border-white/10 p-5">
                 <div className="text-brand-gold font-bold text-xs uppercase tracking-wider mb-2">2. Schema Generates</div>
-                <p className="text-white/70 text-sm">6 schema types auto-generated: BlogPosting, Author, Publisher, FAQ, Speakable, and entity mentions.</p>
+                <p className="text-white/70 text-sm">The page publishes relevant article, author and publisher facts. Other markup depends on the content.</p>
               </div>
               <div className="bg-[#16213e] rounded-lg border border-white/10 p-5">
-                <div className="text-brand-gold font-bold text-xs uppercase tracking-wider mb-2">3. AI Recommends</div>
-                <p className="text-white/70 text-sm">AI platforms read your schema and recommend your business to users asking relevant questions.</p>
+                <div className="text-brand-gold font-bold text-xs uppercase tracking-wider mb-2">3. Check Answers</div>
+                <p className="text-white/70 text-sm">Check dated answers and their sources. A published page does not guarantee a recommendation.</p>
               </div>
             </div>
           </noscript>
 
           <p className="text-white/70 text-center mt-10 text-sm">
-            This happens automatically. Every time you publish. No plugins. No manual work.
+            Publishing can update the page and its markup. An assistant choosing to cite it is a separate event.
           </p>
           <div className="text-center mt-6">
             <Link
@@ -480,8 +434,8 @@ export default function VoicePage() {
       {/* Final CTA Section */}
       <section className="section-white">
         <div className="container-content text-center">
-          <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">Ready to See How AI Sees You?</h2>
-            <p className="text-muted mb-8 max-w-xl mx-auto">Get your free visibility score or book a call to discuss your results</p>
+          <h2 className="text-brand-navy mb-4 text-xl sm:text-2xl md:text-h2">Where should you start?</h2>
+            <p className="text-muted mb-8 max-w-xl mx-auto">Open the current scanner, or discuss the website evidence with ScopeSite.</p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <a
               href="https://canaifindme.online"
@@ -489,7 +443,7 @@ export default function VoicePage() {
               rel="noopener noreferrer"
               className="btn-primary"
             >
-              Get Free AI Score
+              Open the current scanner
             </a>
             <Link href="/book" className="btn-secondary">
               Book Strategy Call

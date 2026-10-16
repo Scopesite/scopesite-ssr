@@ -11,49 +11,8 @@ import {
   LandingCTA,
 } from '@/components/landing';
 import { QuoteRedirectNotice } from '@/components/quote/QuoteRedirectNotice';
-
-const faqItems = [
-  {
-    question: 'What AI SEO services do you offer?',
-    answer:
-      'We cover the full stack: AI visibility scans, Ultra Fast website rebuilds when needed, structured data so facts are auto-formatted for AI to read, entity signals, content layout for AI extraction, and crawler access files such as robots.txt, llms.txt, and ai-context.json.',
-  },
-  {
-    question: 'Do I need a new website for AI SEO?',
-    answer:
-      'Not always. If your site leans on heavy client-side JavaScript, AI crawlers may see an empty page. Then we usually recommend an Ultra Fast rebuild. If your pages already ship full HTML, we can often layer structured data and content fixes on top.',
-  },
-  {
-    question: 'What is an AI visibility scan?',
-    answer:
-      'It is our diagnostic run across ChatGPT, Claude, Gemini, and Perplexity. You see whether AI can read you, how it describes you, and which technical blocks stop recommendations.',
-  },
-  {
-    question: 'How does structured data help AI find my business?',
-    answer:
-      'Structured data spells out services, prices, locations, and credentials in a machine-friendly way. That cuts guesswork for AI and search engines.',
-  },
-  {
-    question: 'What is entity building and why does it matter?',
-    answer:
-      'Entity building is how we strengthen your business as a recognised thing in sources such as Wikidata and the Google Knowledge Graph. Stronger entities mean AI can verify facts instead of guessing.',
-  },
-  {
-    question: 'Can you improve my existing Wix, WordPress, or Squarespace site?',
-    answer:
-      'We can make limited fixes on WordPress. Wix and Squarespace usually block the server access we need. For serious AI SEO we normally recommend an Ultra Fast build.',
-  },
-  {
-    question: 'What is an AI visibility retainer?',
-    answer:
-      'It is ongoing AI SEO: we watch citations, refresh structured data, add AI-friendly content, and adjust as models change. Standalone pricing is a £750 setup and £500 per month on a 6- or 12-month commitment.',
-  },
-  {
-    question: 'How quickly will I see results?',
-    answer:
-      'After an Ultra Fast launch with solid structured data and crawler access, we often see early Perplexity citations in 2 to 4 weeks. ChatGPT and Claude usually need 6 to 12 weeks as confidence builds.',
-  },
-];
+import { faqItems } from './faqs';
+import { websiteEvidenceChecks as proofStats } from '@/lib/website-evidence-checks';
 
 const problemPoints = [
   {
@@ -144,17 +103,7 @@ const whatYouGetCards = [
   },
 ];
 
-const proofStats = [
-  {
-    value: 100,
-    suffix: '%',
-    label: 'Speed scores',
-    description: 'Strong technical performance on every Ultra Fast build',
-  },
-  { value: 4, suffix: 'x', label: 'AI platforms', description: 'ChatGPT, Claude, Gemini, Perplexity' },
-  { value: 800, suffix: 'M+', label: 'Weekly AI users', description: 'The audience you are missing today' },
-  { value: 1, suffix: 'st', label: 'AI recommendation', description: 'The outcome we engineer for' },
-];
+
 
 export default function AISEOServicesPage() {
   return (
@@ -279,7 +228,7 @@ export default function AISEOServicesPage() {
       />
 
       <LandingProof
-        title="PROVEN AI VISIBILITY"
+        title="WHAT WE CHECK"
         stats={proofStats}
         quote={{
           text: 'ScopeSite took us from being completely invisible to ChatGPT, to being the number one recommended provider in our sector nationally in under 4 months.',

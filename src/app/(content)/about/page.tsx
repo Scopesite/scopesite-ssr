@@ -1,3 +1,4 @@
+import { CAFMO_PRODUCT_STORY } from '@/lib/product-story';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -135,12 +136,12 @@ const faqs = [
   {
     question: "What is the V.O.I.C.E. methodology?",
     answer:
-      "V.O.I.C.E. stands for Visibility Optimisation for Intelligent Crawler Engines. It is the methodology behind ScopeSite's AI-visibility work: it scans a website, scores how readable it is to AI systems, and fixes the gaps using structured data, E-E-A-T signals and answer engine optimisation. It is the engine that powers the CAFMO product.",
+      "V.O.I.C.E. names ScopeSite’s methodology and engine for checking website evidence and identifying technical repairs. A scan score is separate from observing whether a particular AI assistant cites a business.",
   },
   {
     question: "What is CAFMO?",
     answer:
-      "CAFMO stands for Can AI Find Me Online. It is ScopeSite's tool that scans a website, scores how visible it is to AI engines, and shows what to fix. It is the productised version of the V.O.I.C.E. methodology, and it does exactly what the name asks.",
+      `${CAFMO_PRODUCT_STORY.description} ${CAFMO_PRODUCT_STORY.availability}`,
   },
   {
     question: "Where is ScopeSite based?",
@@ -329,18 +330,11 @@ export default function AboutPage() {
                 <Link href="/voice" className="text-brand-gold-accessible hover:underline font-medium">
                   V.O.I.C.E.
                 </Link>
-                , which scans, scores, and fixes how readable a business is to AI
-                systems. It became a product, CAFMO, short for Can AI Find Me
-                Online, which does exactly what the name says. The methodology is
-                proven on more than one platform. One client, an occupational
-                hearing specialist, went from invisible to the number one cited
-                answer across every major AI engine in their field, as covered in
-                our{' '}
-                <Link href="/case-studies" className="text-brand-gold-accessible hover:underline font-medium">
-                  case studies
-                </Link>
-                . Same approach, different stack, same result on this site you are
-                reading now.
+                , which checks website evidence and helps us prioritise repairs. CAFMO, short for Can AI Find Me Online, is the product being rebuilt around that work. The public scanner still uses the earlier V.O.I.C.E. interface while the replacement is in development. You can read the current position on our{' '}
+                <Link href="/voice" className="text-brand-gold-accessible hover:underline font-medium">AI visibility page</Link>
+                , or see the scope and reported results of our work with Hear 4 The Long Term in the{' '}
+                <Link href="/case-studies/h4tlt" className="text-brand-gold-accessible hover:underline font-medium">published H4TLT case study</Link>.
+
               </p>
             </div>
           </div>

@@ -11,19 +11,8 @@ import {
   DynamicLandingCTA as LandingCTA,
   DynamicLandingAreasServed as LandingAreasServed,
 } from '@/components/landing/below-fold-dynamic';
-
-const faqItems = [
-  { question: "Who does web design near Warminster?", answer: "ScopeSite is based 20 minutes away in Frome. We work with businesses across Warminster and Wiltshire, offering face-to-face meetings, local knowledge, and transparent published pricing from £1,875 (client-managed) or £2,000 (Ultra Fast)." },
-  { question: "How much does a website cost in Warminster?", answer: "Published pricing starts at £1,875 or £2,000. Most Warminster projects land around £4,000 to £8,000. That is well below typical Bath and Salisbury quotes. Use our calculator for an exact figure." },
-  { question: "Can you help my Warminster business get found online?", answer: "Yes. We build every site with AI visibility in mind. Structured schema markup, content designed for ChatGPT and voice assistants, plus local SEO so you appear in 'near me' searches around Warminster." },
-  { question: "What makes your websites different from WordPress?", answer: "We build on Next.js, not WordPress. That means sub-2-second load times, 100/100 Lighthouse scores, and proper AI optimisation. Most Warminster businesses are still running slow WordPress sites that AI platforms can't read properly." },
-  { question: "Do you understand the Warminster area?", answer: "Yes. We're based in Frome, just down the A362. We know Warminster's mix of local businesses, its military community, and the town's position between Bath and Salisbury. We build websites that reflect what makes the area unique." },
-  { question: "How long does a web design project take?", answer: "Typically 4-6 weeks from brief to launch. We agree on a specific timeline upfront and stick to it." },
-  { question: "Will you meet in person?", answer: "Absolutely. We're 20 minutes from Warminster and happy to meet at your premises or locally." },
-  { question: "Do you help with local SEO for Warminster?", answer: "Yes. Local SEO is built into every project: Google Business Profile optimisation, local schema markup, citation building, and content structured for 'near me' searches." },
-  { question: "Do you offer payment plans?", answer: "Yes. 50% upfront, 50% on completion is standard. Monthly plans available for larger projects." },
-  { question: "What guarantee do you offer?", answer: "100% schema validation guarantee. Specific load time and accessibility scores in writing before you commit." },
-];
+import { faqItems } from './faqs';
+import { websiteEvidenceChecks as proofStats } from '@/lib/website-evidence-checks';
 
 const problemPoints = [
   {
@@ -90,12 +79,7 @@ const whatYouGetCards = [
   },
 ];
 
-const proofStats = [
-  { value: 15, suffix: "+", label: "Local Clients" },
-  { value: 1.4, suffix: "s", label: "Average Load Time" },
-  { value: 89, suffix: "%", label: "AI Recommendation Rate" },
-  { value: 4.9, suffix: "/5", label: "Client Satisfaction" },
-];
+
 
 const warminsterAreas = [
   'Warminster Town Centre',
@@ -162,7 +146,7 @@ export default function WebDesignWarminsterPage() {
       />
 
       <LandingProof
-        title="RESULTS FOR LOCAL BUSINESSES"
+        title="WHAT WE CHECK"
         stats={proofStats}
         theme="light"
       />

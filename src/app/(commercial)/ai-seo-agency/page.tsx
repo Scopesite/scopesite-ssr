@@ -10,53 +10,18 @@ import {
   FAQSection,
   LandingCTA,
 } from '@/components/landing';
-
-// FAQ Data
-const faqItems = [
-  {
-    question: "What is an AI SEO agency?",
-    answer: "An AI SEO agency specialises in making your business visible to artificial intelligence platforms like ChatGPT, Claude, Perplexity, and Gemini. Instead of just trying to rank you on Google's traditional search results, we engineer your website's architecture, structured data, and content so that AI models extract it, understand it, and recommend your business to users."
-  },
-  {
-    question: "How is AI SEO different from traditional SEO?",
-    answer: "Traditional SEO focuses on keywords, backlinks, and climbing a list of blue links on Google. AI SEO (or Answer Engine Optimisation) focuses on being the single cited answer when someone asks an AI assistant a question. AI platforms don't care about your keyword density; they care about clear entity relationships, comprehensive schema markup, and server-side rendered content they can easily read."
-  },
-  {
-    question: "Can my current website be optimised for AI search?",
-    answer: "It depends on how it's built. If your site relies heavily on client-side JavaScript (like many Wix or basic React sites), AI crawlers like GPTBot might see a blank page. We start with an AI visibility scan to see what AI currently sees. In many cases, we need to implement server-side rendering (SSR) and rebuild your schema architecture to make you visible."
-  },
-  {
-    question: "How long does it take to appear in AI recommendations?",
-    answer: "Unlike traditional SEO which can take 6-12 months, AI platforms often ingest new structured data and content much faster. We typically see clients appearing in Perplexity citations within 2-4 weeks, and becoming consistent recommendations in ChatGPT within 6-12 weeks, depending on the industry and current authority."
-  },
-  {
-    question: "Do you work with businesses outside Somerset?",
-    answer: "Yes. While we are based in Frome, Somerset, we work with professional services, clinics, and e-commerce businesses across the UK. AI visibility is a national and global game, and our methodology works regardless of your location."
-  },
-  {
-    question: "What does AI SEO cost?",
-    answer:
-      'Our standard AI SEO retainer is £500 per month with a £750 one-time setup. New AI-first website projects are priced separately — use the instant quote calculator on our pricing page.',
-  },
-  {
-    question: "How do you measure AI SEO results?",
-    answer: "We don't just track Google rankings. We track direct AI citations, brand mentions in LLM outputs, schema validation scores, and AI crawler access logs. We use our proprietary AI visibility scanner to benchmark your visibility across ChatGPT, Claude, Gemini, and Perplexity over time."
-  },
-  {
-    question: "What AI platforms do you optimise for?",
-    answer: "We optimise for the major generative engines: ChatGPT (OpenAI), Claude (Anthropic), Perplexity, Gemini (Google), and Google's AI Overviews (SGE). By focusing on universal structured data standards and clean server-side HTML, our optimisations also cover voice assistants like Siri and Alexa."
-  }
-];
+import { faqItems } from './faqs';
+import { websiteEvidenceChecks as proofStats } from '@/lib/website-evidence-checks';
 
 // Problem points
 const problemPoints = [
   {
     title: "Invisible to AI Crawlers",
-    description: "If your website uses client-side rendering, ChatGPT-User and ClaudeBot literally cannot read your content. You are invisible."
+    description: "If important content only appears after JavaScript runs, some retrieval tools may miss it. We inspect the initial HTML, rendered page and provider access rules before deciding what needs repair."
   },
   {
     title: "Missing Entity Relationships",
-    description: "AI doesn't read keywords; it maps entities. Without proper JSON-LD schema, AI doesn't know what your business actually does."
+    description: "Conflicting business names, unclear services and disconnected profiles make your facts harder to verify. Accurate schema can describe real relationships explicitly, alongside clear page content."
   },
   {
     title: "Traditional SEO Isn't Enough",
@@ -77,17 +42,17 @@ const solutionFeatures = [
   },
   {
     title: "Server-Side Rendering",
-    description: "Next.js architecture ensuring every AI crawler gets fully rendered HTML instantly.",
+    description: "Next.js architecture that delivers useful page content in the initial HTML response.",
     iconNode: <Code2 className="w-6 h-6 text-brand-gold" />,
   },
   {
     title: "Schema Engineering",
-    description: "Deep JSON-LD structured data that teaches AI exactly who you are and what you do.",
+    description: "Validated JSON-LD describing your business and its evidenced relationships.",
     iconNode: <FileCode className="w-6 h-6 text-brand-gold" />,
   },
   {
     title: "Entity Building",
-    description: "Connecting your business to the Google Knowledge Graph and Wikidata.",
+    description: "Checking consistent business identity across your website and verified public profiles.",
     iconNode: <Globe className="w-6 h-6 text-brand-gold" />,
   },
 ];
@@ -137,12 +102,7 @@ const whatYouGetCards = [
 ];
 
 // Proof stats
-const proofStats = [
-  { value: 100, suffix: "%", label: "Lighthouse Scores", description: "Perfect technical performance on every build" },
-  { value: 4, suffix: "x", label: "AI Platforms", description: "Optimised for ChatGPT, Claude, Gemini & Perplexity" },
-  { value: 800, suffix: "M+", label: "Weekly AI Users", description: "The audience you are currently missing" },
-  { value: 1, suffix: "st", label: "AI Recommendation", description: "Our goal for your business" },
-];
+
 
 export default function AISEOAgencyPage() {
   return (
@@ -159,7 +119,7 @@ export default function AISEOAgencyPage() {
               Traditional SEO agencies are still chasing Google rankings while your customers are asking ChatGPT for recommendations.
             </p>
             <p className="mb-4">
-              As a specialist AI SEO agency, we understand the difference between ranking for a keyword and being cited as the definitive answer. We engineer your website&apos;s architecture, structured data, and content so that AI platforms extract it, trust it, and recommend your business.
+              We check your website architecture, structured data and content against the facts of your business. Search results and AI citations are measured separately, so a technical score does not get passed off as a recommendation.
             </p>
             <p>
               Check your current <Link href="/ai-visibility" className="text-brand-gold hover:underline">AI visibility</Link> with our free AI visibility scan, explore our <Link href="/generative-engine-optimisation" className="text-brand-gold hover:underline">generative engine optimisation</Link> work, or see our full range of <Link href="/ai-seo-services" className="text-brand-gold hover:underline">AI SEO services</Link>.
@@ -196,7 +156,7 @@ export default function AISEOAgencyPage() {
             <div className="bg-brand-graphite/30 p-8 rounded-2xl border border-white/10">
               <div className="text-brand-gold font-headline text-4xl mb-4">01</div>
               <h3 className="text-white font-bold text-xl mb-3">Audit & Architecture</h3>
-              <p className="text-white/70">We run a deep AI visibility scan to see how AI views you now, then build a server-side rendered foundation that crawlers can actually read.</p>
+              <p className="text-white/70">We inspect the HTML, access rules and structured data, then scope the repairs your website needs. Actual assistant answers are checked separately.</p>
             </div>
             <div className="bg-brand-graphite/30 p-8 rounded-2xl border border-white/10">
               <div className="text-brand-gold font-headline text-4xl mb-4">02</div>
@@ -214,13 +174,13 @@ export default function AISEOAgencyPage() {
 
       <LandingWhatYouGet
         title="OUR AI SEO METHODOLOGY"
-        intro="Everything required to turn your website into an AI-recommended authority."
+        intro="Technical checks and evidence-led improvements for your website and AI visibility."
         cards={whatYouGetCards}
         columns={4}
       />
 
       <LandingProof
-        title="PROVEN AI VISIBILITY"
+        title="WHAT WE CHECK"
         stats={proofStats}
         quote={{
           text: "ScopeSite took us from being completely invisible to ChatGPT, to being the number one recommended provider in our sector nationally in under 4 months.",

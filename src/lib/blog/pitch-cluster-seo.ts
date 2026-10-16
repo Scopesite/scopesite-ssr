@@ -21,24 +21,6 @@ const BLOG_SEO_OVERRIDES: Record<string, BlogSeoOverride> = {
     metaDescription:
       'We analysed 50+ UK web agencies for AI search visibility. The 2026 index ranks the top 10 and shows what separates businesses that get cited by ChatGPT and Perplexity from the ones that do not.',
   },
-  'free-ai-visibility-tools': {
-    metaTitle: 'Free AI Visibility Tools (2026) | Check If ChatGPT and Google AI Can Find You',
-    metaDescription:
-      'A practical run-through of free tools for checking whether AI search can see your business, read your schema, and recommend you. What each one tells you, and what it misses.',
-    itemList: {
-      name: 'Best free AI visibility tools in 2026',
-      items: [
-        { name: 'V.O.I.C.E™', description: 'Most thorough free AI visibility audit' },
-        { name: 'HubSpot AEO Grader', description: 'Free report with share-of-voice metrics' },
-        {
-          name: 'SUSO Digital AI Search Visibility Checker',
-          description: 'One-time scan across 100+ AI visibility signals',
-        },
-        { name: 'Profound', description: 'Free tier covering nine AI platforms' },
-        { name: 'Otterly AI', description: '14-day trial with automated AI search monitoring' },
-      ],
-    },
-  },
 };
 
 export function getBlogSeoOverride(slug: string): BlogSeoOverride | undefined {

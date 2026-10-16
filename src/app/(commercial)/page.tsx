@@ -113,9 +113,9 @@ const homeFaqs: FAQItem[] = [
       'Classic SEO chases rankings in Google’s list of blue links. AI visibility is about being cited and recommended inside ChatGPT, Perplexity, Google AI Overviews, and similar. You want both, but they are not the same game.',
   },
   {
-    question: 'What is the free AI visibility scan?',
+    question: 'What does the AI visibility scan check?',
     answer:
-      'It is our quick check that scores how well AI systems can read and trust your site. The free scan at canaifindme.online shows where you stand today across the categories we track.',
+      'It checks the website evidence available to the scanner and highlights technical issues. CAFMO is being rebuilt; canaifindme.online currently opens the earlier scanner interface. A technical score does not prove that an AI assistant has cited your business.',
   },
   {
     question: 'How much does a website cost?',

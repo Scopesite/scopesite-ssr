@@ -11,19 +11,8 @@ import {
   DynamicLandingCTA as LandingCTA,
   DynamicLandingAreasServed as LandingAreasServed,
 } from '@/components/landing/below-fold-dynamic';
-
-const faqItems = [
-  { question: "How much does SEO cost in Frome?", answer: "Technical SEO is built into every web build. Standalone AI SEO uses a £750 setup and £500 per month on a 6- or 12-month commitment. We are based in Frome, so there is no travel markup or big-city agency padding." },
-  { question: "Can SEO help my Frome business get on ChatGPT?", answer: "Our published H4TLT case study documents our work with a workplace hearing surveillance provider. You can read the evidence and context in the case study linked on this page." },
-  { question: "What is local SEO?", answer: "Local SEO targets people searching for services in a specific area. When someone searches 'plumber in Frome' or asks Alexa for a local recommendation, local SEO determines whether your business shows up. It involves Google Business Profile optimisation, local schema markup, citation building, and location-specific content." },
-  { question: "How long does SEO take to show results?", answer: "Technical SEO improvements like speed, schema, and site structure show impact within weeks. Content-driven ranking improvements typically take 3-6 months. AI visibility improvements can happen faster because the field is less competitive." },
-  { question: "What is ScopeSite's AI visibility approach?", answer: "It is ScopeSite's practical framework for making businesses visible to Google and to AI platforms such as ChatGPT and Perplexity." },
-  { question: "Do you guarantee first page rankings?", answer: "No. Anyone who guarantees rankings is lying. What we guarantee is technically sound implementation: validated schema, fast load times, proper site structure, and AI-readable content. The results speak for themselves." },
-  { question: "Can you help with Google Business Profile?", answer: "Yes. GBP optimisation is part of every local SEO engagement. We optimise your profile, manage citations, and ensure NAP consistency across the web. Being in Frome means we can photograph your premises too." },
-  { question: "What's the difference between SEO and AI optimisation?", answer: "Traditional SEO focuses on Google rankings. AI optimisation (what we call GEO and AEO) ensures your business gets recommended by ChatGPT, Perplexity, Claude, and voice assistants. We do both." },
-  { question: "Will AI search replace Google?", answer: "Not replace, but it's already changing how people find businesses. 58% of local searches now happen through voice. ChatGPT handles 100+ million queries daily. Businesses that optimise for both will win." },
-  { question: "Can you audit my current SEO?", answer: "Yes. We offer a free AI visibility audit that checks your site's schema markup, load speed, AI crawler accessibility, and content structure. We're in Frome, so we can walk you through the results in person." },
-];
+import { faqItems } from './faqs';
+import { websiteEvidenceChecks as proofStats } from '@/lib/website-evidence-checks';
 
 const problemPoints = [
   {
@@ -32,7 +21,7 @@ const problemPoints = [
   },
   {
     title: "AI doesn't know your Frome business exists",
-    description: "ChatGPT handles over 100 million queries daily. Voice assistants field 58% of local searches. If your website doesn't have proper schema markup, structured content, and AI-readable data, these platforms can't recommend you. Traditional SEO alone won't fix that."
+    description: "Search engines and AI assistants can use different routes to your business. We check accessible content, accurate business facts and the answers your buyers actually see. Structured data helps describe those facts; it does not guarantee a recommendation."
   },
   {
     title: "You're paying for reports, not results",
@@ -94,12 +83,7 @@ const whatYouGetCards = [
   },
 ];
 
-const proofStats = [
-  { value: 15, suffix: "+", label: "Somerset Clients" },
-  { value: 100, suffix: "/100", label: "Lighthouse Scores" },
-  { value: 89, suffix: "%", label: "AI Recommendation Rate" },
-  { value: 6, suffix: " weeks", label: "Average Time to AI Visibility" },
-];
+
 
 const fromeAreas = [
   'Frome Town Centre',
@@ -169,7 +153,7 @@ export default function SEOFromePage() {
       />
 
       <LandingProof
-        title="FROME SEO RESULTS"
+        title="WHAT WE CHECK"
         stats={proofStats}
         theme="light"
       />

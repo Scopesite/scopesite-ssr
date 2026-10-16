@@ -3,7 +3,7 @@
  */
 
 const VOICE_LINK_ANCHOR = 'check your AI visibility';
-const VOICE_LINK_HTML = `<p>Ready to go beyond free checkers? <a href="/voice">check your AI visibility</a> with a free V.O.I.C.E. Pro scan that covers schema, crawler access, and AI readiness in one report.</p>`;
+const VOICE_LINK_HTML = `<p>Read how to <a href="/voice">check your AI visibility</a>, including the difference between a technical website scan and observed AI answers, and the current CAFMO development status.</p>`;
 
 export function injectPitchClusterLinks(slug: string, html: string): string {
   if (slug !== 'free-ai-visibility-tools' || !html) {

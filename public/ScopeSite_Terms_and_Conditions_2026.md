@@ -1310,3 +1310,10 @@ Principal Place of Business: Frome, Somerset, United Kingdom
 
 - Email: support@scopesite.co.uk
 - Phone: 01373 311 339
+
+
+---
+
+## Product naming note, 16 October 2026
+
+The terms above retain historical V.O.I.C.E. scanner references. CAFMO is the product name for the replacement application in development; V.O.I.C.E. remains the methodology and engine name. This note does not announce a new subscription or change an existing agreement. Current scanner and CAFMO status: https://scopesite.co.uk/voice

@@ -4,11 +4,11 @@ import {
   generateLocalServiceSchema,
   generateBreadcrumbSchema,
   wrapInGraph,
-  type FAQItem,
   type AreaServedItem,
 } from '@/lib/schema';
 import { JsonLd } from '@/components/JsonLd';
 import { getAlternates } from '@/lib/hreflang-map';
+import { faqItems as faqs } from './faqs';
 
 const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/us/services`;
@@ -30,42 +30,19 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         alt: 'ScopeSite US Services - AI Web Design and Visibility for American Businesses',
-      },
+},
     ],
     locale: 'en_US',
     type: 'website',
-  },
+},
   twitter: {
     card: 'summary_large_image',
     title: 'Web Design and AI Visibility for US | ScopeSite',
     description:
       'AI-first web design and visibility for US businesses. Server-side rendered websites, schema markup, and answer engine optimization. USD pricing.',
     images: [`${BASE_URL}/images/og/og-us-services.png`],
-  },
+},
 };
-
-const faqs: FAQItem[] = [
-  {
-    question: 'What is server-side rendering and why does it matter for AI?',
-    answer:
-      'Server-side rendering (SSR) generates your page content on the server before sending it to the browser. Client-side rendering (CSR), used by most React apps and WordPress page builders, depends on JavaScript to build the page after it loads. AI crawlers from ChatGPT, Perplexity, and Claude do not execute JavaScript. If your site relies on CSR, those crawlers see a blank page. SSR ensures your content is readable by every AI system from the moment it arrives.',
-  },
-  {
-    question: 'Do you work with e-commerce sites?',
-    answer:
-      'Yes. We build custom e-commerce sites with Product, Offer, and Review schema markup so AI platforms can read your catalog, understand pricing, and surface your products in recommendations. E-commerce projects typically fall at the higher end of our Tier 2 pricing.',
-  },
-  {
-    question: 'What CMS do you use?',
-    answer:
-      'We use headless CMS platforms like Ghost and Sanity, connected to a Next.js front end. This separates your content management from your presentation layer, giving you an easy editing experience while keeping your site fast, secure, and fully optimized for AI visibility.',
-  },
-  {
-    question: 'How long does a typical project take?',
-    answer:
-      'A standard website build takes 6 to 8 weeks from kickoff to launch. Complex projects with custom functionality or large content migrations typically take 8 to 12 weeks. Our AI Visibility Audit is delivered within 5 business days.',
-  },
-];
 
 const areasServed: AreaServedItem[] = [
   { type: 'Country', name: 'United States' },

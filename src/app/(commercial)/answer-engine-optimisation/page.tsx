@@ -10,47 +10,8 @@ import {
   FAQSection,
   LandingCTA,
 } from '@/components/landing';
-
-// FAQ Data
-const faqItems = [
-  {
-    question: "What is answer engine optimisation (AEO)?",
-    answer: "Answer Engine Optimisation (AEO) is the process of structuring your website and content so that AI-powered answer engines (like ChatGPT, Perplexity, and Claude) can easily extract facts and cite your business as the definitive answer to a user's question, rather than just providing a link to your site."
-  },
-  {
-    question: "How is AEO different from SEO?",
-    answer: "Traditional SEO focuses on ranking high in a list of search results using keywords and backlinks. AEO focuses on being the single cited answer. While SEO relies heavily on keyword density and content length, AEO relies on structured data (JSON-LD), clear factual statements, entity relationships, and server-side rendered architecture that AI crawlers can easily digest."
-  },
-  {
-    question: "What is the difference between AEO and GEO?",
-    answer: "AEO (Answer Engine Optimisation) and GEO (Generative Engine Optimisation) are often used interchangeably. Both focus on optimising for AI platforms rather than traditional search engines. At ScopeSite, we view AEO as the specific tactic of structuring content to be the 'answer', while GEO encompasses the broader technical architecture required for AI visibility."
-  },
-  {
-    question: "Which AI platforms does AEO target?",
-    answer: "Our AEO strategies target the major generative AI platforms: ChatGPT (OpenAI), Claude (Anthropic), Perplexity, Gemini (Google), and Google's AI Overviews (SGE). The structured data and content architecture we implement also heavily benefits voice search assistants like Siri and Alexa."
-  },
-  {
-    question: "How do I know if my business appears in AI answers?",
-    answer: "You can manually test by asking ChatGPT or Perplexity questions related to your services in your area. However, AI responses can vary. We use our AI visibility scan to systematically test and benchmark your visibility across multiple AI platforms to give you a clear, objective baseline."
-  },
-  {
-    question: "Can AEO work alongside traditional SEO?",
-    answer: "Absolutely. In fact, they complement each other perfectly. The technical foundation required for AEO (fast server-side rendering, comprehensive schema markup, clear content structure) are all massive positive signals for traditional Google SEO. You don't have to choose between ranking and being recommended; you can have both."
-  },
-  {
-    question: "What technical changes does AEO require?",
-    answer: "AEO requires a shift away from client-side rendered JavaScript (common in Wix, Squarespace, and basic React sites) to Server-Side Rendering (SSR). It also requires deep JSON-LD schema engineering, optimised robots.txt files that allow AI crawlers, and the implementation of llms.txt files to provide AI-specific context."
-  },
-  {
-    question: "How much does answer engine optimisation cost?",
-    answer:
-      'Our standard AEO / AI SEO retainer is £500 per month with a £750 one-time setup. If your site needs a full AI-first rebuild, project pricing is on our pricing page via the instant quote calculator.',
-  },
-  {
-    question: "What results can I expect from AEO?",
-    answer: "Our goal is to move you from being invisible to AI, to being the cited recommendation in your sector. Clients typically see initial citations in Perplexity within 2-4 weeks, and consistent recommendations in ChatGPT within 6-12 weeks as the AI models update their entity graphs and ingest your new structured data."
-  }
-];
+import { faqItems } from './faqs';
+import { websiteEvidenceChecks as proofStats } from '@/lib/website-evidence-checks';
 
 // Problem points
 const problemPoints = [
@@ -60,7 +21,7 @@ const problemPoints = [
   },
   {
     title: "AI Can't Extract Your Facts",
-    description: "Long, flowing marketing copy is great for humans, but terrible for AI extraction. If AI can't easily parse your facts, it won't cite you."
+    description: "Useful answers need clear facts and supporting evidence. We make those details easy for visitors and retrieval tools to find, then check whether the relevant assistants use them."
   },
   {
     title: "Missing Context",
@@ -68,7 +29,7 @@ const problemPoints = [
   },
   {
     title: "Technical Invisibility",
-    description: "If your site relies on client-side JavaScript, AI crawlers often see a blank page. You can't be the answer if the AI can't even read your site."
+    description: "Content delivered only through client-side JavaScript can be missed by tools that do not render it. We check the actual HTML and access conditions rather than inferring a problem from the platform name."
   },
 ];
 
@@ -91,7 +52,7 @@ const solutionFeatures = [
   },
   {
     title: "Entity Building",
-    description: "Connecting your business to the Google Knowledge Graph and Wikidata.",
+    description: "Checking consistent business identity across your website and verified public profiles.",
     iconNode: <Globe className="w-6 h-6 text-brand-gold" />,
   },
 ];
@@ -141,12 +102,7 @@ const whatYouGetCards = [
 ];
 
 // Proof stats
-const proofStats = [
-  { value: 100, suffix: "%", label: "Lighthouse Scores", description: "Perfect technical performance on every build" },
-  { value: 4, suffix: "x", label: "AI Platforms", description: "Optimised for ChatGPT, Claude, Gemini & Perplexity" },
-  { value: 800, suffix: "M+", label: "Weekly AI Users", description: "The audience you are currently missing" },
-  { value: 1, suffix: "st", label: "AI Recommendation", description: "Our goal for your business" },
-];
+
 
 export default function AEOPage() {
   return (
@@ -163,7 +119,7 @@ export default function AEOPage() {
               The shift from search engines to answer engines is already here. People aren&apos;t looking for a list of links anymore; they are asking ChatGPT, Claude, and Perplexity for direct answers and recommendations.
             </p>
             <p className="mb-4">
-              Answer Engine Optimisation (AEO) is the technical and content strategy required to ensure your business is the one these AI platforms cite. It requires a completely different approach to traditional SEO: focusing on structured data, entity relationships, and factual extraction rather than keyword density.
+              Answer Engine Optimisation (AEO) examines whether answer systems can find and use accurate information about your business. We work on accessible pages, useful answers and evidenced relationships, then check actual citations. This overlaps with SEO and needs provider-specific testing.
             </p>
             <p>
               ScopeSite is a specialist AEO, <Link href="/generative-engine-optimisation" className="text-brand-gold hover:underline">generative engine optimisation</Link> and <Link href="/ai-seo-agency" className="text-brand-gold hover:underline">AI SEO agency</Link>. Check your current <Link href="/ai-visibility" className="text-brand-gold hover:underline">AI visibility</Link> with a free <Link href="/voice" className="text-brand-gold hover:underline">AI visibility scan</Link>, or explore our specific <Link href="/ai-seo-services" className="text-brand-gold hover:underline">AI SEO services</Link>.
@@ -192,7 +148,7 @@ export default function AEOPage() {
           <div className="text-center mb-12">
             <h2 className="text-white mb-4 text-xl sm:text-2xl md:text-h2">AEO VS SEO: THE DIFFERENCE</h2>
             <p className="text-white/70 max-w-2xl mx-auto">
-              AEO is not just &quot;SEO but for AI.&quot; It requires a fundamental shift in how you build and structure your digital presence.
+              AEO builds on useful content and accessible pages. The extra work is identifying and testing the retrieval routes that matter to your buyers.
             </p>
           </div>
           
@@ -243,7 +199,7 @@ export default function AEOPage() {
       />
 
       <LandingProof
-        title="PROVEN AI VISIBILITY"
+        title="WHAT WE CHECK"
         stats={proofStats}
         quote={{
           text: "ScopeSite took us from being completely invisible to ChatGPT, to being the number one recommended provider in our sector nationally in under 4 months.",

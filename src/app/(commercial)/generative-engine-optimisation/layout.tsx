@@ -2,11 +2,11 @@ import { Metadata } from 'next';
 import {
   generateLandingPageSchema,
   generateServiceChannels,
-  type FAQItem,
   schemaStandardTierServiceOffers,
 } from '@/lib/schema';
 import { getAlternates } from '@/lib/hreflang-map';
 import { JsonLd } from '@/components/JsonLd';
+import { faqItems as faqs } from './faqs';
 
 const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/generative-engine-optimisation`;
@@ -25,54 +25,19 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         alt: 'ScopeSite Generative Engine Optimisation',
-      },
+},
     ],
-  },
+},
   twitter: {
     card: 'summary_large_image',
     title: 'Generative Engine Optimisation Agency | ScopeSite',
     description: 'Generative engine optimisation agency getting UK businesses cited by ChatGPT, Claude, Gemini and Perplexity. AI visibility methodology. Start with a free scan.',
     images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
-  },
+},
   alternates: getAlternates('/generative-engine-optimisation', BASE_URL),
 };
 
 // FAQ data for schema
-const faqs: FAQItem[] = [
-  {
-    question: "What is generative engine optimisation?",
-    answer: "Generative engine optimisation is the practice of structuring your website, schema and content so that generative AI models (ChatGPT, Claude, Gemini and Perplexity) cite your business when someone asks a question in your field. Traditional SEO targets a list of ten blue links. GEO targets the one or two sources the model actually names in its answer."
-  },
-  {
-    question: "What is the difference between GEO and SEO?",
-    answer: "SEO fights for ranking on a search engine results page. GEO fights to be a citation inside a generative AI answer. SEO cares about keywords, backlinks and click-through rate. GEO cares about structured data, entity relationships, server-rendered HTML and whether the model can extract a clean fact from your page in the first place."
-  },
-  {
-    question: "What is the difference between GEO and AEO?",
-    answer: "AEO (answer engine optimisation) is about being the single extracted answer to a specific question. GEO (generative engine optimisation) is broader, covering every technical and content signal that influences whether a generative model trusts and cites your brand. In practice the two overlap heavily, and most agency briefs use the terms interchangeably."
-  },
-  {
-    question: "How do AI models decide which businesses to recommend?",
-    answer: "Generative models blend training data, real-time retrieval and entity confidence scoring. If your business is an established entity in Wikidata and the Google Knowledge Graph, has rich structured data and is reachable via fast, server-rendered HTML, you are more likely to be cited. If your site is a JavaScript shell with no structured facts, the model has nothing to work with and picks a competitor."
-  },
-  {
-    question: "Do I need GEO if I already have SEO?",
-    answer: "Yes. Strong SEO gives you clicks from Google traditional results, but it does not guarantee a single citation inside ChatGPT, Gemini, Claude or Perplexity. Those platforms rank by entity confidence and extraction quality, not keyword density. GEO adds the structured data, content architecture and crawler access that AI models specifically require."
-  },
-  {
-    question: "Which AI platforms does generative engine optimisation target?",
-    answer: "ChatGPT (OpenAI), Claude (Anthropic), Perplexity, Gemini (Google) and Google AI Overviews are the five platforms that matter for UK businesses in 2026. The same structured data signals also help with voice search on Siri and Alexa, so the work carries over."
-  },
-  {
-    question: "How long does generative engine optimisation take to work?",
-    answer: "Perplexity typically starts citing correctly structured sources within 2 to 4 weeks. ChatGPT and Claude usually take 6 to 12 weeks as their retrieval layers pick up your new schema. Persistent citations, where the model names your business by default in a category, take 3 to 6 months depending on your starting authority."
-  },
-  {
-    question: "How much does a generative engine optimisation agency cost?",
-    answer:
-      'Our standard GEO retainer is £500 per month with a £750 one-time setup, covering ongoing schema maintenance, entity work, citation tracking and monthly reporting. A full AI-first website rebuild, if your site blocks AI crawlers, is priced as a project — use the quote calculator at /pricing.',
-  }
-];
 
 // Generate page schema
 const pageSchema = generateLandingPageSchema(
@@ -85,7 +50,7 @@ const pageSchema = generateLandingPageSchema(
     name: 'Generative Engine Optimisation',
     alternateNames: ['GEO', 'GEO Agency', 'Generative Engine Optimization', 'Generative Engine Optimisation Agency'],
     description: 'Generative engine optimisation services to get your business cited by ChatGPT, Claude, Gemini and Perplexity.',
-  },
+},
   undefined,
   {
     isRelatedTo: [
@@ -98,7 +63,7 @@ const pageSchema = generateLandingPageSchema(
     serviceType: 'Generative engine optimisation',
     category: 'Search engine optimisation',
     offers: schemaStandardTierServiceOffers(PAGE_URL),
-  },
+},
   ['h1', '.hero-description', '.faq-answer', 'h3']
 );
 

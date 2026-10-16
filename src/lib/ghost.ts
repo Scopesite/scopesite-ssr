@@ -9,6 +9,8 @@
  * - GHOST_CONTENT_API_KEY: Your Ghost Content API key
  */
 
+import { applyProductEditorialCorrection } from '@/lib/blog/product-editorial-corrections';
+
 // Types
 export interface GhostTag {
   id: string;
@@ -487,6 +489,7 @@ export function demoteBodyH1s(html: string): string {
 }
 
 function cleanPost(post: GhostPost): GhostPost {
+  post = applyProductEditorialCorrection(post);
   if (post.html) {
     return { ...post, html: demoteBodyH1s(stripGhostTrackingParams(post.html)) };
   }
