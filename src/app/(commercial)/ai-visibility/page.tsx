@@ -284,8 +284,8 @@ export default function AIVisibilityPage() {
       />
 
       <LandingCaseStudy
-        title="From Invisible to AI Recommended"
-        quote="See how our AI SEO work put H4TLT in Google AI Overviews, ChatGPT, and Perplexity."
+        title="H4TLT case study"
+        description="Read about our work with H4TLT, a workplace hearing surveillance provider."
         theme="light"
       />
 

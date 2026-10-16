@@ -122,7 +122,7 @@ export default function USPage() {
               Our <Link href="/voice" className="text-brand-gold hover:text-brand-orange transition-colors underline underline-offset-2">AI visibility methodology</Link> is the framework that ties this together. It covers five layers of optimization: making your site visible to AI crawlers, optimizing the content structure for extraction, building intelligent entity relationships, configuring crawler access, and engineering the content itself for answer-engine compatibility.
             </p>
             <p className="text-white/80">
-              The results speak for themselves. Our client <Link href="/case-studies/h4tlt" className="text-brand-gold hover:text-brand-orange transition-colors underline underline-offset-2">H4TLT</Link>, a UK-based training provider, went from zero AI visibility to being actively recommended by ChatGPT within six weeks of launch. The same approach works for US businesses because the underlying technology is global.
+              Our published <Link href="/case-studies/h4tlt" className="text-brand-gold hover:text-brand-orange transition-colors underline underline-offset-2">H4TLT case study</Link> documents our work with a workplace hearing surveillance provider. Read it for the evidence and context behind the project.
             </p>
           </div>
         </div>

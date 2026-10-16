@@ -183,8 +183,8 @@ export default function SEOSomersetPage() {
       />
 
       <LandingCaseStudy 
-        title="AI visibility gets Somerset Results"
-        quote="From invisible to #1 AI-recommended in 6 weeks using our proprietary methodology"
+        title="H4TLT case study"
+        description="Read about our work with H4TLT, a workplace hearing surveillance provider."
         theme="dark" 
       />
 

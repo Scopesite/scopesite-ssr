@@ -1,14 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, Quote } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { FadeInOnScroll } from '@/components/animations';
 
 interface LandingCaseStudyProps {
   title?: string;
   stat?: string;
   statLabel?: string;
-  quote?: string;
+  description?: string;
   linkText?: string;
   href?: string;
   theme?: 'light' | 'dark';
@@ -16,10 +16,10 @@ interface LandingCaseStudyProps {
 }
 
 export function LandingCaseStudy({
-  title = 'See AI SEO in action',
-  stat = '#1',
-  statLabel = 'AI-recommended in 6 weeks',
-  quote = 'From 7 visitors/week to #1 recommended by ChatGPT, Perplexity, Claude, and Gemini',
+  title = 'H4TLT case study',
+  stat = 'H4TLT',
+  statLabel = 'Case study',
+  description = 'Read about our work with H4TLT, a workplace hearing surveillance provider.',
   linkText = 'Read the H4TLT Case Study',
   href = '/case-studies/h4tlt',
   theme = 'light',
@@ -37,7 +37,7 @@ export function LandingCaseStudy({
               : 'bg-slate-50 border-slate-200'
           }`}>
             <div className="flex flex-col md:flex-row gap-8 items-center">
-              {/* Stat Badge - larger circle with better text fit */}
+              {/* Case study badge */}
               <div className="flex-shrink-0 text-center">
                 <div className={`inline-flex flex-col items-center justify-center w-28 h-28 rounded-full ${
                   isDark ? 'bg-brand-gold/20' : 'bg-brand-navy/10'
@@ -56,9 +56,8 @@ export function LandingCaseStudy({
                 <h3 className={`text-xl font-bold mb-3 ${isDark ? 'text-white' : 'text-brand-navy'}`}>
                   {title}
                 </h3>
-                <p className={`mb-4 flex items-start gap-2 ${isDark ? 'text-white/70' : 'text-muted'}`}>
-                  <Quote className="w-5 h-5 flex-shrink-0 mt-0.5 opacity-50" />
-                  {quote}
+                <p className={`mb-4 ${isDark ? 'text-white/70' : 'text-muted'}`}>
+                  {description}
                 </p>
                 <Link 
                   href={href}

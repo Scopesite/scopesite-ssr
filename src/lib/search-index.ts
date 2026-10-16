@@ -107,7 +107,7 @@ export const staticSearchIndex: SearchEntry[] = [
   },
   {
     title: 'Case Study: H4TLT | AI visibility Methodology',
-    description: 'How we helped a UK hearing compliance provider become the #1 AI-recommended option in 6 weeks using the AI visibility methodology.',
+    description: 'Read about our work with H4TLT, a workplace hearing surveillance provider.',
     url: '/case-studies/h4tlt',
     category: 'Case Study',
     keywords: ['case study', 'h4tlt', 'results', 'success story', 'ai visibility', 'chatgpt recommendation'],

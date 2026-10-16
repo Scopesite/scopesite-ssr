@@ -245,10 +245,10 @@ export default function SchemaMarkupPage() {
 
       {/* Case Study Section */}
       <LandingCaseStudy 
-        title="Schema Markup in Action"
+        title="H4TLT case study"
         stat="51"
         statLabel="Schema entries"
-        quote="51-entry regulatory knowledge library with proper schema - from invisible to #1 AI-recommended in 6 weeks"
+        description="Read about our work with H4TLT, a workplace hearing surveillance provider."
         theme="light" 
       />
 

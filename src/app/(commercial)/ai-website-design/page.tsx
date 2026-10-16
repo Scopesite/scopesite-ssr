@@ -237,10 +237,6 @@ export default function AIWebsiteDesignPage() {
       <LandingProof
         title="THE NUMBERS DON'T LIE"
         stats={proofStats}
-        quote={{
-          text: "Within 3 weeks of launching our new site, we were being recommended by ChatGPT for 'best wedding photographer Somerset'. That never happened with our old site.",
-          author: "Sarah Mitchell, Mitchell Wedding Photography"
-        }}
         theme="dark"
       />
 
