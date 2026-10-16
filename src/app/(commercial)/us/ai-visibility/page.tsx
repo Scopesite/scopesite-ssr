@@ -1,5 +1,7 @@
 'use client';
 
+import { CAFMO_PRODUCT_STORY } from '@/lib/product-story';
+
 import Link from 'next/link';
 import { useState } from 'react';
 import {
@@ -13,6 +15,7 @@ import {
   Bot,
   BarChart3,
 } from 'lucide-react';
+import { faqItems } from './faqs';
 
 function FAQItem({
   question,
@@ -49,34 +52,6 @@ function FAQItem({
   );
 }
 
-const faqItems = [
-  {
-    question: 'What does the AI visibility scan actually check?',
-    answer:
-      'The scanner checks five areas: schema markup quality and coverage, Core Web Vitals performance, AI crawler access (whether your robots.txt blocks bots like GPTBot and ClaudeBot), domain authority via the Moz API, and content structure for AI readability. You get an overall AI visibility score plus prioritized recommendations ranked by impact.',
-  },
-  {
-    question: 'Is the scan really free?',
-    answer:
-      'Yes. You get one free Pro-level scan per email address. No credit card required, no trial period, no upsell wall. Enter your URL, enter your email, and get your full report.',
-  },
-  {
-    question: 'What is Answer Engine Optimization?',
-    answer:
-      'Answer Engine Optimization (AEO) is the practice of structuring your website so AI platforms like ChatGPT, Perplexity, Google AI Overviews, and Claude can read, understand, and cite your content. It is different from traditional SEO. SEO gets you ranked in search results. AEO gets you recommended in AI-generated answers. In 2026, businesses need both.',
-  },
-  {
-    question: 'Can the AI visibility scanner check any website?',
-    answer:
-      'Yes. The scanner works on any publicly accessible URL. It does not matter what platform your site is built on. WordPress, Shopify, Squarespace, Wix, custom code, or anything else. If the page loads in a browser, the scanner can analyze it.',
-  },
-  {
-    question: 'My site scores well on Google PageSpeed. Why would I need this?',
-    answer:
-      'PageSpeed Insights measures loading performance, layout stability, and interactivity. Those are important, but they do not tell you whether AI systems can actually read and recommend your business. The AI visibility scanner measures AI readability: schema markup, crawler access, content structure, and entity recognition. A fast site that AI cannot parse is still invisible to ChatGPT and Claude. They are different problems that need different tools.',
-  },
-];
-
 export default function AIVisibilityPage() {
   const [openFAQ, setOpenFAQ] = useState<number | null>(0);
 
@@ -88,19 +63,13 @@ export default function AIVisibilityPage() {
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-headline font-bold mb-6 leading-tight">
               Is Your Business Visible to AI?{' '}
-              <span className="text-brand-gold">Check for Free.</span>
+              <span className="text-brand-gold">Check the Evidence.</span>
             </h1>
             <p className="text-body-lg text-white/80 mb-6 max-w-3xl mx-auto">
-              94% of B2B buyers already use AI tools during their research process.
-              Over half of US adults have used ChatGPT at least once. When someone
-              asks an AI assistant &quot;who&apos;s the best {'{'}service{'}'} in{' '}
-              {'{'}city{'}'}?&quot;, your business is either in the answer or it is
-              not. There is no page two.
+              When an employer asks an assistant for a supplier, the answer may name a business, cite a source or leave both out. Check what happened for a recorded question and date before deciding what the website needs.
             </p>
             <p className="text-body text-white/60 mb-10 max-w-3xl mx-auto">
-              The AI visibility scanner tells you exactly where you stand. Run a free
-              scan, see your AI visibility score, and find out what is stopping AI
-              platforms from recommending your business.
+              {CAFMO_PRODUCT_STORY.measurement}
             </p>
             <Link
               href="/voice"
@@ -112,7 +81,7 @@ export default function AIVisibilityPage() {
               style={{ color: '#0A1B36' }}
             >
               <Rocket className="w-6 h-6" />
-              Run Your Free AI Scan
+              See the current scanner
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
@@ -127,13 +96,7 @@ export default function AIVisibilityPage() {
               What Is AI Visibility?
             </h2>
             <p className="text-muted mb-4">
-              AI visibility is whether AI platforms can find, read, and recommend
-              your business. When a potential customer asks ChatGPT for a
-              recommendation, the AI does not browse the internet the way a person
-              does. It pulls from structured data, entity relationships, and content
-              it has already processed. If your website does not present information
-              in a format AI systems understand, you will not appear in those
-              answers, regardless of how good your service is.
+              AI visibility concerns how assistants find, describe and cite your business. Their answers can draw on model knowledge, search results or retrieved pages. We record actual answers and sources, and investigate website issues separately.
             </p>
             <p className="text-muted mb-4">
               Traditional SEO is built around Google&apos;s ranking algorithm:
@@ -141,33 +104,28 @@ export default function AIVisibilityPage() {
               going away. But AI visibility is a separate problem. A website can rank
               on the first page of Google and still be completely invisible to
               ChatGPT, Claude, and Perplexity. The reverse is also true. The
-              businesses winning in 2026 are the ones doing both.
+              practical approach is to check search performance and assistant answers separately.
             </p>
             <p className="text-muted">
-              AI visibility depends on three things: structured data (schema markup
-              in JSON-LD), crawler access (whether your robots.txt allows AI bots
-              like GPTBot and ClaudeBot), and content architecture (how your
-              information is organized for machine reading). The{' '}
+              Technical checks include the HTML response, accurate structured data and access rules for the relevant search and user-requested bots. Training crawlers have a different role. These checks help diagnose the website; they do not establish whether an assistant recommends it. The{' '}
               <Link href="/voice" className="text-brand-gold font-medium hover:underline">
                 AI visibility scanner
               </Link>{' '}
-              checks all three.
+              provides a starting point for reviewing the evidence it can retrieve. Its report does not replace provider-specific access checks.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Why Most US Websites Fail */}
+      {/* Website evidence checks */}
       <section className="bg-brand-navy/[0.03] py-12 border-b border-brand-navy/10">
         <div className="container-content">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-brand-navy text-2xl md:text-3xl font-bold mb-6">
-              Why Most US Websites Fail the AI Test
+              Three Website Checks Worth Making
             </h2>
             <p className="text-muted mb-8">
-              We have scanned thousands of websites across the US and UK. The
-              pattern is consistent. Most businesses fail AI visibility for
-              three specific, fixable reasons.
+              We inspect the actual site for access and content problems. These are three useful areas to check before drawing conclusions from an absent AI citation.
             </p>
 
             <div className="grid md:grid-cols-3 gap-6 mb-8">
@@ -177,10 +135,7 @@ export default function AIVisibilityPage() {
                 </div>
                 <h3 className="text-brand-navy font-bold mb-2">Client-Side Rendering</h3>
                 <p className="text-light text-sm">
-                  Most modern websites load content with JavaScript after the page
-                  arrives. AI crawlers do not execute JavaScript. They see a blank
-                  page. If your site is built on React, Angular, or Vue without
-                  server-side rendering, AI bots get nothing to index.
+                  Some sites load their main content after the initial page response. Some retrieval tools may miss content that only appears after scripts run. We check the delivered HTML and provider access separately.
                 </p>
               </div>
 
@@ -192,8 +147,8 @@ export default function AIVisibilityPage() {
                 <p className="text-light text-sm">
                   Schema markup is the structured data that tells AI systems what
                   your business does, where you operate, and what services you offer.
-                  Research shows 99.7% of websites lack proper schema implementation.
-                  Without it, AI has to guess what your page is about.
+                  Schema needs to match the business facts and the visible page.
+                  Markup should support clear visible content; it cannot guarantee how an assistant interprets the page.
                 </p>
               </div>
 
@@ -203,10 +158,7 @@ export default function AIVisibilityPage() {
                 </div>
                 <h3 className="text-brand-navy font-bold mb-2">Blocked AI Crawlers</h3>
                 <p className="text-light text-sm">
-                  Many hosting platforms and CMS default configurations block AI
-                  crawlers in robots.txt. GPTBot, ClaudeBot, and PerplexityBot are
-                  separate from Googlebot. If you have not explicitly allowed them,
-                  they may not be able to access your content at all.
+                  Check robots.txt and access controls for the relevant bot. OpenAI and Anthropic distinguish search, training and user-requested fetches. An absent explicit Allow rule alone does not prove a crawler is blocked.
                 </p>
               </div>
             </div>
@@ -216,8 +168,7 @@ export default function AIVisibilityPage() {
               <Link href="/voice" className="text-brand-gold font-medium hover:underline">
                 AI visibility scanner
               </Link>{' '}
-              identifies exactly which issues affect your site and tells you how to
-              fix them.
+              can highlight retrieved issues for review. Failed requests and checks without data remain limits of the report.
             </p>
           </div>
         </div>
@@ -231,30 +182,24 @@ export default function AIVisibilityPage() {
               The AI visibility scanner
             </h2>
             <p className="text-muted mb-4">
-              This free tool is built by{' '}
+              The earlier scanner was built by{' '}
               <Link href="/us/services" className="text-brand-gold font-medium hover:underline">
                 ScopeSite Digital Studios
               </Link>{' '}
-              to measure how well AI systems can read and recommend your website.
-              Enter any URL and get a full report in under two minutes.
+              to inspect technical website evidence. CAFMO is the replacement product in development; the public scanner still uses the earlier V.O.I.C.E. interface.
             </p>
             <p className="text-muted mb-6">
-              The scanner checks schema markup implementation across 30+ schema
-              types, Core Web Vitals performance, AI crawler access permissions,
-              domain authority and spam score via the Moz API, content structure and
-              heading hierarchy, and entity recognition patterns. You get a single
-              overall score plus a breakdown by category, with each issue ranked by
-              priority.
+              A useful report distinguishes the website content it retrieved, the structured data it found, external metrics and generated advice. Failed requests and missing provider data should remain explicit. Actual assistant citations need separate observations.
             </p>
 
             <div className="grid sm:grid-cols-2 gap-4 mb-8">
               {[
-                { icon: Code2, label: 'Schema markup across 30+ types' },
+                { icon: Code2, label: 'Structured data found on the page' },
                 { icon: BarChart3, label: 'Core Web Vitals performance' },
-                { icon: Bot, label: 'AI crawler access (GPTBot, ClaudeBot, PerplexityBot)' },
-                { icon: ShieldCheck, label: 'Domain authority and spam score via Moz' },
+                { icon: Bot, label: 'Crawler access findings returned by the scan' },
+                { icon: ShieldCheck, label: 'External authority data, where returned' },
                 { icon: Search, label: 'Content structure and heading hierarchy' },
-                { icon: BarChart3, label: 'Entity recognition patterns' },
+                { icon: BarChart3, label: 'Consistent business facts' },
               ].map((item) => (
                 <div key={item.label} className="flex items-center gap-3 p-3 rounded-lg bg-brand-navy/[0.03]">
                   <item.icon className="w-5 h-5 text-brand-gold flex-shrink-0" />
@@ -274,11 +219,11 @@ export default function AIVisibilityPage() {
                 style={{ color: '#0A1B36' }}
               >
                 <Rocket className="w-6 h-6" />
-                Scan Your Website Free
+                See the current scanner
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <p className="text-light text-sm mt-4">
-                Takes 2 minutes. No credit card. One free Pro scan per email.
+                See the current scanner for its access and credit arrangements.
               </p>
             </div>
           </div>
@@ -306,12 +251,11 @@ export default function AIVisibilityPage() {
                   Fix It Yourself
                 </h3>
                 <p className="text-light text-sm mb-3">
-                  Your scan report includes prioritized recommendations. If you have
-                  a developer on staff, hand them the report and let them work through
-                  the list. The scanner tells you exactly what to fix and why each
-                  item matters.
+                  Use the findings returned in your report to build a repair list with
+                  your developer. Check each recommendation against the live site,
+                  and investigate failed requests before treating missing data as a fault.
                 </p>
-                <p className="text-brand-navy font-bold text-sm">Cost: Free</p>
+                <p className="text-brand-navy font-bold text-sm">Your team implements the repairs</p>
               </div>
 
               <div className="p-6 rounded-xl bg-white border border-brand-navy/10 ring-2 ring-brand-gold/30">
@@ -361,8 +305,7 @@ export default function AIVisibilityPage() {
             </div>
 
             <p className="text-muted text-center">
-              Not sure which path fits? Start with the free scan. The results will
-              make the decision obvious.
+              Start with the question you need answered. A technical report can inform the next repair, while a conversation establishes the work and scope.
             </p>
           </div>
         </div>
@@ -373,13 +316,10 @@ export default function AIVisibilityPage() {
         <div className="container-content">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-brand-navy text-2xl font-bold mb-4">
-              It Works. Here Is the Proof.
+              Read the Published Case Study
             </h2>
             <p className="text-muted max-w-3xl mx-auto mb-6">
-              ScopeSite used the AI visibility methodology to make H4TLT (Hearing 4
-              The Long Term) the first UK hearing compliance business recommended by
-              all four major AI platforms: ChatGPT, Claude, Perplexity, and Gemini.
-              That result came from the same process the scanner measures.
+              Our published H4TLT case study describes the work with Hear 4 The Long Term, a workplace hearing surveillance business. Read the scope and reported results in that case study; a scanner score alone does not establish those outcomes.
             </p>
             <Link
               href="/case-studies/h4tlt"
@@ -428,9 +368,7 @@ export default function AIVisibilityPage() {
               Find Out Where You Stand
             </h2>
             <p className="text-white/70 mb-10 max-w-2xl mx-auto">
-              Your competitors are already showing up in AI-generated answers. The
-              question is whether your business is there too. Run the free scan and
-              find out in two minutes.
+              Read the current scanner and CAFMO status, then choose the website or answer checks that fit your question.
             </p>
 
             <div className="relative inline-block">
@@ -445,13 +383,13 @@ export default function AIVisibilityPage() {
                 style={{ color: '#0A1B36' }}
               >
                 <Rocket className="w-6 h-6" />
-                Run Your Free AI Scan
+                See the current scanner
                 <ExternalLink className="w-5 h-5" />
               </Link>
             </div>
 
             <p className="text-white/50 text-sm mt-6">
-              No credit card required. One free Pro-level scan per email.
+              Existing scanner access is separate from future CAFMO subscription plans.
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8">

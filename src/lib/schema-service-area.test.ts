@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   generateLeanOrganizationSchema,
-  generateLocalBusinessSchema,
+  generateLocalServiceSchema,
   generateOrganizationSchema,
 } from './schema';
 
@@ -61,19 +61,20 @@ describe('ScopeSite service-area schema', () => {
     ]);
   });
 
-  it('emits LocalBusiness variants without a street or coordinates', () => {
-    const local = generateLocalBusinessSchema(
-      'Bristol',
+  it('describes regional work as a service of the existing operator, not a branch', () => {
+    const local = generateLocalServiceSchema(
+      'Web Design Bristol',
+      [],
+      'Web design services available to Bristol businesses.',
+      'https://scopesite.co.uk/web-design-bristol',
       [{ type: 'City', name: 'Bristol' }],
-      'https://scopesite.co.uk/web-design-bristol'
     );
     assertNoStreetOrCoordinates(local);
-    expect(local.parentOrganization).toEqual({ '@id': 'https://scopesite.co.uk/#organization' });
-    expect(local.address).toEqual({
-      '@type': 'PostalAddress',
-      addressLocality: 'Frome',
-      addressRegion: 'Somerset',
-      addressCountry: 'GB',
-    });
+    expect(local['@type']).toBe('Service');
+    expect(local['@id']).toBe('https://scopesite.co.uk/web-design-bristol/#service');
+    expect(local.provider).toEqual({ '@id': 'https://scopesite.co.uk/#organization' });
+    expect(local.areaServed).toEqual([{ '@type': 'City', name: 'Bristol' }]);
+    expect(local).not.toHaveProperty('address');
+    expect(local).not.toHaveProperty('parentOrganization');
   });
 });

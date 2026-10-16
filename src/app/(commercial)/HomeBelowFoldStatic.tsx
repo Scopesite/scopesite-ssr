@@ -22,7 +22,7 @@ const services = [
   },
   {
     title: 'AI visibility scan',
-    description: 'Free score across the categories that decide whether AI can see you at all.',
+    description: 'Check website evidence and understand the current scanner, CAFMO and the limits of a technical score.',
     icon: Sparkles,
     href: '/voice',
     cta: 'Run the scan',

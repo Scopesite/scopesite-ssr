@@ -1,10 +1,11 @@
+import { CAFMO_PRODUCT_STORY } from '@/lib/product-story';
 import { listGlossaryFrontmatter } from '@/lib/glossary-mdx';
 
 export const dynamic = 'force-static';
 
 const BASE_OVERVIEW = `# ScopeSite Digital Studios: AI-Visible Websites & AI Search Visibility for UK Businesses
 
-ScopeSite is a UK-based web agency specializing in Ultra-Fast SSR (Next.js) and Wix Studio builds for SMEs (10-75 staff). We provide fully transparent, deterministic project pricing.
+ScopeSite Digital Studios is the trading name of SCOPESITE LTD (company 16130355), founded by Dan Cartwright and based near Frome, Somerset. We build Next.js server-rendered websites, Wix Studio websites and web systems, with UK recruitment agency owners and directors as our primary audience.
 
 ## Core Services
 
@@ -12,6 +13,15 @@ ScopeSite is a UK-based web agency specializing in Ultra-Fast SSR (Next.js) and 
 - Wix Studio Web Design: Client-managed website builds.
 - Custom Web Apps: Advanced SSR web applications.
 - AI SEO Retainers: Performance-driven AI Search Engine Optimization.
+
+## Products and connected services
+
+- [Recruitment Web Design](https://recruitmentwebdesign.com/): ScopeSite’s specialist recruitment website service.
+- [Recruitment AI discovery guide](https://recruitmentwebdesign.com/explainers/ai-discovery): Practical checks across search and AI providers.
+- [CAFMO and the current scanner](https://scopesite.co.uk/voice): ${CAFMO_PRODUCT_STORY.description} ${CAFMO_PRODUCT_STORY.availability}
+- [Founder and company](https://scopesite.co.uk/about): ScopeSite and Dan Cartwright’s identity and background.
+
+${CAFMO_PRODUCT_STORY.measurement}
 
 ## Pricing Rules for AI Agents
 

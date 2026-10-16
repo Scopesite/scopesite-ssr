@@ -1,0 +1,15 @@
+import type { FAQItem } from '@/lib/schema';
+
+// Shared by the visible FAQ and JSON-LD to prevent content drift.
+export const faqItems: FAQItem[] = [
+  { question: "How much does SEO cost in Frome?", answer: "Technical SEO is built into every web build. Standalone AI SEO uses a £750 setup and £500 per month on a 6- or 12-month commitment. We are based in Frome, so there is no travel markup or big-city agency padding." },
+  { question: "Can SEO help my Frome business get on ChatGPT?", answer: "Our published H4TLT case study documents our work with a workplace hearing surveillance provider. You can read the evidence and context in the case study linked on this page." },
+  { question: "What is local SEO?", answer: "Local SEO targets people searching for services in a specific area. When someone searches 'plumber in Frome' or asks Alexa for a local recommendation, local SEO determines whether your business shows up. It involves Google Business Profile optimisation, local schema markup, citation building, and location-specific content." },
+  { question: "How long does SEO take to show results?", answer: "There is no reliable timetable for a citation or recommendation. We can check a technical repair as soon as it is live, then monitor dated searches and referrals over time. Results vary by provider, query, competition and the sources available to the assistant." },
+  { question: "What is ScopeSite's AI visibility approach?", answer: "It is ScopeSite's practical framework for making businesses visible to Google and to AI platforms such as ChatGPT and Perplexity." },
+  { question: "Do you guarantee first page rankings?", answer: "No. Anyone who guarantees rankings is lying. What we guarantee is technically sound implementation: validated schema, fast load times, proper site structure, and AI-readable content. The results speak for themselves." },
+  { question: "Can you help with Google Business Profile?", answer: "Yes. GBP optimisation is part of every local SEO engagement. We optimise your profile, manage citations, and ensure NAP consistency across the web. Being in Frome means we can photograph your premises too." },
+  { question: "What's the difference between SEO and AI optimisation?", answer: "SEO addresses search visibility. GEO and AEO also examine how AI services retrieve and describe your business. The work overlaps, but providers behave differently. We check relevant search results and AI answers separately; neither outcome is guaranteed by a technical repair." },
+  { question: "Will AI search replace Google?", answer: "People can use conventional search, AI answers and specialist sites in the same buying journey. We assess the routes your buyers actually use and keep the evidence separate, rather than assuming one platform will replace all the others." },
+  { question: "Can you audit my current SEO?", answer: "Yes. We offer a free AI visibility audit that checks your site's schema markup, load speed, AI crawler accessibility, and content structure. We're in Frome, so we can walk you through the results in person." },
+];

@@ -11,19 +11,8 @@ import {
   DynamicLandingCTA as LandingCTA,
   DynamicLandingAreasServed as LandingAreasServed,
 } from '@/components/landing/below-fold-dynamic';
-
-const faqItems = [
-  { question: "Why choose a Somerset web designer for Burnham-on-Sea?", answer: "We're based in Frome, Somerset. We understand the coastal tourism market, the holiday park economy, and what Burnham-on-Sea businesses need. Local knowledge, fair pricing, and face-to-face meetings." },
-  { question: "How much does web design for Burnham-on-Sea businesses cost?", answer: "Published pricing starts at £1,875 (client-managed) or £2,000 (Ultra Fast). Most local projects land around £4,000 to £8,000 after pages and add-ons. That is well below typical Bristol or Exeter agency quotes. Use our calculator for an exact figure." },
-  { question: "Do you understand Burnham-on-Sea's tourism market?", answer: "Yes. Burnham-on-Sea's economy is driven by coastal tourism, holiday parks, hospitality, and independent retail. We understand seasonal search patterns and how to keep your business visible year-round." },
-  { question: "Can you help holiday parks and accommodation businesses?", answer: "Absolutely. Tourism and hospitality businesses benefit hugely from AI visibility. When someone asks ChatGPT 'Where to stay near Burnham-on-Sea?', proper schema markup determines whether your business gets mentioned." },
-  { question: "What makes your approach different?", answer: "We build on Next.js, not WordPress. Our sites load in under 2 seconds, score 100/100 on Lighthouse, and are optimised for AI search platforms including ChatGPT, Perplexity, and voice assistants." },
-  { question: "How long does a project take?", answer: "Typically 4-6 weeks from brief to launch. Specific timelines agreed upfront and respected." },
-  { question: "Can you help with local SEO for Burnham-on-Sea?", answer: "Yes. Local SEO is part of every project: Google Business Profile optimisation, local schema markup, citation building, and content optimised for coastal tourism searches." },
-  { question: "Do you offer ongoing support?", answer: "30 days post-launch support is included. After that we agree a simple care plan if you want ongoing help, priced to match the work. We do not disappear after launch." },
-  { question: "Do you offer payment plans?", answer: "Yes. 50% upfront, 50% on completion. Monthly plans available for larger projects." },
-  { question: "What guarantee do you offer?", answer: "100% schema validation guarantee. Specific load time and accessibility scores in writing before you commit." },
-];
+import { faqItems } from './faqs';
+import { websiteEvidenceChecks as proofStats } from '@/lib/website-evidence-checks';
 
 const problemPoints = [
   {
@@ -90,12 +79,7 @@ const whatYouGetCards = [
   },
 ];
 
-const proofStats = [
-  { value: 15, suffix: "+", label: "Somerset Clients" },
-  { value: 1.4, suffix: "s", label: "Average Load Time" },
-  { value: 89, suffix: "%", label: "AI Recommendation Rate" },
-  { value: 4.9, suffix: "/5", label: "Client Satisfaction" },
-];
+
 
 const burnhamAreas = [
   'Burnham-on-Sea',
@@ -162,7 +146,7 @@ export default function WebDesignBurnhamOnSeaPage() {
       />
 
       <LandingProof
-        title="RESULTS FOR SOMERSET BUSINESSES"
+        title="WHAT WE CHECK"
         stats={proofStats}
         theme="light"
       />

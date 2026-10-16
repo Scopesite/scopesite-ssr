@@ -205,7 +205,7 @@ export function generateOrganizationSchema() {
         slogan: 'Recommend Your Business',
         url: `${BASE_URL}/voice`,
         description:
-          'AI visibility methodology and scanning tools that measure how well ChatGPT, Claude, Gemini, and Perplexity can read and recommend your business.',
+          'AI visibility methodology and scanning tools for checking website evidence and technical accessibility. Observed answers and citations are assessed separately for each provider.',
       },
     ],
     hasOfferCatalog: {
@@ -473,7 +473,7 @@ export function generateVOICEDefinedTermSetSchema() {
     '@id': `${BASE_URL}/#voice-methodology`,
     name: 'AI visibility framework',
     description:
-      "ScopeSite's framework for measuring and improving how AI platforms read, trust, and recommend your business.",
+      "ScopeSite's framework for checking website evidence, identifying technical repairs, and recording AI answers and citations separately from scan scores.",
     url: `${BASE_URL}/voice`,
     creator: { '@id': `${BASE_URL}/#organization` },
     hasDefinedTerm: [
@@ -481,35 +481,35 @@ export function generateVOICEDefinedTermSetSchema() {
         '@type': 'DefinedTerm',
         '@id': `${BASE_URL}/#voice-visibility`,
         name: 'Visibility',
-        description: 'Measuring and improving how visible a business is to AI search engines and answer engines.',
+        description: 'Recording whether a business is mentioned or cited in observed answers from a named AI service.',
         inDefinedTermSet: { '@id': `${BASE_URL}/#voice-methodology` },
       },
       {
         '@type': 'DefinedTerm',
         '@id': `${BASE_URL}/#voice-optimisation`,
         name: 'Optimisation',
-        description: 'Technical and content optimisation strategies that improve how AI systems interpret and recommend a business.',
+        description: 'Technical and content repairs based on documented access checks, page evidence, and observed results.',
         inDefinedTermSet: { '@id': `${BASE_URL}/#voice-methodology` },
       },
       {
         '@type': 'DefinedTerm',
         '@id': `${BASE_URL}/#voice-intelligent`,
         name: 'Intelligent',
-        description: 'Building intelligent, machine-readable content structures that AI systems can parse, trust, and cite.',
+        description: 'Organising readable content and accurate structured data that match the visible page.',
         inDefinedTermSet: { '@id': `${BASE_URL}/#voice-methodology` },
       },
       {
         '@type': 'DefinedTerm',
         '@id': `${BASE_URL}/#voice-crawler`,
         name: 'Crawler',
-        description: 'Ensuring AI crawlers (ChatGPT, Perplexity, Google AI, Claude) can access, read, and index website content.',
+        description: 'Checking crawler access and response content for specific providers, distinguishing search, training, and user-requested retrieval.',
         inDefinedTermSet: { '@id': `${BASE_URL}/#voice-methodology` },
       },
       {
         '@type': 'DefinedTerm',
         '@id': `${BASE_URL}/#voice-engines`,
         name: 'Engines',
-        description: 'Targeting AI answer engines and large language models as distinct platforms from traditional search engines.',
+        description: 'Assessing each AI service and retrieval route separately, using current provider documentation and recorded observations.',
         inDefinedTermSet: { '@id': `${BASE_URL}/#voice-methodology` },
       },
     ],
@@ -705,34 +705,14 @@ export function generateVOICESoftwareApplicationSchema() {
   return {
     '@type': 'SoftwareApplication',
     '@id': `${BASE_URL}/#voice-scanner`,
-    name: 'AI visibility scanner',
+    name: 'CAFMO (Can AI Find Me Online)',
     description:
-      'AI visibility scoring that reviews schema health, page structure, speed, AI crawler access, accessibility, authority, and entity signals using a clear deductive model.',
+      'CAFMO (Can AI Find Me Online), ScopeSite’s AI visibility product in development. The public scanner still uses the earlier V.O.I.C.E. interface while the replacement is being built.',
     url: 'https://canaifindme.online',
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
     creator: { '@id': `${BASE_URL}/#organization` },
     about: { '@id': `${BASE_URL}/#voice-methodology` },
-    offers: [
-      {
-        '@type': 'Offer',
-        price: '0',
-        priceCurrency: 'GBP',
-        name: 'Free AI Visibility Scan',
-        description: 'Instant AI visibility score across 7 categories',
-      },
-    ],
-    featureList:
-      'Schema markup scoring, On-page structure analysis, Performance analysis, AI crawler access detection, Accessibility scoring, Domain authority check, Entity signal analysis',
-    potentialAction: {
-      '@type': 'AssessAction',
-      name: 'Scan Website AI Visibility',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: 'https://canaifindme.online',
-        actionPlatform: 'https://schema.org/DesktopWebPlatform',
-      },
-    },
   };
 }
 
@@ -799,13 +779,6 @@ export function generateWebsiteSchema() {
       '@id': `${BASE_URL}/#organization`,
     },
     inLanguage: 'en-GB',
-    additionalProperty: [
-      {
-        '@type': 'PropertyValue',
-        name: 'llms.txt',
-        value: 'https://scopesite.co.uk/llms.txt',
-      },
-    ],
     potentialAction: {
       '@type': 'SearchAction',
       target: {
@@ -2160,7 +2133,7 @@ export function generateWebPageFAQPageSchema(
 ) {
   const pageUrl = url.replace(/\/$/, '');
   const schema: Record<string, unknown> = {
-    '@type': 'WebPage',
+    '@type': faqs.length > 0 ? ['WebPage', 'FAQPage'] : 'WebPage',
     '@id': `${pageUrl}/#webpage`,
     url,
     name,
@@ -2170,6 +2143,10 @@ export function generateWebPageFAQPageSchema(
     about: serviceId ? { '@id': serviceId } : { '@id': `${BASE_URL}/#organization` },
     breadcrumb: { '@id': `${pageUrl}/#breadcrumb` },
   };
+
+  if (faqs.length > 0) {
+    schema.mainEntity = generateFAQSchema(faqs).mainEntity;
+  }
 
   if (speakableCssSelectors && speakableCssSelectors.length > 0) {
     schema.speakable = generateSpeakableSchema(speakableCssSelectors);
@@ -2242,49 +2219,6 @@ export function generateLocalServiceSchema(
   return schema;
 }
 
-/**
- * Generates a LocalBusiness schema variant for local landing pages
- * Uses a page-scoped @id (…/path/#local-business) so e.g. web-design-bristol and
- * seo-bristol do not both emit the same #local-bristol fragment on the apex URL.
- * References the parent Organization via parentOrganization.
- */
-export function generateLocalBusinessSchema(
-  areaName: string,
-  areaServed: AreaServedItem[],
-  pageUrl: string
-) {
-  const pageBase = pageUrl.replace(/\/$/, '');
-  return {
-    '@type': 'LocalBusiness',
-    '@id': `${pageBase}/#local-business`,
-    name: `ScopeSite Digital Studios - ${areaName}`,
-    description: `AI-first web design agency serving ${areaName}. Based in Frome, Somerset.`,
-    parentOrganization: { '@id': `${BASE_URL}/#organization` },
-    telephone: '+441373311339',
-    email: 'support@scopesite.co.uk',
-    url: pageBase,
-    priceRange: '££-£££',
-    currenciesAccepted: 'GBP',
-    paymentAccepted: 'Bank Transfer, Credit Card',
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Frome',
-      addressRegion: 'Somerset',
-      addressCountry: 'GB',
-    },
-    areaServed: areaServed.map((area) => ({
-      '@type': area.type,
-      name: area.name,
-    })),
-    openingHoursSpecification: {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-      opens: '09:00',
-      closes: '17:00',
-    },
-  };
-}
-
 // ============================================
 // LANDING PAGE SCHEMA HELPER
 // ============================================
@@ -2333,10 +2267,6 @@ export function generateLandingPageSchema(
       speakableCssSelectors
     )
   );
-
-  if (faqs.length > 0) {
-    schemas.push(generateFAQSchema(faqs));
-  }
 
   // 2. Service schema (local or national)
   const serviceExtras: Record<string, unknown> = {};

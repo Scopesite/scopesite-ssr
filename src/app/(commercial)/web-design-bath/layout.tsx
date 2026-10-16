@@ -2,13 +2,13 @@ import { Metadata } from 'next';
 import { 
   generateWebPageFAQPageSchema, 
   generateLocalServiceSchema,
-  generateLocalBusinessSchema,
+
   generateBreadcrumbSchema,
   wrapInGraph,
-  type FAQItem,
   type AreaServedItem 
 } from '@/lib/schema';
 import { JsonLd } from '@/components/JsonLd';
+import { faqItems as faqs } from './faqs';
 
 const BASE_URL = 'https://scopesite.co.uk';
 const PAGE_URL = `${BASE_URL}/web-design-bath`;
@@ -27,43 +27,24 @@ export const metadata: Metadata = {
         width: 1200,
         height: 630,
         alt: 'Web Design Bath | AI-Optimised Websites for Bath Businesses',
-      },
+},
     ],
     locale: 'en_GB',
     type: 'website',
-  },
+},
   twitter: {
     card: 'summary_large_image',
     title: 'Web Design Bath | AI-Optimised Websites for Bath Businesses',
     description: 'Bath web design agency building AI-optimised websites that get recommended by ChatGPT. Premium quality without premium agency prices. Based in nearby Somerset.',
     images: [`${BASE_URL}/images/scopesite-websites-found-hero-ai.webp`],
-  },
+},
   keywords: ['web design bath', 'web designer bath', 'website design bath', 'bath web design agency'],
   alternates: {
     canonical: PAGE_URL,
-  },
+},
 };
 
 // FAQ data
-const faqs: FAQItem[] = [
-  { question: "Why choose a Somerset agency for Bath web design?", answer: "Because you get Bath-quality work without Bath-agency prices. We're 25 minutes away in Frome - close enough for face-to-face meetings, but without the overheads that Bath agencies bake into their quotes. Same expertise, better value." },
-  { question: "How do your prices compare to Bath web design agencies?", answer: "Published pricing starts from £1,875 or £2,000. That is often 40% to 60% less than comparable Bath quotes for similar work, without city-centre rent baked in." },
-  { question: "Will you meet clients in Bath?", answer: "Absolutely. We're happy to meet anywhere in Bath - your office, a coffee shop, wherever works. We're just 25 minutes away and regularly meet Bath clients in person for consultations, design reviews, and training sessions." },
-  { question: "What makes your web design different from Bath agencies?", answer: "Two things: AI optimisation and honest pricing. We build for ChatGPT and voice search visibility - something most Bath agencies don't understand. And we price based on actual work, not Bath postcode premiums." },
-  { question: "Can you help Bath tourism businesses?", answer: "Yes. Tourism is a significant part of Bath's economy and we understand its specific needs - booking integration, seasonal content, multilingual considerations, and visibility for 'things to do in Bath' type searches." },
-  { question: "How long does a Bath web design project take?", answer: "Typically 4-6 weeks from brief to launch. We give you a specific timeline upfront and we stick to it. No Bath agency vagueness about 'sometime next quarter'." },
-  { question: "Do you understand Bath's business market?", answer: "Yes. Bath has a unique mix of heritage tourism, professional services (especially legal and financial), independent retail, and hospitality. We've worked with businesses across these sectors and understand what works locally." },
-  { question: "What about ongoing support after launch?", answer: "30 days post-launch support is included with every project. After that we agree a simple care plan if you want ongoing help, priced to match the work. You are never abandoned after launch." },
-  { question: "Can you help with existing Bath business websites?", answer: "Yes. We can either rebuild from scratch or add AI optimisation to existing sites if they're on compatible platforms. We'll assess your current site honestly and recommend the most cost-effective approach." },
-  { question: "Do you offer payment plans?", answer: "Yes. Standard terms are 50% upfront, 50% on completion. For larger projects, we can arrange monthly payment plans that work for your cash flow." },
-  { question: "What CMS do you use?", answer: "We build on Next.js with headless CMS options, not WordPress. This means faster sites, better security, and proper AI optimisation that WordPress simply can't achieve." },
-  { question: "Can you help Bath businesses rank locally?", answer: "Yes. Local SEO is built into every project - Google Business Profile optimisation, local schema markup, citation building, and content structured for 'near me' and voice searches." },
-  { question: "What industries in Bath do you work with?", answer: "We work across all industries but have particular experience with Bath professional services, tourism and hospitality, independent retail, and wellness businesses." },
-  { question: "How do revisions work?", answer: "Two rounds of design revisions are included. Additional revisions are charged at £60/hour, but we're always transparent about when we're approaching that point." },
-  { question: "Do you provide training?", answer: "Yes. Every project includes a recorded training session covering content updates, blog posts, and enquiry management. You'll be confident managing your site independently." },
-  { question: "What guarantee do you offer?", answer: "100% schema validation guarantee. We also guarantee specific load time and accessibility scores in writing before you commit. If we don't deliver, we fix it at no cost." },
-  { question: "Why shouldn't I just use a Bath agency?", answer: "You can - but you'll likely pay 40-60% more for similar or worse results. Bath agencies charge premium prices for their postcode, not their expertise. We charge for actual work delivered." },
-];
 
 // Areas served
 const areasServed: AreaServedItem[] = [
@@ -96,7 +77,7 @@ const pageSchema = wrapInGraph([
       { name: 'Complex Website', price: '9375' },
     ]
   ),
-  generateLocalBusinessSchema('Bath', areasServed, PAGE_URL),
+
   generateBreadcrumbSchema([
     { name: 'Home', url: BASE_URL },
     { name: 'Web Design Bath', url: PAGE_URL },

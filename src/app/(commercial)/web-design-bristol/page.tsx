@@ -11,27 +11,8 @@ import {
   DynamicLandingCTA as LandingCTA,
   DynamicLandingAreasServed as LandingAreasServed,
 } from '@/components/landing/below-fold-dynamic';
-
-// FAQ Data
-const faqItems = [
-  { question: "Why choose a Somerset agency for Bristol web design?", answer: "Because Bristol agencies charge Bristol prices for work we do better at fairer rates. We're 40 minutes away - close enough for regular face-to-face meetings, but without Harbourside rent built into your quote. Better tech, better value." },
-  { question: "How do your prices compare to Bristol agencies?", answer: "Published pricing starts from £1,875 (client-managed) or £2,000 (Ultra Fast). Bristol agencies often quote £10,000 to £20,000 for similar scope. We keep overheads low and skip padded discovery work." },
-  { question: "Will you meet Bristol clients in person?", answer: "Yes. We're in Bristol regularly and happy to meet at your office, a coffee shop, or co-working space. Initial consultations, design reviews, training - whatever works for you. 40 minutes is nothing." },
-  { question: "Do you work with Bristol tech companies?", answer: "Yes, and they're often our favourite clients. They understand why Next.js matters, why WordPress is a liability, and why AI visibility is the future. We speak the same technical language." },
-  { question: "What makes you different from Bristol web agencies?", answer: "Technology and honesty. We build on Next.js (like Nike, Netflix, TikTok), not WordPress. We optimise for AI visibility, not just Google rankings. And we price based on work, not postcode." },
-  { question: "How long does a Bristol web design project take?", answer: "Typically 4-6 weeks from brief to launch. Complex projects take longer, simple ones can be faster. We give you a specific timeline and stick to it - no Bristol agency vagueness." },
-  { question: "Can you help Bristol startups?", answer: "Absolutely. Startups need fast, scalable, professional sites that don't cost their entire seed round. Our tech stack (Next.js, React, Vercel) is exactly what modern startups should be building on." },
-  { question: "What about ongoing support?", answer: "30 days post-launch support is included. After that we agree a simple care plan if you want ongoing help, priced to match the work. We are not going to abandon you after launch like some Bristol agencies do." },
-  { question: "Can you redesign our existing Bristol business website?", answer: "Yes. We can rebuild from scratch or add AI optimisation to existing sites on compatible platforms. We'll assess honestly and recommend the most cost-effective approach." },
-  { question: "Do you understand Bristol's market?", answer: "Yes. Bristol's a unique mix of tech startups, creative agencies, aerospace, professional services, and independent businesses. We've worked across these sectors and understand what each needs." },
-  { question: "Why Next.js instead of WordPress?", answer: "Speed, security, and AI optimisation. WordPress sites average 3-4 seconds load time and are constant hacking targets. Next.js gives us sub-2-second loads, enterprise security, and complete control for AI visibility." },
-  { question: "Can you help with Bristol local SEO?", answer: "Yes. Local SEO is built into every project - Google Business Profile, local schema markup, citations, and content structured for 'near me' and voice searches specific to Bristol areas." },
-  { question: "Do you offer payment plans?", answer: "Yes. 50% upfront, 50% on completion is standard. Monthly payment plans available for larger projects - we understand Bristol startup cash flow." },
-  { question: "What industries do you work with in Bristol?", answer: "All industries, but we have particular experience with Bristol tech companies, professional services, creative agencies, hospitality, and e-commerce businesses." },
-  { question: "How do revisions work?", answer: "Two rounds of design revisions included. Additional revisions at £60/hour with full transparency about when we're approaching that point." },
-  { question: "What guarantee do you offer?", answer: "100% schema validation guarantee. Specific load time and accessibility scores in writing before you commit. We deliver what we promise." },
-  { question: "Why not just hire a Bristol freelancer?", answer: "You can - many are talented. But freelancers rarely have AI optimisation expertise, and availability can be unpredictable. We offer agency capability with freelancer-friendly pricing and guaranteed delivery." },
-];
+import { faqItems } from './faqs';
+import { websiteEvidenceChecks as proofStats } from '@/lib/website-evidence-checks';
 
 // Problem points
 const problemPoints = [
@@ -103,12 +84,7 @@ const whatYouGetCards = [
 ];
 
 // Proof stats
-const proofStats = [
-  { value: 12, suffix: "+", label: "Bristol Area Clients" },
-  { value: 1.4, suffix: "s", label: "Average Load Time" },
-  { value: 89, suffix: "%", label: "AI Recommendation Rate" },
-  { value: 4.9, suffix: "/5", label: "Client Satisfaction" },
-];
+
 
 // Bristol areas served
 const bristolAreas = [
@@ -186,12 +162,8 @@ export default function WebDesignBristolPage() {
 
       {/* Proof Section */}
       <LandingProof
-        title="BRISTOL WEB DESIGN RESULTS"
+        title="WHAT WE CHECK"
         stats={proofStats}
-        quote={{
-          text: "We'd been quoted £18K by Bristol agencies for what turned out to be WordPress templates. ScopeSite delivered a proper Next.js build with full AI optimisation for a third of that. Our site now gets mentioned by ChatGPT - the expensive agencies couldn't even explain what that meant.",
-          author: "Tech Startup, Bristol"
-        }}
         theme="light"
       />
 

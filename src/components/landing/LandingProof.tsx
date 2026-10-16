@@ -3,7 +3,7 @@
 import { FadeInOnScroll, AnimatedCounter, StaggerContainer, StaggerItem } from '@/components/animations';
 
 interface Stat {
-  value: number;
+  value: number | string;
   label: string;
   suffix?: string;
   prefix?: string;
@@ -59,14 +59,16 @@ export function LandingProof({
                   ? 'bg-brand-graphite/50 border border-white/10' 
                   : 'bg-brand-navy/[0.03] border border-brand-navy/10'
               }`}>
-                <div className={`text-3xl md:text-4xl font-bold mb-2 ${
+                <div className={`${typeof stat.value === 'number' ? 'text-3xl md:text-4xl' : 'text-xl sm:text-2xl md:text-3xl'} font-bold mb-2 ${
                   isDark ? 'text-brand-gold' : 'text-brand-gold-accessible'
                 }`}>
-                  <AnimatedCounter 
-                    value={stat.value} 
-                    prefix={stat.prefix}
-                    suffix={stat.suffix}
-                  />
+                  {typeof stat.value === 'number' ? (
+                    <AnimatedCounter
+                      value={stat.value}
+                      prefix={stat.prefix}
+                      suffix={stat.suffix}
+                    />
+                  ) : stat.value}
                 </div>
                 <div className={`font-medium mb-1 ${isDark ? 'text-white' : 'text-brand-navy'}`}>
                   {stat.label}

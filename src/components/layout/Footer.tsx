@@ -271,7 +271,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Run a free AI visibility scan
+                  Open the current AI visibility scanner
                 </a>
               </li>
             </ul>

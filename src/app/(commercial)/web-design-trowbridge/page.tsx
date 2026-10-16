@@ -11,19 +11,8 @@ import {
   DynamicLandingCTA as LandingCTA,
   DynamicLandingAreasServed as LandingAreasServed,
 } from '@/components/landing/below-fold-dynamic';
-
-const faqItems = [
-  { question: "Is there a good web designer near Trowbridge?", answer: "ScopeSite is based just 12 miles away in Frome. We work with businesses across Trowbridge and Wiltshire, offering face-to-face meetings, local knowledge, and transparent published pricing from £1,875 (client-managed) or £2,000 (Ultra Fast)." },
-  { question: "How much does a website cost in Trowbridge?", answer: "Published pricing starts at £1,875 or £2,000. Most Trowbridge projects land around £4,000 to £8,000. That is well below typical Bath and Bristol quotes. Use our calculator for an exact figure." },
-  { question: "Do you work with Wiltshire businesses?", answer: "Yes. Trowbridge is the county town of Wiltshire, and we serve businesses across the whole county. From Trowbridge itself to Melksham, Devizes, Bradford-on-Avon, and beyond." },
-  { question: "What makes your websites different from WordPress?", answer: "We build on Next.js, not WordPress. That means sub-2-second load times, 100/100 Lighthouse scores, and proper AI optimisation. Most Trowbridge businesses are still running slow WordPress sites that AI platforms can't read properly." },
-  { question: "Can you help my Trowbridge business get found on AI search?", answer: "Yes. We build every site with structured schema markup and content designed for AI platforms like ChatGPT, Perplexity, and voice assistants. When someone asks 'Who does web design near Trowbridge?', your business should be the answer." },
-  { question: "How long does a web design project take?", answer: "Typically 4-6 weeks from brief to launch. We agree on a specific timeline upfront and stick to it." },
-  { question: "Will you meet in person?", answer: "Absolutely. We're 12 miles from Trowbridge and happy to meet at your premises or locally." },
-  { question: "Do you help with local SEO for Trowbridge?", answer: "Yes. Local SEO is built into every project: Google Business Profile optimisation, local schema markup, citation building, and content structured for 'near me' searches." },
-  { question: "Do you offer payment plans?", answer: "Yes. 50% upfront, 50% on completion is standard. Monthly plans available for larger projects." },
-  { question: "What guarantee do you offer?", answer: "100% schema validation guarantee. Specific load time and accessibility scores in writing before you commit." },
-];
+import { faqItems } from './faqs';
+import { websiteEvidenceChecks as proofStats } from '@/lib/website-evidence-checks';
 
 const problemPoints = [
   {
@@ -90,12 +79,7 @@ const whatYouGetCards = [
   },
 ];
 
-const proofStats = [
-  { value: 15, suffix: "+", label: "Local Clients" },
-  { value: 1.4, suffix: "s", label: "Average Load Time" },
-  { value: 89, suffix: "%", label: "AI Recommendation Rate" },
-  { value: 4.9, suffix: "/5", label: "Client Satisfaction" },
-];
+
 
 const trowbridgeAreas = [
   'Trowbridge Town Centre',
@@ -162,7 +146,7 @@ export default function WebDesignTrowbridgePage() {
       />
 
       <LandingProof
-        title="RESULTS FOR LOCAL BUSINESSES"
+        title="WHAT WE CHECK"
         stats={proofStats}
         theme="light"
       />

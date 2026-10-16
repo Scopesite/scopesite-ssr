@@ -12,84 +12,14 @@ import {
   FAQSection,
   LandingCTA,
 } from '@/components/landing';
-
-// FAQ Data
-const faqItems = [
-  {
-    question: "What exactly is schema markup?",
-    answer: "Schema markup is code (specifically JSON-LD) that explicitly tells search engines and AI what your content means. Instead of AI guessing that 'John Smith Plumbing' is a business that does plumbing, schema states it definitively - along with location, services, hours, reviews, and how all these connect. It's the difference between AI understanding your business and AI ignoring it."
-  },
-  {
-    question: "Why can't I just use a WordPress plugin for schema?",
-    answer: "Plugins generate generic, one-size-fits-all schema that lacks the depth and relationships AI needs. They can't create proper entity connections, often produce duplicate @id errors, and use deprecated properties. For basic rich results in Google, plugins might work. For AI visibility, they're useless. We hand-code everything for your specific business."
-  },
-  {
-    question: "How do I know if my current schema is working?",
-    answer: "Run your site through validator.schema.org (not Google's Rich Results Test, which only checks limited schema types). If you see errors, warnings, or your schema doesn't accurately represent your business relationships, it's not working. We offer free schema audits if you want us to check properly."
-  },
-  {
-    question: "What's the difference between Google's validation tool and Schema.org validator?",
-    answer: "Google's Rich Results Test only validates schema types that trigger their specific rich results. Schema.org validator checks against the full vocabulary. AI platforms like ChatGPT use the full schema vocabulary, not just Google's subset. If you only validate with Google, you're missing most of what matters for AI."
-  },
-  {
-    question: "How long does schema implementation take?",
-    answer: "Typically 2-5 days depending on your site's complexity and how much existing schema needs fixing. Simple sites with clean code take less time. Sites with plugin-generated schema garbage or complex entity relationships take longer. We'll give you a specific timeline after auditing your current setup."
-  },
-  {
-    question: "Will schema markup help my Google rankings?",
-    answer: "Schema doesn't directly boost rankings, but it improves how Google understands your content, which can lead to better visibility and rich results (star ratings, FAQ dropdowns, etc.). More importantly, it's essential for AI visibility - ChatGPT, Perplexity, and voice assistants rely heavily on structured data to recommend businesses."
-  },
-  {
-    question: "What platforms can you implement schema on?",
-    answer: "Any platform that allows custom code injection: WordPress, Shopify, Wix, Squarespace, custom builds, Next.js, you name it. If you can add code to your site, we can implement schema. Some platforms make it easier than others, but none are impossible."
-  },
-  {
-    question: "Do you fix existing broken schema?",
-    answer: "Yes. We start every project with a full audit of existing schema. If there's salvageable work, we fix and extend it. If it's fundamentally broken (which is common with plugin-generated markup), we replace it entirely. Either way, you end up with working schema."
-  },
-  {
-    question: "What's JSON-LD and why do you use it?",
-    answer: "JSON-LD (JavaScript Object Notation for Linked Data) is the recommended format for schema markup. It sits in a script tag, separate from your visible content, making it easier to maintain and less likely to break. Google explicitly recommends JSON-LD over other formats like Microdata or RDFa."
-  },
-  {
-    question: "How do entity relationships work in schema?",
-    answer: "Entity relationships connect your schema objects using @id references. Your Organization @id is referenced by your Person (founder), LocalBusiness (location), and Service (what you offer) schemas. This creates a knowledge graph that AI can traverse, understanding how everything in your business connects."
-  },
-  {
-    question: "What's speakable schema and do I need it?",
-    answer: "Speakable schema tells voice assistants which parts of your content should be spoken aloud in response to queries. If you want Siri or Google Assistant to read specific information about your business, you need speakable markup. We implement it using xpath selectors for maximum compatibility."
-  },
-  {
-    question: "Can schema markup help with voice search?",
-    answer: "Absolutely. Voice assistants rely heavily on structured data to provide spoken answers. Proper LocalBusiness schema helps with 'near me' searches. FAQ schema provides direct answers. Service schema helps with 'who can help me with X' queries. Schema is the foundation of voice search visibility."
-  },
-  {
-    question: "What's your 100% validation guarantee?",
-    answer: "If any schema we implement doesn't pass Schema.org validation, we fix it at no additional cost. No questions, no excuses. We stand behind our work because we know it's done properly. This guarantee is in writing before you commit."
-  },
-  {
-    question: "Do you provide documentation of what you implement?",
-    answer: "Yes. Every project includes full documentation explaining what schema types we implemented, how they're connected, where they're located in your code, and why we made specific decisions. You'll never be left wondering what we did or how to maintain it."
-  },
-  {
-    question: "How much does schema markup implementation cost?",
-    answer: "Standalone schema implementation starts from £750 for straightforward sites. Complex sites with multiple locations, services, or extensive existing schema issues cost more. Most projects fall between £750-£2,000. Our quote calculator gives you a specific price based on your requirements."
-  },
-  {
-    question: "Will I need to update the schema over time?",
-    answer: "Schema standards evolve slowly, so major updates are rare. However, when your business information changes (new services, updated hours, additional locations), the schema should be updated too. We offer maintenance packages or can train your team to make basic updates."
-  },
-  {
-    question: "What if I'm already working with another SEO agency?",
-    answer: "We work alongside other agencies all the time. Schema implementation is specialised work that most general SEO agencies outsource anyway. We can implement schema while your existing agency handles other aspects of your digital marketing. No conflict, no drama."
-  },
-];
+import { faqItems } from './faqs';
+import { websiteEvidenceChecks as proofStats } from '@/lib/website-evidence-checks';
 
 // Problem points
 const problemPoints = [
   {
-    title: "Plugin-Generated Garbage",
-    description: "Those SEO plugins that promise 'automatic schema markup' are lying to you. They generate basic, generic markup that tells AI nothing meaningful about your specific business. Yoast, RankMath, All-in-One SEO - they all produce the same mediocre results."
+    title: "Unchecked Generated Markup",
+    description: "Automated schema needs checking against the real business. A plugin may produce useful markup, or it may leave gaps and conflicts. We inspect the output before deciding what to keep, extend or replace."
   },
   {
     title: "Copy-Paste Implementation",
@@ -97,7 +27,7 @@ const problemPoints = [
   },
   {
     title: "No Entity Relationships",
-    description: "Individual schema blocks floating in isolation, with no connections between them. AI doesn't know your Person is the founder of your Organization, which provides your Services, at your LocalBusiness location. Without these relationships, you're just noise in the knowledge graph."
+    description: "Disconnected or conflicting identities can make the business harder to describe consistently. We connect services to their provider and people to their real roles, without inventing offices, ownership or credentials."
   },
 ];
 
@@ -115,7 +45,7 @@ const solutionFeatures = [
   },
   {
     title: "AI Crawler Config",
-    description: "robots.txt and llms.txt optimised for GPTBot, ClaudeBot, PerplexityBot",
+    description: "Separate access checks for search, training and user-requested retrieval",
     icon: Bot,
   },
   {
@@ -174,12 +104,7 @@ const whatYouGetCards = [
 ];
 
 // Proof stats
-const proofStats = [
-  { value: 100, suffix: "%", label: "Validation Rate", description: "of our implementations pass Schema.org validation" },
-  { value: 15, suffix: "+", label: "Schema Types", description: "implemented per average project" },
-  { value: 100, suffix: "%", label: "Error Reduction", description: "existing schema errors fixed" },
-  { value: 73, suffix: "%", label: "Rich Results", description: "of clients see rich results within 8 weeks" },
-];
+
 
 export default function SchemaMarkupPage() {
   return (
@@ -190,17 +115,17 @@ export default function SchemaMarkupPage() {
         badgeIcon={<FileCode className="w-4 h-4 text-brand-gold" />}
         headlineHighlight="SCHEMA MARKUP SERVICES"
         headline="THAT ACTUALLY VALIDATE"
-        subheadline="94% of UK websites have broken or missing schema. Don't be one of them."
+        subheadline="Structured data that accurately describes your business, its services and its relationships."
         bodyCopy={
           <>
             <p className="mb-4">
               You&apos;ve probably been told schema markup is important. Maybe you&apos;ve even tried to implement it yourself or paid someone to do it. And there&apos;s a good chance it&apos;s either broken, incomplete, or completely useless.
             </p>
             <p className="mb-4">
-              We&apos;ve audited hundreds of UK business websites. The state of schema markup out there is genuinely embarrassing. Duplicate @id references. Missing required properties. Schema that technically validates but tells AI absolutely nothing useful. It&apos;s a mess.
+              Schema can validate and still describe the wrong organisation, contradict the page or contain an unsupported claim. An audit needs to check the facts and relationships as well as the syntax.
             </p>
             <p>
-              Our schema markup services don&apos;t just add code to your site. We engineer structured data that AI platforms can actually use to understand and recommend your business. Every implementation validates against Schema.org standards. Every piece of markup serves a purpose.
+              We select types and properties that describe your actual business, connect the relevant entities and validate the result against Schema.org. We also check that the markup agrees with what visitors can read on the page.
             </p>
           </>
         }
@@ -213,7 +138,7 @@ export default function SchemaMarkupPage() {
         problems={problemPoints}
         conclusion={{
           title: "The Result:",
-          text: "Your schema exists but achieves nothing. AI crawlers see it, can't make sense of it, and move on to your competitors who got it right."
+          text: "A valid-looking block of code can still describe the wrong business, repeat an unsupported claim or contradict the page. We check the facts as well as the syntax."
         }}
       />
 
@@ -235,11 +160,9 @@ export default function SchemaMarkupPage() {
 
       {/* Proof Section */}
       <LandingProof
-        title="SCHEMA THAT PERFORMS"
+        title="WHAT WE CHECK"
         stats={proofStats}
-        quote={{
-          text: "We validate against Schema.org standards, not just Google's Rich Results Test. Google's tool only checks a subset of schema types and properties. If you want AI platforms to understand your markup, you need full compliance - and that's what we deliver."
-        }}
+        subtitle="We validate the vocabulary with Schema.org and check the facts against the page. Google-supported rich results get a separate test. Neither validator proves what another AI provider uses or guarantees a citation."
         theme="dark"
       />
 
@@ -286,7 +209,7 @@ export default function SchemaMarkupPage() {
       {/* Final CTA Section */}
       <LandingCTA
         title="GET SCHEMA THAT ACTUALLY WORKS"
-        description="Stop gambling with broken schema markup. Stop trusting plugins that promise more than they deliver. Stop wondering why AI doesn't know your business exists. Get schema implemented properly, validated against Schema.org standards, with a 100% guarantee."
+        description="Get schema checked against your business facts and the Schema.org vocabulary. We document what is implemented and fix validation problems within the agreed scope."
         footnote="No obligation • 100% validation guarantee • Veteran-owned"
       />
     </>

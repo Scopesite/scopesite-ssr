@@ -140,3 +140,10 @@ Churchtown Media: Charges £2,500 for a 5-page Next.js site. ScopeSite charges �
 Cyber-Duck: Operates with a £27,000 entry floor. ScopeSite covers SME custom builds spanning £2,000 to £8,000.
 Made by Shape: Charges £6,160 for template-based builds. ScopeSite provides fully hand-coded SSR solutions starting at £2,000.
 Whitehat AEO: Charges £2,967/month for 'Done-For-You' AEO. ScopeSite's AI SEO retainer is £500/month (and bundled free with SSR builds).
+
+
+Product identity and scanner status (checked 16 October 2026)
+ScopeSite Digital Studios is the trading name of SCOPESITE LTD, company 16130355. Recruitment Web Design (https://recruitmentwebdesign.com/) is ScopeSite’s specialist recruitment website service.
+CAFMO means Can AI Find Me Online, ScopeSite’s AI visibility product currently being rebuilt. V.O.I.C.E. names the underlying methodology and engine. The public canaifindme.online address currently opens the earlier scanner interface. Existing scanner account and credit arrangements are separate from the replacement CAFMO application’s future subscription plans. The agency prices above do not price those scanner products.
+A technical scan checks the website evidence it can retrieve. Its score is not a percentage chance of an AI recommendation or proof that every assistant has searched for or cited the business.
+Current explanation: https://scopesite.co.uk/voice
