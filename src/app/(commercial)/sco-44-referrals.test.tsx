@@ -11,7 +11,7 @@ import MobileMenu from '@/components/layout/MobileMenu';
 import { NAV_LINKS, SERVICES_LINKS } from '@/components/layout/Navigation';
 import { RwdOutboundLink } from '@/components/rwd/RwdOutboundLink';
 import { RWD_DESTINATIONS, sanitizeRwdOutboundEvent } from '@/lib/rwd-outbound';
-import { RWD_DESTINATION, scopeSiteFilter } from '@/lib/ghost';
+import { CAFMO_DESTINATION, RWD_DESTINATION, scopeSiteFilter } from '@/lib/ghost';
 import RecruitmentWebsiteDesignPage from './recruitment-website-design/page';
 import Home from './page';
 
@@ -161,9 +161,9 @@ describe('SCO-44 discreet RWD explainer referrals', () => {
 describe('SCO-44 Ghost inverse destination filter', () => {
   it('retains the parent exclusion of hash-site-recruitmentwebdesign', () => {
     expect(RWD_DESTINATION).toBe('hash-site-recruitmentwebdesign');
-    expect(scopeSiteFilter()).toBe(`tag:-${RWD_DESTINATION}+visibility:public`);
+    expect(scopeSiteFilter()).toBe(`tag:-${RWD_DESTINATION}+tag:-${CAFMO_DESTINATION}+visibility:public`);
     expect(scopeSiteFilter('tag:ai')).toBe(
-      `tag:-${RWD_DESTINATION}+visibility:public+(tag:ai)`
+      `tag:-${RWD_DESTINATION}+tag:-${CAFMO_DESTINATION}+visibility:public+(tag:ai)`
     );
   });
 });

@@ -225,14 +225,16 @@ const MOCK_POSTS: GhostPost[] = [
   },
 ];
 
-// Recruitment branch articles have one destination, independent of topic tags.
+// Destination tags route articles independently of their public topic tags.
 export const RWD_DESTINATION = 'hash-site-recruitmentwebdesign';
+export const CAFMO_DESTINATION = 'hash-site-cafmo';
 export function scopeSiteFilter(filter?: string): string {
-  const guard = `tag:-${RWD_DESTINATION}+visibility:public`;
+  const guard = `tag:-${RWD_DESTINATION}+tag:-${CAFMO_DESTINATION}+visibility:public`;
   return filter ? `${guard}+(${filter})` : guard;
 }
 export function isScopeSitePost(post: GhostPost): boolean {
-  return !!post && post.access !== false && (!post.visibility || post.visibility === 'public') && !post.tags?.some(tag => tag.slug === RWD_DESTINATION);
+  return !!post && post.access !== false && (!post.visibility || post.visibility === 'public')
+    && !post.tags?.some(tag => typeof tag?.slug === 'string' && tag.slug.startsWith('hash-site-'));
 }
 
 // Check if Ghost is configured

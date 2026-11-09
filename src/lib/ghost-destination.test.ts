@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  CAFMO_DESTINATION,
   isScopeSitePost,
   RWD_DESTINATION,
   scopeSiteFilter,
@@ -21,16 +22,16 @@ function post(overrides: Partial<GhostPost> = {}): GhostPost {
 }
 
 describe('scopeSiteFilter', () => {
-  it('always excludes the recruitment destination and requires public visibility', () => {
-    expect(scopeSiteFilter()).toBe(`tag:-${RWD_DESTINATION}+visibility:public`);
+  it('always excludes recruitment and CAFMO destinations and requires public visibility', () => {
+    expect(scopeSiteFilter()).toBe(`tag:-${RWD_DESTINATION}+tag:-${CAFMO_DESTINATION}+visibility:public`);
   });
 
   it('groups extra filters so they cannot override the destination guard', () => {
     expect(scopeSiteFilter('featured:true')).toBe(
-      `tag:-${RWD_DESTINATION}+visibility:public+(featured:true)`
+      `tag:-${RWD_DESTINATION}+tag:-${CAFMO_DESTINATION}+visibility:public+(featured:true)`
     );
     expect(scopeSiteFilter('tag:recruitment,tag:ai')).toBe(
-      `tag:-${RWD_DESTINATION}+visibility:public+(tag:recruitment,tag:ai)`
+      `tag:-${RWD_DESTINATION}+tag:-${CAFMO_DESTINATION}+visibility:public+(tag:recruitment,tag:ai)`
     );
   });
 });
@@ -47,18 +48,19 @@ describe('isScopeSitePost', () => {
     ).toBe(true);
   });
 
-  it('rejects destination-tagged posts even when they are public', () => {
-    expect(
-      isScopeSitePost(
-        post({
-          visibility: 'public',
-          tags: [
-            { id: 't1', name: 'Recruitment', slug: 'recruitment' },
-            { id: 't2', name: '#site-recruitmentwebdesign', slug: RWD_DESTINATION },
-          ],
-        })
-      )
-    ).toBe(false);
+  it.each([
+    { destinations: [RWD_DESTINATION] },
+    { destinations: [CAFMO_DESTINATION] },
+    { destinations: [RWD_DESTINATION, CAFMO_DESTINATION] },
+    { destinations: ['hash-site-unknown'] },
+  ])('rejects public posts tagged with $destinations', ({ destinations }) => {
+    expect(isScopeSitePost(post({
+      visibility: 'public',
+      tags: [
+        { id: 't1', name: 'Recruitment', slug: 'recruitment' },
+        ...destinations.map(slug => ({ id: slug, name: slug, slug })),
+      ],
+    }))).toBe(false);
   });
 
   it('rejects members-only or inaccessible posts', () => {
