@@ -316,7 +316,7 @@ export default function TermsPage() {
                   Last Updated: 10 May 2026
                 </p>
                 <p className="text-brand-navy/60 text-sm mb-4">
-                  Registered Office: 4 Horse Close Horse Close, Beckington, Frome, England, BA11 6SU
+                  Registered in England. Registered office: 4 Horse Close, Beckington, Frome, England, BA11 6SU
                 </p>
                 <p className="text-brand-navy/60 text-sm mb-4">
                   If you have any questions about these Terms and Conditions, please contact us:
