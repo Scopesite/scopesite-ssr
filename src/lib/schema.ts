@@ -83,10 +83,12 @@ export function generateOrganizationSchema() {
     },
     telephone: '+441373311339',
     email: 'support@scopesite.co.uk',
+    // Companies House locality and postcode only (Dan, 10 November 2026). Never street or coordinates.
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Frome',
       addressRegion: 'Somerset',
+      postalCode: 'BA11 6SU',
       addressCountry: 'GB',
     },
     areaServed: [
