@@ -151,7 +151,7 @@ export function Footer() {
               </a>
               <div className="flex items-center gap-3 text-white/80">
                 <MapPin className="w-4 h-4" />
-                <span>Frome, Somerset, UK</span>
+                <span>Beckington, Frome, Somerset, BA11 6SU</span>
               </div>
             </div>
 

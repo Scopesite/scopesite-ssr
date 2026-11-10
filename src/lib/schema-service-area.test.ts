@@ -53,6 +53,7 @@ describe('ScopeSite service-area schema', () => {
       '@type': 'PostalAddress',
       addressLocality: 'Frome',
       addressRegion: 'Somerset',
+      postalCode: 'BA11 6SU',
       addressCountry: 'GB',
     });
     expect(organization.areaServed).toEqual([
