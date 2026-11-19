@@ -1422,7 +1422,9 @@ const KNOWN_TOOLS: Record<string, { type: string; description: string }> = {
   'Ghost': { type: 'Thing', description: 'Publishing platform' },
   'Vercel': { type: 'Thing', description: 'Web hosting platform' },
   'Netlify': { type: 'Thing', description: 'Web hosting platform' },
-  'Schema.org': { type: 'WebSite', description: 'Structured data vocabulary' },
+  // Thing, like every other tool here. A WebSite node with no url would sit beside
+  // the site's own WebSite node and describe a website the page does not identify.
+  'Schema.org': { type: 'Thing', description: 'Structured data vocabulary' },
   'JSON-LD': { type: 'Thing', description: 'Linked data format' },
   'GTmetrix': { type: 'Thing', description: 'Website performance tool' },
   'PageSpeed Insights': { type: 'Thing', description: 'Google performance tool' },
@@ -1504,7 +1506,6 @@ export function extractTopicsFromContent(
 // ============================================
 
 export interface BlogPostingSeoFields {
-  headline?: string;
   description?: string;
 }
 
@@ -1530,7 +1531,9 @@ export function generateBlogPostingSchema(
   if (tagSlugs.has('tech-article')) types.push('TechArticle');
   if (tagSlugs.has('learning-resource')) types.push('LearningResource');
 
-  const headline = seoFields?.headline?.trim() || post.meta_title?.trim() || post.title;
+  // The headline is the title printed on the page. The SEO title, which may carry
+  // a brand suffix, belongs to the <title> element and the WebPage node.
+  const headline = post.title;
   const description =
     seoFields?.description?.trim() || post.meta_description?.trim() || post.excerpt || post.custom_excerpt;
 
@@ -1593,9 +1596,10 @@ export function generateBlogPostingSchema(
     };
   }
 
-  // Add word count and reading time
+  // Keep Ghost's reading-time estimate, but omit the optional wordCount.
+  // Reading time is not a measured count, and HTML tokenisation can count
+  // inline markup and encoded characters differently from the visible text.
   if (post.reading_time) {
-    schema.wordCount = post.reading_time * 200;
     schema.timeRequired = `PT${post.reading_time}M`;
   }
 

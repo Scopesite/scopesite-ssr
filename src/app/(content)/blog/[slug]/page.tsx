@@ -153,7 +153,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     };
 
     const blogPostingSchema = generateBlogPostingSchema(post, pageUrl, undefined, {
-      headline: schemaTitle,
       description,
     });
     blogPostingSchema.speakable = generateSpeakableSchema([
