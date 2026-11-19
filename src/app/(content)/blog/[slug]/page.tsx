@@ -153,7 +153,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     };
 
     const blogPostingSchema = generateBlogPostingSchema(post, pageUrl, undefined, {
-      headline: schemaTitle,
       description,
     });
     blogPostingSchema.speakable = generateSpeakableSchema([
@@ -278,7 +277,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   alt={post.feature_image_alt || post.title}
                   fill
                   sizes="(max-width: 768px) 100vw, 896px"
-                  className="object-cover"
+                  className="object-contain"
                   priority
                 />
               </div>
