@@ -47,7 +47,10 @@ describe('dated product editorial correction', () => {
     expect(post.html).toContain('id="is-canaifindmeonline-the-cheapest-ai-scanner-on-the-market"');
     expect(post.html).not.toMatch(/actually powered by|free Pro scan worth|tried and tested every scanner/);
     expect(extractFAQsFromContent(post.html!)).toEqual(expect.arrayContaining([
-      { question: 'How much does CAFMO cost?', answer: expect.stringContaining('£39, £69, £99 and £149') },
+      {
+        question: 'How much does CAFMO cost?',
+        answer: 'CAFMO (Can AI Find Me Online) has four monthly plans at £39, £69, £99 and £149. See canaifindme.online/pricing for details of each plan. There is also a free check of one home page. CAFMO is made by ScopeSite Digital Studios.',
+      },
       { question: 'What is V.O.I.C.E., and how does it relate to CAFMO?', answer: expect.stringContaining('grew out of that method') },
     ]));
     const republished = { ...source, updated_at: '2026-11-23T08:30:00Z', meta_title: 'Edited in Ghost' };
