@@ -107,14 +107,17 @@ ${sources}`,
 
 export function applyProductEditorialCorrection(post: GhostPost): GhostPost {
   if (post.slug === 'ai-visibility-checker') {
-    // Only the reviewed Ghost revision goes through this block-level repair.
-    if (Date.parse(post.updated_at) !== Date.parse('2026-04-25T19:12:01Z')) return post;
-    const repaired = replaceExactEditorialBlocks(post.html ?? '', checkerBlocks);
+    // Unrelated CMS edits keep their authority. A metadata-only save must not
+    // resurrect the same six retired offer/FAQ blocks in the rendered page.
+    const html = post.html ?? '';
+    if (!checkerBlocks.every(block => html.includes(block.before))) return post;
+    const repaired = replaceExactEditorialBlocks(html, checkerBlocks);
     if (!repaired.ok) {
       console.error('[EditorialCorrection] CAFMO checker article changed', { block: repaired.blockId });
       return post;
     }
-    return { ...post, html: repaired.html, updated_at: MAKER_REVIEW_DATE };
+    const updated_at = Date.parse(post.updated_at) > Date.parse(MAKER_REVIEW_DATE) ? post.updated_at : MAKER_REVIEW_DATE;
+    return { ...post, html: repaired.html, updated_at };
   }
   const correction = corrections[post.slug];
   if (!correction) return post;

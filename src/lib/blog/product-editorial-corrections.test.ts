@@ -50,7 +50,11 @@ describe('dated product editorial correction', () => {
       { question: 'How much does CAFMO cost?', answer: expect.stringContaining('£39, £69, £99 and £149') },
       { question: 'What is V.O.I.C.E., and how does it relate to CAFMO?', answer: expect.stringContaining('grew out of that method') },
     ]));
-    const newer = { ...source, updated_at: '2026-11-23T08:30:00Z' };
-    expect(applyProductEditorialCorrection(newer)).toBe(newer);
+    const republished = { ...source, updated_at: '2026-11-23T08:30:00Z', meta_title: 'Edited in Ghost' };
+    expect(applyProductEditorialCorrection(republished)).toMatchObject({
+      html: post.html, updated_at: republished.updated_at, meta_title: 'Edited in Ghost',
+    });
+    const reconciled = { ...republished, html: '<p>New article approved in Ghost.</p>' };
+    expect(applyProductEditorialCorrection(reconciled)).toBe(reconciled);
   });
 });
