@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { applyProductEditorialCorrection } from './product-editorial-corrections';
 import type { GhostPost } from '../ghost';
 import { resolveBlogSeoFields } from './pitch-cluster-seo';
+import { extractFAQsFromContent } from '../schema';
+import checkerBlocks from './ai-visibility-checker-correction.json';
 
 function legacy(slug: string): GhostPost {
   return { id: 'retained-id', uuid: 'retained-uuid', slug, title: 'Old price', html: '<p>£29, cheapest</p>', meta_title: 'Old price', meta_description: 'Old offer', og_title: 'Old offer', twitter_description: 'Old offer', feature_image: 'https://example.com/old-price.png', featured: false, published_at: '2026-03-01T00:00:00Z', updated_at: '2026-03-01T00:00:00Z', reading_time: 4 };
@@ -16,7 +18,12 @@ describe('dated product editorial correction', () => {
     expect(post.published_at).toBe(source.published_at);
     expect(post.html).toContain('CAFMO is live');
     expect(post.html).toContain('https://canaifindme.online/pricing');
-    expect(post.html).toContain('https://voice.scopesite.co.uk/pricing');
+    if (slug === 'free-ai-visibility-tools') {
+      expect(post.html).not.toContain('https://voice.scopesite.co.uk');
+      expect(post.html).toContain('ScopeSite Digital Studios’ website and AI visibility checker');
+    } else {
+      expect(post.html).toContain('https://voice.scopesite.co.uk/pricing');
+    }
     expect(post.html).not.toContain('£29');
     expect(post.feature_image).toBeUndefined();
     expect(post.meta_title).toBe(post.title);
@@ -30,5 +37,20 @@ describe('dated product editorial correction', () => {
     expect(applyProductEditorialCorrection(other)).toBe(other);
     const later = { ...legacy('free-ai-visibility-tools'), updated_at: '2026-10-17T00:00:00Z' };
     expect(applyProductEditorialCorrection(later)).toBe(later);
+  });
+
+  it('uses the same corrected answers in the article and its FAQ data while preserving incoming fragments', () => {
+    const oldHtml = checkerBlocks.map(block => block.before).join('');
+    const source = { ...legacy('ai-visibility-checker'), updated_at: '2026-04-25T19:12:01Z', html: '<p>Retained paragraph</p>' + oldHtml };
+    const post = applyProductEditorialCorrection(source);
+    expect(post.html).toContain('<p>Retained paragraph</p>');
+    expect(post.html).toContain('id="is-canaifindmeonline-the-cheapest-ai-scanner-on-the-market"');
+    expect(post.html).not.toMatch(/actually powered by|free Pro scan worth|tried and tested every scanner/);
+    expect(extractFAQsFromContent(post.html!)).toEqual(expect.arrayContaining([
+      { question: 'How much does CAFMO cost?', answer: expect.stringContaining('£39, £69, £99 and £149') },
+      { question: 'What is V.O.I.C.E., and how does it relate to CAFMO?', answer: expect.stringContaining('grew out of that method') },
+    ]));
+    const newer = { ...source, updated_at: '2026-11-23T08:30:00Z' };
+    expect(applyProductEditorialCorrection(newer)).toBe(newer);
   });
 });

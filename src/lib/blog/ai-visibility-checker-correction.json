@@ -1,0 +1,32 @@
+[
+  {
+    "id": "diagnostic-offer",
+    "before": "<p>At ScopeSite, this is exactly what our V.O.I.C.E. methodology (Visibility, Optimisation, for Intelligent, Crawler, Engines) is designed to address. The process starts with a full diagnostic scan (which we offer as a free Pro scan worth £300 when you sign up at <a href=\"https://scopesite.co.uk/voice?ref=scopesite-digital-studios.ghost.io\">scopesite.co.uk/voice</a>). That scan identifies the specific technical and content gaps. From there, we build a roadmap tailored to your site.</p>",
+    "after": "<p>At ScopeSite we built <a href=\"https://canaifindme.online/\">CAFMO (Can AI Find Me Online)</a> for this. It finds the technical and content gaps on your pages and gives you a saved list of fixes. <a href=\"https://canaifindme.online/pricing\">Plans start at £39 a month</a>.</p>"
+  },
+  {
+    "id": "next-step",
+    "before": "<p>If you’re a small business in Somerset, Wiltshire or the South West and you want to know whether AI can see your business, the V.O.I.C.E. scan at <a href=\"https://scopesite.co.uk/voice?ref=scopesite-digital-studios.ghost.io\">scopesite.co.uk/voice</a> is designed for exactly that.</p>",
+    "after": "<p>If you’re a small business in Somerset, Wiltshire or the South West and you want to know whether AI can see your business, <a href=\"https://canaifindme.online/\">CAFMO</a> is built for exactly that.</p>"
+  },
+  {
+    "id": "pricing-question",
+    "before": "<h3 id=\"is-canaifindmeonline-the-cheapest-ai-scanner-on-the-market\"><u>Is </u><a href=\"https://canaifindme.online/?ref=scopesite-digital-studios.ghost.io\" rel=\"noreferrer\"><u>canaifindme.online</u></a><u> the cheapest AI scanner on the market?</u></h3>",
+    "after": "<h3 id=\"is-canaifindmeonline-the-cheapest-ai-scanner-on-the-market\">How much does CAFMO cost?</h3>"
+  },
+  {
+    "id": "pricing-answer",
+    "before": "<p>Yes, it is the cheapest on the market and is actually powered by the V.O.I.C.E engine. Can AI Find Me Online is made by ScopeSite Digital Studios and is considered the most in-depth reporting model out on the market. There isn't another scanner that goes to the depths that this one does and we have tried and tested every scanner on the planet.</p>",
+    "after": "<p>CAFMO (Can AI Find Me Online) has four monthly plans at £39, £69, £99 and £149. See what each includes at <a href=\"https://canaifindme.online/pricing\">canaifindme.online/pricing</a>. CAFMO is made by ScopeSite Digital Studios.</p>"
+  },
+  {
+    "id": "method-question",
+    "before": "<h3 id=\"what-is-voice-and-how-does-it-relate-to-ai-visibility-checking\"><a>What is V.O.I.C.E. and how does it relate to AI visibility checking?</a></h3>",
+    "after": "<h3 id=\"what-is-voice-and-how-does-it-relate-to-ai-visibility-checking\">What is V.O.I.C.E., and how does it relate to CAFMO?</h3>"
+  },
+  {
+    "id": "method-answer",
+    "before": "<p>V.O.I.C.E. (also known as Can Ai find me online) stands for Voice, Optimisation, for Intelligent, Crawler, Engines. It’s ScopeSite’s methodology for making businesses visible to AI search platforms. The process starts with an AI visibility scan that identifies your specific gaps, then addresses five areas: Visibility (are AIs aware of you), Optimisation (is your content AI-ready), Intelligence (is your content what AI values), Crawler Engineering (can AI crawlers read your site), and Embedding (is your identity consistent across the web). You can sign up for a <a href=\"https://scopesite.co.uk/blog/ai-visibility-scan-cost?ref=scopesite-digital-studios.ghost.io\" rel=\"noreferrer\">free Pro scan worth £300</a> at <a href=\"https://scopesite.co.uk/voice?ref=scopesite-digital-studios.ghost.io\">scopesite.co.uk/voice</a>.</p>",
+    "after": "<p>V.O.I.C.E. is ScopeSite’s method for making a business visible to AI search. CAFMO (Can AI Find Me Online) grew out of that method. It is a separate product you run yourself at <a href=\"https://canaifindme.online/\">canaifindme.online</a>. It checks your pages, shows the answers AI models give, and keeps a list of fixes.</p>"
+  }
+]
