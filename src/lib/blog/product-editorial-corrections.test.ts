@@ -47,7 +47,10 @@ describe('dated product editorial correction', () => {
     expect(post.html).toContain('id="is-canaifindmeonline-the-cheapest-ai-scanner-on-the-market"');
     expect(post.html).not.toMatch(/actually powered by|free Pro scan worth|tried and tested every scanner/);
     expect(extractFAQsFromContent(post.html!)).toEqual(expect.arrayContaining([
-      { question: 'How much does CAFMO cost?', answer: expect.stringContaining('£39, £69, £99 and £149') },
+      {
+        question: 'How much does CAFMO cost?',
+        answer: 'CAFMO (Can AI Find Me Online) has four monthly plans at £39, £69, £99 and £149. See canaifindme.online/pricing for details of each plan. There is also a free check of one home page. CAFMO is made by ScopeSite Digital Studios.',
+      },
       { question: 'What is V.O.I.C.E., and how does it relate to CAFMO?', answer: expect.stringContaining('grew out of that method') },
     ]));
     const republished = { ...source, updated_at: '2026-11-23T08:30:00Z', meta_title: 'Edited in Ghost' };
@@ -56,5 +59,23 @@ describe('dated product editorial correction', () => {
     });
     const reconciled = { ...republished, html: '<p>New article approved in Ghost.</p>' };
     expect(applyProductEditorialCorrection(reconciled)).toBe(reconciled);
+  });
+
+  it('links exactly two existing guides to the one-homepage check while keeping the paid offer distinct', () => {
+    const freeLink = 'href="https://canaifindme.online/free-ai-visibility-check"';
+    const checkerSource = { ...legacy('ai-visibility-checker'), html: checkerBlocks.map(block => block.before).join('') };
+    for (const article of [checkerSource, legacy('free-ai-visibility-tools')]) {
+      const { html } = applyProductEditorialCorrection(article);
+      const paragraphs = html!.match(/<p\b[^>]*>[\s\S]*?<\/p>/g) ?? [];
+      const links = paragraphs.filter(paragraph => paragraph.includes(freeLink));
+      expect(links).toHaveLength(1);
+      expect(links[0]).toMatch(/one public homepage/);
+      expect(links[0]).toContain('one dated finding');
+      expect(html).toContain('href="https://canaifindme.online/pricing"');
+      expect(html).not.toMatch(/free (?:plan|subscription|pro scan)/i);
+    }
+    for (const slug of ['ai-visibility-scan-cost', 'cheapest-ai-visibility-checker', 'another-post']) {
+      expect(applyProductEditorialCorrection(legacy(slug)).html).not.toContain(freeLink);
+    }
   });
 });
